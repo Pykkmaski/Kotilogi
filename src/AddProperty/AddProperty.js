@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AppContext from "../Contexts/AppContext";
 import AccessDenied from "../AccessDenied/AccessDenied";
 
 function AddProperty(props){
     const {user} = useContext(AppContext);
-
+    const [error, setError] = useState('');
+    
     function submit(e){
         e.preventDefault();
 
@@ -38,6 +39,13 @@ function AddProperty(props){
             <form onSubmit={submit}>
                 <h1>Lisää Uusi Talo</h1>
                 <input name="address" placeholder="Katuosoite"></input>
+                <select name="propertyType">
+                    <option value="" disabled selected>Talotyyppi</option>
+                    <option value="RMT">Rintamamiestalo</option>
+                    <option value="TK">Tasakatto</option>
+                    <option value="">Harjakatto</option>
+                </select>
+
                 <select name="heatingType" placeholder="Lämmitystyyppi">
                     <option value="" disabled selected={true}>Lämmitystyyppi</option>
                     <option value="electric">Sähkö</option>
@@ -49,6 +57,12 @@ function AddProperty(props){
                 </select>
                 <input name="buildYear" placeholder="Rakennusvuosi" type="number" maxLength={4}></input>
                 <button type="submit">Lisää</button>
+
+                {
+                    error === 'Invalid Address' ? <span className="error">Talo antamallasi osoitteella on jo olemassa!</span>
+                    :
+                    null
+                }
             </form>
         </div>
     )
