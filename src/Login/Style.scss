@@ -1,0 +1,20 @@
+#login-page{
+    display: flex;
+    flex-flow: column;
+
+    form{
+        width: 25%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 1rem;
+
+        input, button{
+            width: 100%;
+            font-size: 2rem;
+        }
+
+    }
+
+  
+}

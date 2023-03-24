@@ -1,0 +1,11 @@
+@import '../../Config';
+
+.grid-item{
+    border-right: 1px solid $secondary-color;
+    padding: 1rem;
+    height: 100%;
+}
+
+#ad-area{
+    background: none;
+}

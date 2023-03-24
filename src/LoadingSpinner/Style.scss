@@ -1,0 +1,19 @@
+@import '../Config';
+
+@keyframes RingAnimation{
+    0% {transform: rotate(0deg) };
+    50% {transform: rotate(180deg)};
+    100% {transform: rotate(365deg)};
+}
+
+.loading-spinner{
+    border-radius: 50%;
+    border: 5px solid $secondary-color;
+    animation: RingAnimation;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 0.7s;
+
+    border-top-color: $primary-color;
+}
+

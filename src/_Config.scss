@@ -1,0 +1,82 @@
+$primary-color :  	#528265;
+$secondary-color: rgb(171, 171, 171);
+$page-element-color: green;
+
+*{
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2{
+    margin: 0;
+}
+
+body, #root{
+    margin: 0;
+    padding: 0;
+
+    height: 100vh;
+    width: 100vw;
+}
+
+footer{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page{
+    flex: 1;
+
+    display:flex;
+    flex-flow: column;
+    align-items: center;
+
+    h1{
+        color: $primary-color;
+    }
+
+    h2{
+        color: $secondary-color;
+    }
+}
+
+form{
+    width: 25%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+
+    input, button, select{
+        width: 100%;
+        font-size: 2rem;
+
+        border: 1px solid $secondary-color;
+        border-radius: 10px;
+    }
+
+}
+
+.page-element{
+    border-bottom: 1px solid $secondary-color;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    background: rgba($page-element-color, 0.1);
+    text-align: center;
+    color: white;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    h1, h2{
+        color: white;
+    }
+}
+
+.error{
+    color: red;
+}

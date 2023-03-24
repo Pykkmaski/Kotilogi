@@ -1,0 +1,41 @@
+{
+  "name": "talotieto.fi",
+  "version": "1.0.0",
+  "description": "Service for looking up the maintenance history of a property",
+  "main": "index.js",
+  "scripts": {
+    "server:dev": "npx nodemon server.js",
+    "build:dev": "npx webpack --watch --mode development"
+  },
+  "author": "Jens Österberg",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@vscode/sqlite3": "^5.1.3-vscode",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "knex": "^2.4.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@webpack-cli/generators": "^3.0.1",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "gulp-sass": "^5.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "node-sass": "^8.0.0",
+    "nodemon": "^2.0.21",
+    "sass-loader": "^13.2.1",
+    "style-loader": "^3.3.2",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1"
+  }
+}

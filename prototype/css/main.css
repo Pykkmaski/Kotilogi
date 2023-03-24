@@ -1,0 +1,147 @@
+*{
+	box-sizing: border-box;
+	font-family: Calibri;
+}
+
+html{
+	background: url("index.jpg");
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	
+	display: flex;
+	flex-flow: column;
+	
+	width: 100vw;
+	height: 100vh;
+	
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+header{
+	padding: 0 1rem 1rem 1rem;
+	border-bottom: 1px solid #9b9b9b;
+	display: flex;
+	flex-flow: row;
+	justify-content: space-between;
+	align-items: center;
+	
+}
+
+#menu{
+	height: 100vh;
+	width: 25vw;
+	background: rgba(65, 117, 5, 0.5);
+	position: absolute;
+	top: 0;
+	right: 0;
+	
+	transition: transform 0.1s ease-out;
+	transform: translate3d(0, -100vh, 0);
+	
+	backdrop-filter: blur(10px);
+	
+	font-size: 3rem;
+	
+	color: white;
+}
+
+main{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 1rem;
+	padding: 1rem 1rem 1rem 1rem;
+}
+
+.main-item{
+	padding: 1rem;
+	color: white;
+	background: rgba(0, 0, 0,0.3);
+	border-radius: 10px;
+}
+
+ul{
+	list-style: none;
+}
+
+#menu.open{
+	transform: translate3d(0, 0, 0);
+}
+
+header #menu-btn{
+	display: flex;
+	flex-flow: column;
+	gap: 0.5rem;
+	cursor: pointer;
+	z-index: 1;
+}
+
+header #menu-btn .btn-line{
+	width: 3rem;
+	height: 5px;
+	background: #417505;
+	
+	transition: all 0.1s ease-out;
+}
+
+#right-items{
+	display: flex;
+	flex-flow: row;
+	gap: 1rem;
+	align-items: center;
+}
+
+#right-items a{
+	text-decoration: none;
+	color: #417505;
+	font-size: 2rem;
+	padding: 0.5rem;
+	
+}
+.btn-line.toggled{
+	background: white !important;
+}
+
+.btn-line.toggled:nth-child(1){
+	transform: translateY(13px) rotate(45deg);
+}
+
+.btn-line.toggled:nth-child(2){
+	transform: rotate(45deg);
+	opacity: 0;
+}
+
+.btn-line.toggled:nth-child(3){
+	transform: translateY(-13px) rotate(-45deg);
+}
+
+header #header-titles{
+	display: flex;
+	flex-flow: column;
+}
+
+header #header-titles h1, header #header-titles h2{
+	margin: 0;
+	padding: 0;
+}
+
+#header-titles h1{
+	color: #417505;
+	font-size: 3rem;
+}
+
+#header-titles h2{
+	color: #9b9b9b;
+}
+
+body header, body footer{
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(10px);
+}
+
+body main{
+	flex: 1;
+}

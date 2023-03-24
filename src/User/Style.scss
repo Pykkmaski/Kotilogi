@@ -1,0 +1,35 @@
+@import '../Config';
+
+#user-page{
+    justify-content: center;
+    
+    #welcome-text{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    a{
+        font-size: 1.5rem;
+        color: $primary-color;
+        background: $primary-color;
+        padding: 1rem;
+        border-radius: 10px;
+        color: white;
+        text-decoration: none;
+
+        &:hover{
+            background: lighten($primary-color, 10);
+        }
+    }
+
+    #property-grid{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+    }
+
+    #add-property-button{
+        margin-top: 1rem;
+    }
+}
