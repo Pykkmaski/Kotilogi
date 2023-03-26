@@ -22,10 +22,6 @@ function Header(props){
         location.reload();
     }
 
-    function linkToUserPage(){
-        location.assign('/#/user');
-    }
-
     function toggleMenu(){
         console.log('toggling menu...')
         const menu = document.querySelector('#menu');
@@ -67,7 +63,8 @@ function Header(props){
                         </Link>
                     </> 
                     :
-                    <UserToken first={user.first_name} last={user.last_name} onClick={() => toggleMenu()}/>
+                   <UserToken first={user.first_name} last={user.last_name + 'nonii-i'}/>
+                    
 
                 }
             </div>
