@@ -1,6 +1,6 @@
 import './Style.scss';
 import {Link} from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AppContext from '../Contexts/AppContext';
 import UserToken from './UserToken/UserToken.js';
 import { serviceName, userStorageName } from '../appconfig';
@@ -8,10 +8,12 @@ import { serviceName, userStorageName } from '../appconfig';
 const padlockIcon = './img/padlock.png';
 const userIcon = './img/user.png';
 const infoIcon = './img/info.png';
+const logoutIcon = './img/logout.png';
 
 function Header(props){
 
     const {user, setUser} = useContext(AppContext);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     function logout(){
         setUser(null);
@@ -22,6 +24,19 @@ function Header(props){
 
     function linkToUserPage(){
         location.assign('/#/user');
+    }
+
+    function toggleMenu(){
+        console.log('toggling menu...')
+        const menu = document.querySelector('#menu');
+        if(menuOpen){
+            menu.classList.remove('open');
+        }
+        else{
+            menu.classList.add('open');
+        }
+
+        setMenuOpen(!menuOpen);
     }
 
     return(
@@ -50,15 +65,24 @@ function Header(props){
                             <img src={userIcon}/>
                             <span>LUO KÄYTTÄJÄTILI</span>
                         </Link>
-                    </> :
-
-                    <>
-                        <UserToken first={user.first_name} last={user.last_name} onClick={() => linkToUserPage()}/>
-                        <Link to="" onClick={logout} className="button-link">Kirjaudu Ulos</Link>
-                    </>
+                    </> 
+                    :
+                    <UserToken first={user.first_name} last={user.last_name} onClick={() => toggleMenu()}/>
 
                 }
-                
+            </div>
+
+            <div id="menu">
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="" onClick={logout} className="button-link">
+                                <img src={logoutIcon}></img>
+                                <span>KIRJAUDU ULOS</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </header>
     );

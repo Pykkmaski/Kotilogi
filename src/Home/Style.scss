@@ -28,4 +28,10 @@
         overflow: hidden;
 
     }
+
+    #bg-picture{
+        flex: 1;
+        width: 100%;
+        background: url('../../public/img/index.jpg');
+    }
 }
