@@ -19,7 +19,8 @@ function User(props){
 
         req.onload = () => {
             if(req.status === 200){
-                setProperties(JSON.parse(req.response));
+                const newProperties = JSON.parse(req.response);
+                setProperties(newProperties);
             }
             else{
                 console.log(req.response);
@@ -43,7 +44,7 @@ function User(props){
                     {
                         properties.map(item => {
                             return(
-                                <PropertyCard content={item.address}/>
+                                <PropertyCard content={item.address} key={item.id}/>
                             )
                         })
                     }
