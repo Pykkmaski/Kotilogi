@@ -3,7 +3,11 @@ import {Link} from 'react-router-dom';
 import { useContext } from 'react';
 import AppContext from '../Contexts/AppContext';
 import UserToken from './UserToken/UserToken.js';
-import { userStorageName } from '../appconfig';
+import { serviceName, userStorageName } from '../appconfig';
+
+const padlockIcon = './img/padlock.png';
+const userIcon = './img/user.png';
+const infoIcon = './img/info.png';
 
 function Header(props){
 
@@ -24,8 +28,8 @@ function Header(props){
         <header>
             <Link to="/">
                 <div id="header-title-area">
-                    <h1>Digikoti.fi</h1>
-                    <h2>Talosi historia tallessa.</h2>
+                    <h1>{serviceName}.fi</h1>
+                    <h2>Kotisi tiedot tallessa.</h2>
                 </div>
             </Link>
             
@@ -34,13 +38,23 @@ function Header(props){
                 {
                     !user ?
                     <>
-                        <Link to="/login">Kirjaudu</Link>
-                        <Link to="/signup">Luo Tili</Link>
+                        <Link to="/" className="button-link">
+                            <img src={infoIcon}></img>
+                            <span>APUA</span>
+                        </Link>
+                        <Link to="/login" className="button-link">
+                            <img src={padlockIcon}/>
+                            <span>KIRJAUDU</span>
+                        </Link>
+                        <Link to="/signup" className="button-link">
+                            <img src={userIcon}/>
+                            <span>LUO KÄYTTÄJÄTILI</span>
+                        </Link>
                     </> :
 
                     <>
                         <UserToken first={user.first_name} last={user.last_name} onClick={() => linkToUserPage()}/>
-                        <Link to="" onClick={logout}>Kirjaudu Ulos</Link>
+                        <Link to="" onClick={logout} className="button-link">Kirjaudu Ulos</Link>
                     </>
 
                 }

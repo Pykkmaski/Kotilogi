@@ -32,6 +32,8 @@ footer{
     flex-flow: column;
     align-items: center;
 
+    padding: 1rem 10vw 1rem 10vw;
+
     h1{
         color: $primary-color;
     }
@@ -42,7 +44,6 @@ footer{
 }
 
 form{
-    width: 25%;
     display: flex;
     flex-flow: column;
     align-items: center;

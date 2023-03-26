@@ -1,3 +1,4 @@
 module.exports = {
-    userStorageName : 'digikoti_user'
+    userStorageName : 'digikoti_user',
+    serviceName : 'Digikoti'
 }
