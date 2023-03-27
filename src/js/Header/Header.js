@@ -1,4 +1,4 @@
-import '../Header.scss';
+import '../../scss/Header.scss';
 import {Link} from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../Contexts/AppContext';
@@ -12,6 +12,7 @@ const logoutIcon = './img/logout.png';
 const cogIcon = './img/settings.png';
 const starIcon = './img/star.png';
 const homeIcon = './img/home-icon.png';
+const euroIcon = './img/euro.png';
 
 function Header(props){
 
@@ -40,13 +41,18 @@ function Header(props){
 
     return(
         <header>
-            <Link to="/">
-                <div id="header-title-area">
-                    <h1>{serviceName}.fi</h1>
-                    <h2>Kotisi tiedot tallessa.</h2>
-                </div>
-            </Link>
-            
+            <div id="header-logo-area">
+                <Link to="/">
+                    <div id="header-title-area">
+                        <h1>{serviceName}.fi</h1>
+                        <h2>Kotisi tiedot tallessa.</h2>
+                    </div>
+                </Link>
+            </div>
+
+            <div id="header-primary-links-area">
+                
+            </div>
             
             <div id="header-links-area">
                 {
@@ -56,6 +62,12 @@ function Header(props){
                             <img src={infoIcon}></img>
                             <span>APUA</span>
                         </Link>
+
+                        <Link to="" className="button-link">
+                            <img src={euroIcon}></img>
+                            <span>HINNASTO</span>
+                        </Link>
+
                         <Link to="/login" className="button-link">
                             <img src={padlockIcon}/>
                             <span>KIRJAUDU</span>
@@ -67,8 +79,6 @@ function Header(props){
                     </> 
                     :
                    <UserToken first={user.first_name} last={user.last_name} onClick={toggleMenu}/>
-                    
-
                 }
             </div>
 
@@ -87,8 +97,6 @@ function Header(props){
                     <img src={logoutIcon}></img>
                     <span>KIRJAUDU ULOS</span>
                 </Link>
-
-                
             </div>
         </header>
     );

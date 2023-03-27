@@ -38,7 +38,6 @@ module.exports = {
                 use: [
                     "style-loader",
                     "css-loader",
-                    "resolve-url-loader",
                     "sass-loader"
                 ]
             }

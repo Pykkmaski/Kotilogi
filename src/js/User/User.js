@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from './PropertyCard/PropertyCard';
-import '../User.scss';
+import '../../scss/User.scss';
 
 function User(props){
 

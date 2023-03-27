@@ -1,8 +1,8 @@
 $primary-color :  	#064b00;
-$secondary-color: rgb(171, 171, 171);
+$secondary-color: rgb(137, 137, 137);
 $page-element-color: green;
 $global-padding: 10vw;
-$bg-image: url('./img/bg.jpg');
+$bg-image: url('../img/bg.jpg');
 
 *{
     box-sizing: border-box;
@@ -40,7 +40,7 @@ footer{
         color: $primary-color;
     }
 
-    h2{
+    h2, h3{
         color: $secondary-color;
     }
 }
