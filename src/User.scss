@@ -1,8 +1,7 @@
-@import '../Config';
+@import './Config';
 
 #user-page{
     justify-content: center;
-    background: url('../../public/img/cabinet.jpg');
     
     #welcome-text{
         display: flex;

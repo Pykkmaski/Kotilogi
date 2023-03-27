@@ -1,4 +1,4 @@
-import './Style.scss';
+import '../LoadingSpinner.scss';
 
 function LoadingSpinner({width, height}){
 

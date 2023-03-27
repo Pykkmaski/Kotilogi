@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { userStorageName } from '../appconfig';
 import AppContext from '../Contexts/AppContext';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import './Style.scss';
+import '../Login.scss';
 
 function Login(props){
 
