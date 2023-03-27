@@ -1,7 +1,8 @@
-$primary-color :  	#528265;
+$primary-color :  	#064b00;
 $secondary-color: rgb(171, 171, 171);
 $page-element-color: green;
 $global-padding: 10vw;
+$bg-image: url('./img/bg.jpg');
 
 *{
     box-sizing: border-box;
@@ -33,7 +34,7 @@ footer{
     flex-flow: column;
     align-items: center;
 
-    padding: 1rem 10vw 1rem 10vw;
+    padding: 1rem 10vw 0 10vw;
 
     h1{
         color: $primary-color;

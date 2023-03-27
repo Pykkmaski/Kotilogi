@@ -1,13 +1,12 @@
-@import '../Config';
+@import './Config';
 
 #home-page{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     padding-top: 3rem;
 
     p{
-        color: gray;
+        color: black;
         font-size: 1.5rem;
     }
 
@@ -16,6 +15,25 @@
         background: gray;
         height: 50%;
         width: 70%
+    }
+
+    #home-page-title{
+        display:flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        width: 100%;
+
+        h1{
+            font-size: 3rem;
+        }
+
+    }
+
+    .grid-area{
+        flex: 1;
+        padding: 1rem;
     }
 
     #content-grid{
@@ -32,6 +50,5 @@
     #bg-picture{
         flex: 1;
         width: 100%;
-        background: url('../../public/img/index.jpg');
     }
 }

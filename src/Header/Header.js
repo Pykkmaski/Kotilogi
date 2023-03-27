@@ -9,6 +9,9 @@ const padlockIcon = './img/padlock.png';
 const userIcon = './img/user.png';
 const infoIcon = './img/info.png';
 const logoutIcon = './img/logout.png';
+const cogIcon = './img/settings.png';
+const starIcon = './img/star.png';
+const homeIcon = './img/home-icon.png';
 
 function Header(props){
 
@@ -16,10 +19,10 @@ function Header(props){
     const [menuOpen, setMenuOpen] = useState(false);
 
     function logout(){
+        toggleMenu();
         setUser(null);
         localStorage.removeItem(userStorageName);
         location.assign('/#/');
-        location.reload();
     }
 
     function toggleMenu(){
@@ -63,23 +66,29 @@ function Header(props){
                         </Link>
                     </> 
                     :
-                   <UserToken first={user.first_name} last={user.last_name + 'nonii-i'}/>
+                   <UserToken first={user.first_name} last={user.last_name} onClick={toggleMenu}/>
                     
 
                 }
             </div>
 
             <div id="menu">
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="" onClick={logout} className="button-link">
-                                <img src={logoutIcon}></img>
-                                <span>KIRJAUDU ULOS</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
+                <Link to="/user" className="button-link">
+                    <img src={userIcon}></img>
+                    <span>TILI</span>
+                </Link>
+
+                <Link to="" className="button-link">
+                    <img src={homeIcon}></img>
+                    <span>TALOT</span>
+                </Link>
+
+                <Link to="" onClick={logout} className="button-link">
+                    <img src={logoutIcon}></img>
+                    <span>KIRJAUDU ULOS</span>
+                </Link>
+
+                
             </div>
         </header>
     );

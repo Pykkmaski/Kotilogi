@@ -46,8 +46,7 @@ header{
     .button-link{
         display: flex;
         flex-flow: row;
-        align-items: center;
-        justify-content: center;
+        justify-content: left;
         font-weight: bold;
         font-size: 1rem;
         padding: 1rem;
@@ -74,19 +73,11 @@ header{
         position: absolute;
         top: 0;
         right: 0;
+        background: white;
+        border-left: 2px solid gray;
         height: 100vh;
-        width: 15vw;
-
         display: flex;
-        flex-flow: column-reverse;
-        align-items: left;
-
-        ul{
-            list-style: none;
-            li{
-                width: 100%;
-            }
-        }
+        flex-flow: column;
 
         &.open{
             visibility: visible;

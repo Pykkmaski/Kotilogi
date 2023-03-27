@@ -5,4 +5,11 @@
     background: $primary-color;
     padding: 1rem;
     color: white;
+    z-index: 1;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover{
+        background: lighten($primary-color, 10);
+    }
 }
