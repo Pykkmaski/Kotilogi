@@ -20,6 +20,7 @@
     #home-page-intro-text{
         font-size: 3rem;
     }
+
     #create-acc-link{
         background: $primary-color;
         padding: 1rem;
@@ -32,7 +33,7 @@
         border-radius: 50px;
         text-decoration: none;
         width: 50%;
-        margin-top: 2rem;
+        margin-top: 3rem;
 
         &:hover{
             background: lighten($primary-color, 10);

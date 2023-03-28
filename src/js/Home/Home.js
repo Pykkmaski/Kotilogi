@@ -14,7 +14,7 @@ function Home(props){
                 <h1 id="home-page-intro-text">Maan paras kodin remonttitietojen tallennuspaikka (ja paljon muuta!).</h1>
                 <h2>Digikoti palveluun digitalisoit vaivattomasti kotisi remonttitiedot. Jätä hyvästit paperikasoille ja epävarmuudelle.</h2>
                 <Link to="/register" id="create-acc-link">Luo Ilmainen Tili</Link>
-                <h3>Emme kerää luottokortti- tai henkilökohtaisia tietoja.</h3>
+                <h3>Emme kerää luottokortti- tai muita arkaluontoisia tietoja.</h3>
             </div>
 
             <div className="grid-area">

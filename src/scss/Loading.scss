@@ -1,0 +1,10 @@
+#loading-page{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    .loading-spinner{
+        margin-top: 2rem;
+    }
+}

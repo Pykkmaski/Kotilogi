@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import AppContext from "../Contexts/AppContext";
-import AccessDenied from "../AccessDenied/AccessDenied";
+import AppContext from "../../Contexts/AppContext";
+import AccessDenied from "../../AccessDenied/AccessDenied";
 
-function AddProperty(props){
+function Add(props){
     const {user} = useContext(AppContext);
     const [error, setError] = useState('');
     
@@ -68,4 +68,4 @@ function AddProperty(props){
     )
 }
 
-export default AddProperty;
+export default Add;

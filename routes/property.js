@@ -12,6 +12,16 @@ router.get('/all/:username', checkAuth, async (req, res) => {
     }
 });
 
+router.get('/:id', checkAuth, async (req, res) => {
+    try{
+        const property = await db('properties').where({id}).first();
+        res.status(200).send(JSON.stringify(property));
+    }
+    catch(err){
+        res.status(500).send(err.message);
+    }
+});
+
 router.post('/', checkAuth, async (req, res) => {
     try{
         const data = req.body;

@@ -1,0 +1,12 @@
+#property-manage-page{
+    display: grid;
+    grid-template-columns: 1fr
+    1fr  1fr;
+    
+    header{
+        display: flex;
+        flex-flow: row;
+        align-items: left;
+        background: gray;
+    }
+}

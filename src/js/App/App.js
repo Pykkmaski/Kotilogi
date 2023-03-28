@@ -9,7 +9,8 @@ import User from '../User/User';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import '../../scss/App.scss';
 import { useState, useEffect } from 'react';
-import AddProperty from '../AddProperty/AddProperty';
+import Add from '../Property/Add/Add.js';
+import Manage from '../Property/Manage/Manage';
 
 const {userStorageName} = require('../appconfig');
 
@@ -32,8 +33,9 @@ function App(props){
                         <Route exact path="/" element={<Home/>}></Route>
                         <Route exact path="/login" element={<Login/>}></Route>
                         <Route exact path="/register" element={<Signup/>}></Route>
-                        <Route exact path="/user" element={<User/>}></Route>
-                        <Route exact path="/addProperty" element={<AddProperty/>}></Route>
+                        <Route exact path="/user/" element={<User/>}></Route>
+                        <Route exact path="/property/:id" element={<Manage/>}></Route>
+                        <Route exact path="/property/add" element={<Add/>}></Route>
                         <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
                         <Route exact path="*" element={<Unknown/>}></Route>
                     </Routes>

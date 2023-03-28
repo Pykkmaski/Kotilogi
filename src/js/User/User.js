@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from './PropertyCard/PropertyCard';
@@ -26,7 +26,7 @@ function User(props){
                 console.log(req.response);
             }
         }
-    }, []);
+    }, [user]);
 
     if(!user) return <AccessDenied/>;
 

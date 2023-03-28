@@ -72,7 +72,7 @@ function Header(props){
                             <img src={padlockIcon}/>
                             <span>KIRJAUDU</span>
                         </Link>
-                        <Link to="/signup" className="button-link">
+                        <Link to="/register" className="button-link">
                             <img src={userIcon}/>
                             <span>LUO KÄYTTÄJÄTILI</span>
                         </Link>
