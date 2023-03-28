@@ -78,25 +78,30 @@ function Header(props){
                         </Link>
                     </> 
                     :
-                   <UserToken first={user.first_name} last={user.last_name} onClick={toggleMenu}/>
+                    <>
+                        <Link to="/user" className="button-link">
+                            <img src={userIcon}></img>
+                            <span>TILI</span>
+                        </Link>
+
+                        <Link to="" className="button-link">
+                            <img src={homeIcon}></img>
+                            <span>TALOT</span>
+                        </Link>
+
+                        <Link to="" onClick={logout} className="button-link">
+                            <img src={logoutIcon}></img>
+                            <span>KIRJAUDU ULOS</span>
+                        </Link>
+
+                        <UserToken first={user.first_name} last={user.last_name} onClick={toggleMenu}/>
+                    </>
+                  
                 }
             </div>
 
             <div id="menu">
-                <Link to="/user" className="button-link">
-                    <img src={userIcon}></img>
-                    <span>TILI</span>
-                </Link>
-
-                <Link to="" className="button-link">
-                    <img src={homeIcon}></img>
-                    <span>TALOT</span>
-                </Link>
-
-                <Link to="" onClick={logout} className="button-link">
-                    <img src={logoutIcon}></img>
-                    <span>KIRJAUDU ULOS</span>
-                </Link>
+                
             </div>
         </header>
     );

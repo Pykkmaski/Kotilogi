@@ -14,7 +14,9 @@ router.get('/all/:username', checkAuth, async (req, res) => {
 
 router.get('/:id', checkAuth, async (req, res) => {
     try{
-        const property = await db('properties').where({id}).first();
+        const id = req.params.id;
+        const property = await db('properties').where({address: id}).first();
+        if(!property) throw new Error(`Property with ID ${id} does not exist!`);
         res.status(200).send(JSON.stringify(property));
     }
     catch(err){

@@ -24,9 +24,8 @@
     }
 
     #property-grid{
-        display:grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 1rem;
+        display:flex;
+        flex-flow: column;
     }
 
     #add-property-button{

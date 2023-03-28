@@ -1,13 +1,13 @@
 import './Style.scss';
+import {Link} from 'react-router-dom';
 const homeIcon = './img/home-icon.png';
 
 function PropertyCard({content}){
 
     return (
-        <div className="property-card">
-            <img src={homeIcon}/>
+        <Link to={`/property/${content}`} className="property-card">
             <h1>{content}</h1>
-        </div>
+        </Link>
     );
 }
 
