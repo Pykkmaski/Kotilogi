@@ -16,5 +16,8 @@ app.use('/signup', signupRouter);
 const propertyRouter = require('./routes/property.js');
 app.use('/property', propertyRouter);
 
+const dataRouter = require('./routes/data.js');
+app.use('/data', dataRouter);
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));

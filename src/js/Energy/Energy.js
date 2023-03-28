@@ -1,7 +1,14 @@
+
+const boltIcon = './img/bolt.png';
+
 function Energy(props){
     return (
         <div className="page" id="energy-page">
-            <h1>Kulutus</h1>
+            <div className="page-title">
+                <img src={boltIcon}></img>
+                <h1>Kulutus</h1>
+            </div>
+            
         </div>
     );
 }

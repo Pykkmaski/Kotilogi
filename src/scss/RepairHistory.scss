@@ -1,3 +1,10 @@
+@import './Config.scss';
+
 #repair-history-page{
     
+    #timeline-section{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+    }
 }
