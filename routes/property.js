@@ -24,6 +24,27 @@ router.get('/:id', checkAuth, async (req, res) => {
     }
 });
 
+router.get('/:id/repairHistory', checkAuth, async (req, res) => {
+    try{
+        const id = req.params.id;
+        const history = await db('repair_history').where({property_id: id});
+        if(history === null) throw new Error(`No repair history available for property with ID ${id}`);
+        res.status(200).send(JSON.stringify(history));
+    }
+    catch(err){
+        res.status(500).send(err.message);
+    }
+});
+
+router.get('/:id/energy', checkAuth, async (req, res) => {
+    try{
+        throw new Error('Under construction');
+    }
+    catch(err){
+        res.status(500).send(err.message);
+    }
+});
+
 router.post('/', checkAuth, async (req, res) => {
     try{
         const data = req.body;

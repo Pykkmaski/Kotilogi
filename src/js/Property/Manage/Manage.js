@@ -1,10 +1,16 @@
 import '../../../scss/Property.scss';
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import {useState, useEffect, useContext} from 'react';
 import AppContext from '../../Contexts/AppContext';
 import Loading from '../../Loading/Loading.js';
 import { serverTimeoutMessage } from "../../appconfig";
 
+const homeIcon = './img/house.png';
+const cogIcon = './img/settings.png';
+const boltIcon = './img/bolt.png';
+const historyIcon = './img/history.png';
+const userIcon = './img/user.png';
+const imageIcon = './img/image.png';
 function Manage(props){
 
     const {id} = useParams();
@@ -43,14 +49,43 @@ function Manage(props){
 
     return (
         <div className="page" id="property-manage-page">
-            <header>
-                <h1>{property.address}</h1>
-                <h2>Tapahtumat</h2>
-            </header>
 
-            <div className="property-events">
-                <span>Test</span>
+            <div className="grid-item">
+                <header>
+                    <h1>{property.address}</h1>
+                </header>
+
+                <Link to="" className="button-link">
+                    <img src={homeIcon}></img>
+                    <span>Vituaalitalo</span>
+                </Link>
+
+                <Link to={`/property/${id}/repairHistory`} className="button-link">
+                    <img src={historyIcon}></img>
+                    <span>Korjaushistoria</span>
+                </Link>
+
+                <Link to={`/property/${id}/energy`} className="button-link">
+                    <img src={boltIcon}></img>
+                    <span>Kulutus</span>    
+                </Link>
+
+                <Link to="" className="button-link">
+                    <img src={userIcon}></img>
+                    <span>Omistus</span>
+                </Link>
+
+                <Link to="" className="button-link">
+                    <img src={imageIcon}></img>
+                    <span>Kuvat</span>
+                </Link>
+
+                <Link to="" className="button-link">   
+                    <img src={cogIcon}></img> 
+                    <span>Työkalut</span>
+                </Link>
             </div>
+            
         </div>
     );
 }
