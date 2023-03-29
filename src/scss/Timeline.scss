@@ -2,13 +2,27 @@
 
 .timeline{
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     align-items: center;
 
     .timeline-node{
         display: flex;
         flex-flow: row;
         position: relative;
+        align-items: baseline;
+        cursor: pointer;
+        
+        &:hover{
+            .node-dot{
+                background: lighten($primary-color, 10);
+            }
+
+            .node-dot-info{
+                top: 4rem;
+                opacity: 1;
+            }
+         
+        }
 
         .node-dot{
             
@@ -16,26 +30,24 @@
             border-radius: 50%;
             width: 2rem;
             height: 2rem;
-    
-            transition: all 0.3s ease-out;
-    
-            &:hover{
-                width: 3rem;
-                height: 3rem;
-            }
+
+            transition: all 0.1s ease-out;
         }
 
         .node-dot-info{
             position: absolute;
-            top: 0;
-            right: -4rem;
+            opacity: 1;
+            transition: all 0.2s ease-out;
+            top: 3rem;
+            transition-delay: 0.2s;
+            writing-mode: sideways-lr;
         }
        
     }
 
     .timeline-line{
         background: $primary-color;
-        width: 0.5rem;
-        height: 5rem;
+        height: 0.5rem;
+        width: 3rem;
     }
 }

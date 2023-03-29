@@ -44,7 +44,7 @@ function User(props){
                     {
                         properties.map(item => {
                             return(
-                                <PropertyCard content={item.address} key={item.id}/>
+                                <PropertyCard property={item} key={item.id}/>
                             )
                         })
                     }

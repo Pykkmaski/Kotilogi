@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
         if(!savedUser) throw new Error(`Invalid Username`);
 
         if(!(await bcrypt.compare(password, savedUser.password))) throw new Error('Invalid Password');
-        const token = jwt.sign(username, process.env.TOKEN_SECRET);
+        const token = jwt.sign(savedUser, process.env.TOKEN_SECRET);
         const payload = {
             token,
             first_name: savedUser.first_name,

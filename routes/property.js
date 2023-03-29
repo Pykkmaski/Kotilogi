@@ -15,7 +15,7 @@ router.get('/all/:username', checkAuth, async (req, res) => {
 router.get('/:id', checkAuth, async (req, res) => {
     try{
         const id = req.params.id;
-        const property = await db('properties').where({address: id}).first();
+        const property = await db('properties').where({id}).first();
         if(!property) throw new Error(`Property with ID ${id} does not exist!`);
         res.status(200).send(JSON.stringify(property));
     }
@@ -28,7 +28,8 @@ router.get('/:id/repairHistory', checkAuth, async (req, res) => {
     try{
         const id = req.params.id;
         const history = await db('property_events').where({property_id: id});
-        if(history === null) throw new Error(`No repair history available for property with ID ${id}`);
+        if(history === null) throw new Error({code: 404, message: `No repair history available for property with ID ${id}`});
+        if(history[0].owner !== req.authUser.username) throw new Error({code: 403, message: 'access forbidden'}); //This will not work yet, as there is no owner field for property events entries.
         res.status(200).send(JSON.stringify(history));
     }
     catch(err){

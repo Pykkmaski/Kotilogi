@@ -13,6 +13,7 @@ import Add from '../Property/Add/Add.js';
 import Manage from '../Property/Manage/Manage';
 import RepairHistory from '../RepairHistory/RepairHistory';
 import Energy from '../Energy/Energy';
+import Houses from '../Houses/';
 
 const {userStorageName} = require('../appconfig');
 
@@ -36,7 +37,7 @@ function App(props){
                         <Route exact path="/login" element={<Login/>}></Route>
                         <Route exact path="/register" element={<Signup/>}></Route>
                         <Route exact path="/user/" element={<User/>}></Route>
-
+                        <Route exact path="/houses/:id" element={<Houses/>}></Route>
                         <Route exact path="/property/:id" element={<Manage/>}></Route>
                         <Route exact path="/property/:id/repairHistory/" element={<RepairHistory/>}></Route>
                         <Route exact path="/property/:id/energy/" element={<Energy/>}></Route>

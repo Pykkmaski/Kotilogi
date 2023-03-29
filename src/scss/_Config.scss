@@ -9,6 +9,10 @@ $bg-image: url('../img/bg-green.jpg');
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+:root{
+    --node-label-position: -7rem;
+}
+
 h1, h2{
     margin: 0;
 }
