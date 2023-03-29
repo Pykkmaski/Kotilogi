@@ -11,11 +11,14 @@ const boltIcon = './img/bolt.png';
 const historyIcon = './img/history.png';
 const userIcon = './img/user.png';
 const imageIcon = './img/image.png';
+const infoIcon = './img/info.png';
+
 function Manage(props){
 
     const {id} = useParams();
     const [property, setProperty] = useState(null);
     const [error, setError] = useState('');
+    const [selection, setSelection] = useState('info');
 
     const {user} = useContext(AppContext);
 
@@ -48,13 +51,17 @@ function Manage(props){
     if(property === null) return <Loading message="Ladataan taloa..."/>
 
     return (
-        <div className="page" id="property-manage-page">
+        <div className="page management-page">
 
-            <div className="grid-item">
+            <div className="grid-item-left">
                 <header>
                     <h1>{property.address}</h1>
                 </header>
 
+                <Link className="button-link">
+                    <img src={infoIcon}></img>
+                    <span>Tiedot</span>
+                </Link>
                 <Link to="" className="button-link">
                     <img src={homeIcon}></img>
                     <span>Vituaalitalo</span>
@@ -84,6 +91,22 @@ function Manage(props){
                     <img src={cogIcon}></img> 
                     <span>Työkalut</span>
                 </Link>
+            </div>
+
+            <div className="grid-item-right">
+                <header>
+                    <h1>Tiedot</h1>
+                </header>
+
+                {
+                    selection === 'info' ? 
+                    <Info/>
+                    :
+                    selection === 'repairHistory' ? 
+                    <RepairHistory/>
+                    :
+                    null
+                }
             </div>
             
         </div>

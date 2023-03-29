@@ -85,7 +85,7 @@ function Header(props){
                             <span>TILI</span>
                         </Link>
 
-                        <Link to="" className="button-link">
+                        <Link to={`/houses/${user.username}`} className="button-link">
                             <img src={homeIcon}></img>
                             <span>TALOT</span>
                         </Link>

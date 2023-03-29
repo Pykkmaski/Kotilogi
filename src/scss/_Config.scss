@@ -54,21 +54,28 @@ footer{
 .management-page{
     display: grid !important;
     grid-template-columns: 1fr 2fr;
-    
+    gap: 1rem;
 
-    .grid-item{
+    .grid-item-left, .grid-item-right{
         display: flex;
         flex-flow: column;
-
+        flex: 1;
         height: 100%;
+        width: 100%;
+    }
+
+    .grid-item-right{
+        align-items: right;
+
+        header{
+            text-align: right !important;
+        }
     }
 
     header{
         padding: 0 !important;
         display: flex;
         flex-flow: row;
-        align-items: left;
-        width: 100%;
         margin-top: 2rem;
         margin-bottom: 2rem;
         border-bottom: 2px solid $secondary-color;

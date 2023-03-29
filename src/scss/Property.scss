@@ -4,14 +4,6 @@
 
     display: grid !important;
     grid-template-columns: 1fr 2fr;
-    
-
-    .grid-item{
-        display: flex;
-        flex-flow: column;
-
-        height: 100%;
-    }
 
     header{
         padding: 0 !important;

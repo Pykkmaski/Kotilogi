@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext, useRef } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import '../../scss/RepairHistory.scss';
 import AppContext from '../Contexts/AppContext';
 import Timeline from './Timeline/Timeline';
@@ -12,6 +12,7 @@ function RepairHistory(props){
     const [repairHistory, setRepairHistory] = useState();
     const [property, setProperty] = useState(null);
     const [selectedYear, setSelectedYear] = useState('');
+    const altColor = useRef(false);
 
     const {user} = useContext(AppContext);
     const {id} = useParams();
@@ -59,7 +60,11 @@ function RepairHistory(props){
             <div id="timeline-container">
                 <div id="title">
                     <h1>Remonttihistoria</h1>
-                    <h1 id="secondary-h1">{property.address}</h1>
+                    <Link to={`/property/${id}`}>
+                        <h1 id="secondary-h1">
+                            {property.address}
+                        </h1>
+                    </Link>
                 </div>
                 
                 <Timeline history={repairHistory} setSelectedYear={setSelectedYear}/>
@@ -68,7 +73,7 @@ function RepairHistory(props){
             <div id="timeline-events">
                 {
                     repairHistory.filter(item => item.created_at.split(' ')[0].split('-')[0] === selectedYear).map(item => {
-                        return (
+                        const component = (
                             <div className="event-entry">
                                 <header>
                                     <h2>
@@ -76,12 +81,15 @@ function RepairHistory(props){
                                     </h2>
                                 </header>
 
-                                <div className="event-body">
+                                <div className={"event-body"} >
                                     <span>{item.description}</span>
-                                    <span>{item.created_at}</span>
+                                    <span><strong>{item.created_at}</strong></span>
                                 </div>
                             </div>
                         )
+
+                        altColor.current = !altColor.current;
+                        return component;
                     })
                 }
             </div>

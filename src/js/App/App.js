@@ -10,9 +10,9 @@ import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import '../../scss/App.scss';
 import { useState, useEffect } from 'react';
 import Add from '../Property/Add/Add.js';
-import Manage from '../Property/Manage/Manage';
-import RepairHistory from '../RepairHistory/RepairHistory';
-import Energy from '../Energy/Energy';
+import Manage from '../Property/Manage/';
+import RepairHistory from '../RepairHistory/';
+import Energy from '../Energy/';
 import Houses from '../Houses/';
 
 const {userStorageName} = require('../appconfig');

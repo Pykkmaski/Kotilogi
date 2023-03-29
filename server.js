@@ -19,5 +19,8 @@ app.use('/property', propertyRouter);
 const dataRouter = require('./routes/data.js');
 app.use('/data', dataRouter);
 
+const housesRouter = require('./routes/houses.js');
+app.use('/houses', housesRouter);
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));

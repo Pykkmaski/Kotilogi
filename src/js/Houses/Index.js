@@ -4,11 +4,27 @@ import '../../scss/Houses.scss';
 
 function Houses(props){
 
+    const [properties, setProperties] = useState([]);
+    const {user} = useContext(AppContext);
     const {id} = useParams();
 
-    useEffect( () => {
+    useEffect(() => {
+        if(!user) return;
+        const req = new XMLHttpRequest();
+        req.open('GET', `/property/all/${user.username}`, true);
+        req.setRequestHeader('Auth', user.token);
+        req.send();
 
-    }, []);
+        req.onload = () => {
+            if(req.status === 200){
+                const newProperties = JSON.parse(req.response);
+                setProperties(newProperties);
+            }
+            else{
+                console.log(req.response);
+            }
+        }
+    }, [user]);
 
     return (
         <div className="page management-page" id="houses-page">

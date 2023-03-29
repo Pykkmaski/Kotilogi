@@ -32,10 +32,10 @@
         flex: 1;
         width: 100%;
         margin-top: 5rem;
-        border-radius: 10px;
 
         gap: 2rem;
-
+        overflow-y: scroll;
+        
         .event-entry{
             display: flex;
             flex-flow: column;
@@ -44,11 +44,19 @@
             header{
                 padding: 0 !important;
                 border-bottom: none !important;
+
+                .secondary-h1:hover{
+                    text-decoration: underline;
+                }
             }
 
             .event-body{
                 display: flex;
                 flex-flow: column;
+            }
+
+            &.alt-color{
+                background: rgba($primary-color, 0.2);
             }
         }
         

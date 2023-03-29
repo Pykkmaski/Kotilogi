@@ -52,7 +52,7 @@ function User(props){
             }
             
 
-            <Link to="/addProperty" id="add-property-button">Lisää Talo</Link>
+            <Link to="/property/add" id="add-property-button">Lisää Talo</Link>
         </div>
     );
 }
