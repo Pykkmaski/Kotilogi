@@ -1,5 +1,5 @@
 {
-  "name": "talotieto.fi",
+  "name": "kotilogi",
   "version": "1.0.0",
   "description": "Service for looking up the maintenance history of a property",
   "main": "index.js",

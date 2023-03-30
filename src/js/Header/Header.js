@@ -80,12 +80,8 @@ function Header(props){
                     </> 
                     :
                     <>
-                        <Link to="/user" className="button-link">
-                            <img src={userIcon}></img>
-                            <span>TILI</span>
-                        </Link>
 
-                        <Link to={`/houses/${user.username}`} className="button-link">
+                        <Link to={`/user`} className="button-link">
                             <img src={homeIcon}></img>
                             <span>TALOT</span>
                         </Link>
