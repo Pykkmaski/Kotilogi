@@ -5,7 +5,8 @@
     flex-flow: column;
     align-items: auto !important;
     justify-content: auto !important;
-
+    overflow-y: scroll;
+    
     #timeline-container{
         width: 100%;
         height: 10vh;

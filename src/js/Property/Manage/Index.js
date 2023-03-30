@@ -4,6 +4,7 @@ import {useState, useEffect, useContext} from 'react';
 import AppContext from '../../Contexts/AppContext';
 import Loading from '../../Loading/Loading.js';
 import RepairHistory from '../../RepairHistory/';
+import Info from '../Info/';
 import { serverTimeoutMessage } from "../../appconfig";
 
 const homeIcon = './img/house.png';
@@ -19,7 +20,7 @@ function Manage(props){
     const {id} = useParams();
     const [property, setProperty] = useState(null);
     const [error, setError] = useState('');
-    const [selection, setSelection] = useState('repairs');
+    const [selection, setSelection] = useState('info');
 
     const {user} = useContext(AppContext);
 
@@ -63,7 +64,7 @@ function Manage(props){
                     <img src={infoIcon}></img>
                     <span>Tiedot</span>
                 </Link>
-                <Link to="" className="button-link">
+                <Link to="" className="button-link" onClick={() => setSelection('virtualhouse')}>
                     <img src={homeIcon}></img>
                     <span>Vituaalitalo</span>
                 </Link>
@@ -73,22 +74,22 @@ function Manage(props){
                     <span>Korjaushistoria</span>
                 </Link>
 
-                <Link to={`/property/${id}/energy`} className="button-link">
+                <Link className="button-link" onClick={() => setSelection('energyusage')}>
                     <img src={boltIcon}></img>
                     <span>Kulutus</span>    
                 </Link>
 
-                <Link to="" className="button-link">
+                <Link to="" className="button-link" onClick={() => setSelection('owners')}>
                     <img src={userIcon}></img>
                     <span>Omistus</span>
                 </Link>
 
-                <Link to="" className="button-link">
+                <Link to="" className="button-link" onClick={() => setSelection('pictures')}>
                     <img src={imageIcon}></img>
                     <span>Kuvat</span>
                 </Link>
 
-                <Link to="" className="button-link">   
+                <Link to="" className="button-link" onClick={() => setSelection('settings')}>   
                     <img src={cogIcon}></img> 
                     <span>Työkalut</span>
                 </Link>
@@ -126,7 +127,7 @@ function Manage(props){
 
                 {
                     selection === 'info' ? 
-                    null
+                    <Info property={property}/>
                     :
                     selection === 'repairs' ? 
                     <RepairHistory/>

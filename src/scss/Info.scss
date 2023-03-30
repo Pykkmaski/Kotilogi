@@ -1,0 +1,13 @@
+@import './Config';
+
+#info-page{
+
+    table{
+        width: 100%;
+
+        td{
+            font-size: 2rem;
+            color: $secondary-color;
+        }
+    }
+}
