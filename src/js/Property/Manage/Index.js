@@ -68,7 +68,7 @@ function Manage(props){
                     <span>Vituaalitalo</span>
                 </Link>
 
-                <Link to={`/property/${id}/repairHistory`} className="button-link" onClick={() => setSelection('repairs')}>
+                <Link className="button-link" onClick={() => setSelection('repairs')}>
                     <img src={historyIcon}></img>
                     <span>Korjaushistoria</span>
                 </Link>
@@ -102,7 +102,7 @@ function Manage(props){
                             'Tiedot'
                             :
                             selection === 'repairs' ? 
-                            'Remonttihistoria'
+                            'Korjaushistoria'
                             :
                             selection === 'virtualhouse' ? 
                             'Virtuaalitalo'
