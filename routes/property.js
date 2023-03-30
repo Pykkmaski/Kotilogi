@@ -57,4 +57,23 @@ router.post('/', checkAuth, async (req, res) => {
     }
 });
 
+router.post('/:id/events/add', checkAuth, async (req, res) => {
+    try{
+        const id = req.params.id;
+        const {name, description} = req.body;
+
+        const property = await db('properties').where({id}).first();
+        if(!property) throw new Error(`Property with ID ${id} does not exist!`);
+
+        await db('property_events').insert({
+            name, description, property_id: id
+        });
+
+        res.sendStatus(200);
+    }
+    catch(err){
+        res.status(500).send(err.message);
+    }
+})
+
 module.exports = router;

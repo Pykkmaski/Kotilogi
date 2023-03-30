@@ -59,6 +59,7 @@ function RepairHistory(props){
         <div id="repair-history-page">
             <div id="timeline-container">
                 <Timeline history={repairHistory} setSelectedYear={setSelectedYear}/>
+                <Link to={`/property/${id}/events/add`} className="block-button">Lisää Uusi Tapahtuma</Link>
             </div>
             
             <div id="timeline-events">

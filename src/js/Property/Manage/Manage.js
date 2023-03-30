@@ -21,6 +21,7 @@ function Manage(props){
     const [property, setProperty] = useState(null);
     const [error, setError] = useState('');
     const [selection, setSelection] = useState('info');
+    const [repairVisible, setRepairVisible] = useState(true);
 
     const {user} = useContext(AppContext);
 
@@ -54,7 +55,6 @@ function Manage(props){
 
     return (
         <div className="page management-page">
-
             <div className="grid-item-left">
                 <header>
                     <h1>{property.address}</h1>

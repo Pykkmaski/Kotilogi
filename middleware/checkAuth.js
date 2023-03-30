@@ -5,7 +5,6 @@ async function checkAuth(req, res, next){
 
     try{    
         const token = req.headers.auth;
-
         jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
             if(err){
                 throw new Error(err);
