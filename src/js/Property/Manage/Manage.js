@@ -3,8 +3,8 @@ import {useParams, Link} from 'react-router-dom';
 import {useState, useEffect, useContext} from 'react';
 import AppContext from '../../Contexts/AppContext';
 import Loading from '../../Loading/Loading.js';
-import RepairHistory from '../../RepairHistory/';
-import Info from '../Info/';
+import RepairHistory from '../../RepairHistory/RepairHistory';
+import Info from '../Info/Info';
 import { serverTimeoutMessage } from "../../appconfig";
 
 const homeIcon = './img/house.png';

@@ -1,7 +1,7 @@
 import Header from '../Header/Header';
-import Home from '../Home/';
-import Login from '../Login/';
-import Signup from '../Signup/';
+import Home from '../Home/Home';
+import Login from '../Login/Login';
+import Signup from '../Signup/Signup';
 import Unknown from '../Unknown/Unknown.js';
 import RegisterThankYou from '../RegisterThankYou/RegisterThankYou';
 import AppContext from '../Contexts/AppContext';
@@ -10,10 +10,10 @@ import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import '../../scss/App.scss';
 import { useState, useEffect } from 'react';
 import Add from '../Property/Add/Add.js';
-import Manage from '../Property/Manage/';
-import RepairHistory from '../RepairHistory/';
-import Energy from '../Energy/';
-import Houses from '../Houses/';
+import Manage from '../Property/Manage/Manage';
+import RepairHistory from '../RepairHistory/RepairHistory';
+import Energy from '../Energy/Energy';
+import Houses from '../Houses/Houses';
 
 const {userStorageName} = require('../appconfig');
 
