@@ -39,7 +39,7 @@ function App(props){
                         <Route exact path="/register" element={<Signup/>}></Route>
                         <Route exact path="/user/" element={<User/>}></Route>
                         <Route exact path="/houses/:id" element={<Houses/>}></Route>
-                        <Route exact path="/property/:id" element={<Manage/>}></Route>
+                        <Route exact path="/property/:id/:section" element={<Manage/>}></Route>
                         <Route exact path="/property/:id/repairHistory/" element={<RepairHistory/>}></Route>
                         <Route exact path="/property/:id/energy/" element={<Energy/>}></Route>
                         <Route exact path="/property/add" element={<Add/>}></Route>

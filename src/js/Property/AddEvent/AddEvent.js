@@ -24,7 +24,7 @@ function AddEvent(props){
 
         req.onload = () =>{
             if(req.status === 200){
-               location.assign(`/#/property/${id}`);
+               location.assign(`/#/property/${id}/repairs`);
             }
             else{
                 console.log(req.response);
