@@ -56,17 +56,8 @@ function RepairHistory(props){
     if(!repairHistory || !property) return <Loading message="Ladataan remonttihistoriaa..."/>
 
     return (
-        <div className="page" id="repair-history-page">
+        <div id="repair-history-page">
             <div id="timeline-container">
-                <div id="title">
-                    <h1>Remonttihistoria</h1>
-                    <Link to={`/property/${id}`}>
-                        <h1 id="secondary-h1">
-                            {property.address}
-                        </h1>
-                    </Link>
-                </div>
-                
                 <Timeline history={repairHistory} setSelectedYear={setSelectedYear}/>
             </div>
             

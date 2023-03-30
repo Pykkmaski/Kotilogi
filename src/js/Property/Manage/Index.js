@@ -3,6 +3,7 @@ import {useParams, Link} from 'react-router-dom';
 import {useState, useEffect, useContext} from 'react';
 import AppContext from '../../Contexts/AppContext';
 import Loading from '../../Loading/Loading.js';
+import RepairHistory from '../../RepairHistory/';
 import { serverTimeoutMessage } from "../../appconfig";
 
 const homeIcon = './img/house.png';
@@ -18,7 +19,7 @@ function Manage(props){
     const {id} = useParams();
     const [property, setProperty] = useState(null);
     const [error, setError] = useState('');
-    const [selection, setSelection] = useState('info');
+    const [selection, setSelection] = useState('repairs');
 
     const {user} = useContext(AppContext);
 
@@ -58,7 +59,7 @@ function Manage(props){
                     <h1>{property.address}</h1>
                 </header>
 
-                <Link className="button-link">
+                <Link className="button-link" onClick={() => setSelection('info')}>
                     <img src={infoIcon}></img>
                     <span>Tiedot</span>
                 </Link>
@@ -67,7 +68,7 @@ function Manage(props){
                     <span>Vituaalitalo</span>
                 </Link>
 
-                <Link to={`/property/${id}/repairHistory`} className="button-link">
+                <Link className="button-link" onClick={() => setSelection('repairs')}>
                     <img src={historyIcon}></img>
                     <span>Korjaushistoria</span>
                 </Link>
@@ -95,14 +96,39 @@ function Manage(props){
 
             <div className="grid-item-right">
                 <header>
-                    <h1>Tiedot</h1>
+                    <h1>
+                        {
+                            selection === 'info' ? 
+                            'Tiedot'
+                            :
+                            selection === 'repairs' ? 
+                            'Korjaushistoria'
+                            :
+                            selection === 'virtualhouse' ? 
+                            'Virtuaalitalo'
+                            :
+                            selection === 'energyusage' ?
+                            'Kulutus'
+                            :
+                            selection === 'owners' ? 
+                            'Omistajat'
+                            :
+                            selection === 'settings' ?
+                            'Asetukset'
+                            :
+                            selection === 'pictures' ? 
+                            'Kuvat'
+                            :
+                            null
+                        }
+                    </h1>
                 </header>
 
                 {
                     selection === 'info' ? 
-                    <Info/>
+                    null
                     :
-                    selection === 'repairHistory' ? 
+                    selection === 'repairs' ? 
                     <RepairHistory/>
                     :
                     null
