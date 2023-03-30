@@ -17,10 +17,10 @@ const infoIcon = './img/info.png';
 
 function Manage(props){
 
-    const {id} = useParams();
+    const {id, section} = useParams();
     const [property, setProperty] = useState(null);
     const [error, setError] = useState('');
-    const [selection, setSelection] = useState('info');
+    const [selection, setSelection] = useState(section);
     const [repairVisible, setRepairVisible] = useState(true);
 
     const {user} = useContext(AppContext);
@@ -60,36 +60,37 @@ function Manage(props){
                     <h1>{property.address}</h1>
                 </header>
 
-                <Link className="button-link" onClick={() => setSelection('info')}>
+                <Link to={`/property/${id}/info`} className="button-link">
                     <img src={infoIcon}></img>
                     <span>Tiedot</span>
                 </Link>
-                <Link to="" className="button-link" onClick={() => setSelection('virtualhouse')}>
+
+                <Link  to={`/property/${id}/virtualhouse`} className="button-link">
                     <img src={homeIcon}></img>
                     <span>Vituaalitalo</span>
                 </Link>
 
-                <Link className="button-link" onClick={() => setSelection('repairs')}>
+                <Link  to={`/property/${id}/repairs`} className="button-link">
                     <img src={historyIcon}></img>
                     <span>Korjaushistoria</span>
                 </Link>
 
-                <Link className="button-link" onClick={() => setSelection('energyusage')}>
+                <Link to={`/property/${id}/energyusage`} className="button-link">
                     <img src={boltIcon}></img>
                     <span>Kulutus</span>    
                 </Link>
 
-                <Link to="" className="button-link" onClick={() => setSelection('owners')}>
+                <Link  to={`/property/${id}/owners`} className="button-link">
                     <img src={userIcon}></img>
                     <span>Omistus</span>
                 </Link>
 
-                <Link to="" className="button-link" onClick={() => setSelection('pictures')}>
+                <Link to={`/property/${id}/pictures`} className="button-link">
                     <img src={imageIcon}></img>
                     <span>Kuvat</span>
                 </Link>
 
-                <Link to="" className="button-link" onClick={() => setSelection('settings')}>   
+                <Link  to={`/property/${id}/settings`} className="button-link">   
                     <img src={cogIcon}></img> 
                     <span>Työkalut</span>
                 </Link>
@@ -99,25 +100,25 @@ function Manage(props){
                 <header>
                     <h1>
                         {
-                            selection === 'info' ? 
+                            section === 'info' ? 
                             'Tiedot'
                             :
-                            selection === 'repairs' ? 
+                            section === 'repairs' ? 
                             'Korjaushistoria'
                             :
-                            selection === 'virtualhouse' ? 
+                            section === 'virtualhouse' ? 
                             'Virtuaalitalo'
                             :
-                            selection === 'energyusage' ?
+                            section === 'energyusage' ?
                             'Kulutus'
                             :
-                            selection === 'owners' ? 
+                            section === 'owners' ? 
                             'Omistajat'
                             :
-                            selection === 'settings' ?
+                            section === 'settings' ?
                             'Asetukset'
                             :
-                            selection === 'pictures' ? 
+                            section === 'pictures' ? 
                             'Kuvat'
                             :
                             null
@@ -126,10 +127,10 @@ function Manage(props){
                 </header>
 
                 {
-                    selection === 'info' ? 
+                    section === 'info' ? 
                     <Info property={property}/>
                     :
-                    selection === 'repairs' ? 
+                    section === 'repairs' ? 
                     <RepairHistory/>
                     :
                     null
