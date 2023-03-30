@@ -65,7 +65,7 @@ function RepairHistory(props){
                 {
                     repairHistory.filter(item => item.created_at.split(' ')[0].split('-')[0] === selectedYear).map(item => {
                         const component = (
-                            <div className="event-entry">
+                            <div className={`event-entry${altColor ? ' alt-color' : ''}`}>
                                 <header>
                                     <h2>
                                         {item.name}

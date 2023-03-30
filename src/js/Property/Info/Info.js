@@ -43,16 +43,16 @@ function Info({property}){
                 <tbody>
                     <tr>
                         <td>Omistaja</td>
-                        <td>{property.owner}</td>
+                        <td className="info-cell">{property.owner}</td>
                     </tr>
                     <tr>
                         <td>Lämmitystyyppi</td>
-                        <td>{convertInfoString(property.heating_type, 'heating', 'fi')}</td>
+                        <td className="info-cell">{convertInfoString(property.heating_type, 'heating', 'fi')}</td>
                     </tr>
-                    
+
                     <tr>
                         <td>Rakennusvuosi</td>
-                        <td>{property.build_year}</td>
+                        <td className="info-cell">{property.build_year}</td>
                     </tr>
                 </tbody>
             </table>

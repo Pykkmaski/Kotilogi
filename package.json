@@ -4,8 +4,11 @@
   "description": "Service for looking up the maintenance history of a property",
   "main": "index.js",
   "scripts": {
+    "server:prod": "node server",
     "server:dev": "npx nodemon server.js",
-    "build:dev": "npx webpack --watch --mode development"
+    "build": "npx webpack --mode production",
+    "build:dev": "npx webpack --watch --mode development",
+    "migrate:db": "npx knex migrate:latest --env production"
   },
   "author": "Jens Österberg",
   "license": "UNLICENSED",
@@ -18,6 +21,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "knex": "^2.4.2",
+    "pg": "^8.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
