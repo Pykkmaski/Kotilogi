@@ -86,6 +86,14 @@
                     flex-flow: row-reverse;
                     flex: 1;
                     gap: 1rem;
+
+                    button{
+                        background: $primary-color;
+                        border: none;
+                        color: white;
+                        border-radius: 10px;
+                        padding: 1rem;
+                    }
                 }
             }
 
