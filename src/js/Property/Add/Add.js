@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import AppContext from "../../Contexts/AppContext";
 import AccessDenied from "../../AccessDenied/AccessDenied";
+import AddEvent from '../AddEvent/AddEvent';
 
 function Add(props){
     const {user} = useContext(AppContext);
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     
     function submit(e){
         e.preventDefault();
@@ -24,10 +25,10 @@ function Add(props){
         req.send(JSON.stringify(data));
         req.onload = () => {
             if(req.status === 200){
-                console.log('Property added successfully!');
+                location.assign('/#/user');
             }
             else{
-                console.log('Property addition failed!');
+                setError(req.status);
             }
         }
     }
@@ -59,7 +60,7 @@ function Add(props){
                 <button type="submit">Lisää</button>
 
                 {
-                    error === 'Invalid Address' ? <span className="error">Talo antamallasi osoitteella on jo olemassa!</span>
+                    error ? <span className="error">{error}</span>
                     :
                     null
                 }

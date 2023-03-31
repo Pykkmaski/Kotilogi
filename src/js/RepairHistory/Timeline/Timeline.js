@@ -29,7 +29,7 @@ function Timeline({history, setSelectedYear}){
     return (
         <div className="timeline">
             {
-                history || history.length ? generateTimeline() : <h2>Tälle talolle ei ole vielä lisätty tietoja.</h2>
+                history && history.length ? generateTimeline() : <h2>Tälle talolle ei ole vielä lisätty tietoja.</h2>
             }
         </div>
     );

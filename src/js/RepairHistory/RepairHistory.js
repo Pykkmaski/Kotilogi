@@ -3,16 +3,16 @@ import { useParams, Link } from 'react-router-dom';
 import '../../scss/RepairHistory.scss';
 import AppContext from '../Contexts/AppContext';
 import Timeline from './Timeline/Timeline';
-import Loading from '../Loading/Loading';
+import Events from './Timeline/Events';
 
 const historyIcon = './img/history.png';
 
 function RepairHistory(props){
 
-    const [repairHistory, setRepairHistory] = useState();
+    const [repairHistory, setRepairHistory] = useState([]);
     const [property, setProperty] = useState(null);
     const [selectedYear, setSelectedYear] = useState('');
-    const altColor = useRef(false);
+    const [error, setError] = useState(200);
 
     const {user} = useContext(AppContext);
     const {id} = useParams();
@@ -32,7 +32,7 @@ function RepairHistory(props){
                 setSelectedYear(data[0].created_at.split(' ')[0].split('-')[0]);
             }
             else{
-                console.log(req.response);
+                setError(req.status);
             }
         }
 
@@ -53,8 +53,6 @@ function RepairHistory(props){
 
     }, []);
 
-    if(!repairHistory || !property) return <Loading message="Ladataan remonttihistoriaa..."/>
-
     return (
         <div id="repair-history-page">
             <div id="timeline-container">
@@ -62,29 +60,10 @@ function RepairHistory(props){
                 <Link to={`/property/${id}/events/add`} className="block-button">Lisää Uusi Tapahtuma</Link>
             </div>
             
-            <div id="timeline-events">
-                {
-                    repairHistory.filter(item => item.created_at.split(' ')[0].split('-')[0] === selectedYear).map(item => {
-                        const component = (
-                            <div className={`event-entry${altColor ? ' alt-color' : ''}`}>
-                                <header>
-                                    <h2>
-                                        {item.name}
-                                    </h2>
-                                </header>
-
-                                <div className={"event-body"} >
-                                    <span>{item.description}</span>
-                                    <span><strong>{item.created_at}</strong></span>
-                                </div>
-                            </div>
-                        )
-
-                        altColor.current = !altColor.current;
-                        return component;
-                    })
-                }
-            </div>
+            {
+                repairHistory.length ? <Events history={repairHistory} selectedYear={selectedYear}/> : null
+            }
+            
         </div>
     );
 }

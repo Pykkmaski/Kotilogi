@@ -92,7 +92,7 @@ function Manage(props){
 
                 <Link  to={`/property/${id}/settings`} className="button-link">   
                     <img src={cogIcon}></img> 
-                    <span>Työkalut</span>
+                    <span>Asetukset</span>
                 </Link>
             </div>
 
