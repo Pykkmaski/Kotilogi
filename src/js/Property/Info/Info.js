@@ -1,4 +1,5 @@
 import '../../../scss/Info.scss';
+import InfoPlackard from './InfoPlackard';
 
 function Info({property}){
 
@@ -39,23 +40,32 @@ function Info({property}){
     }
     return (
         <div id="info-page">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Omistaja</td>
-                        <td className="info-cell">{property.owner}</td>
-                    </tr>
-                    <tr>
-                        <td>Lämmitystyyppi</td>
-                        <td className="info-cell">{convertInfoString(property.heating_type, 'heating', 'fi')}</td>
-                    </tr>
+            <div className="info-image">
+                <img src="./img/index.jpg" height="200px" width="200px"/>
+            </div>
 
-                    <tr>
-                        <td>Rakennusvuosi</td>
-                        <td className="info-cell">{property.build_year}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className="info-area">
+                <div className="info-row">
+                    <InfoPlackard content={property.build_year} icon={'./img/hammer.png'} />
+                    <InfoPlackard content={property.property_type} icon={'./img/house.png'}/>
+                    <InfoPlackard content={convertInfoString(property.heating_type, 'heating', 'fi')} icon={'./img/air.png'}/>
+                </div>
+
+                <div className="info-row">
+                    <InfoPlackard content={property.color} icon={'./img/paintbrush.png'}/>
+                    <InfoPlackard content={property.yard_ownership} icon={'./img/euro.png'}/>
+                    <InfoPlackard content={property.yard_area} icon={'./img/fence.png'}/>
+                    <InfoPlackard content={property.area} icon={'./img/area.png'}/>
+                </div>
+
+                <div className="info-row">
+                    <InfoPlackard content={property.floor_count} icon={'./img/stairs.png'}/>
+                    <InfoPlackard content={property.roof_type} icon={'./img/roof.png'}/>
+                    <InfoPlackard content={property.wc_count} icon={'./img/toilet.png'}/>
+                    <InfoPlackard content={property.room_count} icon={'./img/door.png'}/>
+                </div>
+                
+            </div>
         </div>
     )
 }

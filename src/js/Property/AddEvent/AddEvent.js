@@ -17,6 +17,7 @@ function AddEvent(props){
         const data = {
             name : e.target.name.value,
             description : e.target.description.value,
+            date: e.target.date.value,
             property_id: id,
         }
 
@@ -36,7 +37,8 @@ function AddEvent(props){
         <div className="page" id="add-event-page">
             <form onSubmit={submit}>
                 <h1>Lisää uusi tapahtuma</h1>
-                <input name="name" type="text" placeholder="Otsikko"/>
+                <input name="name" type="text" placeholder="Otsikko" required/>
+                <input name="date" type="date" required/>
                 <textarea name="description" placeholder="Kuvaus..."></textarea>
                 <button type={submit}>Lisää</button>
             </form>

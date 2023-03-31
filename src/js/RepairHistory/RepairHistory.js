@@ -27,7 +27,7 @@ function RepairHistory(props){
             if(req.status === 200){
                 const data = JSON.parse(req.response);
                 setRepairHistory([...data]);
-                setSelectedYear(data[0].created_at.split(' ')[0].split('-')[0]);
+                setSelectedYear(data[0].date.split('-')[0]);
             }
             else{
                 setError(req.status);

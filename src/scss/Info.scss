@@ -1,19 +1,22 @@
 @import './Config';
 
 #info-page{
+    display: flex;
+    flex-flow: row;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+    .info-area{ 
+        display: flex;
+        flex-flow: column;
+        gap: 2rem;
+        flex: 1;
 
-    table{
-        width: 100%;
-
-        td{
-            font-size: 2rem;
-            color: $secondary-color;
-            width:fit-content;
-
-            &.info-cell{
-                background: rgba($primary-color, 0.5);
-                color: white;
-            }
+        .info-row{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            font-weight: bold;
+            text-decoration: underline;
         }
     }
 }

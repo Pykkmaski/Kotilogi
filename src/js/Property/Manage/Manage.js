@@ -62,7 +62,7 @@ function Manage(props){
 
                 <Link to={`/property/${id}/info`} className="button-link">
                     <img src={infoIcon}></img>
-                    <span>Tiedot</span>
+                    <span>Profiili</span>
                 </Link>
 
                 <Link  to={`/property/${id}/virtualhouse`} className="button-link">
@@ -101,7 +101,7 @@ function Manage(props){
                     <h1>
                         {
                             section === 'info' ? 
-                            'Tiedot'
+                            'Profiili'
                             :
                             section === 'repairs' ? 
                             'Korjaushistoria'
