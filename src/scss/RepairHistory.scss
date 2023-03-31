@@ -93,6 +93,10 @@
                         color: white;
                         border-radius: 10px;
                         padding: 1rem;
+
+                        &:hover{
+                            background: lighten($primary-color, 10);
+                        }
                     }
                 }
             }
