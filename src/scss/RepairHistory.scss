@@ -61,6 +61,13 @@
             flex-flow: column;
             padding: 0.5rem;
 
+            transition: background-color 0.2s ease-out;
+            transition-delay: 0.1s;
+
+            &:hover{
+                background: rgba($primary-color, 0.2);
+            }
+
             header{
                 padding: 0 !important;
                 border-bottom: none !important;
@@ -68,11 +75,30 @@
                 .secondary-h1:hover{
                     text-decoration: underline;
                 }
+
+                h2{
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .event-body-controls{
+                    display: inherit;
+                    flex-flow: row-reverse;
+                    flex: 1;
+                    gap: 1rem;
+                }
             }
 
             .event-body{
                 display: flex;
-                flex-flow: column;
+                flex-flow: row;
+
+                .event-body-data{
+                    display: inherit;
+                    flex-flow: column;
+                }
+
+                
             }
         }
         

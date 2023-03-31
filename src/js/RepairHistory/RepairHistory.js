@@ -28,11 +28,12 @@ function RepairHistory(props){
                 const data = JSON.parse(req.response);
                 setRepairHistory([...data]);
                 setSelectedYear(data[0].created_at.split(' ')[0].split('-')[0]);
-                setLoading(false);
             }
             else{
                 setError(req.status);
             }
+
+            setLoading(false);
         }
 
     }, []);
