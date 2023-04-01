@@ -64,6 +64,8 @@
             transition: background-color 0.2s ease-out;
             transition-delay: 0.1s;
 
+            border-radius: 10px;
+            
             &:hover{
                 background: rgba($primary-color, 0.2);
             }

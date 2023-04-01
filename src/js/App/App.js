@@ -15,6 +15,7 @@ import RepairHistory from '../RepairHistory/RepairHistory';
 import Energy from '../Energy/Energy';
 import Houses from '../Houses/Houses';
 import AddEvent from '../Property/AddEvent/AddEvent';
+import {serviceName} from '../appconfig';
 
 const {userStorageName} = require('../appconfig');
 
@@ -49,7 +50,7 @@ function App(props){
                     </Routes>
                 </AppContext.Provider>
                 
-                <footer>&copy;Digikoti Oy</footer>
+                <footer>&copy;{serviceName}</footer>
             </div> 
 
         </Router>
