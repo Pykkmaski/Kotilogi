@@ -12,9 +12,8 @@ function Home(props){
 
             <div className="grid-area">
                 <h1 id="home-page-intro-text">"Talosi Huoltokirja"</h1>
-                <h2>{serviceName} palveluun digitalisoit vaivattomasti kotisi remonttitiedot. Jätä hyvästit paperikasoille ja epävarmuudelle.</h2>
-                <Link to="/register" id="create-acc-link">Luo Ilmainen Tili</Link>
-                <h3>Emme kerää luottokortti- tai muita arkaluontoisia tietoja.</h3>
+                <h2>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa</h2>
+                <Link to="/register" id="create-acc-link">Aloita Ilmainen Kokeilu</Link>
             </div>
 
             <div className="grid-area">

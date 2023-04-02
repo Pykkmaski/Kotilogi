@@ -9,10 +9,9 @@ function Timeline({history, setSelectedYear, loading}){
     function generateTimeline(){
         const timeline = [];
        
-
         for(let i = 0, previousYear = 0; i < history.length; ++i){
-            const year = history[i].created_at.split(' ')[0].split('-')[0];
-            const content = history[i].name;
+            const entry = history[i];
+            const year = entry.date.split('-')[0];
 
             if(year === previousYear) continue;
 

@@ -2,7 +2,7 @@
 
 #user-page{
     justify-content: center;
-    
+
     #welcome-text{
         display: flex;
         flex-flow: column;
@@ -11,12 +11,50 @@
     }
 
     #property-grid{
-        display:grid;
-        grid-template-columns: 1fr 1fr 1fr;
+
+        &.as-grid{
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        &.as-flexbox{
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+        }
+        
         gap: 1rem;
     }
 
-    #add-property-button{
-        margin-top: 1rem;
+    .property-grid-item{
+        background: rgba($primary-color, 0.2);
+        border: 1px solid $secondary-color;
+        border-radius: 10px;
+        display: flex;
+        flex-flow: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        transition: background-color 0.2s ease-out;
+        transition-delay: 0.1s;
+        cursor: pointer;
+
+        height: 300px;
+        width: 250px;
+        
+        img{
+            width: 70px;
+            height: 70px;
+        }
+
+        &.add{
+            border-style: dashed !important;
+            border-width: 2px !important;
+        }
+
+        &:hover{
+            background: rgba(lighten($primary-color, 20), 0.2);
+        }
     }
 }

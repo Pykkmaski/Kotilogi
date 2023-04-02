@@ -1,4 +1,26 @@
+import { useContext } from "react";
+import AppContext from "../../Contexts/AppContext";
+
 function EventEntry({item}){
+
+    const {user} = useContext(AppContext);
+    
+    function deleteEntry(){
+        const req = new XMLHttpRequest();
+        req.open('DELETE', `/property/${item.property_id}/events/${item.id}`, true);
+        req.setRequestHeader('Auth', user.token);
+        req.send();
+
+        req.onload = () => {
+            if(req.status === 200){
+                location.reload();
+            }
+            else{
+                console.log(req.status);
+            }
+        }
+    }
+
     return (
         <div className={`event-entry`}>
             <header>
@@ -7,7 +29,7 @@ function EventEntry({item}){
                 </h2>
 
                 <div className="event-body-controls">
-                    <button>POISTA</button>
+                    <button onClick={deleteEntry}>POISTA</button>
                     <button>MUOKKAA</button>
                 </div>
             </header>
@@ -15,7 +37,7 @@ function EventEntry({item}){
             <div className={"event-body"} >
                 <div className="event-body-data">
                     <span>{item.description}</span>
-                    <span><strong>{item.created_at}</strong></span>
+                    <span><strong>{item.date !== '' ? item.date : item.created_at}</strong></span>
                 </div>
                 
             </div>

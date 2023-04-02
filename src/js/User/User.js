@@ -3,11 +3,13 @@ import {Link, useParams} from 'react-router-dom';
 import AccessDenied from '../AccessDenied/AccessDenied';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from './PropertyCard/PropertyCard';
+import Loading from '../Loading/Loading';
 import '../../scss/User.scss';
 
 function User(props){
 
     const [properties, setProperties] = useState([]);
+    const [loading, setLoading] = useState(true);
     const {user} = useContext(AppContext);
 
     useEffect(() => {
@@ -25,22 +27,29 @@ function User(props){
             else{
                 console.log(req.response);
             }
+
+            setLoading(false);
         }
     }, [user]);
 
     if(!user) return <AccessDenied/>;
+    if(loading) return <Loading message="Ladataan Taloja..."/>
 
     return (
         <div className="page" id="user-page">
             {
-                !properties.length ? <div id="welcome-text">
-                    <h1>Tervetuloa Digikoti Palveluun!</h1>
-                    <h2>Aloita Lisäämällä Uusi Talo</h2>
-                </div>
+                !properties.length ? <>
+                    <PropertyCard addButton={true}/>
+                    <div id="welcome-text">
+                        <h1>Tervetuloa Digikoti Palveluun!</h1>
+                        <h2>Aloita Lisäämällä Uusi Talo</h2>
+                    </div>
+                </>
 
                 : 
 
-                <div id="property-grid">
+                <div id="property-grid" className={properties.length < 3 ? 'as-flexbox' : 'as-grid'}>
+                    <PropertyCard addButton={true}/>
                     {
                         properties.map(item => {
                             return(
@@ -50,9 +59,6 @@ function User(props){
                     }
                 </div>
             }
-            
-
-            <Link to="/property/add" id="add-property-button">Lisää Talo</Link>
         </div>
     );
 }

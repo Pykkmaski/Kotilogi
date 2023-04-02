@@ -24,10 +24,10 @@ router.get('/:id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:id/repairHistory', checkAuth, async (req, res) => {
+router.get('/:id/events', checkAuth, async (req, res) => {
     try{
         const id = req.params.id;
-        const history = await db('property_events').where({property_id: id}).orderBy('created_at', 'asc');
+        const history = await db('property_events').where({property_id: id}).orderBy('date', 'asc');
         if(!history.length) throw 404;
         if(history[0].owner !== req.authUser.username) throw 403; //This will not work yet, as there is no owner field for property events entries.
         res.status(200).send(JSON.stringify(history));
@@ -64,7 +64,7 @@ router.post('/:id/events/add', checkAuth, async (req, res) => {
         const {name, description, date} = req.body;
 
         const property = await db('properties').where({id}).first();
-        if(!property) throw new Error(`Property with ID ${id} does not exist!`);
+        if(!property) throw 403;
 
         await db('property_events').insert({
             name, description, date, property_id: id
@@ -73,8 +73,45 @@ router.post('/:id/events/add', checkAuth, async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        res.status(500).send(err.message);
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        } 
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+        
     }
-})
+});
+
+router.delete('/:property_id/', checkAuth, async (req, res) => {
+    try{
+        const {property_id} = req.params;
+        await db('properties').where({id: property_id}).del();
+        res.sendStatus(200);
+    }
+    catch(err){
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+
+router.delete('/:property_id/events/:event_id', checkAuth, async (req, res) => {
+    try{
+        const {property_id, event_id} = req.params;
+        await db('property_events').where({property_id, id : event_id}).del();
+        res.sendStatus(200);
+    }
+    catch(err){
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        } 
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+    }
+});
+
 
 module.exports = router;

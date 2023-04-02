@@ -14,6 +14,7 @@ const historyIcon = './img/history.png';
 const userIcon = './img/user.png';
 const imageIcon = './img/image.png';
 const infoIcon = './img/info.png';
+const toiletIcon = './img/toilet.png';
 
 function Manage(props){
 
@@ -50,6 +51,22 @@ function Manage(props){
             }
         }
     }, []);
+
+    function deleteProperty(){
+        const req = new XMLHttpRequest();
+        req.open('DELETE', `/property/${id}`, true);
+        req.setRequestHeader('Auth', user.token);
+        req.send();
+
+        req.onload = () => {
+            if(req.status === 200){
+                location.assign('/#/user');
+            }
+            else{
+                console.log('Property deletion failed!');
+            }
+        }
+    }
 
     if(property === null) return <Loading message="Ladataan taloa..."/>
 
@@ -93,6 +110,11 @@ function Manage(props){
                 <Link  to={`/property/${id}/settings`} className="button-link">   
                     <img src={cogIcon}></img> 
                     <span>Asetukset</span>
+                </Link>
+
+                <Link onClick={deleteProperty} className="button-link">
+                    <img src={toiletIcon}></img>
+                    <span>Poista</span>
                 </Link>
             </div>
 

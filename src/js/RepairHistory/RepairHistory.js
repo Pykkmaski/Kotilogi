@@ -18,8 +18,7 @@ function RepairHistory(props){
 
     useEffect(() => {
         const req = new XMLHttpRequest();
-        console.log(`Fetching history for property ${id}`);
-        req.open('GET', `/property/${id}/repairHistory`, true);
+        req.open('GET', `/property/${id}/events`, true);
         req.setRequestHeader('Auth', user.token);
         req.send();
 
@@ -27,7 +26,8 @@ function RepairHistory(props){
             if(req.status === 200){
                 const data = JSON.parse(req.response);
                 setRepairHistory([...data]);
-                const year = data[0].date !== '' ? data[0].date.split('-')[0] : data[0].created_at.split(' ')[0].split('-')[0];
+
+                const year = data[0].date.split('-')[0];
                 setSelectedYear(year);
             }
             else{
