@@ -96,6 +96,21 @@ footer{
     }
 }
 
+.hover-effect{
+    transition: 
+            background-color 0.2s ease-out, 
+            backdrop-filter 0.2s ease-out, 
+            box-shadow 0.2s ease-out, 
+            transform 0.25s ease-out;
+
+    &:hover{
+        background: rgba(lighten($primary-color, 20), 0.2) !important;
+        box-shadow: 2px 2px 2px 2px rgba(black, 0.2);
+        backdrop-filter: blur(10px);
+        transform: translateX(-2px)
+    }
+}
+
 form{
     display: flex;
     flex-flow: column;

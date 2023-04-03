@@ -73,7 +73,9 @@
             header{
                 padding: 0 !important;
                 border-bottom: none !important;
-
+                margin: 0 !important;
+                display: flex;
+                
                 .secondary-h1:hover{
                     text-decoration: underline;
                 }

@@ -53,6 +53,10 @@ function Manage(props){
     }, []);
 
     function deleteProperty(){
+
+        const answer = confirm('Olet poistamassa tätä taloa. Oletko varma?');
+        if(!answer) return;
+        
         const req = new XMLHttpRequest();
         req.open('DELETE', `/property/${id}`, true);
         req.setRequestHeader('Auth', user.token);
