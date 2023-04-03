@@ -13,16 +13,15 @@ function PropertyCard({property, addButton}){
 
     if(addButton) return (
         <div className="property-grid-item add" onClick={() => linkTo('/property/add')}>
-            <div className="property-grid-item-plus">
-                <img src={plusIcon}></img>
-            </div>
+            <img className="property-grid-item-plus" src={plusIcon}></img>
+            <h2>Lisää Uusi Talo</h2>
         </div>
     );
 
     return (
         <div className="property-grid-item" onClick={() => linkTo(`/property/${property.id}/info`)}>
             <img src={homeIcon}/>
-            <h1>{property.address}</h1>
+            <h2>{property.address}</h2>
         </div>
     );
 }

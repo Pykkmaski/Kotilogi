@@ -6,6 +6,21 @@
     gap: 1rem;
     width: 100%;
     align-items: center;
+
+    .info-image{
+        width: 200px;
+        height: 200px;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        
+        &.no-image{
+            border-radius: 10px;
+            border: 2px dashed $secondary-color;
+        }
+    }
+
     .info-area{ 
         display: flex;
         flex-flow: column;

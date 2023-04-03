@@ -1,8 +1,8 @@
 import '../../../scss/InfoPlackard.scss';
 
-function InfoPlackard({content, icon}){
+function InfoPlackard({content, icon, title}){
     return (
-        <div className="info-plackard">
+        <div className="info-plackard" title={title}>
             <img src={icon}></img>
             <span>{content}</span>
         </div>

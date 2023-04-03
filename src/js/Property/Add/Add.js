@@ -53,25 +53,25 @@ function Add(props){
                 <input name="address" placeholder="Katuosoite"></input>
                 <select name="propertyType">
                     <option value="" disabled selected>Talotyyppi</option>
-                    <option value="RMT">Rintamamiestalo</option>
-                    <option value="TK">Tasakatto</option>
-                    <option value="">Harjakatto</option>
+                    <option value="Rintamamiestalo">Rintamamiestalo</option>
+                    <option value="Tasakatto">Tasakatto</option>
+                    <option value="Harjakatto">Harjakatto</option>
                 </select>
 
                 <select name="heatingType" placeholder="Lämmitystyyppi" required>
                     <option value="" disabled selected={true}>Lämmitystyyppi</option>
-                    <option value="electric">Sähkö</option>
-                    <option value="central">Kaukolämpö</option>
-                    <option value="ground">Maalämpö</option>
-                    <option value="oil">Öljy</option>
-                    <option value="water_air_pump">Vesi-Ilmalämpöpumppu</option>
-                    <option value="air_heat_pump">Ilmalämpöpumppu</option>
+                    <option value="Sähkö">Sähkö</option>
+                    <option value="Kaukolämpö">Kaukolämpö</option>
+                    <option value="Maalämpö">Maalämpö</option>
+                    <option value="Öljy">Öljy</option>
+                    <option value="Vesi-Ilmalämpöpumppu">Vesi-Ilmalämpöpumppu</option>
+                    <option value="Ilmalämpöpumppu">Ilmalämpöpumppu</option>
                 </select>
 
                 <select name="yard_ownership" placeholder="Tontin omistajuus" required>
                     <option value="" disabled selected={true}>Tontin omistajuus</option>
-                    <option value="owned">Oma</option>
-                    <option value="rented">Vuokra</option>
+                    <option value="Oma">Oma</option>
+                    <option value="Vuokra">Vuokra</option>
                 </select>
 
                 <select name="roof_type" placeholder="Kattotyyppi">

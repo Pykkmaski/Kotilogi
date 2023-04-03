@@ -1,7 +1,6 @@
 @import './Config';
 
 #user-page{
-    justify-content: center;
 
     #welcome-text{
         display: flex;
@@ -27,6 +26,10 @@
     }
 
     .property-grid-item{
+        :root{
+            --bg-color: $primary-color;
+        }
+
         background: rgba($primary-color, 0.2);
         border: 1px solid $secondary-color;
         border-radius: 10px;
@@ -51,9 +54,10 @@
         &.add{
             border-style: dashed !important;
             border-width: 2px !important;
+            background: none;
         }
 
-        &:hover{
+        &:hover, &.add:hover{
             background: rgba(lighten($primary-color, 20), 0.2);
         }
     }
