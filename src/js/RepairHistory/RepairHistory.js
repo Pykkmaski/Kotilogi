@@ -4,6 +4,7 @@ import '../../scss/RepairHistory.scss';
 import AppContext from '../Contexts/AppContext';
 import Timeline from './Timeline/Timeline';
 import Events from './Timeline/Events';
+import TimelineContext from '../Contexts/TimelineContext';
 
 const historyIcon = './img/history.png';
 
@@ -42,8 +43,11 @@ function RepairHistory(props){
     return (
         <div id="repair-history-page">
             <div id="timeline-container">
-                <Timeline history={repairHistory} setSelectedYear={setSelectedYear} loading={loading}/>
-                <Link to={`/property/${id}/events/add`} className="block-button">Lisää Uusi Tapahtuma</Link>
+                <TimelineContext.Provider value={{setSelectedYear, selectedYear, history: repairHistory, loading}}>
+                    <Timeline history={repairHistory} setSelectedYear={setSelectedYear} loading={loading}/>
+                    <Link to={`/property/${id}/events/add`} className="block-button" id="add-event-button">Lisää Uusi Tapahtuma</Link>
+                </TimelineContext.Provider>
+                
             </div>
             
             {

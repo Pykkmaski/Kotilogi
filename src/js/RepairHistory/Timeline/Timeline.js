@@ -3,8 +3,12 @@ import Node from './Node.js';
 
 import '../../../scss/Timeline.scss';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner.js';
+import { useContext } from 'react';
+import TimelineContext from '../../Contexts/TimelineContext.js';
 
-function Timeline({history, setSelectedYear, loading}){
+function Timeline(props){
+
+    const {history, loading} = useContext(TimelineContext);
 
     function generateTimeline(){
         const timeline = [];
@@ -15,7 +19,7 @@ function Timeline({history, setSelectedYear, loading}){
 
             if(year === previousYear) continue;
 
-            timeline.push(<Node content={year} setSelectedYear={setSelectedYear}/>);
+            timeline.push(<Node content={year}/>);
             previousYear = year;
 
             if(i !== (history.length - 1)){

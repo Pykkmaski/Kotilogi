@@ -9,9 +9,26 @@
         display: flex;
         flex-flow: row;
         position: relative;
-        align-items: baseline;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         
+        .node-selection-bg{
+            position: absolute;
+            top: 1rem;
+            height: 0px;
+            width: 2rem;
+            background: rgba($primary-color, 0.2);
+
+            transition: height 0.2s ease-out;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+
+            &.selected{
+                height: 7rem;
+            }
+        }
+
         &:hover{
             .node-dot{
                 background: lighten($primary-color, 10);
@@ -30,6 +47,7 @@
             border-radius: 50%;
             width: 2rem;
             height: 2rem;
+            z-index: 1;
 
             transition: all 0.1s ease-out;
         }
@@ -41,6 +59,10 @@
             top: 3rem;
             transition-delay: 0.2s;
             writing-mode: sideways-lr;
+            user-select: none;
+            &.selected{
+                top: 4rem;
+            }
         }
        
     }

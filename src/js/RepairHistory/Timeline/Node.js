@@ -1,14 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import '../../../scss/RepairHistory.scss';
+import TimelineContext from '../../Contexts/TimelineContext';
 
-function Node({content, setSelectedYear}){
+function Node({content}){
+
+    const {selectedYear, setSelectedYear} = useContext(TimelineContext);
+
     return (
         <div className="timeline-node" onClick={() => setSelectedYear(content)}>
+
+            <div className={content === selectedYear ? 'node-selection-bg selected' : 'node-selection-bg'}></div>
+
             <div className="node-dot">
 
             </div>
 
-            <div className="node-dot-info">
+            <div className={content === selectedYear ? 'node-dot-info selected' : 'node-dot-info'}>
                 <h2>{content}</h2>
             </div>
         </div>

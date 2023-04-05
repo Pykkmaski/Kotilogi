@@ -10,11 +10,15 @@
 
     #timeline-container{
         height: 10vh;
-        margin-bottom: 2rem;
+        margin-bottom: 4rem;
         display: flex;
         flex-flow: row;
         align-items: center;
         justify-content: space-between;
+
+        #add-event-button{
+            position: sticky;
+        }
 
         .block-button{
             padding: 1rem;
@@ -60,7 +64,7 @@
             display: flex;
             flex-flow: column;
             padding: 0.5rem;
-
+            
             transition: background-color 0.2s ease-out;
             transition-delay: 0.1s;
 
@@ -73,9 +77,9 @@
             header{
                 padding: 0 !important;
                 border-bottom: none !important;
-                margin: 0 !important;
+                margin: 0 0 1rem 0 !important;
                 display: flex;
-                
+
                 .secondary-h1:hover{
                     text-decoration: underline;
                 }

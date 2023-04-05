@@ -21,6 +21,10 @@ function EventEntry({item}){
         }
     }
 
+    function editEntry(){
+        location.assign(`/#/property/${item.property_id}/events/${item.id}/edit`);
+    }
+
     return (
         <div className={`event-entry`}>
             <header>
@@ -30,7 +34,7 @@ function EventEntry({item}){
 
                 <div className="event-body-controls">
                     <button onClick={deleteEntry}>POISTA</button>
-                    <button>MUOKKAA</button>
+                    <button onClick={editEntry}>MUOKKAA</button>
                 </div>
             </header>
 

@@ -15,6 +15,7 @@ import RepairHistory from '../RepairHistory/RepairHistory';
 import Energy from '../Energy/Energy';
 import Houses from '../Houses/Houses';
 import AddEvent from '../Property/AddEvent/AddEvent';
+import EditEvent from '../Property/EditEvent/EditEvent';
 import {serviceName} from '../appconfig';
 
 const {userStorageName} = require('../appconfig');
@@ -45,6 +46,7 @@ function App(props){
                         <Route exact path="/property/:id/energy/" element={<Energy/>}></Route>
                         <Route exact path="/property/add" element={<Add/>}></Route>
                         <Route exact path="/property/:id/events/add" element={<AddEvent/>}></Route>
+                        <Route exact path="/property/:property_id/events/:event_id/edit" element={<EditEvent/>}></Route>
                         <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
                         <Route exact path="*" element={<Unknown/>}></Route>
                     </Routes>

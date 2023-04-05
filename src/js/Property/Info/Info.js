@@ -45,7 +45,7 @@ function Info({property}){
     }
     return (
         <div id="info-page">
-            <div className="info-image no-image">
+            <div className="info-image no-image" title={'Lisää kuva'}>
                <h2>Ei kuvaa</h2>
             </div>
 

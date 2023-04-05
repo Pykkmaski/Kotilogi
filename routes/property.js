@@ -38,6 +38,43 @@ router.get('/:id/events', checkAuth, async (req, res) => {
     }
 });
 
+router.get('/events/:id', checkAuth, async (req, res) => {
+    try{
+        const id = req.params.id;
+        console.log(id);
+        const event = await db('property_events').where({id}).first();
+        if(!event) throw 404;
+        res.status(200).send(JSON.stringify(event));
+    }
+    catch(err){
+        if(typeof(err) !== 'number'){
+            console.log(err.message);
+            res.sendStatus(500);
+            return;
+        }
+
+        res.sendStatus(err);
+    }
+});
+
+router.put('/events/:id', checkAuth, async (req, res) => {
+    try{
+        const {id} = req.params;
+        const data = req.body;
+        await db('property_events').where({id}).update(data);
+        res.sendStatus(200);
+    }
+    catch(err){
+        if(typeof(err) !== 'number') {
+            console.log(err.message);
+            res.sendStatus(500);
+            return;
+        }
+
+        res.sendStatus(err);
+    }
+});
+
 router.get('/:id/energy', checkAuth, async (req, res) => {
     try{
         throw new Error('Under construction');
