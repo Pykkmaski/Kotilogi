@@ -58,8 +58,9 @@
             transition: all 0.2s ease-out;
             top: 3rem;
             transition-delay: 0.2s;
-            writing-mode: sideways-lr;
+            transform: rotate(-90deg);
             user-select: none;
+            
             &.selected{
                 top: 4rem;
             }

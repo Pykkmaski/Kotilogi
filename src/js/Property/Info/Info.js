@@ -43,10 +43,22 @@ function Info({property}){
             return str;
         }
     }
+
+    function uploadImage(){
+        const imageInput = document.querySelector('#image-input');
+        const ev = new Event('input', {
+            bubbles: true,
+            cancelable: true
+        });
+
+        imageInput.dispatchEvent(ev);
+    }
+    
     return (
         <div id="info-page">
             <div className="info-image no-image" title={'Lisää kuva'}>
                <h2>Ei kuvaa</h2>
+               <input type="file" accept="image/jpeg" id="image-input"/>
             </div>
 
             <div className="info-area">

@@ -37,14 +37,15 @@ function AddEvent(props){
             name : e.target.name.value,
             description: e.target.description.value,
             date: e.target.date.value,
+            property_id: propertyEvent.property_id,
+            id: propertyEvent.id,
         }
 
         req.send(JSON.stringify(data));
 
         req.onload = () => {
             if(req.status === 200){
-                const response = JSON.parse(req.response);
-                setEvent(response);
+                location.assign(`/#/property/${propertyEvent.property_id}/repairs`);
             }
             else{
                 console.log(req.status);
