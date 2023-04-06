@@ -1,5 +1,5 @@
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import '../../scss/Loading.scss';
+import './Style.scss';
 
 function Loading({message}){
     return (

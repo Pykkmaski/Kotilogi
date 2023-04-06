@@ -1,4 +1,4 @@
-import '../../../scss/Property.scss';
+import './Style.scss';
 import {useParams, Link} from 'react-router-dom';
 import {useState, useEffect, useContext} from 'react';
 import AppContext from '../../Contexts/AppContext';

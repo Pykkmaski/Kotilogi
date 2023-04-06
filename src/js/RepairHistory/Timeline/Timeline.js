@@ -1,7 +1,7 @@
 import Line from './Line.js';
 import Node from './Node.js';
 
-import '../../../scss/Timeline.scss';
+import './Style.scss';
 import LoadingSpinner from '../../LoadingSpinner/LoadingSpinner.js';
 import { useContext } from 'react';
 import TimelineContext from '../../Contexts/TimelineContext.js';

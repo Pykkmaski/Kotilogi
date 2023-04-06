@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import '../../../scss/RepairHistory.scss';
+import './Style.scss';
 import TimelineContext from '../../Contexts/TimelineContext';
 
 function Node({content}){

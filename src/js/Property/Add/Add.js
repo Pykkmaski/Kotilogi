@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import AppContext from "../../Contexts/AppContext";
 import AccessDenied from "../../AccessDenied/AccessDenied";
 import AddEvent from '../AddEvent/AddEvent';
-import '../../../scss/AddProperty.scss';
+import './Style.scss';
 
 function Add(props){
     const {user} = useContext(AppContext);

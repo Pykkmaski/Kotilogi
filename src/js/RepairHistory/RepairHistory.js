@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import '../../scss/RepairHistory.scss';
+import './Style.scss';
 import AppContext from '../Contexts/AppContext';
 import Timeline from './Timeline/Timeline';
 import Events from './Timeline/Events';

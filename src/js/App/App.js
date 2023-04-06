@@ -7,7 +7,7 @@ import RegisterThankYou from '../RegisterThankYou/RegisterThankYou';
 import AppContext from '../Contexts/AppContext';
 import User from '../User/User';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
-import '../../scss/App.scss';
+import './Style.scss';
 import { useState, useEffect } from 'react';
 import Add from '../Property/Add/Add.js';
 import Manage from '../Property/Manage/Manage';

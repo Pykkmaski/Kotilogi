@@ -1,4 +1,4 @@
-import '../../../scss/InfoPlackard.scss';
+import './Style.scss';
 
 function InfoPlackard({content, icon, title}){
     return (

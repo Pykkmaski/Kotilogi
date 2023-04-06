@@ -1,4 +1,4 @@
-import '../../../scss/RepairHistory.scss';
+import '../Style.scss';
 import EventEntry from './EventEntry';
 
 function Events({history, selectedYear}){

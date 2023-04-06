@@ -1,4 +1,6 @@
-@import './Config';
+@import '../../Config';
+
+$bg-image: url('../../img/bg-green.jpg');
 
 .app{
     display: flex;

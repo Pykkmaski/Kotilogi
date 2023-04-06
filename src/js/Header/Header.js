@@ -1,4 +1,4 @@
-import '../../scss/Header.scss';
+import './Style.scss';
 import {Link} from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../Contexts/AppContext';

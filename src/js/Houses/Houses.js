@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import '../../scss/Houses.scss';
+import './Style.scss';
 
 function Houses(props){
 

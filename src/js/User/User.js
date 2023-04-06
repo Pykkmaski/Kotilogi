@@ -4,7 +4,7 @@ import AccessDenied from '../AccessDenied/AccessDenied';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from './PropertyCard/PropertyCard';
 import Loading from '../Loading/Loading';
-import '../../scss/User.scss';
+import './Style.scss';
 
 function User(props){
 

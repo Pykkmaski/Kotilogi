@@ -1,5 +1,5 @@
-import '../../../scss/Info.scss';
-import InfoPlackard from './InfoPlackard';
+import './Style.scss';
+import InfoPlackard from './InfoPlackard/InfoPlackard';
 
 const imageIcon = './img/image.png';
 
