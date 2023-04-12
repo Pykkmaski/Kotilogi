@@ -18,9 +18,7 @@ function Home(props){
                     </div>
 
                     <div id="animated-squares">
-                        <div className="square">Näihin vois laittaa jotaki kiiltokuvia. Joo</div>
-                        <div className="square">Joo</div>
-                        <div className="square">Joojoo toi on hyvä idea</div>
+                        <img src="./img/people1.jpg" id="main-image"/>
                     </div>
                 </div>
 

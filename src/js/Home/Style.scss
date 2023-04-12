@@ -6,6 +6,7 @@
     #welcome-text-box{
         padding-top: 5rem;
         justify-content: space-between;
+        gap: 1rem;
 
         #welcome-text{
             #home-page-intro-text{
@@ -22,7 +23,31 @@
             display: flex;
             flex-flow: row;
             gap: 1rem;
+            flex: 1;
+            justify-content: center;
 
+            img{
+                border-radius: 10px;
+            }
+
+            #main-image{
+                @keyframes IntroAnimation{
+                    0%{
+                        transform: translateX(-50px);
+                        opacity: 0;
+                    }
+
+                    100%{
+                        transform: translateX(0px);
+                        opacity: 1;
+                    }
+                }
+
+                animation-name: IntroAnimation;
+                animation-duration: 2s;
+                animation-timing-function: ease-out;
+                animation-iteration-count: 1;
+            }
             @keyframes HoverAnimation{
 
                 $rotation-amount: 5deg;
