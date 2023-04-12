@@ -52,8 +52,6 @@ function App(props){
                         <Route exact path="*" element={<Unknown/>}></Route>
                     </Routes>
                 </AppContext.Provider>
-                
-                <footer>&copy;{serviceName}</footer>
             </div> 
 
         </Router>
