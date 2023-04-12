@@ -203,6 +203,21 @@ form{
         resize: none;
     }
 
+    .button-group{
+        width: 100%;
+        display: flex;
+        flex-flow: row;
+        gap: 0.5rem;
+
+        .submit-button{
+            background: $primary-color;
+
+            &:hover{
+                background: lighten($primary-color, 10);
+            }
+        }
+    }
+
 }
 
 .page-title{

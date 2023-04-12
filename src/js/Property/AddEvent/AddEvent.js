@@ -33,6 +33,9 @@ function AddEvent(props){
         }
     }
 
+    function cancel(){
+        location.assign(`/#/property/${id}/repairs`)
+    }
     return (
         <div className="page" id="add-event-page">
             <form onSubmit={submit}>
@@ -40,7 +43,11 @@ function AddEvent(props){
                 <input name="name" type="text" placeholder="Otsikko" required/>
                 <input name="date" type="date" required/>
                 <textarea name="description" placeholder="Kuvaus..."></textarea>
-                <button type={submit}>Lisää</button>
+                <div className="button-group">
+                    <button onClick={cancel}>Peruuta</button>
+                    <button className="submit-button" type={submit}>Lisää</button>
+                </div>
+                
             </form>
         </div>
     )

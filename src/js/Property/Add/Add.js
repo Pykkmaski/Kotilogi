@@ -43,6 +43,10 @@ function Add(props){
         }
     }
 
+    function cancel(){
+        location.assign(`/#/user`);
+    }
+
     if(!user) return <AccessDenied/>
 
     return(
@@ -87,7 +91,11 @@ function Add(props){
                 <input name="buildYear" placeholder="Rakennusvuosi" type="number" maxLength={4}></input>
                 </div>
                 
-                <button type="submit">Lisää</button>
+                <div className="button-group">
+                    <button onClick={cancel}>Peruuta</button>
+                    <button className="submit-button" type="submit">Lisää</button>
+                </div>
+                
 
                 {
                     error ? <span className="error">{error}</span>
