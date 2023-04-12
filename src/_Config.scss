@@ -91,10 +91,12 @@ footer{
         }
 
 }
+
 .management-page{
     display: grid !important;
     grid-template-columns: 1fr 2fr;
     gap: 1rem;
+    padding: 0 10vw 0 10vw;
 
     .grid-item-left, .grid-item-right{
         display: flex;

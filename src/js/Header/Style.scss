@@ -6,7 +6,11 @@ header{
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
-
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    
     #header-logo-area{
         display: flex;
         flex-flow: row;

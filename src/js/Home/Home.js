@@ -9,7 +9,6 @@ function Home(props){
 
     return(
         <>
-            <div className="bg-filler"/>
             <div id="home-page" className="page">
                 <div id="welcome-text-box" className="page-element">
                     <div id="welcome-text">
@@ -26,7 +25,23 @@ function Home(props){
                 </div>
 
                 <div className="page-element" id="news-content">
-                    <h1>Tavaraatia</h1>
+                    <div className="news-box">
+                        <h1>Uutisjäbä</h1>
+                        <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin sed libero enim sed faucibus. Rhoncus urna neque viverra justo nec ultrices dui. Sollicitudin aliquam ultrices sagittis orci. In nibh mauris cursus mattis molestie a iaculis at erat. Ultricies mi quis hendrerit dolor magna eget est. Sed nisi lacus sed viverra. Massa sed elementum tempus egestas sed. Vulputate odio ut enim blandit. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Proin nibh nisl condimentum id.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="page-element" id="home-page-footer">
+                    <div id="main-links">
+                        <h2>Päälinkit</h2>
+                        <Link to="">Etusivu</Link>
+                        <Link to="">Tietoa</Link>
+                        <Link to="">Hinnasto</Link>
+                        <Link to="">Tarina</Link>
+                        <Link to="">Ota yhteyttä</Link>
+                    </div>
                 </div>
             </div>
         </>

@@ -30,6 +30,7 @@ function App(props){
 
     return (
         <Router>
+            <div className="bg-filler"/>
             <div className="app">
 
                 <AppContext.Provider value={{user, setUser}}>
