@@ -6,7 +6,8 @@ $bg-image: url('../../img/bg-green.jpg');
     display: flex;
     flex-flow: column;
     width: 100vw;
-    z-index: -2;
+    min-height: 100vh;
+
 }
 
 .bg-filler{

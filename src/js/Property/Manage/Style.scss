@@ -5,7 +5,8 @@
     display: grid !important;
     grid-template-columns: 1fr 2fr;
     padding: 0 10vw 0 10vw;
-
+    z-index: -1;
+    
     header{
         padding: 0 !important;
         display: flex;
