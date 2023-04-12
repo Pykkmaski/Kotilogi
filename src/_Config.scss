@@ -1,8 +1,8 @@
-$primary-color :  	#e2b900;
-$secondary-color: rgb(229, 229, 229);
-$text-color: white;
+$primary-color :  	#63a4c5;
+$secondary-color: rgb(99, 99, 99);
+$text-color: black;
 $page-element-color: green;
-$bg-color: rgb(43, 43, 43);
+$bg-color: white;
 $global-padding: 10vw;
 
 *{
@@ -37,17 +37,30 @@ footer{
     justify-content: center;
 }
 
+.bg-filler{
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    width: 100vw;
+    height: 500px;
+    z-index: -1;
+}
+
 .page{
     flex: 1;
 
     display:flex;
     flex-flow: column;
-    align-items: center;
-
-    padding: 1rem 10vw 0 10vw;
+    gap: 1rem;
+    padding: 1rem 0 0 0;
 
     overflow-y: scroll;
 
+    .page-element{
+        display: flex;
+        padding: 0 10vw 0 10vw;
+    }
+    
     h1{
         color: $primary-color;
     }
@@ -75,7 +88,6 @@ footer{
         &:hover{
             $shadow-distance: 0.25rem;
             background: lighten($primary-color, 10);
-            box-shadow: $shadow-distance $shadow-distance $shadow-distance $shadow-distance darken($primary-color, 10);
         }
 
 }
@@ -145,6 +157,8 @@ form{
     align-items: center;
     gap: 1rem;
     padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
 
     input, button, select, textarea{
         width: 100%;
@@ -182,24 +196,6 @@ form{
     }
 }
 
-.page-element{
-    border-bottom: 1px solid $secondary-color;
-    width: 100%;
-    backdrop-filter: blur(10px);
-    background: rgba($page-element-color, 0.1);
-    text-align: center;
-    color: white;
-
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-
-    h1, h2{
-        color: white;
-    }
-}
-
 a{
     text-decoration: none; 
 }
@@ -219,14 +215,19 @@ a{
     img{
         width: 1.5rem;
         height: 1.5rem;
-        filter: invert(1);
     }
 
     &:hover{
-        background: lighten($primary-color, 10);
+        background: darken($primary-color, 10);
     }
 }
 
 .error{
     color: red;
+}
+
+@media screen and(max-width: 1000px){
+    header, .page{
+        padding: 0 !important;
+    }
 }
