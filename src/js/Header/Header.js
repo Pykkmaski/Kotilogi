@@ -13,6 +13,7 @@ const cogIcon = './img/settings.png';
 const starIcon = './img/star.png';
 const homeIcon = './img/house.png';
 const euroIcon = './img/euro.png';
+const logo = './img/logo.png';
 
 function Header(props){
 
@@ -42,12 +43,8 @@ function Header(props){
     return(
         <header>
             <div id="header-logo-area">
-                <img src={homeIcon}></img>
                 <Link to="/">
-                    <div id="header-title-area">
-                        <h1>{serviceName}.fi</h1>
-                        <h2>Kotisi tiedot tallessa.</h2>
-                    </div>
+                    <img src={logo}/>
                 </Link>
             </div>
 

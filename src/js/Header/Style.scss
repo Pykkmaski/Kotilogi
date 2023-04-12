@@ -10,7 +10,7 @@ header{
     top: 0;
     backdrop-filter: blur(10px);
     z-index: 1;
-    
+
     #header-logo-area{
         display: flex;
         flex-flow: row;
@@ -18,8 +18,7 @@ header{
         gap: 0.5rem;
 
         img{
-            width: 70px;
-            height: 70px;
+            height: 35px;
         }
     }
     
