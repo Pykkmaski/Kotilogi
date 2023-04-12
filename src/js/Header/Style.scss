@@ -1,6 +1,6 @@
 @import '../../Config';
 
-header{
+.primary-header{
     padding: 1rem $global-padding 1rem $global-padding;
     display: flex;
     flex-flow: row;
@@ -8,8 +8,8 @@ header{
     align-items: center;
     position: sticky;
     top: 0;
-    backdrop-filter: blur(10px);
-    z-index: 4;
+    background: white;
+    z-index: 2;
 
     #header-logo-area{
         display: flex;

@@ -41,7 +41,7 @@ function Header(props){
     }
 
     return(
-        <header>
+        <header className="primary-header">
             <div id="header-logo-area">
                 <Link to="/">
                     <img src={logo}/>

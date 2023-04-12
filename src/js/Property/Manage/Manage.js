@@ -75,7 +75,7 @@ function Manage(props){
     if(property === null) return <Loading message="Ladataan taloa..."/>
 
     return (
-        <div className="page management-page">
+        <div className="page management-page" id="property-management-page">
             <div className="grid-item-left">
                 <header>
                     <h1>{property.address}</h1>

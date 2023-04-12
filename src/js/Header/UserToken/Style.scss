@@ -9,6 +9,10 @@
     cursor: pointer;
     user-select: none;
 
+    h2{
+        color: white;
+    }
+
     &:hover{
         background: lighten($primary-color, 10);
     }
