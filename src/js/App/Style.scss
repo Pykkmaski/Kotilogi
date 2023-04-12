@@ -7,8 +7,6 @@ $bg-image: url('../../img/bg-green.jpg');
     flex-flow: column;
     width: 100vw;
     height: 100vh;
-    background: $bg-image;
-    background-size: cover;
-    background-attachment: fixed;
+    background: $bg-color;
     z-index: -2;
 }

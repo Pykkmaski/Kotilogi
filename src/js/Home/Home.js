@@ -10,13 +10,13 @@ function Home(props){
     return(
         <div id="home-page" className="page">
 
-            <div className="grid-area">
+            <div className="grid-area" id="welcome-text-box">
                 <h1 id="home-page-intro-text">"Talosi Huoltokirja"</h1>
                 <h2>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa</h2>
-                <Link to="/register" id="create-acc-link">Aloita Ilmainen Kokeilu</Link>
+                <Link to="/register" id="create-acc-link" className="primary-button">Aloita Ilmainen Kokeilu</Link>
             </div>
 
-            <div className="grid-area">
+            <div className="grid-area" id="home-image-box">
 
             </div>
         </div>

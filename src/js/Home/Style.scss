@@ -17,28 +17,17 @@
         width: 70%
     }
 
+    #welcome-text-box{
+
+    }
+
     #home-page-intro-text{
         font-size: 5rem;
         font-family: 'Script MT Bold';
     }
 
     #create-acc-link{
-        background: $primary-color;
-        padding: 1rem;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        color: white;
-        border-radius: 50px;
-        text-decoration: none;
-        width: 50%;
         margin-top: 3rem;
-
-        &:hover{
-            background: lighten($primary-color, 10);
-        }
     }
 
     #home-page-title{

@@ -1,11 +1,18 @@
-$primary-color :  	#064b00;
-$secondary-color: rgb(137, 137, 137);
+$primary-color :  	#e2b900;
+$secondary-color: rgb(229, 229, 229);
+$text-color: white;
 $page-element-color: green;
+$bg-color: rgb(43, 43, 43);
 $global-padding: 10vw;
 
 *{
     box-sizing: border-box;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: $secondary-color;
+}
+
+input, select, option{
+    color: gray;
 }
 
 :root{
@@ -50,6 +57,28 @@ footer{
     }
 }
 
+.primary-button{
+    background: $primary-color;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    width: 50%;
+
+    transition: box-shadow 0.2s ease-out;
+
+        &:hover{
+            $shadow-distance: 0.25rem;
+            background: lighten($primary-color, 10);
+            box-shadow: $shadow-distance $shadow-distance $shadow-distance $shadow-distance darken($primary-color, 10);
+        }
+
+}
 .management-page{
     display: grid !important;
     grid-template-columns: 1fr 2fr;
@@ -185,15 +214,16 @@ a{
     padding: 1rem;
     gap: 0.5rem;
     border-radius: 10px;
-    color: gray;
+    color: $secondary-color;
 
     img{
         width: 1.5rem;
         height: 1.5rem;
+        filter: invert(1);
     }
 
     &:hover{
-        background: lighten(lightgreen, 10);
+        background: lighten($primary-color, 10);
     }
 }
 
