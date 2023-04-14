@@ -6,12 +6,14 @@
     #welcome-text-box{
         padding-top: 5rem;
         justify-content: space-between;
+        align-items: center;
         gap: 1rem;
 
         #welcome-text{
             #home-page-intro-text{
                 font-size: 5rem;
-                font-family: 'Script MT Bold';
+                font-family: 'Script MT Bold Segoe UI';
+                font-style: italic;
             }
     
             #create-acc-link{
@@ -19,90 +21,47 @@
             }
         }
 
-        #animated-squares{
-            display: flex;
-            flex-flow: row;
-            gap: 1rem;
-            flex: 1;
-            justify-content: center;
+        img{
+            border-radius: 10px;
+        }
 
-            img{
-                border-radius: 10px;
-            }
-
-            #main-image{
-                @keyframes IntroAnimation{
-                    0%{
-                        transform: translateX(-50px);
-                        opacity: 0;
-                    }
-
-                    100%{
-                        transform: translateX(0px);
-                        opacity: 1;
-                    }
-                }
-
-                animation-name: IntroAnimation;
-                animation-duration: 1s;
-                animation-timing-function: ease-out;
-                animation-iteration-count: 1;
-            }
-            @keyframes HoverAnimation{
-
-                $rotation-amount: 5deg;
-                $translation-amount: 0px;
-                
+        #main-image{
+            @keyframes IntroAnimation{
                 0%{
-                    transform: rotate(0deg);
-                }
-
-                50%{
-                    transform: rotate($rotation-amount);
+                    transform: translateX(-50px);
+                    opacity: 0;
                 }
 
                 100%{
-                    transform: rotate(-$rotation-amount);
-                }
-
-            }
-
-            .square{
-                border: 2px solid $secondary-color;
-                border-radius: 10px;
-
-                width: 200px;
-                height: 300px;
-
-                background: $primary-color;
-                color: white;
-                transition: transform 0.3s ease-in-out;
-                transition-delay: 0.2s;
-
-                &:hover{
-                    $hover-distance: -25px;
-                    transform: translateY($hover-distance);
-                }
-
-                &:nth-child(2){
-                    background: darken($primary-color, 10);
-                }
-
-                &:nth-child(3){
-                    background: darken($primary-color, 20);
+                    transform: translateX(0px);
+                    opacity: 1;
                 }
             }
-        }
-       
+
+            animation-name: IntroAnimation;
+            animation-duration: 1s;
+            animation-timing-function: ease-out;
+            animation-iteration-count: 1;
+        }   
+
     }
 
     #news-content{
-        flex-direction: row;
         margin-top: 5rem;
         gap: 1rem;
+        font-size: 1.5rem;
 
         .news-box{
             border-radius: 10px;
+        }
+
+        #story-signature{
+            &:before{
+                content: '—';
+            }   
+
+            margin-top: 2rem;
+            font-style: italic;
         }
     }
 
@@ -129,5 +88,49 @@
             }
         }
        
+    }
+}
+
+@media screen and (max-width: 1000px){
+    #home-page{
+        #welcome-text-box{
+            flex-flow: column-reverse;
+            align-items: center;
+
+            #welcome-text{
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                
+                #home-page-intro-text{
+                    font-size: 2.5rem;
+                    font-family: 'Script MT Bold';
+                }
+        
+                #create-acc-link{
+                    margin-top: 3rem;
+                    font-size: 1rem;
+                }
+            }
+            img{
+                width: calc(100vw - 5px);
+                border-radius: 0 !important;
+            }
+
+        }
+
+        #news-content{
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            font-size: 1.25rem !important;
+
+            .new-box{
+                display: flex !important;
+                flex-flow: column !important;
+                
+            }
+            
+        }
     }
 }

@@ -17,6 +17,7 @@ import Houses from '../Houses/Houses';
 import AddEvent from '../Property/AddEvent/AddEvent';
 import EditEvent from '../Property/EditEvent/EditEvent';
 import {serviceName} from '../appconfig';
+import Pricing from '../Pricing/Pricing';
 
 const {userStorageName} = require('../appconfig');
 
@@ -41,6 +42,7 @@ function App(props){
                         <Route exact path="/login" element={<Login/>}></Route>
                         <Route exact path="/register" element={<Signup/>}></Route>
                         <Route exact path="/user/" element={<User/>}></Route>
+                        <Route exact path="/pricing" element={<Pricing/>}></Route>
                         <Route exact path="/houses/:id" element={<Houses/>}></Route>
                         <Route exact path="/property/:id/:section" element={<Manage/>}></Route>
                         <Route exact path="/property/:id/repairHistory/" element={<RepairHistory/>}></Route>

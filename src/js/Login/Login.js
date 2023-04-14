@@ -51,11 +51,11 @@ function Login(props){
             </form>
 
             {
-                loading ? <>Kirjaudutaan sisään... <LoadingSpinner width="2rem" height="2rem"/></>
+                loading ? <><span className="feedback-message">Kirjaudutaan sisään...</span> <LoadingSpinner width="2rem" height="2rem"/></>
                 :
-                error === 'Invalid Username' ? <> <span className='error'>Tiliä antamallasi käyttäjänimellä ei ole!</span></>
+                error === 'Invalid Username' ? <> <span className='feedback-message error'>Tiliä antamallasi käyttäjänimellä ei ole!</span></>
                 : 
-                error === 'Invalid Password' ? <><span className="error">Antamasi salasana on virheellinen!</span></>
+                error === 'Invalid Password' ? <><span className="feedback-message error">Antamasi salasana on virheellinen!</span></>
                 : 
                 null
             }

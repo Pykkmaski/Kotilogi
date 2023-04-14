@@ -1,9 +1,15 @@
 import './Style.scss';
 import InfoPlackard from './InfoPlackard/InfoPlackard';
+import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import AppContext from '../../Contexts/AppContext';
 
 const imageIcon = './img/image.png';
 
 function Info({property}){
+
+    const {id} = useParams();
+    const {user} = useContext(AppContext);
 
     function convertInfoString(str, type, lang){
         if(type === 'heating'){
@@ -44,21 +50,24 @@ function Info({property}){
         }
     }
 
-    function uploadImage(){
-        const imageInput = document.querySelector('#image-input');
-        const ev = new Event('input', {
-            bubbles: true,
-            cancelable: true
-        });
+    function uploadImage(e){
+        e.preventDefault();
+        const req = new XMLHttpRequest();
+        req.open('POST', `/property/${id}/upload`, true);
+        req.setRequestHeader('Content-Type', 'multipart/form-data');
+        req.setRequestHeader('Auth', user.token);
 
-        imageInput.dispatchEvent(ev);
+        req.send(e.target.image.value);
+
+        req.onload = () => {
+            console.log(req.status);
+        }
     }
     
     return (
         <div id="info-page">
             <div className="info-image no-image" title={'Lisää kuva'}>
                <h2>Ei kuvaa</h2>
-               <input type="file" accept="image/jpeg" id="image-input"/>
             </div>
 
             <div className="info-area">

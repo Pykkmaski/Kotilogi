@@ -6,6 +6,9 @@ function EventEntry({item}){
     const {user} = useContext(AppContext);
     
     function deleteEntry(){
+        const c = confirm(`Oletko varma että haluat poistaa tapahtuman?`);
+        if(!c) return;
+        
         const req = new XMLHttpRequest();
         req.open('DELETE', `/property/${item.property_id}/events/${item.id}`, true);
         req.setRequestHeader('Auth', user.token);

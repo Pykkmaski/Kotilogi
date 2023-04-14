@@ -61,3 +61,22 @@
         }
     }
 }
+
+@media screen and (max-width: 1000px){
+
+    #user-page{
+        margin-left: 5px;
+        margin-right: 5px;
+
+        #property-grid{
+            display: flex !important;
+            flex-flow: column !important;
+    
+            .property-grid-item{
+                width: 100% !important;
+            }
+          
+        }
+    }
+
+}

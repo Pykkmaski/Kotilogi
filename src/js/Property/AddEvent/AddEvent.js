@@ -45,7 +45,7 @@ function AddEvent(props){
                 <textarea name="description" placeholder="Kuvaus..."></textarea>
                 <div className="button-group">
                     <button onClick={cancel}>Peruuta</button>
-                    <button className="submit-button" type={submit}>Lisää</button>
+                    <button className="submit-button" type="submit">Lisää</button>
                 </div>
                 
             </form>

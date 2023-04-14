@@ -21,7 +21,6 @@ function Header(props){
     const [menuOpen, setMenuOpen] = useState(false);
 
     function logout(){
-        toggleMenu();
         setUser(null);
         localStorage.removeItem(userStorageName);
         location.assign('/#/');
@@ -56,12 +55,7 @@ function Header(props){
                 {
                     !user ?
                     <>
-                        <Link to="/" className="button-link">
-                            <img src={infoIcon}></img>
-                            <span>APUA</span>
-                        </Link>
-
-                        <Link to="" className="button-link">
+                        <Link to="/pricing" className="button-link">
                             <img src={euroIcon}></img>
                             <span>HINNASTO</span>
                         </Link>
@@ -94,9 +88,13 @@ function Header(props){
                 }
             </div>
 
-            <div id="menu">
-                
+                  
+            <div id="menu-btn">
+                <div className="button-line"/>
+                <div className="button-line"/>
+                <div className="button-line"/>
             </div>
+      
         </header>
     );
 }

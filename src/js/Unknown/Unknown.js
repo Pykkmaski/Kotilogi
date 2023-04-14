@@ -1,3 +1,5 @@
+import './Style.scss';
+
 function Unknown(props){
     return (
         <div className="page" id="unknown-page">

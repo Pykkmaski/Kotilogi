@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const checkAuth = require('../middleware/checkAuth');
 const db = require('../dbconfig');
+const upload = require('../middleware/imageUpload');
 
 router.get('/all/:username', checkAuth, async (req, res) => {
     try{
@@ -149,6 +150,10 @@ router.delete('/:property_id/events/:event_id', checkAuth, async (req, res) => {
         }
     }
 });
+
+router.post('/:id/upload', upload.single('image'), async (req, res) => {
+    res.status(200).send('Image uploaded');
+})
 
 
 module.exports = router;

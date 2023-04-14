@@ -47,11 +47,11 @@ function Signup(props){
             </form>
 
             {
-                isRegistering ? <> Tiliä luodaan. Ole hyvä ja odota. <LoadingSpinner width={'2rem'} height={'2rem'}/></>
+                isRegistering ? <> <span className="feedback-message">Tiliä luodaan. Ole hyvä ja odota.</span> <LoadingSpinner width={'2rem'} height={'2rem'}/></>
                 :
-                error === 'Invalid Username' ? <span className="error">Tili antamallasi käyttäjänimellä on jo olemassa!</span>
+                error === 'Invalid Username' ? <span className="feedback-message error">Tili antamallasi käyttäjänimellä on jo olemassa!</span>
                 :
-                error === 'Invalid Password' ? <span className="error">Antamasi salasanat eivät täsmää!</span>
+                error === 'Invalid Password' ? <span className="feedback-message error">Antamasi salasanat eivät täsmää!</span>
                 :
                 null
             }

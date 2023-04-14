@@ -177,7 +177,7 @@ form{
     }
 
     animation-name: FormIntroAnimation;
-    animation-duration: 0.5s;
+    animation-duration: 0.25s;
     animation-timing-function: ease-out;
     animation-iteration-count: 1;
 
@@ -254,16 +254,52 @@ a{
     }
 
     &:hover{
-        background: darken($primary-color, 10);
+        background: lighten($primary-color, 10);
+
+        span{
+            color: white;
+        }
+
+        img{
+            filter: invert(1);
+        }
     }
 }
 
-.error{
-    color: red;
+@keyframes ErrorAnimation{
+    0%{
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
+.feedback-message{
+    animation-name: ErrorAnimation;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+
+    &.error{
+       color: red;
+    }
+}
+
+
 @media screen and(max-width: 1000px){
-    header, .page{
+    .page{
         padding: 0 !important;
+
+        .page-element{
+            padding: 5px !important;
+        }
+    }
+
+    .button-link{
+        visibility: hidden;
     }
 }
