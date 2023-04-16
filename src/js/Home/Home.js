@@ -29,8 +29,6 @@ function Home(props){
                             Koitin hetken järjestellä koneelta löytyviä työpöydälle kansioon jonka nimesin osoitteen mukaan: Timontie 13.<br/>
                             Siinäpä se sitten välähti hetken kuluttua että kyllä nykypäivänä taloillakin pitäisi olla "sähköinen huoltokirja".<br/>
                             Sieltä ne taloon tehdyt remontit sun muut olisi helppo kaivaa esiin, seuraavallakin omistajalla kymmenen vuoden päästä.<br/>
-
-                            
                         </p>
 
                         <span id="story-signature">Jani Österberg</span>

@@ -4,6 +4,7 @@ const http = require('http');
 const app = express();
 app.use(express.static('node_modules'));
 app.use(express.static('public'));
+app.use(express.static('images'));
 app.use(express.json());
 const server = http.createServer(app);
 

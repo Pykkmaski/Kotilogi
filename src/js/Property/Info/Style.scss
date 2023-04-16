@@ -10,6 +10,14 @@
     .info-image{
         width: 200px;
         height: 200px;
+        border-radius: 10px;
+
+        img{
+            width: inherit;
+            height: inherit;
+            border-radius: inherit;
+        }
+
         display: flex;
         flex-flow: column;
         justify-content: center;
@@ -19,7 +27,7 @@
         transition: background-color 0.2s ease-out;
         
         &.no-image{
-            border-radius: 10px;
+            
             border: 2px dashed $secondary-color;
         }
 

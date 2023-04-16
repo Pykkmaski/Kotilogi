@@ -1,7 +1,7 @@
 import './Style.scss';
 import InfoPlackard from './InfoPlackard/InfoPlackard';
 import { useParams } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import AppContext from '../../Contexts/AppContext';
 
 const imageIcon = './img/image.png';
@@ -10,64 +10,66 @@ function Info({property}){
 
     const {id} = useParams();
     const {user} = useContext(AppContext);
+    const [file, setFile] = useState(null);
+    const [propertyMainImageName, setPropertyMainImageName] = useState(null);
 
-    function convertInfoString(str, type, lang){
-        if(type === 'heating'){
-            switch(str){
-                case 'central':{
-                    if(lang === 'fi'){
-                        return 'Kaukolämpö';
-                    }
-                }
-                break;
+    //Get property main image url
+    useEffect(() => {   
 
-                case 'oil':{
-                    if(lang === 'fi'){
-                        return 'Öljy';
-                    }
-                }
-                break;
-
-                case 'electric':{
-                    if(lang === 'fi'){
-                        return 'Sähkö';
-                    }
-                }
-                break;
-
-                default:{
-                    if(lang === 'fi'){
-                        return 'Ei määritelty'
-                    }
-                    else if(lang === 'en'){
-                        return 'Not defined'
-                    }
-                }
-            }
-        }
-        else{
-            return str;
-        }
-    }
-
-    function uploadImage(e){
-        e.preventDefault();
         const req = new XMLHttpRequest();
-        req.open('POST', `/property/${id}/upload`, true);
-        req.setRequestHeader('Content-Type', 'multipart/form-data');
+        req.open('GET', `/property/${id}/image/main`, true);
         req.setRequestHeader('Auth', user.token);
-
-        req.send(e.target.image.value);
+        req.send();
 
         req.onload = () => {
-            console.log(req.status);
+            if(req.status === 200){
+                console.log(req.response);
+                setPropertyMainImageName(JSON.parse(req.response).filename);
+            }
+            else{
+                console.log(req.status);
+            }
         }
+    }, []);
+
+    function onChangeHandler(e){
+        setFile(e.target.files[0]);
+    }
+
+    function onSubmitHandler(e){
+        e.preventDefault();
+        console.log(file);
+
+        const data = new FormData();
+        data.append('image', file);
+
+        fetch(`/property/${id}/upload`, {
+            headers: {
+                Auth: user.token
+            },
+
+            method: 'POST',
+            body: data
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
     }
     
     return (
         <div id="info-page">
-            <div className="info-image no-image" title={'Lisää kuva'}>
-               <h2>Ei kuvaa</h2>
+            <div className={propertyMainImageName ? 'info-image' : 'info-image no-image'} title={'Lisää kuva'}>
+                {
+                    propertyMainImageName ? 
+                    <img src={window.location.origin + '/images/' + propertyMainImageName}/> :
+                    <form onSubmit={onSubmitHandler}>
+                        <input type="file" name="image" onChange={onChangeHandler}/>
+                        <button type="submit">Lähetä</button>
+                    </form>
+                }
             </div>
 
             <div className="info-area">

@@ -8,8 +8,8 @@ exports.up = function(knex) {
     tbl.string('filename').notNullable();
     tbl.integer('property_id').notNullable().references('id').inTable('properties');
     tbl.integer('event_id').references('id').inTable('property_events');
-    tbl.boolean('property_main').defaultTo(false);
-    tbl.boolean('event_main').defaultTo(false);
+    tbl.boolean('property_main').defaultTo(false).comment('Is this the main image for a property?');
+    tbl.boolean('event_main').defaultTo(false).comment('Is this the main image for an event?');
   })
 };
 

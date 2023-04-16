@@ -58,6 +58,25 @@ router.get('/events/:id', checkAuth, async (req, res) => {
     }
 });
 
+router.get('/:id/image/main', checkAuth, async (req, res) => {
+    const {id} = req.params;
+
+    try{
+        const filename = await db.select('filename').from('image_map').where({property_id: id}).first() // Change this to actually get the image labeled as property main.
+        if(!filename) throw 404;
+        res.status(200).send(filename);
+    }
+    catch(err){
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        }
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+    }
+})
+
 router.put('/events/:id', checkAuth, async (req, res) => {
     try{
         const {id} = req.params;
