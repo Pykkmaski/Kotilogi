@@ -9,19 +9,19 @@ function Home(props){
 
     return(
         <>
-            <div id="home-page" className="page">
-                <div id="welcome-text-box" className="page-element">
+            <div id="home-page" className="page scroll-y">
+                <div id="welcome-text-box" className="page-element center-align space-between gap-l">
                     <div id="welcome-text">
                         <h1 id="home-page-intro-text">"Talosi Huoltokirja"</h1>
                         <h2>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa</h2>
                         <Link to="/register" id="create-acc-link" className="primary-button">Luo Ilmainen Tili</Link>
                     </div>
 
-                    <img src="./img/people1.jpg" id="main-image"/>
+                    <img src="./img/people1.jpg" id="main-image" className="rounded"/>
                 </div>
 
-                <div className="page-element" id="news-content">
-                    <div className="news-box">
+                <div  id="news-content" className="page-element gap-l">
+                    <div className="news-box rounded">
                         <h1>Mistä idea?</h1>
                         <p>
                             Kotilogin idea tuli yhtäkkiä päivällä kun koitin etsiä salaojaremontin kuitteja edellisvuodelta kotitalousvähennystä varten.<br/>
@@ -36,7 +36,7 @@ function Home(props){
                 </div>
 
                 <div className="page-element" id="home-page-footer">
-                    <div id="main-links">
+                    <div id="main-links" className="flex-column gap-l">
                         <h2>Päälinkit</h2>
                         <Link to="">Etusivu</Link>
                         <Link to="">Tietoa</Link>

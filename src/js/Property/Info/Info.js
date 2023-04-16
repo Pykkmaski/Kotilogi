@@ -11,9 +11,9 @@ function Info({property}){
     const {id} = useParams();
     const {user} = useContext(AppContext);
     const [file, setFile] = useState(null);
-    const [propertyMainImageName, setPropertyMainImageName] = useState(null);
+    const [propertyMainImage, setPropertyMainImage] = useState(false);
 
-    //Get property main image url
+    //Get property main image
     useEffect(() => {   
 
         const req = new XMLHttpRequest();
@@ -23,8 +23,7 @@ function Info({property}){
 
         req.onload = () => {
             if(req.status === 200){
-                console.log(req.response);
-                setPropertyMainImageName(JSON.parse(req.response).filename);
+                setPropertyMainImage(true);
             }
             else{
                 console.log(req.status);
@@ -60,11 +59,11 @@ function Info({property}){
     }
     
     return (
-        <div id="info-page">
-            <div className={propertyMainImageName ? 'info-image' : 'info-image no-image'} title={'Lisää kuva'}>
+        <div id="info-page" className="flex-row gap-l w-100 center-align">
+            <div className={"info-image flex-column center-all rounded"} title={'Lisää kuva'}>
                 {
-                    propertyMainImageName ? 
-                    <img src={window.location.origin + '/images/' + propertyMainImageName}/> :
+                    propertyMainImage ? 
+                    <img src={window.location.origin + `/property/${id}/image/main`}/> :
                     <form onSubmit={onSubmitHandler}>
                         <input type="file" name="image" onChange={onChangeHandler}/>
                         <button type="submit">Lähetä</button>

@@ -2,6 +2,7 @@ const router = require('express').Router();
 const checkAuth = require('../middleware/checkAuth');
 const db = require('../dbconfig');
 const upload = require('../middleware/imageUpload');
+const path = require('path');
 
 router.get('/all/:username', checkAuth, async (req, res) => {
     try{
@@ -58,13 +59,14 @@ router.get('/events/:id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:id/image/main', checkAuth, async (req, res) => {
+router.get('/:id/image/main', async (req, res) => {
     const {id} = req.params;
 
     try{
         const filename = await db.select('filename').from('image_map').where({property_id: id}).first() // Change this to actually get the image labeled as property main.
+        console.log(filename, id);
         if(!filename) throw 404;
-        res.status(200).send(filename);
+        res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
     }
     catch(err){
         if(typeof(err) === 'number'){
@@ -75,7 +77,7 @@ router.get('/:id/image/main', checkAuth, async (req, res) => {
             res.sendStatus(500);
         }
     }
-})
+});
 
 router.put('/events/:id', checkAuth, async (req, res) => {
     try{

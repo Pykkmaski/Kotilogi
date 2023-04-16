@@ -1,57 +1,18 @@
 @import '../../Config';
 
-.primary-header{
+#primary-header{
     padding: 1rem $global-padding 1rem $global-padding;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    align-items: center;
     position: sticky;
     top: 0;
     background: white;
     z-index: 2;
 
     #header-logo-area{
-        display: flex;
-        flex-flow: row;
-        align-items: center;
-        gap: 0.5rem;
-
         img{
             height: 35px;
         }
     }
-    
-    #header-title-area{
-        padding: 0;
-        margin: 0;
-        
-        h1{
-            margin: inherit;
-            color: $primary-color;
 
-            transition: transform 0.3s ease-out;
-            transition-delay: 0.1s;
-        }
-    
-        h2{
-            margin:inherit;
-            color: $secondary-color;
-
-            transition: transform 0.3s ease-out;
-            transition-delay: 0.2s;
-        }
-    }
-
-    #header-links-area{
-        display: flex;
-        flex-flow: row;
-        gap: 0.5rem;
-        align-items: center;
-        
-    }
-
-    
     #menu-btn{
         display: none;
         flex-flow: column;
@@ -60,11 +21,34 @@
         height: 50px;
         z-index: 5;
 
-        .button-line{
+        
+        .btn-line{
             background: $primary-color;
             width: 100%;
             height: 5px;
+            transition: all 0.1s ease-in-out;
         }
+
+        cursor: pointer;
+            
+            &.open{
+                .btn-line{
+                    $translate-amount: 9px;
+
+                    &:nth-child(1){
+                        transform: translateY($translate-amount) rotate(45deg);
+                    }
+
+                    &:nth-child(2){
+                        transform: rotate(45deg);
+                        opacity: 0;
+                    }
+
+                    &:nth-child(3){
+                        transform: translateY(-$translate-amount) rotate(-45deg);
+                    }
+                }
+            }
     }
 
     #menu{
@@ -101,10 +85,6 @@
 
         #header-links-area{
             display: none !important;
-        }
-
-        #menu-btn{
-            display: flex;
         }
     }
 }

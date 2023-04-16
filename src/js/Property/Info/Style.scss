@@ -1,27 +1,16 @@
 @import '../../../Config';
 
 #info-page{
-    display: flex;
-    flex-flow: row;
-    gap: 1rem;
-    width: 100%;
-    align-items: center;
-    
     .info-image{
         width: 200px;
         height: 200px;
-        border-radius: 10px;
 
         img{
-            width: inherit;
-            height: inherit;
+            width: 200px;
+            height: 200px;
             border-radius: inherit;
         }
 
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        align-items: center;
         cursor: pointer;
 
         transition: background-color 0.2s ease-out;

@@ -5,7 +5,7 @@ const path = require('path');
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
         console.log(file);
-        cb(null, path.join(__dirname, '../public/images'));
+        cb(null, './uploads/');
     },
 
     filename: async (req, file, cb) => {
@@ -20,11 +20,12 @@ const fileStorageEngine = multer.diskStorage({
                 property_main: false,
                 event_main: false,
             });
-            cb(null, fn);
         }
         catch(err){
             console.log(err.message);
         }
+
+        cb(null, fn);
 
         
     }

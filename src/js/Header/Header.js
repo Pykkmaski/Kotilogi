@@ -29,29 +29,33 @@ function Header(props){
     function toggleMenu(){
         console.log('toggling menu...')
         const menu = document.querySelector('#menu');
+        const menuBtn = document.querySelector('#menu-btn');
+        
         if(menuOpen){
             menu.classList.remove('open');
+            menuBtn.classList.remove('open');
         }
         else{
             menu.classList.add('open');
+            menuBtn.classList.add('open');
         }
 
         setMenuOpen(!menuOpen);
     }
 
     return(
-        <header className="primary-header">
-            <div id="header-logo-area">
+        <header className="flex-row center-align space-between" id="primary-header">
+            <div className="flex-row gap-m" id="header-logo-area">
                 <Link to="/">
                     <img src={logo}/>
                 </Link>
             </div>
 
-            <div id="header-primary-links-area">
+            <div className="flex-row space-between center-align" id="header-primary-links-area">
                 
             </div>
             
-            <div id="header-links-area">
+            <div className="flex-row center-align gap-m" id="header-links-area">
                 {
                     !user ?
                     <>
@@ -89,11 +93,13 @@ function Header(props){
             </div>
 
                   
-            <div id="menu-btn">
-                <div className="button-line"/>
-                <div className="button-line"/>
-                <div className="button-line"/>
+            <div className="flex-column center-all gap-sm" id="menu-btn" onClick={toggleMenu}>
+                <div className="btn-line"/>
+                <div className="btn-line"/>
+                <div className="btn-line"/>
             </div>
+
+            <div className="flex-column gap-m center-align padding-sm" id="menu"></div>
       
         </header>
     );

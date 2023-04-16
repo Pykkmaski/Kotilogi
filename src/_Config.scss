@@ -278,6 +278,91 @@ a{
     }
 }
 
+/*stretch to the length of parent container*/
+.w-100{
+    width: 100%;
+}
+
+.scroll-y{
+    overflow-y: scroll;
+}
+
+.hover-primary-color-light{
+    &:hover{
+        background: lighten($primary-color, 10);
+    }
+}
+
+.glass{
+    backdrop-filter: blur(10px);
+}
+
+/*Stretches a flex box until it fills the entirety of its flex direction on the screen*/
+.fill{
+    flex: 1;
+}
+
+.flex-row{
+    display: flex;
+    flex-flow: row;
+}
+
+.flex-column{
+    display: flex;
+    flex-flow: column;
+}
+
+.center-all{
+    align-items: center;
+    justify-content: center;
+}
+
+.center-align{
+    align-items: center;
+}
+
+/*Push all elements inside the container as far away from eachother as possible*/
+.space-between{
+    justify-content: space-between;
+}
+
+/*Round the corners of the element*/
+.rounded{
+    border-radius: 10px;
+}
+
+.gap-sm{
+    gap: 0.25rem;
+}
+
+.gap-m{
+    gap: 0.5rem;
+}
+
+.gap-l{
+    gap: 1rem;
+}
+
+.padding-sm{
+    padding: 0.25rem;
+}
+
+.padding-m{
+    padding: 0.5rem;
+}
+
+.padding-l{
+    padding: 1rem;
+}
+
+.in-foreground{
+    z-index: 1;
+}
+
+.in-background{
+    z-index: -1;
+}
+
 .feedback-message{
     animation-name: ErrorAnimation;
     animation-duration: 0.2s;
