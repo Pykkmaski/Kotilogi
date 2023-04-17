@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AppContext from "../../Contexts/AppContext";
 
-function EventEntry({item}){
+function EventEntry({item, altColor}){
 
     const {user} = useContext(AppContext);
     
@@ -29,7 +29,7 @@ function EventEntry({item}){
     }
 
     return (
-        <div className="flex-column gap-m rounded event-entry hover-primary-light padding-m">
+        <div className={`flex-column border gap-m rounded event-entry hover-primary-light padding-m${altColor ? " bg-gray" : ""}`}>
             <header>
                 <h2>
                     {item.name}

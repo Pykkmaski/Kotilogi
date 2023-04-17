@@ -1,8 +1,11 @@
 import '../Style.scss';
 import AddEvent from './AddEvent';
 import EventEntry from './EventEntry';
+import {useRef} from 'react';
 
 function Events({history}){
+
+    const altColor = useRef(false);
 
     history.sort((a, b) => {
         const dateATime = new Date(a.date).getTime();
@@ -15,7 +18,9 @@ function Events({history}){
             <AddEvent/>
             {
                 history.map(item => {
-                    return <EventEntry item={item}/>
+                    const component = <EventEntry item={item} altColor={altColor.current}/>
+                    altColor.current = !altColor.current;
+                    return component;
                 })
             }
         </div>
