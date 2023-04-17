@@ -287,6 +287,8 @@ a{
 }
 
 .hover-primary-light{
+    transition: background-color 0.2s ease-out;
+
     &:hover{
         background: lighten($primary-color, 10);
     }

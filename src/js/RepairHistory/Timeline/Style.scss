@@ -74,3 +74,21 @@
         width: 3rem;
     }
 }
+
+#add-event{
+
+    h2{
+        transform: translateX(50px);
+        opacity: 0;
+        transition-delay: 0.5s;
+        transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+    }
+
+    &:hover{
+
+        h2{
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+}
