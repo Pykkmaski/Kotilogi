@@ -76,7 +76,7 @@ function Manage(props){
 
     return (
         <div className="page management-page" id="property-management-page">
-            <div className="grid-item-left">
+            <div className="grid-item-left bg-gray padding-sm">
                 <header>
                     <h1>{property.address}</h1>
                 </header>
@@ -122,7 +122,7 @@ function Manage(props){
                 </Link>
             </div>
 
-            <div className="grid-item-right">
+            <div className="grid-item-right padding-sm">
                 <header>
                     <h1>
                         {

@@ -386,6 +386,10 @@ a{
     font-size: 2rem;
 }
 
+.bg-gray{
+    background: rgba($primary-color, 0.2);
+}
+
 
 .feedback-message{
     animation-name: ErrorAnimation;
