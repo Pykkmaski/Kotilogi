@@ -1,0 +1,11 @@
+@import '../../../Config';
+
+#event-details{
+    display: grid !important;
+    grid-template-columns: 1fr 2fr;
+
+    #event-pictures{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

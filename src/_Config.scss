@@ -388,8 +388,8 @@ a{
     font-size: 2rem;
 }
 
-.bg-gray{
-    background: rgba($primary-color, 0.2);
+.bg-primary{
+    background: lighten($primary-color, 30);
 }
 
 

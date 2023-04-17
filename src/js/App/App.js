@@ -18,6 +18,7 @@ import AddEvent from '../Property/AddEvent/AddEvent';
 import EditEvent from '../Property/EditEvent/EditEvent';
 import {serviceName} from '../appconfig';
 import Pricing from '../Pricing/Pricing';
+import EventDetails from '../Property/EventDetails/EventDetails';
 
 const {userStorageName} = require('../appconfig');
 
@@ -50,6 +51,7 @@ function App(props){
                         <Route exact path="/property/add" element={<Add/>}></Route>
                         <Route exact path="/property/:id/events/add" element={<AddEvent/>}></Route>
                         <Route exact path="/property/:property_id/events/:event_id/edit" element={<EditEvent/>}></Route>
+                        <Route exact path="/property/:property_id/events/:event_id/" element={<EventDetails/>}></Route>
                         <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
                         <Route exact path="*" element={<Unknown/>}></Route>
                     </Routes>

@@ -25,11 +25,11 @@ function EventEntry({item, altColor}){
     }
 
     function editEntry(){
-        location.assign(`/#/property/${item.property_id}/events/${item.id}/edit`);
+        location.assign(`/#/property/${item.property_id}/events/${item.id}/`);
     }
 
     return (
-        <div className={`flex-column border gap-m rounded event-entry hover-primary-light padding-m${altColor ? " bg-gray" : ""}`}>
+        <div className={`flex-column border gap-m rounded event-entry hover-primary-light padding-m${altColor ? " bg-primary" : ""}`}>
             <header>
                 <h2>
                     {item.name}

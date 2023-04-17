@@ -15,6 +15,9 @@ function PropertyCard({property, addButton}){
         <div className="property-grid-item add hover-effect flex-column center-align gap-m padding-l" onClick={() => linkTo('/property/add')}>
             <img className="property-grid-item-plus" src={plusIcon}></img>
             <h2>Lisää Uusi Talo</h2>
+            <p>
+                Aloita lisäämällä talo
+            </p>
         </div>
     );
 

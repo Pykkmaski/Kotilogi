@@ -44,7 +44,7 @@ function Header(props){
     }
 
     return(
-        <header className="flex-row center-align space-between" id="primary-header">
+        <header className="flex-row center-align space-between bg-primary" id="primary-header">
             <div className="flex-row gap-m" id="header-logo-area">
                 <Link to="/">
                     <img src={logo}/>
