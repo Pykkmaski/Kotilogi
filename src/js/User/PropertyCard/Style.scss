@@ -1,11 +1,6 @@
 @import '../../../Config';
 
 .property-card{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem;
     background: none !important;
     
     img{

@@ -20,7 +20,7 @@ function Home(props){
                     <img src="./img/people1.jpg" id="main-image" className="rounded"/>
                 </div>
 
-                <div  id="news-content" className="page-element gap-l">
+                <div  id="news-content" className="page-element gap-l font-sze-m">
                     <div className="news-box rounded">
                         <h1>Mistä idea?</h1>
                         <p>

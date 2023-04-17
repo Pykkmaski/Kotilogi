@@ -17,6 +17,7 @@ function RepairHistory(props){
     const {user} = useContext(AppContext);
     const {id} = useParams();
 
+    //Fetch all events for this property.
     useEffect(() => {
         const req = new XMLHttpRequest();
         req.open('GET', `/property/${id}/events`, true);

@@ -29,20 +29,20 @@ function EventEntry({item}){
     }
 
     return (
-        <div className={`event-entry`}>
+        <div className="flex-column gap-m rounded event-entry hover-primary-light padding-m">
             <header>
                 <h2>
                     {item.name}
                 </h2>
 
-                <div className="event-body-controls">
+                <div className="event-body-controls fill gap-l flex-row right-justify">
                     <button onClick={deleteEntry}>POISTA</button>
                     <button onClick={editEntry}>MUOKKAA</button>
                 </div>
             </header>
 
-            <div className={"event-body"} >
-                <div className="event-body-data">
+            <div className="flex-row font-sze-m" >
+                <div className="flex-column">
                     <span>{item.description}</span>
                     <span><strong>{item.date !== '' ? item.date : item.created_at}</strong></span>
                 </div>

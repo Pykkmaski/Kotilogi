@@ -11,7 +11,7 @@ function Events({history, selectedYear}){
     });
 
     return (
-        <div id="timeline-events">
+        <div id="timeline-events" className="flex-column w-100 gap-m scroll-y">
             {
                 selectedYearsHistory.map(item => {
                     const component = (

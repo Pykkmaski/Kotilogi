@@ -151,7 +151,6 @@ footer{
         background: rgba(lighten($primary-color, 20), 0.2) !important;
         box-shadow: 2px 2px 2px 2px rgba(black, 0.2);
         backdrop-filter: blur(10px);
-        transform: translateX(-2px)
     }
 }
 
@@ -287,7 +286,7 @@ a{
     overflow-y: scroll;
 }
 
-.hover-primary-color-light{
+.hover-primary-light{
     &:hover{
         background: lighten($primary-color, 10);
     }
@@ -307,6 +306,10 @@ a{
     flex-flow: row;
 }
 
+.border{
+    border: 1px solid black;
+}
+
 .flex-column{
     display: flex;
     flex-flow: column;
@@ -321,9 +324,17 @@ a{
     align-items: center;
 }
 
+.right-align{
+    align-items: right;
+}
+
 /*Push all elements inside the container as far away from eachother as possible*/
 .space-between{
     justify-content: space-between;
+}
+
+.right-justify{
+    justify-content: right;
 }
 
 /*Round the corners of the element*/
@@ -362,6 +373,19 @@ a{
 .in-background{
     z-index: -1;
 }
+
+.font-sze-sm{
+    font-size: 1rem;
+}
+
+.font-sze-m{
+    font-size: 1.5rem;
+}
+
+.font-size-lg{
+    font-size: 2rem;
+}
+
 
 .feedback-message{
     animation-name: ErrorAnimation;
