@@ -23,6 +23,21 @@ h1, h2{
     margin: 0;
 }
 
+h1{
+    color: $primary-color;
+}
+
+h2, h3{
+    color: $secondary-color;
+}
+
+nav{
+    font-weight: bold;
+    
+    a{
+        font-weight: bold;
+    }
+}
 body, #root{
     margin: 0;
     padding: 0;
@@ -63,13 +78,7 @@ footer{
         padding: 0 10vw 0 10vw;
     }
     
-    h1{
-        color: $primary-color;
-    }
-
-    h2, h3{
-        color: $secondary-color;
-    }
+    
 }
 
 .primary-button{

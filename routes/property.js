@@ -4,13 +4,15 @@ const db = require('../dbconfig');
 const upload = require('../middleware/imageUpload');
 const path = require('path');
 
-router.get('/all/:username', checkAuth, async (req, res) => {
+router.get('/all', checkAuth, async (req, res) => {
     try{
-        const username = req.params.username;
-        const properties = await db('properties').where({owner: username});
+        const {user} = req;
+        const properties = await db('properties').where({owner: user.email});
         res.status(200).send(JSON.stringify(properties));
+
     }catch(err){
-        res.status(500).send(err.message);
+        console.log(err.message);
+        res.sendStatus(500);
     }
 });
 

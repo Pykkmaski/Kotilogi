@@ -26,8 +26,7 @@ function App(props){
 
     const [user, setUser] = useState(() => {
         const user = localStorage.getItem(userStorageName);
-        if(user) return JSON.parse(user);
-        return null;
+        return user || null;
     });
 
     return (

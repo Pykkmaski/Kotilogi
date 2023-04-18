@@ -3,29 +3,44 @@ import {Link} from 'react-router-dom';
 const homeIcon = './img/home-icon.png';
 const plusIcon = './img/plus.png';
 
+import 'bootstrap/scss/bootstrap.scss';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 function PropertyCard({property, addButton}){
 
-    function linkTo(address){
+    function onClickHandler(address){
         if(typeof(address) !== 'string') return;
         const dest = '/#' + address;
         location.assign(dest);
     }
 
     if(addButton) return (
-        <div className="property-grid-item add hover-effect flex-column center-align gap-m padding-l" onClick={() => linkTo('/property/add')}>
-            <img className="property-grid-item-plus" src={plusIcon}></img>
-            <h2>Lisää Uusi Talo</h2>
-            <p>
-                Aloita lisäämällä talo
-            </p>
-        </div>
+        <Card style={{width: '18rem', borderStyle: 'dashed'}}>
+            <Card.Img variant="top" src={plusIcon}/>
+            <Card.Body>
+                <Card.Title>Tervetuloa Kotilogiin!</Card.Title>
+                <Card.Text>
+                    Aloita lisäämällä uusi talo
+                </Card.Text>
+            </Card.Body>
+        </Card>
     );
 
     return (
-        <div className="property-grid-item hover-effect flex-column center-align gap-m padding-l" onClick={() => linkTo(`/property/${property.id}/info`)}>
-            <img src={homeIcon}/>
-            <h2>{property.address}</h2>
-        </div>
+        <Card style={{width: '18rem'}}>
+            <Card.Img variant="top" src="/"/>
+            <Card.Body>
+                <Card.Title>{property.address}</Card.Title>
+                <Card.Text>
+                    Puinen talo, rakennettu vuonna nonii-i.
+                    Ei tässä tekstissä mitään järkeä ole, 
+                    vähä vaan täytestä.
+                </Card.Text>
+
+                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/property/${property.id}/info`)}>Avaa</Button>
+            </Card.Body>
+        </Card>
     );
 }
 

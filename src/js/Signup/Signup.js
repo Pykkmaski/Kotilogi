@@ -1,60 +1,85 @@
 import { useState } from 'react';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
+import 'bootstrap/scss/bootstrap.scss';
 
 function Signup(props){
 
-    const [isRegistering, setIsRegistering] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    function submit(e){
+    function onSubmitHandler(e){
         e.preventDefault();
-        setIsRegistering(true);
+        setLoading(true);
+        setError(0);
 
-        const req = new XMLHttpRequest();
-        req.open('POST', '/signup', true);
-        req.setRequestHeader('Content-Type', 'application/json');
-        const data = {
+        axios.post('/signup', {
             first_name: e.target.first_name.value,
             last_name: e.target.last_name.value,
-            username: e.target.username.value,
+            email: e.target.email.value,
             password1: e.target.password1.value,
             password2: e.target.password2.value,
-        };
-
-        req.send(JSON.stringify(data));
-
-        req.onload = () => {
-            if(req.status === 200){
-                location.assign('/#/thankyou');
-            }
-            else{
-                setIsRegistering(false);
-                setError(req.response);
-            }
-        }
+        })
+        .then(res => {
+            location.assign('/#/thankyou');
+            setLoading(false);
+        })
+        .catch(err => {
+            setError(err.response.status);
+            setLoading(false);
+        });
     }
 
     return (
-        <div className="page" id="signup-page">
-            <form id="signup-form" onSubmit={submit}>
-                <h1>Luo Tili</h1>
-                <input name="first_name" placeholder="Etunimi"></input>
-                <input name="last_name" placeholder="Sukunimi"></input>
-                <input name="username" type="text" placeholder="Käyttäjätunnus" required={true}></input>
-                <input name="password1" type="password" placeholder="Salasana" required={true} autoComplete="new-password"></input>
-                <input name="password2" type="password" placeholder="Anna Salasana Uudelleen" required={true} autoComplete="new-password"></input>
-                <button type="submit">Luo Tili</button>
-            </form>
+        <div className="d-flex flex-column align-items-center">
+            <Form onSubmit={onSubmitHandler}>
+                <header>
+                    <h1>Luo Käyttäjätunnus</h1>
+                </header>
+                <Form.Group className="w-100">
+                    <Form.Label>Etunimi</Form.Label>
+                    <Form.Control type="text" required name="first_name"></Form.Control>
+                </Form.Group>
 
-            {
-                isRegistering ? <> <span className="feedback-message">Tiliä luodaan. Ole hyvä ja odota.</span> <LoadingSpinner width={'2rem'} height={'2rem'}/></>
-                :
-                error === 'Invalid Username' ? <span className="feedback-message error">Tili antamallasi käyttäjänimellä on jo olemassa!</span>
-                :
-                error === 'Invalid Password' ? <span className="feedback-message error">Antamasi salasanat eivät täsmää!</span>
-                :
-                null
-            }
+                <Form.Group className="w-100">
+                    <Form.Label>Sukunimi</Form.Label>
+                    <Form.Control type="text" required name="last_name"></Form.Control>
+                </Form.Group>
+
+                <Form.Group className="w-100">
+                    <Form.Label>Käyttäjänimi</Form.Label>
+                    <Form.Control type="text" required name="email"></Form.Control>
+                </Form.Group>
+
+                <Form.Group className="w-100">
+                    <Form.Label>Salasana</Form.Label>
+                    <Form.Control type="password" required name="password1" minLength={8} controlId="formBasicPassword"></Form.Control>
+                    <Form.Text>Salasanan tulee olla vähintään 8 merkkiä pitkä.</Form.Text>
+                </Form.Group>
+
+                <Form.Group className="w-100">
+                    <Form.Label>Anna Salasana Uudelleen</Form.Label>
+                    <Form.Control type="password" required name="password2"></Form.Control>
+                </Form.Group>
+
+                <Button variant="primary" size="lg" type="submit">Luo Tili</Button>
+
+                {
+                    loading ? <Spinner role="status" animation="grow"></Spinner> : null
+                }
+
+                <span className="text-danger">
+                    {
+                        error === 409 ? 
+                        "Annetut salasanat eivät täsmää!" :
+                        error === 406 ?
+                        "Tili annetulla käyttäjänimellä on jo olemassa!" :
+                        null
+                    }
+                </span>
+            </Form>
         </div>
     )
 }

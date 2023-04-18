@@ -6,24 +6,30 @@ require('dotenv').config();
 
 router.post('/', async (req, res) => {
     try{
-        const {username, password} = req.body;
-        const savedUser = await db.select('password', 'first_name', 'last_name').from('users').where({username}).first();
+        const {email, password} = req.body;
+        const savedUser = await db.select('password', 'email').from('users').where({email}).first();
 
-        if(!savedUser) throw new Error(`Invalid Username`);
+        if(!savedUser) throw 404;
 
-        if(!(await bcrypt.compare(password, savedUser.password))) throw new Error('Invalid Password');
-        const token = jwt.sign(savedUser, process.env.TOKEN_SECRET);
+        if(!(await bcrypt.compare(password, savedUser.password))) throw 401;
+
+        const token = jwt.sign({ email: savedUser.email }, process.env.TOKEN_SECRET);
         const payload = {
             token,
-            first_name: savedUser.first_name,
-            last_name: savedUser.last_name,
-            username,
+            email,
         }
         res.status(200).send(JSON.stringify(payload));
         
     }
     catch(err){
-        res.status(500).send(err.message);
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        }
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+        
     }
 
 });

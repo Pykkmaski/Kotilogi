@@ -1,65 +1,83 @@
 import { useContext, useState, useEffect } from 'react';
 import { userStorageName } from '../appconfig';
 import AppContext from '../Contexts/AppContext';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import './Style.scss';
+import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import 'bootstrap/scss/bootstrap.scss';
 
 function Login(props){
 
     const {user, setUser} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState(0);
 
-    function submit(e){
+    function onSubmitHandler(e){
+
         e.preventDefault();
         setLoading(true);
+        setError(0);
 
-        const req = new XMLHttpRequest();
-        req.open('POST', '/login', true);
-        req.setRequestHeader('Content-Type', 'application/json');
-
-        const data = {
-            username : e.target.username.value,
+        axios.post('/login', {
+            email: e.target.email.value,
             password: e.target.password.value,
-        };
-        
-        req.send(JSON.stringify(data));
-        req.onload = () => {
-            if(req.status !== 200){
-                setError(req.response);
-            }
-            else{
-                const payload = JSON.parse(req.response);
-                console.log(payload);
-
-                setUser(payload);
-                localStorage.setItem(userStorageName, JSON.stringify(payload));
-                location.assign('/#/user');
-            }
-
+        })
+        .then(res => {
+            const token = res.data.token;
+            console.log(token);
+            localStorage.setItem(userStorageName, token);
+            location.assign('/#/user');
             setLoading(false);
-        }
+        })
+        .catch(err => {
+            const status = err.response.status;
+            setError(status);
+            setLoading(false);
+        });
+
+        
+
     }
 
     return (
-        <div className="page" id="login-page">
-            <form onSubmit={submit}>
-                <h1>Kirjaudu Sisään</h1>
-                <input placeholder="Käyttäjätunnus" name="username"></input>
-                <input type="password" placeholder="Salasana" name="password" required={true}></input>
-                <button type="submit">Kirjaudu</button>
-            </form>
+        <div className="d-flex flex-column align-items-center">
+            <Form onSubmit={onSubmitHandler} className="mw-25">
+                <header>
+                    <h1>Kirjaudu Sisään</h1>
+                </header>
+                <Form.Group className="w-100">
+                    <Form.Label>Sähköpostiosoite</Form.Label>
+                    <Form.Control type="email" name="email"></Form.Control>
+                </Form.Group>
 
-            {
-                loading ? <><span className="feedback-message">Kirjaudutaan sisään...</span> <LoadingSpinner width="2rem" height="2rem"/></>
-                :
-                error === 'Invalid Username' ? <> <span className='feedback-message error'>Tiliä antamallasi käyttäjänimellä ei ole!</span></>
-                : 
-                error === 'Invalid Password' ? <><span className="feedback-message error">Antamasi salasana on virheellinen!</span></>
-                : 
-                null
-            }
+                <Form.Group className="w-100">
+                    <Form.Label>Salasana</Form.Label>
+                    <Form.Control type="password" name="password"></Form.Control>
+                </Form.Group>
+
+                <Button type="submit" variant="primary">Kirjaudu</Button>
+
+                {
+                    loading ? <Spinner animation="grow" role="status" variant="primary"></Spinner> : null
+                }
+
+                
+                <span className="text-danger">
+                {
+                    error === 404 ?
+                    'Tiliä annetulla käyttäjänimellä ei ole!' :
+                    error === 401 ?
+                    'Annettu salasana on virheellinen!' :
+                    null
+                }
+            </span>
+            </Form>
+
+            
         </div>
+      
+      
     );
 }
 

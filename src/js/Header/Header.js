@@ -1,9 +1,12 @@
-import './Style.scss';
 import {Link} from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../Contexts/AppContext';
 import UserToken from './UserToken/UserToken.js';
 import { serviceName, userStorageName } from '../appconfig';
+
+import NavBar from 'react-bootstrap/NavBar';
+import Nav from 'react-bootstrap/Nav';
+import './Style.scss';
 
 const padlockIcon = './img/padlock.png';
 const userIcon = './img/user.png';
@@ -44,52 +47,43 @@ function Header(props){
     }
 
     return(
-        <header className="flex-row center-align space-between bg-primary" id="primary-header">
+        <header className="d-flex flex-row align-items-center justify-content-between" id="primary-header">
             <div className="flex-row gap-m" id="header-logo-area">
                 <Link to="/">
                     <img src={logo}/>
                 </Link>
             </div>
-
-            <div className="flex-row space-between center-align" id="header-primary-links-area">
-                
-            </div>
             
-            <div className="flex-row center-align gap-m" id="header-links-area">
-                {
-                    !user ?
-                    <>
-                        <Link to="/pricing" className="button-link">
-                            <img src={euroIcon}></img>
-                            <span>HINNASTO</span>
-                        </Link>
+            <div className="d-flex flex-row justify-content-between">
+                <NavBar>
+                    {
+                        !user ?
+                        <Nav>
+                            <Nav.Link href="/#/pricing">
+                                Hinnasto
+                            </Nav.Link>
+    
+                            <Nav.Link href="/#/login">
+                                Kirjaudu
+                            </Nav.Link>
 
-                        <Link to="/login" className="button-link">
-                            <img src={padlockIcon}/>
-                            <span>KIRJAUDU</span>
-                        </Link>
-                        <Link to="/register" className="button-link">
-                            <img src={userIcon}/>
-                            <span>LUO KÄYTTÄJÄTILI</span>
-                        </Link>
-                    </> 
-                    :
-                    <>
-
-                        <Link to={`/user`} className="button-link">
-                            <img src={homeIcon}></img>
-                            <span>TALOT</span>
-                        </Link>
-
-                        <Link to="" onClick={logout} className="button-link">
-                            <img src={logoutIcon}></img>
-                            <span>KIRJAUDU ULOS</span>
-                        </Link>
-
-                        <UserToken first={user.first_name} last={user.last_name} onClick={toggleMenu}/>
-                    </>
-                  
-                }
+                            <Nav.Link href="/#/register">
+                                Rekisteröidy
+                            </Nav.Link>
+                        </Nav> 
+                        :
+                        <Nav>
+    
+                            <Nav.Link href={`/#/user`}>
+                                Talot
+                            </Nav.Link>
+    
+                            <Nav.Link href="" onClick={logout}>
+                                Kirjaudu Ulos
+                            </Nav.Link>
+                        </Nav>
+                    }
+                </NavBar>
             </div>
 
                   

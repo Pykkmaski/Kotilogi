@@ -6,6 +6,7 @@ import Loading from '../../Loading/Loading.js';
 import RepairHistory from '../../RepairHistory/RepairHistory';
 import Info from '../Info/Info';
 import { serverTimeoutMessage } from "../../appconfig";
+import axios from 'axios';
 
 const homeIcon = './img/house.png';
 const cogIcon = './img/settings.png';
@@ -27,29 +28,19 @@ function Manage(props){
     const {user} = useContext(AppContext);
 
     useEffect(() => {
-        const req = new XMLHttpRequest();
-        req.open('GET', `property/${id}`, true);
-        req.setRequestHeader('Auth', user.token);
 
-        req.send();
-
-        req.timeout = 4000;
-
-        req.ontimeout = () => {
-            setError(serverTimeoutMessage["fi"]);
-            console.log(error);
-        }
-
-        req.onload = () => {
-            if(req.status === 200){
-                const data = JSON.parse(req.response);
-                setProperty(data);
+        axios.get(`property/${id}`, {
+            headers : {
+                Authorization : `Bearer ${user.token}`
             }
-            else{
-                console.log(req.response, req.status)
-                setError(req.response);
-            }
-        }
+        })
+        .then(res => {
+            setProperty(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        
     }, []);
 
     function deleteProperty(){

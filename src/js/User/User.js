@@ -4,6 +4,8 @@ import AccessDenied from '../AccessDenied/AccessDenied';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from './PropertyCard/PropertyCard';
 import Loading from '../Loading/Loading';
+import axios from 'axios';
+
 import './Style.scss';
 
 function User(props){
@@ -14,22 +16,22 @@ function User(props){
 
     useEffect(() => {
         if(!user) return;
-        const req = new XMLHttpRequest();
-        req.open('GET', `/property/all/${user.username}`, true);
-        req.setRequestHeader('Auth', user.token);
-        req.send();
 
-        req.onload = () => {
-            if(req.status === 200){
-                const newProperties = JSON.parse(req.response);
-                setProperties(newProperties);
+        axios.get(`/property/all/`, {
+            headers: {
+                auth : `Bearer ${user}`,
             }
-            else{
-                console.log(req.response);
-            }
-
+        })
+        .then(res => {
+            setProperties(res.data);
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+        .finally(() => {
             setLoading(false);
-        }
+        })
+
     }, [user]);
 
     if(!user) return <AccessDenied/>;
@@ -53,7 +55,7 @@ function User(props){
                     {
                         properties.map(item => {
                             return(
-                                <PropertyCard property={item} key={item.id}/>
+                                <PropertyCard property={item}/>
                             )
                         })
                     }
