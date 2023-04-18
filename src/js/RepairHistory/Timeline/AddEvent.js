@@ -13,7 +13,7 @@ function AddEvent(props){
     }   
 
     return (
-        <div id="add-event" className="flex-row gap-l border center-align padding-m hover-primary-light rounded" onClick={onClickHandler}>
+        <div id="add-event" className="flex-row gap-l border-dashed center-align padding-m hover-primary-light rounded" onClick={onClickHandler}>
             <img src={plusIcon} width="75px"/>
             <h2>Lisää uusi tapahtuma</h2>
         </div>

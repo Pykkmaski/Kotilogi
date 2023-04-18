@@ -155,6 +155,26 @@ router.delete('/:property_id/', checkAuth, async (req, res) => {
     }
 });
 
+router.get('/:property_id/events/:event_id', checkAuth, async (req, res) => {
+    try{
+        const {property_id, event_id} = req.params;
+        const event = await db('property_events').where({property_id, id: event_id}).first();
+
+        if(!event) throw 404;
+        res.status(200).send(JSON.stringify(event));
+    }
+    catch(err){
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        }
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+
+    }
+});
+
 router.delete('/:property_id/events/:event_id', checkAuth, async (req, res) => {
     try{
         const {property_id, event_id} = req.params;

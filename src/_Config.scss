@@ -312,6 +312,10 @@ a{
     border: 1px solid black;
 }
 
+.border-dashed{
+    border: 2px dashed black;
+}
+
 .flex-column{
     display: flex;
     flex-flow: column;
@@ -391,6 +395,7 @@ a{
 .bg-primary{
     background: lighten($primary-color, 30);
 }
+
 
 
 .feedback-message{

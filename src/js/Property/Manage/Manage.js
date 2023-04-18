@@ -86,34 +86,14 @@ function Manage(props){
                     <span>Profiili</span>
                 </Link>
 
-                <Link  to={`/property/${id}/virtualhouse`} className="button-link">
-                    <img src={homeIcon}></img>
-                    <span>Vituaalitalo</span>
-                </Link>
-
                 <Link  to={`/property/${id}/repairs`} className="button-link">
                     <img src={historyIcon}></img>
                     <span>Korjaushistoria</span>
                 </Link>
 
-                <Link to={`/property/${id}/energyusage`} className="button-link">
-                    <img src={boltIcon}></img>
-                    <span>Kulutus</span>    
-                </Link>
-
-                <Link  to={`/property/${id}/owners`} className="button-link">
-                    <img src={userIcon}></img>
-                    <span>Omistus</span>
-                </Link>
-
                 <Link to={`/property/${id}/pictures`} className="button-link">
                     <img src={imageIcon}></img>
                     <span>Kuvat</span>
-                </Link>
-
-                <Link  to={`/property/${id}/settings`} className="button-link">   
-                    <img src={cogIcon}></img> 
-                    <span>Asetukset</span>
                 </Link>
 
                 <Link onClick={deleteProperty} className="button-link">

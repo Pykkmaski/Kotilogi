@@ -46,7 +46,7 @@ function Pricing(props){
                     <header className="card-header">
                         <h1>Pro</h1>
                         <h2>
-                            <span className="big-text">9,90</span>
+                            <span className="big-text">5,99</span>
                             <span className="small-text">€/kk</span>
                         </h2>
                     </header>

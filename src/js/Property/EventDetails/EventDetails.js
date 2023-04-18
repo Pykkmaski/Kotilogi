@@ -19,7 +19,7 @@ function EventDetails(){
         req.timeout = 10000;
 
         req.ontimeout = () => {
-            console.log()
+            console.log('Yhteys aikakatkaistiin');
         }
 
         req.onload = () => {
@@ -30,12 +30,13 @@ function EventDetails(){
                 setError(req.status);
             }
         }
-    })
+    }, []);
+
     if (!event) return <Loading message="Ladataan tapahtumaa..."/>
 
     return (
         <div id="event-details" className="page">
-            <div className="grid-item flex-column gap-m padding-m center-align">
+            <div className="grid-item flex-column gap-m padding-m center-align bg-primary">
                 <h1>{event.name}</h1>
             </div>
 
