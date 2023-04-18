@@ -117,7 +117,7 @@ router.post('/', checkAuth, async (req, res) => {
     }
 });
 
-router.post('/:id/events/add', checkAuth, async (req, res) => {
+router.post('/:id/events', checkAuth, async (req, res) => {
     try{
         const id = req.params.id;
         const {name, description, date} = req.body;
@@ -143,7 +143,7 @@ router.post('/:id/events/add', checkAuth, async (req, res) => {
     }
 });
 
-router.delete('/:property_id/', checkAuth, async (req, res) => {
+router.delete('/:property_id', checkAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         await db('properties').where({id: property_id}).del();
