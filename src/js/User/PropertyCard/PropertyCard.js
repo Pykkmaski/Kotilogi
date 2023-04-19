@@ -17,12 +17,13 @@ function PropertyCard({property, addButton}){
 
     if(addButton) return (
         <Card style={{width: '18rem', borderStyle: 'dashed'}}>
-            <Card.Img variant="top" src={plusIcon}/>
+            <Card.Img variant="top" src={'/'}/>
             <Card.Body>
                 <Card.Title>Tervetuloa Kotilogiin!</Card.Title>
                 <Card.Text>
                     Aloita lisäämällä uusi talo
                 </Card.Text>
+                <Button variant="primary">Lisää Uusi</Button>
             </Card.Body>
         </Card>
     );
@@ -38,7 +39,7 @@ function PropertyCard({property, addButton}){
                     vähä vaan täytestä.
                 </Card.Text>
 
-                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/property/${property.id}/info`)}>Avaa</Button>
+                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/property/${property.id}`)}>Avaa</Button>
             </Card.Body>
         </Card>
     );

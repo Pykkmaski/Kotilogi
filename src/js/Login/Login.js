@@ -25,19 +25,16 @@ function Login(props){
         })
         .then(res => {
             const token = res.data.token;
-            console.log(token);
-            localStorage.setItem(userStorageName, token);
+            setUser(token);
+            localStorage.setItem(userStorageName, token); //Authorization header not set until page refresh. Figure out something elegant.
             location.assign('/#/user');
-            setLoading(false);
         })
         .catch(err => {
-            const status = err.response.status;
-            setError(status);
+            setError(err.response.status);
+        })
+        .finally(() => {
             setLoading(false);
         });
-
-        
-
     }
 
     return (

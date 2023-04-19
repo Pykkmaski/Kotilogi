@@ -1,0 +1,125 @@
+#property-page{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    padding: 0 10vw 0 10vw;
+
+    #property-page-header{
+        display: flex !important;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 5rem 1rem 5rem 1rem;
+        border-bottom: 1px solid gray;
+        gap: 2rem;
+
+        #property-main-image{
+            width: 200px;
+        }
+
+        #property-information-area{
+            display: flex;
+            flex-flow: column;
+        }
+    }
+
+    #events-area{
+        display: flex;
+        flex-flow: column;
+        padding: 1rem;
+        padding-bottom: 5rem;
+
+        #events-area-header{
+            margin-bottom: 2rem;
+        }
+
+        #events-area-body{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+
+            .event{
+                background: gray;
+                border-radius: 5px;
+                padding: 0.25rem;
+
+                height: 50px;
+                width: 50px;
+            }
+        }
+
+        .event-card{
+            width: 18rem;
+
+            .event-card-text{
+                height: 100px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .card-button-group{
+                display: flex;
+                flex-flow: row;
+                gap: 1rem;
+            }
+        }
+       
+    }
+
+    #new-image-card, #new-pdf-card{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #images-area{
+        display: flex;
+        flex-flow: row;
+        gap: 1rem;
+
+        .image-card{
+            border-radius: 5px;
+            border: 1px solid gray;
+        }
+    }
+
+    #pdf-area{
+        display: flex;
+        flex-flow: row;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .new-event-card{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: 1rem;
+
+        border: 1px dashed gray;
+        width: 18rem;
+        cursor: pointer;
+
+        &:hover{
+            background: rgba(lightblue, 0.2);
+        }
+    }
+}
+
+.icon-container{
+    background: green;
+    margin-bottom: 2rem;
+    clip-path: circle;
+    padding: 1rem;
+    
+    img{
+        filter: invert(1);
+        width: 50px;
+    }
+}

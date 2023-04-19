@@ -3,7 +3,7 @@ import {useParams, Link} from 'react-router-dom';
 import {useState, useEffect, useContext} from 'react';
 import AppContext from '../../Contexts/AppContext';
 import Loading from '../../Loading/Loading.js';
-import RepairHistory from '../../RepairHistory/RepairHistory';
+import Events from '../../Events/Events';
 import Info from '../Info/Info';
 import { serverTimeoutMessage } from "../../appconfig";
 import axios from 'axios';
@@ -29,16 +29,12 @@ function Manage(props){
 
     useEffect(() => {
 
-        axios.get(`property/${id}`, {
-            headers : {
-                Authorization : `Bearer ${user.token}`
-            }
-        })
+        axios.get(`property/${id}`)
         .then(res => {
             setProperty(res.data);
         })
         .catch(err => {
-            console.log(err);
+            console.log(err.response.status);
         });
         
     }, []);
@@ -67,7 +63,7 @@ function Manage(props){
 
     return (
         <div className="page management-page fill" id="property-management-page">
-            <div className="grid-item-left bg-primary padding-sm fill">
+            <div className="grid-item-left bg-white padding-sm fill">
                 <header>
                     <h1>{property.address}</h1>
                 </header>
@@ -128,7 +124,7 @@ function Manage(props){
                     <Info property={property}/>
                     :
                     section === 'repairs' ? 
-                    <RepairHistory/>
+                    <Events/>
                     :
                     null
                 }

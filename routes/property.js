@@ -33,12 +33,17 @@ router.get('/:id/events', checkAuth, async (req, res) => {
         const id = req.params.id;
         const history = await db('property_events').where({property_id: id}).orderBy('date', 'asc');
         if(!history.length) throw 404;
-        if(history[0].owner !== req.authUser.username) throw 403; //This will not work yet, as there is no owner field for property events entries.
+        if(history[0].owner !== req.user.username) throw 403; //This will not work yet, as there is no owner field for property events entries.
         res.status(200).send(JSON.stringify(history));
     }
     catch(err){
-        console.log(err);
-        res.sendStatus(err);
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        }
+        else{
+            console.log(err);
+            res.sendStatus(500);
+        }
     }
 });
 
@@ -61,12 +66,48 @@ router.get('/events/:id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:id/image/main', async (req, res) => {
+router.get('/images/:id/main', async (req, res) => {
     const {id} = req.params;
 
     try{
         const filename = await db.select('filename').from('image_map').where({property_id: id}).first() // Change this to actually get the image labeled as property main.
         console.log(filename, id);
+        if(!filename) throw 404;
+        res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
+    }
+    catch(err){
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        }
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+    }
+});
+
+router.get('/images/:property_id/events/:event_id', async (req, res) => {
+    try{
+        const {property_id, event_id} = req.params;
+        const filename = await db.select('filename').from('image_map').where({property_id, event_id}).first();
+        if(!filename) throw 404;
+        res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
+    }
+    catch(err){
+        if(typeof(err) === 'number'){
+            res.sendStatus(err);
+        }
+        else{
+            console.log(err.message);
+            res.sendStatus(500);
+        }
+    }
+});
+
+router.get('/images/:property_id/:image_id', async (req, res) => {
+    try{
+        const {property_id, image_id} = req.params;
+        const filename = await db.select('filename').from('image_map').where({property_id, id: image_id}).first();
         if(!filename) throw 404;
         res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
     }
@@ -123,7 +164,8 @@ router.post('/:id/events', checkAuth, async (req, res) => {
     try{
         const id = req.params.id;
         const {name, description, date} = req.body;
-
+        console.log(name, description, date);
+        
         const property = await db('properties').where({id}).first();
         if(!property) throw 403;
 

@@ -4,7 +4,7 @@ require('dotenv').config();
 async function checkAuth(req, res, next){
 
     try{    
-        const token = req.headers.auth.split(' ')[1]; //Format of token: Bearer TOKEN
+        const token = req.headers.authorization.split(' ')[1]; //Format of token: Bearer TOKEN
         jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
             if(err){
                 throw new Error(err);

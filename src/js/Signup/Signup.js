@@ -24,10 +24,11 @@ function Signup(props){
         })
         .then(res => {
             location.assign('/#/thankyou');
-            setLoading(false);
         })
         .catch(err => {
             setError(err.response.status);
+        })
+        .finally(() => {
             setLoading(false);
         });
     }

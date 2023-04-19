@@ -15,7 +15,7 @@ function Info({property}){
 
     //Get property main image
     useEffect(() => {   
-
+        
         const req = new XMLHttpRequest();
         req.open('GET', `/property/${id}/image/main`, true);
         req.setRequestHeader('Auth', user.token);

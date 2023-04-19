@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import AccessDenied from '../AccessDenied/AccessDenied';
+import Unauthorized from '../Unauthorized/Unauthorized';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from './PropertyCard/PropertyCard';
 import Loading from '../Loading/Loading';
@@ -17,11 +17,7 @@ function User(props){
     useEffect(() => {
         if(!user) return;
 
-        axios.get(`/property/all/`, {
-            headers: {
-                auth : `Bearer ${user}`,
-            }
-        })
+        axios.get(`/property/all/`)
         .then(res => {
             setProperties(res.data);
         })
@@ -34,7 +30,7 @@ function User(props){
 
     }, [user]);
 
-    if(!user) return <AccessDenied/>;
+    if(!user) return <Unauthorized/>;
     if(loading) return <Loading message="Ladataan Taloja..."/>
 
     return (

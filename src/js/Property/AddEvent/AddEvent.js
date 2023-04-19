@@ -1,54 +1,61 @@
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import AppContext from "../../Contexts/AppContext";
+import 'bootstrap/scss/bootstrap.scss';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 function AddEvent(props){
 
     const {user} = useContext(AppContext);
     const {id} = useParams();
 
-    function submit(e){
+    function onSubmitHandler(e){
         e.preventDefault();
-        const req = new XMLHttpRequest();
-        req.open('POST', `/property/${id}/events/add`, true);
-        req.setRequestHeader('Content-Type', 'application/json');
-        req.setRequestHeader('Auth', user.token);
+        axios.post(`/property/${id}/events`, {
+            body : {
+                name: e.target.name.value,
+                description: e.target.description.value,
+                date: e.target.date.value,
 
-        const data = {
-            name : e.target.name.value,
-            description : e.target.description.value,
-            date: e.target.date.value,
-            property_id: id,
-        }
-
-        req.send(JSON.stringify(data));
-
-        req.onload = () =>{
-            if(req.status === 200){
-               location.assign(`/#/property/${id}/repairs`);
             }
-            else{
-                console.log(req.response);
-            }
-        }
+        }).then(res => {
+            window.location.replace(`/#/property/${id}/repairs`); 
+        })
+        .catch(err => {
+            console.log(err.response.status);
+        });
     }
 
     function cancel(){
-        location.assign(`/#/property/${id}/repairs`)
+        
     }
     return (
-        <div className="page" id="add-event-page">
-            <form onSubmit={submit}>
-                <h1>Lisää uusi tapahtuma</h1>
-                <input name="name" type="text" placeholder="Otsikko" required/>
-                <input name="date" type="date" required/>
-                <textarea name="description" placeholder="Kuvaus..."></textarea>
-                <div className="button-group">
-                    <button onClick={cancel}>Peruuta</button>
-                    <button className="submit-button" type="submit">Lisää</button>
-                </div>
+        <div className="d-flex flex-column align-items-center">
+
+            <Form onSubmit={onSubmitHandler}>
+                <h1>Lisää Uusi Tapahtuma</h1>
+                <Form.Group className="w-100">
+                    <Form.Label>Otsikko</Form.Label>
+                    <Form.Control name="name" required></Form.Control>
+                </Form.Group>
+
+                <Form.Group className="w-100">
+                    <Form.Label>Päivämäärä</Form.Label>
+                    <Form.Control name="date" type="date" required></Form.Control>
+                </Form.Group>
                 
-            </form>
+                <Form.Group className="w-100">
+                    <Form.Label>Kuvaus</Form.Label>
+                    <Form.Control as="textarea" name="description"></Form.Control>
+                </Form.Group>
+
+                <Form.Group className="d-flex flex-row justify-content-between w-100">
+                    <Button variant="secondary" onClick={cancel}>Peruuta</Button>
+                    <Button type="submit" variant="primary">Lisää</Button>
+                </Form.Group>
+            </Form>
         </div>
     )
 }

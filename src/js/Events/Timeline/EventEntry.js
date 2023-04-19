@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import AppContext from "../../Contexts/AppContext";
+import axios from "axios";
 
 function EventEntry({item, altColor}){
 
@@ -9,19 +10,12 @@ function EventEntry({item, altColor}){
         const c = confirm(`Oletko varma että haluat poistaa tapahtuman?`);
         if(!c) return;
         
-        const req = new XMLHttpRequest();
-        req.open('DELETE', `/property/${item.property_id}/events/${item.id}`, true);
-        req.setRequestHeader('Auth', user.token);
-        req.send();
-
-        req.onload = () => {
-            if(req.status === 200){
-                location.reload();
-            }
-            else{
-                console.log(req.status);
-            }
-        }
+        axios.delete(`/property/${item.property_id}/events/${item.id}`).then(res => {
+            location.reload();
+        })
+        .catch(err => {
+            console.log(err.response.status);
+        });
     }
 
     function editEntry(){

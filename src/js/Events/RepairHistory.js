@@ -4,12 +4,13 @@ import './Style.scss';
 import AppContext from '../Contexts/AppContext';
 import Events from './Timeline/Events';
 import Loading from '../Loading/Loading';
+import axios from 'axios';
+
 const historyIcon = './img/history.png';
 
 function RepairHistory(props){
 
     const [events, setEvents] = useState([]);
-    const [selectedYear, setSelectedYear] = useState('');
     const [error, setError] = useState(200);
     const [loading, setLoading] = useState(true);
     const {user} = useContext(AppContext);
@@ -17,26 +18,20 @@ function RepairHistory(props){
 
     //Fetch all events for this property.
     useEffect(() => {
-        const req = new XMLHttpRequest();
-        req.open('GET', `/property/${id}/events`, true);
-        req.setRequestHeader('Auth', user.token);
-        req.send();
 
-        req.onload = () => {
-            if(req.status === 200){
-                const data = JSON.parse(req.response);
-                setEvents([...data]);
+        setLoading(true);
+        setError(0);
 
-                const year = data[0].date.split('-')[0];
-                setSelectedYear(year);
-            }
-            else{
-                setError(req.status);
-            }
-
+        axios.get(`/property/${id}/events`)
+        .then(res => {
+            setEvents([...res.data]);
+        })
+        .catch(err => {
+            setError(err.response.status);
+        })
+        .finally(() => {
             setLoading(false);
-        }
-
+        });
     }, []);
 
     if(loading) return <Loading message="Ladataan tapahtumia..."/>
