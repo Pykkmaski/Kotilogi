@@ -135,18 +135,6 @@ function Property(props){
                 </div>
             </div>
 
-            
-
-            <div id="pdf-area">
-                <div id="new-pdf-card">
-                    <div className="icon-container">
-                        <img src={plusIcon}></img>
-                        <span>Lisää PDF</span>
-                    </div>
-                </div>
-
-            </div>
-
             <Modal show={showDeleteModal} backdrop="static" centered onHide={() => setShowDeleteModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Poista Tapahtuma</Modal.Title>

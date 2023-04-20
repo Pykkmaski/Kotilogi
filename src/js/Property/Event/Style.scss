@@ -16,10 +16,8 @@
     #event-page-header{
         display: flex;
         flex-flow: row;
-        justify-content: center;
         width: 100%;
         gap: 1rem;
-        margin-top: 1rem;
 
         h1{
             margin-bottom: 1rem;
@@ -33,6 +31,10 @@
             display: flex;
             flex-flow: column;
             height: 100%;
+        }
+
+        #event-header-controls{
+            
         }
     }
 
