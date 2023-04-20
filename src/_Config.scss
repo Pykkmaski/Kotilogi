@@ -356,6 +356,13 @@ a{
     justify-content: right;
 }
 
+.text-ellipsis{
+    max-width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /*Round the corners of the element*/
 .rounded{
     border-radius: 10px;

@@ -9,7 +9,7 @@ const plusIcon = './img/plus.png';
 
 import './Style.scss';
 
-function Images(props){
+function Images({loadEvent}){
 
     const {property_id, event_id} = useParams();
     const [imageIds, setImageIds] = useState([]);
@@ -74,6 +74,15 @@ function Images(props){
         })
     }
 
+    function setSelectedImageAsMain(){
+        axios.post(`/images/property/${property_id}/events/${event_id}/${selectedImageId}/main`).then(res => {
+            setShowSelectedImageModal(false);
+            //Reload entire event for changes to become visible
+            loadEvent();
+        })
+        .catch(err => console.log(err.message));
+    }
+
     useEffect(() => {
         loadImageIds();
     }, []);
@@ -131,7 +140,8 @@ function Images(props){
                     <img className="big-image" src={`/images/property/${property_id}/${selectedImageId}`}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => setShowSelectedImageModal(false)}>Sulje</Button>
+                    <Button variant="primary" onClick={() => setSelectedImageAsMain()}>Aseta Pääkuvaksi</Button>
+                    <Button variant="secondary" onClick={() => setShowSelectedImageModal(false)}>Sulje</Button>
                     <Button variant="danger" onClick={() => deleteSelectedImage()}>Poista</Button>
                 </Modal.Footer>
             </Modal>

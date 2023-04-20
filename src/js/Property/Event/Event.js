@@ -51,20 +51,8 @@ function Event(propes){
             </header>
             
             <div id="event-page-sections-container">
-                <header id="event-sections-header" className="w-100 d-flex flex-row justify-content-center">
-                    <nav className="d-felx flex-row justify-content-center w-100 gap-3">
-                        <a onClick={() => setCurrentSection('images')}>Kuvat</a>
-                        <a onClick={() => setCurrentSection('pdf')}>PDF</a>
-                    </nav>
-                </header>
-
-                {
-                    currentSection === 'images' ? 
-                    <Images/> :
-                    currentSection === 'pdf' ? 
-                    <PDF/> :
-                    null
-                }
+                <Images loadEvent/>
+                <PDF/>
             </div>
         </div>
     )

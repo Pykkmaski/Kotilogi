@@ -45,6 +45,21 @@ router.get('/property/:property_id/:image_id', async (req, res) => {
     }
 });
 
+router.post('/property/:property_id/events/:event_id/:image_id/main', async (req, res) => {
+    ///Sets specified image as the main image
+    try{
+        const {property_id, image_id, event_id} = req.params;
+        //Remove main status of all images for the specified event first
+        await db('file_map').where({property_id, event_id}).update({event_main: false});
+        await db.select('event_main').from('file_map').where({id: image_id}).update({event_main: true});
+        res.sendStatus(200);
+    }
+    catch(err){
+        console.log(err.message);
+        res.sendStatus(500);
+    }
+});
+
 router.delete('/property/:property_id/:image_id', async (req, res) => {
     try{
         const {property_id, image_id} = req.params;
@@ -64,7 +79,7 @@ router.get('/property/:property_id/events/:event_id/main', async (req, res) => {
     ///Fetches the main image for a given event.
     try{
         const {property_id, event_id} = req.params;
-        const entry = await db.select('filename').from('file_map').where({property_id, event_id}).first();
+        const entry = await db.select('filename').from('file_map').where({property_id, event_id, event_main: true}).first();
         if(!entry) throw 404;
 
         res.status(200).sendFile(path.join(__dirname, `../uploads/${entry.filename}`));

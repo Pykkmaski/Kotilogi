@@ -120,7 +120,7 @@ function Property(props){
                                 <Card className="event-card">
                                     <Card.Img src={`/images/property/${ev.property_id}/events/${ev.id}/main`} variant="top"></Card.Img>
                                     <Card.Body>
-                                    <Card.Title>{ev.name}</Card.Title>
+                                    <Card.Title className="text-ellipsis">{ev.name}</Card.Title>
                                     <Card.Text className="event-card-text">{ev.description}</Card.Text>
 
                                     <div className="card-button-group">
