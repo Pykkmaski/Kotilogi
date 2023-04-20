@@ -1,10 +1,9 @@
 const router = require('express').Router();
 const checkAuth = require('../middleware/checkAuth');
 const db = require('../dbconfig');
-const upload = require('../middleware/imageUpload');
-const path = require('path');
 
 router.get('/all', checkAuth, async (req, res) => {
+    ///Returns all properties belonging implicitly to the client making the request.
     try{
         const {user} = req;
         const properties = await db('properties').where({owner: user.email});
@@ -16,11 +15,12 @@ router.get('/all', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:id', checkAuth, async (req, res) => {
+router.get('/:property_id', checkAuth, async (req, res) => {
+    ///Returns the property with the given ID.
     try{
-        const id = req.params.id;
-        const property = await db('properties').where({id}).first();
-        if(!property) throw new Error(`Property with ID ${id} does not exist!`);
+        const {property_id} = req.params;
+        const property = await db('properties').where({id: property_id}).first();
+        if(!property) throw new Error(`Property with ID ${property_id} does not exist!`);
         res.status(200).send(JSON.stringify(property));
     }
     catch(err){
@@ -28,12 +28,15 @@ router.get('/:id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:id/events', checkAuth, async (req, res) => {
+router.get('/:property_id/events', checkAuth, async (req, res) => {
+    ///Returns all events for given property.
     try{
-        const id = req.params.id;
-        const history = await db('property_events').where({property_id: id}).orderBy('date', 'asc');
+        const {property_id} = req.params;
+        const history = await db('property_events').where({property_id}).orderBy('date', 'asc');
         if(!history.length) throw 404;
+
         if(history[0].owner !== req.user.username) throw 403; //This will not work yet, as there is no owner field for property events entries.
+
         res.status(200).send(JSON.stringify(history));
     }
     catch(err){
@@ -47,35 +50,16 @@ router.get('/:id/events', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/events/:id', checkAuth, async (req, res) => {
+router.get('/:property_id/events/:event_id', checkAuth, async (req, res) => {
+    ///Returns event with specified id.
     try{
-        const id = req.params.id;
-        console.log(id);
-        const event = await db('property_events').where({id}).first();
+        const {property_id, event_id} = req.params;
+        const event = await db('property_events').where({property_id, id: event_id}).first();
         if(!event) throw 404;
+
         res.status(200).send(JSON.stringify(event));
     }
     catch(err){
-        if(typeof(err) !== 'number'){
-            console.log(err.message);
-            res.sendStatus(500);
-            return;
-        }
-
-        res.sendStatus(err);
-    }
-});
-
-router.get('/images/:id/main', async (req, res) => {
-    const {id} = req.params;
-
-    try{
-        const filename = await db.select('filename').from('image_map').where({property_id: id}).first() // Change this to actually get the image labeled as property main.
-        console.log(filename, id);
-        if(!filename) throw 404;
-        res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
-    }
-    catch(err){
         if(typeof(err) === 'number'){
             res.sendStatus(err);
         }
@@ -84,49 +68,14 @@ router.get('/images/:id/main', async (req, res) => {
             res.sendStatus(500);
         }
     }
-});
+})
 
-router.get('/images/:property_id/events/:event_id', async (req, res) => {
+router.put('/:property_id/events/:event_id', checkAuth, async (req, res) => {
+    ///Updates event with given id belonging to property with given id.
     try{
         const {property_id, event_id} = req.params;
-        const filename = await db.select('filename').from('image_map').where({property_id, event_id}).first();
-        if(!filename) throw 404;
-        res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
-    }
-    catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
-    }
-});
-
-router.get('/images/:property_id/:image_id', async (req, res) => {
-    try{
-        const {property_id, image_id} = req.params;
-        const filename = await db.select('filename').from('image_map').where({property_id, id: image_id}).first();
-        if(!filename) throw 404;
-        res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
-    }
-    catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
-    }
-});
-
-router.put('/events/:id', checkAuth, async (req, res) => {
-    try{
-        const {id} = req.params;
         const data = req.body;
-        await db('property_events').where({id}).update(data);
+        await db('property_events').where({property_id, id: event_id}).update(data);
         res.sendStatus(200);
     }
     catch(err){
@@ -140,16 +89,8 @@ router.put('/events/:id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:id/energy', checkAuth, async (req, res) => {
-    try{
-        throw new Error('Under construction');
-    }
-    catch(err){
-        res.status(500).send(err.message);
-    }
-});
-
 router.post('/', checkAuth, async (req, res) => {
+    ///Inserts new property data
     try{
         const data = req.body;
         await db('properties').insert(data);
@@ -160,17 +101,17 @@ router.post('/', checkAuth, async (req, res) => {
     }
 });
 
-router.post('/:id/events', checkAuth, async (req, res) => {
+router.post('/:property_id/events', checkAuth, async (req, res) => {
+    ///Insert new event data for given property
     try{
-        const id = req.params.id;
+        const {property_id} = req.params;
         const {name, description, date} = req.body;
-        console.log(name, description, date);
         
-        const property = await db('properties').where({id}).first();
+        const property = await db('properties').where({property_id}).first();
         if(!property) throw 403;
 
         await db('property_events').insert({
-            name, description, date, property_id: id
+            name, description, date, property_id
         });
 
         res.sendStatus(200);
@@ -188,6 +129,7 @@ router.post('/:id/events', checkAuth, async (req, res) => {
 });
 
 router.delete('/:property_id', checkAuth, async (req, res) => {
+    ///Deletes the property with given ID.
     try{
         const {property_id} = req.params;
         await db('properties').where({id: property_id}).del();
@@ -199,27 +141,8 @@ router.delete('/:property_id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:property_id/events/:event_id', checkAuth, async (req, res) => {
-    try{
-        const {property_id, event_id} = req.params;
-        const event = await db('property_events').where({property_id, id: event_id}).first();
-
-        if(!event) throw 404;
-        res.status(200).send(JSON.stringify(event));
-    }
-    catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
-
-    }
-});
-
 router.delete('/:property_id/events/:event_id', checkAuth, async (req, res) => {
+    ///Deletes event with given id belonging to specified property.
     try{
         const {property_id, event_id} = req.params;
         await db('property_events').where({property_id, id : event_id}).del();
@@ -235,10 +158,6 @@ router.delete('/:property_id/events/:event_id', checkAuth, async (req, res) => {
         }
     }
 });
-
-router.post('/:id/upload', upload.single('image'), async (req, res) => {
-    res.status(200).send('Image uploaded');
-})
 
 
 module.exports = router;

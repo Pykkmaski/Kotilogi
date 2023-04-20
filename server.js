@@ -17,11 +17,14 @@ app.use('/signup', signupRouter);
 const propertyRouter = require('./routes/property.js');
 app.use('/property', propertyRouter);
 
+const propertyImageRouter = require('./routes/propertyImage.js');
+app.use('/images', propertyImageRouter);
+
+const propertyFileRouter = require('./routes/propertyFile.js');
+app.use('/files', propertyFileRouter);
+
 const dataRouter = require('./routes/data.js');
 app.use('/data', dataRouter);
-
-const housesRouter = require('./routes/houses.js');
-app.use('/houses', housesRouter);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));

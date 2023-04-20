@@ -9,15 +9,18 @@ const fileStorageEngine = multer.diskStorage({
 
     filename: async (req, file, cb) => {
         const fn = Date.now() + '--' + file.originalname;
-        const {id} = req.params;
+        const {property_id, event_id} = req.params;
 
         try{
-            await db('image_map').insert({
+            console.log(file.mimetype);
+
+            await db('file_map').insert({
                 filename: fn,
-                property_id: id,
-                event_id : null,
+                property_id,
+                event_id,
                 property_main: false,
                 event_main: false,
+                mime_type: file.mimetype,
             });
         }
         catch(err){
@@ -29,6 +32,15 @@ const fileStorageEngine = multer.diskStorage({
         
     }
 });
+
+const fileFilterEngine = (req, file, cb) => {
+    if(file.mimeType === 'image/jpeg' || file.mimeType === 'application/pdf'){
+        cb(null, true);
+    }
+    else{
+        cb(null, false);
+    }
+}
 
 const upload = multer({storage: fileStorageEngine});
 

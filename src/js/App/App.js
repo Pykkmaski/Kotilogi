@@ -6,18 +6,14 @@ import Unknown from '../Unknown/Unknown.js';
 import RegisterThankYou from '../RegisterThankYou/RegisterThankYou';
 import AppContext from '../Contexts/AppContext';
 import User from '../User/User';
+import Event from '../Property/Event/Event';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import './Style.scss';
 import { useState, useEffect } from 'react';
-import Add from '../Property/Add/Add.js';
 import Property from '../Property/Property.js';
 import Energy from '../Energy/Energy';
-import Houses from '../Houses/Houses';
-import AddEvent from '../Property/AddEvent/AddEvent';
-import EditEvent from '../Property/EditEvent/EditEvent';
 import {serviceName} from '../appconfig';
 import Pricing from '../Pricing/Pricing';
-import EventDetails from '../Property/EventDetails/EventDetails';
 import axios from 'axios';
 
 const {userStorageName} = require('../appconfig');
@@ -37,20 +33,14 @@ function App(props){
 
                 <AppContext.Provider value={{user, setUser}}>
                 <Header/>
-
                     <Routes>
                         <Route exact path="/" element={<Home/>}></Route>
                         <Route exact path="/login" element={<Login/>}></Route>
                         <Route exact path="/register" element={<Signup/>}></Route>
                         <Route exact path="/user/" element={<User/>}></Route>
                         <Route exact path="/pricing" element={<Pricing/>}></Route>
-                        <Route exact path="/houses/:id" element={<Houses/>}></Route>
                         <Route exact path="/property/:id/" element={<Property/>}></Route>
-                        <Route exact path="/property/:id/energy/" element={<Energy/>}></Route>
-                        <Route exact path="/property/add" element={<Add/>}></Route>
-                        <Route exact path="/property/:id/events/add" element={<AddEvent/>}></Route>
-                        <Route exact path="/property/:property_id/events/:event_id/edit" element={<EditEvent/>}></Route>
-                        <Route exact path="/property/:property_id/events/:event_id/" element={<EventDetails/>}></Route>
+                        <Route exact path="/property/:property_id/events/:event_id" element={<Event/>}></Route>
                         <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
                         <Route exact path="*" element={<Unknown/>}></Route>
                     </Routes>

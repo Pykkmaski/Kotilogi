@@ -115,7 +115,7 @@
 .icon-container{
     background: green;
     margin-bottom: 2rem;
-    clip-path: circle;
+    clip-path: circle();
     padding: 1rem;
     
     img{

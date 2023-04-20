@@ -1,0 +1,102 @@
+#event-page{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 10vw 0 10vw;
+
+    #back-link-container{
+        width: 100%;
+
+        a{
+            font-size: 1.5rem;
+        }
+    }
+
+    #event-page-header{
+        display: flex;
+        flex-flow: row;
+        width: 100%;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        h1{
+            margin-bottom: 2rem;
+        }
+
+        #event-main-image{
+            width: 300px;
+        }
+
+        #event-page-header-body{
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+        }
+    }
+
+    #event-page-images{
+        display: flex;
+        flex-flow: column;
+        gap: 1rem;
+        width: 100%;
+        padding: 1rem;
+        border-bottom: 1px solid gray;
+
+        #add-image-card{
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+
+            border-radius: 5px;
+            border: 1px dashed gray;
+
+        }
+
+        #event-page-images-body{
+            display: flex;
+            flex-flow: row;
+            gap: 1rem;
+            width: 100%;
+
+            .image-card{
+                img{
+                    width: 200px;
+                }
+            }
+        }
+    }
+
+    #event-page-pdf{
+        display: flex;
+        flex-flow: column;
+        gap: 1rem;
+        padding: 1rem;
+        width: 100%;
+
+        #event-page-pdf-body{
+            display: flex;
+            flex-flow: row;
+            gap: 1rem;
+            width: 100%;
+
+            #add-pdf-card{
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+    
+                border-radius: 5px;
+                border: 1px dashed gray;
+            }
+        }
+       
+    }
+}
+
+.big-image{
+    width: 500px;
+}

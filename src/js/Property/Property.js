@@ -42,10 +42,6 @@ function Property(props){
         .finally(() => setLoading(false));
     }
 
-    useEffect(() => {   
-        loadEvents();
-    }, []);
-
     function linkToEvent(route){
         location.assign('/#' + route);
     }
@@ -84,31 +80,18 @@ function Property(props){
         .finally(() => {
             setShowAddEventModal(false);
         });
-
-        const img = e.target.image.files[0];
-        const data = new FormData();
-        data.append('image', img);
-
-        axios.post(`/property/${id}/upload`, data, {
-            headers: {
-                'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-            }
-        })
-        .then(res => {
-
-        })
-        .catch(err => {
-            console.log(err.response.status);
-        })
-        
     }
+
+    useEffect(() => {   
+        loadEvents();
+    }, []);
 
     if(loading) return <Loading message="Ladataan taloa..."/>
 
     return (
         <div id="property-page">
             <header id="property-page-header">
-                <img id="property-main-image" src={`/property/${id}/images/main`}></img>
+                <img id="property-main-image" src={`/property/images/${id}/main`}></img>
 
                 <div id="property-information-area">
                     <h1>{property.address}</h1>
@@ -135,7 +118,7 @@ function Property(props){
                         events.map(ev => {
                             return (
                                 <Card className="event-card">
-                                    <Card.Img src={`/property/images/${ev.property_id}/events/${ev.id}`} variant="top"></Card.Img>
+                                    <Card.Img src={`/images/property/${ev.property_id}/events/${ev.id}/main`} variant="top"></Card.Img>
                                     <Card.Body>
                                     <Card.Title>{ev.name}</Card.Title>
                                     <Card.Text className="event-card-text">{ev.description}</Card.Text>
@@ -207,11 +190,6 @@ function Property(props){
                         <Form.Group className="w-100">
                             <Form.Label>Kuvaus</Form.Label>
                             <Form.Control as="textarea" name="description"></Form.Control>
-                        </Form.Group>
-
-                        <Form.Group className="w-100">
-                            <Form.Label>Lisää Kuva</Form.Label>
-                            <Form.Control type="file" accept="image/jpeg" name="image"></Form.Control>
                         </Form.Group>
 
                         <Form.Group className="d-flex flex-row justify-content-between w-100">
