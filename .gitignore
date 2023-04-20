@@ -5,3 +5,4 @@ public/main.bundle.js
 public/index.html
 public/images/*
 .env
+uploads
