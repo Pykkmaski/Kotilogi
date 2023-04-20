@@ -17,8 +17,7 @@ function Event(propes){
         setLoading(true);
 
         axios.get(`/property/${property_id}/events/${event_id}`).then(res => {
-            setEvent(res.data);
-            loadImageIds();
+           setEvent(res.data);
         })
         .catch(err => {
             console.log(err);
@@ -27,7 +26,6 @@ function Event(propes){
             setLoading(false);
         })
     }
-
     useEffect(() => {
         loadEvent();
      }, []);

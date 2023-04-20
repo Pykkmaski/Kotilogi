@@ -2,6 +2,7 @@ const router = require('express').Router();
 const path = require('path');
 const upload = require('../middleware/fileUpload');
 const db = require('../dbconfig');
+const fs = require('fs');
 
 router.get('/property/:property_id/main', async (req, res) => {
     ///Fetches the defined main image for a property.
@@ -41,6 +42,21 @@ router.get('/property/:property_id/:image_id', async (req, res) => {
             console.log(err.message);
             res.sendStatus(500);
         }
+    }
+});
+
+router.delete('/property/:property_id/:image_id', async (req, res) => {
+    try{
+        const {property_id, image_id} = req.params;
+        console.log(image_id);
+        const entry = await db('file_map').where({id: image_id}).first();
+        await db('file_map').where({id: image_id}).del();
+        fs.unlink(path.join(__dirname, `../uploads/${entry.filename}`), () => console.log('File deleted?'));
+        res.sendStatus(200);
+    }
+    catch(err){
+        console.log(err.message);
+        res.sendStatus(500);
     }
 });
 

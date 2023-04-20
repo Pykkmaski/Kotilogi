@@ -28,6 +28,10 @@
 
             img{
                 width: 200px;
+
+                &:hover{
+                    border: 2px solid blue;
+                }
             }
         }
     }

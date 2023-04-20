@@ -31,18 +31,24 @@ function Images(props){
         setShowSelectedImageModal(true);
     }
 
-    function loadEvent(){
-        setLoading(true);
-
+    function loadImages(){
         axios.get(`/property/${property_id}/events/${event_id}`).then(res => {
-            setEvent(res.data);
             loadImageIds();
         })
         .catch(err => {
             console.log(err);
         })
         .finally(() => {
-            setLoading(false);
+        })
+    }
+
+    function deleteSelectedImage(){
+        axios.delete(`/images/property/${property_id}/${selectedImageId}`).then(res => {
+            setShowSelectedImageModal(false);
+            loadImageIds();
+        })
+        .catch(err => {
+            console.log(err);
         })
     }
 
@@ -58,7 +64,7 @@ function Images(props){
             }
         })
         .then(res => {
-            loadEvent();
+            loadImages();
         })
         .catch(err => {
             console.log(err);
@@ -126,6 +132,7 @@ function Images(props){
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => setShowSelectedImageModal(false)}>Sulje</Button>
+                    <Button variant="danger" onClick={() => deleteSelectedImage()}>Poista</Button>
                 </Modal.Footer>
             </Modal>
         </div>
