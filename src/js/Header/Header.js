@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import AppContext from '../Contexts/AppContext';
 import UserToken from './UserToken/UserToken.js';
 import { serviceName, userStorageName } from '../appconfig';
+import 'bootstrap/scss/bootstrap.scss';
 import Nav from 'react-bootstrap/Nav'
 import NavBar from 'react-bootstrap/NavBar';
 
