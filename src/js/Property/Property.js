@@ -100,7 +100,7 @@ function Property(props){
                     </p>
                 </div>
             </header>
-
+            
             <div id="events-area">
                 <header id="events-area-header">
                     <h1>Tapahtumat</h1>
@@ -135,14 +135,7 @@ function Property(props){
                 </div>
             </div>
 
-            <div id="images-area">
-                <div id="new-image-card">
-                    <div className="icon-container">
-                        <img src={plusIcon}></img>
-                        <span>Lisää Kuva</span>
-                    </div>
-                </div>
-            </div>
+            
 
             <div id="pdf-area">
                 <div id="new-pdf-card">
@@ -192,7 +185,7 @@ function Property(props){
                             <Form.Control as="textarea" name="description"></Form.Control>
                         </Form.Group>
 
-                        <Form.Group className="d-flex flex-row justify-content-between w-100">
+                        <Form.Group className="d-flex flex-row justify-content-between w-100 gap-1">
                             <Button variant="secondary" onClick={() => setShowAddEventModal(false)}>Peruuta</Button>
                             <Button type="submit" variant="primary">Lisää</Button>
                         </Form.Group>
