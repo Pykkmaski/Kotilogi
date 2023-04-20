@@ -3,9 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import AppContext from '../Contexts/AppContext';
 import UserToken from './UserToken/UserToken.js';
 import { serviceName, userStorageName } from '../appconfig';
+import {NavBar, Nav} from 'reactstrap';
 
-import NavBar from 'react-bootstrap/NavBar';
-import Nav from 'react-bootstrap/Nav';
 import './Style.scss';
 
 const padlockIcon = './img/padlock.png';
