@@ -30,7 +30,7 @@ function Login(props){
             location.assign('/#/user');
         })
         .catch(err => {
-            setError(err.response.status);
+            setError(err.message);
         })
         .finally(() => {
             setLoading(false);
