@@ -1,12 +1,10 @@
 import { useContext, useState, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import Unauthorized from '../Unauthorized/Unauthorized';
+import Unauthorized from './Unauthorized';
 import AppContext from '../Contexts/AppContext';
-import PropertyCard from './PropertyCard/PropertyCard';
-import Loading from '../Loading/Loading';
+import PropertyCard from '../Components/PropertyCard';
+import Loading from './Loading';
 import axios from 'axios';
-
-import './Style.scss';
 
 function User(props){
 

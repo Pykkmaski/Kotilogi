@@ -1,8 +1,7 @@
 import {Link} from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import AppContext from '../../js/Contexts/AppContext';
-import UserToken from './UserToken/UserToken.js';
-import { serviceName, userStorageName } from '../../js/appconfig';
+import AppContext from '../Contexts/AppContext';
+import { serviceName, userStorageName } from '../appconfig';
 import 'bootstrap/scss/bootstrap.scss';
 import Nav from 'react-bootstrap/Nav'
 import NavBar from 'react-bootstrap/NavBar';

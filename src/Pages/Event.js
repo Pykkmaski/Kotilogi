@@ -1,13 +1,11 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Loading from '../../Loading/Loading';
+import Loading from './Loading';
 import 'bootstrap/scss/bootstrap.scss';
-import './Style.scss';
-import Images from './Images/Images';
-import PDF from './PDF/PDF';
+import ImageContainer from '../Components/ImageContainer';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Modal from '../Modals/AppModal';
 import Form from 'react-bootstrap/Form';
 
 function Event(propes){
@@ -40,12 +38,12 @@ function Event(propes){
     if(loading) return <Loading message="Ladataan tapahtumaa..."/>
 
     return (
-        <div id="event-page">
-            <div id="back-link-container">
+        <div className="d-flex flex-column px-5 align-items-center">
+            <div className="d-flex flex-row">
                 <a href={`/#/property/${property_id}`}>Takaisin Taloon</a>
             </div>
 
-            <header id="event-page-header">
+            <header className="d-flex flex-row align-items-center">
                 <img id="event-main-image" src={`/images/property/${event.property_id}/events/${event.id}/main`}/>
                 <div id="event-page-header-body">
                     <h1>{event.name}</h1>
@@ -61,8 +59,7 @@ function Event(propes){
             </header>
             
             <div id="event-page-sections-container">
-                <Images loadEvent/>
-                <PDF/>
+                <ImageContainer loadEvent/>
             </div>
 
             <Modal show={showEditEventModal} backdrop="static" centered onHide={() => setShowEditEventModal(false)}>

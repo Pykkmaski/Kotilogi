@@ -1,22 +1,22 @@
-import '../../scss/main.scss';
+import './scss/main.scss';
 import 'bootstrap/scss/bootstrap.scss';
 
-import Header from './Components/Header/Header';
-import Home from '../Home/Home';
-import Login from '../Login/Login';
-import Signup from '../Signup/Signup';
-import Unknown from '../Unknown/Unknown.js';
-import RegisterThankYou from '../RegisterThankYou/RegisterThankYou';
-import AppContext from './js/Contexts/AppContext';
-import User from './js/User/User';
-import Event from '../Property/Event/Event';
+import Header from './Components/Header';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Unknown from './Pages/Unknown.js';
+import RegisterThankYou from './Pages/RegisterThankYou';
+import AppContext from './Contexts/AppContext';
+import User from './Pages/User';
+import Event from './Pages/Event';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Property from '../Property/Property.js';
-import Pricing from '../Pricing/Pricing';
+import Property from './Pages/Property.js';
+import Pricing from './Pages/Pricing';
 import axios from 'axios';
 
-const {userStorageName} = require('./js/appconfig');
+const {userStorageName} = require('./appconfig');
 
 function App(props){
 

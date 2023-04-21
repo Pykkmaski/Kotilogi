@@ -1,4 +1,4 @@
-import LoadingSpinner from "../../Components/Spinner/Spinner";
+import LoadingSpinner from "../Components/Spinner";
 
 function Loading({message}){
     return (

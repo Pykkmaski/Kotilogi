@@ -1,4 +1,3 @@
-import './Style.scss';
 import {Link} from 'react-router-dom';
 const homeIcon = './img/home-icon.png';
 const plusIcon = './img/plus.png';

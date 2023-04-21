@@ -1,14 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Loading from '../Loading/Loading';
+import Loading from './Loading';
 import { useParams } from 'react-router-dom';
-import './Style.scss';
 import 'bootstrap/scss/bootstrap.scss';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import FormData from 'form-data';
+import AppModal from '../Modals/AppModal';
 const plusIcon = './img/plus.png';
 
 function Property(props){
@@ -89,8 +86,8 @@ function Property(props){
     if(loading) return <Loading message="Ladataan taloa..."/>
 
     return (
-        <div id="property-page">
-            <header id="property-page-header">
+        <div className="d-flex flex-column px-5 align-items-center">
+            <header className="d-flex flex-row gap-1">
                 <img id="property-main-image" src={`/property/images/${id}/main`}></img>
 
                 <div id="property-information-area">
@@ -101,7 +98,7 @@ function Property(props){
                 </div>
             </header>
             
-            <div id="events-area">
+            <div className="d-flex flex-column">
                 <header id="events-area-header">
                     <h1>Tapahtumat</h1>
                 </header>
@@ -135,51 +132,10 @@ function Property(props){
                 </div>
             </div>
 
-            <Modal show={showDeleteModal} backdrop="static" centered onHide={() => setShowDeleteModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Poista Tapahtuma</Modal.Title>
-                </Modal.Header>
+           
+            <AppModal variant="delete/event" setShowModal={setShowDeleteModal} showModal={showDeleteModal} deleteFunction={deleteEvent} eventToBeDeleted={eventToBeDeleted}/> 
+            <AppModal variant="upload/event" setShowModal={setShowAddEventModal} showModal={showAddEventModal}/>
 
-                <Modal.Body>
-                    Oletko varma että haluat poistaa tämän tapahtuman?
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button style={{width: "100px"}} variant="primary" onClick={() => setShowDeleteModal(false)}>Ei</Button>
-                    <Button style={{width: "100px"}}variant="secondary" onClick={() => deleteEvent(eventToBeDeleted)}>Kyllä</Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showAddEventModal} backdrop="static" centered onHide={() => setShowAddEventModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Lisää Tapahtuma</Modal.Title>
-                    
-                </Modal.Header>
-
-                <Modal.Body>
-                    <Form onSubmit={addNewEvent}>
-                        <Form.Group className="w-100">
-                            <Form.Label>Otsikko</Form.Label>
-                            <Form.Control name="name" required></Form.Control>
-                        </Form.Group>
-
-                        <Form.Group className="w-100">
-                            <Form.Label>Päivämäärä</Form.Label>
-                            <Form.Control name="date" type="date" required></Form.Control>
-                        </Form.Group>
-                        
-                        <Form.Group className="w-100">
-                            <Form.Label>Kuvaus</Form.Label>
-                            <Form.Control as="textarea" name="description"></Form.Control>
-                        </Form.Group>
-
-                        <Form.Group className="d-flex flex-row justify-content-between w-100 gap-1">
-                            <Button variant="secondary" onClick={() => setShowAddEventModal(false)}>Peruuta</Button>
-                            <Button type="submit" variant="primary">Lisää</Button>
-                        </Form.Group>
-                    </Form>
-                    </Modal.Body>
-            </Modal>
         </div>
     )
 }

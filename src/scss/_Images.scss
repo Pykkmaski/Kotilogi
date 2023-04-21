@@ -1,36 +1,28 @@
-#event-page-images{
+.images-body{
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     gap: 1rem;
-    padding: 1rem;
-    border-bottom: 1px solid gray;
-
-    #event-page-images-body{
-        display: flex;
-        flex-flow: row;
-        gap: 1rem;
-        overflow-x: scroll;
-        
-        #add-image-card{
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+    overflow-x: scroll;
     
-            border-radius: 5px;
-            border: 1px dashed gray;
-            cursor: pointer;
-        }
+    .add-image-button{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
 
-        .image-card{
-            cursor: pointer;
-            img{
-                width: 200px;
+        border-radius: 5px;
+        border: 1px dashed gray;
+        cursor: pointer;
+    }
 
-                &:hover{
-                    border: 2px solid blue;
-                }
+    .image-card{
+        cursor: pointer;
+        img{
+            width: 200px;
+
+            &:hover{
+                border: 2px solid blue;
             }
         }
     }

@@ -1,5 +1,3 @@
-import './Style.scss';
-
 function Pricing(props){
     return (
         <div className="page" id="pricing-page">

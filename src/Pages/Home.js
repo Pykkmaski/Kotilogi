@@ -1,4 +1,3 @@
-import './Style.scss';
 import { useEffect, useRef, useState } from 'react';
 import { serviceName } from '../appconfig';
 import {Link} from 'react-router-dom';

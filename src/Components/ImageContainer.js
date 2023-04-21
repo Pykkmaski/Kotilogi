@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import Modal from '../Modals/AppModal';
 import FormData from 'form-data';
 import axios from 'axios';
 const plusIcon = './img/plus.png';
 
-function Images({loadEvent}){
+function ImageContainer({loadEvent}){
 
     const {property_id, event_id} = useParams();
     const [imageIds, setImageIds] = useState([]);
@@ -86,13 +84,13 @@ function Images({loadEvent}){
     }, []);
 
     return (
-        <div id="event-page-images">
-            <header id="event-page-images-header">
+        <div className="d-flex flex-column">
+            <header className="images-header">
                 <h1>Kuvat</h1>
             </header>
 
-            <div id="event-page-images-body">
-                <div id="add-image-card" onClick={() => setShowImageUploadModal(true)}>
+            <div className="images-body">
+                <div className="add-image-button" onClick={() => setShowImageUploadModal(true)}>
                     <div className="icon-container">
                         <img src={plusIcon}/>
                     </div>
@@ -104,7 +102,7 @@ function Images({loadEvent}){
                     imageIds.map(id => {
                         const element = (
                             <div className="image-card" onClick={() => openImageModal(id)}>
-                                <img src={`/images/property/${property_id}/${id}`}/>
+                               <Image sourceUrl={`/images/property/${property_id}/${id}`}/>
                             </div>
                         )
 
@@ -112,39 +110,17 @@ function Images({loadEvent}){
                     })
                 }
             </div>
-
-            <Modal show={showImageUploadModal} centered onHide={() => setShowImageUploadModal(false)}>
-                <Modal.Header closeButton>
-                    Lataa Kuva
-                </Modal.Header>
-
-                <Modal.Body>
-                    <Form onSubmit={uploadImage}>
-                        <Form.Group className="w-100">
-                            <Form.Control type="file" accept="image/jpeg" name="image"></Form.Control>
-                        </Form.Group>
-
-                        <Form.Group className="w-100 d-flex flex-row justify-content-between gap-1">
-                            <Button variant="secondary" onClick={() => setShowImageUploadModal(false)}>Peruuta</Button>
-                            <Button variant="primary" type="submit">Lähetä</Button>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-            </Modal>
-
-            <Modal centered onHide={() => setShowSelectedImageModal(false)} show={showSelectedImageModal}>
-                <Modal.Header closeButton></Modal.Header>
-                <Modal.Body>
-                    <img className="big-image" src={`/images/property/${property_id}/${selectedImageId}`}/>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={() => setSelectedImageAsMain()}>Aseta Pääkuvaksi</Button>
-                    <Button variant="secondary" onClick={() => setShowSelectedImageModal(false)}>Sulje</Button>
-                    <Button variant="danger" onClick={() => deleteSelectedImage()}>Poista</Button>
-                </Modal.Footer>
-            </Modal>
+            
+            <Modal showModal={showImageUploadModal} setShowModal={setShowImageUploadModal} variant="image"/>
+            <Modal 
+                showModal={showSelectedImageModal} 
+                setShowModal={setShowSelectedImageModal} 
+                variant="show/image" 
+                deleteSelectedImage={deleteSelectedImage} 
+                setSelectedImageAsMain={setSelectedImageAsMain}/>
+            
         </div>
     )
 }
 
-export default Images;
+export default ImageContainer;

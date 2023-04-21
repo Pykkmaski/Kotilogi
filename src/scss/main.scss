@@ -3,3 +3,524 @@
 @import './PrimaryHeader';
 @import './Pricing';
 @import './Event';
+@import './Property';
+@import './Images';
+
+*{
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: $secondary-color;
+}
+
+input, select, option{
+    color: gray;
+}
+
+:root{
+    --node-label-position: -7rem;
+}
+
+h1, h2{
+    margin: 0;
+}
+
+h1{
+    color: $primary-color;
+}
+
+h2, h3{
+    color: $secondary-color;
+}
+
+nav{
+    font-weight: bold;
+    
+    a{
+        font-weight: bold;
+    }
+}
+body, #root{
+    margin: 0;
+    padding: 0;
+
+    height: 100vh;
+    width: 100vw;
+
+    overflow-x: hidden;
+}
+
+footer{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-filler{
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    width: 100vw;
+    height: 500px;
+    z-index: -1;
+}
+
+.page{
+    flex: 1;
+
+    display:flex;
+    flex-flow: column;
+    gap: 1rem;
+    padding: 1rem 0 0 0;
+
+    overflow-y: scroll;
+
+    .page-element{
+        display: flex;
+        padding: 0 10vw 0 10vw;
+    }
+    
+    
+}
+
+.primary-button{
+    background: $primary-color;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    width: 50%;
+
+    transition: box-shadow 0.2s ease-out;
+
+        &:hover{
+            $shadow-distance: 0.25rem;
+            background: lighten($primary-color, 10);
+        }
+
+}
+
+.management-page{
+    display: grid !important;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    padding: 0 10vw 0 10vw;
+
+    .grid-item-left, .grid-item-right{
+        display: flex;
+        flex-flow: column;
+        flex: 1;
+        height: 100%;
+        width: 100%;
+    }
+
+    .grid-item-right{
+        align-items: right;
+        overflow-y: scroll;
+        
+        header{
+            text-align: right !important;
+        }
+    }
+
+    .modal{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        .modal-close-button{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+    }
+
+    header{
+        padding: 0 !important;
+        display: flex;
+        flex-flow: row;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid $secondary-color;
+    }
+}
+
+.hover-effect{
+    transition: 
+            background-color 0.2s ease-out, 
+            backdrop-filter 0.2s ease-out, 
+            box-shadow 0.2s ease-out, 
+            transform 0.25s ease-out;
+
+    &:hover{
+        background: rgba(lighten($primary-color, 20), 0.2) !important;
+        box-shadow: 2px 2px 2px 2px rgba(black, 0.2);
+        backdrop-filter: blur(10px);
+    }
+}
+
+form{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    @keyframes FormIntroAnimation{
+        0%{
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        100%{
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    }
+
+    animation-name: FormIntroAnimation;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+
+    input, button, select, textarea{
+        width: 100%;
+        font-size: 1.5rem;
+
+        border: 1px solid $secondary-color;
+        border-radius: 10px;
+    }
+
+    button{
+        cursor: pointer;
+        
+        &:hover{
+            background: lighten($primary-color, 20);
+        }      
+    }
+
+    textarea{
+        font-size: 1rem !important;
+        height: 8rem;
+        resize: none;
+    }
+
+    .button-group{
+        width: 100%;
+        display: flex;
+        flex-flow: row;
+        gap: 0.5rem;
+
+        .submit-button{
+            background: $primary-color;
+
+            &:hover{
+                background: lighten($primary-color, 10);
+            }
+        }
+    }
+
+}
+
+.page-title{
+
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem;
+    align-items: center;
+    img{
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+a{
+    text-decoration: none; 
+}
+
+.button-link{
+    display: flex;
+    flex-flow: row;
+    justify-content: left;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 1rem;
+    gap: 0.5rem;
+    border-radius: 10px;
+    color: $secondary-color;
+
+    img{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    &:hover{
+        background: lighten($primary-color, 10);
+
+        span{
+            color: white;
+        }
+
+        img{
+            filter: invert(1);
+        }
+    }
+}
+
+@keyframes ErrorAnimation{
+    0%{
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/*stretch to the length of parent container*/
+.w-100{
+    width: 100%;
+}
+
+.scroll-y{
+    overflow-y: scroll;
+}
+
+.hover-primary-light{
+    transition: background-color 0.2s ease-out;
+
+    &:hover{
+        background: lighten($primary-color, 10);
+    }
+}
+
+.glass{
+    backdrop-filter: blur(10px);
+}
+
+/*Stretches a flex box until it fills the entirety of its flex direction on the screen*/
+.fill{
+    flex: 1;
+}
+
+.flex-row{
+    display: flex;
+    flex-flow: row;
+}
+
+.border{
+    border: 1px solid lightgray;
+}
+
+.dashed{
+    border-style: dashed !important;
+}
+
+.border-dashed{
+    border: 2px dashed black;
+}
+
+.flex-column{
+    display: flex;
+    flex-flow: column;
+}
+
+.center-all{
+    align-items: center;
+    justify-content: center;
+}
+
+.center-align{
+    align-items: center;
+}
+
+.right-align{
+    align-items: right;
+}
+
+/*Push all elements inside the container as far away from eachother as possible*/
+.space-between{
+    justify-content: space-between;
+}
+
+.right-justify{
+    justify-content: right;
+}
+
+.text-ellipsis{
+    max-width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*Round the corners of the element*/
+.rounded{
+    border-radius: 10px;
+}
+
+.gap-sm{
+    gap: 0.25rem;
+}
+
+.gap-m{
+    gap: 0.5rem;
+}
+
+.gap-l{
+    gap: 1rem;
+}
+
+.padding-sm{
+    padding: 0.25rem;
+}
+
+.padding-m{
+    padding: 0.5rem;
+}
+
+.padding-l{
+    padding: 1rem;
+}
+
+.in-foreground{
+    z-index: 1;
+}
+
+.in-background{
+    z-index: -1;
+}
+
+.font-sze-sm{
+    font-size: 1rem;
+}
+
+.font-sze-m{
+    font-size: 1.5rem;
+}
+
+.font-size-lg{
+    font-size: 2rem;
+}
+
+.bg-primary{
+    background: lighten($primary-color, 30);
+}
+
+
+
+.feedback-message{
+    animation-name: ErrorAnimation;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+
+    &.error{
+       color: red;
+    }
+}
+
+#user-page{
+
+    margin-left: auto;
+    margin-right: auto;
+    
+    #welcome-text{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        margin-top: 2rem;
+    }
+
+    #property-grid{
+
+        &.as-grid{
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        &.as-flexbox{
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+        }
+        
+        gap: 1rem;
+    }
+
+    .property-grid-item{
+        :root{
+            --bg-color: $primary-color;
+        }
+
+        background: rgba($primary-color, 0.2);
+        border: 1px solid $secondary-color;
+        border-radius: 10px;
+        display: flex;
+        flex-flow: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        
+        cursor: pointer;
+        
+
+        height: 300px;
+        width: 250px;
+        
+        img{
+            width: 70px;
+            height: 70px;
+        }
+
+        &.add{
+            border-style: dashed !important;
+            border-width: 3px !important;
+            background: none;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px){
+
+    #user-page{
+        margin-left: 5px;
+        margin-right: 5px;
+
+        #property-grid{
+            display: flex !important;
+            flex-flow: column !important;
+    
+            .property-grid-item{
+                width: 100% !important;
+            }
+          
+        }
+    }
+
+}
+
+@media screen and(max-width: 1000px){
+    .page{
+        padding: 0 !important;
+
+        .page-element{
+            padding: 5px !important;
+        }
+    }
+
+    .button-link{
+        visibility: hidden;
+    }
+}
