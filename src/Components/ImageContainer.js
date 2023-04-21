@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import Modal from '../Modals/AppModal';
 import FormData from 'form-data';
 import axios from 'axios';
-const plusIcon = './img/plus.png';
+import AddButton from './AddButton';
 
 function ImageContainer({loadEvent}){
 
@@ -90,19 +90,16 @@ function ImageContainer({loadEvent}){
             </header>
 
             <div className="images-body">
-                <div className="add-image-button" onClick={() => setShowImageUploadModal(true)}>
-                    <div className="icon-container">
-                        <img src={plusIcon}/>
-                    </div>
+
+                <AddButton onClickHandler={() => setShowImageUploadModal(true)}>
                     <span>Lisää Kuva</span>
-                    <input type="file" accept="image/jpeg" name="image" hidden id="image-input"></input>
-                </div>
+                </AddButton>
 
                 {
-                    imageIds.map(id => {
+                    imageIds.map(imageId => {
                         const element = (
-                            <div className="image-card" onClick={() => openImageModal(id)}>
-                               <Image sourceUrl={`/images/property/${property_id}/${id}`}/>
+                            <div className="image-card" onClick={() => openImageModal(imageId)}>
+                               <img src={`/images/property/${property_id}/${imageId}`}/>
                             </div>
                         )
 
@@ -111,13 +108,16 @@ function ImageContainer({loadEvent}){
                 }
             </div>
             
-            <Modal showModal={showImageUploadModal} setShowModal={setShowImageUploadModal} variant="image"/>
+            <Modal showModal={showImageUploadModal} setShowModal={setShowImageUploadModal} variant="upload/image" uploadFunction={uploadImage}/>
             <Modal 
                 showModal={showSelectedImageModal} 
                 setShowModal={setShowSelectedImageModal} 
                 variant="show/image" 
                 deleteSelectedImage={deleteSelectedImage} 
-                setSelectedImageAsMain={setSelectedImageAsMain}/>
+                setSelectedImageAsMain={setSelectedImageAsMain}
+                event_id={event_id}
+                property_id={property_id}
+                selectedImageId={selectedImageId}/>
             
         </div>
     )

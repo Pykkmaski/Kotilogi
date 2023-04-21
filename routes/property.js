@@ -93,6 +93,9 @@ router.post('/', checkAuth, async (req, res) => {
     ///Inserts new property data
     try{
         const data = req.body;
+        data.owner = req.user.email;
+        console.log(req.body);
+
         await db('properties').insert(data);
         res.status(200).send();
     }
@@ -107,7 +110,7 @@ router.post('/:property_id/events', checkAuth, async (req, res) => {
         const {property_id} = req.params;
         const {name, description, date} = req.body;
         
-        const property = await db('properties').where({property_id}).first();
+        const property = await db('properties').where({id: property_id}).first();
         if(!property) throw 403;
 
         await db('property_events').insert({

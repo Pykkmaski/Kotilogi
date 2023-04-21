@@ -6,7 +6,7 @@ import 'bootstrap/scss/bootstrap.scss';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-function PropertyCard({property, addButton}){
+function PropertyCard({property, addButton, setShowModal}){
 
     function onClickHandler(address){
         if(typeof(address) !== 'string') return;
@@ -22,7 +22,7 @@ function PropertyCard({property, addButton}){
                 <Card.Text>
                     Aloita lisäämällä uusi talo
                 </Card.Text>
-                <Button variant="primary">Lisää Uusi</Button>
+                <Button variant="primary" onClick={() => setShowModal(true)}>Lisää Uusi</Button>
             </Card.Body>
         </Card>
     );

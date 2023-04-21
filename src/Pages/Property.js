@@ -134,7 +134,7 @@ function Property(props){
 
            
             <AppModal variant="delete/event" setShowModal={setShowDeleteModal} showModal={showDeleteModal} deleteFunction={deleteEvent} eventToBeDeleted={eventToBeDeleted}/> 
-            <AppModal variant="upload/event" setShowModal={setShowAddEventModal} showModal={showAddEventModal}/>
+            <AppModal variant="upload/event" setShowModal={setShowAddEventModal} showModal={showAddEventModal} uploadFunction={addNewEvent}/>
 
         </div>
     )

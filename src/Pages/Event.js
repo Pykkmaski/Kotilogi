@@ -39,14 +39,14 @@ function Event(propes){
 
     return (
         <div className="d-flex flex-column px-5 align-items-center">
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-row w-100">
                 <a href={`/#/property/${property_id}`}>Takaisin Taloon</a>
             </div>
 
-            <header className="d-flex flex-row align-items-center">
+            <header className="d-flex flex-row align-items-center w-100">
                 <img id="event-main-image" src={`/images/property/${event.property_id}/events/${event.id}/main`}/>
                 <div id="event-page-header-body">
-                    <h1>{event.name}</h1>
+                    <h1 id="event-header-heading-1">{event.name}</h1>
                     <p>
                         {
                             event.description
@@ -63,9 +63,9 @@ function Event(propes){
             </div>
 
             <Modal show={showEditEventModal} backdrop="static" centered onHide={() => setShowEditEventModal(false)}>
+
                 <Modal.Header closeButton>
                     <Modal.Title>Lisää Tapahtuma</Modal.Title>
-                    
                 </Modal.Header>
 
                 <Modal.Body>

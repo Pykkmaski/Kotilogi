@@ -417,7 +417,9 @@ a{
     background: lighten($primary-color, 30);
 }
 
-
+.cursor-pointer{
+    cursor: pointer;
+}
 
 .feedback-message{
     animation-name: ErrorAnimation;
