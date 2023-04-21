@@ -22,7 +22,7 @@ router.get('/property/:property_id/events/:event_id/:file_id', async (req, res) 
     }
 });
 
-router.post('/property/:property_id/events/:event_id', upload.single('pdf'), async (req, res) => {
+router.post('/property/:property_id/events/:event_id', upload.single('file'), async (req, res) => {
     ///Post a PDF file to be associated with the specified event and property id.
     res.sendStatus(200);
 })

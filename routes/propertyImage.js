@@ -99,7 +99,7 @@ router.get('/ids/property/:property_id/events/:event_id', async (req, res) => {
     ///Returns all image ids for a specified event
     try{
         const {property_id, event_id} = req.params;
-        const ids = await db('file_map').where({property_id, event_id}).pluck('id');
+        const ids = await db('file_map').where({property_id, event_id, mime_type: 'image/jpeg'}).pluck('id');
         if(!ids.length) throw 404;
         res.status(200).send(JSON.stringify(ids));
     }
