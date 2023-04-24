@@ -167,6 +167,42 @@ function AppModal(props){
             </Modal>
         )
     }
+    else if(props.variant === 'update/event'){
+
+        return(
+            <Modal show={props.showModal} backdrop="static" centered onHide={() => props.setShowModal(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Muokkaa Tapahtumaa</Modal.Title>
+                
+            </Modal.Header>
+
+            <Modal.Body>
+                <Form onSubmit={props.uploadFunction}>
+                    <Form.Group className="w-100">
+                        <Form.Label>Otsikko</Form.Label>
+                        <Form.Control name="name" required defaultValue={props.event.name}></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group className="w-100">
+                        <Form.Label>Päivämäärä</Form.Label>
+                        <Form.Control name="date" type="date" required defaultValue={props.event.date}></Form.Control>
+                    </Form.Group>
+                    
+                    <Form.Group className="w-100">
+                        <Form.Label>Kuvaus</Form.Label>
+                        <Form.Control as="textarea" name="description" defaultValue={props.event.description}></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group className="d-flex flex-row justify-content-between w-100 gap-1">
+                        <Button variant="secondary" onClick={() => props.setShowModal(false)}>Peruuta</Button>
+                        <Button type="submit" variant="primary">Päivitä</Button>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+        </Modal>
+        )
+
+    }
     else if(props.variant === 'show/image'){
         return(
             <Modal centered onHide={() => props.setShowModal(false)} show={props.showModal}>
