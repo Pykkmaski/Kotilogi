@@ -41,9 +41,18 @@ function EventHeader(props){
                 showModal={showUpdateModal}
                 setShowModal={setShowUpdateModal}
                 event={event}
-                updateFunction={(e) => {
+                uploadFunction={(e) => {
                     e.preventDefault();
-                    console.log('kalja');
+                    const content = {
+                        name: e.target.name.value,
+                        description: e.target.description.value,
+                        date: e.target.date.value
+                    }
+
+                    UpdateEvent(event.id, content, () => {
+                        setShowUpdateModal(false);
+                        loadEvent();
+                    })
                 }}
             />
         </header>
