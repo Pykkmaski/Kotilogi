@@ -43,17 +43,7 @@ function EventHeader(props){
                 event={event}
                 updateFunction={(e) => {
                     e.preventDefault();
-                    
-                    const content = {
-                        name: e.target.name.value,
-                        description: e.target.description.value,
-                        date: e.target.date.value,
-                    }
-
-                    UpdateEvent(event_id, content, () => {
-                        setShowUpdateModal(false);
-                        loadEvent();
-                    });
+                    console.log('kalja');
                 }}
             />
         </header>
