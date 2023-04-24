@@ -6,51 +6,26 @@ import 'bootstrap/scss/bootstrap.scss';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import AppModal from '../Modals/AppModal';
+import EditableField from '../Components/EditableField';
+import useProperty from '../Hooks/useProperty';
+import useEvents from '../Hooks/useEvents';
+import DeleteEvent from '../Functions/DeleteEvent';
+import AddEvent from '../Functions/AddEvent';
+
 const plusIcon = './img/plus.png';
 
 function Property(props){
 
-    const [property, setProperty] = useState(null);
-    const [events, setEvents] = useState([]);
+    const {id} = useParams();
+    const [property, loadProperty] = useProperty(id);
+    const [events, loadEvents] = useEvents(id);
 
-    const [loading, setLoading] = useState(true);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
-    const {id} = useParams();
-
-    function loadEvents(){
-        setLoading(true);
-
-        axios.get(`/property/${id}`).then(res => {
-            setProperty(res.data);
-        })
-        .catch(err => {
-            console.log(err.response.status);
-        })
-        .finally(() => setLoading(false));
-
-        axios.get(`/property/${id}/events`).then(res => {
-            setEvents(res.data);
-        })
-        .catch(err => {
-            console.log(err.response.status);
-        })
-        .finally(() => setLoading(false));
-    }
 
     function linkToEvent(route){
         location.assign('/#' + route);
-    }
-
-    function deleteEvent(event_id){
-        axios.delete(`/property/${id}/events/${event_id}`).then(res => {
-            setShowDeleteModal(false);
-            location.reload();
-        })
-        .catch(err => {
-            console.log(err);
-        })
     }
 
     function showDeleteConfirmation(id){
@@ -63,7 +38,7 @@ function Property(props){
 
         axios.post(`/property/${id}/events/`, {
             name: e.target.name.value,
-            description: e.target.description.value,
+            description: e.target.description.value ,
             date: e.target.date.value,
             property_id: id,
 
@@ -79,21 +54,35 @@ function Property(props){
         });
     }
 
-    useEffect(() => {   
-        loadEvents();
-    }, []);
+    function addUnnamedEvent(){
+        const event = {
+            property_id: property.id,
+            description: `Nimetön`,
+            name: `Nimetön tapahtuma ${events.length + 1}`,
+            date: new Date().toLocaleDateString(),
+        }
 
-    if(loading) return <Loading message="Ladataan taloa..."/>
+        axios.post(`/property/${property.id}/events/`, event).then(res => {
+            loadEvents();
+            const lastEventID = events[events.length - 1].id;
+            location.assign(`/#/property/${property.id}/events/${lastEventID}`);
+        })
+        .catch(err => console.log(err.message));
+    }
+
+    if(!property || !events) return <Loading message="Ladataan taloa..."/>
 
     return (
-        <div className="d-flex flex-column px-5 align-items-center">
-            <header className="d-flex flex-row gap-1">
+        <div className="d-flex flex-column align-items-center"> 
+            <header className="d-flex flex-row gap-5 w-100 bg-darkgray py-5 justify-content-center  mb-3">
                 <img id="property-main-image" src={`/property/images/${id}/main`}></img>
 
-                <div id="property-information-area">
-                    <h1>{property.address}</h1>
-                    <p>
-                        Talon kuvaus.
+                <div>
+                    <h1 className="text-white">{property.address}</h1>
+                    <p className="text-white">
+                        Tämmönen taloohan tää o.<br/>
+                        Eipä tässä sen kummempia. Vähä tekstiä tähän <br/>
+                        Että näyttää siltä niinku olis sisältöä.
                     </p>
                 </div>
             </header>
@@ -104,7 +93,7 @@ function Property(props){
                 </header>
 
                 <div id="events-area-body">
-                    <div className="new-event-card" onClick={() => setShowAddEventModal(true)}>
+                    <div className="new-event-card" onClick={() => addUnnamedEvent()}>
                         <div className="icon-container">
                             <img src={plusIcon}/>
                         </div>
@@ -133,7 +122,7 @@ function Property(props){
             </div>
 
            
-            <AppModal variant="delete/event" setShowModal={setShowDeleteModal} showModal={showDeleteModal} deleteFunction={deleteEvent} eventToBeDeleted={eventToBeDeleted}/> 
+            <AppModal variant="delete/event" setShowModal={setShowDeleteModal} showModal={showDeleteModal} deleteFunction={() => DeleteEvent(eventToBeDeleted, () => {setShowDeleteModal(false); location.reload()})} eventToBeDeleted={eventToBeDeleted}/> 
             <AppModal variant="upload/event" setShowModal={setShowAddEventModal} showModal={showAddEventModal} uploadFunction={addNewEvent}/>
 
         </div>

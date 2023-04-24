@@ -1,6 +1,7 @@
 const db = require('../dbconfig');
 const router = require('express').Router();
 const upload = require('../middleware/fileUpload');
+const RouteHandleError = require('../Functions/RouteHandleError');
 
 router.get('/property/:property_id/events/:event_id/:file_id', async (req, res) => {
     ///Returns the specified PDF file for a given event and property id
@@ -11,14 +12,7 @@ router.get('/property/:property_id/events/:event_id/:file_id', async (req, res) 
         res.status(200).sendFile(path.join(__dirname, `../uploads/${entry.filename}`));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-
-        else{
-            console.log(err.message);
-            re.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 

@@ -2,6 +2,7 @@ const router = require('express').Router();
 const db = require('../dbconfig');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const RouteHandleError = require('../Functions/RouteHandleError');
 require('dotenv').config();
 
 router.post('/', async (req, res) => {
@@ -15,21 +16,14 @@ router.post('/', async (req, res) => {
 
         const token = jwt.sign({ email: savedUser.email }, process.env.TOKEN_SECRET);
         const payload = {
-            token,
+            token: 'Bearer ' + token,
             email,
         }
         res.status(200).send(JSON.stringify(payload));
         
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
-        
+        RouteHandleError(err, res);
     }
 
 });

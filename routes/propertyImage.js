@@ -3,6 +3,8 @@ const path = require('path');
 const upload = require('../middleware/fileUpload');
 const db = require('../dbconfig');
 const fs = require('fs');
+const checkAuth = require('../middleware/checkAuth');
+const RouteHandleError = require('../Functions/RouteHandleError');
 
 router.get('/property/:property_id/main', async (req, res) => {
     ///Fetches the defined main image for a property.
@@ -15,13 +17,7 @@ router.get('/property/:property_id/main', async (req, res) => {
         res.status(200).sendFile(path.join(__dirname, `../uploads/${filename.filename}`));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 
@@ -35,13 +31,7 @@ router.get('/property/:property_id/:image_id', async (req, res) => {
         res.status(200).sendFile(path.join(__dirname, `../uploads/${entry.filename}`));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 
@@ -55,8 +45,7 @@ router.post('/property/:property_id/events/:event_id/:image_id/main', async (req
         res.sendStatus(200);
     }
     catch(err){
-        console.log(err.message);
-        res.sendStatus(500);
+        RouteHandleError(err, res);
     }
 });
 
@@ -70,8 +59,7 @@ router.delete('/property/:property_id/:image_id', async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        console.log(err.message);
-        res.sendStatus(500);
+        RouteHandleError(err, res);
     }
 });
 
@@ -85,13 +73,7 @@ router.get('/property/:property_id/events/:event_id/main', async (req, res) => {
         res.status(200).sendFile(path.join(__dirname, `../uploads/${entry.filename}`));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 
@@ -104,15 +86,21 @@ router.get('/ids/property/:property_id/events/:event_id', async (req, res) => {
         res.status(200).send(JSON.stringify(ids));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 })
+
+router.get('/events/:event_id', checkAuth, async (req, res) => {
+    ///Returns all image ids associated with event_id
+    try{
+        const {event_id} = req.params;
+        const ids = await db.select('id').from('file_map').where({event_id}).pluck('id');
+        res.status(200).send(JSON.stringify(ids));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
 
 router.post('/property/:property_id', upload.single('image'), async (req, res) => {
     ///Posts an image to be associated with given property.

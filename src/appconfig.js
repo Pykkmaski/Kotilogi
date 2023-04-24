@@ -1,5 +1,5 @@
 module.exports = {
-    userStorageName : 'digikoti_user',
+    tokenStorageKey : 'digikoti_token',
     serviceName : 'Kotilogi',
     serverTimeoutMessage : {
         "fi" : "Palvelin ei vastaa. Yritä hetken kuluttua uudelleen.",

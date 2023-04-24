@@ -1,3 +1,11 @@
+#property-page{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
+#property-page-content{
+    padding: 1rem;
+}
 #property-main-image{
     width: 200px;
 }

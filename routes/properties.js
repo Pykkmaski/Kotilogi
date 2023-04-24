@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const checkAuth = require('../middleware/checkAuth');
 const db = require('../dbconfig');
+const RouteHandleError = require('../Functions/RouteHandleError');
 
-router.get('/all', checkAuth, async (req, res) => {
+router.get('/', checkAuth, async (req, res) => {
     ///Returns all properties belonging implicitly to the client making the request.
     try{
         const {user} = req;
@@ -10,8 +11,7 @@ router.get('/all', checkAuth, async (req, res) => {
         res.status(200).send(JSON.stringify(properties));
 
     }catch(err){
-        console.log(err.message);
-        res.sendStatus(500);
+        RouteHandleError(err, res);
     }
 });
 
@@ -24,7 +24,7 @@ router.get('/:property_id', checkAuth, async (req, res) => {
         res.status(200).send(JSON.stringify(property));
     }
     catch(err){
-        res.status(500).send(err.message);
+        RouteHandleError(err, res);
     }
 });
 
@@ -40,13 +40,7 @@ router.get('/:property_id/events', checkAuth, async (req, res) => {
         res.status(200).send(JSON.stringify(history));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 
@@ -60,13 +54,7 @@ router.get('/:property_id/events/:event_id', checkAuth, async (req, res) => {
         res.status(200).send(JSON.stringify(event));
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 })
 
@@ -79,13 +67,7 @@ router.put('/:property_id/events/:event_id', checkAuth, async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        if(typeof(err) !== 'number') {
-            console.log(err.message);
-            res.sendStatus(500);
-            return;
-        }
-
-        res.sendStatus(err);
+        RouteHandleError(err, res);
     }
 });
 
@@ -100,7 +82,7 @@ router.post('/', checkAuth, async (req, res) => {
         res.status(200).send();
     }
     catch(err){
-        res.status(500).send(err.message);
+        RouteHandleError(err, res);
     }
 });
 
@@ -120,14 +102,7 @@ router.post('/:property_id/events', checkAuth, async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        } 
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
-        
+        RouteHandleError(err, res);
     }
 });
 
@@ -139,8 +114,7 @@ router.delete('/:property_id', checkAuth, async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        console.log(err);
-        res.sendStatus(500);
+        RouteHandleError(err, res);
     }
 });
 
@@ -152,13 +126,7 @@ router.delete('/:property_id/events/:event_id', checkAuth, async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        } 
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 

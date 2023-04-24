@@ -6,10 +6,11 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import 'bootstrap/scss/bootstrap.scss';
+import LinkTo from '../Functions/LinkTo';
 
 function Login(props){
 
-    const {user, setUser} = useContext(AppContext);
+    const {setToken, setAuthHeader} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(0);
 
@@ -25,9 +26,9 @@ function Login(props){
         })
         .then(res => {
             const token = res.data.token;
-            setUser(token);
-            localStorage.setItem(userStorageName, token); //Authorization header not set until page refresh. Figure out something elegant.
-            location.assign('/#/user');
+            setToken(token); //Saves the token in local storage
+            setAuthHeader(token); //Sets axios default auth header.
+            LinkTo('/user')
         })
         .catch(err => {
             setError(err.message);

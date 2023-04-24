@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const db = require('../dbconfig');
+const RouteHandleError = require('../Functions/RouteHandleError');
 
 router.delete('/:username', checkAuth, async (req, res) => {
     try{
@@ -8,13 +9,7 @@ router.delete('/:username', checkAuth, async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
-        if(typeof(err) !== 'number') {
-            console.log(err.message);
-            res.sendStatus(500);
-            return;
-        }
-
-        res.sendStatus(err);
+        RouteHandleError(err, res);
     }
 });
 

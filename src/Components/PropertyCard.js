@@ -15,7 +15,7 @@ function PropertyCard({property, addButton, setShowModal}){
     }
 
     if(addButton) return (
-        <Card style={{width: '18rem', borderStyle: 'dashed'}}>
+        <Card style={{width: '18rem', borderStyle: 'dashed'}} className="gallery-item">
             <Card.Img variant="top" src={'/'}/>
             <Card.Body>
                 <Card.Title>Tervetuloa Kotilogiin!</Card.Title>
@@ -38,7 +38,7 @@ function PropertyCard({property, addButton, setShowModal}){
                     vähä vaan täytestä.
                 </Card.Text>
 
-                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/property/${property.id}`)}>Avaa</Button>
+                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/property/${property.id}/events`)}>Avaa</Button>
             </Card.Body>
         </Card>
     );

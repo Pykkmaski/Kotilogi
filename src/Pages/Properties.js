@@ -4,63 +4,21 @@ import Unauthorized from './Unauthorized';
 import AppContext from '../Contexts/AppContext';
 import PropertyCard from '../Components/PropertyCard';
 import Loading from './Loading';
-import axios from 'axios';
 import AppModal from '../Modals/AppModal';
 import AddButton from '../Components/AddButton';
+import useProperties from '../Hooks/useProperties';
+import AddProperty from '../Functions/AddProperty';
 
-function User(props){
-
-    const [properties, setProperties] = useState([]);
-    const [loading, setLoading] = useState(true);
+function Properties(props){
+    const [properties, loadProperties] = useProperties();
     const [showUploadPropertyModal, setShowPropertyUploadModal] = useState(false);
     const {user} = useContext(AppContext);
 
-    function loadProperties(){
-        if(!user) return;
-        setLoading(true);
-
-        axios.get(`/property/all/`)
-        .then(res => {
-            setProperties(res.data);
-        })
-        .catch(err => {
-            console.log(err.message);
-        })
-        .finally(() => {
-            setLoading(false);
-        })
-    }
-
-    function addProperty(e){
-        e.preventDefault();
-        axios.post(`/property/`, {
-            heating_type: e.target.heating_type.value,
-            floor_count: e.target.floor_count.value,
-            wc_count: e.target.wc_count.value,
-            room_count: e.target.room_count.value,
-            build_year: e.target.build_year.value,
-            area: e.target.area.value,
-            yard_area: e.target.yard_area.value,
-            address: e.target.address.value,
-            
-        }).then(res => {
-            loadProperties();
-        })
-        .catch(err => {
-            console.log(err.message);
-        })
-        .finally(() => setShowPropertyUploadModal(false));
-    }
-
-    useEffect(() => {
-        loadProperties();
-    }, [user]);
-
     if(!user) return <Unauthorized/>;
-    if(loading) return <Loading message="Ladataan Taloja..."/>
+    if(!properties) return <Loading message="Ladataan Taloja..."/>
 
     return (
-        <div className="page" id="user-page">
+        <div className="page px-10" id="user-page">
             {
                 !properties.length ? <>
                     <AddButton onClickHandler={() => setShowPropertyUploadModal(true)}>
@@ -88,9 +46,22 @@ function User(props){
                 variant="upload/property" 
                 showModal={showUploadPropertyModal} 
                 setShowModal={setShowPropertyUploadModal}
-                uploadFunction={addProperty}/>
+                uploadFunction={(e) => {
+                    const content = {
+                        heating_type: e.target.heating_type.value,
+                        floor_count: e.target.floor_count.value,
+                        wc_count: e.target.wc_count.value,
+                        room_count: e.target.room_count.value,
+                        build_year: e.target.build_year.value,
+                        area: e.target.area.value,
+                        yard_area: e.target.yard_area.value,
+                        address: e.target.address.value,
+                    }
+
+                    AddProperty(content, () => {loadProperties(); setShowPropertyUploadModal(false)})
+                }}/>
         </div>
     );
 }
 
-export default User;
+export default Properties;

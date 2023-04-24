@@ -10,7 +10,6 @@ async function checkAuth(req, res, next){
                 throw new Error(err);
             }
             else{
-                console.log(user);
                 req.user = user;
             }
         });

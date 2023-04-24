@@ -5,6 +5,7 @@
 @import './Event';
 @import './Property';
 @import './Images';
+@import './Gallery';
 
 *{
     box-sizing: border-box;
@@ -49,10 +50,8 @@ body, #root{
     overflow-x: hidden;
 }
 
-footer{
-    display:flex;
-    align-items: center;
-    justify-content: center;
+.app{
+    height: 100%;
 }
 
 .bg-filler{
@@ -62,6 +61,10 @@ footer{
     width: 100vw;
     height: 500px;
     z-index: -1;
+}
+
+.px-10{
+    padding: 0 10vw 0 10vw;
 }
 
 .page{
@@ -79,7 +82,13 @@ footer{
         padding: 0 10vw 0 10vw;
     }
     
-    
+    h1{
+        color: $primary-color;
+    }
+
+    h2, h3{
+        color: $secondary-color;
+    }
 }
 
 .primary-button{
@@ -102,52 +111,6 @@ footer{
             background: lighten($primary-color, 10);
         }
 
-}
-
-.management-page{
-    display: grid !important;
-    grid-template-columns: 1fr 2fr;
-    gap: 1rem;
-    padding: 0 10vw 0 10vw;
-
-    .grid-item-left, .grid-item-right{
-        display: flex;
-        flex-flow: column;
-        flex: 1;
-        height: 100%;
-        width: 100%;
-    }
-
-    .grid-item-right{
-        align-items: right;
-        overflow-y: scroll;
-        
-        header{
-            text-align: right !important;
-        }
-    }
-
-    .modal{
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-
-        .modal-close-button{
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-        }
-    }
-
-    header{
-        padding: 0 !important;
-        display: flex;
-        flex-flow: row;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        border-bottom: 2px solid $secondary-color;
-    }
 }
 
 .hover-effect{
@@ -292,6 +255,14 @@ a{
     width: 100%;
 }
 
+.h-100{
+    height: 100%;
+}
+
+.align-text-right{
+    text-align: right;
+}
+
 .scroll-y{
     overflow-y: scroll;
 }
@@ -302,6 +273,14 @@ a{
     &:hover{
         background: lighten($primary-color, 10);
     }
+}
+
+.border-right{
+    border-right: 1px solid lightgray;
+}
+
+.border-bottom{
+    border-right: 1px solid lightgray;
 }
 
 .glass{
@@ -316,6 +295,11 @@ a{
 .flex-row{
     display: flex;
     flex-flow: row;
+}
+
+.bg-darkgray{
+    background: $bg-darkgray-color;
+    color: white;
 }
 
 .border{

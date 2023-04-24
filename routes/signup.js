@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const db = require('../dbconfig');
 const bcrypt = require('bcrypt');
+const RouteHandleError = require('../Functions/RouteHandleError');
 
 router.post('/', async (req, res) => {
     
@@ -24,13 +25,7 @@ router.post('/', async (req, res) => {
         res.status(200).send('Signup success!');
     }
     catch(err){
-        if(typeof(err) === 'number'){
-            res.sendStatus(err);
-        }
-        else{
-            console.log(err.message);
-            res.sendStatus(500);
-        }
+        RouteHandleError(err, res);
     }
 });
 
