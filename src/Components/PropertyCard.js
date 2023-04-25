@@ -14,21 +14,8 @@ function PropertyCard({property, addButton, setShowModal}){
         location.assign(dest);
     }
 
-    if(addButton) return (
-        <Card style={{width: '18rem', borderStyle: 'dashed'}} className="gallery-item">
-            <Card.Img variant="top" src={'/'}/>
-            <Card.Body>
-                <Card.Title>Tervetuloa Kotilogiin!</Card.Title>
-                <Card.Text>
-                    Aloita lisäämällä uusi talo
-                </Card.Text>
-                <Button variant="primary" onClick={() => setShowModal(true)}>Lisää Uusi</Button>
-            </Card.Body>
-        </Card>
-    );
-
     return (
-        <Card style={{width: '18rem'}}>
+        <Card style={{width: '18rem'}} className="event-card">
             <Card.Img variant="top" src="/"/>
             <Card.Body>
                 <Card.Title>{property.address}</Card.Title>

@@ -10,7 +10,7 @@ function Home(props){
     return(
         <>
             <div id="home-page" className="page y-scroll">
-                <HorizontalBox>
+                <div id="welcome-text-box">
                     <div id="welcome-text">
                         <h1 id="home-page-intro-text">"Talosi Huoltokirja"</h1>
                         <h2>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa</h2>
@@ -18,7 +18,7 @@ function Home(props){
                     </div>
 
                     <img src="./img/people1.jpg" id="main-image" className="rounded"/>
-                </HorizontalBox>
+                </div>
 
                 <div  id="news-content" className="page-element gap-l font-sze-m">
                     <div className="news-box rounded">

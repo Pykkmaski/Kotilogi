@@ -11,9 +11,9 @@ function EventHeader(props){
     const [showUpdateModal, setShowUpdateModal] = useState(false);
 
     return (
-        <header className="d-flex flex-column w-100 gap-1 p-3 bg-gray justify-content-center">
-            <div id="event-header-back-link-container" className="justify-content-left">
-                <button onClick={() => location.assign(`/#/property/${event.property_id}/events`)}>Takaisin Taloon</button>
+        <header id="event-header" className="d-flex flex-column w-100 gap-1 p-5 bg-gray justify-content-center">
+            <div id="event-header-back-link-container" className="justify-content-left w-100">
+                <Button onClick={() => location.assign(`/#/property/${event.property_id}/events`)}>Takaisin Taloon</Button>
             </div>
 
             <div id="event-header-body" className="d-flex flex-row gap-1">
@@ -21,7 +21,7 @@ function EventHeader(props){
                     <img id="event-main-image" src={CreateImageUrl({event_id: event.id, main: true, property_id: event.property_id})}/>
                 </div>
 
-                <div className="event-header-info-container p-1 d-flex flex-column">
+                <div id="event-header-info-container" className="p-1 d-flex flex-column">
                     <div id="event-header-info-body" className="d-flex flex-column gap-1 fill">
                         <h1>{event.name}</h1>
                         <p>
@@ -32,7 +32,7 @@ function EventHeader(props){
                     </div>
 
                     <footer id="event-header-info-footer" className="d-flex flex-row gap-1 justify-content-end">
-                        <button id="event-header-edit-button" onClick={() => setShowUpdateModal(true)}>Muokkaa</button>
+                        <Button id="event-header-edit-button" onClick={() => setShowUpdateModal(true)}>Muokkaa</Button>
                     </footer>
                 </div>
             </div>

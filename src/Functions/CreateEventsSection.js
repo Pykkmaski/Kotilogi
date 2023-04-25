@@ -26,7 +26,6 @@ function CreateEventsSection(property_id){
         <Gallery 
             title="Tapahtumat" 
             secondaryTitle="Lisää Tapahtuma" 
-            variant="grid" 
             onClickHandler={() => AddEvent(null, property_id, (event_id) => LinkTo(`/events/${event_id}`))}
         >
             {

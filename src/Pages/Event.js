@@ -23,10 +23,10 @@ function Event(props){
     if(!event) return <Loading message="Ladataan tapahtumaa..."/>
     
     return (
-        <div className="d-flex flex-column px-5 align-items-center">
+        <div className="d-flex flex-column align-items-center">
             <EventHeader event={event} loadEvent={loadEvent}></EventHeader>
             
-            <div id="event-page-sections-container">
+            <div id="event-page-sections-container" className="px-5">
                 <Gallery title="Kuvat" secondaryTitle="Lisää Kuva" onClickHandler={() => setShowAddImageModal(true)}>
                     {
                         imageIds.map(id => {

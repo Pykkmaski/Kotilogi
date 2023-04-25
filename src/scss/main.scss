@@ -6,6 +6,8 @@
 @import './Property';
 @import './Images';
 @import './Gallery';
+@import './EventHeader';
+@import './Card';
 
 *{
     box-sizing: border-box;
@@ -15,10 +17,6 @@
 
 input, select, option{
     color: gray;
-}
-
-:root{
-    --node-label-position: -7rem;
 }
 
 h1, h2{
@@ -72,7 +70,6 @@ body, #root{
 
     display:flex;
     flex-flow: column;
-    gap: 1rem;
     padding: 1rem 0 0 0;
 
     overflow-y: scroll;
@@ -298,7 +295,7 @@ a{
 }
 
 .bg-darkgray{
-    background: $bg-darkgray-color;
+    background: $header-color;
     color: white;
 }
 
