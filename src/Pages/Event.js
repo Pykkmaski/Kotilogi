@@ -10,7 +10,7 @@ import AppModal from '../Modals/AppModal';
 import useImageIds from '../Hooks/useImageIds';
 import Gallery from '../Components/Gallery';
 import UploadFile from '../Functions/UploadFile';
-import CreateImageUrl from '../Functions/CreateImageUploadLink';
+import CreateImageUrl from '../Functions/CreateImageUrl';
 import EventHeader from '../Components/EventHeader';
 
 function Event(props){

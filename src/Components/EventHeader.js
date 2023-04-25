@@ -1,4 +1,4 @@
-import CreateImageUrl from "../Functions/CreateImageUploadLink";
+import CreateImageUrl from "../Functions/CreateImageUrl";
 import useEvent from "../Hooks/useEvent";
 import {useParams} from 'react-router-dom';
 import AppModal from "../Modals/AppModal";
