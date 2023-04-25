@@ -3,10 +3,12 @@ import {useState} from 'react';
 import useProperty from '../Hooks/useProperty';
 import Loading from "./Loading";
 import CreatePropertySection from "../Functions/CreatePropertySection";
+import PropertyHeader from "../Components/PropertyHeader";
+import LoadingSpinner from "../Components/Spinner";
 
 function Property2(props){
     const {id, section} = useParams();
-    
+
     return (
         <div id="property-page" className="px-10 h-100">
             <div id="property-page-nav" className="px-5 border-right">
@@ -20,7 +22,7 @@ function Property2(props){
 
             <div id="property-page-content">
                 {
-                    CreatePropertySection({property_id: id, section})
+                    CreatePropertySection(id, section)
                 }
             </div>
             

@@ -1,6 +1,6 @@
 import CreateEventsSection from "./CreateEventsSection";
 
-function CreatePropertySection({property_id, section}){
+function CreatePropertySection(property_id, section){
 
     return (
         <div id="property-section">

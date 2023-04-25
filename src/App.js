@@ -11,27 +11,29 @@ import AppContext from './Contexts/AppContext';
 import Properties from './Pages/Properties';
 import Event from './Pages/Event';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import Property2 from './Pages/Property2';
 import Pricing from './Pages/Pricing';
-import axios from 'axios';
 import Properties2 from './Pages/Properties2';
+import { tokenStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
+import axios from 'axios';
+import { useEffect } from 'react';
 import useAxiosDefaultHeader from './Hooks/useAxiosDefaultHeader';
-
-const {tokenStorageKey} = require('./appconfig');
 
 function App(props){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
-    const [authHeader, setAuthHeader] = useAxiosDefaultHeader('Authorization', token);
     axios.defaults.headers['Authorization'] = token;
+    
+    useEffect(() => {
+        axios.defaults.headers['Authorization'] = token;
+    }, [token]);
 
     return (
         <Router>
             <div className="bg-filler"/>
             <div className="app">
 
-                <AppContext.Provider value={{token, setToken, setAuthHeader}}>
+                <AppContext.Provider value={{token, setToken}}>
                 <Header/>
                     <Routes>
                         <Route exact path="/" element={<Home/>}></Route>

@@ -10,7 +10,7 @@ import LinkTo from '../Functions/LinkTo';
 
 function Login(props){
 
-    const {setToken, setAuthHeader} = useContext(AppContext);
+    const {setToken} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(0);
 
@@ -26,9 +26,9 @@ function Login(props){
         })
         .then(res => {
             const token = res.data.token;
-            setToken(token); //Saves the token in local storage
-            setAuthHeader(token); //Sets axios default auth header.
-            LinkTo('/user')
+            setToken(token);
+            LinkTo('/user');
+            location.reload();
         })
         .catch(err => {
             setError(err.message);

@@ -31,7 +31,7 @@ function Event(props){
                     {
                         imageIds.map(id => {
                             return (
-                                <img src={`/images/property/${event.property_id}/${id}`} width="200px" className="gallery-item"/>
+                                <img src={`/images/property/${event.property_id}/${id}`} width="200px" className="gallery-item" key={`event-img-${event.id}`}/>
                             )
                         })
                     }

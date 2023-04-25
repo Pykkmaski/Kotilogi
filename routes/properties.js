@@ -78,8 +78,9 @@ router.post('/', checkAuth, async (req, res) => {
         data.owner = req.user.email;
         console.log(req.body);
 
-        await db('properties').insert(data);
-        res.status(200).send();
+        const id = (await db('properties').insert(data, ['id']))[0];
+        console.log(id);
+        res.status(200).send(id);
     }
     catch(err){
         RouteHandleError(err, res);

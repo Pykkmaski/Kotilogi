@@ -1,5 +1,6 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
+import AppContext from '../Contexts/AppContext';
 
 function useProperties(){
     const [properties, setProperties] = useState(null);

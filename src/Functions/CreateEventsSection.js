@@ -32,7 +32,7 @@ function CreateEventsSection(property_id){
             {
                 events.map(ev => {
                     return (
-                        <Card className="event-card">
+                        <Card className="event-card" key={`event-card-${ev.id}`}>
                             <Card.Img src={`/images/property/${ev.property_id}/events/${ev.id}/main`} variant="top"></Card.Img>
                             <Card.Body>
                             <Card.Title className="text-ellipsis">{ev.name}</Card.Title>

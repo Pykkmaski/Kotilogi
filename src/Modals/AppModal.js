@@ -203,6 +203,82 @@ function AppModal(props){
         )
 
     }
+    else if(props.variant === 'update/property'){
+        return (
+            <Modal centered onHide={() => props.setShowModal(false)} show={props.showModal}>
+                <Modal.Header closeButton>Muokkaa Taloa</Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={props.uploadFunction}>
+                        <Form.Group className="w-100">
+                            <Form.Label>Osoite</Form.Label>
+                            <Form.Control name="address" required defaultValue={property.address}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Lämmitystyypi</Form.Label>
+                            <Form.Select name="heating_type" required defaultValue={property.heating_type}>
+                                <option value="kaukolämpö">Kaukolämpö</option>
+                                <option value="maalämpö">Maalämpö</option>
+                                <option value="sähkö">Sähkö</option>
+                                <option value="öljy">Öljy</option>
+                                <option value="ilma-lämpöpumppu">Ilma-lämpöpumppu</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Tontin omistuksen tyyppi</Form.Label>
+                            <Form.Select name="yard_ownership" required defaultValue={property.yard_ownership}>
+                                <option value="vuokra">Vuokra</option>
+                                <option value="oma">Oma</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Talon tyyppi</Form.Label>
+                            <Form.Select name="property_type" required defaultValue={property.type}>
+                                <option value="rintamamiestalo">Rintamamiestalo</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Rakennusvuosi</Form.Label>
+                            <Form.Control name="build_year" required type="number" min="1" step="1" defaultValue={property.build_year}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Tontin neliömäärä</Form.Label>
+                            <Form.Control name="yard_area" required type="number" step="0.01" min="0" defaultValue={property.yard_area}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Talon neliömäärä</Form.Label>
+                            <Form.Control name="area" required type="number" step="0.01" min="0" defaultValue={property.area}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Kerrosten lukumäärä</Form.Label>
+                            <Form.Control name="floor_count" required type="number" step="1" min="1" defaultValue={property.floor_count}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Vessojen lukumäärä</Form.Label>
+                            <Form.Control name="wc_count" required type="number" step="1" min="1" defaultValue={property.wc_count}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="w-100">
+                            <Form.Label>Huoneiden lukumäärä</Form.Label>
+                            <Form.Control name="room_count" required type="number" step="1" min="1" defaultValue={property.room_count}></Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="d-flex flex-row justify-content-between w-100 gap-1">
+                            <Button variant="secondary" onClick={() => props.setShowModal(false)}>Peruuta</Button>
+                            <Button type="submit" variant="primary">Lisää</Button>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+        )
+    }
     else if(props.variant === 'show/image'){
         return(
             <Modal centered onHide={() => props.setShowModal(false)} show={props.showModal}>

@@ -1,4 +1,5 @@
 function LinkTo(address){
+    
     location.assign('/#' + address);
 }
 

@@ -1,19 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-function setInitialValue(initialValue){
-    if(initialValue instanceof Function) return initialValue();
-    return initialValue;
-}
+import useLocalStorage from './useLocalStorage';
+const {tokenStorageKey} = require('../appconfig');
 
 function useAxiosDefaultHeader(header, initialValue){
-    const [value, setValue] = useState(() => {
-        return setInitialValue(initialValue);
-    });
+    ///Internally retrieves the specified header and assigns it to the axios defaults.
+    const [value, setValue] = useLocalStorage(tokenStorageKey, initialValue);
 
     useEffect(() => {
         axios.defaults.headers[header] = value;
-        console.log('Axios auth header set to: ', axios.defaults.headers[header]);
     }, [value]);
 
     return [value, setValue];

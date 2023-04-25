@@ -11,9 +11,10 @@ function useProperty(property_id){
         .catch(err => console.log(err.message))
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         loadProperty();
-    }, []);
+    }, [])
+    
 
     return [property, loadProperty];
 }

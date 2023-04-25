@@ -3,6 +3,7 @@ import useEvent from "../Hooks/useEvent";
 import {useParams} from 'react-router-dom';
 import AppModal from "../Modals/AppModal";
 import UpdateEvent from "../Functions/UpdateEvent";
+import Button from 'react-bootstrap/Button';
 import {useState} from 'react';
 
 function EventHeader(props){
@@ -17,7 +18,7 @@ function EventHeader(props){
 
             <div id="event-header-body" className="d-flex flex-row gap-1">
                 <div className="event-header-image-container">
-                    <img id="event-main-image" src={CreateImageUrl({event_id: event.id, main: true})}/>
+                    <img id="event-main-image" src={CreateImageUrl({event_id: event.id, main: true, property_id: event.property_id})}/>
                 </div>
 
                 <div className="event-header-info-container p-1 d-flex flex-column">
