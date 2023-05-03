@@ -35,7 +35,7 @@ router.get('/property/:property_id/:image_id', async (req, res) => {
     }
 });
 
-router.post('/property/:property_id/events/:event_id/:image_id/main', async (req, res) => {
+router.post('/property/:property_id/events/:event_id/:image_id/main', checkAuth, async (req, res) => {
     ///Sets specified image as the main image
     try{
         const {property_id, image_id, event_id} = req.params;
@@ -102,12 +102,12 @@ router.get('/events/:event_id', checkAuth, async (req, res) => {
     }
 });
 
-router.post('/property/:property_id', upload.single('image'), async (req, res) => {
+router.post('/property/:property_id', checkAuth, upload.single('image'), async (req, res) => {
     ///Posts an image to be associated with given property.
     res.sendStatus(200);
 });
 
-router.post('/property/:property_id/events/:event_id', upload.single('image'), async (req, res) => {
+router.post('/property/:property_id/events/:event_id', checkAuth, upload.single('image'), async (req, res) => {
     ///Posts an image to be associated with given event id belonging to specified property.
     res.sendStatus(200);
 })

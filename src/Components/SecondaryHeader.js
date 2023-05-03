@@ -1,29 +1,15 @@
-import AppModal from "../Modals/AppModal";
-import UpdateEvent from "../Functions/UpdateEvent";
-import Button from 'react-bootstrap/Button';
-import {useEffect, useState} from 'react';
-import axios from 'axios';
+function SecondaryHeader(props){
 
-function EventHeader(props){
-    const {event, loadEvent} = props;
-    const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const [eventMainImage, setEventMainImage] = useState(`/properties/${event.property_id}/events/${event.id}/images/main`);
-
+    
     return (
         <header id="event-header" className="d-flex flex-column w-100 gap-1 p-5 bg-gray justify-content-center">
             <div id="event-header-back-link-container" className="justify-content-left w-100">
-                <Button onClick={() => location.assign(`/#/properties/${event.property_id}/events`)}>Takaisin Taloon</Button>
+                <Button onClick={() => location.assign(`/#/property/${data.property_id}/events`)}>Takaisin Taloon</Button>
             </div>
 
             <div id="event-header-body" className="d-flex flex-row gap-1">
                 <div className="event-header-image-container">
-                    <img 
-                        id="event-main-image" 
-                        src={eventMainImage} 
-                        loading="lazy"
-                        onError={(e) => {
-                            e.target.src = './img/no-pictures.png';
-                        }}/>
+                    <img id="event-main-image" src={CreateImageUrl({event_id: event.id, main: true, property_id: event.property_id})}/>
                 </div>
 
                 <div id="event-header-info-container" className="p-1 d-flex flex-column">
@@ -55,14 +41,12 @@ function EventHeader(props){
                         date: e.target.date.value
                     }
 
-                    UpdateEvent(event.property_id, event.id, content, () => {
+                    UpdateEvent(event.id, content, () => {
                         setShowUpdateModal(false);
                         loadEvent();
                     })
                 }}
             />
         </header>
-    );
+    )
 }
-
-export default EventHeader;

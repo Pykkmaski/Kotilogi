@@ -1,15 +1,12 @@
 import axios from 'axios';
 
-function UploadFile(file, name, dest, callback){
+function UploadFile(file, name, url, callback){
+    if(!file) throw new Error('UploadFile: File missing!');
+    if(!name) throw new Error('UploadFile: Name missing!');
+    if(!url) throw new Error('UploadFile: Url missing!');
 
     const data = new FormData();
     data.append(name, file);
-
-    const urlPropertyPortion = dest.property_id ? `property/${dest.property_id}/` : '';
-    const urlEventPortion = dest.event_id ? `events/${dest.event_id}` : '';
-
-    const url = '/images/' + urlPropertyPortion + urlEventPortion;
-    console.log(url);
     
     axios.post(url, data, {
         headers: {

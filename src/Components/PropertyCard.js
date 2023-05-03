@@ -16,7 +16,7 @@ function PropertyCard({property, addButton, setShowModal}){
 
     return (
         <Card style={{width: '18rem'}} className="event-card">
-            <Card.Img variant="top" src="/"/>
+            <Card.Img variant="top" src="/" loading="lazy"/>
             <Card.Body>
                 <Card.Title>{property.address}</Card.Title>
                 <Card.Text>
@@ -25,7 +25,7 @@ function PropertyCard({property, addButton, setShowModal}){
                     vähä vaan täytestä.
                 </Card.Text>
 
-                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/property/${property.id}/events`)}>Avaa</Button>
+                <Button variant="primary" className="w-100" onClick={() => onClickHandler(`/properties/${property.id}/events`)}>Avaa</Button>
             </Card.Body>
         </Card>
     );

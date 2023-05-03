@@ -12,16 +12,20 @@ const fileStorageEngine = multer.diskStorage({
         const {property_id, event_id} = req.params;
 
         try{
-            console.log(file.mimetype);
-
-            await db('file_map').insert({
-                filename: fn,
-                property_id,
-                event_id,
-                property_main: false,
-                event_main: false,
-                mime_type: file.mimetype,
-            });
+            if(event_id){
+                await db('event_files').insert({
+                    filename: fn,
+                    event_id,
+                    mime_type: file.mimetype,
+                });
+            }
+            else if(property_id){
+                await db('property_files').insert({
+                    filename: fn,
+                    property_id,
+                    mime_type: file.mimetype,
+                })
+            }
         }
         catch(err){
             console.log(err.message);

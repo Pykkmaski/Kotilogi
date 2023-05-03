@@ -284,10 +284,10 @@ function AppModal(props){
             <Modal centered onHide={() => props.setShowModal(false)} show={props.showModal}>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
-                    <img className="big-image" src={`/images/property/${props.property_id}/${props.selectedImageId}`}/>
+                    <img className="big-image" src={props.imageUrl}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => props.setSelectedImageAsMain()}>Aseta Pääkuvaksi</Button>
+                    <Button variant="primary" onClick={props.setImageAsMain}>Aseta Pääkuvaksi</Button>
                     <Button variant="secondary" onClick={() => props.setShowModal(false)}>Sulje</Button>
                     <Button variant="danger" onClick={() => props.deleteSelectedImage()}>Poista</Button>
                 </Modal.Footer>

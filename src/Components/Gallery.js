@@ -1,6 +1,7 @@
 import AddButton from "./AddButton";
 
 function Gallery(props){
+
     return (
         <div className={"gallery"}>
             <div className="gallery-header">

@@ -1,4 +1,5 @@
-import CreateEventsSection from "./CreateEventsSection";
+import CreateEventsSection from "../Components/PropertyEventsSection";
+import CreatePicturesSection from "../Components/PropertyPicturesSection";
 
 function CreatePropertySection(property_id, section){
 
@@ -6,6 +7,8 @@ function CreatePropertySection(property_id, section){
         <div id="property-section">
             {
                 section === 'events' ? CreateEventsSection(property_id)
+                :
+                section === 'pictures' ? CreatePicturesSection(property_id)
                 :
                 null
             }

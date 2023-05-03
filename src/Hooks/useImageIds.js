@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function useImageIds(event_id){
+function useImageIds(url){
     const [imageIds, setImageIds] = useState([]);
 
     function loadImageIds(){
-        axios.get(`images/events/${event_id}`)
+        axios.get(url)
         .then(res => {
             setImageIds(res.data);
         })

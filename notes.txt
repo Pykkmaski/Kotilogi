@@ -1,0 +1,1 @@
+Setting an image as main works, but the event header main image does not update until page is refreshed.

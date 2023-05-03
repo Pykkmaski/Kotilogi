@@ -3,14 +3,13 @@ import axios from 'axios';
 import SortEvents from '../Functions/SortEvents';
 
 function useEvents(property_id){
-    const [events, setEvents] = useState(null);
+    const [events, setEvents] = useState([]);
 
     function loadEvents(){
-        console.log('Loading events');
-        const url = `/events/property/${property_id}`;
+        const url = `/properties/${property_id}/events`;
         axios.get(url)
         .then(res => {
-            const sortedEvents = SortEvents(res.data, 'asc');
+            const sortedEvents = SortEvents(res.data, 'desc');
             setEvents(sortedEvents);
         })
         .catch(err => console.log(err.message))

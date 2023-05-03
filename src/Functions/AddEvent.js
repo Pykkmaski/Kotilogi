@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function AddEvent(content, property_id, callback){
-    axios.post('/events', content || {
+    axios.post(`/properties/${property_id}/events`, content || {
         name: 'Nimetön',
         description: 'Nimetön tapahtuma',
         date: new Date().toLocaleDateString('fi-FI'),
