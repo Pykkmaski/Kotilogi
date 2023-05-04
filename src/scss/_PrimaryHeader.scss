@@ -1,11 +1,12 @@
 @import './Config';
 
 #primary-header{
-    padding: 1rem $global-padding 1rem $global-padding;
+    padding: 0 1rem 0 1rem;
     position: sticky;
     top: 0;
     z-index: 2;
     background: white;
+    border-bottom: 1px solid $border-color;
     
     #header-logo-area{
         img{
@@ -21,7 +22,6 @@
         height: 50px;
         z-index: 5;
 
-        
         .btn-line{
             background: $primary-color;
             width: 100%;

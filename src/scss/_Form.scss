@@ -1,0 +1,14 @@
+form{
+    display: flex;
+}
+
+.form-group{
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+.form-group label{
+    color: $secondary-color;
+    font-size: 0.5rem;
+}

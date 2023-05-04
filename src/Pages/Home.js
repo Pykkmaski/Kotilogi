@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { serviceName } from '../appconfig';
+import { useState } from 'react';
 import {Link} from 'react-router-dom';
-import HorizontalBox from '../Components/HorizontalBox';
+import Modal from '../Components/Modal';
 
 const profileImage = './img/profile1.jpg';
 
@@ -11,6 +10,10 @@ function Home(props){
 
     return(
         <>
+            <Modal>
+                <h1>Kaljaa ja</h1>
+            </Modal>
+            
             <div id="home-page" className="page y-scroll">
                 <div id="welcome-text-box">
                     <div id="welcome-text">

@@ -31,17 +31,20 @@ function App(props){
 
                 <AppContext.Provider value={{token, setToken}}>
                 <Header/>
-                    <Routes>
-                        <Route exact path="/" element={<Home/>}></Route>
-                        <Route exact path="/login" element={<Login/>}></Route>
-                        <Route exact path="/register" element={<Signup/>}></Route>
-                        <Route exact path="/user/" element={<Properties/>}></Route>
-                        <Route exact path="/pricing" element={<Pricing/>}></Route>
-                        <Route exact path="/properties/:property_id/:section" element={<Property/>}></Route>
-                        <Route exact path="/properties/:property_id/events/:event_id" element={<Event/>}></Route>
-                        <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
-                        <Route exact path="*" element={<Unknown/>}></Route>
-                    </Routes>
+                    <div className='body'>
+                        <Routes>
+                            <Route exact path="/" element={<Home/>}></Route>
+                            <Route exact path="/login" element={<Login/>}></Route>
+                            <Route exact path="/register" element={<Signup/>}></Route>
+                            <Route exact path="/user/" element={<Properties/>}></Route>
+                            <Route exact path="/pricing" element={<Pricing/>}></Route>
+                            <Route exact path="/properties/:property_id/:section" element={<Property/>}></Route>
+                            <Route exact path="/properties/:property_id/events/:event_id" element={<Event/>}></Route>
+                            <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
+                            <Route exact path="*" element={<Unknown/>}></Route>
+                        </Routes>
+                    </div>
+                    
                 </AppContext.Provider>
             </div> 
 

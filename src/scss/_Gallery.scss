@@ -5,10 +5,6 @@
     overflow-y: scroll;
     flex: 1;
 
-    .gallery-header{
-
-    }
-
     .gallery-body{
         display: flex;
         flex-flow: row wrap;
@@ -22,9 +18,8 @@
         }
 
         .gallery-item{
+            min-height: 18rem;
             width: 18rem;
         }
     }
-
-    
 }

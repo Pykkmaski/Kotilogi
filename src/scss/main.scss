@@ -10,6 +10,10 @@
 @import './Card';
 @import './PropertyInfoSection';
 @import './Button';
+@import './Modal';
+@import './SideBar';
+@import './App.scss';
+@import './AddButton';
 
 *{
     box-sizing: border-box;
@@ -26,7 +30,7 @@ h1, h2{
 }
 
 h1{
-    color: $primary-color;
+    color: black;
 }
 
 h2, h3{
@@ -49,10 +53,7 @@ body, #root{
     width: 100vw;
 
     overflow-x: hidden;
-}
-
-.app{
-    height: 100vh;
+    background: $secondary-color;
 }
 
 .bg-filler{
@@ -332,7 +333,6 @@ a{
 }
 
 #user-page{
-
     margin-left: auto;
     margin-right: auto;
     

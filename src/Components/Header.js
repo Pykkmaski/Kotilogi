@@ -14,7 +14,7 @@ function Header(props){
     const {token, setToken} = useContext(AppContext);
 
     return(
-        <header className="d-flex flex-row align-items-center justify-content-between border-bottom" id="primary-header">
+        <header className="d-flex flex-row align-items-center justify-content-between" id="primary-header">
             <div className="flex-row gap-m" id="header-logo-area">
                 <Link to="/">
                     <img src={logo}/>

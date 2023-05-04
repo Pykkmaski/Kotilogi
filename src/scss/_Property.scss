@@ -1,11 +1,15 @@
 #property-page{
-    display: grid;
-    grid-template-columns: 1fr 5fr;
+    display: flex;
+    flex-flow: row;
 }
 
 #property-page-content{
+    display: flex;
+    justify-content: center;
     padding: 1rem;
+    width: 100%;
 }
+
 #property-main-image{
     width: 200px;
 }

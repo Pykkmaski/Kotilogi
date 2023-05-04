@@ -23,14 +23,13 @@ function PropertyEventsSection({property_id}){
     return (
         <Gallery 
             title="Tapahtumat" 
-            secondaryTitle="Lisää Tapahtuma" 
+            buttonTitle="Lisää Tapahtuma" 
             onClickHandler={() => AddEvent(null, property_id, (event_id) => LinkTo(`/properties/${property_id}/events/${event_id}`))}
         >
             {
                 events.map(ev => {
                     const eventMainImage = `/api/images/events/${ev.id}/main`;
 
-                    
                     return (
                         <Card key={`event-card-${ev.id}`}>
                             <img 
@@ -46,7 +45,7 @@ function PropertyEventsSection({property_id}){
                                 <div className="title text-ellipsis">{ev.title}</div>
                                 <div className="text">{ev.description}</div>
                                 <div className="button-group">
-                                    <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
+                                    <button className="black" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
                                     <button className="danger" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
                                 </div>
                             </div>

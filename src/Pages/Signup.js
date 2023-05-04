@@ -3,7 +3,6 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import 'bootstrap/scss/bootstrap.scss';
 
 function Signup(props){
 

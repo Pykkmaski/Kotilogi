@@ -8,15 +8,15 @@ function Property(props){
     const {property_id, section} = useParams();
 
     return (
-        <div id="property-page" className="px-10 h-100">
-            <div id="property-page-nav" className="px-5 border-right">
-                <nav className="d-flex flex-column gap-1 pt-5">
-                    <a className="cursor-pointer" href={`/#/properties/${property_id}/info`}>Tiedot</a>
-                    <a className="cursor-pointer" href={`/#/properties/${property_id}/events`}>Tapahtumat</a>
-                    <a className="cursor-pointer" href={`/#/properties/${property_id}/energy`}>Kulutus</a>
-                    <a className="cursor-pointer" href={`/#/properties/${property_id}/pictures`}>Kuvat</a>
-                    <a className="cursor-pointer" href={`/#/properties/${property_id}/files`}>Tiedostot</a>
-                    <a className="cursor-pointer">Poista Talo</a>
+        <div id="property-page">
+            <div className="sidebar">
+                <nav>
+                    <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/info`} title="Tarkastele talon tietoja">Tiedot</a>
+                    <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/events`} title="Tarkastele ja hallinnoi talon tapahtumia">Tapahtumat</a>
+                    <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/energy`} >Kulutus</a>
+                    <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/pictures`}>Kuvat</a>
+                    <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/files`}>Tiedostot</a>
+                    <a className="cursor-pointer nav-link">Poista Talo</a>
                 </nav>
             </div>
 

@@ -1,0 +1,18 @@
+.modal .backdrop{
+    background: rgba(black, 0.5);
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.modal .body{
+    position: absolute;
+    z-index: 11;
+    background: white;
+
+    top: 50%;
+    left: 50%;
+}

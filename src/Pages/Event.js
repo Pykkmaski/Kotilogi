@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from './Loading';
-import 'bootstrap/scss/bootstrap.scss';
 import useEvent from '../Hooks/useEvent';
 import AppModal from '../Modals/AppModal';
 import useImageIds from '../Hooks/useImageIds';
