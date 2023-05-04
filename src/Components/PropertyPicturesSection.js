@@ -16,7 +16,7 @@ function PropertyPicturesSection({property_id}){
                 images.map(id => {
                     return (
                         <img 
-                            src={`/api/images/properties/${property_id}/image/${id}`}
+                            src={`/api/images/properties/image/${id}`}
                             width="200px"
                             key={`property-${property_id}-image-${id}`}
                         />
