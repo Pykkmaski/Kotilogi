@@ -1,0 +1,20 @@
+@import './Config';
+
+button{
+    padding: 0.25rem;
+    border-radius: 10px;
+    color: white;
+    min-width: 100px;
+}
+
+button.primary{
+    background: $primary-color;
+}
+
+button.secondary{
+    background: $secondary-color;
+}
+
+button.danger{
+    background: $danger-color;
+}

@@ -9,6 +9,7 @@
 @import './EventHeader';
 @import './Card';
 @import './PropertyInfoSection';
+@import './Button';
 
 *{
     box-sizing: border-box;
@@ -39,6 +40,7 @@ nav{
         font-weight: bold;
     }
 }
+
 body, #root{
     margin: 0;
     padding: 0;
@@ -89,28 +91,6 @@ body, #root{
     }
 }
 
-.primary-button{
-    background: $primary-color;
-    padding: 1rem;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    border-radius: 50px;
-    text-decoration: none;
-    width: 50%;
-
-    transition: box-shadow 0.2s ease-out;
-
-        &:hover{
-            $shadow-distance: 0.25rem;
-            background: lighten($primary-color, 10);
-        }
-
-}
-
 .hover-effect{
     transition: 
             background-color 0.2s ease-out, 
@@ -123,71 +103,6 @@ body, #root{
         box-shadow: 2px 2px 2px 2px rgba(black, 0.2);
         backdrop-filter: blur(10px);
     }
-}
-
-form{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-
-    @keyframes FormIntroAnimation{
-        0%{
-            transform: translateY(-50px);
-            opacity: 0;
-        }
-
-        100%{
-            transform: translateY(0px);
-            opacity: 1;
-        }
-    }
-
-    animation-name: FormIntroAnimation;
-    animation-duration: 0.25s;
-    animation-timing-function: ease-out;
-    animation-iteration-count: 1;
-
-    input, button, select, textarea{
-        width: 100%;
-        font-size: 1.5rem;
-
-        border: 1px solid $secondary-color;
-        border-radius: 10px;
-    }
-
-    button{
-        cursor: pointer;
-        
-        &:hover{
-            background: lighten($primary-color, 20);
-        }      
-    }
-
-    textarea{
-        font-size: 1rem !important;
-        height: 8rem;
-        resize: none;
-    }
-
-    .button-group{
-        width: 100%;
-        display: flex;
-        flex-flow: row;
-        gap: 0.5rem;
-
-        .submit-button{
-            background: $primary-color;
-
-            &:hover{
-                background: lighten($primary-color, 10);
-            }
-        }
-    }
-
 }
 
 .page-title{
@@ -290,8 +205,11 @@ a{
     flex: 1;
 }
 
-.flex-row{
+.d-flex{
     display: flex;
+}
+
+.flex-row{
     flex-flow: row;
 }
 
@@ -313,7 +231,6 @@ a{
 }
 
 .flex-column{
-    display: flex;
     flex-flow: column;
 }
 
@@ -322,20 +239,20 @@ a{
     justify-content: center;
 }
 
-.center-align{
+.align-items-center{
     align-items: center;
 }
 
-.right-align{
+.align-items-right{
     align-items: right;
 }
 
 /*Push all elements inside the container as far away from eachother as possible*/
-.space-between{
+.justify-content-between{
     justify-content: space-between;
 }
 
-.right-justify{
+.justify-content-right{
     justify-content: right;
 }
 

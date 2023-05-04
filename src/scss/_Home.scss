@@ -38,69 +38,90 @@
 }   
 
 
-    #news-content{
-        position: relative;
-        padding-top: 5rem;
-        padding-bottom: 5rem;
-        background: url('../img/plant1.jpg');
-        background-attachment: fixed;
+#news-content{
+    position: relative;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    background: url('../img/plant1.jpg');
+    background-attachment: fixed;
 
-        .blur{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba($header-color, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        h1{
-            color: white;
-        }
-
-        p{
-            color: white;
-        }
-
-        #news-box-profile-text-section{
-            z-index: 1;
-        }
-
-        img{
-            z-index: 1;
-            border-radius: 10px;
-        }
-
-        #story-signature{
-            &:before{
-                content: '—';
-            }   
-
-            color: white;
-            margin-top: 2rem;
-            font-style: italic;
-        }
+    .blur{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba($header-color, 0.3);
+        backdrop-filter: blur(10px);
     }
 
-    #home-page-footer{
-        padding-top: 5rem;
-        background: $primary-color;
-        height: 500px;
+    h1{
+        color: white;
+    }
 
-        #main-links{
-            h2{
-                color: white;
-                margin-bottom: 2rem;
-            }
+    p{
+        color: white;
+    }
 
-            a{
-                color: white;
-                text-decoration: underline;
-                font-weight: bold;
-            }
+    #news-box-profile-text-section{
+        z-index: 1;
+    }
+
+    img{
+        z-index: 1;
+        border-radius: 10px;
+    }
+
+    #story-signature{
+        &:before{
+            content: '—';
+        }   
+
+        color: white;
+        margin-top: 2rem;
+        font-style: italic;
+    }
+}
+
+#home-page-footer{
+    padding-top: 5rem;
+    background: $primary-color;
+    height: 500px;
+
+    #main-links{
+        h2{
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        a{
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
         }
     }
+}
+
+.home-register-button{
+    background: $primary-color;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    width: 50%;
+
+    transition: box-shadow 0.2s ease-out;
+
+    &:hover{
+        $shadow-distance: 0.25rem;
+        background: lighten($primary-color, 10);
+    }
+}
 
 
 @media screen and (max-width: 1000px){

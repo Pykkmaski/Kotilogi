@@ -1,7 +1,7 @@
 import useEvents from '../Hooks/useEvents';
 import LoadingSpinner from './Spinner';
 import Gallery from './Gallery';
-import Card from 'react-bootstrap/Card';
+import Card from '../Components/Card';
 import Button from 'react-bootstrap/Button';
 import DeleteEvent from '../Functions/DeleteEvent';
 import AddEvent from '../Functions/AddEvent';
@@ -29,24 +29,27 @@ function PropertyEventsSection({property_id}){
             {
                 events.map(ev => {
                     const eventMainImage = `/api/images/events/${ev.id}/main`;
+
+                    
                     return (
-                        <Card className="event-card" key={`event-card-${ev.id}`}>
-                            <Card.Img 
-                                src={eventMainImage} 
-                                variant="top" 
+                        <Card key={`event-card-${ev.id}`}>
+                            <img 
+                                src={eventMainImage}
                                 loading="lazy"
                                 onError={(e) => {
                                     e.target.src = './img/no-pictures.png';
-                                }}></Card.Img>
-                            <Card.Body>
-                            <Card.Title className="text-ellipsis">{ev.name}</Card.Title>
-                            <Card.Text className="event-card-text">{ev.description}</Card.Text>
-
-                            <div className="card-button-group">
-                                <Button variant="secondary" className="w-100" onClick={() => showDeleteConfirmation(ev.id)}>Poista</Button>
-                                <Button variant="primary" className="w-100" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</Button>
+                                }}
+                            />
+                            
+                            <div className="body">
+                                
+                                <div className="title text-ellipsis">{ev.title}</div>
+                                <div className="text">{ev.description}</div>
+                                <div className="button-group">
+                                    <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
+                                    <button className="danger" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
+                                </div>
                             </div>
-                            </Card.Body>
                         </Card>
                     )
                 })

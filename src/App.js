@@ -1,6 +1,4 @@
 import './scss/main.scss';
-import 'bootstrap/scss/bootstrap.scss';
-
 import Header from './Components/Header';
 import Home from './Pages/Home';
 import Login from './Pages/Login';

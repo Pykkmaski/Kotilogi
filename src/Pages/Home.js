@@ -16,7 +16,7 @@ function Home(props){
                     <div id="welcome-text">
                         <h1 id="home-page-intro-text">"Talosi Huoltokirja"</h1>
                         <h2>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa</h2>
-                        <Link to="/register" id="create-acc-link" className="primary-button">Luo Ilmainen Tili</Link>
+                        <Link to="/register" id="create-acc-link" className="home-register-button">Luo Ilmainen Tili</Link>
                     </div>
 
                     <img src="./img/people1.jpg" id="main-image" className="rounded"/>

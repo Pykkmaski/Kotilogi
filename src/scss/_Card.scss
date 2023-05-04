@@ -1,6 +1,48 @@
 @import './Config';
 
-.event-card{
-    background: $header-color;
-    color: white;
+.card{
+    display: flex;
+    flex-flow: column;
+    width: 18rem;
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    padding: 0.5rem;
 }
+
+.card img{
+    width: 100%;
+}
+
+.card .body,.card .footer,.card .title{
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+.card .text, .card .body{
+    flex: 1;
+}
+
+.card .group{
+    display: flex;
+    flex-flow: row;
+    gap: 1rem;
+}
+
+.card .button-group{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.card .button-group button{
+    flex: 1;
+}
+
+.card .footer{
+    display: flex;
+    flex-flow: row;
+    justify-self: bottom;
+}
+
