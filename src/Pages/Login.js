@@ -20,7 +20,7 @@ function Login(props){
         setLoading(true);
         setError(0);
 
-        axios.post('/login', {
+        axios.post('/api/login', {
             email: e.target.email.value,
             password: e.target.password.value,
         })

@@ -15,7 +15,7 @@ function Signup(props){
         setLoading(true);
         setError(0);
 
-        axios.post('/signup', {
+        axios.post('/api/signup', {
             first_name: e.target.first_name.value,
             last_name: e.target.last_name.value,
             email: e.target.email.value,
