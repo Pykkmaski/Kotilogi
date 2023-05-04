@@ -10,7 +10,7 @@ function PropertyFilesSection({property_id}){
     const [files, loadFiles] = usePropertyFiles(property_id);
 
     return (
-        <Gallery title="Tiedostot" secondaryTitle="Lisää Tiedosto" onClickHandler={() => setShowModal(true)}>
+        <Gallery title="Tiedostot" buttonTitle="Lisää Tiedosto" onClickHandler={() => setShowModal(true)}>
         
         {
             files.map(id => {

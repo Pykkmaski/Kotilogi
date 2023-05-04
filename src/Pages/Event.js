@@ -27,7 +27,7 @@ function Event(props){
             <EventHeader event={event} loadEvent={loadEvent}></EventHeader>
             
             <div id="event-page-sections-container" className="px-5">
-                <Gallery title="Kuvat" secondaryTitle="Lisää Kuva" onClickHandler={() => setShowAddImageModal(true)}>
+                <Gallery title="Kuvat" buttonTitle="Lisää Kuva" onClickHandler={() => setShowAddImageModal(true)}>
                     {
                         images.map(id => {
                             const imageSrc = `/api/images/events/image/${id}`;

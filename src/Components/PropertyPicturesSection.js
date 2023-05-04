@@ -9,7 +9,8 @@ import usePropertyImages from "../Hooks/usePropertyImages";
 function PropertyPicturesSection({property_id}){
     const [images, loadImages] = usePropertyImages(property_id);
     const [showModal, setShowModal] = useState(false);
-
+    const noImage = './img/no-pictures';
+    
     return (
         <Gallery title="Kuvat" buttonTitle="Lisää Kuva" onClickHandler={() => setShowModal(true)}>
             {
@@ -19,6 +20,9 @@ function PropertyPicturesSection({property_id}){
                             src={`/api/images/properties/image/${id}`}
                             width="200px"
                             key={`property-${property_id}-image-${id}`}
+                            onError={(e) => {
+                                e.target.src = {noImage}
+                            }}
                         />
                     )
                 })

@@ -1,0 +1,52 @@
+const RouteHandleError = require('../Functions/RouteHandleError');
+const db = require('../dbconfig');
+const checkAuth = require('../middleware/checkAuth');
+
+const router = require('express').Router();
+
+router.get('/', checkAuth, async (req, res) => {
+    try{
+        const {property_id} = req.body;
+        const data = await db('energy_usage').where({property_id});
+        if(!data) throw 404;
+        res.status(200).send(JSON.stringify(data));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.post('/', checkAuth, async (req, res) => {
+    try{
+        const {data} = req.body;
+        await db('energy_usage').insert(data);
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.put('/', checkAuth, async (req, res) => {
+    try{
+        const {entry_id} = req.body.entry_id;
+        await db('energy_usage').where({id: entry_id}).update(req.body.data);
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.delete('/', checkAuth, async (req, res) => {
+    try{
+        const {entry_id} = req.body.entry_id;
+        await db('energy_usage').where({id: entry_id}).del();
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+module.exports = router;
