@@ -6,7 +6,7 @@ function useEvents(property_id){
     const [events, setEvents] = useState([]);
 
     function loadEvents(){
-        const url = `/properties/${property_id}/events`;
+        const url = `/api/properties/${property_id}/events`;
         axios.get(url)
         .then(res => {
             const sortedEvents = SortEvents(res.data, 'desc');

@@ -1,0 +1,67 @@
+const router = require('express').Router();
+const db = require('../dbconfig');
+const checkAuth = require('../middleware/checkAuth');
+const RouteHandleError = require('../Functions/RouteHandleError');
+const upload = require('../middleware/fileUpload');
+const path = require('path');
+const imageMimeType = 'image/jpeg';
+
+router.get('/:event_id', checkAuth, async (req, res) => {
+    ///Returns all image ids for the specified event
+    try{
+        const {property_id, event_id} = req.params;
+        const ids = await db('event_files').where({event_id, mime_type: imageMimeType}).pluck('id');
+        if(!ids) throw 404;
+        res.status(200).send(JSON.stringify(ids));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.get('/image/:image_id', async (req, res) => {
+    ///Returns the specified image
+    try{
+        const {image_id} = req.params;
+        const file = await db('event_files').where({id: image_id}).first();
+        if(!file) throw 404;
+        res.status(200).sendFile(path.join(__dirname, `../uploads/${file.filename}`));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.get('/:event_id/main', async (req, res) => {
+    ///Returns the main image for specified event id
+    try{
+        const {event_id} = req.params;
+        const image = await db('event_files').where({event_id, mime_type: imageMimeType, main: true}).first();
+        if(!image) throw 404;
+        res.status(200).sendFile(path.join(__dirname, `../uploads/${image.filename}`));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.post('/:event_id/main', async (req, res) => {
+    try{
+        const {event_id} = req.params;
+        const {image_id} = req.body;
+        ///Remove main status from any previous image specified as main
+        await db('event_files').where({event_id, main: true}).update({main: false});
+        await db('event_files').where({event_id, id: image_id}).update({main: true});
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.post('/:event_id', checkAuth, upload.single('image'), async (req, res) => {
+    ///Uploads an image to be associated with the specified event
+    res.sendStatus(200);
+});
+
+module.exports = router;

@@ -4,18 +4,19 @@ import Gallery from './Gallery';
 import { useState } from "react";
 import AppModal from "../Modals/AppModal";
 import UploadFile from "../Functions/UploadFile";
+import usePropertyImages from "../Hooks/usePropertyImages";
 
 function PropertyPicturesSection({property_id}){
-    const [imageIds, loadImageIds] = useImageIds(`/properties/${property_id}/images`);
+    const [images, loadImages] = usePropertyImages(property_id);
     const [showModal, setShowModal] = useState(false);
 
     return (
-        <Gallery title="Kuvat" secondaryTitle="Lisää Kuva" onClickHandler={() => setShowModal(true)}>
+        <Gallery title="Kuvat" buttonTitle="Lisää Kuva" onClickHandler={() => setShowModal(true)}>
             {
-                imageIds.map(id => {
+                images.map(id => {
                     return (
                         <img 
-                            src={`/properties/${property_id}/images/${id}`}
+                            src={`/api/images/properties/${property_id}/image/${id}`}
                             width="200px"
                             key={`property-${property_id}-image-${id}`}
                         />
@@ -36,9 +37,9 @@ function PropertyPicturesSection({property_id}){
                         UploadFile(
                             e.target.image.files[0], 
                             'image', 
-                            `/properties/${property_id}/images`, () => {
+                            `/api/images/properties/${property_id}`, () => {
                                 setShowModal(false);
-                                loadImageIds();
+                                loadImages();
                         });
                     }
                 }/>

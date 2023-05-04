@@ -7,7 +7,7 @@ import axios from 'axios';
 function EventHeader(props){
     const {event, loadEvent} = props;
     const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const [eventMainImage, setEventMainImage] = useState(`/properties/${event.property_id}/events/${event.id}/images/main`);
+    const eventMainImage = `/api/images/events/${event.id}/main`;
 
     return (
         <header id="event-header" className="d-flex flex-column w-100 gap-1 p-5 bg-gray justify-content-center">

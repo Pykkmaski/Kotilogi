@@ -28,7 +28,7 @@ function PropertyEventsSection({property_id}){
         >
             {
                 events.map(ev => {
-                    const eventMainImage = `/properties/${ev.property_id}/events/${ev.id}/images/main`;
+                    const eventMainImage = `/api/images/events/${ev.id}/main`;
                     return (
                         <Card className="event-card" key={`event-card-${ev.id}`}>
                             <Card.Img 
@@ -57,7 +57,7 @@ function PropertyEventsSection({property_id}){
                 setShowModal={setShowDeleteModal} 
                 showModal={showDeleteModal} 
                 deleteFunction={() => 
-                    DeleteEvent(property_id, eventToBeDeleted, () => {
+                    DeleteEvent(eventToBeDeleted, () => {
                         setShowDeleteModal(false); 
                         loadEvents()})} 
                 eventToBeDeleted={eventToBeDeleted}/> 

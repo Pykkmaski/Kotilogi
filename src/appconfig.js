@@ -1,3 +1,9 @@
+const routeApiPortion = 'api';
+const routePropertyPortion = 'properties';
+const routeEventPortion = 'events';
+const routeImagesPortion = 'images';
+const routeFilesPortion = 'files';
+
 module.exports = {
     tokenStorageKey : 'digikoti_token',
     serviceName : 'Kotilogi',
@@ -26,5 +32,10 @@ module.exports = {
         }
     },
 
-    
+    routeImages: `/${routeApiPortion}/${routeImagesPortion}`,
+    routeFiles: `/${routeApiPortion}/${routeFilesPortion}`,
+    routeProperties: `/${routeApiPortion}/${routePropertyPortion}`,
+    routeEvents: `/${routeApiPortion}/${routeEventPortion}`,
+    routePropertyImages: `/${routeApiPortion}/${routeImagesPortion}/${routePropertyPortion}`,
+    routeEventImages: `/${routeApiPortion}/${routeImagesPortion}/${routeEventPortion}`,
 }

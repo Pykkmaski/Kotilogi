@@ -1,19 +1,19 @@
 import UploadFile from "../Functions/UploadFile";
 import AppModal from "../Modals/AppModal";
 import {useState} from 'react';
-import useFiles from '../Hooks/useFiles';
+import usePropertyFiles from '../Hooks/usePropertyFiles';
 
 const { default: Gallery } = require("./Gallery");
 
 function PropertyFilesSection({property_id}){
     const [showModal, setShowModal] = useState(false);
-    const [fileIds, loadFileIds] = useFiles(property_id, null);
+    const [files, loadFiles] = usePropertyFiles(property_id);
 
     return (
         <Gallery title="Tiedostot" secondaryTitle="Lisää Tiedosto" onClickHandler={() => setShowModal(true)}>
         
         {
-            fileIds.map(id => {
+            files.map(id => {
                 return (
                     <img src={'/'} width="200px" key={`property-${property_id}-file-${id}`}/>
                 )
@@ -26,10 +26,10 @@ function PropertyFilesSection({property_id}){
                 UploadFile(
                     e.target.pdf.files[0], 
                     'file', 
-                    `/properties/${property_id}/files`, 
+                    `/api/files/properties/${property_id}`, 
                     () => {
                         setShowModal(false);
-                        loadFileIds();
+                        loadFiles();
                     })
             }   
         }/>

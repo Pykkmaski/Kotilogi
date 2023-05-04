@@ -10,7 +10,7 @@ function Gallery(props){
 
             <div className={"gallery-body" + ` ${props.variant}`}>
                 <AddButton onClickHandler={props.onClickHandler}>
-                    <span>{props.secondaryTitle}</span>
+                    <span>{props.buttonTitle}</span>
                 </AddButton>
                 {
                     props.children

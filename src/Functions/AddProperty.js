@@ -3,7 +3,7 @@ import axios from 'axios';
 function AddProperty(content, callback){
     console.log(axios.defaults.headers['Authorization']);
 
-    axios.post(`/properties`, content || {
+    axios.post(`/api/properties`, content || {
         address : '',
         
     })

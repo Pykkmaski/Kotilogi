@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-function useFiles(property_id, event_id){
+function usePropertyFiles(property_id){
     const [ids, setIds] = useState([]);
 
     function loadFiles(){
-        axios.get(`/properties/${property_id}/files`)
+        axios.get(`/api/files/properties/${property_id}`)
         .then(res => setIds(res.data))
         .catch(err => console.log(err.message));
     }
@@ -17,4 +17,4 @@ function useFiles(property_id, event_id){
     return [ids, loadFiles];
 }
 
-export default useFiles;
+export default usePropertyFiles;

@@ -9,12 +9,12 @@ import useImageIds from '../Hooks/useImageIds';
 import Gallery from '../Components/Gallery';
 import UploadFile from '../Functions/UploadFile';
 import EventHeader from '../Components/EventHeader';
+import useEventImages from '../Hooks/useEventImages';
 
 function Event(props){
-    const {event_id, property_id} = useParams();
-    const [event, loadEvent] = useEvent(event_id, property_id);
-    const [imageIds, loadImageIds] = useImageIds(`/properties/${property_id}/events/${event_id}/images`);
-    const [showEditEventModal, setShowEditEventModal] = useState(false);
+    const {event_id} = useParams();
+    const [event, loadEvent] = useEvent(event_id);
+    const [images, loadImages] = useEventImages(event_id);
     const [showAddImageModal, setShowAddImageModal] = useState(false);
     const [showPreviewImageModal, setShowPreviewImageModal] = useState(false);
 
@@ -29,8 +29,8 @@ function Event(props){
             <div id="event-page-sections-container" className="px-5">
                 <Gallery title="Kuvat" secondaryTitle="Lisää Kuva" onClickHandler={() => setShowAddImageModal(true)}>
                     {
-                        imageIds.map(id => {
-                            const imageSrc = `/properties/${property_id}/events/${event_id}/images/${id}`;
+                        images.map(id => {
+                            const imageSrc = `/api/images/events/image/${id}`;
                             return (
                                 <img 
                                     loading={"lazy"} 
@@ -58,8 +58,8 @@ function Event(props){
                             UploadFile(
                                 e.target.image.files[0], 
                                 'image', 
-                                `/properties/${property_id}/events/${event_id}/images`, () => {
-                                    loadImageIds(); 
+                                `/api/images/events/${event_id}`, () => {
+                                    loadImages(); 
                                     setShowAddImageModal(false);
                             })
                             }
@@ -70,10 +70,12 @@ function Event(props){
                     variant="show/image"
                     showModal={showPreviewImageModal}
                     setShowModal={setShowPreviewImageModal}
-                    imageUrl={`/properties/${property_id}/events/${event_id}/images/${selectedImageId.current}`}
+                    imageUrl={`/api/images/${selectedImageId.current}`}
 
                     setImageAsMain={() => {
-                        axios.post(`properties/${property_id}/events/${event_id}/images/main/${selectedImageId.current}`)
+                        axios.post(`/api/images/events/${event_id}/main`, {
+                            image_id: selectedImageId.current
+                        })
                         .then(res => {
                             setShowPreviewImageModal(false);
                             loadImageIds();
@@ -82,7 +84,7 @@ function Event(props){
                     }}
 
                     deleteSelectedImage={() => {
-                        axios.delete(`/properties/${property_id}/events/${event_id}/images/${selectedImageId.current}`)
+                        axios.delete(`/api/images/${selectedImageId.current}`)
                         .then(res => {
                             setShowPreviewImageModal(false);
                             loadImageIds();
