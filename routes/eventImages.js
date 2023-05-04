@@ -64,4 +64,18 @@ router.post('/:event_id', checkAuth, upload.single('image'), async (req, res) =>
     res.sendStatus(200);
 });
 
+router.delete('/image/:image_id', checkAuth, async (req, res) => {
+    try{
+        const {image_id} = req.params;
+        const file = await db.select('filename').from('event_files').where({mime_type: imageMimeType, id: image_id}).first();
+        fs.unlink(path.join(__dirname, `../uploads/${file.filename}`), (err) => console.log(`Delete event image: ${err.message}`));
+        await db('event_files').where({filename: file.filename}).del();
+        res.sendStatus(200);
+
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+})
+
 module.exports = router;
