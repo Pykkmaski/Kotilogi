@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Spinner from 'react-bootstrap/Spinner';
+import LoadingSpinner from '../Components/Spinner';
 
 function Signup(props){
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState(0);
 
     function onSubmitHandler(e){
         e.preventDefault();
@@ -32,9 +30,8 @@ function Signup(props){
         });
     }
 
-    return (
-        <div className="d-flex flex-column align-items-center">
-            <Form onSubmit={onSubmitHandler}>
+    /*
+    <Form onSubmit={onSubmitHandler}>
                 <header>
                     <h1>Luo Käyttäjätunnus</h1>
                 </header>
@@ -80,6 +77,64 @@ function Signup(props){
                     }
                 </span>
             </Form>
+
+        */
+
+    return (
+        <div className="d-flex flex-column align-items-center">
+            <form onSubmit={onSubmitHandler} className="animated">
+                <div className="form-title">Luo Tili</div>
+
+                <div className="form-group">
+                    <label>Etunimi</label>
+                    <input name="first_name" required/>
+                </div>
+
+                <div className="form-group">
+                    <label>Sukunimi</label>
+                    <input name="last_name" required/>
+                </div>
+
+                <div className="form-group">
+                    <label>Sähköpostiosoite</label>
+                    <input type="email" required name="email" className={error === 406 ? 'error' : ''}/>
+                </div>
+
+                <div className="form-group">
+                    <label>Salasana</label>
+                    <input type="password" minLength={8} required name="password1" className={error === 409 ? 'error' : ''}/>
+                    <div className="sub-label">Salasanan tulee olla vähintään 8 merkkiä pitkä.</div>
+                </div>
+
+                <div className="form-group">
+                    <label>Kirjoita Salasana Uudelleen</label>
+                    <input type="password" required name="password2" className={error === 409 ? 'error' : ''}/>
+                </div>
+
+                <div className="form-button-group">
+                    <button className="primary" type="submit">Luo Tili</button>
+                </div>
+
+                {
+                    loading ? <LoadingSpinner size={'3rem'} message="Luodaan tiliä."/> : null
+                }
+
+                {
+                    error !== 0 ? 
+                    <div className="form-error">
+                        {
+                            error === 409 ? 
+                            "Annetut salasanat eivät täsmää!" :
+                            error === 406 ?
+                            "Tili annetulla sähköpostiosoitteella on jo olemassa!" :
+                            null
+                        }
+                    </div>
+                    :
+                    null
+                }
+                
+            </form>
         </div>
     )
 }

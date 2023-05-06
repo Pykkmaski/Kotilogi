@@ -18,8 +18,8 @@ function Properties2(props){
 
     return (
         <div className="d-flex flex-column px-10 align-items-center">
-            <Gallery secondaryTitle="Lisää Talo" title="Talot" onClickHandler={() => {
-                AddProperty(null, (property_id) => LinkTo(`/properties/${property_id}/events`))
+            <Gallery buttonTitle="Lisää Talo" title="Talot" onClickHandler={() => {
+                AddProperty(null, (property_id) => LinkTo(`/properties/${property_id}/info`))
             }
             }>
                 {

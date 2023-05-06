@@ -55,7 +55,7 @@ function EventHeader(props){
                         date: e.target.date.value
                     }
 
-                    UpdateEvent(event.property_id, event.id, content, () => {
+                    UpdateEvent(event.id, content, () => {
                         setShowUpdateModal(false);
                         loadEvent();
                     })

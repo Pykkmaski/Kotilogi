@@ -1,0 +1,23 @@
+@keyframes SlideUp{
+    0%{
+        transform: translateY(50px);
+        opacity: 0;
+    };
+
+    100%{
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes RingAnimation{
+    0% {transform: rotate(0deg) };
+    50% {transform: rotate(180deg)};
+    100% {transform: rotate(365deg)};
+}
+
+@mixin SlideUpAnimation{
+    animation-name: SlideUp;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+}

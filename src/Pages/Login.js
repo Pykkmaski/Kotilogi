@@ -1,11 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
-import { userStorageName } from '../appconfig';
 import AppContext from '../Contexts/AppContext';
 import axios from 'axios';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
 import LinkTo from '../Functions/LinkTo';
+import LoadingSpinner from '../Components/Spinner';
 
 function Login(props){
 
@@ -14,7 +11,6 @@ function Login(props){
     const [error, setError] = useState(0);
 
     function onSubmitHandler(e){
-
         e.preventDefault();
         setLoading(true);
         setError(0);
@@ -30,48 +26,52 @@ function Login(props){
             location.reload();
         })
         .catch(err => {
-            setError(err.message);
+            setError(err.response.status);
         })
         .finally(() => {
             setLoading(false);
         });
     }
-
+   
     return (
         <div className="d-flex flex-column align-items-center">
-            <Form onSubmit={onSubmitHandler} className="mw-25">
-                <header>
-                    <h1>Kirjaudu Sisään</h1>
-                </header>
-                <Form.Group className="w-100">
-                    <Form.Label>Sähköpostiosoite</Form.Label>
-                    <Form.Control type="email" name="email"></Form.Control>
-                </Form.Group>
+            <form onSubmit={onSubmitHandler} className="animated">
+                <div className="form-title">Kirjaudu Sisään</div>
+                <div className="form-group">
+                    <label>Sähköpostiosoite</label>
+                    <input type="email" required name="email" className={error === 404 ? 'error' : null}/>
+                </div>
 
-                <Form.Group className="w-100">
-                    <Form.Label>Salasana</Form.Label>
-                    <Form.Control type="password" name="password"></Form.Control>
-                </Form.Group>
+                <div className="form-group">
+                    <label>Salasana</label>
+                    <input type="password" required name="password" className={error === 401 ? 'error' : null}/>
+                </div>
 
-                <Button type="submit" variant="primary">Kirjaudu</Button>
+                <div className="form-button-group">
+                    <button className="primary" type="submit">Kirjaudu Sisään</button>
+                </div>
 
-                {
-                    loading ? <Spinner animation="grow" role="status" variant="primary"></Spinner> : null
-                }
-
+                <div className="form-spinner">
+                    {
+                        loading ? <LoadingSpinner size={"3rem"} message={'Kirjaudutaan sisään.'}/> : null
+                    }
+                </div>
                 
-                <span className="text-danger">
                 {
-                    error === 404 ?
-                    'Tiliä annetulla käyttäjänimellä ei ole!' :
-                    error === 401 ?
-                    'Annettu salasana on virheellinen!' :
+                    error !== 0 ?
+                        <div className="form-error">
+                            {
+                                error === 404 ?
+                                'Tiliä annetulla käyttäjänimellä ei ole!' :
+                                error === 401 ?
+                                'Annettu salasana on virheellinen!' :
+                                null
+                            }
+                        </div> : 
                     null
                 }
-            </span>
-            </Form>
-
-            
+                
+            </form>
         </div>
       
       

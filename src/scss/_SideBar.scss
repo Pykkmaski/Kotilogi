@@ -5,7 +5,25 @@
     min-height: 100vh;
     padding: 1rem;
     width: 18rem;
+    display: flex;
+    flex-flow: column;
 }
+
+.sidebar .sidebar-group{
+    display: flex;
+    flex-flow: column;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $secondary-color;
+    padding-bottom: 1rem;
+}
+
+.sidebar .sidebar-group .sidebar-title{
+    font-size: 1rem;
+    color: white;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
 
 .sidebar nav .nav-link{
     color: $secondary-color;

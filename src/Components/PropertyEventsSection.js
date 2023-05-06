@@ -32,21 +32,24 @@ function PropertyEventsSection({property_id}){
 
                     return (
                         <Card key={`event-card-${ev.id}`}>
-                            <img 
-                                src={eventMainImage}
-                                loading="lazy"
-                                onError={(e) => {
-                                    e.target.src = './img/no-pictures.png';
-                                }}
-                            />
+
+                            <div className="card-image">
+                                <img 
+                                    src={eventMainImage}
+                                    loading="lazy"
+                                    onError={(e) => {
+                                        e.target.src = './img/no-pictures.png';
+                                    }}
+                                />
+                            </div>
                             
-                            <div className="body">
+                            <div className="card-body">
                                 
-                                <div className="title text-ellipsis">{ev.title}</div>
-                                <div className="text">{ev.description}</div>
-                                <div className="button-group">
-                                    <button className="black" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
-                                    <button className="danger" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
+                                <div className="card-title text-ellipsis">{ev.name}</div>
+                                <div className="card-text">{ev.description}</div>
+                                <div className="card-button-group">
+                                    <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
+                                    <button className="black" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
                                 </div>
                             </div>
                         </Card>

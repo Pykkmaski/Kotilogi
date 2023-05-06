@@ -17,9 +17,10 @@ function PropertyPicturesSection({property_id}){
                 images.map(id => {
                     return (
                         <img 
+                            className="gallery-image"
                             src={`/api/images/properties/image/${id}`}
-                            width="200px"
                             key={`property-${property_id}-image-${id}`}
+                            width="200px"
                             onError={(e) => {
                                 e.target.src = {noImage}
                             }}

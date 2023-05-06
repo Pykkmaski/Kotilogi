@@ -1,1 +1,3 @@
 Setting an image as main works, but the event header main image does not update until page is refreshed.
+Sending a large image for an event makes the modal not close immediately, allowing a user to click send multiple times.
+Card images do not fit properly inside the card element.

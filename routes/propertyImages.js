@@ -26,7 +26,7 @@ router.get('/:property_id/main', async (req, res) => {
     ///Returns the main image for specified property id
     try{
         const {property_id} = req.params;
-        const image = await db('property_files').where({property_id, mimeType: imageMimeType, main: true}).first();
+        const image = await db('property_files').where({property_id, mime_type: imageMimeType, main: true}).first();
         if(!image) throw 404;
         res.status(200).sendFile(path.join(__dirname, `../uploads/${image.filename}`));
     }

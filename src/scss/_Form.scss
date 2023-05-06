@@ -1,14 +1,81 @@
+@import './Animations';
+
 form{
     display: flex;
+    flex-flow: column;
+    min-width: 24rem;
+    gap: 1rem;
+
+    .form-title{
+        font-size: 3rem;
+        color: black;
+        width: inherit;
+        display: inherit;
+        justify-content: center;
+    }
+
+    .form-error{
+        display: inherit;
+        justify-content: center;
+        color: $danger-color;
+
+        @include SlideUpAnimation;
+    }
+
+    .form-spinner{
+        display: flex;
+        justify-content: center;
+    }
+    
+}
+
+form.animated{
+    @include SlideUpAnimation;
+}
+
+form .form-button-group{
+    display: flex;
+    flex-flow: row;
+    gap: 1rem;
+
+    button{
+        flex: 1;
+    }
 }
 
 .form-group{
     display: flex;
     flex-flow: column;
     width: 100%;
-}
+    gap: 0.25rem;
 
-.form-group label{
-    color: $secondary-color;
-    font-size: 0.5rem;
+    &.error{
+        label{
+            color: $danger-color;
+        }
+
+        input, select, textarea{
+            border-color: $danger-color;
+        }
+    }
+
+    label{
+        color: $secondary-color;
+        font-size: 1rem;
+    }
+
+    .sub-label{
+        color: $secondary-color;
+        font-size: 0.75rem;
+    }
+
+    input, select, textarea{
+        border-radius: 5px;
+        border: 1px solid $border-color;
+        font-size: 1.25rem;
+
+        &.error{
+            border-color: $danger-color;
+        }
+    }
 }

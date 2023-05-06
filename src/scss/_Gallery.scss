@@ -11,12 +11,6 @@
         gap: 1rem;
         width: 100%;
 
-        &.grid{
-            display: grid !important;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 1rem;
-        }
-
         .gallery-item{
             min-height: 18rem;
             width: 18rem;

@@ -1,4 +1,5 @@
 @import './Config';
+@import './Nav';
 @import './Home';
 @import './PrimaryHeader';
 @import './Pricing';
@@ -14,10 +15,13 @@
 @import './SideBar';
 @import './App.scss';
 @import './AddButton';
+@import './Dropdown.scss';
+@import './Form';
+@import './Spinner.scss';
 
 *{
     box-sizing: border-box;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $secondary-color;
 }
 
@@ -149,18 +153,6 @@ a{
         img{
             filter: invert(1);
         }
-    }
-}
-
-@keyframes ErrorAnimation{
-    0%{
-        transform: translateX(100px);
-        opacity: 0;
-    }
-
-    100%{
-        transform: translateX(0);
-        opacity: 1;
     }
 }
 

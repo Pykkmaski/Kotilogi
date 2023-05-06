@@ -6,6 +6,7 @@ import 'bootstrap/scss/bootstrap.scss';
 import Nav from 'react-bootstrap/Nav'
 import NavBar from 'react-bootstrap/NavBar';
 import LinkTo from '../Functions/LinkTo';
+import Dropdown from './Dropdown.js';
 
 const logo = './img/logo.png';
 
@@ -21,36 +22,33 @@ function Header(props){
                 </Link>
             </div>
             
-            <div className="d-flex flex-row justify-content-between">
-                <NavBar>
-                    {
-                        !token ?
-                        <Nav>
-                            <Nav.Link href="/#/pricing">
-                                Hinnasto
-                            </Nav.Link>
-    
-                            <Nav.Link href="/#/login">
-                                Kirjaudu
-                            </Nav.Link>
+            <div className="navigation">
+                {
+                    !token ? 
+                    <nav>
+                        <a href="/#/pricing">
+                            Hinnasto
+                        </a>
 
-                            <Nav.Link href="/#/register">
-                                Rekisteröidy
-                            </Nav.Link>
-                        </Nav> 
-                        :
-                        <Nav>
-    
-                            <Nav.Link href={`/#/user`}>
-                                Talot
-                            </Nav.Link>
-    
-                            <Nav.Link href="" onClick={() => {setToken(null); LinkTo('/#/')}}>
-                                Kirjaudu Ulos
-                            </Nav.Link>
-                        </Nav>
-                    }
-                </NavBar>
+                        <a href="/#/login">
+                            Kirjaudu
+                        </a>
+
+                        <a href="/#/register">
+                            Rekisteröidy
+                        </a> 
+                    </nav>
+                    :
+                    <nav>
+                        <a href={`/#/user`}>
+                            Talot
+                        </a>
+
+                        <a href="" onClick={() => {location.assign('/#/'); setToken(null);}}>
+                            Kirjaudu Ulos
+                        </a>
+                    </nav>
+                }
             </div>
       
         </header>
