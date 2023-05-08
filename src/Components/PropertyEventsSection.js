@@ -6,56 +6,88 @@ import Button from 'react-bootstrap/Button';
 import DeleteEvent from '../Functions/DeleteEvent';
 import AddEvent from '../Functions/AddEvent';
 import AppModal from '../Modals/AppModal';
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import LinkTo from '../Functions/LinkTo';
+import PropertyEventsContext from '../Contexts/PropertyEventsContext';
 
-function PropertyEventsSection({property_id}){
-    const [events, loadEvents] = useEvents(property_id);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showAddEventModal, setShowAddEventModal] = useState(false);
-    const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
+function Header(props){
+    return (
+        <div className="property-events-header">
+            <h1>Tapahtumat</h1>
+            <input type="search" defaultValue="Etsi Tapahtumaa..." onChange={() => props.loadEvents(e.target.value)}/>
+        </div>
+    )
+}
 
+function Events(props){
+
+    const {setShowDeleteModal, setEventToBeDeleted} = useContext(PropertyEventsContext);
     function showDeleteConfirmation(id){
-        setEventToBeDeleted(id);
         setShowDeleteModal(true);
+        setEventToBeDeleted(id);
     }
 
     return (
-        <Gallery 
-            title="Tapahtumat" 
-            buttonTitle="Lisää Tapahtuma" 
-            onClickHandler={() => AddEvent(null, property_id, (event_id) => LinkTo(`/properties/${property_id}/events/${event_id}`))}
-        >
-            {
-                events.map(ev => {
-                    const eventMainImage = `/api/images/events/${ev.id}/main`;
+        <>
+         {
+            props.events.map(ev => {
+                const eventMainImage = `/api/images/events/${ev.id}/main`;
 
-                    return (
-                        <Card key={`event-card-${ev.id}`}>
+                return (
+                    <Card key={`event-card-${ev.id}`}>
 
-                            <div className="card-image">
-                                <img 
-                                    src={eventMainImage}
-                                    loading="lazy"
-                                    onError={(e) => {
-                                        e.target.src = './img/no-pictures.png';
-                                    }}
-                                />
+                        <Card.Image 
+                            src={eventMainImage}
+                            loading="lazy"
+                            onError={(e) => {
+                                e.target.src = './img/no-pictures.png';
+                            }}
+                        />
+                        
+                        <Card.Body>
+                            <div className="card-title text-ellipsis">{ev.name}</div>
+                            <div className="card-text">
+                                <span>{ev.description}</span>
+                                <span>{ev.date}</span>
                             </div>
-                            
-                            <div className="card-body">
-                                
-                                <div className="card-title text-ellipsis">{ev.name}</div>
-                                <div className="card-text">{ev.description}</div>
-                                <div className="card-button-group">
-                                    <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
-                                    <button className="black" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
-                                </div>
+                            <div className="card-button-group">
+                                <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
+                                <button className="black" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
                             </div>
-                        </Card>
-                    )
-                })
-            }
+                        </Card.Body>
+                    </Card>
+                )
+            })
+        }
+        </>
+       
+    )
+}
+
+function Body(props){
+    const {
+        property_id, 
+        events, 
+        loadEvents,
+        showDeleteModal, 
+        setShowDeleteModal, 
+        eventToBeDeleted, 
+        setShowAddEventModal, 
+        showAddEventModal} = useContext(PropertyEventsContext);
+    
+    function galleryAddHandler(){
+        AddEvent(null, property_id, (event_id) => LinkTo(`/properties/${property_id}/events/${event_id}`));
+    }
+
+    return (
+        <div className="property-events-body">
+            <Gallery buttonTitle="Lisää Tapahtuma" >
+                <Gallery.Body>
+                    <Gallery.Button title="Lisää Tapahtuma" onClickHandler={() => galleryAddHandler()}></Gallery.Button>
+                    <Events events={events}/>
+                </Gallery.Body>
+                
+            </Gallery>
 
             <AppModal 
                 variant="delete/event" 
@@ -71,9 +103,40 @@ function PropertyEventsSection({property_id}){
                 variant="upload/event" 
                 setShowModal={setShowAddEventModal} 
                 showModal={showAddEventModal}/>
-            
-        </Gallery>
+        </div>
+        
     )
+}
+
+function PropertyEventsSection({property_id}){
+    const [events, loadEvents] = useEvents(property_id);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showAddEventModal, setShowAddEventModal] = useState(false);
+    const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
+
+    return (
+        <div className="property-events-section">
+            <PropertyEventsContext.Provider
+                value={
+                    {
+                        property_id,
+                        events,
+                        showDeleteModal,
+                        showAddEventModal,
+                        eventToBeDeleted,
+
+                        setShowDeleteModal,
+                        setShowAddEventModal,
+                        setEventToBeDeleted,
+                        loadEvents,
+                    }
+                }
+            >
+                <Header/>
+                <Body/>
+            </PropertyEventsContext.Provider>
+        </div>
+    );
 }
 
 export default PropertyEventsSection;

@@ -10,6 +10,18 @@
     }
 }
 
+@keyframes SlideRight{
+    0%{
+        transform: translateX(-50px);
+        opacity: 0;
+    };
+
+    100%{
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
 @keyframes RingAnimation{
     0% {transform: rotate(0deg) };
     50% {transform: rotate(180deg)};
@@ -18,6 +30,12 @@
 
 @mixin SlideUpAnimation{
     animation-name: SlideUp;
-    animation-duration: 0.25s;
+    animation-duration: 0.125s;
+    animation-timing-function: ease-out;
+}
+
+@mixin SlideRightAnimation{
+    animation-name: SlideRight;
+    animation-duration: 0.125s;
     animation-timing-function: ease-out;
 }

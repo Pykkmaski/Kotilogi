@@ -2,7 +2,8 @@ import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
+import {default as CustomModal} from '../Components/Modal';
+import {default as CustomForm} from '../Components/Form';
 function AppModal(props){
 
     //if(!props.setShowModal) throw new Error('Modal setShow function missing!');
@@ -11,24 +12,24 @@ function AppModal(props){
         //if(!props.uploadFuntion) throw new Error('Upload modal upload function missing!');
 
         return (
-            <Modal show={props.showModal} centered onHide={() => props.setShowModal(false)}>
-                <Modal.Header closeButton>
+            <CustomModal show={props.showModal} centered onHide={() => props.setShowModal(false)}>
+                <CustomModal.Header closeButton>
                     Lataa Kuva
-                </Modal.Header>
+                </CustomModal.Header>
 
-                <Modal.Body>
-                    <Form onSubmit={props.uploadFunction}>
-                        <Form.Group className="w-100">
-                            <Form.Control type="file" accept="image/jpeg" name="image"></Form.Control>
-                        </Form.Group>
+                <CustomModal.Body>
+                    <CustomForm onSubmit={props.uploadFunction}>
+                        <CustomForm.Group className="w-100">
+                            <CustomForm.Control type="file" accept="image/jpeg" name="image"></CustomForm.Control>
+                        </CustomForm.Group>
 
-                        <Form.Group className="w-100 d-flex flex-row justify-content-between gap-1">
+                        <CustomForm.ButtonGroup>
                             <Button variant="secondary" onClick={() => props.setShowModal(false)}>Peruuta</Button>
                             <Button variant="primary" type="submit">Lähetä</Button>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-            </Modal>
+                        </CustomForm.ButtonGroup>
+                    </CustomForm>
+                </CustomModal.Body>
+            </CustomModal>
         );
     }
     else if(props.variant === 'upload/pdf'){
@@ -59,7 +60,7 @@ function AppModal(props){
         //if(!props.uploadFuntion) throw new Error('Upload modal upload function missing!');
 
         return (
-            <Modal show={props.showModal} backdrop="static" centered onHide={() => props.setShowModal(false)}>
+            <CustomModal show={props.showModal} backdrop="static" centered onHide={() => props.setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Lisää Tapahtuma</Modal.Title>
                     
@@ -88,7 +89,7 @@ function AppModal(props){
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-            </Modal>
+            </CustomModal>
         );
     }
     else if(props.variant === 'upload/property'){
@@ -170,36 +171,35 @@ function AppModal(props){
     else if(props.variant === 'update/event'){
 
         return(
-            <Modal show={props.showModal} backdrop="static" centered onHide={() => props.setShowModal(false)}>
-            <Modal.Header closeButton>
-                <Modal.Title>Muokkaa Tapahtumaa</Modal.Title>
-                
-            </Modal.Header>
+            <CustomModal show={props.showModal} backdrop="static" centered onHide={() => props.setShowModal(false)}>
+            <CustomModal.Header closeButton>
+                <CustomModal.Title>Muokkaa Tapahtumaa</CustomModal.Title>
+            </CustomModal.Header>
 
-            <Modal.Body>
-                <Form onSubmit={props.uploadFunction}>
-                    <Form.Group className="w-100">
-                        <Form.Label>Otsikko</Form.Label>
-                        <Form.Control name="name" required defaultValue={props.event.name}></Form.Control>
-                    </Form.Group>
+            <CustomModal.Body>
+                <CustomForm onSubmit={props.uploadFunction}>
+                    <CustomForm.Group className="w-100">
+                        <CustomForm.Label>Otsikko</CustomForm.Label>
+                        <CustomForm.Control name="name" required defaultValue={props.event.name}></CustomForm.Control>
+                    </CustomForm.Group>
 
-                    <Form.Group className="w-100">
-                        <Form.Label>Päivämäärä</Form.Label>
-                        <Form.Control name="date" type="date" required defaultValue={props.event.date}></Form.Control>
-                    </Form.Group>
+                    <CustomForm.Group className="w-100">
+                        <CustomForm.Label>Päivämäärä</CustomForm.Label>
+                        <CustomForm.Control name="date" type="date" required defaultValue={props.event.date}></CustomForm.Control>
+                    </CustomForm.Group>
                     
-                    <Form.Group className="w-100">
-                        <Form.Label>Kuvaus</Form.Label>
-                        <Form.Control as="textarea" name="description" defaultValue={props.event.description}></Form.Control>
-                    </Form.Group>
+                    <CustomForm.Group className="w-100">
+                        <CustomForm.Label>Kuvaus</CustomForm.Label>
+                        <CustomForm.Control as="textarea" name="description" defaultValue={props.event.description}></CustomForm.Control>
+                    </CustomForm.Group>
 
-                    <Form.Group className="d-flex flex-row justify-content-between w-100 gap-1">
+                    <CustomForm.ButtonGroup className="d-flex flex-row justify-content-between w-100 gap-1">
                         <Button variant="secondary" onClick={() => props.setShowModal(false)}>Peruuta</Button>
                         <Button type="submit" variant="primary">Päivitä</Button>
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-        </Modal>
+                    </CustomForm.ButtonGroup>
+                </CustomForm>
+            </CustomModal.Body>
+        </CustomModal>
         )
 
     }

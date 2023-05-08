@@ -112,11 +112,11 @@ function Signup(props){
                 </div>
 
                 <div className="form-button-group">
-                    <button className="primary" type="submit">Luo Tili</button>
+                    <button className="primary" type="submit" disabled={loading}>Luo Tili</button>
                 </div>
 
                 {
-                    loading ? <LoadingSpinner size={'3rem'} message="Luodaan tiliä."/> : null
+                    loading ? <LoadingSpinner size={'3rem'} message="Luodaan tiliä"/> : null
                 }
 
                 {

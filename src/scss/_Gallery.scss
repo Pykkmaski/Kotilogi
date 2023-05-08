@@ -5,15 +5,34 @@
     overflow-y: scroll;
     flex: 1;
 
+    .add-button{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed $border-color;
+        border-radius: $border-radius;
+        padding: 1rem;
+        cursor: pointer;
+
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover{
+            background: $border-color;
+            border-color: black;
+        }
+    }
+
+    .gallery-item{
+        min-height: 18rem;
+        width: 18rem;
+    }
+
     .gallery-body{
         display: flex;
         flex-flow: row wrap;
-        gap: 1rem;
         width: 100%;
-
-        .gallery-item{
-            min-height: 18rem;
-            width: 18rem;
-        }
+        gap: 1rem;
+        justify-content: center;
     }
 }

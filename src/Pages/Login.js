@@ -48,12 +48,12 @@ function Login(props){
                 </div>
 
                 <div className="form-button-group">
-                    <button className="primary" type="submit">Kirjaudu Sisään</button>
+                    <button className="primary" type="submit" disabled={loading}>Kirjaudu Sisään</button>
                 </div>
 
                 <div className="form-spinner">
                     {
-                        loading ? <LoadingSpinner size={"3rem"} message={'Kirjaudutaan sisään.'}/> : null
+                        loading ? <LoadingSpinner size={"3rem"} message={'Kirjaudutaan sisään'}/> : null
                     }
                 </div>
                 

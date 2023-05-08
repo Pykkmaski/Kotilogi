@@ -7,6 +7,7 @@ import LinkTo from '../Functions/LinkTo';
 import Loading from './Loading';
 import AppContext from '../Contexts/AppContext';
 import Unauthorized from './Unauthorized';
+import Section from '../Components/Section';
 
 function Properties2(props){
     const [properties, loadProperties] = useProperties();
@@ -17,20 +18,27 @@ function Properties2(props){
 
 
     return (
-        <div className="d-flex flex-column px-10 align-items-center">
-            <Gallery buttonTitle="Lisää Talo" title="Talot" onClickHandler={() => {
-                AddProperty(null, (property_id) => LinkTo(`/properties/${property_id}/info`))
-            }
-            }>
-                {
-                    properties.map(item => {
-                        return(
-                            <PropertyCard property={item} key={`property-card-${item.id}`}/>
-                        )
-                    })
-                }
-            </Gallery>
-        </div>
+        <Section>
+            <Section.Header>
+                <h1>Talot</h1>
+            </Section.Header>
+
+            <Section.Body>
+                <Gallery>
+                    <Gallery.Button title="Lisää Talo" onClickHandler={() => AddProperty(null, (property_id) => LinkTo(`/properties/${property_id}/info`))}/>
+                    <Gallery.Body>
+                        {
+                            properties.map(item => {
+                                return(
+                                    <PropertyCard property={item} key={`property-card-${item.id}`}/>
+                                )
+                            })
+                        }
+                    </Gallery.Body>
+                
+                </Gallery>
+            </Section.Body>
+        </Section>
     );
 }
 

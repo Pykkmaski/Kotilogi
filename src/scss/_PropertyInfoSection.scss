@@ -1,3 +1,5 @@
+@import './Animations';
+
 .property-info-section{
     display: flex;
     flex-flow: column;
@@ -5,15 +7,99 @@
     width: 100%;
 
     header{
-        width: 100%;
+        display: inherit;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        position: sticky;
+        top: 0;
+        border-bottom: 1px dashed $border-color;
+
+        .button-group{
+            display: flex;
+            flex-flow: row;
+            gap: 0.5rem;
+
+            button{
+                @include SlideRightAnimation;
+            }
+        }
+    }
+
+    .body{
+        display: inherit;
+        flex-flow: inherit;
+        align-items: center;
+    }
+
+    input{
+        &:disabled{
+            border: none;
+        }
     }
 }
 
 .property-info-section .info-group{
+    display: flex;
+    flex-flow: column;
     border-bottom: 1px solid $border-color;
     margin-bottom: 2rem;
-
+    align-items: baseline;
+    
     header{
         width: 100%;
+    }
+}
+
+.info-row{
+    display: flex;
+    flex-flow: row;
+    align-items: baseline;
+
+    h2{
+        font-size: 1rem;
+        font-weight: bold;
+        min-width: 200px;
+
+        &:after{
+            content: ':';
+        }
+    }
+
+    input{
+        margin-right: 1rem;
+    }
+
+    button{
+        background: none;
+        padding: 0;
+        
+        &.primary{
+            color: $primary-color;
+        }
+
+        &.secondary{
+            color: $secondary-color;
+        }
+
+        &:active{
+            background: none !important;
+        }
+    }
+
+    .button-group{
+        display: none;
+
+        &.editing{
+            display: inherit;
+        }
+    }
+
+    &:hover{
+        .button-group{
+            display: inherit;
+            flex-flow: inherit;
+            gap: 0.5rem;
+        }
     }
 }

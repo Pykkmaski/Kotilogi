@@ -1,0 +1,29 @@
+.section{
+    display: flex;
+    flex-flow: column;
+
+    .section-header, .section-body, .section-footer{
+        padding: 0 1rem 0 1rem;
+    }
+
+    .section-header{
+        background: white;
+        border-bottom: 1px dashed $border-color;
+        display: inherit;
+        flex-flow: row;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .section-body{
+        display: inherit;
+        flex: 1;
+    }
+
+    .section.footer{
+        display: flex;
+    }
+}

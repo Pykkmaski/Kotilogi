@@ -122,6 +122,7 @@
     &:hover{
         $shadow-distance: 0.25rem;
         background: lighten($primary-color, 10);
+        color: white;
     }
 }
 

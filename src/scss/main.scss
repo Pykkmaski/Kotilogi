@@ -10,6 +10,7 @@
 @import './EventHeader';
 @import './Card';
 @import './PropertyInfoSection';
+@import './PropertyEventsSection';
 @import './Button';
 @import './Modal';
 @import './SideBar';
@@ -18,6 +19,8 @@
 @import './Dropdown.scss';
 @import './Form';
 @import './Spinner.scss';
+@import './EditableField.scss';
+@import './Section.scss';
 
 *{
     box-sizing: border-box;

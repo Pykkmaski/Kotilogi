@@ -95,6 +95,16 @@ router.delete('/:property_id', checkAuth, async (req, res) => {
 });
 
 //Add a route to update a property
+router.put('/:property_id', checkAuth, async (req, res) => {
+    try{
+        const {property_id} = req.params;
+        await db('properties').where({id: property_id}).update(req.body);
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+})
 
 
 module.exports = router;

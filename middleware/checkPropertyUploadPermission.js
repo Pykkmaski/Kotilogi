@@ -15,4 +15,4 @@ async function checkPropertyUploadPermission(req, res, next){
     }
 }
 
-module.exports = checkMembership;
+module.exports = checkPropertyUploadPermission;

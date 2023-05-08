@@ -6,6 +6,11 @@ button{
     border-radius: $border-radius !important;
     color: white;
     min-width: 100px;
+
+    &:disabled{
+        background: $disabled-color !important;
+        color: lighten($disabled-color, 15);
+    }
 }
 
 button.primary{

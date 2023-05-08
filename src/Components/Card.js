@@ -1,11 +1,27 @@
+import useSubComponents from "../Hooks/useSubComponents";
+
 function Card(props){
+
+    const subComponents = useSubComponents(Object.keys(Card), props);
     return (
         <div className="card">
             {
-                props.children
+                subComponents.map((component) => component)
             }
         </div>
     );
 }
+
+const Image = (props) => <img className="card-image" src={props.src} onError={props.onError} loading={props.loading}/>
+Card.Image = Image;
+
+const Header = (props) => <div className="card-header">{props.children}</div>
+Card.Header = Header;
+
+const Body = (props) => <div className="card-body">{props.children}</div>
+Card.Body = Body;
+
+const Footer = (props) => <div className="card-footer">{props.children}</div>
+Card.Footer = Footer;
 
 export default Card;

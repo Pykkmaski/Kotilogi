@@ -36,9 +36,9 @@
         margin-bottom: 1rem;
     }
 
-    .card-body, .card-title{
-        display: flex;
-        flex-flow: column;
+    .card-body{
+        display: inherit;
+        flex-flow: row wrap;
         width: 100%;
     }
 
