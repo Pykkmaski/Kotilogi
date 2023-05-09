@@ -25,15 +25,17 @@
 *{
     box-sizing: border-box;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 2px;
     color: $secondary-color;
 }
+
 
 input, select, option{
     color: gray;
 }
 
 h1, h2{
-    margin: 0;
+   margin: 0;
 }
 
 h1{

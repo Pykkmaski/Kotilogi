@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from './Loading';
 import useEvent from '../Hooks/useEvent';
 import AppModal from '../Modals/AppModal';
-import useImageIds from '../Hooks/useImageIds';
 import Gallery from '../Components/Gallery';
 import UploadFile from '../Functions/UploadFile';
 import EventHeader from '../Components/EventHeader';

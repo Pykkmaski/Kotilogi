@@ -1,3 +1,4 @@
+import 'bootstrap/scss/bootstrap.scss';
 import './scss/main.scss';
 import Header from './Components/Header';
 import Home from './Pages/Home';

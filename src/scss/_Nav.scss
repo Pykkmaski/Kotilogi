@@ -1,4 +1,6 @@
 nav{
+    display: flex;
+    flex-flow: column;
     a:active{
         color: $primary-color !important;
     }

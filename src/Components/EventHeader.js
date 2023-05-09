@@ -1,8 +1,6 @@
 import AppModal from "../Modals/AppModal";
 import UpdateEvent from "../Functions/UpdateEvent";
-import Button from 'react-bootstrap/Button';
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 
 function EventHeader(props){
     const {event, loadEvent} = props;
@@ -12,7 +10,7 @@ function EventHeader(props){
     return (
         <header id="event-header" className="d-flex flex-column w-100 gap-1 p-5 bg-gray justify-content-center">
             <div id="event-header-back-link-container" className="justify-content-left w-100">
-                <Button onClick={() => location.assign(`/#/properties/${event.property_id}/events`)}>Takaisin Taloon</Button>
+                <button onClick={() => location.assign(`/#/properties/${event.property_id}/events`)}>Takaisin Taloon</button>
             </div>
 
             <div id="event-header-body" className="d-flex flex-row gap-1">
@@ -37,7 +35,7 @@ function EventHeader(props){
                     </div>
 
                     <footer id="event-header-info-footer" className="d-flex flex-row gap-1 justify-content-end">
-                        <Button id="event-header-edit-button" onClick={() => setShowUpdateModal(true)}>Muokkaa</Button>
+                        <button id="event-header-edit-button" onClick={() => setShowUpdateModal(true)}>Muokkaa</button>
                     </footer>
                 </div>
             </div>

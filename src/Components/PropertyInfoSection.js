@@ -89,7 +89,10 @@ function PropertyInfoSection({property_id}){
 
             <Section.Body>
                 <div className="info-group">
-                    <h2>Yleistiedot</h2>
+                    <header>
+                        <h2>Yleistiedot</h2>
+                    </header>
+                    
                     <EditableField 
                         label={"Osoite"} 
                         defaultValue={property?.address} 
@@ -137,7 +140,10 @@ function PropertyInfoSection({property_id}){
                 </div>
 
                 <div className="info-group">
-                    <h2>Katto</h2>
+                    <header>
+                        <h2>Katto</h2>
+                    </header>
+                    
                     <EditableField 
                         label={"Tyyppi"} 
                         defaultValue={property?.roof_type} 
@@ -158,7 +164,10 @@ function PropertyInfoSection({property_id}){
                 </div>
 
                 <div className="info-group">
-                    <h2>Asuintilat</h2>
+                    <header>
+                        <h2>Asuintilat</h2>
+                    </header>
+                    
 
                     <EditableField 
                         label={"Pinta-ala"} 
@@ -171,7 +180,10 @@ function PropertyInfoSection({property_id}){
                 </div>
 
                 <div className="info-group">
-                    <h2>Tontti</h2>
+                    <header>
+                        <h2>Tontti</h2>
+                    </header>
+                    
                     <EditableField 
                         label={"Omistus"} 
                         defaultValue={property?.yard_ownership} 
@@ -194,8 +206,10 @@ function PropertyInfoSection({property_id}){
                 
 
                 <div className="info-group">
-                    <h2>Muut</h2>
-
+                    <header>
+                        <h2>Muut</h2>
+                    </header>
+                
                     <EditableField 
                         label={"Huoneiden lukumäärä"} 
                         defaultValue={property?.room_count} 

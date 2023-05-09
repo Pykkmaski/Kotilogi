@@ -1,12 +1,6 @@
 import {Link} from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { useContext} from 'react';
 import AppContext from '../Contexts/AppContext';
-import { serviceName, userStorageName } from '../appconfig';
-import 'bootstrap/scss/bootstrap.scss';
-import Nav from 'react-bootstrap/Nav'
-import NavBar from 'react-bootstrap/NavBar';
-import LinkTo from '../Functions/LinkTo';
-import Dropdown from './Dropdown.js';
 
 const logo = './img/logo.png';
 
