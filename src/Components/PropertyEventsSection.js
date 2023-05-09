@@ -48,13 +48,15 @@ function Events(props){
                             <div className="card-title text-ellipsis">{ev.name}</div>
                             <div className="card-text">
                                 <span>{ev.description}</span>
-                                <span>{ev.date}</span>
                             </div>
+                        </Card.Body>
+
+                        <Card.Footer>
                             <div className="card-button-group">
                                 <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
                                 <button className="black" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
                             </div>
-                        </Card.Body>
+                        </Card.Footer>
                     </Card>
                 )
             })

@@ -4,6 +4,7 @@ import UpdateProperty from '../Functions/UpdateProperty';
 import EditableField from './EditableField';
 import Loading from '../Pages/Loading';
 import Modal from './Modal';
+import Section from './Section';
 
 function PropertyInfoSection({property_id}){
 
@@ -12,9 +13,12 @@ function PropertyInfoSection({property_id}){
     const [showSubmitEditsModal, setShowSubmitEditsModal] = useState(false);
 
     const tempProperty = useRef({});
+    const unsavedChanges = useRef(false);
+    const firstRender = useRef(true);
 
     function cancelEdit(){
         tempProperty.current = property;
+        unsavedChanges.current = false;
         setEditing(false);
         loadProperty();
     }
@@ -25,18 +29,29 @@ function PropertyInfoSection({property_id}){
     }
 
     useEffect(() => {
+        firstRender.current = false;
+        console.log('First render');
+    }, []);
+
+    useEffect(() => {
         if(editing === false){
             setShowSubmitEditsModal(false);
         }
     }, [editing]);
+
+    useEffect(() => {
+        if(firstRender.current === true) return;
+        unsavedChanges.current = true;
+        console.log('Unsaved changes');
+    }, [tempProperty.current]);
 
     if(!property) return <Loading message="Ladataan tietoja..."/>
 
     tempProperty.current = property;
 
     return (
-        <div className="property-info-section">
-            <header>
+        <Section>
+            <Section.Header>
                 <h1>Tiedot</h1>
 
                 <div className="button-group">
@@ -66,13 +81,13 @@ function PropertyInfoSection({property_id}){
                         Haluatko varmasti peruuttaa tekemäsi muutokset?
                     </Modal.Body>
                     <Modal.Footer>
-                        <button className="secondary" onClick={() => setShowSubmitEditsModal(false)}>Ei</button>
-                        <button className="primary" onClick={() => cancelEdit()}>Kyllä</button>
+                        <button className="primary" onClick={() => setShowSubmitEditsModal(false)}>Ei</button>
+                        <button className="secondary" onClick={() => cancelEdit()}>Kyllä</button>
                     </Modal.Footer>
                 </Modal>
-            </header>
+            </Section.Header>
 
-            <div className="body">
+            <Section.Body>
                 <div className="info-group">
                     <h2>Yleistiedot</h2>
                     <EditableField 
@@ -86,7 +101,7 @@ function PropertyInfoSection({property_id}){
 
                     <EditableField
                         label="Postinumero"
-                        defaultValue={null}
+                        defaultValue={property?.zip_code}
                         editing={editing}
                         onChange={(e) => {
                             tempProperty.current.zip_code = e.target.value;
@@ -208,9 +223,9 @@ function PropertyInfoSection({property_id}){
                         }}
                     />
                 </div>
-            </div>
+            </Section.Body>
             
-        </div>
+        </Section>
     )
 }
 

@@ -15,15 +15,7 @@
         top: 0;
         border-bottom: 1px dashed $border-color;
 
-        .button-group{
-            display: flex;
-            flex-flow: row;
-            gap: 0.5rem;
-
-            button{
-                @include SlideRightAnimation;
-            }
-        }
+       
     }
 
     .body{
@@ -39,7 +31,7 @@
     }
 }
 
-.property-info-section .info-group{
+.info-group{
     display: flex;
     flex-flow: column;
     border-bottom: 1px solid $border-color;

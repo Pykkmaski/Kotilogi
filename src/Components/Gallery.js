@@ -18,13 +18,17 @@ const Button = (props) => <div className="gallery-item add-button" onClick={prop
     <div className="icon-container">
         <img src={plusIcon}/>
     </div>
-    {
-        props.children
-    }
+    <span className="button-title">{props.title}</span>
 </div>
 Gallery.Button = Button;
 
 const Body = (props) => <div className="gallery-body">{props.children}</div>
 Gallery.Body = Body;
+
+const Image = (props) => <img className="gallery-image" src={props.src} loading={props.loading} onError={props.onError}/>
+Gallery.Image = Image;
+
+const File = (props) => <a className="gallery-file" href={props.src}/>
+Gallery.File = File;
 
 export default Gallery;

@@ -1,10 +1,9 @@
-import LoadingSpinner from "./Spinner";
-import useImageIds from '../Hooks/useImageIds';
 import Gallery from './Gallery';
 import { useState } from "react";
 import AppModal from "../Modals/AppModal";
 import UploadFile from "../Functions/UploadFile";
 import usePropertyImages from "../Hooks/usePropertyImages";
+import Section from './Section';
 
 function PropertyPicturesSection({property_id}){
     const [images, loadImages] = usePropertyImages(property_id);
@@ -12,22 +11,35 @@ function PropertyPicturesSection({property_id}){
     const noImage = './img/no-pictures';
     
     return (
-        <Gallery title="Kuvat" buttonTitle="Lisää Kuva" onClickHandler={() => setShowModal(true)}>
-            {
-                images.map(id => {
-                    return (
-                        <img 
-                            className="gallery-image"
-                            src={`/api/images/properties/image/${id}`}
-                            key={`property-${property_id}-image-${id}`}
-                            width="200px"
-                            onError={(e) => {
-                                e.target.src = {noImage}
-                            }}
-                        />
-                    )
-                })
-            }
+        <Section>
+            <Section.Header>
+                <h1>Kuvat</h1>
+            </Section.Header>
+
+            <Section.Body>
+                <Gallery>
+
+                    <Gallery.Body>
+                        <Gallery.Button title="Lisää Kuva" onClickHandler={() => setShowModal(true)}/>
+                        {
+                            images.map(id => {
+                                return (
+                                    <img 
+                                        className="gallery-image"
+                                        src={`/api/images/properties/image/${id}`}
+                                        key={`property-${property_id}-image-${id}`}
+                                        width="200px"
+                                        onError={(e) => {
+                                            e.target.src = {noImage}
+                                        }}
+                                    />
+                                )
+                            })
+                        }
+                    </Gallery.Body>
+                </Gallery>
+            </Section.Body>
+
             <AppModal 
                 variant="upload/image" 
                 setShowModal={setShowModal} 
@@ -48,7 +60,8 @@ function PropertyPicturesSection({property_id}){
                         });
                     }
                 }/>
-        </Gallery>
+        </Section>
+        
     )
 }
 

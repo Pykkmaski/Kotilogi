@@ -1,7 +1,8 @@
 .section{
     display: flex;
     flex-flow: column;
-
+    width: 100%;
+    
     .section-header, .section-body, .section-footer{
         padding: 0 1rem 0 1rem;
     }
@@ -12,15 +13,29 @@
         display: inherit;
         flex-flow: row;
         justify-content: space-between;
+        align-items: center;
+
         margin-bottom: 1rem;
         position: sticky;
         top: 0;
         z-index: 2;
+
+        .button-group{
+            display: flex;
+            flex-flow: row;
+            gap: 0.5rem;
+
+            button{
+                @include SlideRightAnimation;
+            }
+        }
     }
 
     .section-body{
         display: inherit;
+        flex-flow: column;
         flex: 1;
+        align-items: center;
     }
 
     .section.footer{
