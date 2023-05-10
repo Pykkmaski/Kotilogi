@@ -10,7 +10,7 @@ import AppContext from './Contexts/AppContext';
 import Properties from './Pages/Properties';
 import Event from './Pages/Event/Event';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
-import Property from './Pages/Property';
+import Property from './Pages/Property/Property';
 import Pricing from './Pages/Pricing';
 import { tokenStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';

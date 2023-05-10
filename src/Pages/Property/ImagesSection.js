@@ -1,20 +1,26 @@
-import Gallery from './Gallery';
-import { useState } from "react";
-import AppModal from "../Modals/AppModal";
-import UploadFile from "../Functions/UploadFile";
-import usePropertyImages from "../Hooks/usePropertyImages";
-import Section from './Section';
-import Button from './Button';
+import Gallery from '../../Components/Gallery';
+import { useContext, useState } from "react";
+import AppModal from "../../Modals/AppModal";
+import UploadFile from "../../Functions/UploadFile";
+import usePropertyImages from "../../Hooks/usePropertyImages";
+import Section from '../../Components/Section';
+import Button from '../../Components/Button';
+import PropertyContext from '../../Contexts/PropertyContext';
 
-function PropertyPicturesSection({property_id}){
-    const [images, loadImages] = usePropertyImages(property_id);
+function ImagesSection(props){
+    const {property} = useContext(PropertyContext);
+    const [images, loadImages] = usePropertyImages(property.id);
     const [showModal, setShowModal] = useState(false);
     const noImage = './img/no-pictures';
     
     return (
         <Section>
             <Section.Header>
-                <h1>Kuvat</h1>
+                <div className="label-heading">
+                    <span className="label">{property.address}</span>
+                    <h1>Kuvat</h1>
+                </div>
+
                 <div className="group-row">
                     <input type="search" placeholder="Etsi kuvia..." onChange={() => null}/>
                     <Button title="Lisää Kuva" variant="add" className="primary" onClick={() => setShowModal(true)}/>
@@ -34,7 +40,7 @@ function PropertyPicturesSection({property_id}){
                         UploadFile(
                             e.target.image.files[0], 
                             'image', 
-                            `/api/images/properties/${property_id}`, () => {
+                            `/api/images/properties/${property.id}`, () => {
                                 setShowModal(false);
                                 loadImages();
                         });
@@ -51,7 +57,7 @@ function PropertyPicturesSection({property_id}){
                                     <img 
                                         className="gallery-image"
                                         src={`/api/images/properties/image/${id}`}
-                                        key={`property-${property_id}-image-${id}`}
+                                        key={`property-${property.id}-image-${id}`}
                                         width="200px"
                                         onError={(e) => {
                                             e.target.src = {noImage}
@@ -68,4 +74,4 @@ function PropertyPicturesSection({property_id}){
     )
 }
 
-export default PropertyPicturesSection;
+export default ImagesSection;

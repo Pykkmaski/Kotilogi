@@ -1,40 +1,12 @@
 import { useParams } from "react-router-dom";
-import PropertyEventsSection from "../Components/PropertyEventsSection";
-import PropertyPicturesSection from "../Components/PropertyPicturesSection";
-import PropertyFilesSection from '../Components/PropertyFilesSection';
-import PropertyInfoSection from "../Components/PropertyInfoSection";
-import useProperty from '../Hooks/useProperty';
-import Section from "../Components/Section";
-import Button from "../Components/Button";
-import Loading from './Loading';
-import PropertyContext from "../Contexts/PropertyContext";
-import AppModal from "../Modals/AppModal";
-
-function EnergySection(props){
-    return (
-        <Section>
-            <Section.Header>
-                <h1>Kulutus</h1>
-                <div className="group-row">
-                    <Button title="Lisää Kulutustieto" variant="add" className="primary"/>
-                </div>
-            </Section.Header>
-
-            <Section.Body>
-
-            </Section.Body>
-            
-            <AppModal
-                variant="upload/energy"
-                showModal={null}
-                setShowModal={null}
-                uploadFunction={(e) => {
-                    e.preventDefault();
-                }}
-            />
-        </Section>
-    )
-}
+import EventsSection from "./EventsSection";
+import EnergySection from './EnergySection';
+import ImagesSection from "./ImagesSection";
+import FilesSection from './FilesSection';
+import InfoSection from "./InfoSection";
+import useProperty from '../../Hooks/useProperty';
+import Loading from '../Loading';
+import PropertyContext from "../../Contexts/PropertyContext";
 
 function Property(props){
     const {property_id, section} = useParams();
@@ -43,7 +15,7 @@ function Property(props){
     if(!property) return <Loading message="Ladataan Taloa..."/>
 
     return (
-        <PropertyContext.Provider value={{property}}>
+        <PropertyContext.Provider value={{property, loadProperty}}>
             <div id="property-page">
                 <div className="sidebar">
                     <div className="sidebar-group">
@@ -68,13 +40,13 @@ function Property(props){
 
                 <div id="property-page-content">
                     {
-                        section === 'info' ? <PropertyInfoSection property_id={property_id}/>
+                        section === 'info' ? <InfoSection/>
                         :
-                        section === 'events' ? <PropertyEventsSection property_id={property_id}/>
+                        section === 'events' ? <EventsSection/>
                         :
-                        section === 'pictures' ? <PropertyPicturesSection property_id={property_id}/>
+                        section === 'pictures' ? <ImagesSection/>
                         :
-                        section === 'files' ? <PropertyFilesSection property_id={property_id}/>
+                        section === 'files' ? <FilesSection/>
                         :
                         section === 'energy' ? <EnergySection/>
                         : 

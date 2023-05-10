@@ -30,6 +30,20 @@
                 @include SlideRightAnimation;
             }
         }
+
+        .label-heading{
+            display: flex;
+            flex-flow: column;
+
+            .label{
+                font-size: 2rem;
+                color: $secondary-color;
+            }
+
+            h1{
+                font-size: 1.25rem !important;
+            }
+        }
     }
 
     .section-body{

@@ -1,14 +1,14 @@
-import {useState, useRef, useEffect} from 'react';
-import useProperty from '../Hooks/useProperty';
-import UpdateProperty from '../Functions/UpdateProperty';
-import EditableField from './EditableField';
-import Loading from '../Pages/Loading';
-import Modal from './Modal';
-import Section from './Section';
+import {useState, useRef, useEffect, useContext} from 'react';
+import PropertyContext from '../../Contexts/PropertyContext';
+import UpdateProperty from '../../Functions/UpdateProperty';
+import EditableField from '../../Components/EditableField';
+import Loading from '../Loading';
+import Modal from '../../Components/Modal';
+import Section from '../../Components/Section';
 
-function PropertyInfoSection({property_id}){
+function PropertyInfoSection(props){
 
-    const [property, loadProperty] = useProperty(property_id);
+    const {property, loadProperty} = useContext(PropertyContext);
     const [editing, setEditing] = useState(false);
     const [showSubmitEditsModal, setShowSubmitEditsModal] = useState(false);
 
@@ -52,7 +52,11 @@ function PropertyInfoSection({property_id}){
     return (
         <Section>
             <Section.Header>
-                <h1>Tiedot</h1>
+                <div className="label-heading">
+                    <span className="label">{property.address}</span>
+                    <h1>Tiedot</h1>
+                </div>
+                
 
                 <div className="group-row animated">
                     {
