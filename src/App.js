@@ -8,7 +8,7 @@ import Unknown from './Pages/Unknown.js';
 import RegisterThankYou from './Pages/RegisterThankYou';
 import AppContext from './Contexts/AppContext';
 import Properties from './Pages/Properties';
-import Event from './Pages/Event';
+import Event from './Pages/Event/Event';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import Property from './Pages/Property';
 import Pricing from './Pages/Pricing';
