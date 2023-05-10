@@ -3,6 +3,7 @@ import AppModal from "../Modals/AppModal";
 import {useState} from 'react';
 import usePropertyFiles from '../Hooks/usePropertyFiles';
 import Section from "./Section";
+import Button from './Button';
 
 const { default: Gallery } = require("./Gallery");
 
@@ -14,12 +15,16 @@ function PropertyFilesSection({property_id}){
         <Section>
             <Section.Header>
                 <h1>Tiedostot</h1>
+                <div className="group-row">
+                    <input type="search" placeholder="Etsi tiedostoja..." onChange={() => null}/>
+                    <Button title="Lisää Tiedosto" variant="add" className="primary"/>
+                </div>
+                
             </Section.Header>
 
             <Section.Body>
                 <Gallery>
                     <Gallery.Body>
-                        <Gallery.Button title="Lisää Tiedosto" onClickHandler={() => setShowModal(true)}/>
                         {
                             files.map(id => {
                                 return (

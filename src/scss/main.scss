@@ -15,23 +15,26 @@
 @import './Modal';
 @import './SideBar';
 @import './App.scss';
-@import './AddButton';
-@import './Dropdown.scss';
 @import './Form';
 @import './Spinner.scss';
 @import './EditableField.scss';
 @import './Section.scss';
+@import './Groups.scss';
+@import './Image';
 
 *{
     box-sizing: border-box;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 2px;
-    color: $secondary-color;
 }
 
 
 input, select, option{
     color: gray;
+}
+
+input{
+    border-radius: 5px;
 }
 
 h1, h2{
@@ -52,6 +55,10 @@ nav{
     a{
         font-weight: bold;
     }
+}
+
+img.inverted{
+    filter: invert(1);
 }
 
 body, #root{

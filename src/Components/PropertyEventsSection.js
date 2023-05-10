@@ -7,19 +7,26 @@ import AppModal from '../Modals/AppModal';
 import {useState, useContext} from 'react';
 import LinkTo from '../Functions/LinkTo';
 import PropertyEventsContext from '../Contexts/PropertyEventsContext';
+import Section from './Section';
+import Button from './Button';
+import AddProperty from '../Functions/AddProperty';
 
 function Header(props){
     return (
-        <div className="property-events-header">
+        <Section.Header>
             <h1>Tapahtumat</h1>
-            <input type="search" defaultValue="Etsi Tapahtumaa..." onChange={() => props.loadEvents(e.target.value)}/>
-        </div>
+            <div className="group-row">
+                <input type="search" defaultValue="Etsi Tapahtumaa..." onChange={() => props.loadEvents(e.target.value)}/>
+                
+            </div>
+           
+        </Section.Header>
     )
 }
 
 function Events(props){
 
-    const {setShowDeleteModal, setEventToBeDeleted} = useContext(PropertyEventsContext);
+    const {setShowDeleteModal, setEventToBeDeleted, property_id} = useContext(PropertyEventsContext);
     function showDeleteConfirmation(id){
         setShowDeleteModal(true);
         setEventToBeDeleted(id);
@@ -43,7 +50,7 @@ function Events(props){
                         />
                         
                         <Card.Body>
-                            <div className="card-title text-ellipsis">{ev.name}</div>
+                            <Card.Title>{ev.name}</Card.Title>
                             <div className="card-text">
                                 <span>{ev.description}</span>
                             </div>
@@ -51,7 +58,7 @@ function Events(props){
 
                         <Card.Footer>
                             <div className="card-button-group">
-                                <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}`)}>Avaa</button>
+                                <button className="primary" onClick={() => LinkTo(`/properties/${property_id}/events/${ev.id}/info`)}>Avaa</button>
                                 <button className="black" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
                             </div>
                         </Card.Footer>
@@ -64,50 +71,6 @@ function Events(props){
     )
 }
 
-function Body(props){
-    const {
-        property_id, 
-        events, 
-        loadEvents,
-        showDeleteModal, 
-        setShowDeleteModal, 
-        eventToBeDeleted, 
-        setShowAddEventModal, 
-        showAddEventModal} = useContext(PropertyEventsContext);
-    
-    function galleryAddHandler(){
-        AddEvent(null, property_id, (event_id) => LinkTo(`/properties/${property_id}/events/${event_id}`));
-    }
-
-    return (
-        <div className="property-events-body">
-            <Gallery buttonTitle="Lisää Tapahtuma" >
-                <Gallery.Body>
-                    <Gallery.Button title="Lisää Tapahtuma" onClickHandler={() => galleryAddHandler()}></Gallery.Button>
-                    <Events events={events}/>
-                </Gallery.Body>
-                
-            </Gallery>
-
-            <AppModal 
-                variant="delete/event" 
-                setShowModal={setShowDeleteModal} 
-                showModal={showDeleteModal} 
-                deleteFunction={() => 
-                    DeleteEvent(eventToBeDeleted, () => {
-                        setShowDeleteModal(false); 
-                        loadEvents()})} 
-                eventToBeDeleted={eventToBeDeleted}/> 
-
-            <AppModal 
-                variant="upload/event" 
-                setShowModal={setShowAddEventModal} 
-                showModal={showAddEventModal}/>
-        </div>
-        
-    )
-}
-
 function PropertyEventsSection({property_id}){
     const [events, loadEvents] = useEvents(property_id);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -115,7 +78,7 @@ function PropertyEventsSection({property_id}){
     const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
 
     return (
-        <div className="property-events-section">
+        
             <PropertyEventsContext.Provider
                 value={
                     {
@@ -132,10 +95,42 @@ function PropertyEventsSection({property_id}){
                     }
                 }
             >
-                <Header/>
-                <Body/>
+                <Section>
+                    <Section.Header>
+                        <h1>Tapahtumat</h1>
+                        <div className="group-row">
+                            <input type="search" placeholder="Etsi Tapahtumaa..." onChange={() => props.loadEvents(e.target.value)}/>
+                            <Button title="Lisää Tapahtuma" variant="add" className="primary" onClick={() => AddEvent(null, property_id, (id) => location.assign(`/#/properties/${property_id}/events/${id}/info`))}/>
+                        </div>
+                        
+                    </Section.Header>
+
+                    <Section.Body>
+                        <Gallery buttonTitle="Lisää Tapahtuma" >
+                            <Gallery.Body>
+                                <Events events={events}/>
+                            </Gallery.Body>
+                            
+                        </Gallery>
+
+                        <AppModal 
+                            variant="delete/event" 
+                            setShowModal={setShowDeleteModal} 
+                            showModal={showDeleteModal} 
+                            deleteFunction={() => 
+                                DeleteEvent(eventToBeDeleted, () => {
+                                    setShowDeleteModal(false); 
+                                    loadEvents()})} 
+                            eventToBeDeleted={eventToBeDeleted}/> 
+
+                        <AppModal 
+                            variant="upload/event" 
+                            setShowModal={setShowAddEventModal} 
+                            showModal={showAddEventModal}/>
+                    </Section.Body>
+                </Section>
+
             </PropertyEventsContext.Provider>
-        </div>
     );
 }
 

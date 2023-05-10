@@ -4,6 +4,7 @@ import AppModal from "../Modals/AppModal";
 import UploadFile from "../Functions/UploadFile";
 import usePropertyImages from "../Hooks/usePropertyImages";
 import Section from './Section';
+import Button from './Button';
 
 function PropertyPicturesSection({property_id}){
     const [images, loadImages] = usePropertyImages(property_id);
@@ -14,33 +15,12 @@ function PropertyPicturesSection({property_id}){
         <Section>
             <Section.Header>
                 <h1>Kuvat</h1>
-            </Section.Header>
+                <div className="group-row">
+                    <input type="search" placeholder="Etsi kuvia..." onChange={() => null}/>
+                    <Button title="Lisää Kuva" variant="add" className="primary" onClick={() => setShowModal(true)}/>
+                </div>
 
-            <Section.Body>
-                <Gallery>
-
-                    <Gallery.Body>
-                        <Gallery.Button title="Lisää Kuva" onClickHandler={() => setShowModal(true)}/>
-                        {
-                            images.map(id => {
-                                return (
-                                    <img 
-                                        className="gallery-image"
-                                        src={`/api/images/properties/image/${id}`}
-                                        key={`property-${property_id}-image-${id}`}
-                                        width="200px"
-                                        onError={(e) => {
-                                            e.target.src = {noImage}
-                                        }}
-                                    />
-                                )
-                            })
-                        }
-                    </Gallery.Body>
-                </Gallery>
-            </Section.Body>
-
-            <AppModal 
+                <AppModal 
                 variant="upload/image" 
                 setShowModal={setShowModal} 
                 showModal={showModal}
@@ -60,6 +40,29 @@ function PropertyPicturesSection({property_id}){
                         });
                     }
                 }/>
+            </Section.Header>
+
+            <Section.Body>
+                <Gallery>
+                    <Gallery.Body>
+                        {
+                            images.map(id => {
+                                return (
+                                    <img 
+                                        className="gallery-image"
+                                        src={`/api/images/properties/image/${id}`}
+                                        key={`property-${property_id}-image-${id}`}
+                                        width="200px"
+                                        onError={(e) => {
+                                            e.target.src = {noImage}
+                                        }}
+                                    />
+                                )
+                            })
+                        }
+                    </Gallery.Body>
+                </Gallery>
+            </Section.Body>
         </Section>
         
     )

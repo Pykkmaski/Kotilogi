@@ -18,6 +18,9 @@ Card.Image = Image;
 const Header = (props) => <div className="card-header">{props.children}</div>
 Card.Header = Header;
 
+const Title = (props) => <h2 className="card-title">{props.children}</h2>
+Card.Title = Title;
+
 const Body = (props) => <div className="card-body">{props.children}</div>
 Card.Body = Body;
 

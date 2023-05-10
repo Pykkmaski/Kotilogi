@@ -1,0 +1,27 @@
+.image{
+    position: relative;
+    min-width: 200px;
+
+    img{
+        width: 200px;
+    }
+    
+    &:hover{
+        .image-controls{
+            display: flex;
+        }
+    }
+
+    .image-controls{
+        position:absolute;
+        bottom: 0;
+
+        min-width: inherit;
+        display: none;
+        flex-flow: row;
+        justify-content: center;
+
+        background: rgba(black, 0.5);
+        padding: 1rem;
+    }
+}

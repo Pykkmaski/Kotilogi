@@ -31,7 +31,7 @@ function Modal(props){
     }, [show]);
 
     return (
-        <dialog className="component-modal">
+        <dialog className="component-modal animated">
             <CloseButton onHide={onHide}/>
             {subComponents.map((component) => component)}
         </dialog>
@@ -49,5 +49,8 @@ Modal.Body = Body;
 
 const Footer = (props) => <div className="modal-footer">{props.children}</div>
 Modal.Footer = Footer;
+
+const Error = (props) => <div className="modal-error">{props.children}</div>
+Modal.Error = Error;
 
 export default Modal;

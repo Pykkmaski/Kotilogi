@@ -166,7 +166,6 @@ function AppModal(props){
         )
     }
     else if(props.variant === 'update/event'){
-
         return(
             <CustomModal show={props.showModal} backdrop="static" centered onHide={() => props.setShowModal(false)}>
             <CustomModal.Header closeButton>
@@ -191,7 +190,7 @@ function AppModal(props){
                     </CustomForm.Group>
 
                     <CustomForm.ButtonGroup className="d-flex flex-row justify-content-between w-100 gap-1">
-                        <button className="secondary" onClick={() => props.setShowModal(false)}>Peruuta</button>
+                        <button type="button" className="secondary" onClick={() => props.cancelFunction()}>Peruuta</button>
                         <button type="submit" className="primary">Päivitä</button>
                     </CustomForm.ButtonGroup>
                 </CustomForm>
@@ -302,7 +301,7 @@ function AppModal(props){
                 </CustomModal.Header>
 
                 <CustomModal.Body>
-                    Oletko varma että haluat poistaa tämän tapahtuman?
+                    Oletko varma että haluat poistaa tämän tapahtuman? Toimintoa ei voi kumota!
                 </CustomModal.Body>
 
                 <CustomModal.Footer>
@@ -313,6 +312,7 @@ function AppModal(props){
         )
     }
     else{
+        console.log('Returning null at app modal')
         return null;
     }
 }

@@ -1,99 +1,178 @@
 import axios from 'axios';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from './Loading';
 import useEvent from '../Hooks/useEvent';
 import AppModal from '../Modals/AppModal';
 import Gallery from '../Components/Gallery';
 import UploadFile from '../Functions/UploadFile';
-import EventHeader from '../Components/EventHeader';
 import useEventImages from '../Hooks/useEventImages';
+import Section from '../Components/Section';
+import EventContext from '../Contexts/EventContext';
+import Image from '../Components/Image';
+import UpdateEvent from '../Functions/UpdateEvent';
 
-function Event(props){
-    const {event_id} = useParams();
-    const [event, loadEvent] = useEvent(event_id);
-    const [images, loadImages] = useEventImages(event_id);
-    const [showAddImageModal, setShowAddImageModal] = useState(false);
-    const [showPreviewImageModal, setShowPreviewImageModal] = useState(false);
+function InfoSection(props){
+    const [editing, setEditing] = useState(false);
+    const {event, loadEvent} = useContext(EventContext);
+    const [showEditEventModal, setShowEditEventModal] = useState(false);
 
-    const selectedImageId = useRef(null);
-    
-    if(!event) return <Loading message="Ladataan tapahtumaa..."/>
+    const eventMainImage = `/api/images/events/${event.id}/main`;
+
+    useEffect(() => {
+        if(editing === true){
+            setShowEditEventModal(true);
+        }
+        else{
+            setShowEditEventModal(false);
+        }
+    }, [editing])
     
     return (
-        <div className="d-flex flex-column align-items-center">
-            <EventHeader event={event} loadEvent={loadEvent}></EventHeader>
-            
-            <div id="event-page-sections-container" className="px-5">
-                <Gallery title="Kuvat" buttonTitle="Lisää Kuva" onClickHandler={() => setShowAddImageModal(true)}>
-                    {
-                        images.map(id => {
-                            const imageSrc = `/api/images/events/image/${id}`;
-                            return (
-                                <img 
-                                    loading={"lazy"} 
-                                    src={imageSrc} 
-                                    width="200px" 
-                                    className="gallery-item" 
-                                    key={`event-img-${event.id}`}
-                                    onClick={() => {
-                                        setShowPreviewImageModal(true);
-                                        selectedImageId.current = id;
-                                    }}
-                                />
-                            )
-                        })
-                    }
-                </Gallery>
+        <Section>
+            <Section.Header>
+                <h1>Tapahtuman Tiedot</h1>
+                <div className="group-row">
+                    <button className="primary" onClick={() => setEditing(true)}>Muokkaa Tapahtumaa</button> 
+                </div>
 
                 <AppModal
-                    variant="upload/image"
-                    showModal={showAddImageModal}
-                    setShowModal={setShowAddImageModal}
-                    uploadFunction={
-                        (e) => {
-                            e.preventDefault(); 
-                            UploadFile(
-                                e.target.image.files[0], 
-                                'image', 
-                                `/api/images/events/${event_id}`, () => {
-                                    loadImages(); 
-                                    setShowAddImageModal(false);
-                            })
-                            }
+                    variant="update/event"
+                    showModal={showEditEventModal}
+                    setShowModal={setShowEditEventModal}
+                    event={event}
+                    cancelFunction={() => {
+                        setEditing(false);
+                    }}
+
+                    uploadFunction={(e) => {
+                        e.preventDefault();
+                        console.log('ryyps');
+                        const data = {
+                            name: e.target.name.value,
+                            description: e.target.description.value,
                         }
-                />
 
-                <AppModal 
-                    variant="show/image"
-                    showModal={showPreviewImageModal}
-                    setShowModal={setShowPreviewImageModal}
-                    imageUrl={`/api/images/${selectedImageId.current}`}
-
-                    setImageAsMain={() => {
-                        axios.post(`/api/images/events/${event_id}/main`, {
-                            image_id: selectedImageId.current
-                        })
-                        .then(res => {
-                            setShowPreviewImageModal(false);
-                            loadImageIds();
-                        })
-                        .catch(err => console.log(err.message));
-                    }}
-
-                    deleteSelectedImage={() => {
-                        axios.delete(`/api/images/${selectedImageId.current}`)
-                        .then(res => {
-                            setShowPreviewImageModal(false);
-                            loadImageIds();
-                        })
-                        .catch(err => console.log(err.message));
+                        UpdateEvent(event.id, data, () => {
+                            setEditing(false);
+                            loadEvent();
+                        });
                     }}
                 />
+            </Section.Header>
 
-            </div>
-        </div>
+            <Section.Body>
+                <Image src={eventMainImage} onError={(e) => e.target.src = './img/no-pictures.png'} loading='lazy'>
+                    <Image.Controls>
+                        <button className="primary">Korvaa</button>
+                    </Image.Controls>
+                </Image>
+                <h2>{event.name}</h2>
+                <p>
+                    {event.description}
+                </p>
+            </Section.Body>
+
+           
+        </Section>
     )
+}
+
+function ImagesSection(props){
+
+    const {event} = useContext(EventContext);
+    const [images, loadImages] = useEventImages(event.id);
+
+    return (
+        <Section>
+            <Section.Header>
+                <h1>Kuvat</h1>
+            </Section.Header>
+
+            <Section.Body>
+                <Gallery>
+                    <Gallery.Body>
+                        <Gallery.Button title="Lisää Kuva"/>
+                        {
+                            images.map(id => {
+                                const imgSrc = `/api/events/${event_id}/images/${id}`;
+                                return (
+                                    <Gallery.Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'}/>
+                                )
+                            })
+                        }
+                    </Gallery.Body>
+                </Gallery>
+            </Section.Body>
+        </Section>
+    )
+}
+
+function FilesSection({event_id}){
+
+    const [files, loadFiles] = useEventFiles(event_id);
+    return (
+        <Section>
+            <Section.Header>
+                <h1>Tiedostot</h1>
+            </Section.Header>
+            
+            <Section.Body>
+                <Gallery>
+                    <Gallery.Body>
+                        <Gallery.Button title="Lisää Tiedosto"/>
+                    </Gallery.Body>
+                </Gallery>
+            </Section.Body>
+        </Section>
+    )
+}
+
+function Event(props){
+    const {event_id, section} = useParams();
+    const [event, loadEvent] = useEvent(event_id);
+
+    function confirmEventDeletion(){
+
+    }
+
+    if(!event) return <Loading message="Ladataan Tapahtumaa..."/>
+
+    return(
+        <EventContext.Provider value={{event, loadEvent}}>
+            <div className="event-page">
+                <div className="sidebar">
+                    <div className="sidebar-group">
+                        <div className="sidebar-title">Tapahtuman Toiminnot</div>
+                        <nav>
+                            <a className="nav-link" href={`/#/properties/${event.property_id}/events/${event.id}/info`}>Tiedot</a>
+                            <a className="nav-link" href={`/#/properties/${event.property_id}/events/${event.id}/images`}>Kuvat</a>
+                            <a className="nav-link" href={`/#/properties/${event.property_id}/events/${event.id}/files`}>Tiedostot</a>
+                        </nav>
+                    </div>
+                    <div className="sidebar-group">
+                        <div className="sidebar-title">Muut</div>
+                        <nav>
+                            <a className="nav-link" href={`/#/properties/${event.property_id}/events`}>Takaisin Tapahtumiin</a>
+                            <a className="nav-link" href="#" onClick={() => confirmEventDeletion()}>Poista Tapahtuma</a>
+                        </nav>
+                    </div>
+                </div>
+
+                <div className="event-content">
+                    {
+                        section === 'info' ? <InfoSection/>
+                        :
+                        section === 'images' ? <ImagesSection/>
+                        :
+                        null
+                    }
+                </div>
+            </div>
+            
+        </EventContext.Provider>
+        
+    );
 }
 
 export default Event;

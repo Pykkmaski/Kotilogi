@@ -54,7 +54,7 @@ function PropertyInfoSection({property_id}){
             <Section.Header>
                 <h1>Tiedot</h1>
 
-                <div className="button-group">
+                <div className="group-row animated">
                     {
                         editing ? <button className="secondary" onClick={() => setShowSubmitEditsModal(true)}>Peruuta</button> : null
                     }

@@ -8,6 +8,7 @@ import Loading from './Loading';
 import AppContext from '../Contexts/AppContext';
 import Unauthorized from './Unauthorized';
 import Section from '../Components/Section';
+import Button from '../Components/Button';
 
 function Properties2(props){
     const [properties, loadProperties] = useProperties();
@@ -21,11 +22,11 @@ function Properties2(props){
         <Section>
             <Section.Header>
                 <h1>Talot</h1>
+                <Button title="Lisää Talo" className="primary" variant="add" onClick={() => AddProperty(null, () => location.assing(`/#/properties/${property_id}/info`))}/>
             </Section.Header>
 
             <Section.Body>
                 <Gallery>
-                    <Gallery.Button title="Lisää Talo" onClickHandler={() => AddProperty(null, (property_id) => LinkTo(`/properties/${property_id}/info`))}/>
                     <Gallery.Body>
                         {
                             properties.map(item => {

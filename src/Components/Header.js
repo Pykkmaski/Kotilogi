@@ -19,7 +19,7 @@ function Header(props){
             <div className="navigation">
                 {
                     !token ? 
-                    <nav>
+                    <nav className="group-row">
                         <a href="/#/pricing">
                             Hinnasto
                         </a>
@@ -33,7 +33,7 @@ function Header(props){
                         </a> 
                     </nav>
                     :
-                    <nav>
+                    <nav className="group-row">
                         <a href={`/#/user`}>
                             Talot
                         </a>

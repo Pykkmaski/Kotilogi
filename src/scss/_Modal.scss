@@ -1,3 +1,5 @@
+@import './Animations';
+
 .component-modal{
     $modal-padding: 0.5rem;
 
@@ -6,6 +8,11 @@
     border: 2px solid $secondary-color;
     padding: 0;
     position: relative;
+
+    
+    .animated{
+        @include SlideUpAnimation;
+    }
 
     .modal-header, .modal-body, .modal-footer{
         padding: $modal-padding;

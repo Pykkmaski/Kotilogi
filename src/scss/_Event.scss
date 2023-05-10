@@ -7,6 +7,17 @@
     }
 }
 
+.event-page{
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+
+    .event-content{
+        width: 100%;
+    }
+    
+}
+
 #event-main-image{
     width: 300px;
 }
@@ -15,24 +26,16 @@
     margin-bottom: 1rem;
 }
 
-#event-page-header{
+#event-header{
     display: flex;
     flex-flow: row;
     width: 100%;
     gap: 1rem;
 
-    
-
-    
-
     #event-page-header-body{
         display: flex;
         flex-flow: column;
         height: 100%;
-    }
-
-    #event-header-controls{
-        
     }
 }
 
