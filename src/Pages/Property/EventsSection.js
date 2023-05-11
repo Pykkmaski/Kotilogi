@@ -3,13 +3,13 @@ import Gallery from '../../Components/Gallery';
 import Card from '../../Components/Card';
 import DeleteEvent from '../../Functions/DeleteEvent';
 import AddEvent from '../../Functions/AddEvent';
-import AppModal from '../../Modals/AppModal';
 import {useState, useContext} from 'react';
 import LinkTo from '../../Functions/LinkTo';
 
 import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
+import DeleteEventModal from '../../Modals/DeleteEventModal';
 
 function EventsSection(props){
     const {property} = useContext(PropertyContext);
@@ -17,6 +17,11 @@ function EventsSection(props){
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
+
+    function showDeleteConfirmation(id){
+        setEventToBeDeleted(id);
+        setShowDeleteModal(true);
+    }
 
     return (
         <Section>
@@ -72,20 +77,16 @@ function EventsSection(props){
                     
                 </Gallery>
 
-                <AppModal 
-                    variant="delete/event" 
-                    setShowModal={setShowDeleteModal} 
-                    showModal={showDeleteModal} 
-                    deleteFunction={() => 
-                        DeleteEvent(eventToBeDeleted, () => {
-                            setShowDeleteModal(false); 
-                            loadEvents()})} 
-                    eventToBeDeleted={eventToBeDeleted}/> 
-
-                <AppModal 
-                    variant="upload/event" 
-                    setShowModal={setShowAddEventModal} 
-                    showModal={showAddEventModal}/>
+                <DeleteEventModal
+                    showModal={showDeleteModal}
+                    setShowModal={setShowDeleteModal}
+                    eventToBeDeleted={eventToBeDeleted}
+                    deleteFunction={(e) => {
+                        e.preventDefault();
+                        DeleteEvent(eventToBeDeleted, () => loadEvents());
+                    }}
+                />
+                
             </Section.Body>
         </Section>
     );

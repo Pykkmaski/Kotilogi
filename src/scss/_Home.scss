@@ -42,7 +42,7 @@
     position: relative;
     padding-top: 5rem;
     padding-bottom: 5rem;
-    background: url('../img/plant1.jpg');
+    background: $event-header-color;
     background-attachment: fixed;
 
     .blur{

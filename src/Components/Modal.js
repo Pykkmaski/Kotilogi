@@ -31,7 +31,7 @@ function Modal(props){
     }, [show]);
 
     return (
-        <dialog className="component-modal animated">
+        <dialog className="component-modal animated" key={props.key}>
             <CloseButton onHide={onHide}/>
             {subComponents.map((component) => component)}
         </dialog>
@@ -46,6 +46,9 @@ Modal.Title = Title;
 
 const Body = (props) => <div className="modal-body">{props.children}</div>
 Modal.Body = Body;
+
+const Image = (props) => <img src={props.src} className="modal-image"/>
+Modal.Image = Image;
 
 const Footer = (props) => <div className="modal-footer">{props.children}</div>
 Modal.Footer = Footer;

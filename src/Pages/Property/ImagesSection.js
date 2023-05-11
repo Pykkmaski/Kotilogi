@@ -1,11 +1,13 @@
 import Gallery from '../../Components/Gallery';
-import { useContext, useState } from "react";
-import AppModal from "../../Modals/AppModal";
+import { useContext, useState, useRef } from "react";
 import UploadFile from "../../Functions/UploadFile";
 import usePropertyImages from "../../Hooks/usePropertyImages";
 import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
+import Img from '../../Components/Image';
+import Card from '../../Components/Card';
+import UploadImageModal from '../../Modals/UploadImageModal';
 
 function ImagesSection(props){
     const {property} = useContext(PropertyContext);
@@ -13,6 +15,8 @@ function ImagesSection(props){
     const [showModal, setShowModal] = useState(false);
     const noImage = './img/no-pictures';
     
+    const selectedImages = useRef([]);
+
     return (
         <Section>
             <Section.Header>
@@ -26,26 +30,15 @@ function ImagesSection(props){
                     <Button title="Lisää Kuva" variant="add" className="primary" onClick={() => setShowModal(true)}/>
                 </div>
 
-                <AppModal 
-                variant="upload/image" 
-                setShowModal={setShowModal} 
-                showModal={showModal}
-                uploadFunction={
-                    (e) => {
+                <UploadImageModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    uploadFunction={(e) => {
                         e.preventDefault();
-                        const dest = {
-                            property_id,
-                            route: 'images'
-                        }
-                        UploadFile(
-                            e.target.image.files[0], 
-                            'image', 
-                            `/api/images/properties/${property.id}`, () => {
-                                setShowModal(false);
-                                loadImages();
-                        });
-                    }
-                }/>
+                        const url = `/api/images/properties/${property.id}`;
+                        UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
+                    }}
+                />
             </Section.Header>
 
             <Section.Body>
@@ -53,17 +46,16 @@ function ImagesSection(props){
                     <Gallery.Body>
                         {
                             images.map(id => {
+                                const imgSrc = `/api/images/properties/image/${id}`;
                                 return (
-                                    <img 
-                                        className="gallery-image"
-                                        src={`/api/images/properties/image/${id}`}
-                                        key={`property-${property.id}-image-${id}`}
-                                        width="200px"
-                                        onError={(e) => {
-                                            e.target.src = {noImage}
-                                        }}
-                                    />
-                                )
+                                    <Img 
+                                        src={imgSrc}
+                                    >
+                                        <Img.Controls>
+                                            <button className="primary">Avaa</button>
+                                        </Img.Controls>
+                                    </Img>
+                                );
                             })
                         }
                     </Gallery.Body>

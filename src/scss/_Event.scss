@@ -1,48 +1,61 @@
-
-#back-link-container{
-    width: 100%;
-
-    a{
-        font-size: 1.5rem;
-    }
-}
-
 .event-page{
     display: flex;
-    flex-flow: row;
-    width: 100%;
+    flex-flow: column;
 
-    .event-content{
-        width: 100%;
+    .event-header, .event-body{
+        padding: 1rem;
     }
-    
-}
 
-#event-main-image{
-    width: 300px;
-}
+    .event-header{
+        display: inherit;
+        flex-flow: inherit;
+        background: $event-header-color;
 
-#event-header-heading-1{
-    margin-bottom: 1rem;
-}
+        .event-header-buttons{
+            display: flex;
+            flex-flow: row;
+            justify-content: space-between;
+        }
 
-#event-header{
-    display: flex;
-    flex-flow: row;
-    width: 100%;
-    gap: 1rem;
+        .event-header-body{
+            display: flex;
+            justify-content: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
 
-    #event-page-header-body{
+            .event-info-container{
+                display: flex;
+                flex-flow: row;
+                gap: 1rem;
+
+                .event-text-container{
+                    padding: 1rem;
+                    max-width: 500px;
+                    h1, p{
+                        color: white;
+                    }
+
+                    h1{
+                        margin-bottom: 1rem;
+                    }
+
+                    p{
+                        font-size: 1.1rem;
+                    }
+                    display: flex;
+                    flex-flow: column;
+                }
+            }
+        }
+    }
+
+    .event-body{
         display: flex;
         flex-flow: column;
-        height: 100%;
+
+        .event-images{
+            display: inherit;
+            flex-flow: row wrap;
+        }
     }
-}
-
-#event-page-sections-container{
-    width: 100%;
-}
-
-.big-image{
-width: 500px;
 }

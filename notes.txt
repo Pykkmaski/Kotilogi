@@ -2,4 +2,5 @@ Setting an image as main works, but the event header main image does not update 
 Sending a large image for an event makes the modal not close immediately, allowing a user to click send multiple times.
 Card images do not fit properly inside the card element.
 Property information does not reset to previous values when canceling an edit.
-Event edit modal does not always pre-populate event details onto the fields.
+ModalRenderer (AppModal) has an internal conflict on what modal to show when there are multiple modals instantiated.
+--Fixed Event edit modal does not always pre-populate event details onto the fields.

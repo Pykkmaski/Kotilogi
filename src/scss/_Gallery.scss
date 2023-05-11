@@ -30,12 +30,21 @@
     .gallery-item{
         min-height: calc(18rem * 1.5);
         width: 18rem;
+
+        .gallery-image{
+            clip-path: inset(0, 0, 0, 0);
+
+            img{
+                object-fit: scale-down;
+            }
+        }
     }
 
     .gallery-body{
         display: flex;
         flex-flow: row wrap;
-        width: 100%;
         gap: 1rem;
     }
+
+    
 }

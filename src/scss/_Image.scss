@@ -1,9 +1,14 @@
 .image{
     position: relative;
+    background: $secondary-color;
     min-width: 200px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 
     img{
-        width: 200px;
+        object-fit: scale-down;
+        max-width: 200px;
     }
     
     &:hover{

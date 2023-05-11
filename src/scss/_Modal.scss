@@ -44,6 +44,10 @@
         }
     }
 
+    .modal-image{
+        object-fit: scale-down;
+    }
+
     .modal-close-button{
         position: absolute;
         top: 1rem;

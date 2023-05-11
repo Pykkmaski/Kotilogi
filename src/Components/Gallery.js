@@ -25,10 +25,13 @@ Gallery.Button = Button;
 const Body = (props) => <div className="gallery-body">{props.children}</div>
 Gallery.Body = Body;
 
-const Image = (props) => <img className="gallery-image" src={props.src} loading={props.loading} onError={props.onError}/>
+const Image = (props) => <div className="gallery-item">
+    <img className="gallery-image" src={props.src} loading={props.loading} onError={props.onError}/>
+</div>
+
 Gallery.Image = Image;
 
-const File = (props) => <a className="gallery-file" href={props.src}/>
+const File = (props) => <a target="_blank" className="gallery-file" href={props.src}>{props.src}</a>
 Gallery.File = File;
 
 export default Gallery;

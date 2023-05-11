@@ -14,7 +14,7 @@ function Section(props){
 const Header = (props) => <div className="section-header">{props.children}</div>
 Section.Header = Header;
 
-const Body = (props) => <div className="section-body">{props.children}</div>
+const Body = (props) => <div className={props.className || "section-body"}>{props.children}</div>
 Section.Body = Body;
 
 const Footer = (props) => <div className="section-footer">{props.children}</div>

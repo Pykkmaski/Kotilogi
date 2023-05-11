@@ -1,7 +1,6 @@
 import {useContext} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Section from '../../Components/Section';
-import AppModal from '../../Modals/AppModal';
 import Button from '../../Components/Button';
 
 function EnergySection(props){
@@ -23,15 +22,6 @@ function EnergySection(props){
             <Section.Body>
 
             </Section.Body>
-            
-            <AppModal
-                variant="upload/energy"
-                showModal={null}
-                setShowModal={null}
-                uploadFunction={(e) => {
-                    e.preventDefault();
-                }}
-            />
         </Section>
     )
 }

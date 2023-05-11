@@ -25,11 +25,11 @@ router.post('/:event_id', checkAuth, upload.single('file'), async (req, res) => 
     res.sendStatus(200);
 });
 
-router.get('/:event_id/:file_id', async (req, res) => {
+router.get('/files/:file_id', async (req, res) => {
     ///Returns specified file associated with given event id.
     try{
-        const {file_id, event_id} = req.params;
-        const file = await db('event_files').where({event_id, id: file_id}).first();
+        const {file_id} = req.params;
+        const file = await db('event_files').where({id: file_id}).first();
         if(!file) throw 404;
         res.status(200).sendFile(path.join(__dirname, `../uploads/${file.filename}`));
     }

@@ -5,6 +5,7 @@ import EditableField from '../../Components/EditableField';
 import Loading from '../Loading';
 import Modal from '../../Components/Modal';
 import Section from '../../Components/Section';
+import Image from '../../Components/Image';
 
 function PropertyInfoSection(props){
 
@@ -15,6 +16,7 @@ function PropertyInfoSection(props){
     const tempProperty = useRef({});
     const unsavedChanges = useRef(false);
     const firstRender = useRef(true);
+    const propertyMainImage = `/api/images/properties/${property.id}/main`;
 
     function cancelEdit(){
         tempProperty.current = property;
@@ -25,7 +27,7 @@ function PropertyInfoSection(props){
 
     function saveChanges(){
         setEditing(false);
-        UpdateProperty(property_id, tempProperty.current, () => loadProperty());
+        UpdateProperty(property.id, tempProperty.current, () => loadProperty());
     }
 
     useEffect(() => {
@@ -68,7 +70,7 @@ function PropertyInfoSection(props){
                             setEditing(true);
                         }
                         else{
-                            saveChanges()
+                            saveChanges();
                         }
                     }}>
                         {

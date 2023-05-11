@@ -1,53 +1,56 @@
 import { useParams } from 'react-router-dom';
+import {useState} from 'react';
 import Loading from '../Loading';
 import useEvent from '../../Hooks/useEvent';
 import EventContext from '../../Contexts/EventContext';
-import InfoSection from './InfoSection';
+import Section from '../../Components/Section';
+import Image from '../../Components/Image';
+import Header from './Header';
 import ImagesSection from './ImagesSection';
 import FilesSection from './FilesSection';
+import UpdateEvent from '../../Functions/UpdateEvent';
+import UploadImageModal from '../../Modals/UploadImageModal';
+import UpdateEventModal from '../../Modals/UpdateEventModal';
 
 function Event(props){
     const {event_id, section} = useParams();
     const [event, loadEvent] = useEvent(event_id);
-
-    function confirmEventDeletion(){
-
-    }
+    const [showUpdateEventModal, setShowUpdateEventModal] = useState(false);
+    const [showUploadImageModal, setShowUploadImageModal] = useState(false);
 
     if(!event) return <Loading message="Ladataan Tapahtumaa..."/>
 
     return(
-        <EventContext.Provider value={{event, loadEvent}}>
+        <EventContext.Provider value={{event, loadEvent, setShowUploadImageModal, setShowUpdateEventModal}}>
             <div className="event-page">
-                <div className="sidebar">
-                    <div className="sidebar-group">
-                        <div className="sidebar-title">Tapahtuman Toiminnot</div>
-                        <nav>
-                            <a className="nav-link" href={`/#/properties/${event.property_id}/events/${event.id}/info`}>Tiedot</a>
-                            <a className="nav-link" href={`/#/properties/${event.property_id}/events/${event.id}/images`}>Kuvat</a>
-                            <a className="nav-link" href={`/#/properties/${event.property_id}/events/${event.id}/files`}>Tiedostot</a>
-                        </nav>
-                    </div>
-                    <div className="sidebar-group">
-                        <div className="sidebar-title">Muut</div>
-                        <nav>
-                            <a className="nav-link" href={`/#/properties/${event.property_id}/events`}>Takaisin Tapahtumiin</a>
-                            <a className="nav-link" href="#" onClick={() => confirmEventDeletion()}>Poista Tapahtuma</a>
-                        </nav>
-                    </div>
-                </div>
+               <Header/>
+               <ImagesSection/>
 
-                <div className="event-content">
-                    {
-                        section === 'info' ? <InfoSection/>
-                        :
-                        section === 'images' ? <ImagesSection/>
-                        :
-                        section === 'files' ? <FilesSection/>
-                        :
-                        null
-                    }
-                </div>
+                <UpdateEventModal
+                    event={event}
+                    showModal={showUpdateEventModal}
+                    setShowModal={setShowUpdateEventModal}
+                    uploadFunction={(e) => {
+                        e.preventDefault();
+                        const content = {
+                            name: e.target.name.value,
+                            description: e.target.description.value,
+                        }
+
+                        UpdateEvent(event.id, content, () => loadEvent());
+                    }}
+                />
+
+                <UploadImageModal
+                    showModal={showUploadImageModal}
+                    setShowModal={setShowUploadImageModal}
+                    uploadFunction={(e) => {
+                        e.preventDefault();
+                        UploadFile(e.target.image.files[0], 'image', () => loadImages());
+                    }}
+                />
+
+
             </div>
             
         </EventContext.Provider>
