@@ -8,9 +8,6 @@ function PropertyCard({property}){
             <Card.Image
                 src={propertyMainImage}
                 loading="lazy"
-                onError={(e) => {
-                    e.target.src = './img/no-pictures.png';
-                }}
             />
             
             <Card.Body>

@@ -5,10 +5,12 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    border-radius: 5px;
 
     img{
-        object-fit: scale-down;
+        object-fit: cover;
         max-width: 200px;
+        border-radius: inherit;
     }
     
     &:hover{

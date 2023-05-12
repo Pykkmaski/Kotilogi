@@ -14,15 +14,30 @@
         border-color: black;
     }
 
+    .card-image-container{
+        display: flex;
+        justify-content: center;
+        clip-path: inset(0, 0, 0, 0);
+    }
+
     .card-image{
         display: inherit;
         height: 18rem;
         clip-path: inset(0 ,0, 0, 0);
         border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+
         img{
-            object-fit: scale-down;
-            
+            object-fit: cover;
         }
+    }
+
+    .error-image{
+        $size: 60px;
+
+        width: $size;
+        height: $size;
     }
 
     .card-title{
