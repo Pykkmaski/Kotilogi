@@ -1,4 +1,9 @@
+import useLocalStorage from '../Hooks/useLocalStorage';
+const {tokenStorageKey} = require('../appconfig');
 
-function Logout(){
-    const [token, setToken] = useLocalStorage()
+function Logout(setToken){
+    setToken(null);
+    location.assign('/');
 }
+
+export default Logout;

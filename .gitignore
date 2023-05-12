@@ -4,3 +4,4 @@ data
 public/
 .env
 uploads
+./notes.txt

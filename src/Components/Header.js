@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import { useContext} from 'react';
 import AppContext from '../Contexts/AppContext';
+import Logout from '../Functions/Logout';
 
 const logo = './img/logo.png';
 
@@ -18,29 +19,28 @@ function Header(props){
             
             <div className="navigation">
                 {
-                    !token ? 
                     <nav className="group-row">
-                        <a href="/#/pricing">
-                            Hinnasto
-                        </a>
+                        {
+                            !token ?
+                            <>
+                                <a href="/#/pricing">
+                                Hinnasto
+                                </a>
 
-                        <a href="/#/login">
-                            Kirjaudu
-                        </a>
+                                <a href="/#/login">
+                                    Kirjaudu
+                                </a>
 
-                        <a href="/#/register">
-                            Rekisteröidy
-                        </a> 
-                    </nav>
-                    :
-                    <nav className="group-row">
-                        <a href={`/#/user`}>
-                            Talot
-                        </a>
-
-                        <a href="" onClick={() => {location.assign('/#/'); setToken(null);}}>
-                            Kirjaudu Ulos
-                        </a>
+                                <a href="/#/register">
+                                    Rekisteröidy
+                                </a> 
+                            </>
+                            :
+                            <>
+                                <a href="/#/user">Talot</a>
+                                <a onClick={() => Logout(setToken)}>Kirjaudu Ulos</a>
+                            </>
+                        }
                     </nav>
                 }
             </div>
