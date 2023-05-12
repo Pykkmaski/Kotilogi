@@ -38,6 +38,12 @@ function FilesSection(props){
             <Section.Body>
                 <Gallery>
                     <Gallery.Body>
+                        {
+                            files.map(file => {
+                                const url = `/api/files/events/${event.id}/file/${file.id}`;
+                                return <Gallery.File src={url}/>
+                            })
+                        }
                     </Gallery.Body>
                 </Gallery>
             </Section.Body>
