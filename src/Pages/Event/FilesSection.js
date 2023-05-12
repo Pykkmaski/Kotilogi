@@ -19,7 +19,6 @@ function FilesSection(props){
             <Section.Header>
                 <h1>Tiedostot</h1>
                 <div className="group-row">
-                    <input type="search" placeholder="Etsi Tiedostoja..."/>
                     <Button variant="add" className="primary" title="Lisää Tiedosto" onClick={() => setShowModal(true)}/>
                 </div>
 

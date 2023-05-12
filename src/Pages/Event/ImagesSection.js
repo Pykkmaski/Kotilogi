@@ -20,7 +20,6 @@ function ImagesSection(props){
             <Section.Header>
                 <h1>Kuvat</h1>
                 <div className="group-row">
-                    <input type="search" placeholder="Etsi Kuvia..."/>
                     <Button variant="add" className="primary" title="Lisää Kuva" onClick={() => setShowModal(true)}/>
                 </div> 
 
