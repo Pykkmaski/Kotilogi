@@ -1,12 +1,3 @@
-Setting an image as main works, but the event header main image does not update until page is refreshed.
+--Not applicable: Setting an image as main works, but the event header main image does not update until page is refreshed.
 Sending a large image for an event makes the modal not close immediately, allowing a user to click send multiple times.
---Fixed Card images do not fit properly inside the card element.
 Property information does not reset to previous values when canceling an edit.
---Fixed ModalRenderer (AppModal) has an internal conflict on what modal to show when there are multiple modals instantiated.
---Fixed Event edit modal does not always pre-populate event details onto the fields.
---Fixed Logging out opens the login page right after for some reason.
---Fixed Uploading a file for an event causes an unexpected field multer error.
---Fixed Uploading an image for an event causes an unexpected field multer error.
---Fixed Uploading a file for a property causes an unexpected field multer error.
---Fixed Event files section does not update when uploading a file.
---Fixed Clicking on an event file causes a cannot GET network error.
