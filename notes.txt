@@ -5,3 +5,6 @@ Property information does not reset to previous values when canceling an edit.
 --Fixed ModalRenderer (AppModal) has an internal conflict on what modal to show when there are multiple modals instantiated.
 --Fixed Event edit modal does not always pre-populate event details onto the fields.
 --Fixed Logging out opens the login page right after for some reason.
+Uploading a file for an event causes an unexpected field multer error.
+Uploading an image for an event causes an unexpected field multer error.
+Uploading a file for a property does not work.

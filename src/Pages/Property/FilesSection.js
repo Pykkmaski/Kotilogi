@@ -32,6 +32,7 @@ function FilesSection(props){
                         e.preventDefault();
                         const url = `/api/files/properties/${property.id}`;
                         UploadFile(e.target.file.files[0], 'pdf', url, () => loadProperty());
+                        setShowModal(false);
                     }}
                 />
                 
@@ -44,7 +45,7 @@ function FilesSection(props){
                             files.map(id => {
                                 const fileSrc = `/api/files/properties/file/${id.id}`
                                 return (
-                                    <Gallery.File src={fileSrc} width="200px" key={`property-${property.id}-file-${id}`}/>
+                                    <Gallery.File src={fileSrc} width="200px" key={`property-${property.id}-file-${id.id}`}/>
                                 )
                             })
                         }
