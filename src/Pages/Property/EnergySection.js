@@ -3,10 +3,12 @@ import PropertyContext from '../../Contexts/PropertyContext';
 import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import NoUsage from '../../Components/Error/NoUsage';
+import ApexCharts from 'apexcharts';
 
 function EnergySection(props){
     const {property} = useContext(PropertyContext);
     const usage = [];
+    const series = [1, 2, 1, 2, 1 ,2];
 
     return (
         <Section>
