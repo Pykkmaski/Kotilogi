@@ -3,4 +3,5 @@ Sending a large image for an event makes the modal not close immediately, allowi
 Property information does not reset to previous values when canceling an edit.
 --Fixed If a user has no properties yet, the properties page is completely empty, even missing the header cotaining the button to add a property.
 Pressing the property button causes property_id not defined error.
-Event deletion does not work.
+Events does not update when the last event is deleted.
+Card images stretch out of proportion.

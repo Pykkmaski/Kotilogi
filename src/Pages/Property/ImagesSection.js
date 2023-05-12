@@ -54,7 +54,7 @@ function ImagesSection(props){
                                         src={imgSrc}
                                     >
                                         <Img.Controls>
-                                            <button className="primary">Avaa</button>
+                                            <button className="primary">Poista</button>
                                         </Img.Controls>
                                     </Img>
                                 );

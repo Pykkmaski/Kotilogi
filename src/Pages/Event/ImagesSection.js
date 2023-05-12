@@ -9,10 +9,11 @@ import UploadFile from '../../Functions/UploadFile';
 import UploadImageModal from '../../Modals/UploadImageModal';
 import Modal from '../../Components/Modal';
 import NoImages from '../../Components/Error/NoImages';
+import SetEventMainImage from '../../Functions/SetEventMainImage';
 
 function ImagesSection(props){
 
-    const {event} = useContext(EventContext);
+    const {event, loadEvent} = useContext(EventContext);
     const [images, loadImages] = useEventImages(event.id);
     const [showModal, setShowModal] = useState(false);
 
@@ -46,7 +47,10 @@ function ImagesSection(props){
                                 const imgSrc = `/api/images/events/image/${id}`;
                                 return (
                                     <Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'}>
-                    
+                                        <Image.Controls>
+                                            <button className="danger">Poista</button>
+                                            <button className="primary" onClick={() => SetEventMainImage(event.id, id, () => loadEvent())}>Aseta Pääkuvaksi</button>
+                                        </Image.Controls>
                                     </Image>
                                 )
                             })

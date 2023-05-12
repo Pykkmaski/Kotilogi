@@ -45,7 +45,7 @@ router.get('/:event_id/main', async (req, res) => {
     }
 });
 
-router.post('/:event_id/main', async (req, res) => {
+router.put('/:event_id/main', async (req, res) => {
     try{
         const {event_id} = req.params;
         const {image_id} = req.body;

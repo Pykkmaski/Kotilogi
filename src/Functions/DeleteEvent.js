@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 function DeleteEvent(event_id, callback){
-    axios.delete(`/api/events/${event_id}`)
+    const url = `/api/events/${event_id}`;
+    
+    axios.delete(url)
     .then(res => callback())
     .catch(err => console.log(err.message));
 }

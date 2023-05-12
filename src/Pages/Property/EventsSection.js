@@ -36,6 +36,16 @@ function EventsSection(props){
                     <input type="search" placeholder="Etsi Tapahtumaa..." onChange={() => loadEvents(e.target.value)}/>
                     <Button title="Lisää Tapahtuma" variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => location.assign(`/#/properties/${property.id}/events/${id}/info`))}/>
                 </div>
+
+                <DeleteEventModal
+                    showModal={showDeleteModal}
+                    setShowModal={setShowDeleteModal}
+                    eventToBeDeleted={eventToBeDeleted}
+                    deleteFunction={() => {
+                        DeleteEvent(eventToBeDeleted, () => loadEvents());
+                        setShowDeleteModal(false);
+                    }}
+                />
                 
             </Section.Header>
 
@@ -81,15 +91,7 @@ function EventsSection(props){
                     
                 </Gallery>
 
-                <DeleteEventModal
-                    showModal={showDeleteModal}
-                    setShowModal={setShowDeleteModal}
-                    eventToBeDeleted={eventToBeDeleted}
-                    deleteFunction={(e) => {
-                        e.preventDefault();
-                        DeleteEvent(eventToBeDeleted, () => loadEvents());
-                    }}
-                />
+                
                 
             </Section.Body>
         </Section>
