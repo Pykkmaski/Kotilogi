@@ -17,20 +17,17 @@
     .card-image-container{
         display: flex;
         justify-content: center;
-        clip-path: inset(0, 0, 0, 0);
-        background: $border-color;
+        max-width: inherit;
+        margin-bottom: 1rem;
     }
 
     .card-image{
         display: inherit;
         height: 18rem;
-        clip-path: inset(0 ,0, 0, 0);
         border-radius: 5px;
         justify-content: center;
         align-items: center;
-        object-fit: scale-down;
-
-     
+        max-width: 100%;
     }
 
     .error-image{
