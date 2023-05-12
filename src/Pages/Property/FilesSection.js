@@ -31,7 +31,7 @@ function FilesSection(props){
                     uploadFunction={(e) => {
                         e.preventDefault();
                         const url = `/api/files/properties/${property.id}`;
-                        UploadFile(e.target.file.files[0], 'pdf', url, () => loadProperty());
+                        UploadFile(e.target.file.files[0], 'file', url, () => loadFiles());
                         setShowModal(false);
                     }}
                 />

@@ -7,4 +7,4 @@ Property information does not reset to previous values when canceling an edit.
 --Fixed Logging out opens the login page right after for some reason.
 Uploading a file for an event causes an unexpected field multer error.
 Uploading an image for an event causes an unexpected field multer error.
-Uploading a file for a property does not work.
+Uploading a file for a property causes an unexpected field multer error.
