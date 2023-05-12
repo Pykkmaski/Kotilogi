@@ -12,13 +12,15 @@ function Card(props){
     );
 }
 
-const Image = (props) => <img className="card-image" src={props.src} onError={(e) => {
-    e.target.classList.add('error-image'); 
-    e.target.src = './img/no-pictures.png';
-    if(props.onError) props.onError(e);
-    }} 
-    loading={props.loading}
-/>
+const Image = (props) => <div className="card-image-container">
+    <img className="card-image" src={props.src} onError={(e) => {
+        e.target.classList.add('error-image'); 
+        e.target.src = './img/no-pictures.png';
+        if(props.onError) props.onError(e);
+        }} 
+        loading={props.loading}
+    />
+</div>
 
 Card.Image = Image;
 

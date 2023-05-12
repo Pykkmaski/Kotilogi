@@ -18,6 +18,7 @@
         display: flex;
         justify-content: center;
         clip-path: inset(0, 0, 0, 0);
+        background: $border-color;
     }
 
     .card-image{
@@ -27,10 +28,9 @@
         border-radius: 5px;
         justify-content: center;
         align-items: center;
+        object-fit: scale-down;
 
-        img{
-            object-fit: scale-down;
-        }
+     
     }
 
     .error-image{
