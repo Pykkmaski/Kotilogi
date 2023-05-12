@@ -18,7 +18,7 @@ function EventsSection(props){
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
-
+    
     function showDeleteConfirmation(id){
         setEventToBeDeleted(id);
         setShowDeleteModal(true);
