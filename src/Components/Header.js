@@ -29,7 +29,7 @@ function LoggedInLinks(){
     return (
         <div className="group-row">
             <a href="/#/user">Talot</a>
-            <a onClick={() => Logout(setToken)}>Kirjaudu Ulos</a>
+            <a href="" onClick={() => Logout(setToken)}>Kirjaudu Ulos</a>
         </div>
     );
 }

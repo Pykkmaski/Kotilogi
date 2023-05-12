@@ -8,6 +8,7 @@ import Image from '../../Components/Image';
 import UploadFile from '../../Functions/UploadFile';
 import UploadImageModal from '../../Modals/UploadImageModal';
 import Modal from '../../Components/Modal';
+import NoImages from '../../Components/Error/NoImages';
 
 function ImagesSection(props){
 
@@ -40,6 +41,7 @@ function ImagesSection(props){
                 <Gallery>
                     <Gallery.Body>
                         {
+                            images.length ?
                             images.map(id => {
                                 const imgSrc = `/api/images/events/image/${id}`;
                                 return (
@@ -48,6 +50,8 @@ function ImagesSection(props){
                                     </Image>
                                 )
                             })
+                            :
+                            <NoImages/>
                         }
                     </Gallery.Body>
                 </Gallery>

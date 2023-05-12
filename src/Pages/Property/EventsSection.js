@@ -10,6 +10,7 @@ import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
 import DeleteEventModal from '../../Modals/DeleteEventModal';
+import NoEvents from '../../Components/Error/NoEvents';
 
 function EventsSection(props){
     const {property} = useContext(PropertyContext);
@@ -42,6 +43,7 @@ function EventsSection(props){
                 <Gallery buttonTitle="Lisää Tapahtuma" >
                     <Gallery.Body>
                     {
+                        events.length ?
                         events.map(ev => {
                             const eventMainImage = `/api/images/events/${ev.id}/main`;
 
@@ -72,6 +74,8 @@ function EventsSection(props){
                                 </Card>
                             )
                         })
+                        :
+                        <NoEvents/>
                     }
                     </Gallery.Body>
                     

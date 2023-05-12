@@ -8,6 +8,7 @@ import PropertyContext from '../../Contexts/PropertyContext';
 import Img from '../../Components/Image';
 import Card from '../../Components/Card';
 import UploadImageModal from '../../Modals/UploadImageModal';
+import NoImages from '../../Components/Error/NoImages';
 
 function ImagesSection(props){
     const {property} = useContext(PropertyContext);
@@ -45,6 +46,7 @@ function ImagesSection(props){
                 <Gallery>
                     <Gallery.Body>
                         {
+                            images.length ? 
                             images.map(id => {
                                 const imgSrc = `/api/images/properties/image/${id}`;
                                 return (
@@ -57,6 +59,8 @@ function ImagesSection(props){
                                     </Img>
                                 );
                             })
+                            :
+                            <NoImages/>
                         }
                     </Gallery.Body>
                 </Gallery>

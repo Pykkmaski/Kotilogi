@@ -6,6 +6,7 @@ import Button from '../../Components/Button';
 import Gallery from '../../Components/Gallery';
 import PropertyContext from "../../Contexts/PropertyContext";
 import UploadFileModal from "../../Modals/UploadFileModal";
+import NoFiles from "../../Components/Error/NoFiles";
 
 function FilesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
@@ -42,12 +43,15 @@ function FilesSection(props){
                 <Gallery>
                     <Gallery.Body>
                         {
+                            files.length ?
                             files.map(id => {
                                 const fileSrc = `/api/files/properties/file/${id.id}`
                                 return (
                                     <Gallery.File src={fileSrc} width="200px" key={`property-${property.id}-file-${id.id}`}/>
                                 )
                             })
+                            :
+                            <NoFiles/>
                         }
                     </Gallery.Body>
                 </Gallery>

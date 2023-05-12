@@ -2,9 +2,11 @@ import {useContext} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Section from '../../Components/Section';
 import Button from '../../Components/Button';
+import NoUsage from '../../Components/Error/NoUsage';
 
 function EnergySection(props){
     const {property} = useContext(PropertyContext);
+    const usage = [];
 
     return (
         <Section>
@@ -20,7 +22,12 @@ function EnergySection(props){
             </Section.Header>
 
             <Section.Body>
-
+                {
+                    usage.length ? 
+                    null
+                    :
+                    <NoUsage/>
+                }
             </Section.Body>
         </Section>
     )
