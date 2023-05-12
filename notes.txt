@@ -6,6 +6,7 @@ Property information does not reset to previous values when canceling an edit.
 --Fixed Event edit modal does not always pre-populate event details onto the fields.
 --Fixed Logging out opens the login page right after for some reason.
 --Fixed Uploading a file for an event causes an unexpected field multer error.
-Uploading an image for an event causes an unexpected field multer error.
+--Fixed Uploading an image for an event causes an unexpected field multer error.
 --Fixed Uploading a file for a property causes an unexpected field multer error.
-Event files section does not update when uploading a file.
+--Fixed Event files section does not update when uploading a file.
+--Fixed Clicking on an event file causes a cannot GET network error.

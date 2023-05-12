@@ -25,7 +25,7 @@ router.post('/:event_id', checkAuth, upload.single('file'), async (req, res) => 
     res.sendStatus(200);
 });
 
-router.get('/files/:file_id', async (req, res) => {
+router.get('/file/:file_id', async (req, res) => {
     ///Returns specified file associated with given event id.
     try{
         const {file_id} = req.params;
