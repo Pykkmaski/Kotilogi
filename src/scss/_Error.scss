@@ -1,3 +1,5 @@
+@import './Animations';
+
 .error-no-images, .error-no-files, .error-no-events, .error-no-usage{
     display: flex;
     flex-flow: column;
@@ -10,4 +12,6 @@
         height: 50px;
         opacity: 0.5;
     }
+
+    @include SlideUpAnimation;
 }

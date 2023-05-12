@@ -1,6 +1,11 @@
 .toast{
     position: absolute;
     width: 75vw;
+    min-height: 10vh;
+    
+    background: rgb(176, 217, 176);
+    border-radius: 10px;
+
 
     &.danger{
         background: lighten($danger-color, 20);

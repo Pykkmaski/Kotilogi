@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {Link} from 'react-router-dom';
 import Modal from '../Components/Modal';
+import Toast from '../Components/Toast';
 
 const profileImage = './img/profile1.jpg';
 
@@ -9,11 +10,7 @@ function Home(props){
     const [content, setContent] = useState([]);
 
     return(
-        <>
-            <Modal>
-                <h1>Kaljaa ja</h1>
-            </Modal>
-            
+        <>  
             <div id="home-page" className="page y-scroll">
                 <div id="welcome-text-box">
                     <div id="welcome-text">
