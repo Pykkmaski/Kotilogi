@@ -22,7 +22,7 @@ function Properties2(props){
         <Section>
             <Section.Header>
                 <h1>Talot</h1>
-                <Button title="Lisää Talo" className="primary" variant="add" onClick={() => AddProperty(null, () => location.assing(`/#/properties/${property_id}/info`))}/>
+                <Button title="Lisää Talo" className="primary" variant="add" onClick={() => AddProperty(null, (property_id) => location.assign(`/#/properties/${property_id}/info`))}/>
             </Section.Header>
 
             <Section.Body>
