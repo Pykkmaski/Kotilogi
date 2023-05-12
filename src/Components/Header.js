@@ -5,9 +5,38 @@ import Logout from '../Functions/Logout';
 
 const logo = './img/logo.png';
 
+function LoggedOutLinks(){
+    return (
+        <div className="group-row">
+            <a href="/#/pricing">
+            Hinnasto
+            </a>
+
+            <a href="/#/login">
+                Kirjaudu
+            </a>
+
+            <a href="/#/register">
+                Rekisteröidy
+            </a> 
+        </div>
+    );
+}
+
+function LoggedInLinks(){
+    const {setToken} = useContext(AppContext);
+    
+    return (
+        <div className="group-row">
+            <a href="/#/user">Talot</a>
+            <a onClick={() => Logout(setToken)}>Kirjaudu Ulos</a>
+        </div>
+    );
+}
+
 function Header(props){
 
-    const {token, setToken} = useContext(AppContext);
+    const {token} = useContext(AppContext);
 
     return(
         <header className="d-flex flex-row align-items-center justify-content-between" id="primary-header">
@@ -22,24 +51,9 @@ function Header(props){
                     <nav className="group-row">
                         {
                             !token ?
-                            <>
-                                <a href="/#/pricing">
-                                Hinnasto
-                                </a>
-
-                                <a href="/#/login">
-                                    Kirjaudu
-                                </a>
-
-                                <a href="/#/register">
-                                    Rekisteröidy
-                                </a> 
-                            </>
+                            <LoggedOutLinks/>
                             :
-                            <>
-                                <a href="/#/user">Talot</a>
-                                <a onClick={() => Logout(setToken)}>Kirjaudu Ulos</a>
-                            </>
+                            <LoggedInLinks/>
                         }
                     </nav>
                 }
