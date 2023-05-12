@@ -26,7 +26,7 @@ function EditableField(props){
                 onChange={props.onChange}
             />
         </div>
-    )
+    );
 }
 
 export default EditableField;

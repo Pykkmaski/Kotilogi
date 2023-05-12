@@ -9,9 +9,9 @@ import UploadFileModal from '../../Modals/UploadFileModal';
 
 function FilesSection(props){
 
-    const {event, setModal, showModal, setShowModal} = useContext(EventContext);
+    const {event} = useContext(EventContext);
     const [files, loadFiles] = useEventFiles(event.id);
-    const [showUploadFileModal, setShowUploadFileModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     
     return (
@@ -20,8 +20,19 @@ function FilesSection(props){
                 <h1>Tiedostot</h1>
                 <div className="group-row">
                     <input type="search" placeholder="Etsi Tiedostoja..."/>
-                    <Button variant="add" className="primary" title="Lisää Tiedosto"/>
+                    <Button variant="add" className="primary" title="Lisää Tiedosto" onClick={() => setShowModal(true)}/>
                 </div>
+
+                <UploadFileModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    uploadFunction={(e) => {
+                        e.preventDefault();
+                        const url = `/api/files/events/${event.id}`;
+                        UploadFile(e.target.pdf.files[0], 'pdf', url, () => loadFiles());
+                        setShowModal(false);
+                    }}
+                />
 
             </Section.Header>
             

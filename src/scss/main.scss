@@ -36,6 +36,11 @@ input{
     border-radius: 5px;
 }
 
+textarea{
+    min-height: 100px;
+    resize: none;
+}
+
 h1, h2{
    margin: 0;
 }

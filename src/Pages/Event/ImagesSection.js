@@ -7,10 +7,11 @@ import Button from '../../Components/Button';
 import Image from '../../Components/Image';
 import UploadFile from '../../Functions/UploadFile';
 import UploadImageModal from '../../Modals/UploadImageModal';
+import Modal from '../../Components/Modal';
 
 function ImagesSection(props){
 
-    const {event, setShowUploadImageModal} = useContext(EventContext);
+    const {event} = useContext(EventContext);
     const [images, loadImages] = useEventImages(event.id);
     const [showModal, setShowModal] = useState(false);
 
@@ -20,8 +21,19 @@ function ImagesSection(props){
                 <h1>Kuvat</h1>
                 <div className="group-row">
                     <input type="search" placeholder="Etsi Kuvia..."/>
-                    <Button variant="add" className="primary" title="Lisää Kuva" onClick={() => setShowUploadImageModal(true)}/>
+                    <Button variant="add" className="primary" title="Lisää Kuva" onClick={() => setShowModal(true)}/>
                 </div> 
+
+                <UploadImageModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    uploadFunction={(e) => {
+                        e.preventDefault();
+                        UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
+                        setShowModal(false);
+                    }}
+                />
+
             </Section.Header>
 
             <Section.Body>
@@ -40,6 +52,8 @@ function ImagesSection(props){
                     </Gallery.Body>
                 </Gallery>
             </Section.Body>
+
+            
         </Section>
     )
 }

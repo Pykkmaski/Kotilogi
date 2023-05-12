@@ -18,7 +18,21 @@ Form.Header = Header;
 const Label = (props) => <label className="form-label">{props.children}</label>
 Form.Label = Label;
 
-const Control = (props) => <input className="form-input" type={props.type} disabled={props.disabled} name={props.name} accept={props.accept} defaultValue={props.defaultValue}/>
+const Control = (props) => {
+    if(props.type === 'textarea'){
+        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue}/>
+    }
+    else{
+        return <input 
+            className="form-input" 
+            type={props.type} 
+            disabled={props.disabled} 
+            name={props.name} 
+            accept={props.accept} 
+            defaultValue={props.defaultValue}
+        />
+    }
+}
 Form.Control = Control;
 
 const Group = (props) => <div className="form-group">{props.children}</div>

@@ -8,8 +8,8 @@ import PropertyContext from "../../Contexts/PropertyContext";
 import UploadFileModal from "../../Modals/UploadFileModal";
 
 function FilesSection(props){
-    const {property} = useContext(PropertyContext);
-    const [showFileUploadModal, setShowFileUploadModal] = useState(false);
+    const {property, loadProperty} = useContext(PropertyContext);
+    const [showModal, setShowModal] = useState(false);
     const [files, loadFiles] = usePropertyFiles(property.id);
 
     return (
@@ -26,12 +26,12 @@ function FilesSection(props){
                 </div>
 
                 <UploadFileModal
-                    showFileUploadModal={showFileUploadModal}
-                    setShowFileUploadModal={setShowFileUploadModal}
+                    showModal={showModal}
+                    setShowModal={setShowModal}
                     uploadFunction={(e) => {
                         e.preventDefault();
-                        const url = `/api/files/events/${event.id}`;
-                        UploadFile(e.target)
+                        const url = `/api/files/properties/${property.id}`;
+                        UploadFile(e.target.file.files[0], 'pdf', url, () => loadProperty());
                     }}
                 />
                 

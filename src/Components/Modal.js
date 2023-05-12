@@ -14,10 +14,12 @@ function Modal(props){
     const {show, onHide} = props;
     const modalElement = useRef(null);
     const subComponents = useSubComponents(Object.keys(Modal), props);
-
+    const id = 'modal-' + (Math.round(Math.random() * 0x10000)).toString(16);
+    console.log(id);
+    
     useEffect(() => {
         //Grab a reference to the modal element.
-        modalElement.current = document.querySelector('dialog');
+        modalElement.current = document.querySelector(`#${id}`);
     }, []);
 
     useEffect(() => {
@@ -31,7 +33,7 @@ function Modal(props){
     }, [show]);
 
     return (
-        <dialog className="component-modal animated" key={props.key}>
+        <dialog className="component-modal animated" key={props.key} id={id}>
             <CloseButton onHide={onHide}/>
             {subComponents.map((component) => component)}
         </dialog>
