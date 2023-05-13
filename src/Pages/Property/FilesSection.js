@@ -44,10 +44,10 @@ function FilesSection(props){
                     <Gallery.Body>
                         {
                             files.length ?
-                            files.map(id => {
-                                const fileSrc = `/api/files/properties/file/${id.id}`
+                            files.map(file => {
+                                const fileSrc = `/api/files/properties/file/${file.id}`
                                 return (
-                                    <Gallery.File src={fileSrc} width="200px" key={`property-${property.id}-file-${id.id}`}/>
+                                    <Gallery.File url={fileSrc} file={file} width="200px" key={`property-${property.id}-file-${file.id}`}/>
                                 )
                             })
                             :

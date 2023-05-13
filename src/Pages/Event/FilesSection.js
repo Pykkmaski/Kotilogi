@@ -43,9 +43,7 @@ function FilesSection(props){
                             files.length ?
                             files.map(file => {
                                 const url = `/api/files/events/file/${file.id}`;
-                                return <a href={url}>
-                                    <Gallery.File src={url}/>
-                                </a> 
+                                return <Gallery.File url={url} file={file}/>
                             })
                             :
                             <NoFiles/>

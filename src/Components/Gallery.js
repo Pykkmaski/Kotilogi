@@ -32,8 +32,8 @@ const Image = (props) => <div className="gallery-item">
 
 Gallery.Image = Image;
 
-const File = (props) => <a target="_blank" className="gallery-file" href={props.src}>
-    <FileCard src={props.src}/>
+const File = (props) => <a target="_blank" className="gallery-file" href={props.url}>
+    <FileCard file={props.file}/>
 </a>
 Gallery.File = File;
 
