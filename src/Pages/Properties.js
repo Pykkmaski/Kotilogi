@@ -1,9 +1,8 @@
 const { default: Gallery } = require("../Components/Gallery");
 const { default: useProperties } = require("../Hooks/useProperties");
 import { useContext } from 'react';
-import PropertyCard from '../Components/PropertyCard';
+import PropertyCard from '../Components/Cards/PropertyCard';
 import AddProperty from '../Functions/AddProperty';
-import LinkTo from '../Functions/LinkTo';
 import Loading from './Loading';
 import AppContext from '../Contexts/AppContext';
 import Unauthorized from './Unauthorized';

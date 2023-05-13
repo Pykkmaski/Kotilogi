@@ -1,10 +1,10 @@
 import useEvents from '../../Hooks/useEvents';
 import Gallery from '../../Components/Gallery';
-import Card from '../../Components/Card';
+import EventCard from '../../Components/Cards/EventCard';
+
 import DeleteEvent from '../../Functions/DeleteEvent';
 import AddEvent from '../../Functions/AddEvent';
 import {useState, useContext} from 'react';
-import LinkTo from '../../Functions/LinkTo';
 
 import Section from '../../Components/Section';
 import Button from '../../Components/Button';
@@ -55,33 +55,8 @@ function EventsSection(props){
                     {
                         events.length ?
                         events.map(ev => {
-                            const eventMainImage = `/api/images/events/${ev.id}/main`;
-
                             return (
-                                <Card key={`event-card-${ev.id}`}>
-
-                                    <Card.Image 
-                                        src={eventMainImage}
-                                        loading="lazy"
-                                        onError={(e) => {
-                                            e.target.src = './img/no-pictures.png';
-                                        }}
-                                    />
-                                    
-                                    <Card.Body>
-                                        <Card.Title>{ev.name}</Card.Title>
-                                        <div className="card-text">
-                                            <span>{ev.description}</span>
-                                        </div>
-                                    </Card.Body>
-
-                                    <Card.Footer>
-                                        <div className="card-button-group">
-                                            <button className="primary" onClick={() => LinkTo(`/properties/${property.id}/events/${ev.id}/info`)}>Avaa</button>
-                                            <button className="black" onClick={() => showDeleteConfirmation(ev.id)}>Poista</button>
-                                        </div>
-                                    </Card.Footer>
-                                </Card>
+                                <EventCard event={ev}/>
                             )
                         })
                         :

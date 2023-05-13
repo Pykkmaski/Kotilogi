@@ -6,7 +6,7 @@ import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Img from '../../Components/Image';
-import Card from '../../Components/Card';
+import Card from '../../Components/Cards/Card';
 import UploadImageModal from '../../Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 
