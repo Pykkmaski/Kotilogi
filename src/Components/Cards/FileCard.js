@@ -8,7 +8,8 @@ function FileCard({file}){
         <Card>
             <Card.Image src={imgSrc}/>
             <Card.Body>
-                <Card.Title>{file.filename}</Card.Title>
+                <Card.Title>{file.title}</Card.Title>
+                <Card.Text>{file.description}</Card.Text>
             </Card.Body>
         </Card>
     )

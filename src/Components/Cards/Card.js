@@ -30,6 +30,9 @@ Card.Header = Header;
 const Title = (props) => <h2 className="card-title">{props.children}</h2>
 Card.Title = Title;
 
+const Text = (props) => <div className="card-text">{props.children}</div>
+Card.Text = Text;
+
 const Body = (props) => <div className="card-body">{props.children}</div>
 Card.Body = Body;
 

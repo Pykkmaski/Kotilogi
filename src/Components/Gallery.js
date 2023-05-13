@@ -1,5 +1,5 @@
 import useSubComponents from "../Hooks/useSubComponents";
-import FileCard from "./Cards/FileCard";
+import FileCard from './Cards/FileCard';
 
 function Gallery(props){
     const subComponents = useSubComponents(Object.keys(Gallery), props);
