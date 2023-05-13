@@ -4,10 +4,10 @@
  */
 exports.up = function(knex) {
     return knex.schema.table('property_files', tbl => {
-        tbl.string('description').defaultTo('Ei kuvausta');
+        tbl.string('description');
     })
     .table('event_files', tbl => {
-        tbl.string('description').defaultTo('Ei kuvausta');
+        tbl.string('description');
     });
 };
 

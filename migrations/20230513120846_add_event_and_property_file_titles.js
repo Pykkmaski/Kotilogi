@@ -4,10 +4,10 @@
  */
 exports.up = function(knex) {
   return knex.schema.table('property_files', tbl => {
-    tbl.string('title').defaultTo('Nimetön');
+    tbl.string('title');
   })
   .table('event_files', tbl => {
-    tbl.string('title').defaultTo('Nimetön');
+    tbl.string('title');
   });
 };
 
