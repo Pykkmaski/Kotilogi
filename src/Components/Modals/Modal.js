@@ -15,7 +15,6 @@ function Modal(props){
     const modalElement = useRef(null);
     const subComponents = useSubComponents(Object.keys(Modal), props);
     const id = 'modal-' + (Math.round(Math.random() * 0x10000)).toString(16);
-    console.log(id);
     
     useEffect(() => {
         //Grab a reference to the modal element.

@@ -2,6 +2,7 @@ const router = require('express').Router();
 const db = require('../dbconfig');
 const checkAuth = require('../middleware/checkAuth');
 const RouteHandleError = require('../Functions/RouteHandleError');
+const convertDateToTime = require('../middleware/convertDateToTime');
 
 router.get('/:event_id', checkAuth, async (req, res) => {
     ///Returns event with specified id.
@@ -17,7 +18,7 @@ router.get('/:event_id', checkAuth, async (req, res) => {
     }
 });
 
-router.put('/:event_id', checkAuth, async (req, res) => {
+router.put('/:event_id', checkAuth, convertDateToTime, async (req, res) => {
     ///Updates event with given id belonging to property with given id.
     try{
         const {event_id} = req.params;

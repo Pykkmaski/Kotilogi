@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useState, useRef} from 'react';
 import EventContext from '../../Contexts/EventContext';
 import useEventImages from '../../Hooks/useEventImages';
 import Gallery from '../../Components/Gallery';
@@ -9,13 +9,20 @@ import UploadFile from '../../Functions/UploadFile';
 import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 import SetEventMainImage from '../../Functions/SetEventMainImage';
+import ShowImageModal from '../../Components/Modals/ShowImageModal';
 
 function ImagesSection(props){
 
     const {event, loadEvent} = useContext(EventContext);
     const [images, loadImages] = useEventImages(event.id);
     const [showModal, setShowModal] = useState(false);
+    const [showShowImageModal, setShowImageModal] = useState(false);
+    const selectedImage = useRef(null);
 
+    function displayImage(id){
+        console.log(id);
+        
+    }
     return (
         <Section>
             <Section.Header>
@@ -45,12 +52,14 @@ function ImagesSection(props){
                             images.map(id => {
                                 const imgSrc = `/api/images/events/image/${id}`;
                                 return (
-                                    <Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'}>
-                                        <Image.Controls>
-                                            <button className="danger">Poista</button>
-                                            <button className="primary" onClick={() => SetEventMainImage(event.id, id, () => loadEvent())}>Aseta Pääkuvaksi</button>
-                                        </Image.Controls>
-                                    </Image>
+                                    <a href={imgSrc} target="_blank">
+                                        <Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'} onClick={() => displayImage(id)}>
+                                            <Image.Controls>
+                                                <button className="danger">Poista</button>
+                                                <button className="primary" onClick={() => SetEventMainImage(event.id, id, () => loadEvent())}>Aseta Pääkuvaksi</button>
+                                            </Image.Controls>
+                                        </Image>
+                                    </a>
                                 )
                             })
                             :

@@ -6,7 +6,7 @@ function Image(props){
 
     return (
         <div className="image">
-            <img src={props.src} loading={props.loading} onError={(e) => e.target.src = './img/no-pictures.png'}/>
+            <img src={props.src} loading={props.loading} onError={(e) => e.target.src = './img/no-pictures.png'} onClick={props.onClick}/>
             {
                 subComponents.map((component) => component)
             }

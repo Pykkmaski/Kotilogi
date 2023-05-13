@@ -19,7 +19,7 @@ function UpdateEventModal(props){
 
                     <Form.Group className="w-100">
                         <Form.Label>Päivämäärä</Form.Label>
-                        <Form.Control name="date" type="date" required defaultValue={props.event.date}></Form.Control>
+                        <Form.Control name="date" type="date" required defaultValue={new Date(props.event.date).toLocaleDateString('fi')}></Form.Control>
                     </Form.Group>
                     
                     <Form.Group className="w-100">
