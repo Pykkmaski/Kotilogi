@@ -1,4 +1,5 @@
 import useSubComponents from "../Hooks/useSubComponents";
+import FileCard from "./Cards/FileCard";
 
 function Gallery(props){
     const subComponents = useSubComponents(Object.keys(Gallery), props);
@@ -31,7 +32,9 @@ const Image = (props) => <div className="gallery-item">
 
 Gallery.Image = Image;
 
-const File = (props) => <a target="_blank" className="gallery-file" href={props.src}>{props.src}</a>
+const File = (props) => <a target="_blank" className="gallery-file" href={props.src}>
+    <FileCard src={props.src}/>
+</a>
 Gallery.File = File;
 
 export default Gallery;
