@@ -20,7 +20,7 @@ function FilesSection(props){
             <Section.Header>
                 <h1>Tiedostot</h1>
                 <div className="group-row">
-                    <Button variant="add" className="primary" title="Lisää Tiedosto" onClick={() => setShowModal(true)}/>
+                    <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Tiedosto</Button>
                 </div>
 
                 <UploadFileModal

@@ -28,7 +28,7 @@ function ImagesSection(props){
 
                 <div className="group-row">
                     <input type="search" placeholder="Etsi kuvia..." onChange={() => null}/>
-                    <Button title="Lisää Kuva" variant="add" className="primary" onClick={() => setShowModal(true)}/>
+                    <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Kuva</Button>
                 </div>
 
                 <UploadImageModal

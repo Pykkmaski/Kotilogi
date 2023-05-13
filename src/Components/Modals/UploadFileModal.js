@@ -1,5 +1,6 @@
 import Modal from './Modal';
 import Form from '../Form';
+import Button from '../Button';
 
 function UploadFileModal(props){
     return (
@@ -15,6 +16,13 @@ function UploadFileModal(props){
                         <Form.Control name="title"></Form.Control>
                         <Form.SubLabel>Tämä ei muuta tiedoston nimeä, vaan näytetään ainoastaan otsikkona</Form.SubLabel>
                     </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Tunnisteet</Form.Label>
+                        <Form.Control name="tags"></Form.Control>
+                        <Button variant="add" className="primary">Lisää Tunniste</Button>
+                    </Form.Group>
+
                     <Form.Group className="w-100">
                         <Form.Control type="file" accept="application/pdf" name="file"></Form.Control>
                     </Form.Group>
