@@ -21,7 +21,7 @@ function Properties2(props){
         <Section>
             <Section.Header>
                 <h1>Talot</h1>
-                <Button title="Lisää Talo" className="primary" variant="add" onClick={() => AddProperty(null, (property_id) => location.assign(`/#/properties/${property_id}/info`))}/>
+                <Button className="primary" variant="add" onClick={() => AddProperty(null, (property_id) => location.assign(`/#/properties/${property_id}/info`))}>Lisää Talo</Button>
             </Section.Header>
 
             <Section.Body>

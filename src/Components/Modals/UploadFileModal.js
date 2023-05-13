@@ -20,7 +20,7 @@ function UploadFileModal(props){
                     <Form.Group>
                         <Form.Label>Tunnisteet</Form.Label>
                         <Form.Control name="tags"></Form.Control>
-                        <Button variant="add" className="primary">Lisää Tunniste</Button>
+                        <Button type="button" variant="add" className="primary">Lisää Tunniste</Button>
                     </Form.Group>
 
                     <Form.Group className="w-100">

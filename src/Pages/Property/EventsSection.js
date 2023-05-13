@@ -34,7 +34,7 @@ function EventsSection(props){
 
                 <div className="group-row">
                     <input type="search" placeholder="Etsi Tapahtumaa..." onChange={() => loadEvents(e.target.value)}/>
-                    <Button title="Lisää Tapahtuma" variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => location.assign(`/#/properties/${property.id}/events/${id}/info`))}/>
+                    <Button variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => location.assign(`/#/properties/${property.id}/events/${id}/info`))}>Uusi Tapahtuma</Button>
                 </div>
 
                 <DeleteEventModal
