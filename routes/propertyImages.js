@@ -11,10 +11,8 @@ router.get('/:property_id', checkAuth, async (req, res) => {
     ///Returns all image ids for the specified property
     try{
         const {property_id} = req.params;
-        const imageIds = await db('property_files').where({property_id, mime_type: imageMimeType}).pluck('id') || [];
+        const imageIds = await db('property_files').where({property_id, mime_type: imageMimeType});
         if(!imageIds.length) throw 404;
-
-        console.log(imageIds);
         res.status(200).send(JSON.stringify(imageIds));
     }
     catch(err){

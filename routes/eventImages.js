@@ -9,8 +9,8 @@ const imageMimeType = 'image/jpeg';
 router.get('/:event_id', checkAuth, async (req, res) => {
     ///Returns all image ids for the specified event
     try{
-        const {property_id, event_id} = req.params;
-        const ids = await db('event_files').where({event_id, mime_type: imageMimeType}).pluck('id');
+        const {event_id} = req.params;
+        const ids = await db('event_files').where({event_id, mime_type: imageMimeType});
         if(!ids) throw 404;
         res.status(200).send(JSON.stringify(ids));
     }
