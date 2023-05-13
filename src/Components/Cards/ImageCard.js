@@ -6,7 +6,7 @@ function ImageCard({image, src}){
             <Card.Image src={src}/>
             <Card.Body>
                 <Card.Title>{image.title || image.filename}</Card.Title>
-                <Card.Text>{image.description}</Card.Text>
+                <Card.Text>{image.description || 'Ei Kuvausta.'}</Card.Text>
             </Card.Body>
         </Card>
     )

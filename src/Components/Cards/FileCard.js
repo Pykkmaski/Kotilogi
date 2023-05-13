@@ -8,8 +8,8 @@ function FileCard({file}){
         <Card>
             <Card.Image src={imgSrc}/>
             <Card.Body>
-                <Card.Title>{file.title}</Card.Title>
-                <Card.Text>{file.description}</Card.Text>
+                <Card.Title>{file.title || 'Nimetön'}</Card.Title>
+                <Card.Text>{file.description || 'Ei kuvausta.'}</Card.Text>
             </Card.Body>
         </Card>
     )
