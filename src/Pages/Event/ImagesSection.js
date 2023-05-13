@@ -10,6 +10,7 @@ import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 import SetEventMainImage from '../../Functions/SetEventMainImage';
 import ShowImageModal from '../../Components/Modals/ShowImageModal';
+import ImageCard from '../../Components/Cards/ImageCard';
 
 function ImagesSection(props){
 
@@ -53,12 +54,7 @@ function ImagesSection(props){
                                 const imgSrc = `/api/images/events/image/${image.id}`;
                                 return (
                                     <a href={imgSrc} target="_blank">
-                                        <Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'} onClick={() => displayImage(image.id)}>
-                                            <Image.Controls>
-                                                <button className="danger">Poista</button>
-                                                <button className="primary" onClick={() => SetEventMainImage(event.id, id, () => loadEvent())}>Aseta Pääkuvaksi</button>
-                                            </Image.Controls>
-                                        </Image>
+                                        <ImageCard image={image} src={imgSrc}/>
                                     </a>
                                 )
                             })

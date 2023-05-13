@@ -1,4 +1,5 @@
 import useSubComponents from "../../Hooks/useSubComponents";
+import {default as ImageComponent} from '../Image';
 
 function Card(props){
 
@@ -13,13 +14,7 @@ function Card(props){
 }
 
 const Image = (props) => <div className="card-image-container">
-    <img className="card-image" src={props.src} onError={(e) => {
-        e.target.classList.add('error-image'); 
-        e.target.src = './img/no-pictures.png';
-        if(props.onError) props.onError(e);
-        }} 
-        loading={props.loading}
-    />
+    <ImageComponent src={props.src} loading={props.loading}/>
 </div>
 
 Card.Image = Image;

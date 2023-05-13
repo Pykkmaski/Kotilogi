@@ -9,6 +9,7 @@ import Img from '../../Components/Image';
 import Card from '../../Components/Cards/Card';
 import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
+import ImageCard from '../../Components/Cards/ImageCard';
 
 function ImagesSection(props){
     const {property} = useContext(PropertyContext);
@@ -50,13 +51,7 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 return (
-                                    <Img 
-                                        src={imgSrc}
-                                    >
-                                        <Img.Controls>
-                                            <button className="primary">Poista</button>
-                                        </Img.Controls>
-                                    </Img>
+                                    <Gallery.Image src={imgSrc} image={image}/>
                                 );
                             })
                             :
