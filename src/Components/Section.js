@@ -14,7 +14,13 @@ function Section(props){
 const Header = (props) => <div className="section-header">{props.children}</div>
 Section.Header = Header;
 
-const Body = (props) => <div className={props.className || "section-body"}>{props.children}</div>
+const Body = (props) => {
+    const className = useClassName('section-body', props.className);
+    return(
+        <div className={props.className || "section-body"}>{props.children}</div>
+    )
+}
+
 Section.Body = Body;
 
 const Div = (props) => <div className={'section-div' || props.className}>{props.children}</div>
