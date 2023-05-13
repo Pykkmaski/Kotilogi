@@ -49,11 +49,11 @@ function ImagesSection(props){
                     <Gallery.Body>
                         {
                             images.length ?
-                            images.map(id => {
-                                const imgSrc = `/api/images/events/image/${id}`;
+                            images.map(image => {
+                                const imgSrc = `/api/images/events/image/${image.id}`;
                                 return (
                                     <a href={imgSrc} target="_blank">
-                                        <Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'} onClick={() => displayImage(id)}>
+                                        <Image src={imgSrc} loading="lazy" onError={(e) => e.target.src = './img/no-pictures.png'} onClick={() => displayImage(image.id)}>
                                             <Image.Controls>
                                                 <button className="danger">Poista</button>
                                                 <button className="primary" onClick={() => SetEventMainImage(event.id, id, () => loadEvent())}>Aseta Pääkuvaksi</button>

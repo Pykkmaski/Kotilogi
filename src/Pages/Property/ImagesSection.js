@@ -47,8 +47,8 @@ function ImagesSection(props){
                     <Gallery.Body>
                         {
                             images.length ? 
-                            images.map(id => {
-                                const imgSrc = `/api/images/properties/image/${id}`;
+                            images.map(image => {
+                                const imgSrc = `/api/images/properties/image/${image.id}`;
                                 return (
                                     <Img 
                                         src={imgSrc}

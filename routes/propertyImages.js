@@ -8,7 +8,7 @@ const path = require('path');
 const imageMimeType = 'image/jpeg';
 
 router.get('/:property_id', checkAuth, async (req, res) => {
-    ///Returns all image ids for the specified property
+    ///Returns all image data for the specified property
     try{
         const {property_id} = req.params;
         const imageIds = await db('property_files').where({property_id, mime_type: imageMimeType});

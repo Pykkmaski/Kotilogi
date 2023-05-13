@@ -7,7 +7,7 @@ const path = require('path');
 const imageMimeType = 'image/jpeg';
 
 router.get('/:event_id', checkAuth, async (req, res) => {
-    ///Returns all image ids for the specified event
+    ///Returns all image data for the specified event
     try{
         const {event_id} = req.params;
         const ids = await db('event_files').where({event_id, mime_type: imageMimeType});
