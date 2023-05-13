@@ -5,7 +5,8 @@ function ImageCard({image, src}){
         <Card>
             <Card.Image src={src}/>
             <Card.Body>
-                <Card.Title>{props.image.filename}</Card.Title>
+                <Card.Title>{image.title || image.filename}</Card.Title>
+                <Card.Text>{image.description}</Card.Text>
             </Card.Body>
         </Card>
     )
