@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import {Link} from 'react-router-dom';
-import Modal from '../Components/Modal';
-import Toast from '../Components/Toast';
 
 const profileImage = './img/profile1.jpg';
 

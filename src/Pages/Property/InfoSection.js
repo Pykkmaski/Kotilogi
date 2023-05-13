@@ -3,7 +3,7 @@ import PropertyContext from '../../Contexts/PropertyContext';
 import UpdateProperty from '../../Functions/UpdateProperty';
 import EditableField from '../../Components/EditableField';
 import Loading from '../Loading';
-import Modal from '../../Components/Modal';
+import Modal from '../../Components/Modals/Modal';
 import Section from '../../Components/Section';
 import Image from '../../Components/Image';
 

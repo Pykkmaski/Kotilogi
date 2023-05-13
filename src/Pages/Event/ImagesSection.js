@@ -6,8 +6,7 @@ import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import Image from '../../Components/Image';
 import UploadFile from '../../Functions/UploadFile';
-import UploadImageModal from '../../Modals/UploadImageModal';
-import Modal from '../../Components/Modal';
+import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 import SetEventMainImage from '../../Functions/SetEventMainImage';
 

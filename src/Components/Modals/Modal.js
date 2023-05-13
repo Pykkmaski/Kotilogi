@@ -1,5 +1,5 @@
 import {useEffect, useRef} from 'react';
-import useSubComponents from '../Hooks/useSubComponents';
+import useSubComponents from '../../Hooks/useSubComponents';
 
 function CloseButton(props){
     return (

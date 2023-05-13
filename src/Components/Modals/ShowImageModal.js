@@ -1,4 +1,4 @@
-import Modal from '../Components/Modal';
+import Modal from './Modal';
 
 function ShowImageModal(props){
     return (

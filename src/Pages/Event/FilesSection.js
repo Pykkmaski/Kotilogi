@@ -5,7 +5,7 @@ import Section from '../../Components/Section';
 import Gallery from '../../Components/Gallery';
 import Button from '../../Components/Button';
 import UploadFile from '../../Functions/UploadFile';
-import UploadFileModal from '../../Modals/UploadFileModal';
+import UploadFileModal from '../../Components/Modals/UploadFileModal';
 import NoFiles from '../../Components/Error/NoFiles';
 
 function FilesSection(props){

@@ -1,5 +1,5 @@
-import Modal from '../Components/Modal';
-import Form from '../Components/Form';
+import Modal from './Modal';
+import Form from '../Form';
 
 function UpdateEventModal(props){
     if(!props.event) throw new Error('UpdateEventModal: ' + 'event prop missing!');

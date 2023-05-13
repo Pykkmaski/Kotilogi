@@ -9,7 +9,7 @@ import {useState, useContext} from 'react';
 import Section from '../../Components/Section';
 import Button from '../../Components/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
-import DeleteEventModal from '../../Modals/DeleteEventModal';
+import DeleteEventModal from '../../Components/Modals/DeleteEventModal';
 import NoEvents from '../../Components/Error/NoEvents';
 
 function EventsSection(props){

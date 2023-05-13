@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import EventContext from "../../Contexts/EventContext";
 import Image from "../../Components/Image";
 import UpdateEvent from '../../Functions/UpdateEvent';
-import UpdateEventModal from "../../Modals/UpdateEventModal";
+import UpdateEventModal from "../../Components/Modals/UpdateEventModal";
 
 function Header(props){
     const {event, loadEvent} = useContext(EventContext);

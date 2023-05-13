@@ -28,6 +28,9 @@
                 flex-flow: row;
                 gap: 1rem;
 
+                .image{
+                    max-width: 400px !important;
+                }
                 .event-text-container{
                     padding: 1rem;
                     max-width: 500px;

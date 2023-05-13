@@ -1,5 +1,5 @@
-import Modal from '../Components/Modal';
-import Form from '../Components/Form';
+import Modal from './Modal';
+import Form from '../Form';
 
 function UploadFileModal(props){
     return (
