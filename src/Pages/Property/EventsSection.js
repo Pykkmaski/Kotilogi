@@ -55,8 +55,11 @@ function EventsSection(props){
                     {
                         events.length ?
                         events.map(ev => {
+                            const url = `/#/properties/${ev.property_id}/events/${ev.id}/info`;
                             return (
-                                <EventCard event={ev}/>
+                                <a className="container-link" href={url}>
+                                    <EventCard event={ev}/>
+                                </a> 
                             )
                         })
                         :

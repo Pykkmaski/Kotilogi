@@ -78,6 +78,14 @@ body, #root{
     background: $secondary-color;
 }
 
+.container-link{
+    color: $secondary-color;
+
+    &:hover{
+        color: $secondary-color !important;
+    }
+}
+
 .bg-filler{
     position: absolute;
     top: 0;
