@@ -16,7 +16,7 @@ function FilesSection(props){
 
     
     return (
-        <Section>
+        <Section id="event-files-section">
             <Section.Header>
                 <h1>Tiedostot</h1>
                 <div className="group-row">
