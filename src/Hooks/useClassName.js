@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 
-function useClassName(defaultClass, additionalClasses){
-    if(typeof(defaultClass) !== 'string' || (additionalClasses && typeof(additionalClasses) !== 'string')) throw new Error('useClassName: ' + 'Arguments must be strings!');
-    const [className, setClassName] = useState(defaultClass);
+function buildClassName(defaultClass, additionalClasses){
+    return [defaultClass].concat(additionalClasses.split(' ')).join(' ');
+}
 
+function useClassName(defaultClass, additionalClasses = ''){
+    if(typeof(defaultClass) !== 'string') throw new Error('useClassName: ' + 'default class must be a string!');
+    if(typeof(additionalClasses) !== 'string') throw new Error('useClassName: ' + 'additional classes must be a string!');
+
+    const [className, setClassName] = useState(() => buildClassName(defaultClass, additionalClasses));
+    
     useEffect(() => {
-        const newClassName = [defaultClass].concat(additionalClasses ? additionalClasses.split(' ') : '').join(' ');
-        setClassName(newClassName);
+        setClassName(buildClassName(defaultClass, additionalClasses));
     }, [defaultClass, additionalClasses]);
 
-    return [className, setClassName];
+    return className;
 }
 
 export default useClassName;

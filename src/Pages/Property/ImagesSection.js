@@ -51,7 +51,9 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 return (
-                                    <Gallery.Image src={imgSrc} image={image}/>
+                                    <a href={imgSrc} target="_blank">
+                                        <Gallery.Image src={imgSrc} image={image}/>
+                                    </a>
                                 );
                             })
                             :

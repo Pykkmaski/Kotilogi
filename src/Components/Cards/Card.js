@@ -14,7 +14,7 @@ function Card(props){
 }
 
 const Image = (props) => <div className="card-image-container">
-    <ImageComponent src={props.src} loading={props.loading}/>
+    <ImageComponent src={props.src} loading={props.loading}></ImageComponent>
 </div>
 
 Card.Image = Image;

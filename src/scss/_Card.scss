@@ -61,8 +61,15 @@
 
     .card-footer{
         display: inherit;
+        flex-flow: row;
+        justify-content: center;
         width: 100%;
         background: none;
+        gap: 0.5rem;
+
+        button{
+            font-size: 0.9rem;
+        }
     }
 
     .card-button-group{

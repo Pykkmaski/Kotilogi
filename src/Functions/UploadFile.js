@@ -11,7 +11,7 @@ function UploadFile(file, name, url, callback){
     axios.post(url, data, {
         headers: {
             'Content-Type' : `multipart/form-data; boundary=${data._boundary}`,
-        }
+        },
     })
     .then(res => callback())
     .catch(err => console.log(err.message));

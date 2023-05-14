@@ -27,15 +27,15 @@ Gallery.Button = Button;
 const Body = (props) => <div className="gallery-body">{props.children}</div>
 Gallery.Body = Body;
 
-const Image = (props) => <a target="blank_" href={props.src} className="gallery-item">
+const Image = (props) => <div className="gallery-item">
     <ImageCard image={props.image} src={props.src}/>
-</a>
+</div>
 
 Gallery.Image = Image;
 
-const File = (props) => <a target="_blank" className="gallery-file" href={props.url}>
+const File = (props) => <div className="gallery-file">
     <FileCard file={props.file}/>
-</a>
+</div>
 Gallery.File = File;
 
 export default Gallery;

@@ -1,3 +1,4 @@
+import useClassName from "../Hooks/useClassName";
 import useSubComponents from "../Hooks/useSubComponents";
 
 function Section(props){
@@ -15,14 +16,18 @@ const Header = (props) => <div className="section-header">{props.children}</div>
 Section.Header = Header;
 
 const Body = (props) => {
+    const className = useClassName('section-body', props.className || '');
     return(
-        <div className={props.className || "section-body"}>{props.children}</div>
+        <div className={className}>{props.children}</div>
     )
 }
 
 Section.Body = Body;
 
-const Div = (props) => <div className={'section-div' || props.className}>{props.children}</div>
+const Div = (props) => {
+    const className = useClassName('section-div', props.className || '');
+    return <div className={className}>{props.children}</div>
+}
 Section.Div = Div;
 
 const Footer = (props) => <div className="section-footer">{props.children}</div>
