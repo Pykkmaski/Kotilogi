@@ -33,10 +33,14 @@ function EventsSection(props){
                 </div>
 
                 <div className="group-row">
+                    <select>
+                        <option value="def" selected="selected" disabled={true}>Tapahtuman Valinnat</option>
+                        <option value="del">Poista</option>
+                    </select>
                     <input type="search" placeholder="Etsi Tapahtumaa..." onChange={() => loadEvents(e.target.value)}/>
                     <Button variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => location.assign(`/#/properties/${property.id}/events/${id}/info`))}>Uusi Tapahtuma</Button>
                 </div>
-
+                
                 <DeleteEventModal
                     showModal={showDeleteModal}
                     setShowModal={setShowDeleteModal}

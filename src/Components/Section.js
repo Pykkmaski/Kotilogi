@@ -20,7 +20,7 @@ const Header = (props) => {
 Section.Header = Header;
 
 const Body = (props) => {
-    const className = useClassName('section-body', props.className || '');
+    const className = useClassName('section-body', props.className);
     return(
         <div className={className}>{props.children}</div>
     )
@@ -29,7 +29,7 @@ const Body = (props) => {
 Section.Body = Body;
 
 const Div = (props) => {
-    const className = useClassName('section-div', props.className || '');
+    const className = useClassName('section-div', props.className);
     return <div className={className}>{props.children}</div>
 }
 Section.Div = Div;
