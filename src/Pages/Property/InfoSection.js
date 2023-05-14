@@ -94,7 +94,7 @@ function PropertyInfoSection(props){
             </Section.Header>
 
             <Section.Body>
-                <Image src={`/api/images/properties/${property.id}/main`}/>
+                <Image src={`/api/images/properties/${property.id}/main`} className="main-image"/>
                 <div className="info-group">
                     <header>
                         <h2>Yleistiedot</h2>
