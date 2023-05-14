@@ -4,7 +4,7 @@ import useSubComponents from "../Hooks/useSubComponents";
 function Section(props){
     const subComponents = useSubComponents(Object.keys(Section), props);
     return (
-        <div className="section">
+        <div className="section" id={props.id}>
             {
                 subComponents.map((component) => component)
             }

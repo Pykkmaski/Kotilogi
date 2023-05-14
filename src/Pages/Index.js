@@ -39,7 +39,7 @@ function Index(props){
             </div>
 
             <div className="page-element" id="home-page-footer">
-                <div id="main-links" className="flex-column gap-l">
+                <div id="main-links">
                     <h2>Päälinkit</h2>
                     <Link to="">Etusivu</Link>
                     <Link to="">Tietoa</Link>
