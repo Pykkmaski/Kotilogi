@@ -22,8 +22,7 @@ function Login(props){
         .then(res => {
             const token = res.data.token;
             setToken(token);
-            LinkTo('/user');
-            location.reload();
+            location.assign('/');
         })
         .catch(err => {
             setError(err.response.status);
