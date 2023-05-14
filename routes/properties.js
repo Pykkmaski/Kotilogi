@@ -9,8 +9,9 @@ const fs = require('fs');
 router.get('/', checkAuth, async (req, res) => {
     ///Returns all properties belonging implicitly to the client making the request.
     try{
-        const {user} = req;
-        const properties = await db('properties').where({owner: user.email});
+        const {user, body} = req;
+        const {property_id} = body;
+        const properties = !property_id ? await db('properties').where({owner: user.email}) : await db('properties').where({property_id});
         res.status(200).send(JSON.stringify(properties));
 
     }catch(err){
