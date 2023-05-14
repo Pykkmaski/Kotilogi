@@ -23,13 +23,6 @@ function EventCard({event}){
                     <span>{event.description}</span>
                 </div>
             </Card.Body>
-
-            <Card.Footer>
-                <div className="card-button-group">
-                    <button className="primary" onClick={() => location.assign(`/#/properties/${property.id}/events/${event.id}/info`)}>Avaa</button>
-                    <button className="black" onClick={() => showDeleteConfirmation(event.id)}>Poista</button>
-                </div>
-            </Card.Footer>
         </Card>
     )
 }
