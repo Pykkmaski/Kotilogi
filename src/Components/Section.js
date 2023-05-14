@@ -12,7 +12,11 @@ function Section(props){
     );
 }
 
-const Header = (props) => <div className="section-header">{props.children}</div>
+const Header = (props) => {
+    const className = useClassName('section-header', props.className);
+    return <div className={className}>{props.children}</div>
+}
+
 Section.Header = Header;
 
 const Body = (props) => {

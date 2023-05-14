@@ -19,7 +19,7 @@ function EnergySection(props){
                 </div>
 
                 <div className="group-row">
-                    <Button title="Lisää Kulutustieto" variant="add" className="primary"/>
+                    <Button variant="add" className="primary">Lisää Kulutustieto</Button>
                 </div>
             </Section.Header>
 
