@@ -1,16 +1,18 @@
 const router = require('express').Router();
 const checkAuth = require('../middleware/checkAuth');
+const checkPropertyAuth = require('../middleware/checkPropertyAuth');
 const upload = require('../middleware/fileUpload');
 const db = require('../dbconfig');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const path = require('path');
 const fs = require('fs');
 
-router.get('/', checkAuth, async (req, res) => {
-    ///Returns all properties belonging implicitly to the client making the request.
+router.get('/', checkAuth, checkPropertyAuth, async (req, res) => {
+    ///If request property_id is defined, responds with the property with the given id. Otherwise responds with all properties belonging to the authorized user making the request.
     try{
         const {user, body} = req;
-        const {property_id} = body;
+        const {property_id} = req.body;
+        console.log(property_id);
         const properties = !property_id ? await db('properties').where({owner: user.email}) : await db('properties').where({property_id});
         res.status(200).send(JSON.stringify(properties));
 
@@ -19,7 +21,7 @@ router.get('/', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:property_id', checkAuth, async (req, res) => {
+router.get('/:property_id', checkAuth, checkPropertyAuth, async (req, res) => {
     ///Returns the property with the given ID.
     try{
         const {property_id} = req.params;
@@ -32,7 +34,7 @@ router.get('/:property_id', checkAuth, async (req, res) => {
     }
 });
 
-router.get('/:property_id/events', checkAuth, async (req, res) => {
+router.get('/:property_id/events', checkAuth, checkPropertyAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         const history = await db('property_events').where({property_id}).orderBy('date', 'asc');

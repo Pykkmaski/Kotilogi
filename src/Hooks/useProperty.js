@@ -13,9 +13,8 @@ function useProperty(property_id){
 
     useEffect(() => {
         loadProperty();
-    }, [])
+    }, []);
     
-
     return [property, loadProperty];
 }
 
