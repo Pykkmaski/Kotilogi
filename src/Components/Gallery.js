@@ -28,7 +28,7 @@ const Body = (props) => <div className="gallery-body">{props.children}</div>
 Gallery.Body = Body;
 
 const Image = (props) => <div className="gallery-item">
-    <ImageCard image={props.image} src={props.src}/>
+    <ImageCard image={props.image} src={props.src} functions={props.functions} editing={props.editing}/>
 </div>
 
 Gallery.Image = Image;

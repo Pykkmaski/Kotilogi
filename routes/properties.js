@@ -49,7 +49,7 @@ router.get('/:property_id/events', checkAuth, checkPropertyAuth, async (req, res
     }
 });
 
-router.post('/:property_id/events', checkAuth, async (req, res) => {
+router.post('/:property_id/events', checkAuth, checkPropertyAuth, async (req, res) => {
     ///Insert new event data for given property
     try{
         const {property_id} = req.params;
@@ -85,7 +85,7 @@ router.post('/', checkAuth, async (req, res) => {
     }
 });
 
-router.delete('/:property_id', checkAuth, async (req, res) => {
+router.delete('/:property_id', checkAuth, checkPropertyAuth, async (req, res) => {
     ///Deletes the property with given ID.
     try{
         const {property_id} = req.params;
@@ -97,8 +97,7 @@ router.delete('/:property_id', checkAuth, async (req, res) => {
     }
 });
 
-//Add a route to update a property
-router.put('/:property_id', checkAuth, async (req, res) => {
+router.put('/:property_id', checkAuth, checkPropertyAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         await db('properties').where({id: property_id}).update(req.body);

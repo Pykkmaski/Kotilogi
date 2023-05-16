@@ -1,6 +1,7 @@
 import Card from './Card';
+import Button from '../Buttons/Button';
 
-function PropertyCard({property}){
+function PropertyCard({property, editing, functions}){
 
     const propertyMainImage = `/api/images/properties/${property.id}/main`;
     return (
@@ -17,12 +18,14 @@ function PropertyCard({property}){
                 
             </Card.Body>
 
-            <Card.Footer>
-                <div className="card-button-group">
-                    <button className="primary" onClick={() => location.assign(`/#/properties/${property.id}/info`)}>Avaa</button>
-                    <button className="secondary">Poista</button>
-                </div>
-            </Card.Footer>
+            {
+                editing ? 
+                <Card.Footer>
+                    <Button className="danger" onClick={() => functions.deleteProperty(property.id)}>Poista</Button>
+                </Card.Footer>
+                :
+                <></>
+            }
         </Card>
     );
 }
