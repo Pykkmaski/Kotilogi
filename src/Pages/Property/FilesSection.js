@@ -2,7 +2,7 @@ import UploadFile from "../../Functions/UploadFile";
 import {useContext, useState} from 'react';
 import usePropertyFiles from '../../Hooks/usePropertyFiles';
 import Section from "../../Components/Section";
-import Button from '../../Components/Button';
+import Button from '../../Components/Buttons/Button';
 import Gallery from '../../Components/Gallery';
 import PropertyContext from "../../Contexts/PropertyContext";
 import UploadFileModal from "../../Components/Modals/UploadFileModal";

@@ -3,7 +3,9 @@ import EventContext from '../../Contexts/EventContext';
 import useEventImages from '../../Hooks/useEventImages';
 import Gallery from '../../Components/Gallery';
 import Section from '../../Components/Section';
-import Button from '../../Components/Button';
+import Button from '../../Components/Buttons/Button';
+import EditButton from '../../Components/Buttons/EditButton';
+
 import Image from '../../Components/Image';
 import UploadFile from '../../Functions/UploadFile';
 import UploadImageModal from '../../Components/Modals/UploadImageModal';

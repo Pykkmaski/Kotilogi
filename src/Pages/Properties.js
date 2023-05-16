@@ -7,7 +7,7 @@ import Loading from './Loading';
 import AppContext from '../Contexts/AppContext';
 import Unauthorized from './Unauthorized';
 import Section from '../Components/Section';
-import Button from '../Components/Button';
+import Button from '../Components/Buttons/Button';
 
 function Properties2(props){
     const [properties, loadProperties] = useProperties();

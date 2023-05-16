@@ -7,7 +7,7 @@ import AddEvent from '../../Functions/AddEvent';
 import {useState, useContext} from 'react';
 
 import Section from '../../Components/Section';
-import Button from '../../Components/Button';
+import Button from '../../Components/Buttons/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
 import DeleteEventModal from '../../Components/Modals/DeleteEventModal';
 import NoEvents from '../../Components/Error/NoEvents';

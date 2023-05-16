@@ -1,7 +1,7 @@
 import {useContext} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Section from '../../Components/Section';
-import Button from '../../Components/Button';
+import Button from '../../Components/Buttons/Button';
 import NoUsage from '../../Components/Error/NoUsage';
 import ApexCharts from 'apexcharts';
 

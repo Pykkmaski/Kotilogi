@@ -3,7 +3,7 @@ import { useContext, useState, useRef } from "react";
 import UploadFile from "../../Functions/UploadFile";
 import usePropertyImages from "../../Hooks/usePropertyImages";
 import Section from '../../Components/Section';
-import Button from '../../Components/Button';
+import Button from '../../Components/Buttons/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Img from '../../Components/Image';
 import Card from '../../Components/Cards/Card';
