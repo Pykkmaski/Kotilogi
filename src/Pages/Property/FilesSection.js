@@ -23,6 +23,7 @@ function FilesSection(props){
 
                 <div className="group-row">
                     <input type="search" placeholder="Etsi tiedostoja..." onChange={() => null}/>
+                    <Button className="primary">Muokkaa</Button>
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Tiedosto</Button>
                 </div>
 

@@ -29,6 +29,7 @@ function ImagesSection(props){
             <Section.Header>
                 <h1>Kuvat</h1>
                 <div className="group-row">
+                    <Button className="primary">Muokkaa</Button>
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Kuva</Button>
                 </div> 
 

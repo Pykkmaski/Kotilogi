@@ -6,6 +6,7 @@ import Header from './Header';
 import ImagesSection from './ImagesSection';
 import FilesSection from './FilesSection';
 import EventContext from '../../Contexts/EventContext';
+import useMainImage from '../../Hooks/useMainImage';
 
 function Event(props){
     const {event_id, section} = useParams();

@@ -10,7 +10,7 @@ function Button(props){
         )
     }
     else{
-        return <button className={props.className} onClick={props.onClick}>{props.title}</button>
+        return <button className={props.className} onClick={props.onClick}>{props.children}</button>
     }
 }
 

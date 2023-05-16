@@ -11,7 +11,7 @@ function InfoSection(props){
     const [showEditEventModal, setShowEditEventModal] = useState(false);
 
     const eventMainImage = `/api/images/events/${event.id}/main`;
-
+    console.log(event.date);
     useEffect(() => {
         if(editing === true){
             setShowEditEventModal(true);
@@ -63,6 +63,8 @@ function InfoSection(props){
                 <h2>{event.name}</h2>
                 <p>
                     {event.description}
+                    <br/>
+                    ryyppägs
                 </p>
             </Section.Body>
 
