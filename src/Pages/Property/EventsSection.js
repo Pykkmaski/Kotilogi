@@ -19,18 +19,20 @@ function EventsSection(props){
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
-    
+    const [editing, setEditing] = useState(false);
+
     function showDeleteConfirmation(id){
         setEventToBeDeleted(id);
         setShowDeleteModal(true);
     }
 
     function editFunction(){
-
+        setEditing(true);
+        console.log('Editing events...')
     }
 
     function cancelEditFunction(){
-
+        setEditing(false);
     }
 
     return (
@@ -70,10 +72,18 @@ function EventsSection(props){
                         events.length ?
                         events.map(ev => {
                             const url = `/#/properties/${ev.property_id}/events/${ev.id}/info`;
+                            const eventCard = <EventCard event={ev} editing={editing} functions={{
+                                deleteEvent: (id) => showDeleteConfirmation(id)
+                            }}/>
+
                             return (
+                                !editing ? 
                                 <a className="container-link" href={url}>
-                                    <EventCard event={ev}/>
+                                    {eventCard}
                                 </a> 
+                                :
+                                eventCard
+                                
                             )
                         })
                         :

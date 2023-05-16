@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import Card from './Card';
 import PropertyContext from '../../Contexts/PropertyContext';
+import Button from '../Buttons/Button';
 
-function EventCard({event}){
+function EventCard({event, editing, functions}){
 
     const {property} = useContext(PropertyContext);
     const eventMainImage = `/api/images/events/${event.id}/main`;
@@ -23,6 +24,15 @@ function EventCard({event}){
                     <span>{event.description}</span>
                 </div>
             </Card.Body>
+
+            {
+                editing ? 
+                <Card.Footer>
+                    <Button className="danger" onClick={() => functions.deleteEvent(event.id)}>Poista</Button>
+                </Card.Footer>
+                :
+                <></>
+            }
         </Card>
     )
 }
