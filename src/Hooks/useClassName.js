@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 
 function buildClassName(defaultClass, additionalClasses){
     if(additionalClasses === null) return defaultClass;
-
     return [defaultClass].concat(additionalClasses.split(' ')).join(' ');
 }
 
 function useClassName(defaultClass, additionalClasses = null){
 
     ///Concatenates provided additional classes with the default class into a single class string.
-    if(typeof(defaultClass) !== 'string') throw new Error('useClassName: ' + 'default class must be a string!');
-
     const [className, setClassName] = useState(() => buildClassName(defaultClass, additionalClasses));
 
     useEffect(() => {

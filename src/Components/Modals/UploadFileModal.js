@@ -1,6 +1,6 @@
 import Modal from './Modal';
 import Form from '../Form';
-import Button from '../Button';
+import Button from '../Buttons/Button';
 
 function UploadFileModal(props){
     return (

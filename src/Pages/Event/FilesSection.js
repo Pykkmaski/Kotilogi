@@ -3,7 +3,7 @@ import EventContext from '../../Contexts/EventContext';
 import useEventFiles from '../../Hooks/useEventFiles';
 import Section from '../../Components/Section';
 import Gallery from '../../Components/Gallery';
-import Button from '../../Components/Button';
+import Button from '../../Components/Buttons/Button';
 import UploadFile from '../../Functions/UploadFile';
 import UploadFileModal from '../../Components/Modals/UploadFileModal';
 import NoFiles from '../../Components/Error/NoFiles';
@@ -13,14 +13,14 @@ function FilesSection(props){
     const {event} = useContext(EventContext);
     const [files, loadFiles] = useEventFiles(event.id);
     const [showModal, setShowModal] = useState(false);
-
+    const [editing, setEditing] = useState(false);
     
     return (
         <Section id="event-files-section">
             <Section.Header>
                 <h1>Tiedostot</h1>
                 <div className="group-row">
-                    <Button className="primary">Muokkaa</Button>
+                    <Button className={editing ? 'secondary' : 'primary'} onClick={() => setEditing(!editing)}>{editing ? 'Lopeta Muokkaus' : 'Muokkaa'}</Button>
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Tiedosto</Button>
                 </div>
 
