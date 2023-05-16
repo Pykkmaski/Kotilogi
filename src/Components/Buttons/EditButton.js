@@ -1,21 +1,29 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Button from './Button';
 
 function EditButton(props){
     const [editing, setEditing] = useState(false);
+    const [label, setLabel] = useState('Muokkaa');
 
     function onClickHandler(){
         setEditing(!editing);
+    }
+
+    useEffect(() => {
         if(editing){
-            props.editingFunction();
+            props.editFunction();
+            console.log('Editing...');
+            setLabel('Lopeta Muokkaaminen');
         }
         else{
             props.cancelFunction();
+            console.log('Canceling');
+            setLabel('Muokkaa');
         }
-    }
+    }, [editing])
 
     return(
-        <Button className={editing ? 'secondary' : 'primary'} onClick={onClickHandler}>{props.children}</Button>
+        <Button className={editing ? 'secondary' : 'primary'} onClick={onClickHandler}>{label}</Button>
     )
 }
 

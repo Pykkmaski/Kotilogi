@@ -8,6 +8,7 @@ import {useState, useContext} from 'react';
 
 import Section from '../../Components/Section';
 import Button from '../../Components/Buttons/Button';
+import EditButton from '../../Components/Buttons/EditButton';
 import PropertyContext from '../../Contexts/PropertyContext';
 import DeleteEventModal from '../../Components/Modals/DeleteEventModal';
 import NoEvents from '../../Components/Error/NoEvents';
@@ -24,6 +25,14 @@ function EventsSection(props){
         setShowDeleteModal(true);
     }
 
+    function editFunction(){
+
+    }
+
+    function cancelEditFunction(){
+
+    }
+
     return (
         <Section>
             <Section.Header>
@@ -34,7 +43,11 @@ function EventsSection(props){
 
                 <div className="group-row">
                     <input type="search" placeholder="Etsi Tapahtumaa..." onChange={() => loadEvents(e.target.value)}/>
-                    <Button className="primary">Muokkaa</Button>
+                    <EditButton
+                        editFunction={editFunction}
+                        cancelFunction={cancelEditFunction}
+                    
+                    >Muokkaa</EditButton>
                     <Button variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => location.assign(`/#/properties/${property.id}/events/${id}/info`))}>Uusi Tapahtuma</Button>
                 </div>
                 

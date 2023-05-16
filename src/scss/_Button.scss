@@ -8,6 +8,8 @@ button{
     min-width: 100px;
     cursor: pointer;
 
+    transition: width 0.2s ease-in-out;
+    
     &:disabled{
         background: $disabled-color !important;
         color: lighten($disabled-color, 15);
