@@ -1,5 +1,17 @@
 import useSubComponents from "../Hooks/useSubComponents";
 import useClassName from '../Hooks/useClassName';
+import {useImage} from 'react-image';
+import { Suspense } from "react";
+import LoadingSpinner from "./Spinner";
+
+function ReactImage(props){
+    console.log(props.src);
+    const {src} = useImage({
+        srcList: [props.src, './img/no-pictures.png'],
+    })
+
+    return <img src={src} onClick={props.onClick}/>
+}
 
 function Image(props){
 
@@ -8,7 +20,11 @@ function Image(props){
 
     return (
         <div className={className}>
-            <img src={props.src} loading={props.loading} onError={(e) => e.target.src = './img/no-pictures.png'} onClick={props.onClick}/>
+            <Suspense fallback={<LoadingSpinner size="2rem"/>}>
+                <ReactImage src={props.src} onClick={props.onClick}/>
+            </Suspense>
+           
+
             {
                 subComponents.map((component) => component)
             }
