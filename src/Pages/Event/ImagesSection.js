@@ -20,6 +20,7 @@ function ImagesSection(props){
     const [images, loadImages] = useEventImages(event.id);
     const [showModal, setShowModal] = useState(false);
     const [showShowImageModal, setShowImageModal] = useState(false);
+    const [editing, setEditing] = useState(false);
     const selectedImage = useRef(null);
 
     function displayImage(id){
@@ -31,7 +32,11 @@ function ImagesSection(props){
             <Section.Header>
                 <h1>Kuvat</h1>
                 <div className="group-row">
-                    <Button className="primary">Muokkaa</Button>
+                    <EditButton
+                        editFunction={() => setEditing(true)}
+                        cancelFunction={() => setEditing(false)}
+                    >Muokkaa</EditButton>
+
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Kuva</Button>
                 </div> 
 
@@ -55,10 +60,19 @@ function ImagesSection(props){
                             images.length ?
                             images.map(image => {
                                 const imgSrc = `/api/images/events/image/${image.id}`;
+                                const element = <Gallery.Image image={image} src={imgSrc} editing={editing} functions={{
+                                    deleteImage: () => null,
+                                    setAsMain: (image_id) => SetEventMainImage(event.id, image_id, () => loadImages())
+                                }}
+                                />
+
                                 return (
+                                    !editing ?
                                     <a href={imgSrc} target="_blank">
-                                        <ImageCard image={image} src={imgSrc}/>
+                                        {element}
                                     </a>
+                                    :
+                                    element
                                 )
                             })
                             :

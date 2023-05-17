@@ -14,7 +14,7 @@ import EditButton from '../../Components/Buttons/EditButton';
 import setPropertyMainImage from '../../Functions/SetPropertyMainImage';
 
 function ImagesSection(props){
-    const {property} = useContext(PropertyContext);
+    const {property, loadProperty} = useContext(PropertyContext);
     const [images, loadImages] = usePropertyImages(property.id);
     const [showModal, setShowModal] = useState(false);
     const [editing, setEditing] = useState(false);
