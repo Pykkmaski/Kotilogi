@@ -23,7 +23,7 @@ function UploadEnergyUsageModal(props){
                     </Form.Group>
 
                     <Form.ButtonGroup>
-                        <button type="button" className="secondary" onClick={() => setShowModal(false)}>Peruuta</button>
+                        <button type="button" className="secondary" onClick={() => props.setShowModal(false)}>Peruuta</button>
                         <button type="submit" className="primary">Lähetä</button>
                     </Form.ButtonGroup>
                 </Form>

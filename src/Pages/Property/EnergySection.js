@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Section from '../../Components/Section';
 import Button from '../../Components/Buttons/Button';
@@ -9,11 +9,77 @@ import UploadEnergyUsage from '../../Functions/UploadEnergyUsage';
 import useEnergyUsage from '../../Hooks/useEnergyUsage';
 import EnergyUsageCard from '../../Components/Cards/EnergyUsageCard';
 import Gallery from '../../Components/Gallery';
+import Loading from '../Loading';
+
+function renderCharts(energyUsage){
+    if(energyUsage !== null){
+        const priceOptions = {
+            series: [{
+                name: 'Hinta',
+                data: energyUsage.map(d => d.price),
+            }],
+
+            chart: {
+                height: 350,
+                width: 750,
+                type: 'line',
+                zoom: {
+                  enabled: false
+                }
+            },
+
+            stroke: {
+                curve: 'straight'
+            },
+
+            title: {
+                text: 'Energian hinta (€)',
+                align: 'left'
+            },
+        }
+
+        const wattOptions = {
+            series: [{
+                name: 'Energiankulutus',
+                data: energyUsage.map(d => d.watt_amount),
+            }],
+
+            chart: {
+                height: 350,
+                width: 750,
+                type: 'line',
+                zoom: {
+                  enabled: false
+                }
+            },
+
+            stroke: {
+                curve: 'straight',
+                colors: ['#F00'],
+            },
+
+            title: {
+                text: 'Energian määrä (W)',
+                align: 'left'
+            },
+        }
+        const priceChart = new ApexCharts(document.querySelector('#price-chart'), priceOptions);
+        const wattChart = new ApexCharts(document.querySelector('#watt-chart'), wattOptions);
+        wattChart.render();
+        priceChart.render();
+    }
+}
 
 function EnergySection(props){
     const {property} = useContext(PropertyContext);
     const [showModal, setShowModal] = useState(false);
     const [energyUsage, loadEnergyUsage] = useEnergyUsage(property.id);
+
+    useEffect(() => {
+        renderCharts(energyUsage);
+    }, [energyUsage]);
+
+    if(!energyUsage) return <Loading message="Ladataan kulutustietoja..."/>
 
     return (
         <Section>
@@ -51,12 +117,8 @@ function EnergySection(props){
             <Section.Body>
                 <Gallery>
                     <Gallery.Body>
-                        {
-                            energyUsage?.map(data => {
-                                const element = <EnergyUsageCard usage={data} editing={false} functions={null}/>
-                                return element;
-                            })
-                        }
+                        <div id="price-chart" className="chart"></div>
+                        <div id="watt-chart" className="chart"></div>
                     </Gallery.Body>
                 </Gallery>
                
