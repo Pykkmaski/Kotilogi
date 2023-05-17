@@ -48,7 +48,9 @@ function FilesSection(props){
                             files.map(file => {
                                 const fileSrc = `/api/files/properties/file/${file.id}`
                                 return (
-                                    <Gallery.File url={fileSrc} file={file} width="200px" key={`property-${property.id}-file-${file.id}`}/>
+                                    <a href={fileSrc} target="_blank">
+                                        <Gallery.File url={fileSrc} file={file} width="200px" key={`property-${property.id}-file-${file.id}`}/>
+                                    </a>
                                 )
                             })
                             :

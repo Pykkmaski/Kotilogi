@@ -4,9 +4,9 @@ const checkAuth = require('../middleware/checkAuth');
 
 const router = require('express').Router();
 
-router.get('/', checkAuth, async (req, res) => {
+router.get('/:property_id', checkAuth, async (req, res) => {
     try{
-        const {property_id} = req.body;
+        const {property_id} = req.params;
         const data = await db('energy_usage').where({property_id});
         if(!data) throw 404;
         res.status(200).send(JSON.stringify(data));
@@ -19,6 +19,7 @@ router.get('/', checkAuth, async (req, res) => {
 router.post('/', checkAuth, async (req, res) => {
     try{
         const {data} = req.body;
+        data.time = new Date(data.time).getTime();
         await db('energy_usage').insert(data);
         res.sendStatus(200);
     }

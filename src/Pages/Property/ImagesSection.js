@@ -40,6 +40,7 @@ function ImagesSection(props){
                         e.preventDefault();
                         const url = `/api/images/properties/${property.id}`;
                         UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
+                        setShowModal(false);
                     }}
                 />
             </Section.Header>
