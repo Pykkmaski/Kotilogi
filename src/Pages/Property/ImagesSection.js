@@ -32,7 +32,6 @@ function ImagesSection(props){
                 </div>
 
                 <div className="group-row">
-                    <input type="search" placeholder="Etsi kuvia..." onChange={() => null}/>
                     <EditButton
                         editFunction={() => setEditing(true)}
                         cancelFunction={() => setEditing(false)}

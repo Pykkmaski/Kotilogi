@@ -44,7 +44,6 @@ function EventsSection(props){
                 </div>
 
                 <div className="group-row">
-                    <input type="search" placeholder="Etsi Tapahtumaa..." onChange={() => loadEvents(e.target.value)}/>
                     <EditButton
                         editFunction={editFunction}
                         cancelFunction={cancelEditFunction}

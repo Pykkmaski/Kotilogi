@@ -35,7 +35,6 @@ function FilesSection(props){
                 </div>
 
                 <div className="group-row">
-                    <input type="search" placeholder="Etsi tiedostoja..." onChange={() => null}/>
                     <EditButton
                         editFunction={() => setEditing(true)}
                         cancelFunction={() => setEditing(false)}
