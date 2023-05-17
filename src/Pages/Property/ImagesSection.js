@@ -10,6 +10,8 @@ import Card from '../../Components/Cards/Card';
 import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 import ImageCard from '../../Components/Cards/ImageCard';
+import EditButton from '../../Components/Buttons/EditButton';
+import setPropertyMainImage from '../../Functions/SetPropertyMainImage';
 
 function ImagesSection(props){
     const {property} = useContext(PropertyContext);
@@ -30,7 +32,10 @@ function ImagesSection(props){
 
                 <div className="group-row">
                     <input type="search" placeholder="Etsi kuvia..." onChange={() => null}/>
-                    <Button className="primary">Muokkaa</Button>
+                    <EditButton
+                        editFunction={() => setEditing(true)}
+                        cancelFunction={() => setEditing(false)}
+                    >Muokkaa</EditButton>
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Kuva</Button>
                 </div>
 
@@ -53,9 +58,10 @@ function ImagesSection(props){
                             images.length ? 
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
+                                console.log(image);
                                 const element = <Gallery.Image src={imgSrc} image={image} editing={editing} functions={{
                                     deleteImage: () => null,
-                                    setAsMain: (image_id) => setPropertyMainImage(property.id, image_id),
+                                    setAsMain: (image_id) => setPropertyMainImage(property.id, image_id, () => loadImages()),
                                 }}/>
                                 return (
                                     !editing ?
