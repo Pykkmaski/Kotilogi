@@ -12,6 +12,7 @@ import NoImages from '../../Components/Error/NoImages';
 import ImageCard from '../../Components/Cards/ImageCard';
 import EditButton from '../../Components/Buttons/EditButton';
 import setPropertyMainImage from '../../Functions/SetPropertyMainImage';
+import DeleteImage from '../../Functions/DeleteImage';
 
 function ImagesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
@@ -60,7 +61,7 @@ function ImagesSection(props){
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 console.log(image);
                                 const element = <Gallery.Image src={imgSrc} image={image} editing={editing} functions={{
-                                    deleteImage: () => null,
+                                    deleteImage: (image_id) => DeleteImage(image_id, () => loadImages()),
                                     setAsMain: (image_id) => setPropertyMainImage(property.id, image_id, () => loadImages()),
                                 }}/>
                                 return (

@@ -4,6 +4,7 @@ const upload = require('../middleware/fileUpload');
 const checkAuth = require('../middleware/checkAuth');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const path = require('path');
+const fs = require('fs');
 
 const imageMimeType = 'image/jpeg';
 
@@ -72,11 +73,11 @@ router.put('/:property_id/main/:image_id', checkAuth, async (req, res) => {
     }
 });
 
-router.delete('/image/:image_id', checkAuth, async (req, res) => {
+router.delete('/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id} = req.params;
         const file = await db.select('filename').from('property_files').where({mime_type: imageMimeType, id: image_id}).first();
-        fs.unlink(path.join(__dirname, `../uploads/${file.filename}`));
+        fs.unlink(path.join(__dirname, `../uploads/${file.filename}`), () => console.log(`File ${file.filename} deleted.`));
         await db('property_files').where({filename: file.filename}).del();
         res.sendStatus(200);
     }
