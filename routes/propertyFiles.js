@@ -4,7 +4,7 @@ const path = require('path');
 const checkAuth = require('../middleware/checkAuth');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const upload = require('../middleware/fileUpload');
-
+const fs = require('fs');
 const pdfMimeType = 'application/pdf';
 
 router.get('/:property_id', async (req, res) => {
@@ -37,5 +37,19 @@ router.post('/:property_id', checkAuth, upload.single('file'), async (req, res) 
     ///Uploads a PDF to be associated with a property
     res.sendStatus(200);
 });
+
+router.delete('/:file_id', checkAuth, async (req, res) => {
+    try{
+        const {file_id} = req.params;
+        const file = await db('property_files').where({id: file_id}).first();
+        if(!file) throw 404;
+        fs.unlink(path.join(__dirname, `../uploads/${file.filename}`), () => console.log(`File ${file.filename} deleted.`));
+        await db('property_files').where({id: file_id}).del();
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+})
 
 module.exports = router;

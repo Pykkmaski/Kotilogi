@@ -1,6 +1,6 @@
 import {useState, useRef, useEffect, useContext} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
-import UpdateProperty from '../../Functions/UpdateProperty';
+import Update from '../../Functions/Update';
 import EditableField from '../../Components/EditableField';
 import Loading from '../Loading';
 import Modal from '../../Components/Modals/Modal';
@@ -12,7 +12,6 @@ function PropertyInfoSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
     const [editing, setEditing] = useState(false);
     const [showSubmitEditsModal, setShowSubmitEditsModal] = useState(false);
-
     const tempProperty = useRef({});
     const unsavedChanges = useRef(false);
     const firstRender = useRef(true);
@@ -27,7 +26,7 @@ function PropertyInfoSection(props){
 
     function saveChanges(){
         setEditing(false);
-        UpdateProperty(property.id, tempProperty.current, () => loadProperty());
+        Update(`/api/properties/${property.id}`, tempProperty.current, () => loadProperty());
     }
 
     useEffect(() => {

@@ -2,7 +2,7 @@ import useEvents from '../../Hooks/useEvents';
 import Gallery from '../../Components/Gallery';
 import EventCard from '../../Components/Cards/EventCard';
 
-import DeleteEvent from '../../Functions/DeleteEvent';
+import Delete from '../../Functions/Delete';
 import AddEvent from '../../Functions/AddEvent';
 import {useState, useContext} from 'react';
 
@@ -58,7 +58,7 @@ function EventsSection(props){
                     setShowModal={setShowDeleteModal}
                     eventToBeDeleted={eventToBeDeleted}
                     deleteFunction={() => {
-                        DeleteEvent(eventToBeDeleted, () => loadEvents());
+                        Delete(`/api/events/${eventToBeDeleted}`, () => loadEvents());
                         setShowDeleteModal(false);
                     }}
                 />

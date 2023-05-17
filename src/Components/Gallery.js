@@ -34,7 +34,7 @@ const Image = (props) => <div className="gallery-item">
 Gallery.Image = Image;
 
 const File = (props) => <div className="gallery-file">
-    <FileCard file={props.file}/>
+    <FileCard file={props.file} editing={props.editing} functions={props.functions}/>
 </div>
 Gallery.File = File;
 

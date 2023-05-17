@@ -105,7 +105,7 @@ function EnergySection(props){
                             property_id: property.id,
                         }
 
-                        UploadEnergyUsage(data, () => {
+                        Upload(`/api/energy_usage/${property.id}`, data, () => {
                             loadEnergyUsage();
                             setShowModal(false);
                         });

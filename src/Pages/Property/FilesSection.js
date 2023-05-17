@@ -8,12 +8,23 @@ import PropertyContext from "../../Contexts/PropertyContext";
 import UploadFileModal from "../../Components/Modals/UploadFileModal";
 import NoFiles from "../../Components/Error/NoFiles";
 import EditButton from "../../Components/Buttons/EditButton";
+import Modal from "../../Components/Modals/Modal";
+import Delete from '../../Functions/Delete';
 
 function FilesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
     const [showModal, setShowModal] = useState(false);
+
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [fileToBeDeleted, setFileToBeDeleted] = useState(null);
+
     const [files, loadFiles] = usePropertyFiles(property.id);
     const [editing, setEditing] = useState(false);
+
+    function confirmDeletion(id){
+        setFileToBeDeleted(id);
+        setShowDeleteConfirmation(true);
+    }
 
     return (
         <Section>
@@ -59,20 +70,40 @@ function FilesSection(props){
                                     key={`property-${property.id}-file-${file.id}`}
                                     editing={editing}
                                     functions={{
-                                        deleteFile: (file_id) => DeleteFile(`/api/files/properties/${file_id}`, () => loadFiles()),
+                                        deleteFile: (file_id) => confirmDeletion(file_id),
                                         editTitle: (file_id) => Update(`/api/files/properties/${file_id}`, () => loadFiles()),
                                     }}/>
+
                                 return (
+                                    !editing ?
                                     <a href={fileSrc} target="_blank">
                                         {element}
                                     </a>
+                                    :
+                                    element
                                 )
                             })
                             :
                             <NoFiles/>
                         }
+
                     </Gallery.Body>
                 </Gallery>
+
+                <Modal show={showDeleteConfirmation} onHide={() => setShowDeleteConfirmation(false)}>
+                    <Modal.Header>Vahvista Tiedoston Poisto</Modal.Header>
+                    <Modal.Body>Haluatko varmasti poistaa tämän tiedoston?</Modal.Body>
+                    <Modal.Footer>
+                        <div className="group-row">
+                            <Button className="primary" onClick={() => setShowDeleteConfirmation(false)}>Ei</Button>
+                            <Button className="danger" onClick={() => Delete(`/api/files/properties/${fileToBeDeleted}`, () => {
+                                setShowDeleteConfirmation(false);
+                                loadFiles();
+                            })}>Kyllä</Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
+
             </Section.Body>
 
             

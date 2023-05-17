@@ -1,4 +1,5 @@
 import Card from './Card';
+import Button from '../Buttons/Button';
 
 function FileCard({file, editing, functions}){
 
@@ -15,6 +16,7 @@ function FileCard({file, editing, functions}){
             {
                 editing ? 
                 <Card.Footer>
+                    <Button className="primary" onClick={() => functions.editTitle(file.id)}>Muokkaa Otsikkoa</Button>
                     <Button className="danger" onClick={() => functions.deleteFile(file.id)}>Poista</Button>
                 </Card.Footer>
                 :

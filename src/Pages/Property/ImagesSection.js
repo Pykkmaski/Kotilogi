@@ -11,8 +11,8 @@ import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 import ImageCard from '../../Components/Cards/ImageCard';
 import EditButton from '../../Components/Buttons/EditButton';
-import setPropertyMainImage from '../../Functions/SetPropertyMainImage';
-import DeleteImage from '../../Functions/DeleteImage';
+import Update from '../../Functions/Update';
+import Delete from '../../Functions/Delete';
 
 function ImagesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
@@ -61,8 +61,8 @@ function ImagesSection(props){
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 console.log(image);
                                 const element = <Gallery.Image src={imgSrc} image={image} editing={editing} functions={{
-                                    deleteImage: (image_id) => DeleteImage(image_id, () => loadImages()),
-                                    setAsMain: (image_id) => setPropertyMainImage(property.id, image_id, () => loadImages()),
+                                    deleteImage: (image_id) => Delete(`/api/images/properties/${image_id}`, () => loadImages()),
+                                    setAsMain: (image_id) => Update(`/api/images/properties/${property.id}/main/${image_id}`, image_id, () => loadImages()),
                                 }}/>
                                 return (
                                     !editing ?
