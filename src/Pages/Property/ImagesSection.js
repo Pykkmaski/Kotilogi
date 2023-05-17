@@ -15,6 +15,7 @@ function ImagesSection(props){
     const {property} = useContext(PropertyContext);
     const [images, loadImages] = usePropertyImages(property.id);
     const [showModal, setShowModal] = useState(false);
+    const [editing, setEditing] = useState(false);
     const noImage = './img/no-pictures';
     
     const selectedImages = useRef([]);
@@ -52,10 +53,17 @@ function ImagesSection(props){
                             images.length ? 
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
+                                const element = <Gallery.Image src={imgSrc} image={image} editing={editing} functions={{
+                                    deleteImage: () => null,
+                                    setAsMain: (image_id) => setPropertyMainImage(property.id, image_id),
+                                }}/>
                                 return (
+                                    !editing ?
                                     <a href={imgSrc} target="_blank">
-                                        <Gallery.Image src={imgSrc} image={image}/>
+                                        {element}
                                     </a>
+                                    :
+                                    element
                                 );
                             })
                             :

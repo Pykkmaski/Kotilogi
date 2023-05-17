@@ -51,6 +51,26 @@ router.post('/:property_id', checkAuth, upload.single('image'), async (req, res)
     res.sendStatus(200);
 });
 
+router.put('/:property_id/main/:image_id', checkAuth, async (req, res) => {
+    ///Sets the property main image to the image with the given id.
+    try{
+        //Check if the image exists before doing anything else
+        const img = await db('property_files').where({mimeType: imageMimeType, id: image_id}).first();
+        if(!img) res.sendStatus(404);
+
+        //Reset main status of all images
+        await db('property_images').where({mimeType: imageMimeType}).update({main: false});
+
+        //Set new main image
+        await db('property_images').where({id: image_id}).update({main: true});
+        res.sendStatus(200);
+
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
 router.delete('/image/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id} = req.params;
