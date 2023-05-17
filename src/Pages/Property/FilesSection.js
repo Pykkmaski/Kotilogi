@@ -7,11 +7,13 @@ import Gallery from '../../Components/Gallery';
 import PropertyContext from "../../Contexts/PropertyContext";
 import UploadFileModal from "../../Components/Modals/UploadFileModal";
 import NoFiles from "../../Components/Error/NoFiles";
+import EditButton from "../../Components/Buttons/EditButton";
 
 function FilesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
     const [showModal, setShowModal] = useState(false);
     const [files, loadFiles] = usePropertyFiles(property.id);
+    const [editing, setEditing] = useState(false);
 
     return (
         <Section>
@@ -23,7 +25,10 @@ function FilesSection(props){
 
                 <div className="group-row">
                     <input type="search" placeholder="Etsi tiedostoja..." onChange={() => null}/>
-                    <Button className="primary">Muokkaa</Button>
+                    <EditButton
+                        editFunction={() => setEditing(true)}
+                        cancelFunction={() => setEditing(false)}
+                    >Muokkaa</EditButton>
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Tiedosto</Button>
                 </div>
 
@@ -46,10 +51,20 @@ function FilesSection(props){
                         {
                             files.length ?
                             files.map(file => {
-                                const fileSrc = `/api/files/properties/file/${file.id}`
+                                const fileSrc = `/api/files/properties/file/${file.id}`;
+                                const element = <Gallery.File 
+                                    url={fileSrc} 
+                                    file={file} 
+                                    width="200px" 
+                                    key={`property-${property.id}-file-${file.id}`}
+                                    editing={editing}
+                                    functions={{
+                                        deleteFile: (file_id) => DeleteFile(`/api/files/properties/${file_id}`, () => loadFiles()),
+                                        editTitle: (file_id) => Update(`/api/files/properties/${file_id}`, () => loadFiles()),
+                                    }}/>
                                 return (
                                     <a href={fileSrc} target="_blank">
-                                        <Gallery.File url={fileSrc} file={file} width="200px" key={`property-${property.id}-file-${file.id}`}/>
+                                        {element}
                                     </a>
                                 )
                             })

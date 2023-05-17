@@ -76,6 +76,7 @@ function ImagesSection(props){
                             :
                             <NoImages/>
                         }
+
                     </Gallery.Body>
                 </Gallery>
             </Section.Body>

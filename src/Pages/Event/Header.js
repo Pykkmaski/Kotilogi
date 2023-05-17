@@ -47,7 +47,7 @@ function Header(props){
                         description: e.target.description.value,
                     }
 
-                    UpdateEvent(event.id, content, () => loadEvent());
+                    Update(`/api/events/${event.id}`, content, () => loadEvent());
                     setShowModal(false);
                 }}
             /> 
