@@ -56,14 +56,14 @@ router.put('/:property_id/main/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id, property_id} = req.params;
         //Check if the image exists before doing anything else
-        const img = await db('property_files').where({mimeType: imageMimeType, id: image_id}).first();
+        const img = await db('property_files').where({mime_type: imageMimeType, id: image_id}).first();
         if(!img) res.sendStatus(404);
 
         //Set previous main image to false
-        await db('property_images').where({mimeType: imageMimeType, property_id, main: true}).update({main: false});
+        await db('property_files').where({mime_type: imageMimeType, property_id, main: true}).update({main: false});
 
         //Set new main image
-        await db('property_images').where({id: image_id}).update({main: true});
+        await db('property_files').where({id: image_id}).update({main: true});
         res.sendStatus(200);
 
     }
