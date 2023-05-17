@@ -58,8 +58,8 @@ router.put('/:property_id/main/:image_id', checkAuth, async (req, res) => {
         const img = await db('property_files').where({mimeType: imageMimeType, id: image_id}).first();
         if(!img) res.sendStatus(404);
 
-        //Reset main status of all images
-        await db('property_images').where({mimeType: imageMimeType}).update({main: false});
+        //Set previous main image to false
+        await db('property_images').where({mimeType: imageMimeType, main: true}).update({main: false});
 
         //Set new main image
         await db('property_images').where({id: image_id}).update({main: true});
