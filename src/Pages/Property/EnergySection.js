@@ -4,8 +4,7 @@ import Section from '../../Components/Section';
 import Button from '../../Components/Buttons/Button';
 import NoUsage from '../../Components/Error/NoUsage';
 import ApexCharts from 'apexcharts';
-import UploadEnergyUsageModal from '../../Components/Modals/UploadEnergyUsageModal';
-import UploadEnergyUsage from '../../Functions/UploadEnergyUsage';
+import UploadUsageModal from '../../Components/Modals/UploadUsageModal';
 import useEnergyUsage from '../../Hooks/useEnergyUsage';
 import EnergyUsageCard from '../../Components/Cards/EnergyUsageCard';
 import Gallery from '../../Components/Gallery';
@@ -93,10 +92,10 @@ function EnergySection(props){
                     <Button variant="add" className="primary" onClick={() => setShowModal(true)}>Lisää Kulutustieto</Button>
                 </div>
 
-                <UploadEnergyUsageModal
+                <UploadUsageModal
                     showModal={showModal}
                     setShowModal={setShowModal}
-                    submitFunction={(e) => {
+                    submitHandler={(e) => {
                         e.preventDefault();
                         const data = {
                             time: e.target.date.value,

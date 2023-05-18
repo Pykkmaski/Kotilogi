@@ -19,6 +19,7 @@ function ImagesSection(props){
     const [images, loadImages] = usePropertyImages(property.id);
     const [showModal, setShowModal] = useState(false);
     const [editing, setEditing] = useState(false);
+    const [imageToBeDeleted, setImageToBeDeleted] = useState(null);
     const noImage = './img/no-pictures';
     
     const selectedImages = useRef([]);
@@ -49,6 +50,18 @@ function ImagesSection(props){
                         setShowModal(false);
                     }}
                 />
+
+                <ConfirmModal 
+                    showModal={showConfirmDeleteModal}
+                    setShowModal={setShowConfirmationModal}
+                    title="Poista Kuva"
+                    text="Oletko varma että haluat poistaa kuvan?"
+
+                    onCancel={() => setShowConfirmationModal(false)}
+                    onConfirm={() => {
+                        Delete(`/api/images/properties/${property.id}/image/${imageToBeDeleted}`, () => loadImages())
+                    }}
+                />
             </Section.Header>
 
             <Section.Body>
@@ -63,7 +76,7 @@ function ImagesSection(props){
                                     deleteImage: (image_id) => Delete(`/api/images/properties/${image_id}`, () => loadImages()),
                                     setAsMain: (image_id) => Update(`/api/images/properties/${property.id}/main/${image_id}`, image_id, () => loadImages()),
                                 }}/>
-                                
+
                                 return (
                                     !editing ?
                                     <a href={imgSrc} target="_blank">

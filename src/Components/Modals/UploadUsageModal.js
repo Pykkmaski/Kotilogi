@@ -1,20 +1,25 @@
 import Form from "../Form";
 import Modal from './Modal';
 
-function UploadEnergyUsageModal(props){
+function UploadUsageModal(props){
     return (
         <Modal show={props.showModal} onHide={() => props.setShowModal(false)}>
             <Modal.Header>Luo Kulutustieto</Modal.Header>
             <Modal.Body>
-                <Form onSubmit={props.submitFunction}>
+                <Form onSubmit={props.submitHandler}>
+
                     <Form.Group>
-                        <Form.Label>Päivämäärä</Form.Label>
-                        <Form.Control type="date" name="date"></Form.Control>
+                        <Form.Label>Tyyppi</Form.Label>
+                        <select>
+                            <option value="water" selected={true}>Vesi</option>
+                            <option value="electricity">Sähkö</option>
+                            <option value="heating">Lämpö</option>
+                        </select>
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Wattimäärä</Form.Label>
-                        <Form.Control type="number" name="watt_amount"></Form.Control>
+                        <Form.Label>Päivämäärä</Form.Label>
+                        <Form.Control type="date" name="date"></Form.Control>
                     </Form.Group>
 
                     <Form.Group>
@@ -32,4 +37,4 @@ function UploadEnergyUsageModal(props){
     )
 }
 
-export default UploadEnergyUsageModal;
+export default UploadUsageModal;
