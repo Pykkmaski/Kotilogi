@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect, useContext} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Update from '../../Functions/Update';
 import EditableField from '../../Components/EditableField';
@@ -6,6 +6,7 @@ import Loading from '../Loading';
 import Modal from '../../Components/Modals/Modal';
 import Section from '../../Components/Section';
 import Image from '../../Components/Image';
+import ConfirmModal from '../../Components/Modals/ConfirmModal';
 
 function PropertyInfoSection(props){
 
@@ -78,18 +79,16 @@ function PropertyInfoSection(props){
                     </button>
                 </div>
 
-                <Modal show={showSubmitEditsModal} onHide={() => setShowSubmitEditsModal(false)}>
-                    <Modal.Header>
-                        <Modal.Title>Tallentamattomia Muutoksia</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Haluatko varmasti peruuttaa tekemäsi muutokset?
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button className="primary" onClick={() => setShowSubmitEditsModal(false)}>Ei</button>
-                        <button className="secondary" onClick={() => cancelEdit()}>Kyllä</button>
-                    </Modal.Footer>
-                </Modal>
+                <ConfirmModal
+                    showModal={showSubmitEditsModal}
+                    setShowModal={setShowSubmitEditsModal}
+                    title="Tallentamattomia muutoksia" 
+                    text="Sinulla on tallentamattomia muutoksia. Halutako hylätä ne?"
+
+                    onCancel={() => setShowSubmitEditsModal(false)}
+                    onConfirm={() => cancelEdit()}
+                />
+
             </Section.Header>
 
             <Section.Body>
