@@ -59,10 +59,11 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 console.log(image);
-                                const element = <Gallery.Image src={imgSrc} image={image} editing={editing} functions={{
+                                const element = <ImageCard src={imgSrc} image={image} editing={editing} functions={{
                                     deleteImage: (image_id) => Delete(`/api/images/properties/${image_id}`, () => loadImages()),
                                     setAsMain: (image_id) => Update(`/api/images/properties/${property.id}/main/${image_id}`, image_id, () => loadImages()),
                                 }}/>
+                                
                                 return (
                                     !editing ?
                                     <a href={imgSrc} target="_blank">

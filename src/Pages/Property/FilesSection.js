@@ -62,16 +62,10 @@ function FilesSection(props){
                             files.length ?
                             files.map(file => {
                                 const fileSrc = `/api/files/properties/file/${file.id}`;
-                                const element = <Gallery.File 
-                                    url={fileSrc} 
-                                    file={file} 
-                                    width="200px" 
-                                    key={`property-${property.id}-file-${file.id}`}
-                                    editing={editing}
-                                    functions={{
-                                        deleteFile: (file_id) => confirmDeletion(file_id),
-                                        editTitle: (file_id) => Update(`/api/files/properties/${file_id}`, () => loadFiles()),
-                                    }}/>
+                                const element = <FileCard file={file} editing={editing} functions={{
+                                    deleteFile: (file_id) => confirmDeletion(file_id),
+                                    editTitle: (file_id) => Update(`/api/files/properties/${file_id}`, () => loadFiles()),
+                                }}/>
 
                                 return (
                                     !editing ?

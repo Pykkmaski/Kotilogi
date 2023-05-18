@@ -7,6 +7,7 @@ import Button from '../../Components/Buttons/Button';
 import UploadFile from '../../Functions/UploadFile';
 import UploadFileModal from '../../Components/Modals/UploadFileModal';
 import NoFiles from '../../Components/Error/NoFiles';
+import FileCard from '../../Components/Cards/FileCard';
 
 function FilesSection(props){
 
@@ -44,9 +45,11 @@ function FilesSection(props){
                             files.length ?
                             files.map(file => {
                                 const url = `/api/files/events/file/${file.id}`;
+                                const element = <FileCard file={file}/>
+                                
                                 return (
                                     <a href={url} target="blank_"> 
-                                        <Gallery.File url={url} file={file}/> 
+                                       {element}
                                     </a>
                                 )
                             })

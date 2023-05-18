@@ -12,10 +12,8 @@ function PropertyCard({property, editing, functions}){
             />
             
             <Card.Body>
-                <div className="card-title">{property.address}</div>
+                <Card.Title>{property.address}</Card.Title>
                 <div className="card-text">{property.description}</div>
-
-                
             </Card.Body>
 
             {

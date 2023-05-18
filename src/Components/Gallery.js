@@ -27,15 +27,4 @@ Gallery.Button = Button;
 const Body = (props) => <div className="gallery-body">{props.children}</div>
 Gallery.Body = Body;
 
-const Image = (props) => <div className="gallery-item">
-    <ImageCard image={props.image} src={props.src} functions={props.functions} editing={props.editing}/>
-</div>
-
-Gallery.Image = Image;
-
-const File = (props) => <div className="gallery-file">
-    <FileCard file={props.file} editing={props.editing} functions={props.functions}/>
-</div>
-Gallery.File = File;
-
 export default Gallery;

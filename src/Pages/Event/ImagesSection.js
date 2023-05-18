@@ -60,7 +60,7 @@ function ImagesSection(props){
                             images.length ?
                             images.map(image => {
                                 const imgSrc = `/api/images/events/image/${image.id}`;
-                                const element = <Gallery.Image image={image} src={imgSrc} editing={editing} functions={{
+                                const element = <ImageCard image={image} src={imgSrc} editing={editing} functions={{
                                     deleteImage: () => null,
                                     setAsMain: (image_id) => Update(`/api/images/events/${event.id}/main`, image_id, () => loadImages())
                                 }}

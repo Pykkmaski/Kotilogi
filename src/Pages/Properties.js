@@ -42,9 +42,7 @@ function Properties2(props){
                 <DeletePropertyModal
                     showModal={showDeleteModal}
                     setShowModal={setShowDeleteModal}
-                    submitFunction={(e) => {
-                        e.preventDefault();
-                    }}
+                    deleteProperty={() => DeleteProperty(propertyToBeDeleted, () => loadProperties())}
                 />
 
             </Section.Header>
