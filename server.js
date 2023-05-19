@@ -31,8 +31,8 @@ app.use('/api/images/events', eventImagesRouter);
 const eventFilesRouter = require('./routes/eventFiles.js');
 app.use('/api/files/events', eventFilesRouter);
 
-const energyUsageRouter = require('./routes/energyUsage.js');
-app.use('/api/energy_usage', energyUsageRouter);
+const usageRouter = require('./routes/usage.js');
+app.use('/api/usage', usageRouter);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));

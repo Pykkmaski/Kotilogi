@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import EventsSection from "./EventsSection";
-import EnergySection from './EnergySection';
 import ImagesSection from "./ImagesSection";
 import FilesSection from './FilesSection';
 import InfoSection from "./InfoSection";
 import useProperty from '../../Hooks/useProperty';
 import Loading from '../Loading';
 import PropertyContext from "../../Contexts/PropertyContext";
+import UsageSection from "./UsageSection";
 
 function Property(props){
     const {property_id, section} = useParams();
@@ -48,7 +48,7 @@ function Property(props){
                         :
                         section === 'files' ? <FilesSection/>
                         :
-                        section === 'energy' ? <EnergySection/>
+                        section === 'energy' ? <UsageSection/>
                         : 
                         null
                     }

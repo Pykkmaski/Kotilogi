@@ -10,7 +10,7 @@ function UploadUsageModal(props){
 
                     <Form.Group>
                         <Form.Label>Tyyppi</Form.Label>
-                        <select>
+                        <select name="type">
                             <option value="water" selected={true}>Vesi</option>
                             <option value="electricity">Sähkö</option>
                             <option value="heating">Lämpö</option>
@@ -19,7 +19,7 @@ function UploadUsageModal(props){
 
                     <Form.Group>
                         <Form.Label>Päivämäärä</Form.Label>
-                        <Form.Control type="date" name="date"></Form.Control>
+                        <Form.Control type="date" name="time"></Form.Control>
                     </Form.Group>
 
                     <Form.Group>

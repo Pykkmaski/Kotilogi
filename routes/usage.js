@@ -7,7 +7,7 @@ const router = require('express').Router();
 router.get('/:property_id', checkAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
-        const data = await db('energy_usage').where({property_id});
+        const data = await db('usage').where({property_id});
         if(!data) throw 404;
         res.status(200).send(JSON.stringify(data));
     }
@@ -20,7 +20,7 @@ router.post('/', checkAuth, async (req, res) => {
     try{
         const {data} = req.body;
         data.time = new Date(data.time).getTime();
-        await db('energy_usage').insert(data);
+        await db('usage').insert(data);
         res.sendStatus(200);
     }
     catch(err){
@@ -31,7 +31,7 @@ router.post('/', checkAuth, async (req, res) => {
 router.put('/', checkAuth, async (req, res) => {
     try{
         const {entry_id} = req.body.entry_id;
-        await db('energy_usage').where({id: entry_id}).update(req.body.data);
+        await db('usage').where({id: entry_id}).update(req.body.data);
         res.sendStatus(200);
     }
     catch(err){
@@ -42,7 +42,7 @@ router.put('/', checkAuth, async (req, res) => {
 router.delete('/', checkAuth, async (req, res) => {
     try{
         const {entry_id} = req.body.entry_id;
-        await db('energy_usage').where({id: entry_id}).del();
+        await db('usage').where({id: entry_id}).del();
         res.sendStatus(200);
     }
     catch(err){

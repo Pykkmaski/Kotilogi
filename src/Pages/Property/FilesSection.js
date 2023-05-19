@@ -10,6 +10,7 @@ import NoFiles from "../../Components/Error/NoFiles";
 import EditButton from "../../Components/Buttons/EditButton";
 import Modal from "../../Components/Modals/Modal";
 import Delete from '../../Functions/Delete';
+import FileCard from "../../Components/Cards/FileCard";
 
 function FilesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
