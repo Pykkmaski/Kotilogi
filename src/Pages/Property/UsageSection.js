@@ -101,7 +101,7 @@ function UsageSection(props){
             },
 
             title: {
-                text: 'Heating',
+                text: 'Lämmitys',
                 align: 'left'
             },
         }
