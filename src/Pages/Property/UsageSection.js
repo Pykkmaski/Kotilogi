@@ -10,117 +10,120 @@ import EnergyUsageCard from '../../Components/Cards/EnergyUsageCard';
 import Gallery from '../../Components/Gallery';
 import Loading from '../Loading';
 import Upload from '../../Functions/Upload';
+import Chart from 'react-apexcharts';
 
 function UsageSection(props){
     const {property} = useContext(PropertyContext);
     const [showModal, setShowModal] = useState(false);
     const [usage, loadUsage] = useUsage(property.id);
 
-    const electricityChart = useRef(null);
-
-    useEffect(() => {
-        const electricityOptions = {
-            series: [
-                {
-                    name: 'Hinta',
-                    data: [],
-                    colors: ['#ff0']
-                }
-            ],
-
-            chart: {
-                height: 350,
-                width: 750,
+    const electricityOptions = {
+        series: [
+            {
                 type: 'line',
-                zoom: {
-                  enabled: false
-                }
+                name: 'Hinta',
+                data: [],
+                colors: ['#ff0']
             },
 
-            stroke: {
-                curve: 'straight',
-                colors: ['#ff0'],
-            },
+            {
+                type: 'column',
+                data: [],
+                colors: ['#ff0']
+            }
+        ],
 
-            title: {
-                text: 'Sähkö',
-                align: 'left'
-            },
-        }
+        chart: {
+            height: 350,
+            width: 850,
+            /*type: 'line',*/
+            zoom: {
+              enabled: true
+            }
+        },
 
-        const waterOptions = {
-            series: [
-                {
-                    name: 'Hinta',
-                    data: [],
-                    colors: ['#00f']
-                }
-            ],
+        stroke: {
+            curve: 'straight',
+            colors: ['#ff0'],
+        },
 
-            chart: {
-                height: 350,
-                width: 750,
+        title: {
+            text: 'Sähkö',
+            align: 'left'
+        },
+    }
+
+    const waterOptions = {
+        series: [
+            {
                 type: 'line',
-                zoom: {
-                  enabled: false
-                }
+                name: 'Hinta',
+                data: [],
+                colors: ['#00f']
             },
 
-            stroke: {
-                curve: 'straight',
-                colors: ['#00f'],
-            },
+            {
+                type: 'column',
+                data: [],
+                colors: ['#00f']
+            }
+        ],
 
-            title: {
-                text: 'Vesi',
-                align: 'left'
-            },
-        }
+        chart: {
+            height: 350,
+            width: 850,
+            /*type: 'line',*/
+            zoom: {
+              enabled: true
+            }
+        },
 
-        const heatingOptions = {
-            series: [
-                {
-                    name: 'Hinta',
-                    data: [],
-                    colors: ['#f00']
-                }
-            ],
+        stroke: {
+            curve: 'straight',
+            colors: ['#00f'],
+        },
 
-            chart: {
-                height: 350,
-                width: 750,
+        title: {
+            text: 'Vesi',
+            align: 'left'
+        },
+    }
+
+    const heatingOptions = {
+        series: [
+            {
                 type: 'line',
-                zoom: {
-                  enabled: false
-                }
+                name: 'Hinta',
+                data: [],
+                colors: ['#f00']
             },
 
-            stroke: {
-                curve: 'straight',
-                colors: ['#f00'],
-            },
+            {
+                type: 'column',
+                data: [],
+                colors: ['#ff0']
+            }
+        ],
 
-            title: {
-                text: 'Lämmitys',
-                align: 'left'
-            },
-        }
+        chart: {
+            height: 350,
+            width: 850,
+            /*type: 'line',*/
+            zoom: {
+              enabled: true
+            }
+        },
 
-        const echart = new ApexCharts(document.querySelector('#electricity-chart'), electricityOptions);
-        echart.render();
+        stroke: {
+            curve: 'straight',
+            colors: ['#f00'],
+        },
 
-        const wchart = new ApexCharts(document.querySelector('#water-chart'), waterOptions);
-        wchart.render();
-
-        const hchart = new ApexCharts(document.querySelector('#heating-chart'), heatingOptions);
-        hchart.render();
-
-        if(!usage) return;
-        echart.updateSeries([{data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]);
-        wchart.updateSeries([{data: usage.filter(u => u.type === 'water').map(d => d.price)}]);
-        hchart.updateSeries([{data: usage.filter(u => u.type === 'heating').map(d => d.price)}]);
-
-    }, [usage]);
+        title: {
+            text: 'Lämpö',
+            align: 'left'
+        },
+    }
 
     if(!usage) return <Loading message="Ladataan kulutustietoja..."/>
 
@@ -160,9 +163,30 @@ function UsageSection(props){
             <Section.Body>
                 <Gallery>
                     <Gallery.Body>
-                        <div id="electricity-chart" className="chart"></div>
-                        <div id="water-chart" className="chart"></div>
-                        <div id="heating-chart" className="chart"></div>
+                        <Chart
+                            type="line"
+                            series={[{ data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]}
+                            width="800"
+                            height="350"
+                            options={electricityOptions}
+                        />
+
+                        <Chart
+                            type="line"
+                            series={[{ data: usage.filter(u => u.type === 'water').map(d => d.price)}]}
+                            width="800"
+                            height="350"
+                            options={waterOptions}
+                        />
+
+                        <Chart
+                            type="line"
+                            series={[{ data: usage.filter(u => u.type === 'heating').map(d => d.price)}]}
+                            width="800"
+                            height="350"
+                            options={heatingOptions}
+                        />
+
                     </Gallery.Body>
                 </Gallery>
                

@@ -5,19 +5,19 @@ import usePropertyImages from "../../Hooks/usePropertyImages";
 import Section from '../../Components/Section';
 import Button from '../../Components/Buttons/Button';
 import PropertyContext from '../../Contexts/PropertyContext';
-import Img from '../../Components/Image';
-import Card from '../../Components/Cards/Card';
 import UploadImageModal from '../../Components/Modals/UploadImageModal';
 import NoImages from '../../Components/Error/NoImages';
 import ImageCard from '../../Components/Cards/ImageCard';
 import EditButton from '../../Components/Buttons/EditButton';
 import Update from '../../Functions/Update';
 import Delete from '../../Functions/Delete';
+import ConfirmModal from '../../Components/Modals/ConfirmModal';
 
 function ImagesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
     const [images, loadImages] = usePropertyImages(property.id);
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmDeleteModal, setShowConfirmationModal] = useState(false);
     const [editing, setEditing] = useState(false);
     const [imageToBeDeleted, setImageToBeDeleted] = useState(null);
     const noImage = './img/no-pictures';
