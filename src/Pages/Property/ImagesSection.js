@@ -79,7 +79,7 @@ function ImagesSection(props){
 
                                 return (
                                     !editing ?
-                                    <a href={imgSrc} target="_blank">
+                                    <a className="container-link" href={imgSrc} target="_blank">
                                         {element}
                                     </a>
                                     :

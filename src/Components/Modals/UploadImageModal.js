@@ -10,6 +10,16 @@ function UploadImageModal(props){
 
             <Modal.Body>
                 <Form onSubmit={props.uploadFunction}>
+                    <Form.Group>
+                        <Form.Label>Otsikko</Form.Label>
+                        <Form.Control name="title" placeholder="Tiedostonimen tilalla näytettävä otsikko"></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Kuvaus</Form.Label>
+                        <Form.Control name="description"></Form.Control>
+                    </Form.Group>
+
                     <Form.Group className="w-100">
                         <Form.Control type="file" accept="image/jpeg" name="image"></Form.Control>
                     </Form.Group>

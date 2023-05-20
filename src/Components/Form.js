@@ -33,6 +33,7 @@ const Control = (props) => {
             name={props.name} 
             accept={props.accept} 
             defaultValue={props.defaultValue}
+            placeholder={props.placeholder}
         />
     }
 }

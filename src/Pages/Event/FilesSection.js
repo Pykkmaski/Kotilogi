@@ -48,7 +48,7 @@ function FilesSection(props){
                                 const element = <FileCard file={file}/>
                                 
                                 return (
-                                    <a href={url} target="blank_"> 
+                                    <a className="container-link" href={url} target="blank_"> 
                                        {element}
                                     </a>
                                 )

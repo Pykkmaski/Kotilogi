@@ -14,6 +14,8 @@ import SetEventMainImage from '../../Functions/SetEventMainImage';
 import ShowImageModal from '../../Components/Modals/ShowImageModal';
 import ImageCard from '../../Components/Cards/ImageCard';
 
+import Delete from '../../Functions/Delete';
+
 function ImagesSection(props){
 
     const {event, loadEvent} = useContext(EventContext);
@@ -61,14 +63,14 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/events/image/${image.id}`;
                                 const element = <ImageCard image={image} src={imgSrc} editing={editing} functions={{
-                                    deleteImage: () => null,
+                                    deleteImage: (image_id) => Delete(`/api/images/events/image/${image_id}`, () => loadImages()),
                                     setAsMain: (image_id) => Update(`/api/images/events/${event.id}/main`, image_id, () => loadImages())
                                 }}
                                 />
 
                                 return (
                                     !editing ?
-                                    <a href={imgSrc} target="_blank">
+                                    <a className="container-link" href={imgSrc} target="_blank">
                                         {element}
                                     </a>
                                     :

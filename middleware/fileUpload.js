@@ -17,6 +17,8 @@ const fileStorageEngine = multer.diskStorage({
                     filename: fn,
                     event_id,
                     mime_type: file.mimetype,
+                    title: file.title,
+                    description: file.description,
                 });
             }
             else if(property_id){
@@ -24,7 +26,9 @@ const fileStorageEngine = multer.diskStorage({
                     filename: fn,
                     property_id,
                     mime_type: file.mimetype,
-                })
+                    title: file.title,
+                    description: file.description,
+                });
             }
         }
         catch(err){

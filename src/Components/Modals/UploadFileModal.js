@@ -13,8 +13,12 @@ function UploadFileModal(props){
                 <Form onSubmit={props.uploadFunction}>
                     <Form.Group>
                         <Form.Label>Tiedoston Otsikko</Form.Label>
-                        <Form.Control name="title"></Form.Control>
-                        <Form.SubLabel>Tämä ei muuta tiedoston nimeä, vaan näytetään ainoastaan otsikkona</Form.SubLabel>
+                        <Form.Control name="title" placeholder="Tiedostonimen tilalla näytettävä otsikko"></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Tiedoston Kuvaus</Form.Label>
+                        <Form.Control name="description"></Form.Control>
                     </Form.Group>
 
                     <Form.Group className="w-100">

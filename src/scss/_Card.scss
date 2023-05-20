@@ -46,6 +46,7 @@
         white-space: nowrap;
         font-size: 1rem;
         font-weight: bold;
+        text-align: center;
     }
 
     .card-text, .card-body{
@@ -57,6 +58,7 @@
         max-height: auto;
         line-clamp: 4;
         text-overflow: ellipsis;
+        text-align: center;
     }
 
     .card-body{

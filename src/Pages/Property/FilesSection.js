@@ -70,7 +70,7 @@ function FilesSection(props){
 
                                 return (
                                     !editing ?
-                                    <a href={fileSrc} target="_blank">
+                                    <a className="container-link" href={fileSrc} target="_blank">
                                         {element}
                                     </a>
                                     :
