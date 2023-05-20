@@ -88,6 +88,10 @@
         gap: 0.5rem;
         width: 100%;
     }
+
+    @media screen and (max-width: 1000px){
+        width: 100% !important;
+    }
 }
 
 .card-button-group button{

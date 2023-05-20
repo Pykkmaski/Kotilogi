@@ -6,8 +6,9 @@ function UploadFile(file, name, url, callback){
     if(!url) throw new Error('UploadFile: Url missing!');
 
     const data = new FormData();
+    console.log(file);
     data.append(name, file);
-    
+
     axios.post(url, data, {
         headers: {
             'Content-Type' : `multipart/form-data; boundary=${data._boundary}`,

@@ -56,4 +56,12 @@
     .section.footer{
         display: flex;
     }
+
+    @media screen and (max-width: 1000px){
+        .section-header{
+            .label-heading{
+                font-size: 1rem !important;
+            }
+        }
+    }
 }

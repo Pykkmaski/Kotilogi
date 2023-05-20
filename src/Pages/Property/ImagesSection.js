@@ -46,6 +46,11 @@ function ImagesSection(props){
                     uploadFunction={(e) => {
                         e.preventDefault();
                         const url = `/api/images/properties/${property.id}`;
+                        const file = e.target.image.files[0];
+                        file.title = e.target.title.value;
+                        file.description = e.target.description.value;
+
+                        console.log(file);
                         UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
                         setShowModal(false);
                     }}
@@ -71,7 +76,6 @@ function ImagesSection(props){
                             images.length ? 
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
-                                console.log(image);
                                 const element = <ImageCard src={imgSrc} image={image} editing={editing} functions={{
                                     deleteImage: (image_id) => Delete(`/api/images/properties/${image_id}`, () => loadImages()),
                                     setAsMain: (image_id) => Update(`/api/images/properties/${property.id}/main/${image_id}`, image_id, () => loadImages()),

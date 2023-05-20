@@ -42,7 +42,9 @@
         display: flex;
         flex-flow: row wrap;
         gap: 1rem;
-    }
 
-    
+        @media screen and (max-width: 1000px){
+            flex-flow: column;
+        }
+    }
 }

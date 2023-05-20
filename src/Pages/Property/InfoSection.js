@@ -32,7 +32,6 @@ function PropertyInfoSection(props){
 
     useEffect(() => {
         firstRender.current = false;
-        console.log('First render');
     }, []);
 
     useEffect(() => {
@@ -44,7 +43,6 @@ function PropertyInfoSection(props){
     useEffect(() => {
         if(firstRender.current === true) return;
         unsavedChanges.current = true;
-        console.log('Unsaved changes');
     }, [tempProperty.current]);
 
     if(!property) return <Loading message="Ladataan tietoja..."/>

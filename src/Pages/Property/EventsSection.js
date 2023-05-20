@@ -20,7 +20,8 @@ function EventsSection(props){
     const [showAddEventModal, setShowAddEventModal] = useState(false);
     const [eventToBeDeleted, setEventToBeDeleted] = useState(undefined);
     const [editing, setEditing] = useState(false);
-
+    const [selectedEvents, setSelectedEvents] = useState([]);
+    
     function showDeleteConfirmation(id){
         setEventToBeDeleted(id);
         setShowDeleteModal(true);

@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import LoadingSpinner from "./Spinner";
 
 function ReactImage(props){
-    console.log(props.src);
     const {src} = useImage({
         srcList: [props.src, './img/no-pictures.png'],
     })

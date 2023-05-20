@@ -6,6 +6,7 @@ const RouteHandleError = require('../Functions/RouteHandleError');
 const upload = require('../middleware/fileUpload');
 const fs = require('fs');
 const pdfMimeType = 'application/pdf';
+const fileUploadDb = require('../middleware/fileUploadDb');
 
 router.get('/:property_id', async (req, res) => {
     ///Returns ids for files associated with given property id
@@ -35,6 +36,7 @@ router.get('/file/:file_id', async (req, res) => {
 
 router.post('/:property_id', checkAuth, upload.single('file'), async (req, res) => {
     ///Uploads a PDF to be associated with a property
+    console.log(req.body);
     res.sendStatus(200);
 });
 
