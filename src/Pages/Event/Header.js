@@ -4,6 +4,7 @@ import Image from "../../Components/Image";
 import UpdateEvent from '../../Functions/UpdateEvent';
 import UpdateEventModal from "../../Components/Modals/UpdateEventModal";
 import useMainImage from "../../Hooks/useMainImage";
+import Update from '../../Functions/Update';
 
 function Header(props){
     const {event, loadEvent} = useContext(EventContext);

@@ -163,29 +163,32 @@ function UsageSection(props){
             <Section.Body>
                 <Gallery>
                     <Gallery.Body>
-                        <Chart
-                            type="line"
-                            series={[{ data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]}
-                            width="800"
-                            height="350"
-                            options={electricityOptions}
-                        />
+                        <div id="charts">
+                            <Chart
+                                type="line"
+                                series={[{ data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]}
+                                width="800"
+                                height="350"
+                                options={electricityOptions}
+                            />
 
-                        <Chart
-                            type="line"
-                            series={[{ data: usage.filter(u => u.type === 'water').map(d => d.price)}]}
-                            width="800"
-                            height="350"
-                            options={waterOptions}
-                        />
+                            <Chart
+                                type="line"
+                                series={[{ data: usage.filter(u => u.type === 'water').map(d => d.price)}]}
+                                width="800"
+                                height="350"
+                                options={waterOptions}
+                            />
 
-                        <Chart
-                            type="line"
-                            series={[{ data: usage.filter(u => u.type === 'heating').map(d => d.price)}]}
-                            width="800"
-                            height="350"
-                            options={heatingOptions}
-                        />
+                            <Chart
+                                type="line"
+                                series={[{ data: usage.filter(u => u.type === 'heating').map(d => d.price)}]}
+                                width="800"
+                                height="350"
+                                options={heatingOptions}
+                            />
+                        </div>
+                       
 
                     </Gallery.Body>
                 </Gallery>
