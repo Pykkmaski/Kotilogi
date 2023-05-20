@@ -7,7 +7,7 @@ exports.up = function(knex) {
         tbl.dropColumn('date');
     })
     .table('property_events', tbl => {
-        tbl.integer('date').defaultTo(new Date().getTime());
+        tbl.bigInteger('date').defaultTo(new Date().getTime());
     })
 };
 
