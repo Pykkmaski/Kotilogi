@@ -37,8 +37,8 @@ function EventsSection(props){
     }
 
     return (
-        <Section>
-            <Section.Header>
+        <Section data-testid="events-section">
+            <Section.Header data-testid="events-section-header">
                 <div className="label-heading">
                     <span className="label">{property.address}</span>
                     <h1>Tapahtumat</h1>
@@ -54,6 +54,7 @@ function EventsSection(props){
                 </div>
                 
                 <DeleteEventModal
+                    data-testid="events-delete-modal"
                     showModal={showDeleteModal}
                     setShowModal={setShowDeleteModal}
                     eventToBeDeleted={eventToBeDeleted}
@@ -65,7 +66,7 @@ function EventsSection(props){
                 
             </Section.Header>
 
-            <Section.Body>
+            <Section.Body data-testid="events-section-body">
                 <Gallery buttonTitle="Lisää Tapahtuma" >
                     <Gallery.Body>
                     {

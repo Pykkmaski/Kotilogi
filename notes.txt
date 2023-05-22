@@ -2,3 +2,11 @@
 Sending a large image for an event makes the modal not close immediately, allowing a user to click send multiple times.
 Property information does not reset to previous values when canceling an edit.
 Events does not update when the last event is deleted.
+
+TODO:
+Add title and description to sent images and files.
+Add confirmation modal before deleting a property.
+Add confirmation modal before deleting an event.
+Add confirmation modal before deleting an image from a property or an event.
+Add confirmation modal before deleting a file from a property or an event.
+

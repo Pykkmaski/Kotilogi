@@ -24,11 +24,11 @@ function EventCard({event, editing, functions}){
                     <span>{event.description}</span>
                 </div>
             </Card.Body>
-
+           
             {
-                editing ? 
+                editing ?
                 <Card.Footer>
-                    <Button className="danger" onClick={() => functions.deleteEvent(event.id)}>Poista</Button>
+                    <button className="danger" onClick={() => functions.deleteEvent(event.id)}>Poista</button>
                 </Card.Footer>
                 :
                 <></>
