@@ -8,7 +8,10 @@ function useProperty(property_id){
         const url = `/api/properties/${property_id}`;
         axios.get(url)
         .then(res => setProperty(res.data))
-        .catch(err => console.log(err.message))
+        .catch(err => {
+            const none = null;
+            setProperty(none);
+        })
     }
 
     useEffect(() => {

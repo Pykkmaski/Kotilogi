@@ -7,7 +7,10 @@ function useEventFiles(event_id){
     function loadFiles(){
         axios.get(`/api/files/events/${event_id}`)
         .then(res => setIds(res.data))
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            const empty = [];
+            setIds(empty);
+        });
     }
 
     useEffect(() => {

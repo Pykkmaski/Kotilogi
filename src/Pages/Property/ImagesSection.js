@@ -64,7 +64,8 @@ function ImagesSection(props){
 
                     onCancel={() => setShowConfirmationModal(false)}
                     onConfirm={() => {
-                        Delete(`/api/images/properties/${property.id}/image/${imageToBeDeleted}`, () => loadImages())
+                        Delete(`/api/images/properties/${imageToBeDeleted}`, () => loadImages());
+                        setShowConfirmationModal(false);
                     }}
                 />
             </Section.Header>
@@ -77,7 +78,10 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 const element = <ImageCard src={imgSrc} image={image} editing={editing} functions={{
-                                    deleteImage: (image_id) => Delete(`/api/images/properties/${image_id}`, () => loadImages()),
+                                    deleteImage: (image_id) => {
+                                        setImageToBeDeleted(image_id),
+                                        setShowConfirmationModal(true)
+                                    },
                                     setAsMain: (image_id) => Update(`/api/images/properties/${property.id}/main/${image_id}`, image_id, () => loadImages()),
                                 }}/>
 

@@ -4,6 +4,7 @@ const path = require('path');
 const checkAuth = require('../middleware/checkAuth');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const upload = require('../middleware/fileUpload');
+const fs = require('fs');
 
 const pdfMimeType = 'application/pdf';
 
@@ -32,6 +33,20 @@ router.get('/file/:file_id', async (req, res) => {
         const file = await db('event_files').where({id: file_id}).first();
         if(!file) throw 404;
         res.status(200).sendFile(path.join(__dirname, `../uploads/${file.filename}`));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.delete('/file/:file_id', async (req, res) => {
+    try{
+        const {file_id} = req.params;
+        const file = await db('event_files').where({id: file_id}).first();
+        if(!file) throw 404;
+        fs.unlink(path.join(__dirname, `../uploads/${file.filename}`), () => console.log(`File ${file.filename} deleted.`));
+        await db('event_files').where({id: file_id}).del();
+        res.sendStatus(200);
     }
     catch(err){
         RouteHandleError(err, res);

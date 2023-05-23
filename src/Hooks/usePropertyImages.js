@@ -7,7 +7,10 @@ function usePropertyImages(property_id){
     function loadImages(){
         axios.get(`/api/images/properties/${property_id}`)
         .then(res => setImages(res.data))
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            const empty = [];
+            setImages(empty);
+        });
     }
 
     useEffect(() => {

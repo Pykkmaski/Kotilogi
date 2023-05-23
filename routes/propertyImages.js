@@ -77,8 +77,8 @@ router.delete('/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id} = req.params;
         const file = await db.select('filename').from('property_files').where({mime_type: imageMimeType, id: image_id}).first();
+        await db('property_files').where({id: image_id, mime_type: imageMimeType}).del();
         fs.unlink(path.join(__dirname, `../uploads/${file.filename}`), () => console.log(`File ${file.filename} deleted.`));
-        await db('property_files').where({filename: file.filename}).del();
         res.sendStatus(200);
     }
     catch(err){

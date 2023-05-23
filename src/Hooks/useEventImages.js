@@ -7,7 +7,10 @@ function useEventImages(event_id){
     function loadImages(){
         axios.get(`/api/images/events/${event_id}`)
         .then(res => setImages(res.data))
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            const empty = [];
+            setImages(empty);
+        });
     }
 
     useEffect(() => {

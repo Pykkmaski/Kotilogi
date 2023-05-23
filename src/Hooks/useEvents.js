@@ -12,7 +12,10 @@ function useEvents(property_id){
             const sortedEvents = SortEvents(res.data, 'desc');
             setEvents(sortedEvents);
         })
-        .catch(err => console.log(err.message))
+        .catch(err => {
+            const empty = [];
+            setEvents(empty);
+        })
     }
 
     useEffect(() => {

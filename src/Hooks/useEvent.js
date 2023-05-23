@@ -8,7 +8,10 @@ function useEvent(event_id){
         const url = `/api/events/${event_id}`;
         axios.get(url)
         .then(res => setEvent(res.data))
-        .catch(err => console.log(err.message))
+        .catch(err => {
+            const none = null;
+            setEvent(none);
+        })
     }
 
     useEffect(() => {

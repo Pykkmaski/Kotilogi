@@ -15,6 +15,7 @@ import ShowImageModal from '../../Components/Modals/ShowImageModal';
 import ImageCard from '../../Components/Cards/ImageCard';
 
 import Delete from '../../Functions/Delete';
+import ConfirmModal from '../../Components/Modals/ConfirmModal';
 
 function ImagesSection(props){
 
@@ -22,8 +23,10 @@ function ImagesSection(props){
     const [images, loadImages] = useEventImages(event.id);
     const [showModal, setShowModal] = useState(false);
     const [showShowImageModal, setShowImageModal] = useState(false);
+    const [showImageDelConfirmationModal, setShowImageDelConfirmationModal] = useState(false);
+
     const [editing, setEditing] = useState(false);
-    const selectedImage = useRef(null);
+    const imageToBeDeleted = useRef(null);
 
     function displayImage(id){
         console.log(id);
@@ -63,7 +66,10 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/events/image/${image.id}`;
                                 const element = <ImageCard image={image} src={imgSrc} editing={editing} functions={{
-                                    deleteImage: (image_id) => Delete(`/api/images/events/image/${image_id}`, () => loadImages()),
+                                    deleteImage: (image_id) => {
+                                        imageToBeDeleted.current = image_id;
+                                        setShowImageDelConfirmationModal(true);
+                                    },
                                     setAsMain: (image_id) => Update(`/api/images/events/${event.id}/main`, image_id, () => loadImages())
                                 }}
                                 />
@@ -82,6 +88,21 @@ function ImagesSection(props){
                         }
                     </Gallery.Body>
                 </Gallery>
+
+                <ConfirmModal
+                    title="Poista Kuva"
+                    text="Oletko varma että haluat poistaa kuvan?"
+    
+                    showModal={showImageDelConfirmationModal}
+                    setShowModal={setShowImageDelConfirmationModal}
+                    onConfirm={() => {
+                        Delete(`/api/images/events/image/${imageToBeDeleted.current}`, () => loadImages());
+                    }}
+
+                    onCancel={() => {
+                        setShowImageDelConfirmationModal(false);
+                    }}
+                />
             </Section.Body>
 
             

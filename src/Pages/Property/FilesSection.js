@@ -65,7 +65,7 @@ function FilesSection(props){
                                 const fileSrc = `/api/files/properties/file/${file.id}`;
                                 const element = <FileCard file={file} editing={editing} functions={{
                                     deleteFile: (file_id) => confirmDeletion(file_id),
-                                    editTitle: (file_id) => Update(`/api/files/properties/${file_id}`, () => loadFiles()),
+                                    editTitle: (file_id) => Update(`/api/files/properties/file/${file_id}`, () => loadFiles()),
                                 }}/>
 
                                 return (
@@ -90,7 +90,7 @@ function FilesSection(props){
                     <Modal.Footer>
                         <div className="group-row">
                             <Button className="primary" onClick={() => setShowDeleteConfirmation(false)}>Ei</Button>
-                            <Button className="danger" onClick={() => Delete(`/api/files/properties/${fileToBeDeleted}`, () => {
+                            <Button className="danger" onClick={() => Delete(`/api/files/properties/file/${fileToBeDeleted}`, () => {
                                 setShowDeleteConfirmation(false);
                                 loadFiles();
                             })}>Kyllä</Button>

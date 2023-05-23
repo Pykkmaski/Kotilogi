@@ -9,7 +9,9 @@ function useImageIds(url){
         .then(res => {
             setImageIds(res.data);
         })
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            setImageIds([]);
+        });
     }
 
     useEffect(() => {

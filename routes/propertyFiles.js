@@ -40,7 +40,7 @@ router.post('/:property_id', checkAuth, upload.single('file'), async (req, res) 
     res.sendStatus(200);
 });
 
-router.delete('/:file_id', checkAuth, async (req, res) => {
+router.delete('/file/:file_id', checkAuth, async (req, res) => {
     try{
         const {file_id} = req.params;
         const file = await db('property_files').where({id: file_id}).first();

@@ -7,7 +7,10 @@ function usePropertyFiles(property_id){
     function loadFiles(){
         axios.get(`/api/files/properties/${property_id}`)
         .then(res => setIds(res.data))
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            const empty = [];
+            setIds(empty);
+        });
     }
 
     useEffect(() => {

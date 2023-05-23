@@ -10,7 +10,11 @@ function useProperties(){
         const url = `/api/properties/`;
         axios.get(url)
         .then(res => setProperties(res.data))
-        .catch(err => console.log(err.message));
+        .catch(err => {
+            const empty = [];
+            setProperties(empty);
+            console.log(err);
+        });
     }
 
     useEffect(() => {
