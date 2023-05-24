@@ -24,9 +24,23 @@ router.get('/image/:image_id', async (req, res) => {
     ///Returns the specified image
     try{
         const {image_id} = req.params;
+
         const file = await db('event_files').where({id: image_id}).first();
         if(!file) throw 404;
         res.status(200).sendFile(path.join(__dirname, `../uploads/${file.filename}`));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.get('/:event_id/id/main', async (req, res) => {
+    ///Returns the main image id for specified event id
+    try{
+        const {event_id} = req.params;
+        const image = await db('event_files').where({event_id, mime_type: imageMimeType, main: true}).first();
+        if(!image) throw 404;
+        res.status(200).send(JSON.stringify(image.id));
     }
     catch(err){
         RouteHandleError(err, res);
@@ -50,6 +64,7 @@ router.put('/:event_id/main', async (req, res) => {
     try{
         const {event_id} = req.params;
         const {image_id} = req.body;
+        console.log(req.body);
         ///Remove main status from any previous image specified as main
         await db('event_files').where({event_id, main: true}).update({main: false});
         await db('event_files').where({event_id, id: image_id}).update({main: true});

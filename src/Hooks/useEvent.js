@@ -7,7 +7,10 @@ function useEvent(event_id){
     function loadEvent(){
         const url = `/api/events/${event_id}`;
         axios.get(url)
-        .then(res => setEvent(res.data))
+        .then(res => {
+            const data = res.data;
+            setEvent(data);
+         })
         .catch(err => {
             const none = null;
             setEvent(none);

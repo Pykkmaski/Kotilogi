@@ -11,11 +11,12 @@ import useMainImage from '../../Hooks/useMainImage';
 function Event(props){
     const {event_id, section} = useParams();
     const [event, loadEvent] = useEvent(event_id);
+    const [mainImageId, loadMainImageId] = useMainImage({event_id});
 
     if(!event) return <Loading message="Ladataan Tapahtumaa..."/>
 
     return(
-        <EventContext.Provider value={{event, loadEvent}}>
+        <EventContext.Provider value={{event, loadEvent, mainImageId, loadMainImageId}}>
             <div className="event-page">
                 <Header/>
                 <ImagesSection/>

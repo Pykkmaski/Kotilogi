@@ -6,4 +6,6 @@ Events does not update when the last event is deleted.
 TODO:
 Add title and description to sent images and files.
 Add information about the file, image, house or event about to be deleted to the confirmation modals.
+Set the first image added anywhere as the main image by default.
+When adding usage data, prevent modal submit while a previous request has yet to finish. Prevent modal submissions in general while a previous request is pending.
 

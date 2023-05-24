@@ -15,11 +15,12 @@ import ShowImageModal from '../../Components/Modals/ShowImageModal';
 import ImageCard from '../../Components/Cards/ImageCard';
 
 import Delete from '../../Functions/Delete';
+import Update from '../../Functions/Update';
 import ConfirmModal from '../../Components/Modals/ConfirmModal';
 
 function ImagesSection(props){
 
-    const {event, loadEvent} = useContext(EventContext);
+    const {event, loadEvent, loadMainImageId} = useContext(EventContext);
     const [images, loadImages] = useEventImages(event.id);
     const [showModal, setShowModal] = useState(false);
     const [showShowImageModal, setShowImageModal] = useState(false);
@@ -70,7 +71,10 @@ function ImagesSection(props){
                                         imageToBeDeleted.current = image_id;
                                         setShowImageDelConfirmationModal(true);
                                     },
-                                    setAsMain: (image_id) => Update(`/api/images/events/${event.id}/main`, image_id, () => loadImages())
+                                    setAsMain: (image_id) => Update(`/api/images/events/${event.id}/main`, {image_id}, () => {
+                                        loadImages();
+                                        loadMainImageId();
+                                    })
                                 }}
                                 />
 

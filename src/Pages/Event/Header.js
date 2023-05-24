@@ -7,10 +7,9 @@ import useMainImage from "../../Hooks/useMainImage";
 import Update from '../../Functions/Update';
 
 function Header(props){
-    const {event, loadEvent} = useContext(EventContext);
+    const {event, loadEvent, mainImageId} = useContext(EventContext);
     const [showModal, setShowModal] = useState(false);
-
-    const eventMainImage = useMainImage({event_id: event.id});
+    const mainImageUrl = `/api/images/events/image/${mainImageId}`;
 
     return (
         <div className="event-header">
@@ -21,10 +20,8 @@ function Header(props){
 
             <div className="event-header-body">
                 <div className="event-info-container">
-                    <Image src={eventMainImage}>
-                        <Image.Controls>
-                            <button>Vaihda</button>
-                        </Image.Controls>
+                    <Image src={mainImageUrl}>
+
                     </Image>
                     <div className="event-text-container">
                         <h1>{event.name}</h1>

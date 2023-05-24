@@ -1,26 +1,36 @@
-import { useState, useEffect } from "react";
-
-function createImageUrl(property_id, event_id){
-
-    if(!property_id && !event_id) throw new Error('useMainImage, createImageUrl: either property_id or event_id must be defined!');
-
-    if(property_id){
-        return `/api/images/properties/${property_id}/main`;
-    }
-
-    if(event_id){
-        return `/api/images/events/${event_id}/main`;
-    }
-}
+const { default: axios } = require("axios");
+import {useState, useEffect} from 'react';
 
 function useMainImage({property_id, event_id}){
-    const [url, setUrl] = useState(() => createImageUrl(property_id, event_id));
+    if(property_id && event_id) throw new Error('useMainImage: property_id and event_id cannot be defined at once!');
+    const [id, setId] = useState(null);
+
+    function loadMainImage(){
+        var url;
+        if(property_id){
+            url = `/api/images/properties/${property_id}main`;
+        }
+        else if(event_id){
+            url = `/api/images/events/${event_id}/id/main/`
+        }
+
+        axios.get(url)
+        .then(res => {
+            const data = res.data;
+            console.log(data);
+            setId(data);
+        })
+        .catch(err => {
+            const empty = null;
+            setId(null);
+        })
+    }
 
     useEffect(() => {
-        setUrl(createImageUrl(property_id, event_id));
+        loadMainImage();
     }, [property_id, event_id]);
 
-    return url;
+    return [id, loadMainImage];
 }
 
 export default useMainImage;
