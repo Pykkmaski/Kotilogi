@@ -19,7 +19,7 @@ function PropertyCard({property, editing, functions}){
             {
                 editing ? 
                 <Card.Footer>
-                    <Button className="danger" onClick={() => functions.deleteProperty(property.id)}>Poista</Button>
+                    <Button className="danger" onClick={() => functions.deleteProperty(property)}>Poista</Button>
                 </Card.Footer>
                 :
                 <></>

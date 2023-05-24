@@ -15,7 +15,7 @@ import ConfirmModal from '../Components/Modals/ConfirmModal';
 import Delete from '../Functions/Delete';
 import NoProperties from '../Components/Error/NoProperties';
 
-function Properties2(props){
+function Properties(props){
     const [properties, loadProperties] = useProperties();
     const {token} = useContext(AppContext);
     const [editing, setEditing] = useState(false);
@@ -26,8 +26,8 @@ function Properties2(props){
     if(!token) return <Unauthorized/>
     if(!properties) return <Loading message="Ladataan taloja..."/>
 
-    function deleteHandler(id){
-        propertyToBeDeleted.current = id;
+    function deleteHandler(property){
+        propertyToBeDeleted.current = property;
         setShowDeleteModal(true);
     }
 
@@ -48,10 +48,10 @@ function Properties2(props){
                     setShowModal={setShowDeleteModal}
 
                     title="Poista Talo"
-                    text="Oletko varma että haluat poistaa talon? Kaikki tiedot menetetään!"
+                    text={`Haluatko varmasti poistaa talon ${propertyToBeDeleted.current?.address}? Tätä ei voi kumota!`}
 
                     onConfirm={() => {
-                        Delete(`/api/properties/${propertyToBeDeleted.current}`, () => loadProperties());
+                        Delete(`/api/properties/${propertyToBeDeleted.current.id}`, () => loadProperties());
                         setShowDeleteModal(false);
                     }}
 
@@ -71,7 +71,7 @@ function Properties2(props){
                             properties.map(item => {
                                 const url = `/#/properties/${item.id}/info`;
                                 const propertyCard = <PropertyCard property={item} key={`property-card-${item.id}`} editing={editing} functions={{
-                                    deleteProperty: (id) => deleteHandler(id)
+                                    deleteProperty: (property) => deleteHandler(property)
                                 }}/>
                                 return(
                                     !editing ?
@@ -94,4 +94,4 @@ function Properties2(props){
     );
 }
 
-export default Properties2;
+export default Properties;

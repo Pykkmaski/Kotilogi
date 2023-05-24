@@ -17,17 +17,17 @@ function UsageSection(props){
     const [showModal, setShowModal] = useState(false);
     const [usage, loadUsage] = useUsage(property.id);
 
+    const chartType = 'bar';
+
     const electricityOptions = {
         series: [
             {
-                type: 'line',
                 name: 'Hinta',
                 data: [],
                 colors: ['#ff0']
             },
 
             {
-                type: 'column',
                 data: [],
                 colors: ['#ff0']
             }
@@ -144,6 +144,8 @@ function UsageSection(props){
                     setShowModal={setShowModal}
                     submitHandler={(e) => {
                         e.preventDefault();
+                        e.target.submit_button.disabled = true;
+
                         const data = {
                             time: e.target.time.value,
                             price: e.target.price.valueAsNumber,
@@ -155,6 +157,9 @@ function UsageSection(props){
                             loadUsage();
                             setShowModal(false);
                         });
+
+                        e.target.submit_button.disabled = false;
+                        
                         //setShowModal(false);
                     }}
                 />
@@ -165,15 +170,15 @@ function UsageSection(props){
                     <Gallery.Body>
                         <div id="charts">
                             <Chart
-                                type="line"
-                                series={[{ data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]}
+                                type={chartType}
+                                series={[{data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]}
                                 width="800"
                                 height="350"
                                 options={electricityOptions}
                             />
 
                             <Chart
-                                type="line"
+                                type={chartType}
                                 series={[{ data: usage.filter(u => u.type === 'water').map(d => d.price)}]}
                                 width="800"
                                 height="350"
@@ -181,7 +186,7 @@ function UsageSection(props){
                             />
 
                             <Chart
-                                type="line"
+                                type={chartType}
                                 series={[{ data: usage.filter(u => u.type === 'heating').map(d => d.price)}]}
                                 width="800"
                                 height="350"

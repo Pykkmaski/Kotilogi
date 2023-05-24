@@ -29,7 +29,7 @@ function UploadUsageModal(props){
 
                     <Form.ButtonGroup>
                         <button type="button" className="secondary" onClick={() => props.setShowModal(false)}>Peruuta</button>
-                        <button type="submit" className="primary">Lähetä</button>
+                        <button type="submit" className="primary" name="submit_button">Lähetä</button>
                     </Form.ButtonGroup>
                 </Form>
             </Modal.Body>

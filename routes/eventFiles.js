@@ -5,8 +5,10 @@ const checkAuth = require('../middleware/checkAuth');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const upload = require('../middleware/fileUpload');
 const fs = require('fs');
+require('dotenv').config();
 
 const pdfMimeType = 'application/pdf';
+const fileStorageDest = process.env.FILE_UPLOAD_DEST;
 
 router.get('/:event_id', checkAuth, async (req, res) => {
     ///Returns ids for files associated with given event id

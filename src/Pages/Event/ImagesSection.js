@@ -51,9 +51,13 @@ function ImagesSection(props){
                     setShowModal={setShowModal}
                     uploadFunction={(e) => {
                         e.preventDefault();
+                        e.target.submit_button.disabled = true;
+
                         const url = `/api/images/events/${event.id}`;
                         UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
                         setShowModal(false);
+
+                        e.target.submit_button.disabled = false;
                     }}
                 />
 

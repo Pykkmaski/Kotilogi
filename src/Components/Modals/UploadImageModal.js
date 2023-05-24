@@ -26,7 +26,7 @@ function UploadImageModal(props){
 
                     <Form.ButtonGroup>
                         <button className="secondary" type="button" onClick={() => props.setShowModal(false)}>Peruuta</button>
-                        <button className="primary" type="submit">Lähetä</button>
+                        <button className="primary" type="submit" name="submit_button">Lähetä</button>
                     </Form.ButtonGroup>
                 </Form>
             </Modal.Body>

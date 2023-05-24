@@ -32,7 +32,7 @@ function Property(props){
                     <div className="sidebar-group">
                         <div className="sidebar-title">Muut</div>
                         <nav>
-                            <a className="cursor-pointer nav-link" href={`/#/user`}>Takaisin Taloihin</a>
+                            <a className="cursor-pointer nav-link" href={`/#/`}>Takaisin Taloihin</a>
                             <a className="cursor-pointer nav-link">Poista Talo</a>
                         </nav>
                     </div>

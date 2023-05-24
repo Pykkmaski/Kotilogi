@@ -33,7 +33,7 @@ function UpdateEventModal(props){
                             console.log('Closing event update modal');
                         }}>Peruuta</button>
                         
-                        <button type="submit" className="primary">Päivitä</button>
+                        <button type="submit" className="primary" name="submit_button">Päivitä</button>
                     </Form.ButtonGroup>
                 </Form>
             </Modal.Body>

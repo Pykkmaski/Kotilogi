@@ -27,7 +27,7 @@ function UploadFileModal(props){
 
                     <Form.ButtonGroup className="w-100 d-flex flex-row justify-content-between gap-1">
                         <button type="button" className="secondary" onClick={() => props.setShowModal(false)}>Peruuta</button>
-                        <button className="primary" type="submit">Lähetä</button>
+                        <button className="primary" type="submit" name="submit_button">Lähetä</button>
                     </Form.ButtonGroup>
                 </Form>
             </Modal.Body>
