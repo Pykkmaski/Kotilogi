@@ -54,11 +54,10 @@ router.post('/:property_id/events', checkAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         const {name, description, date} = req.body;
-        console.log(date);
         const property = await db('properties').where({id: property_id}).first();
         if(!property) throw 403;
 
-        db('property_events').insert({name, description, date, property_id}, ['id']).then(arr => {
+        db('property_events').insert({name, description, date: new Date(date).getTime(), property_id}, ['id']).then(arr => {
             const data = arr[0];
             res.status(200).send(data.id.toString());
         });
