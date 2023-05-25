@@ -4,7 +4,7 @@ function AddEvent(content, property_id, callback){
     axios.post(`/api/properties/${property_id}/events`, content || {
         name: 'Nimetön',
         description: 'Nimetön tapahtuma',
-        date: new Date().toLocaleDateString('fi-FI'),
+        date: new Date().getTime(),
         property_id
     })
     .then(res => {
