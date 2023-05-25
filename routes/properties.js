@@ -60,7 +60,8 @@ router.post('/:property_id/events', checkAuth, async (req, res) => {
         db('property_events').insert({name, description, date: new Date(date).getTime(), property_id}, ['id']).then(arr => {
             const data = arr[0];
             res.status(200).send(data.id.toString());
-        });
+        })
+        .catch(err => {throw err});
     }
     catch(err){
         RouteHandleError(err, res);
@@ -76,7 +77,8 @@ router.post('/', checkAuth, async (req, res) => {
         db('properties').insert(data, ['id']).then(arr => {
             const data = arr[0];
             res.status(200).send(data.id.toString());
-        });
+        })
+        .catch(err => {throw err});
     }
     catch(err){
         RouteHandleError(err, res);
