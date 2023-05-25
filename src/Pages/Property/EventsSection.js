@@ -50,7 +50,10 @@ function EventsSection(props){
                         cancelFunction={cancelEditFunction}
                     
                     >Muokkaa</EditButton>
-                    <Button variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => location.assign(`/#/properties/${property.id}/events/${id}/info`))}>Uusi Tapahtuma</Button>
+                    <Button variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => {
+                        location.assign(`/#/properties/${property.id}/events/${id}/info`);
+                        console.log('At callback assigning location...');
+                    })}>Uusi Tapahtuma</Button>
                 </div>
                 
                 <DeleteEventModal
