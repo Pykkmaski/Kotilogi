@@ -40,9 +40,11 @@ function Header(props){
                 setShowModal={setShowModal}
                 updateFunction={(e) => {
                     e.preventDefault();
+
                     const content = {
                         name: e.target.name.value,
                         description: e.target.description.value,
+                        date: new Date(e.target.date.value).getTime(),
                     }
 
                     Update(`/api/events/${event.id}`, content, () => loadEvent());
