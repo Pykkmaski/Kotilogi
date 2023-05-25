@@ -33,7 +33,6 @@ function Property(props){
                         <div className="sidebar-title">Muut</div>
                         <nav>
                             <a className="cursor-pointer nav-link" href={`/#/`}>Takaisin Taloihin</a>
-                            <a className="cursor-pointer nav-link">Poista Talo</a>
                         </nav>
                     </div>
                 </div>
