@@ -6,7 +6,7 @@ function AddProperty(content, callback){
     axios.post(`/api/properties`, content || {
         address : '',
     })
-    .then(res => callback(res.data.id))
+    .then(res => callback(res.data))
     .catch(err => console.log(err.message));
 }
 

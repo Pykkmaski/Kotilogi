@@ -7,7 +7,7 @@ function AddEvent(content, property_id, callback){
         date: new Date().toLocaleDateString('fi-FI'),
         property_id
     })
-    .then(res => callback(res.data.id))
+    .then(res => callback(res.data))
     .catch(err => console.log(err.message));
 }
 

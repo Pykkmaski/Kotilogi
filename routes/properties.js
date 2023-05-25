@@ -60,8 +60,7 @@ router.post('/:property_id/events', checkAuth, checkPropertyAuth, async (req, re
 
         db('property_events').insert({name, description, date, property_id}, ['id']).then(arr => {
             const data = arr[0];
-            console.log(data);
-            res.status(200).send(JSON.stringify(data));
+            res.status(200).send(data.id.toString());
         });
     }
     catch(err){
@@ -74,11 +73,11 @@ router.post('/', checkAuth, async (req, res) => {
     try{
         const data = req.body;
         data.owner = req.user.email;
-        console.log(req.body);
 
-        const id = (await db('properties').insert(data, ['id']))[0];
-        console.log(id);
-        res.status(200).send(id);
+        db('properties').insert(data, ['id']).then(arr => {
+            const data = arr[0];
+            res.status(200).send(data.id.toString());
+        });
     }
     catch(err){
         RouteHandleError(err, res);

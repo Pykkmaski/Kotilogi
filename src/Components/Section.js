@@ -18,6 +18,16 @@ const Header = (props) => {
     return <div className={className}>{props.children}</div>
 }
 
+const Heading = (props) => {
+    return (
+        <div className="label-heading">
+            <span className="label">{props.labelText}</span>
+            <h1>{props.subLabelText}</h1>
+        </div>
+    )
+}
+
+Header.Heading = Heading;
 Section.Header = Header;
 
 const Body = (props) => {
