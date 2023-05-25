@@ -49,7 +49,7 @@ router.get('/:property_id/events', checkAuth, checkPropertyAuth, async (req, res
     }
 });
 
-router.post('/:property_id/events', checkAuth, checkPropertyAuth, async (req, res) => {
+router.post('/:property_id/events', checkAuth, async (req, res) => {
     ///Insert new event data for given property
     try{
         const {property_id} = req.params;
