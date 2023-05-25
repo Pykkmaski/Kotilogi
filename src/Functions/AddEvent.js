@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 function AddEvent(content, property_id, callback){
+    console.log('Ryyppy');
+    
     axios.post(`/api/properties/${property_id}/events`, content || {
         name: 'Nimetön',
         description: 'Nimetön tapahtuma',
