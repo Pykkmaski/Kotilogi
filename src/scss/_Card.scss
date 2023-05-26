@@ -64,7 +64,8 @@
     .event-card-text{
         display: flex;
         flex-flow: column;
-
+        justify-content: space-between;
+        
         #date{
             margin-top: 1rem;
             font-weight: bold;
