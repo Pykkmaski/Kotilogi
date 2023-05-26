@@ -30,6 +30,8 @@ function Header(props){
                                 event.description
                             }
                         </p>
+
+                        <span id="date">{date}</span>
                     </div>
                 </div>
             </div>  

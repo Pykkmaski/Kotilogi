@@ -8,6 +8,8 @@ function EventCard({event, editing, functions}){
     const {property} = useContext(PropertyContext);
     const eventMainImage = `/api/images/events/${event.id}/main`;
 
+    const date = new Date(event.date).toLocaleDateString('fi');
+
     return (
         <Card key={`event-card-${event.id}`}>
             <Card.Image 
@@ -20,8 +22,9 @@ function EventCard({event, editing, functions}){
             
             <Card.Body>
                 <Card.Title>{event.name}</Card.Title>
-                <div className="card-text">
+                <div className="card-text event-card-text">
                     <span>{event.description}</span>
+                    <span id="date">{date}</span>
                 </div>
             </Card.Body>
            

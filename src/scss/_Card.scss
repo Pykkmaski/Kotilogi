@@ -61,6 +61,16 @@
         text-align: center;
     }
 
+    .event-card-text{
+        display: flex;
+        flex-flow: column;
+
+        #date{
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    }
+
     .card-body{
         display: inherit;
         flex-flow: column;
