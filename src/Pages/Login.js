@@ -47,7 +47,13 @@ function Login(props){
                 </div>
 
                 <div className="form-button-group">
-                    <button className="primary" type="submit" disabled={loading}>Kirjaudu Sisään</button>
+                    <button className="primary" type="submit" disabled={loading}>
+                        {
+                            !loading ?
+                            'Kirjaudu Sisään' :
+                            'Kirjaudutaan Sisään...'
+                        }
+                    </button>
                 </div>
 
                 <div className="form-spinner">
