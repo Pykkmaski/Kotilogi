@@ -14,6 +14,12 @@ form{
         justify-content: center;
     }
 
+    .form-links{
+        display: inherit;
+        flex-flow: row;
+        justify-content: center;
+    }
+
     .form-error{
         display: inherit;
         justify-content: center;

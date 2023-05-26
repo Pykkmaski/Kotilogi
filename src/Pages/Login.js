@@ -56,6 +56,10 @@ function Login(props){
                     </button>
                 </div>
 
+                <div className="form-links">
+                    <a href="/#/reset/password">Unohditko Salasanasi?</a>
+                </div>
+
                 <div className="form-spinner">
                     {
                         loading ? <LoadingSpinner size={"3rem"} message={'Kirjaudutaan sisään'}/> : null
