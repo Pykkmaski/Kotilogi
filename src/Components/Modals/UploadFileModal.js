@@ -11,16 +11,6 @@ function UploadFileModal(props){
 
             <Modal.Body>
                 <Form onSubmit={props.uploadFunction}>
-                    <Form.Group>
-                        <Form.Label>Tiedoston Otsikko</Form.Label>
-                        <Form.Control name="title" placeholder="Tiedostonimen tilalla näytettävä otsikko"></Form.Control>
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>Tiedoston Kuvaus</Form.Label>
-                        <Form.Control name="description"></Form.Control>
-                    </Form.Group>
-
                     <Form.Group className="w-100">
                         <Form.Control type="file" accept="application/pdf" name="file"></Form.Control>
                     </Form.Group>
