@@ -53,7 +53,7 @@ router.get('/:event_id/main', async (req, res) => {
         const {event_id} = req.params;
         const image = await db('event_files').where({event_id, mime_type: imageMimeType, main: true}).first();
         if(!image) throw 404;
-        res.status(200).sendFile(path.join(__dirname, `../uploads/${image.filename}`));
+        res.status(200).sendFile(`../uploads/${image.filename}`);
     }
     catch(err){
         RouteHandleError(err, res);
@@ -84,7 +84,7 @@ router.delete('/image/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id} = req.params;
         const file = await db.select('filename').from('event_files').where({mime_type: imageMimeType, id: image_id}).first();
-        fs.unlink(path.join(__dirname, `../uploads/${file.filename}`), () => console.log(`Event image deleted`));
+        fs.unlink(`../uploads/${file.filename}`, () => console.log(`Event image deleted`));
         await db('event_files').where({filename: file.filename}).del();
         res.sendStatus(200);
 
