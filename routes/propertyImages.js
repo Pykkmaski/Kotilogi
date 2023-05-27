@@ -5,6 +5,7 @@ const checkAuth = require('../middleware/checkAuth');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const path = require('path');
 const fs = require('fs');
+const DeleteFile = require('../Functions/DeleteFile');
 
 const imageMimeType = 'image/jpeg';
 
@@ -27,6 +28,8 @@ router.get('/:property_id/main', async (req, res) => {
         const {property_id} = req.params;
         const image = await db('property_files').where({property_id, mime_type: imageMimeType, main: true}).first();
         if(!image) throw 404;
+
+        const filepath = path.join(__dirname, `../uploads/${image.filename}`);
         res.status(200).sendFile(`../uploads/${image.filename}`);
     }
     catch(err){
@@ -40,6 +43,8 @@ router.get('/image/:image_id', async (req, res) => {
         const {image_id} = req.params; 
         const file = await db('property_files').where({mime_type: imageMimeType, id: image_id}).first();
         if(!file) throw 404;
+
+        const filepath = path.join(__dirname, `../uploads/${file.filename}`);
         res.status(200).sendFile(`../uploads/${file.filename}`);
     }
     catch(err){
@@ -78,7 +83,8 @@ router.delete('/:image_id', checkAuth, async (req, res) => {
         const {image_id} = req.params;
         const file = await db.select('filename').from('property_files').where({mime_type: imageMimeType, id: image_id}).first();
         await db('property_files').where({id: image_id, mime_type: imageMimeType}).del();
-        fs.unlink(`../uploads/${file.filename}`, () => console.log(`File ${file.filename} deleted.`));
+
+        DeleteFile(file.filename);
         res.sendStatus(200);
     }
     catch(err){

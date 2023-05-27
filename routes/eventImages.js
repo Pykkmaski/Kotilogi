@@ -6,6 +6,7 @@ const upload = require('../middleware/fileUpload');
 const path = require('path');
 const imageMimeType = 'image/jpeg';
 const fs = require('fs');
+const DeleteFile = require('../Functions/DeleteFile');
 
 router.get('/:event_id', checkAuth, async (req, res) => {
     ///Returns all image data for the specified event
@@ -27,7 +28,9 @@ router.get('/image/:image_id', async (req, res) => {
 
         const file = await db('event_files').where({id: image_id}).first();
         if(!file) throw 404;
-        res.status(200).sendFile(path.join(__dirname, `../uploads/${file.filename}`));
+
+        const filepath = path.join(__dirname, `../uploads/${file.filename}`);
+        res.status(200).sendFile(filepath);
     }
     catch(err){
         RouteHandleError(err, res);
@@ -53,7 +56,9 @@ router.get('/:event_id/main', async (req, res) => {
         const {event_id} = req.params;
         const image = await db('event_files').where({event_id, mime_type: imageMimeType, main: true}).first();
         if(!image) throw 404;
-        res.status(200).sendFile(`../uploads/${image.filename}`);
+        
+        const filepath = path.join(__dirname, `../uploads/${image.filename}`);
+        res.status(200).sendFile(filepath);
     }
     catch(err){
         RouteHandleError(err, res);
@@ -64,7 +69,7 @@ router.put('/:event_id/main', async (req, res) => {
     try{
         const {event_id} = req.params;
         const {image_id} = req.body;
-        console.log(req.body);
+       
         ///Remove main status from any previous image specified as main
         await db('event_files').where({event_id, main: true}).update({main: false});
         await db('event_files').where({event_id, id: image_id}).update({main: true});
@@ -84,7 +89,9 @@ router.delete('/image/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id} = req.params;
         const file = await db.select('filename').from('event_files').where({mime_type: imageMimeType, id: image_id}).first();
-        fs.unlink(`../uploads/${file.filename}`, () => console.log(`Event image deleted`));
+
+        DeleteFile(file.filename);
+        
         await db('event_files').where({filename: file.filename}).del();
         res.sendStatus(200);
 

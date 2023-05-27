@@ -6,6 +6,7 @@ const RouteHandleError = require('../Functions/RouteHandleError');
 const upload = require('../middleware/fileUpload');
 const fs = require('fs');
 require('dotenv').config();
+const DeleteFile = require('../Functions/DeleteFile');
 
 const pdfMimeType = 'application/pdf';
 const fileStorageDest = process.env.FILE_UPLOAD_DEST;
@@ -34,7 +35,9 @@ router.get('/file/:file_id', async (req, res) => {
         const {file_id} = req.params;
         const file = await db('event_files').where({id: file_id}).first();
         if(!file) throw 404;
-        res.status(200).sendFile(`../uploads/${file.filename}`);
+
+        const filepath = path.join(__dirname, `../uploads/${file.filename}`);
+        res.status(200).sendFile(filepath);
     }
     catch(err){
         RouteHandleError(err, res);
@@ -46,7 +49,9 @@ router.delete('/file/:file_id', async (req, res) => {
         const {file_id} = req.params;
         const file = await db('event_files').where({id: file_id}).first();
         if(!file) throw 404;
-        fs.unlink(`../uploads/${file.filename}`, () => console.log(`File ${file.filename} deleted.`));
+
+        DeleteFile(file.filename);
+
         await db('event_files').where({id: file_id}).del();
         res.sendStatus(200);
     }
