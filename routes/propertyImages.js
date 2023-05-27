@@ -30,7 +30,7 @@ router.get('/:property_id/main', async (req, res) => {
         if(!image) throw 404;
 
         const filepath = path.join(__dirname, `../uploads/${image.filename}`);
-        res.status(200).sendFile(`../uploads/${image.filename}`);
+        res.status(200).sendFile(filepath);
     }
     catch(err){
         RouteHandleError(err, res);
