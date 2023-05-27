@@ -9,7 +9,6 @@ require('dotenv').config();
 
 const pdfMimeType = 'application/pdf';
 const fileStorageDest = process.env.FILE_UPLOAD_DEST;
-console.log(__dirname);
 
 router.get('/:event_id', checkAuth, async (req, res) => {
     ///Returns ids for files associated with given event id
