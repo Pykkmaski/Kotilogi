@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, process.env.FILE_UPLOAD_DEST);
+        cb(null, './uploads');
     },
 
     filename: async (req, file, cb) => {
@@ -37,8 +37,6 @@ const fileStorageEngine = multer.diskStorage({
         }
 
         cb(null, fn);
-
-        
     }
 });
 
