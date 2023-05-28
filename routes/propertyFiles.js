@@ -27,7 +27,7 @@ router.get('/file/:file_id', async (req, res) => {
     try{
         const {file_id} = req.params;
         const file = await db('property_files').where({id: file_id}).first();
-        console.log('Property file: ' + file);
+        console.log('Property file: ' + file.filename);
         if(!file) throw 404;
 
         const filepath = path.join(__dirname, `../uploads/${file.filename}`);
