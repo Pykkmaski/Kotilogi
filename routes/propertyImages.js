@@ -6,6 +6,8 @@ const RouteHandleError = require('../Functions/RouteHandleError');
 const path = require('path');
 const fs = require('fs');
 const DeleteFile = require('../Functions/DeleteFile');
+const uploadPath = require('../uploadsConfig');
+
 
 const imageMimeType = 'image/jpeg';
 
