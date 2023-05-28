@@ -4,5 +4,4 @@ data
 public/*.js
 public/*.html
 .env
-uploads/*
 ./notes.txt
