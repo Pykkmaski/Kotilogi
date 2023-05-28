@@ -2,10 +2,10 @@ const multer = require('multer');
 const db = require('../dbconfig');
 const path = require('path');
 require('dotenv').config();
+const uploadPath = require('../uploadsConfig');
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadPath = '/uploads';
         cb(null, uploadPath);
     },
 

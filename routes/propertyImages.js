@@ -8,6 +8,7 @@ const fs = require('fs');
 const DeleteFile = require('../Functions/DeleteFile');
 const uploadPath = require('../uploadsConfig');
 
+console.log(uploadPath);
 
 const imageMimeType = 'image/jpeg';
 
@@ -30,9 +31,9 @@ router.get('/:property_id/main', async (req, res) => {
         const {property_id} = req.params;
         const image = await db('property_files').where({property_id, mime_type: imageMimeType, main: true}).first();
         if(!image) throw 404;
-
-        const filepath = path.join(__dirname, `../uploads/${image.filename}`);
-        res.status(200).sendFile(filepath);
+        res.status(200).sendFile(image.filename, {
+            root: path.join(__dirname, '../uploads')
+        });
     }
     catch(err){
         RouteHandleError(err, res);
