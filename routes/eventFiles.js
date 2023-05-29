@@ -26,6 +26,19 @@ router.get('/:event_id', checkAuth, async (req, res) => {
 
 router.post('/:event_id', checkAuth, upload.single('file'), async (req, res) => {
     ///Uploads a PDF to be associated with an event
+    var {event_body, property_body} = req;
+    const {title, description} = req.body;
+
+    if(event_body){
+        event_body.title = title;
+        event_body.description = description;
+        await db('event_files').insert(event_body);
+    }
+    else if(property_body){
+        property_body.title = title;
+        property_body.description = description;
+        await db('property_files').insert(property_body);
+    }
     res.sendStatus(200);
 });
 

@@ -82,6 +82,20 @@ router.put('/:event_id/main', async (req, res) => {
 
 router.post('/:event_id', checkAuth, upload.single('image'), async (req, res) => {
     ///Uploads an image to be associated with the specified event
+    var {event_body, property_body} = req;
+    const {title, description} = req.body;
+
+    if(event_body){
+        event_body.title = title;
+        event_body.description = description;
+        await db('event_files').insert(event_body);
+    }
+    else if(property_body){
+        property_body.title = title;
+        property_body.description = description;
+        await db('property_files').insert(property_body);
+    }
+    
     res.sendStatus(200);
 });
 

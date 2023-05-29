@@ -54,7 +54,10 @@ function ImagesSection(props){
                         e.target.submit_button.disabled = true;
 
                         const url = `/api/images/events/${event.id}`;
-                        UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
+                        const title = e.target.title.value;
+                        const descr = e.target.description.value;
+
+                        UploadFile(e.target.image.files[0], title, descr, 'image', url, () => loadImages());
                         setShowModal(false);
 
                         e.target.submit_button.disabled = false;
