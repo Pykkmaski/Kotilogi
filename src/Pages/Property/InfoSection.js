@@ -94,7 +94,11 @@ function PropertyInfoSection(props){
             </Section.Header>
 
             <Section.Body>
-                <Image src={`/api/images/properties/${property.id}/main`} className="main-image"/>
+                <Image src={`/api/images/properties/${property.id}/main`} className="main-image">
+                    <Image.Controls>
+                        <button className="primary" onClick={() => location.assign(`/#/properties/${property.id}/pictures`)}>Vaihda</button>
+                    </Image.Controls>
+                </Image>
                 <div className="info-group">
                     <header>
                         <h2>Yleistiedot</h2>
@@ -124,6 +128,15 @@ function PropertyInfoSection(props){
                         editing={editing}
                         onChange={(e) => {
                             tempProperty.current.property_type = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Rakennusmateriaali"} 
+                        defaultValue={property?.building_material} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.building_material = e.target.value;
                         }}
                     />
 
