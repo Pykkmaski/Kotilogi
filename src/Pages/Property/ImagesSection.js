@@ -62,7 +62,7 @@ function ImagesSection(props){
                 />
 
                 <EditFileInfoModal
-                    showModal={true}
+                    showModal={false}
                     setShowModal={() => null}
                     onSubmit={(e) => {
                         e.preventDefault();
