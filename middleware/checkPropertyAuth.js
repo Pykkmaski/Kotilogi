@@ -12,7 +12,6 @@ async function checkPropertyAuth(req, res, next){
         next();
     }
     catch(err){
-        console.log(err.message);
         res.sendStatus(403);
     }
 }

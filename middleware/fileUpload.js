@@ -27,10 +27,7 @@ const fileStorageEngine = multer.diskStorage({
             }
             else if(property_id){
                 const counts = await db('property_files').count('*', {as: 'count'}).where({mime_type: 'image/jpeg', property_id});
-                console.log(counts);
                 const main = counts[0].count === 0 && file.mimetype === 'image/jpeg';
-                console.log(main);
-
                 req.property_body = {
                     filename: fn,
                     property_id,

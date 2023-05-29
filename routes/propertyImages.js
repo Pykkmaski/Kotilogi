@@ -8,8 +8,6 @@ const fs = require('fs');
 const DeleteFile = require('../Functions/DeleteFile');
 const {uploadPath} = require('../uploadsConfig');
 
-console.log(uploadPath);
-
 const imageMimeType = 'image/jpeg';
 
 router.get('/:property_id', checkAuth, async (req, res) => {

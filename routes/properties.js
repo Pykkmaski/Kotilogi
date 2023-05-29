@@ -12,7 +12,6 @@ router.get('/', checkAuth, checkPropertyAuth, async (req, res) => {
     try{
         const {user, body} = req;
         const {property_id} = req.body;
-        console.log(property_id);
         const properties = !property_id ? await db('properties').where({owner: user.email}) : await db('properties').where({property_id});
         res.status(200).send(JSON.stringify(properties));
 
@@ -90,7 +89,6 @@ router.delete('/:property_id', checkAuth, checkPropertyAuth, async (req, res) =>
     try{
         const {property_id} = req.params;
         const {password} = req.body;
-        console.log('Password: ' + password);
         await db('properties').where({id: property_id}).del();
         res.sendStatus(200);
     }
