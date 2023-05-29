@@ -51,7 +51,10 @@ function FilesSection(props){
                         e.target.submit_button.disabled = true;
 
                         const url = `/api/files/properties/${property.id}`;
-                        UploadFile(e.target.file.files[0], 'file', url, () => loadFiles());
+                        const title = e.target.title.value;
+                        const descr = e.target.description.value;
+
+                        UploadFile(e.target.file.files[0], title, descr, 'file', url, () => loadFiles());
                         setShowModal(false);
 
                         e.target.submit_button.disabled = false;
