@@ -5,26 +5,25 @@ require('dotenv').config();
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log(req.body);
         cb(null, './uploads');
     },
 
     filename: async (req, file, cb) => {
         const fn = Date.now() + '--' + file.originalname;
         const {property_id, event_id} = req.params;
-
+  
         try{
             if(event_id){
                 const counts = await db('event_files').count('*', {as: 'count'}).where({mime_type: 'image/jpeg', event_id});
                 const main = counts[0].count === 0 && file.mimetype === 'image/jpeg';
 
-                await db('event_files').insert({
+                req.event_body = {
                     filename: fn,
                     event_id,
                     mime_type: file.mimetype,
-                    title: file.title,
-                    description: file.description,
                     main
-                });
+                };
             }
             else if(property_id){
                 const counts = await db('property_files').count('*', {as: 'count'}).where({mime_type: 'image/jpeg', property_id});
@@ -32,14 +31,12 @@ const fileStorageEngine = multer.diskStorage({
                 const main = counts[0].count === 0 && file.mimetype === 'image/jpeg';
                 console.log(main);
 
-                await db('property_files').insert({
+                req.property_body = {
                     filename: fn,
                     property_id,
                     mime_type: file.mimetype,
-                    title: file.title,
-                    description: file.description,
                     main
-                });
+                };
             }
         }
         catch(err){

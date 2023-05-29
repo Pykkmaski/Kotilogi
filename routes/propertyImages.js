@@ -57,6 +57,20 @@ router.get('/image/:image_id', async (req, res) => {
 
 router.post('/:property_id', checkAuth, upload.single('image'), async (req, res) => {
     ///Uploads an image to be associated with a given property id
+    var {property_body, event_body} = req;
+    const {title, description} = req.body;
+
+    if(property_body){
+        property_body.title = title;
+        property_body.description = description;
+        await db('property_files').insert(property_body);
+    }
+    else if(event_body){
+        event_body.title = title;
+        event_body.description = description;
+        await db('event_files').insert(event_body);
+    }
+
     res.sendStatus(200);
 });
 

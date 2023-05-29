@@ -49,9 +49,11 @@ function ImagesSection(props){
 
                         const url = `/api/images/properties/${property.id}`;
                         const file = e.target.image.files[0];
-       
+                        const title = e.target.title.value;
+                        const descr = e.target.description.value;
+
                         console.log(file);
-                        UploadFile(e.target.image.files[0], 'image', url, () => loadImages());
+                        UploadFile(e.target.image.files[0], title, descr,'image', url, () => loadImages());
                         setShowModal(false);
 
                         e.target.submit_button.disabled = false;

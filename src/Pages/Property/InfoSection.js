@@ -35,6 +35,10 @@ function PropertyInfoSection(props){
     }, []);
 
     useEffect(() => {
+        if(property.address === null) setEditing(true);
+    }, [property]);
+
+    useEffect(() => {
         if(editing === false){
             setShowSubmitEditsModal(false);
         }
