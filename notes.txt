@@ -1,7 +1,5 @@
---Not applicable: Setting an image as main works, but the event header main image does not update until page is refreshed.
 Sending a large image for an event makes the modal not close immediately, allowing a user to click send multiple times.
 Property information does not reset to previous values when canceling an edit.
-Events does not update when the last event is deleted.
 
 ISSUES:
 A single usage data point does not display on the chart.
@@ -9,8 +7,9 @@ A single usage data point does not display on the chart.
 TODO:
 Add title and description to sent images and files.
 Add information about the file, image, house or event about to be deleted to the confirmation modals.
-Set the first image added anywhere as the main image by default.
 Prevent modal submissions while a previous request is pending.
 Add feedback for when something is being uploaded.
 Add functionality to delete a usage data point.
+Make property info section be in editing mode when first creating a property.
+Make the event main image update automatically when the first image is uploaded to it.
 

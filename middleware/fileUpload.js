@@ -14,21 +14,31 @@ const fileStorageEngine = multer.diskStorage({
 
         try{
             if(event_id){
+                const counts = await db('event_files').count('*', {as: 'count'}).where({mime_type: 'image/jpeg', event_id});
+                const main = counts[0].count === 0 && file.mimetype === 'image/jpeg';
+
                 await db('event_files').insert({
                     filename: fn,
                     event_id,
                     mime_type: file.mimetype,
                     title: file.title,
                     description: file.description,
+                    main
                 });
             }
             else if(property_id){
+                const counts = await db('property_files').count('*', {as: 'count'}).where({mime_type: 'image/jpeg', property_id});
+                console.log(counts);
+                const main = counts[0].count === 0 && file.mimetype === 'image/jpeg';
+                console.log(main);
+
                 await db('property_files').insert({
                     filename: fn,
                     property_id,
                     mime_type: file.mimetype,
                     title: file.title,
                     description: file.description,
+                    main
                 });
             }
         }
