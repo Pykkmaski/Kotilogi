@@ -7,6 +7,7 @@ const upload = require('../middleware/fileUpload');
 const fs = require('fs');
 require('dotenv').config();
 const DeleteFile = require('../Functions/DeleteFile');
+const { uploadPath } = require('../uploadsConfig');
 
 const pdfMimeType = 'application/pdf';
 const fileStorageDest = process.env.FILE_UPLOAD_DEST;
@@ -49,8 +50,7 @@ router.get('/file/:file_id', async (req, res) => {
         const file = await db('event_files').where({id: file_id}).first();
         if(!file) throw 404;
 
-        const filepath = path.join(__dirname, `../uploads/${file.filename}`);
-        res.status(200).sendFile(filepath);
+        res.status(200).sendFile(uploadPath + file.filename);
     }
     catch(err){
         RouteHandleError(err, res);

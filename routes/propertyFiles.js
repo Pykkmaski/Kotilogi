@@ -9,6 +9,8 @@ const pdfMimeType = 'application/pdf';
 const fileUploadDb = require('../middleware/fileUploadDb');
 const DeleteFile = require('../Functions/DeleteFile');
 
+const {uploadPath} = require('../uploadsConfig');
+
 router.get('/:property_id', async (req, res) => {
     ///Returns ids for files associated with given property id
     try{
@@ -30,8 +32,7 @@ router.get('/file/:file_id', async (req, res) => {
         console.log('Property file: ' + file.filename);
         if(!file) throw 404;
 
-        const filepath = path.join(__dirname, `../uploads/${file.filename}`);
-        res.status(200).sendFile(filepath);
+        res.status(200).sendFile(uploadPath + file.filename);
     }
     catch(err){
         RouteHandleError(err, res);

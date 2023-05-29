@@ -6,7 +6,7 @@ const RouteHandleError = require('../Functions/RouteHandleError');
 const path = require('path');
 const fs = require('fs');
 const DeleteFile = require('../Functions/DeleteFile');
-const uploadPath = require('../uploadsConfig');
+const {uploadPath} = require('../uploadsConfig');
 
 console.log(uploadPath);
 
@@ -31,9 +31,7 @@ router.get('/:property_id/main', async (req, res) => {
         const {property_id} = req.params;
         const image = await db('property_files').where({property_id, mime_type: imageMimeType, main: true}).first();
         if(!image) throw 404;
-        res.status(200).sendFile(image.filename, {
-            root: path.join(__dirname, '../uploads')
-        });
+        res.status(200).sendFile(uploadPath + image.filename);
     }
     catch(err){
         RouteHandleError(err, res);
@@ -46,9 +44,7 @@ router.get('/image/:image_id', async (req, res) => {
         const {image_id} = req.params; 
         const file = await db('property_files').where({mime_type: imageMimeType, id: image_id}).first();
         if(!file) throw 404;
-
-        const filepath = path.join(__dirname, `../uploads/${file.filename}`);
-        res.status(200).sendFile(filepath);
+        res.status(200).sendFile(uploadPath + file.filename);
     }
     catch(err){
         RouteHandleError(err, res);
