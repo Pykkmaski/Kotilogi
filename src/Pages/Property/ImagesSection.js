@@ -12,6 +12,7 @@ import EditButton from '../../Components/Buttons/EditButton';
 import Update from '../../Functions/Update';
 import Delete from '../../Functions/Delete';
 import ConfirmModal from '../../Components/Modals/ConfirmModal';
+import EditFileInfoModal from '../../Components/Modals/EditFileInfoModal';
 
 function ImagesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
@@ -57,6 +58,15 @@ function ImagesSection(props){
                         setShowModal(false);
 
                         e.target.submit_button.disabled = false;
+                    }}
+                />
+
+                <EditFileInfoModal
+                    showModal={true}
+                    setShowModal={() => null}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        
                     }}
                 />
 
