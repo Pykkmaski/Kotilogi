@@ -15,7 +15,7 @@ function ReactImage(props){
 function Image(props){
 
     const subComponents = useSubComponents(Object.keys(Image), props);
-    const className = useClassName('image', props.className);
+    const {className} = useClassName('image', props.className);
 
     return (
         <div className={className}>

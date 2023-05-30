@@ -1,5 +1,5 @@
 import UploadFile from "../../Functions/UploadFile";
-import {useContext, useState} from 'react';
+import {useContext, useState, useRef} from 'react';
 import usePropertyFiles from '../../Hooks/usePropertyFiles';
 import Section from "../../Components/Section";
 import Button from '../../Components/Buttons/Button';
@@ -8,7 +8,7 @@ import PropertyContext from "../../Contexts/PropertyContext";
 import UploadFileModal from "../../Components/Modals/UploadFileModal";
 import NoFiles from "../../Components/Error/NoFiles";
 import EditButton from "../../Components/Buttons/EditButton";
-import Modal from "../../Components/Modals/Modal";
+import ConfirmModal from "../../Components/Modals/ConfirmModal";
 import Delete from '../../Functions/Delete';
 import FileCard from "../../Components/Cards/FileCard";
 
@@ -16,15 +16,16 @@ function FilesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
     const [showModal, setShowModal] = useState(false);
 
-    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-    const [fileToBeDeleted, setFileToBeDeleted] = useState(null);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const [files, loadFiles] = usePropertyFiles(property.id);
     const [editing, setEditing] = useState(false);
 
-    function confirmDeletion(id){
-        setFileToBeDeleted(id);
-        setShowDeleteConfirmation(true);
+    const fileToBeDeleted = useRef(null);
+
+    function confirmDeletion(file){
+        fileToBeDeleted.current = file;
+        setShowConfirmationModal(true);
     }
 
     return (
@@ -71,7 +72,7 @@ function FilesSection(props){
                             files.map(file => {
                                 const fileSrc = `/api/files/properties/file/${file.id}`;
                                 const element = <FileCard file={file} editing={editing} functions={{
-                                    deleteFile: (file_id) => confirmDeletion(file_id),
+                                    deleteFile: (file) => confirmDeletion(file),
                                     editTitle: (file_id) => Update(`/api/files/properties/file/${file_id}`, () => loadFiles()),
                                 }}/>
 
@@ -91,19 +92,22 @@ function FilesSection(props){
                     </Gallery.Body>
                 </Gallery>
 
-                <Modal show={showDeleteConfirmation} onHide={() => setShowDeleteConfirmation(false)}>
-                    <Modal.Header>Vahvista Tiedoston Poisto</Modal.Header>
-                    <Modal.Body>Haluatko varmasti poistaa tämän tiedoston?</Modal.Body>
-                    <Modal.Footer>
-                        <div className="group-row">
-                            <Button className="primary" onClick={() => setShowDeleteConfirmation(false)}>Ei</Button>
-                            <Button className="danger" onClick={() => Delete(`/api/files/properties/file/${fileToBeDeleted}`, () => {
-                                setShowDeleteConfirmation(false);
-                                loadFiles();
-                            })}>Kyllä</Button>
-                        </div>
-                    </Modal.Footer>
-                </Modal>
+                <ConfirmModal
+                    showModal={showConfirmationModal}
+                    setShowModal={setShowConfirmationModal}
+
+                    title="Poista Tiedosto"
+                    text={`Haluatko varmasti poistaa tiedoston ${fileToBeDeleted.current?.title || fileToBeDeleted.current?.filename}`}
+
+                    onConfirm={() => {
+                        Delete(`/api/files/properties/file/${fileToBeDeleted.current?.id}`, () => loadFiles());
+                        setShowConfirmationModal(false);
+                    }}
+
+                    onCancel={() => {
+                        setShowConfirmationModal(false);
+                    }}
+                />
 
             </Section.Body>
 

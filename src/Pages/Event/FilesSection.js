@@ -58,10 +58,9 @@ function FilesSection(props){
                             files.map(file => {
                                 const url = `/api/files/events/file/${file.id}`;
                                 const element = <FileCard file={file} editing={editing} functions={{
-                                    deleteFile: (file_id) => {
-                                        fileToBeDeleted.current = file_id;
+                                    deleteFile: (file) => {
+                                        fileToBeDeleted.current = file;
                                         setShowConfirmationModal(true);
-                                        console.log('kalja');
                                     }
                                 }}/>
                                 
@@ -81,20 +80,21 @@ function FilesSection(props){
                 </Gallery>
 
                 <ConfirmModal
-                showModal={showConfirmationModal}
-                setShowModal={setShowConfirmationModal}
+                    showModal={showConfirmationModal}
+                    setShowModal={setShowConfirmationModal}
 
-                title="Poista Tiedosto"
-                text="Oletko varma että haluat poistaa tiedoston?"
-                onConfirm={() => {
-                    Delete(`/api/files/events/file/${fileToBeDeleted.current}`, () => loadFiles());
-                    setShowConfirmationModal(false);
-                }}
+                    title="Poista Tiedosto"
+                    text={`Haluatko varmasti poistaa tiedoston ${fileToBeDeleted.current?.title || fileToBeDeleted.current?.filename}`}
 
-                onCancel={() => {
-                    setShowConfirmationModal(false);
-                }}
-            />
+                    onConfirm={() => {
+                        Delete(`/api/files/events/file/${fileToBeDeleted.current.id}`, () => loadFiles());
+                        setShowConfirmationModal(false);
+                    }}
+
+                    onCancel={() => {
+                        setShowConfirmationModal(false);
+                    }}
+                />
             </Section.Body>
 
            

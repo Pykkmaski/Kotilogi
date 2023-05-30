@@ -1,7 +1,7 @@
 import useClassName from "../Hooks/useClassName";
 
 function LoadingSpinner({size, message, classNameProp}){
-    const className = useClassName('spinner', classNameProp);
+    const {className} = useClassName('spinner', classNameProp);
 
     return (
         <div className="spinner-container">

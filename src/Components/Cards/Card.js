@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import useClassName from "../../Hooks/useClassName";
 import useSubComponents from "../../Hooks/useSubComponents";
 import {default as ImageComponent} from '../Image';
 
@@ -33,5 +35,14 @@ Card.Body = Body;
 
 const Footer = (props) => <div className="card-footer">{props.children}</div>
 Card.Footer = Footer;
+
+const ControlLink = (props) => {
+    const {className, addClass, removeClass} = useClassName('control-link', props.className);
+
+    return(
+        <button className={className} disabled={props.disabled} onClick={props.onClick}>{props.children}</button>
+    )
+}
+Card.ControlLink = ControlLink;
 
 export default Card;

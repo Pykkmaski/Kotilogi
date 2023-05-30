@@ -1,5 +1,4 @@
 import Card from './Card';
-import Button from '../Buttons/Button';
 
 function ImageCard({image, src, editing, functions}){
     return (
@@ -13,8 +12,8 @@ function ImageCard({image, src, editing, functions}){
             {
                 editing ? 
                 <Card.Footer>
-                    <Button className="danger" onClick={() => functions.deleteImage(image.id)}>Poista</Button>
-                    <Button className="primary" onClick={() => functions.setAsMain(image.id)} disabled={image.main}>Aseta Pääkuvaksi</Button>
+                    <Card.ControlLink className="danger" onClick={() => functions.deleteImage(image.id)}>Poista</Card.ControlLink>
+                    <Card.ControlLink className="primary" onClick={() => functions.setAsMain(image.id)} disabled={image.main}>Aseta Pääkuvaksi</Card.ControlLink>
                 </Card.Footer>
                 :
                 <></>

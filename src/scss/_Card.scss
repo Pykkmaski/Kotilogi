@@ -14,6 +14,34 @@
         border-color: black;
     }
 
+    .control-link{
+        font-weight: bold;
+        cursor: pointer;
+        background: none !important;
+
+        &:active, &:disabled{
+            background: none;
+        }
+
+        &:disabled{
+            color: $secondary-color !important;
+        }
+
+        &.primary{
+            color: $primary-color;
+        }
+
+        &.danger{
+            color: $danger-color;
+        }
+
+        &:hover{
+            text-decoration: underline;
+        }
+
+        
+    }
+
     .card-image-container{
         display: flex;
         justify-content: center;
