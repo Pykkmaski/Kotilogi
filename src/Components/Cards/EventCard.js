@@ -31,7 +31,7 @@ function EventCard({event, editing, functions}){
             {
                 editing ?
                 <Card.Footer>
-                    <button className="danger" onClick={() => functions.deleteEvent(event.id)}>Poista</button>
+                    <Card.ControlLink className="danger" onClick={() => functions.deleteEvent(event.id)}>Poista</Card.ControlLink>
                 </Card.Footer>
                 :
                 <></>

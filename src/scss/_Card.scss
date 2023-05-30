@@ -18,7 +18,9 @@
         font-weight: bold;
         cursor: pointer;
         background: none !important;
-
+        margin: 0 !important;
+        padding: 0 !important;
+        
         &:active, &:disabled{
             background: none;
         }
