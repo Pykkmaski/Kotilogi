@@ -16,7 +16,7 @@ function FileCard({file, editing, functions}){
             {
                 editing ? 
                 <Card.Footer>
-                    <Card.ControlLink className="primary">Muokkaa</Card.ControlLink>
+                    <Card.ControlLink className="primary" onClick={() => functions.updateData(file)}>Muokkaa</Card.ControlLink>
                     <Card.ControlLink className="danger" onClick={() => functions.deleteFile(file)}>Poista</Card.ControlLink>
                 </Card.Footer>
                 :

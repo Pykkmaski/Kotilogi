@@ -18,7 +18,7 @@ function EditFileInfoModal(props){
                     </Form.Group>
 
                     <Form.ButtonGroup>
-                        <button className="secondary" type="button">Peruuta</button>
+                        <button className="secondary" type="button" onClick={() => props.setShowModal(false)}>Peruuta</button>
                         <button className="primary" type="submit">Päivitä</button>
                     </Form.ButtonGroup>
                 </Form>

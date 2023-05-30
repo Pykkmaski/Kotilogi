@@ -11,21 +11,37 @@ import EditButton from "../../Components/Buttons/EditButton";
 import ConfirmModal from "../../Components/Modals/ConfirmModal";
 import Delete from '../../Functions/Delete';
 import FileCard from "../../Components/Cards/FileCard";
+import EditFileInfoModal from "../../Components/Modals/EditFileInfoModal";
 
 function FilesSection(props){
     const {property, loadProperty} = useContext(PropertyContext);
     const [showModal, setShowModal] = useState(false);
-
+    const [showEditFileModal, setShowEditFileModal] = useState(false);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const [files, loadFiles] = usePropertyFiles(property.id);
     const [editing, setEditing] = useState(false);
 
-    const fileToBeDeleted = useRef(null);
+    const selectedFile = useRef(null);
 
-    function confirmDeletion(file){
-        fileToBeDeleted.current = file;
+    function deleteFile(file){
+        selectedFile.current = file;
         setShowConfirmationModal(true);
+    }
+
+    function updateFileData(e){
+        e.preventDefault();
+        const body = {
+            title: e.target.title.value,
+            description: e.target.description.value,
+        }
+        Update(`/api/files/properties/${property.id}/file/${selectedFile.current.id}`, body, () => loadFiles());
+        setShowEditFileModal(false);
+    }
+
+    function updateData(file){
+        selectedFile.current = file;
+        setShowEditFileModal(true);
     }
 
     return (
@@ -61,6 +77,12 @@ function FilesSection(props){
                         e.target.submit_button.disabled = false;
                     }}
                 />
+
+                <EditFileInfoModal
+                    showModal={showEditFileModal}
+                    setShowModal={setShowEditFileModal}
+                    onSubmit={updateFileData}
+                />
                 
             </Section.Header>
 
@@ -72,8 +94,8 @@ function FilesSection(props){
                             files.map(file => {
                                 const fileSrc = `/api/files/properties/file/${file.id}`;
                                 const element = <FileCard file={file} editing={editing} functions={{
-                                    deleteFile: (file) => confirmDeletion(file),
-                                    editTitle: (file_id) => Update(`/api/files/properties/file/${file_id}`, () => loadFiles()),
+                                    deleteFile,
+                                    updateData,
                                 }}/>
 
                                 return (
@@ -97,10 +119,10 @@ function FilesSection(props){
                     setShowModal={setShowConfirmationModal}
 
                     title="Poista Tiedosto"
-                    text={`Haluatko varmasti poistaa tiedoston ${fileToBeDeleted.current?.title || fileToBeDeleted.current?.filename}`}
+                    text={`Haluatko varmasti poistaa tiedoston ${selectedFile.current?.title || selectedFile.current?.filename}`}
 
                     onConfirm={() => {
-                        Delete(`/api/files/properties/file/${fileToBeDeleted.current?.id}`, () => loadFiles());
+                        Delete(`/api/files/properties/file/${selectedFile.current?.id}`, () => loadFiles());
                         setShowConfirmationModal(false);
                     }}
 
