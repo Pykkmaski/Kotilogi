@@ -64,7 +64,7 @@ function ImagesSection(props){
 
     function updateData(image){
         selectedImage.current = image;
-        showEditFileModal(true);
+        setShowEditFileModal(true);
     }
 
     return (
