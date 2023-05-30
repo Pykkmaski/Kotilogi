@@ -13,6 +13,7 @@ function ImageCard({image, src, editing, functions}){
                 editing ? 
                 <Card.Footer>
                     <Card.ControlLink className="danger" onClick={() => functions.deleteImage(image.id)}>Poista</Card.ControlLink>
+                    <Card.ControlLink className="primary" onClick={() => functions.editImage(image.id)}>Muokkaa</Card.ControlLink>
                     <Card.ControlLink className="primary" onClick={() => functions.setAsMain(image.id)} disabled={image.main}>Aseta Pääkuvaksi</Card.ControlLink>
                 </Card.Footer>
                 :

@@ -89,6 +89,16 @@ router.put('/:property_id/main/:image_id', checkAuth, async (req, res) => {
     }
 });
 
+router.put('/:property_id/image/:image_id', checkAuth, async (req, res) => {
+    try{
+        await db('property_files').where({id: image_id, mime_type: imageMimeType}).update(req.body);
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
 router.delete('/:image_id', checkAuth, async (req, res) => {
     try{
         const {image_id} = req.params;

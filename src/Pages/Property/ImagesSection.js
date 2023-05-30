@@ -19,11 +19,53 @@ function ImagesSection(props){
     const [images, loadImages] = usePropertyImages(property.id);
     const [showModal, setShowModal] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmationModal] = useState(false);
+    const [showEditFileModal, setShowEditFileModal] = useState(false);
+
     const [editing, setEditing] = useState(false);
-    const [imageToBeDeleted, setImageToBeDeleted] = useState(null);
     const noImage = './img/no-pictures';
     
-    const selectedImages = useRef([]);
+    const selectedImage = useRef(null);
+
+    function updateImageData(e){
+        e.preventDefault();
+        const body = {
+            title: e.target.title.value,
+            description: e.target.description.value,
+        }
+        Update(`/api/images/properties/${property.id}/image/${selectedImage.current.id}`, body, () => loadImages());
+        setShowEditFileModal(false);
+    }
+
+    function uploadImage(e){
+        e.preventDefault();
+        e.target.submit_button.disabled = true;
+
+        const url = `/api/images/properties/${property.id}`;
+        const file = e.target.image.files[0];
+        const title = e.target.title.value;
+        const descr = e.target.description.value;
+
+        console.log(file);
+        UploadFile(e.target.image.files[0], title, descr,'image', url, () => loadImages());
+        setShowModal(false);
+
+        e.target.submit_button.disabled = false;
+    }
+
+    function confirmDelete(){
+        Delete(`/api/images/properties/${selectedImage.current.id}`, () => loadImages());
+        setShowConfirmationModal(false);
+    }
+
+    function deleteImage(image){
+         selectedImage.current = image;
+        setShowConfirmationModal(true)
+    }
+
+    function updateData(image){
+        selectedImage.current = image;
+        showEditFileModal(true);
+    }
 
     return (
         <Section>
@@ -44,30 +86,13 @@ function ImagesSection(props){
                 <UploadImageModal
                     showModal={showModal}
                     setShowModal={setShowModal}
-                    uploadFunction={(e) => {
-                        e.preventDefault();
-                        e.target.submit_button.disabled = true;
-
-                        const url = `/api/images/properties/${property.id}`;
-                        const file = e.target.image.files[0];
-                        const title = e.target.title.value;
-                        const descr = e.target.description.value;
-
-                        console.log(file);
-                        UploadFile(e.target.image.files[0], title, descr,'image', url, () => loadImages());
-                        setShowModal(false);
-
-                        e.target.submit_button.disabled = false;
-                    }}
+                    uploadFunction={uploadImage}
                 />
 
                 <EditFileInfoModal
-                    showModal={false}
-                    setShowModal={() => null}
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        
-                    }}
+                    showModal={showEditFileModal}
+                    setShowModal={() => setShowEditFileModal(true)}
+                    onSubmit={updateImageData}
                 />
 
                 <ConfirmModal 
@@ -77,10 +102,7 @@ function ImagesSection(props){
                     text="Oletko varma että haluat poistaa kuvan?"
 
                     onCancel={() => setShowConfirmationModal(false)}
-                    onConfirm={() => {
-                        Delete(`/api/images/properties/${imageToBeDeleted}`, () => loadImages());
-                        setShowConfirmationModal(false);
-                    }}
+                    onConfirm={confirmDelete}
                 />
             </Section.Header>
 
@@ -92,11 +114,9 @@ function ImagesSection(props){
                             images.map(image => {
                                 const imgSrc = `/api/images/properties/image/${image.id}`;
                                 const element = <ImageCard src={imgSrc} image={image} editing={editing} functions={{
-                                    deleteImage: (image_id) => {
-                                        setImageToBeDeleted(image_id),
-                                        setShowConfirmationModal(true)
-                                    },
+                                    deleteImage,
                                     setAsMain: (image_id) => Update(`/api/images/properties/${property.id}/main/${image_id}`, image_id, () => loadImages()),
+                                    updateData
                                 }}/>
 
                                 return (
