@@ -1,16 +1,22 @@
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import Gallery from './Gallery';
 import ImageCard from './Cards/ImageCard';
 import Delete from '../Functions/Delete';
 import Update from '../Functions/Update';
+import NoImages from './Error/NoImages';
+import UploadImageModal from './Modals/UploadImageModal';
+import ConfirmModal from './Modals/ConfirmModal';
+import EditFileInfoModal from './Modals/EditFileInfoModal';
+import Section from './Section';
+import EditButton from './Buttons/EditButton';
+import Button from './Buttons/Button';
 
 function ImagesSection(props){
-
     const {images, loadImages} = props;
+    const [editing, setEditing] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showUploadModal, setShowUploadModal] = useState(false);
-
     const selectedImage = useRef(null);
 
     function updateImageData(e){
@@ -46,8 +52,7 @@ function ImagesSection(props){
         const title = e.target.title.value;
         const descr = e.target.description.value;
 
-        console.log(file);
-        UploadFile(e.target.image.files[0], title, descr,'image', url, () => loadImages());
+        UploadFile(file, title, descr,'image', url, () => loadImages());
         setShowUploadModal(false);
 
         e.target.submit_button.disabled = false;
@@ -62,7 +67,10 @@ function ImagesSection(props){
         <Section>
             <Section.Header>
                 <div className="label-heading">
-                    <span className="label">{property.address}</span>
+                    {
+                       props.target.address ? <span className="label">{props.target.address}</span> : null
+                    }
+                    
                     <h1>Kuvat</h1>
                 </div>
 
@@ -101,8 +109,12 @@ function ImagesSection(props){
                 <Gallery>
                     <Gallery.Body>
                         {
+                            images.length ?
                             images.map(image => {
-                                const element = <ImageCard image={image} editing={editing} functions={{
+                                
+                                const imgSrc = props.baseUrl + `/image/${image.id}`;
+
+                                const element = <ImageCard image={image} src={imgSrc} editing={editing} functions={{
                                     deleteImage,
                                     updateImage,
                                     setMain,
@@ -118,6 +130,8 @@ function ImagesSection(props){
                                     element
                                 );
                             })
+                            :
+                            <NoImages/>
                         }
                     </Gallery.Body>
                 </Gallery>
