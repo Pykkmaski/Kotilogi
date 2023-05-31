@@ -81,6 +81,17 @@ router.put('/:event_id/image/main', async (req, res) => {
     }
 });
 
+router.put('/:property_id/image/:image_id', checkAuth, async (req, res) => {
+    try{
+        const {image_id} = req.params;
+        await db('event_files').where({id: image_id, mime_type: imageMimeType}).update(req.body);
+        res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
 router.post('/:event_id', checkAuth, upload.single('image'), async (req, res) => {
     ///Uploads an image to be associated with the specified event
     var {event_body, property_body} = req;
