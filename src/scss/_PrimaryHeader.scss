@@ -6,6 +6,11 @@
     background: white;
     border-bottom: 1px solid $border-color;
     
+    #user-email{
+        font-style: italic;
+        font-weight: 1;
+    }
+
     .navigation{
         min-width: 200px;
     }

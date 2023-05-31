@@ -12,13 +12,14 @@ import Event from './Pages/Event/Event';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import Property from './Pages/Property/Property';
 import Pricing from './Pages/Pricing';
-import { tokenStorageKey } from './appconfig';
+import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App(props){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
+    const [user, setUser] = useLocalStorage(userStorageKey, null);
     axios.defaults.headers['Authorization'] = token;
     
     useEffect(() => {
@@ -30,7 +31,7 @@ function App(props){
             <div className="bg-filler"/>
             <div className="app">
 
-                <AppContext.Provider value={{token, setToken}}>
+                <AppContext.Provider value={{token, setToken, user, setUser}}>
                 <Header/>
                     <div className='body'>
                         <Routes>

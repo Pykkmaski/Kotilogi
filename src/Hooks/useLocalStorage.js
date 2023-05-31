@@ -15,12 +15,7 @@ function useLocalStorage(key, initialValue){
     });
 
     useEffect(() => {
-        if(typeof(value) !== 'string'){
-            localStorage.setItem(key, value);
-        } 
-        else{
-            localStorage.setItem(key, JSON.stringify(value));
-        }
+        localStorage.setItem(key, JSON.stringify(value));
     }, [value]);
 
     return [value, setValue];

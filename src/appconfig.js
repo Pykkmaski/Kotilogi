@@ -6,6 +6,7 @@ const routeFilesPortion = 'files';
 
 module.exports = {
     tokenStorageKey : 'digikoti_token',
+    userStorageKey: 'digikoti_user',
     serviceName : 'Kotilogi',
     serverTimeoutMessage : {
         "fi" : "Palvelin ei vastaa. Yritä hetken kuluttua uudelleen.",

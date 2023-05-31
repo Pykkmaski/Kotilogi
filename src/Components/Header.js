@@ -35,7 +35,7 @@ function LoggedInLinks(){
 
 function Header(props){
 
-    const {token} = useContext(AppContext);
+    const {token, user} = useContext(AppContext);
 
     return(
         <header className="d-flex flex-row align-items-center justify-content-between" id="primary-header">
@@ -52,7 +52,11 @@ function Header(props){
                             !token ?
                             <LoggedOutLinks/>
                             :
-                            <LoggedInLinks/>
+                            <div className="group-row">
+                                <span id="user-email">{user?.email}</span>
+                                <LoggedInLinks/>
+                            </div>
+
                         }
                     </nav>
                 }
