@@ -96,7 +96,7 @@ function ImagesSection(props){
 
                 <EditFileInfoModal
                     showModal={showEditModal}
-                    setShowModal={() => setShowEditModal(true)}
+                    setShowModal={setShowEditModal}
                     onSubmit={updateImageData}
                 />
 
