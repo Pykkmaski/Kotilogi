@@ -64,13 +64,15 @@ router.get('/:event_id/main', async (req, res) => {
     }
 });
 
-router.put('/:event_id/main', async (req, res) => {
+router.put('/:event_id/image/main', async (req, res) => {
     try{
         const {event_id} = req.params;
         const {image_id} = req.body;
        
         ///Remove main status from any previous image specified as main
         await db('event_files').where({event_id, main: true}).update({main: false});
+
+        //Set new main image
         await db('event_files').where({event_id, id: image_id}).update({main: true});
         res.sendStatus(200);
     }

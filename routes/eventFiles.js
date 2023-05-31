@@ -26,21 +26,26 @@ router.get('/:event_id', checkAuth, async (req, res) => {
 });
 
 router.post('/:event_id', checkAuth, upload.single('file'), async (req, res) => {
-    ///Uploads a PDF to be associated with an event
-    var {event_body, property_body} = req;
-    const {title, description} = req.body;
+    try{
+        ///Uploads a PDF to be associated with an event
+        var {event_body, property_body} = req;
+        const {title, description} = req.body;
 
-    if(event_body){
-        event_body.title = title;
-        event_body.description = description;
-        await db('event_files').insert(event_body);
+        if(event_body){
+            event_body.title = title;
+            event_body.description = description;
+            await db('event_files').insert(event_body);
+        }
+        else if(property_body){
+            property_body.title = title;
+            property_body.description = description;
+            await db('property_files').insert(property_body);
+        }
+        res.sendStatus(200);
     }
-    else if(property_body){
-        property_body.title = title;
-        property_body.description = description;
-        await db('property_files').insert(property_body);
+    catch(err){
+        RouteHandleError(err, res);
     }
-    res.sendStatus(200);
 });
 
 router.get('/file/:file_id', async (req, res) => {
@@ -51,6 +56,17 @@ router.get('/file/:file_id', async (req, res) => {
         if(!file) throw 404;
 
         res.status(200).sendFile(uploadPath + file.filename);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.put('/file/:file_id', checkAuth, async (req, res) => {
+    try{
+        const {file_id} = req.params;
+        await db('event_files').where({id: file_id}).update(req.body);
+        res.sendStatus(200);
     }
     catch(err){
         RouteHandleError(err, res);

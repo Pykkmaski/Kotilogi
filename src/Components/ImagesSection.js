@@ -10,9 +10,10 @@ import EditFileInfoModal from './Modals/EditFileInfoModal';
 import Section from './Section';
 import EditButton from './Buttons/EditButton';
 import Button from './Buttons/Button';
+import UploadFile from '../Functions/UploadFile';
 
 function ImagesSection(props){
-    const {images, loadImages} = props;
+    const {images, loadImages, loadTarget} = props;
     const [editing, setEditing] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -25,7 +26,8 @@ function ImagesSection(props){
             title: e.target.title.value,
             description: e.target.description.value,
         }
-        Update(props.updateRoute + `/${selectedImage.current.id}`, body, () => loadImages());
+        const url = props.baseUrl + '/' + props.target.id + '/image/' + selectedImage.current.id;
+        Update(url, body, () => loadImages());
         setShowEditModal(false);
     }
 
@@ -40,7 +42,9 @@ function ImagesSection(props){
     }
 
     function confirmDelete(){
-        Delete(props.deleteRoute + `/${selectedImage.current.id}`, () => loadImages());
+        const url = props.baseUrl + '/image/' + selectedImage.current.id;
+        Delete(url, () => loadImages());
+        setShowDeleteModal(false);
     }
 
     function uploadImage(e){
@@ -60,7 +64,9 @@ function ImagesSection(props){
 
     function setMain(image){
         selectedImage.current = image;
-        Update(props.mainImageUpdateRoute, selectedImage.current.id, () => loadImages());
+        const url = props.baseUrl + '/' + props.target.id + '/image/main/';
+        Update(url, {image_id: selectedImage.current.id}, () => loadImages());
+        loadTarget();
     }
 
     return (
@@ -100,7 +106,7 @@ function ImagesSection(props){
                     title="Poista Kuva"
                     text="Oletko varma että haluat poistaa kuvan?"
 
-                    onCancel={() => setShowConfirmationModal(false)}
+                    onCancel={() => setShowDeleteModal(false)}
                     onConfirm={confirmDelete}
                 />
             </Section.Header>
