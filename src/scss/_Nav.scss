@@ -3,5 +3,6 @@ nav{
     flex-flow: column;
     a:active{
         color: $primary-color !important;
+        text-decoration: underline;
     }
 }

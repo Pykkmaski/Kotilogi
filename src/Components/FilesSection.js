@@ -10,6 +10,7 @@ import ConfirmModal from "./Modals/ConfirmModal";
 import Delete from '../Functions/Delete';
 import FileCard from "./Cards/FileCard";
 import EditFileInfoModal from "./Modals/EditFileInfoModal";
+import Update from "../Functions/Update";
 
 function FilesSection(props){
     const {files, loadFiles} = props;
