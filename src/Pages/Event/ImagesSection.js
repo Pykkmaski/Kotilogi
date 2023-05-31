@@ -15,10 +15,6 @@ function ImagesSection(props){
             images={images}
             loadImages={loadImages}
             baseUrl={'/api/images/events'}
-            uploadRoute={`/api/images/events/${event.id}`}
-            deleteRoute={`/api/images/events/${event.id}/image`}
-            updateRoute={`/api/images/events/${event.id}/image`}
-            mainImageUpdateRoute={`/api/images/events/${event.id}/main`}
         />
     )
 }
