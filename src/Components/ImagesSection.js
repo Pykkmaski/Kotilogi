@@ -51,7 +51,7 @@ function ImagesSection(props){
         e.preventDefault();
         e.target.submit_button.disabled = true;
 
-        const url = props.uploadRoute;
+        const url = props.baseUrl + `/${props.target.id}`;
         const file = e.target.image.files[0];
         const title = e.target.title.value;
         const descr = e.target.description.value;
