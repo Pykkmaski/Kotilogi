@@ -11,7 +11,7 @@ function Header(props){
     const [showModal, setShowModal] = useState(false);
     const mainImageUrl = `/api/images/events/image/${mainImageId}`;
 
-    const date = new Date(event.date).toLocaleDateString('fi-FI');
+    const date = new Date(event.date).toLocaleDateString('de-DE');
     
     return (
         <div className="event-header">
