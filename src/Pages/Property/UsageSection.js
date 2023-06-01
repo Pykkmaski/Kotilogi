@@ -29,10 +29,16 @@ function UsageSection(props){
         }
     };
 
+    const noData = {
+        text: 'Ei tietoja'
+    };
+
     const electricityOptions = {
         xaxis: {
             categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
         },
+
+        noData,
 
         dataLabels:{
             style:{
@@ -80,6 +86,8 @@ function UsageSection(props){
             }
         ],
 
+        noData,
+
         dataLabels: {
             formatter: globalFormatter,
         },
@@ -120,6 +128,8 @@ function UsageSection(props){
                 colors: ['#ff0']
             }
         ],
+
+        noData,
 
         dataLabels: {
             formatter: globalFormatter,
