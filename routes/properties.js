@@ -12,7 +12,7 @@ router.get('/', checkAuth, checkPropertyAuth, async (req, res) => {
     try{
         const {user, body} = req;
         const {property_id} = req.body;
-        const properties = !property_id ? await db('properties').where({owner: user.email}) : await db('properties').where({property_id});
+        const properties = !property_id ? await db('properties').where({owner: user.email}).orderBy('created_at', 'desc') : await db('properties').where({property_id});
         res.status(200).send(JSON.stringify(properties));
 
     }catch(err){
@@ -36,7 +36,7 @@ router.get('/:property_id', checkAuth, checkPropertyAuth, async (req, res) => {
 router.get('/:property_id/events', checkAuth, checkPropertyAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
-        const history = await db('property_events').where({property_id}).orderBy('date', 'asc');
+        const history = await db('property_events').where({property_id}).orderBy('date', 'desc');
         if(!history.length) throw 404;
 
         if(history[0].owner !== req.user.username) throw 403; //This will not work yet, as there is no owner field for property events entries.

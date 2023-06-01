@@ -20,18 +20,17 @@ function UsageSection(props){
     const chartType = 'bar';
 
     const electricityOptions = {
-        series: [
-            {
-                name: 'Hinta',
-                data: [],
-                colors: ['#ff0']
-            },
+        xaxis: {
+            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+        },
 
-            {
-                data: [],
-                colors: ['#ff0']
-            }
-        ],
+        fill:{
+            colors: ['#ff0'],
+        },
+
+        labels:{
+            colors: ['#000']
+        },
 
         chart: {
             height: 350,
@@ -69,6 +68,14 @@ function UsageSection(props){
             }
         ],
 
+        xaxis: {
+            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+        },
+
+        fill:{
+            colors: ['#00f'],
+        },
+
         chart: {
             height: 350,
             width: 850,
@@ -104,6 +111,14 @@ function UsageSection(props){
                 colors: ['#ff0']
             }
         ],
+
+        xaxis: {
+            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+        },
+
+        fill: {
+            colors: ['#f00'],
+        },
 
         chart: {
             height: 350,
@@ -171,7 +186,11 @@ function UsageSection(props){
                         <div id="charts">
                             <Chart
                                 type={chartType}
-                                series={[{data: usage.filter(u => u.type === 'electricity').map(d => d.price)}]}
+                                series={[{
+                                    name: 'Hinta',
+                                    data: usage.filter(u => u.type === 'electricity').map(d => d.price),
+                                    colors: ['#f00'],
+                                }]}
                                 width="800"
                                 height="350"
                                 options={electricityOptions}
