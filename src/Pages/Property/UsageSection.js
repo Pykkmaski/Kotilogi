@@ -19,9 +19,28 @@ function UsageSection(props){
 
     const chartType = 'bar';
 
+    const globalFormatter = (value, {seriesIndex, dataPointIndex, w}) => value + '€';
+
+    const chart = {
+        height: 350,
+        width: 850,
+        zoom: {
+          enabled: true
+        }
+    };
+
     const electricityOptions = {
         xaxis: {
             categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+        },
+
+        dataLabels:{
+            style:{
+                colors: ['#000'],
+                fontSize: '14px',
+            },
+
+            formatter: globalFormatter,
         },
 
         fill:{
@@ -32,14 +51,7 @@ function UsageSection(props){
             colors: ['#000']
         },
 
-        chart: {
-            height: 350,
-            width: 850,
-            /*type: 'line',*/
-            zoom: {
-              enabled: true
-            }
-        },
+        chart,
 
         stroke: {
             curve: 'straight',
@@ -68,6 +80,10 @@ function UsageSection(props){
             }
         ],
 
+        dataLabels: {
+            formatter: globalFormatter,
+        },
+
         xaxis: {
             categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
         },
@@ -76,14 +92,7 @@ function UsageSection(props){
             colors: ['#00f'],
         },
 
-        chart: {
-            height: 350,
-            width: 850,
-            /*type: 'line',*/
-            zoom: {
-              enabled: true
-            }
-        },
+       chart,
 
         stroke: {
             curve: 'straight',
@@ -112,6 +121,10 @@ function UsageSection(props){
             }
         ],
 
+        dataLabels: {
+            formatter: globalFormatter,
+        },
+
         xaxis: {
             categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
         },
@@ -120,14 +133,7 @@ function UsageSection(props){
             colors: ['#f00'],
         },
 
-        chart: {
-            height: 350,
-            width: 850,
-            /*type: 'line',*/
-            zoom: {
-              enabled: true
-            }
-        },
+        chart,
 
         stroke: {
             curve: 'straight',
@@ -198,7 +204,10 @@ function UsageSection(props){
 
                             <Chart
                                 type={chartType}
-                                series={[{ data: usage.filter(u => u.type === 'water').map(d => d.price)}]}
+                                series={[{ 
+                                    name: 'Hinta',
+                                    data: usage.filter(u => u.type === 'water').map(d => d.price)
+                                }]}
                                 width="800"
                                 height="350"
                                 options={waterOptions}
@@ -206,14 +215,15 @@ function UsageSection(props){
 
                             <Chart
                                 type={chartType}
-                                series={[{ data: usage.filter(u => u.type === 'heating').map(d => d.price)}]}
+                                series={[{ 
+                                    name: 'Hinta',
+                                    data: usage.filter(u => u.type === 'heating').map(d => d.price)
+                                }]}
                                 width="800"
                                 height="350"
                                 options={heatingOptions}
                             />
                         </div>
-                       
-
                     </Gallery.Body>
                 </Gallery>
                
