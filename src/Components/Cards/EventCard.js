@@ -8,7 +8,9 @@ function EventCard({event, editing, functions}){
     const {property} = useContext(PropertyContext);
     const eventMainImage = `/api/images/events/${event.id}/image/main`;
 
-    const date = new Date(event.date).toLocaleDateString('de-DE');
+    const type = typeof(event.date);
+    const time = type === 'string' ? parseInt(event.date) : event.date;
+    const date = new Date(time).toLocaleDateString('de-DE');
 
     return (
         <Card key={`event-card-${event.id}`}>
