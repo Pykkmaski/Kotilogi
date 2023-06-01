@@ -19,11 +19,22 @@ function UsageSection(props){
 
     const chartType = 'bar';
 
-    const globalFormatter = (value, {seriesIndex, dataPointIndex, w}) => value + '€';
+    const dataLabelFormatter = (value, {seriesIndex, dataPointIndex, w}) => value + '€';
+
+    const toolbar = {
+        show: true,
+
+        tools: {
+            download: true,
+            zoom: true,
+            pan: true,
+        }
+    }
 
     const chart = {
         height: 350,
         width: 850,
+        toolbar,
         zoom: {
           enabled: true
         }
@@ -44,13 +55,15 @@ function UsageSection(props){
         text: 'Ei tietoja.'
     };
 
+    
+
     const tooltip = {
         enabled: false,
     }
 
     const electricityOptions = {
         xaxis: {
-            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi-FI')),
         },
 
         noData,
@@ -64,7 +77,7 @@ function UsageSection(props){
                 fontSize: '14px',
             },
 
-            formatter: globalFormatter,
+            formatter: dataLabelFormatter,
         },
 
         fill:{
@@ -103,7 +116,7 @@ function UsageSection(props){
         yaxis,
 
         dataLabels: {
-            formatter: globalFormatter,
+            formatter: dataLabelFormatter,
         },
 
         xaxis: {
@@ -142,7 +155,7 @@ function UsageSection(props){
         yaxis,
 
         dataLabels: {
-            formatter: globalFormatter,
+            formatter: dataLabelFormatter,
         },
 
         xaxis: {
