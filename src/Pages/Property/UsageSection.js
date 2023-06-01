@@ -29,9 +29,24 @@ function UsageSection(props){
         }
     };
 
+    const yaxis = {
+        title: {
+            text: undefined,
+            rotate: 0,
+            offsetX: -5,
+            style: {
+                fontSize: '1.5rem'
+            }
+        },
+    }
+
     const noData = {
-        text: 'Ei tietoja'
+        text: 'Ei tietoja.'
     };
+
+    const tooltip = {
+        enabled: false,
+    }
 
     const electricityOptions = {
         xaxis: {
@@ -39,6 +54,9 @@ function UsageSection(props){
         },
 
         noData,
+        tooltip,
+        chart,
+        yaxis,
 
         dataLabels:{
             style:{
@@ -55,13 +73,6 @@ function UsageSection(props){
 
         labels:{
             colors: ['#000']
-        },
-
-        chart,
-
-        stroke: {
-            curve: 'straight',
-            colors: ['#ff0'],
         },
 
         title: {
@@ -87,6 +98,9 @@ function UsageSection(props){
         ],
 
         noData,
+        chart,
+        tooltip,
+        yaxis,
 
         dataLabels: {
             formatter: globalFormatter,
@@ -97,13 +111,6 @@ function UsageSection(props){
         },
 
         fill:{
-            colors: ['#00f'],
-        },
-
-       chart,
-
-        stroke: {
-            curve: 'straight',
             colors: ['#00f'],
         },
 
@@ -130,6 +137,9 @@ function UsageSection(props){
         ],
 
         noData,
+        chart,
+        tooltip,
+        yaxis,
 
         dataLabels: {
             formatter: globalFormatter,
@@ -140,13 +150,6 @@ function UsageSection(props){
         },
 
         fill: {
-            colors: ['#f00'],
-        },
-
-        chart,
-
-        stroke: {
-            curve: 'straight',
             colors: ['#f00'],
         },
 
