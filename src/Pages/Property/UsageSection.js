@@ -63,7 +63,10 @@ function UsageSection(props){
 
     const electricityOptions = {
         xaxis: {
-            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi-FI')),
+            categories: usage?.filter(u => u.type === 'electricity').map(d => {
+                console.log(d.time);
+                return new Date(d.time).toLocaleDateString('fi-FI')
+            }),
         },
 
         noData,
