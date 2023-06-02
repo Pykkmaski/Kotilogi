@@ -55,20 +55,33 @@ function UsageSection(props){
         text: 'Ei tietoja.'
     };
 
+    const dataLabelStyle = {
+        fontWeight: 300,
+    }
     
 
     const tooltip = {
         enabled: false,
     }
 
+    const processDate = (d) => {
+        const type = typeof(d.time);
+        return type === 'string' ? parseInt(d.time) : d.time;
+    }
+
+    function getCategories(usageFilter){
+        return usage?.filter(u => u.type === usageFilter).map(d => {
+            const time = processDate(d);
+            return new Date(time).toLocaleDateString('fi-FI')
+        });
+    }
+
     const electricityOptions = {
         xaxis: {
-            categories: usage?.filter(u => u.type === 'electricity').map(d => {
-                const type = typeof(d.time);
-                console.log(type);
-                const time = type === 'string' ? parseInt(d.time) : d.time;
-                return new Date(time).toLocaleDateString('fi-FI')
-            }),
+            categories: getCategories('electricity'),
+            labels:{
+                colors: ['#000'],
+            },
         },
 
         noData,
@@ -88,11 +101,7 @@ function UsageSection(props){
         fill:{
             colors: ['#ff0'],
         },
-
-        labels:{
-            colors: ['#000']
-        },
-
+       
         title: {
             text: 'Sähkö',
             align: 'left'
@@ -125,7 +134,7 @@ function UsageSection(props){
         },
 
         xaxis: {
-            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+            categories: getCategories('water')
         },
 
         fill:{
@@ -164,7 +173,7 @@ function UsageSection(props){
         },
 
         xaxis: {
-            categories: usage?.filter(u => u.type === 'electricity').map(d => new Date(d.time).toLocaleDateString('fi')),
+            categories: getCategories('heating')
         },
 
         fill: {
