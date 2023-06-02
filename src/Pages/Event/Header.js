@@ -11,7 +11,7 @@ function Header(props){
     const [showModal, setShowModal] = useState(false);
     const mainImageUrl = `/api/images/events/image/${mainImageId}`;
 
-    const time = typeof(d.time) === 'string' ? parseInt(d.time) : d.time;
+    const time = typeof(date.time) === 'string' ? parseInt(date.time) : date.time;
     const date = new Date(time).toLocaleDateString('fi-FI');
     
     return (

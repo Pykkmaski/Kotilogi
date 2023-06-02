@@ -19,12 +19,12 @@ function UploadUsageModal(props){
 
                     <Form.Group>
                         <Form.Label>Päivämäärä</Form.Label>
-                        <Form.Control type="date" name="time"></Form.Control>
+                        <Form.Control type="date" name="time" required={true}></Form.Control>
                     </Form.Group>
 
                     <Form.Group>
                         <Form.Label>Euromäärä</Form.Label>
-                        <Form.Control type="number" name="price"></Form.Control>
+                        <Form.Control type="number" name="price" min={0} step={0.01} required={true}></Form.Control>
                     </Form.Group>
 
                     <Form.ButtonGroup>

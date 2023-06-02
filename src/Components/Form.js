@@ -23,7 +23,7 @@ Form.SubLabel = SubLabel;
 
 const Control = (props) => {
     if(props.type === 'textarea'){
-        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue}/>
+        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue} required={props.required}/>
     }
     else{
         return <input 
@@ -34,6 +34,10 @@ const Control = (props) => {
             accept={props.accept} 
             defaultValue={props.defaultValue}
             placeholder={props.placeholder}
+            required={props.required}
+            min={props.min}
+            max={props.max}
+            step={props.step}
         />
     }
 }
