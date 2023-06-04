@@ -52,6 +52,13 @@ Form.ButtonGroup = ButtonGroup;
 const Error = (props) => <div className="form-error">{props.children}</div>
 Form.Error = Error;
 
+const BooleanSelector = (props) => <select name={props.name} disabled={props.disabled}>
+    <option value="" disabled={true} selected={true}>Valitse</option>
+    <option value="true" selected={true}>Kyllä</option>
+    <option value="false">Ei</option>
+</select>
+Form.BooleanSelector = BooleanSelector;
+
 const Spinner = (props) => <LoadingSpinner size={props.size} mesage={props.message}/>
 Form.Spinner = Spinner;
 

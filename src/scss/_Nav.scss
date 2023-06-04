@@ -1,8 +1,13 @@
 nav{
     display: flex;
     flex-flow: column;
-    a:active{
-        color: $primary-color !important;
-        text-decoration: underline;
+
+    a{
+        color: white;
+
+        &.active{
+            color: $primary-color !important;
+            text-decoration: underline;
+        } 
     }
 }

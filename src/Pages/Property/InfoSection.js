@@ -101,8 +101,80 @@ function PropertyInfoSection(props){
                 </Image>
                 <div className="info-group">
                     <header>
-                        <h2>Yleistiedot</h2>
+                        <h2>Rakennus</h2>
                     </header>
+
+                    <EditableField 
+                        label={"Energiatodistus"} 
+                        defaultValue={property?.address} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Ilmanvaihtojärjestelmä"} 
+                        defaultValue={property?.address} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Asuintilojen pinta-ala"} 
+                        defaultValue={property?.address} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Muut tilat"} 
+                        defaultValue={property?.address} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Kokonaispinta-ala"} 
+                        defaultValue={property?.address} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Lämmitysjärjestelmä"} 
+                        defaultValue={property?.heating_type} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.heating_type = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Kerroksia"} 
+                        defaultValue={property?.floor_count} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.floor_count = e.target.value;
+                        }}
+                    />
+
+                    <EditableField 
+                        label={"Huoneluku"} 
+                        defaultValue={property?.room_count} 
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.room_count = e.target.value;
+                        }}
+                    />
                     
                     <EditableField 
                         label={"Osoite"} 
@@ -155,6 +227,29 @@ function PropertyInfoSection(props){
                         editing={editing}
                         onChange={(e) => {
                             tempProperty.current.heating_type = e.target.value;
+                        }}
+                    />
+                </div>
+
+                <div className="info-group">
+                    <header>
+                        <h2>Osoitetiedot</h2>
+                    </header>
+                    <EditableField
+                        label={"Osoite"}
+                        defaultValue={property?.address}
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
+                        }}
+                    />
+
+                    <EditableField
+                        label={"Osoite"}
+                        defaultValue={property?.address}
+                        editing={editing}
+                        onChange={(e) => {
+                            tempProperty.current.address = e.target.value;
                         }}
                     />
                 </div>

@@ -12,7 +12,25 @@ function Property(props){
     const {property_id, section} = useParams();
     const [property, loadProperty] = useProperty(property_id);
 
+
     if(!property) return <Loading message="Ladataan Taloa..."/>
+
+    function toggleActive(e){
+        const targetClassList = e.target.classList;
+        const navbarLinks = document.querySelector('.nav-link');
+        
+        const className = 'active';
+        navbarLinks.foreach(item => item.classList.remove(className));
+        
+        const hasClass = targetClassList.contains(className);
+
+        if(hasClass){
+            targetClassList.remove(className);
+        }
+        else{
+            targetClassList.add(className);
+        }
+    }
 
     return (
         <PropertyContext.Provider value={{property, loadProperty}}>
@@ -21,11 +39,11 @@ function Property(props){
                     <div className="sidebar-group">
                         <div className="sidebar-title">Talon toiminnot</div>
                         <nav>
-                            <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/info`} title="Tarkastele talon tietoja">Tiedot</a>
-                            <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/events`} title="Tarkastele ja hallinnoi talon tapahtumia">Tapahtumat</a>
-                            <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/energy`} >Kulutus</a>
-                            <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/pictures`}>Kuvat</a>
-                            <a className="cursor-pointer nav-link" href={`/#/properties/${property_id}/files`}>Tiedostot</a>
+                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/info`} title="Tarkastele talon tietoja" >Tiedot</a>
+                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/events`} title="Tarkastele ja hallinnoi talon tapahtumia">Tapahtumat</a>
+                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/energy`} >Kulutus</a>
+                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/pictures`}>Kuvat</a>
+                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/files`}>Tiedostot</a>
                         </nav>
                     </div>
                     

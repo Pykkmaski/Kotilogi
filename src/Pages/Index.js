@@ -38,13 +38,20 @@ function Index(props){
                 
             </div>
 
-            <div className="page-element" id="home-page-footer">
-                <div id="main-links">
-                    <h2>Päälinkit</h2>
-                    <Link to="">Etusivu</Link>
-                    <Link to="">Tietoa</Link>
-                    <Link to="">Hinnasto</Link>
-                    <Link to="">Ota yhteyttä</Link>
+            <div className="group-column" id="home-page-footer">
+                <header>
+                    <h1>Ota Yhteyttä</h1>
+                </header>
+
+                <div className="group-column">
+                    <div className="footer-contact-info">
+                        <header>
+                            <h2>Jani Österberg</h2>
+                            <p>
+
+                            </p>
+                        </header>
+                    </div>
                 </div>
             </div>
         </div>

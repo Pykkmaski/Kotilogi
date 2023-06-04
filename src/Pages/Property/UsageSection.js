@@ -31,12 +31,22 @@ function UsageSection(props){
         }
     }
 
+    const dataPointSelection = (event, chartContext, config) => {
+        console.log(config.w.config.series[0]);
+        //console.log(config.w.config.series.data[config.dataPointIndex]);
+    }
+
     const chart = {
         height: 350,
         width: 850,
         toolbar,
+
         zoom: {
           enabled: true
+        },
+
+        events: {
+            dataPointSelection
         }
     };
 
@@ -68,6 +78,8 @@ function UsageSection(props){
         const type = typeof(d.time);
         return type === 'string' ? parseInt(d.time) : d.time;
     }
+
+    
 
     function getCategories(usageFilter){
         return usage?.filter(u => u.type === usageFilter).map(d => {

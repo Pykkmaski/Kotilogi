@@ -11,7 +11,7 @@ function ImagesSection(props){
     return (
         <ImageSection
             target={event}
-            loadTarget={() => {loadEvent(); loadMainImageId()}}
+            loadTarget={() => {loadMainImageId()}}
             images={images}
             loadImages={loadImages}
             baseUrl={'/api/images/events'}

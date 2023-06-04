@@ -6,11 +6,10 @@ A single usage data point does not display on the chart.
 
 TODO:
 Add information about the file, image, house or event about to be deleted to the confirmation modals.
-Prevent modal submissions while a previous request is pending.
 Add feedback for when something is being uploaded.
 Add functionality to delete a usage data point.
 Make the event main image update automatically when the first image is uploaded to it.
 Automatically choose another main image if the current one is deleted.
-Add title and description editing functionality to images and files.
 Change the editing to work through checkboxes and select elements.
+Implement procedural loading on all elements.
 

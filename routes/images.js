@@ -1,85 +1,47 @@
-const router = require('express').Router();
 const RouteHandleError = require('../Functions/RouteHandleError');
 const db = require('../dbconfig');
 const checkAuth = require('../middleware/checkAuth');
-const upload = require('../middleware/fileUpload');
-const {uploadPath} = require('../uploadsConfig');
+const router = require('express').Router();
+const imageMimeType = 'image/jpeg';
+const {uploadRoute} = require('../uploadsConfig');
 
-router.get('/', async (req, res) => {
-    try{
+router.get('/', checkAuth, async (req, res) => {
+    try{    
         const {target, target_id, image_id} = req.query;
-        var image;
-        if(target === 'property'){
-            
-            image = image_id === 'main' ?
-            await db('property_files').where({main: true}).first() :
-            await db('property_files').where({id: image_id});
 
+        if(target === 'property'){
+            var query = {
+                property_id : target_id,
+                mimeType: imageMimeType,
+            }
+
+            if(image_id === 'main'){
+                query.main = true;
+            }
+            else{
+                query.id = image_id
+            }
+
+            const image = await db('property_files').where(query).first();
+            if(!image) throw 404;
+            res.status(200).sendFile(uploadRoute + image.filename);
         }
         else if(target === 'event'){
-            image = image_id === 'main' ?
-            await db('event_files').where({event_id: target_id, main: true}).first() :
-            await db('event_files').where({event_id: target_id, id: image_id});
-        }
+            var query = {
+                event_id: target_id,
+                mimeType: imageMimeType,
+            }
 
-        if(!image) throw 404;
+            if(image_id === 'main'){
+                query.main = true;
+            }
+            else{
+                query.id = image_id;
+            }
 
-        res.status(200).sendFile(uploadPath + image.filename);
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
-});
-
-router.post('/', checkAuth, upload.single('image'), async (req, res) => {
-    try{
-        const {event_body, property_body} = req;
-        if(property_body){
-            await db('property_files').insert(property_body);
-        }
-        else if(event_body){
-            await db('event_files').insert(event_body);
-        }
-        else{
-            throw new Error('No property or event body present in image upload!');
-        }
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
-});
-
-router.put('/', checkAuth, async (req, res) => {
-    try{
-        const {event_body, property_body} = req;
-        const {image_id} = req.body;
-
-        if(property_body){
-            await db('property_files').where({id: image_id}).update(property_body);
-        }
-        else if(event_body){
-            await db('event_files').where({id: image_id}).update(event_body);
-        }
-        else{
-            throw new Error('No property or event body present on image data update!');
-        }
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
-});
-
-router.delete('/', checkAuth, async(req, res) => {
-    try{
-        const {image_id, target} = req.body;
-        if(target === 'property'){
-            await db('property_files').where({mime_type: 'image/jpeg', id: image_id}).del();
-        }
-        else if(target === 'event'){
-            await db('event_files').where({mime_type: 'image/jpeg', id: image_id}).del();
-        }
-        else{
-            throw new Error('Invalid target provided!' + `(${target})`);
+            const image = await db('event_files').where(query).first();
+            if(!image) throw 404;
+            res.status(200).sendFile(uploadRoute + image.filename);
         }
     }
     catch(err){

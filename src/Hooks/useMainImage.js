@@ -1,23 +1,24 @@
 const { default: axios } = require("axios");
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 function useMainImage({property_id, event_id}){
     if(property_id && event_id) throw new Error('useMainImage: property_id and event_id cannot be defined at once!');
     const [id, setId] = useState(null);
 
+    const args = useRef({property_id, event_id});
+
     function loadMainImage(){
         var url;
-        if(property_id){
-            url = `/api/images/properties/${property_id}main`;
+        if(args.current.property_id){
+            url = `/api/images/properties/${args.current.property_id}main`;
         }
-        else if(event_id){
-            url = `/api/images/events/${event_id}/id/main/`
+        else if(args.current.event_id){
+            url = `/api/images/events/${args.current.event_id}/id/main/`
         }
 
         axios.get(url)
         .then(res => {
             const data = res.data;
-            console.log(data);
             setId(data);
         })
         .catch(err => {
@@ -28,7 +29,7 @@ function useMainImage({property_id, event_id}){
 
     useEffect(() => {
         loadMainImage();
-    }, [property_id, event_id]);
+    }, [args.current]);
 
     return [id, loadMainImage];
 }
