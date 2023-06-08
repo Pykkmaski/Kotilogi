@@ -6,6 +6,12 @@ form{
     min-width: 24rem;
     gap: 1rem;
 
+    fieldset{
+        display: inherit;
+        flex-flow: column;
+        gap: 1.5rem;
+    }
+
     .form-title{
         font-size: 3rem;
         color: black;
@@ -31,6 +37,13 @@ form{
     .form-spinner{
         display: flex;
         justify-content: center;
+    }
+
+    .horizontal-groups{
+        .form-group{
+            flex-flow: row !important;
+            gap: 1rem !important;
+        }
     }
     
 }

@@ -8,10 +8,11 @@ module.exports = {
     tokenStorageKey : 'digikoti_token',
     userStorageKey: 'digikoti_user',
     serviceName : 'Kotilogi',
+
     serverTimeoutMessage : {
         "fi" : "Palvelin ei vastaa. Yritä hetken kuluttua uudelleen.",
     },
-    heatingTypeString : {
+    heatingTypes : {
         "title" : {
             "fi" : "Lämmitystyyppi",
             "en" : "Heating type"
@@ -31,6 +32,17 @@ module.exports = {
             "fi" : "Öljy",
             "en" : "Oil"
         }
+    },
+
+    buildingMaterials:{
+        "wood": {
+            "fi": "Puu",
+            "en": "Wood",
+        },
+        "concrete":{
+            "fi": "Betoni",
+            "en": "Concrete"
+        },
     },
 
     routeImages: `/${routeApiPortion}/${routeImagesPortion}`,

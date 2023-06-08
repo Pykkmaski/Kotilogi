@@ -1,12 +1,15 @@
 import useSubComponents from "../Hooks/useSubComponents";
 import LoadingSpinner from "./Spinner";
+import useClassName from "../Hooks/useClassName";
 
 function Form(props){
+    const className = useClassName(null, props.className);
     const subComponents = useSubComponents(Object.keys(Form), props);
+    
     return (
-        <form onSubmit={props.onSubmit}>
+        <form className={className} onSubmit={props.onSubmit} id={props.id}>
             {
-                subComponents.map((component) => component)
+                props.children
             }
         </form>
     )
@@ -22,7 +25,18 @@ const SubLabel = (props) => <div className="form-sub-label">{props.children}</di
 Form.SubLabel = SubLabel;
 
 const Control = (props) => {
-    if(props.type === 'textarea'){
+    if(props.type === 'select'){
+        const subComponents = useSubComponents(Object.keys(Control), props);
+
+        return (
+            <select name={props.name} disabled={props.disabled}>
+                {
+                   props.children
+                }
+            </select>
+        )
+    }
+    else if(props.type === 'textarea'){
         return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue} required={props.required}/>
     }
     else{
@@ -42,6 +56,15 @@ const Control = (props) => {
     }
 }
 Form.Control = Control;
+
+const Fieldset = (props) => <fieldset disabled={props.disabled}>{props.children}</fieldset>
+Form.Fieldset = Fieldset;
+
+const Legend = (props) => <legend>{props.children}</legend>
+Form.Legend = Legend;
+
+const Option = (props) => <option value={props.value} selected={props.selected}>{props.children}</option>
+Form.Option = Option;
 
 const Group = (props) => <div className="form-group">{props.children}</div>
 Form.Group = Group;

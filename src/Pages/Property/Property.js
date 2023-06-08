@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import EventsSection from "./EventsSection";
 import ImagesSection from "./ImagesSection";
 import FilesSection from './FilesSection';
-import InfoSection from "./InfoSection";
+import InfoSection from "./InfoSection/InfoSection";
 import useProperty from '../../Hooks/useProperty';
 import Loading from '../Loading';
 import PropertyContext from "../../Contexts/PropertyContext";
