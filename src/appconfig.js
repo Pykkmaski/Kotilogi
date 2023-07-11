@@ -12,26 +12,13 @@ module.exports = {
     serverTimeoutMessage : {
         "fi" : "Palvelin ei vastaa. Yritä hetken kuluttua uudelleen.",
     },
-    heatingTypes : {
-        "title" : {
-            "fi" : "Lämmitystyyppi",
-            "en" : "Heating type"
-        },
 
-        "central" : {
-            "fi" : "Kaukolämpö",
-            "en" : "Central"
-        },
-
-        "electric" : {
-            "fi" : "Sähkö",
-            "en" : "Electric"
-        },
-
-        "oil" : {
-            "fi" : "Öljy",
-            "en" : "Oil"
-        }
+    heatingTypeNames: {
+        ilmaLampoPumppu: 'ilmalampopumppu',
+        maalampo: 'maalampo',
+        takka: 'takka',
+        kaukolampo: 'kaukolampo',
+        vilp: 'vilp',
     },
 
     buildingMaterials:{

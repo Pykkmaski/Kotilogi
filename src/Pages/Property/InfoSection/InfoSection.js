@@ -39,6 +39,34 @@ function PropertyInfoSection(props){
     function onSubmitHandler(e){
         e.preventDefault();
         console.log('submitting...');
+
+        const data = {
+            type: e.target.type.value,
+            build_permission: e.target.build_permission.value,
+            building_material: e.target.building_material.value,
+            build_year: e.target.build_year.valueAsNumber,
+            color: e.target.color.value,
+            zip_code: e.target.zip_code.value,
+            living_area: e.target.living_area.value,
+            other_area: e.target.other_area.value,
+
+            yard_area: e.target.yard_area.value,
+            yard_ownership: e.target.yard_ownership.value,
+
+            primary_heating_system: e.target.primary_heating_system.value,
+            secondary_heating_system: e.target.secondary_heating_system.value,
+
+            energy_class: e.target.energy_class.value,
+
+            roof_type: e.target.roof_type.value,
+            roof_material: e.target.roof_material.value,
+
+            floor_count: e.target.floor_count.value,
+            wc_count: e.target.wc_count.value,
+            room_count: e.target.room_count.value,
+        }
+
+        Update(`/api/properties/${property.id}`, data, () => loadProperty());
         setEditing(false);
     }
 
@@ -66,7 +94,7 @@ function PropertyInfoSection(props){
     tempProperty.current = property;
 
     return (
-        <Section>
+        <Section data-test-id="info-section">
             <Section.Header>
                 <div className="label-heading">
                     <span className="label">{property.address}</span>

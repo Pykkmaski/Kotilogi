@@ -1,13 +1,16 @@
 #property-page{
     display: flex;
     flex-flow: row;
+    width: 100%;
+    position: relative;
 }
 
 #property-page-content{
     display: flex;
-    justify-content: center;
+    flex-flow: column;
     padding: 1rem;
     width: 100%;
+    background-size: cover;
 }
 
 #property-main-image{

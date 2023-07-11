@@ -23,6 +23,9 @@
 @import './Error';
 @import './Toast';
 @import './Chart';
+@import './Fieldset';
+@import './Login';
+@import './Signup';
 
 *{
     box-sizing: border-box;
@@ -94,6 +97,15 @@ body, #root{
     width: 100vw;
     height: 500px;
     z-index: -1;
+}
+
+.bg-blur{
+    position: absolute;
+    top: 0;
+    backdrop-filter: blur(5px);
+    height: 100%;
+    width: 100%;
+    z-index: 0;
 }
 
 .px-10{

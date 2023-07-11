@@ -3,6 +3,9 @@
     flex-flow: column;
     width: 100%;
 
+    background: url('../img/events-bg.jpg');
+    background-position: fixed;
+    
     .property-events-header{
         display: inherit;
         flex-flow: row;

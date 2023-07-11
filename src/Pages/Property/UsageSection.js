@@ -47,7 +47,9 @@ function UsageSection(props){
 
         events: {
             dataPointSelection
-        }
+        },
+
+        background: '#fff',
     };
 
     const yaxis = {

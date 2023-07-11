@@ -52,6 +52,7 @@ const Control = (props) => {
             min={props.min}
             max={props.max}
             step={props.step}
+            onInput={props.onInput}
         />
     }
 }

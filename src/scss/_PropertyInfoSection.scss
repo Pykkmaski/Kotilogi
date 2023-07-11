@@ -104,3 +104,15 @@
         }
     }
 }
+
+#info-form{
+    min-width: 50rem !important;
+
+    output{
+        font-size: 1.25rem;
+        color: $secondary-color;
+    }
+    select{
+        background: white;
+    }
+}

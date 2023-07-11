@@ -1,7 +1,8 @@
 .event-page{
     display: flex;
     flex-flow: column;
-
+    width: 100%;
+    
     .event-header, .event-body{
         padding: 1rem;
     }

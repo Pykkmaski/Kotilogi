@@ -35,6 +35,7 @@ function Property(props){
     return (
         <PropertyContext.Provider value={{property, loadProperty}}>
             <div id="property-page" data-testid="property-page">
+                <div className="bg-blur"></div>
                 <div className="sidebar">
                     <div className="sidebar-group">
                         <div className="sidebar-title">Talon toiminnot</div>

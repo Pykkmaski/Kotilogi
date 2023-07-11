@@ -1,0 +1,11 @@
+#login-page{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: relative;
+    background: url('../img/login-bg.jpg');
+    background-size: cover;
+    background-position: fixed;
+}

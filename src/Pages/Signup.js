@@ -81,7 +81,8 @@ function Signup(props){
         */
 
     return (
-        <div className="d-flex flex-column align-items-center">
+        <div id="signup-page">
+            <div className="bg-blur"></div>
             <form onSubmit={onSubmitHandler} className="animated">
                 <div className="form-title">Luo Tili</div>
 

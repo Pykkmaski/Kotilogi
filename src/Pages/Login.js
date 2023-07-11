@@ -34,7 +34,8 @@ function Login(props){
     }
    
     return (
-        <div className="d-flex flex-column align-items-center">
+        <div id="login-page">
+            <div className="bg-blur"></div>
             <form onSubmit={onSubmitHandler} className="animated">
                 <div className="form-title">Kirjaudu Sisään</div>
                 <div className="form-group">

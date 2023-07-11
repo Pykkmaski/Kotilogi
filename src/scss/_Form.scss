@@ -1,11 +1,16 @@
 @import './Animations';
+@import './Config';
 
 form{
     display: flex;
     flex-flow: column;
-    min-width: 24rem;
+    min-width: 30rem;
     gap: 1rem;
-
+    z-index: 1;
+    background: $form-color;
+    padding: 1rem;
+    border-radius: 10px;
+    
     fieldset{
         display: inherit;
         flex-flow: column;
@@ -14,7 +19,7 @@ form{
 
     .form-title{
         font-size: 3rem;
-        color: black;
+        color: $secondary-color;
         width: inherit;
         display: inherit;
         justify-content: center;

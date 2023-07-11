@@ -4,12 +4,12 @@
  */
 
 const tableName = 'properties';
-const columnName = 'building_material';
+const columnName = 'heating_type';
 
 exports.up = function(knex) {
   return knex.schema.table(tableName, tbl => {
-    tbl.string(columnName);
-  });
+    tbl.dropColumn(columnName);
+});
 };
 
 /**
@@ -18,6 +18,6 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema.table(tableName, tbl => {
-    tbl.dropColumn(columnName);
+    tbl.string(columnName);
   })
 };

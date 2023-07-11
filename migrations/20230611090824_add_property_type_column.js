@@ -4,12 +4,10 @@
  */
 
 const tableName = 'properties';
-const columnName = 'building_material';
+const columnName = 'type';
 
 exports.up = function(knex) {
-  return knex.schema.table(tableName, tbl => {
-    tbl.string(columnName);
-  });
+  return knex.schema.table(tableName, tbl => tbl.string(columnName));
 };
 
 /**
@@ -17,7 +15,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.table(tableName, tbl => {
-    tbl.dropColumn(columnName);
-  })
+  return knex.schema.table(tableName, tbl => tbl.dropColumn(columnName));
 };

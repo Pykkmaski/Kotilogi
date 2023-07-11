@@ -4,12 +4,12 @@
  */
 
 const tableName = 'properties';
-const columnName = 'building_material';
+const columnName = 'build_permission';
 
 exports.up = function(knex) {
   return knex.schema.table(tableName, tbl => {
     tbl.string(columnName);
-  });
+  })
 };
 
 /**
