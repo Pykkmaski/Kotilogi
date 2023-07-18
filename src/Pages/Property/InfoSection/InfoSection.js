@@ -16,6 +16,7 @@ import HeatingFieldset from './FormFieldsets/HeatingFieldset';
 
 function PropertyInfoSection(props){
 
+    //kalja
     const {property, loadProperty} = useContext(PropertyContext);
     const [editing, setEditing] = useState(false);
     const [showSubmitEditsModal, setShowSubmitEditsModal] = useState(false);
@@ -113,7 +114,7 @@ function PropertyInfoSection(props){
                         <button className="primary" onClick={() => setEditing(true)}>Muokkaa</button>
                     }
                 </div>
-
+                
                 <ConfirmModal
                     showModal={showSubmitEditsModal}
                     setShowModal={setShowSubmitEditsModal}
