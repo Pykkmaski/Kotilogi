@@ -2,9 +2,13 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+
+const tableName = 'users';
+const columnName = 'active';
+
 exports.up = function(knex) {
-  return knex.schema.table('users', tbl => {
-    tbl.boolean('active').defaultTo(false);
+  return knex.schema.table(tableName, tbl => {
+    tbl.boolean(columnName).defaultTo(false);
   });
 };
 
@@ -13,7 +17,7 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schea.table('users', tbl => {
-    tbl.dropColumn('active');
+  return knex.schea.table(tableName, tbl => {
+    tbl.dropColumn(columnName);
   });
 };
