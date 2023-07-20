@@ -1,9 +1,23 @@
 const router = require('express').Router();
 const db = require('../dbconfig');
 const RouteHandleError = require('../Functions/RouteHandleError');
+const nodemailer = require('nodemailer');
 
-router.post('/password', checkAuth, async (req, res) => {
+const transport = nodemailer.createTransport({
+    service: 'gmail',
+    user: process.env.SERVICE_EMAIL_ADDRESS,
+    pass: process.env.SERVICE_EMAIL_PASSWORD,
+})
+
+router.post('/password', async (req, res) => {
     try{
+        
+        const {email} = req.body;
+        console.log('Received password reset request for email ' + email);
+        const user = await db('users').where({email}).first();
+        if(!user) throw 404;
+        
+        res.sendStatus(200);
         
     }
     catch(err){

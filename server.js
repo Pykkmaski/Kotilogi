@@ -37,5 +37,8 @@ app.use('/api/usage', usageRouter);
 const imagesRouter = require('./routes/images.js');
 app.use('/api/images/', imagesRouter);
 
+const resetRouter = require('./routes/reset.js');
+app.use('/api/reset', resetRouter);
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
