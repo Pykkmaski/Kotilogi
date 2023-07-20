@@ -2,6 +2,7 @@ const router = require('express').Router();
 const db = require('../dbconfig');
 const RouteHandleError = require('../Functions/RouteHandleError');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const transport = nodemailer.createTransport({
     service: 'gmail',
@@ -17,6 +18,8 @@ router.post('/password', async (req, res) => {
         const user = await db('users').where({email}).first();
         if(!user) throw 404;
         
+        const resetCode = crypto.randomBytes(8).toString('hex');
+        console.log(resetCode);
         res.sendStatus(200);
         
     }
