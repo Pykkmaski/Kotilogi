@@ -3,7 +3,7 @@ import LoadingSpinner from "./Spinner";
 import useClassName from "../Hooks/useClassName";
 
 function Form(props){
-    const className = useClassName(null, props.className);
+    const {className} = useClassName(null, props.className);
     const subComponents = useSubComponents(Object.keys(Form), props);
     
     return (

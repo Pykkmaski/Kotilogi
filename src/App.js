@@ -16,6 +16,7 @@ import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import ResetPassword from './Pages/ResetPassword';
 
 function App(props){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
@@ -42,6 +43,7 @@ function App(props){
                             <Route exact path="/properties/:property_id/:section" element={<Property/>}></Route>
                             <Route exact path="/properties/:property_id/events/:event_id/:section" element={<Event/>}></Route>
                             <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
+                            <Route exact path="/reset/password" element={<ResetPassword/>}></Route>
                             <Route exact path="*" element={<Unknown/>}></Route>
                         </Routes>
                     </div>
