@@ -5,16 +5,21 @@ import {useState} from 'react';
 
 function EmailForm(props){
 
+    const [error, setError] = useState(0);
+    const [loading, setLoading] = useState(false);
+
     function onSubmitHandler(e){
         e.preventDefault();
+        setLoading(true);
 
         axios.post('/api/reset/password', {
             email: e.target.email.value
         })
         .then(res => {
-            props.setError(0);
+            setError(0);
         })
-        .catch(err => props.setError(err.response.status));
+        .catch(err => setError(err.response.status))
+        .finally(() => setLoading(false));
     }
 
     return (
@@ -29,8 +34,10 @@ function EmailForm(props){
                 <button className="primary" type="submit">Lähetä Nollauskoodi</button> 
             </Form.ButtonGroup>
 
+            <Form.Spinner visible={loading} size="2rem"></Form.Spinner> 
+
             {
-                props.error === 404 ? 
+                error === 404 ? 
                 <Form.Error>Tiliä tällä sähköpostiosoitteella ei ole!</Form.Error>
                 :
                 <></>
@@ -38,12 +45,36 @@ function EmailForm(props){
         </Form>
     )
 }
+
+function ResetCodeForm({email}){
+    const [error, setError] = useState(0);
+    const [loading, setLoading] = useState(false);
+
+    function onSubmitHandler(e){
+        e.preventDefault();
+        setLoading(true);
+
+    }
+
+    return (
+        <Form onSubmit={onSubmitHandler} className="animated">
+            <Form.Group>
+                <Form.Label>Anna Salasanan Nollauskoodi</Form.Label>
+                <Form.Control name="reset_code"></Form.Control>
+            </Form.Group>
+
+            <Form.ButtonGroup>
+                <button type="submit">Lähetä</button>
+            </Form.ButtonGroup>
+            <Form.Spinner visible={props.loading} size="1rem"></Form.Spinner>
+        </Form>
+    );
+}
+
 function ResetPassword(props){
 
-    const [error, setError] = useState(0);
     const [step, setStep] = useState(0) //0 for asking for the email, 1 for asking for the reset code, 2 for new password input.
     
-    console.log(error);
     return (    
         <div id="reset-password-page">
             {
