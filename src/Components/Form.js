@@ -83,7 +83,7 @@ const BooleanSelector = (props) => <select name={props.name} disabled={props.dis
 </select>
 Form.BooleanSelector = BooleanSelector;
 
-const Spinner = (props) => <LoadingSpinner size={props.size} message={props.message}/>
+const Spinner = (props) => { props.visible ? <LoadingSpinner size={props.size} message={props.message}/> : null }
 Form.Spinner = Spinner;
 
 export default Form;
