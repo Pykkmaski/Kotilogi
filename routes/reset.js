@@ -26,7 +26,6 @@ router.post('/password', async (req, res) => {
         if(!user) throw 404;
         
         const resetCode = crypto.randomBytes(8).toString('hex');
-        
         transport.sendMail({
             from: {
                 name: 'Kotilogi',

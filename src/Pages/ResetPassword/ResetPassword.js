@@ -12,11 +12,14 @@ function EmailForm(props){
         e.preventDefault();
         setLoading(true);
 
-        axios.post('/api/reset/password', {
+        axios.post('/api/users/reset/password', {
             email: e.target.email.value
         })
         .then(res => {
+            console.log('kalja');
             setError(0);
+            props.setEmail(e.target.email.value);
+            props.setStep(1);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
@@ -24,7 +27,6 @@ function EmailForm(props){
 
     return (
         <Form onSubmit={onSubmitHandler}>
-            <h1>Nollaa Salasana</h1>
             <Form.Group>
                 <Form.Label>Anna Sähköpostiosoitteesi</Form.Label>
                 <Form.Control type="email" name="email"></Form.Control>
@@ -34,7 +36,9 @@ function EmailForm(props){
                 <button className="primary" type="submit">Lähetä Nollauskoodi</button> 
             </Form.ButtonGroup>
 
-            <Form.Spinner visible={loading} size="2rem"></Form.Spinner> 
+            {
+                loading ? <Form.Spinner size="2rem"></Form.Spinner> : <></>
+            }
 
             {
                 error === 404 ? 
@@ -54,6 +58,16 @@ function ResetCodeForm({email}){
         e.preventDefault();
         setLoading(true);
 
+        axios.post('/api/users/reset/password/code', {
+            email,
+            reset_code: e.target.reset_code.value,
+        })
+        .then(res => {
+            setError(0);
+            setStep(2);
+        })
+        .catch(err => setError(err.response.status))
+        .finally(() => setLoading(false));
     }
 
     return (
@@ -66,7 +80,16 @@ function ResetCodeForm({email}){
             <Form.ButtonGroup>
                 <button type="submit">Lähetä</button>
             </Form.ButtonGroup>
-            <Form.Spinner visible={props.loading} size="1rem"></Form.Spinner>
+
+            {
+                loading ? <Form.Spinner size="2rem"></Form.Spinner> : <></>
+            }
+            
+            {
+                error === 403 ? <Form.Error>Nollauskoodia ei hyväksytty!</Form.Error>
+                :
+                <></>
+            }
         </Form>
     );
 }
@@ -74,15 +97,17 @@ function ResetCodeForm({email}){
 function ResetPassword(props){
 
     const [step, setStep] = useState(0) //0 for asking for the email, 1 for asking for the reset code, 2 for new password input.
-    
+    const [email, setEmail] = useState(null);
+
     return (    
         <div id="reset-password-page">
+            <h1>Nollaa Salasana</h1>
             {
-                step === 0 ? <EmailForm/>
+                step === 0 ? <EmailForm setStep={setStep} setEmail={setEmail}/>
                 :
-                step === 1 ? <ResetCodeForm/>
+                step === 1 ? <ResetCodeForm setStep={setStep} email={email}/>
                 :
-                step === 2 ? <PasswordForm/>
+                step === 2 ? <PasswordForm setStep={setStep}/>
                 :
                 null
             }

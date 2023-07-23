@@ -1,6 +1,7 @@
 const RouteHandleError = require('../Functions/RouteHandleError');
 const crypto = require('crypto');
 const router = require('express').Router();
+const db = require('../dbconfig');
 
 router.post('/reset/password', async (req, res) => {
     try{
@@ -8,36 +9,24 @@ router.post('/reset/password', async (req, res) => {
         if(!(await db('users').where({email}).first())) throw 404;
 
         const nodemailer = require('nodemailer');
-        const transport = nodemailer.createTransport({
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.SERVICE_EMAIL_ADDRESS,
-                pass: process.env.SERVICE_EMAIL_PASSWORD,
-            },
-            tls : { rejectUnauthorized: false }
-        });
+        const {transportOptions} = require('../nodemailer.config');
+        const transport = nodemailer.createTransport(transportOptions);
 
         const resetCode = crypto.randomBytes(8).toString('hex');
-
-        transport.sendMail({
-            from: {
-                user: process.env.SERVICE_EMAIL_ADDRESS,
-            },
+        console.log(resetCode);
+        const passwordResetContent = `
+            <span>Olet pyytänyt salasanasi nollausta. Jos et tehnyt tätä, voit jättää tämän viestin huomioimatta.</span></br>
+            <span>Kopioi ja liitä alla oleva koodi sille varattuun kenttään 30min kuluessa.</span></br>
+            <h1>${resetCode}</h1>
+        `
+        const info  = await transport.sendMail({
+            from: process.env.SERVICE_EMAIL_ADDRESS,
             to: email,
+            subject: 'Salasanan nollaus',
+            html: passwordResetContent,
+        });
 
-            subject: 'Salasanan Nollauskoodi',
-            text: 'Olet pyytänyt tilisi salasanan nollausta. Jos et tehnyt tätä, jätä tämä viesti huomioimatta. Syötä alla oleva koodi sille varattuun kenttään 30min kuluessa.',
-            html: `<h1>${resetCode}</h1>`,
-            
-        }, (err) => {
-            if(err){
-                console.log('Sending of password reset code to ' + email + ' failed!', err);
-                res.sendStatus(500);
-            }
-        })
+        res.sendStatus(200);
 
     }
     catch(err){
