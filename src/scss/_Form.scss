@@ -31,12 +31,16 @@ form{
         justify-content: center;
     }
 
-    .form-error{
+    .form-error, .form-success{
         display: inherit;
         justify-content: center;
         color: $danger-color;
 
         @include SlideUpAnimation;
+    }
+
+    .form-success{
+        color: $success-color !important;
     }
 
     .form-spinner{

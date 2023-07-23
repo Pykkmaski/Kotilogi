@@ -76,6 +76,9 @@ Form.ButtonGroup = ButtonGroup;
 const Error = (props) => <div className="form-error">{props.children}</div>
 Form.Error = Error;
 
+const Success = (props) => <div className="form-success">{props.children}</div>
+Form.Success = Success;
+
 const BooleanSelector = (props) => <select name={props.name} disabled={props.disabled}>
     <option value="" disabled={true} selected={true}>Valitse</option>
     <option value="true" selected={true}>Kyllä</option>
