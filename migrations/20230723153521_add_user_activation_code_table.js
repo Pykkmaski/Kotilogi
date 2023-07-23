@@ -7,6 +7,7 @@ const tableName = 'user_activation_codes';
 const columnNames = {
     user : 'user',
     activationCode: 'activation_code',
+    createdAt: 'created_at',
 }
 
 exports.up = function(knex) {
@@ -14,6 +15,7 @@ exports.up = function(knex) {
     tbl.increments('id');
     tbl.string(columnNames.user).references('email').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
     tbl.string(columnNames.activationCode).notNullable();
+    tbl.bigInteger(columnNames.createdAt).defaultTo(new Date().getTime());
   })
 };
 
