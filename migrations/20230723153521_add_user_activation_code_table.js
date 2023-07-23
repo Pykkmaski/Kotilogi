@@ -3,18 +3,18 @@
  * @returns { Promise<void> }
  */
 
-const tableName = 'password_reset_codes';
+const tableName = 'user_activation_codes';
 const columnNames = {
-    user: 'user',
-    resetCode: 'reset_code'
+    user : 'user',
+    activationCode: 'activation_code',
 }
 
 exports.up = function(knex) {
   return knex.schema.createTable(tableName, tbl => {
     tbl.increments('id');
     tbl.string(columnNames.user).references('email').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
-    tbl.string(columnNames.resetCode).notNullable();
-  });
+    tbl.string(columnNames.activationCode).notNullable();
+  })
 };
 
 /**
