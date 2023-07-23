@@ -14,7 +14,7 @@ exports.up = function(knex) {
   return knex.schema.createTable(tableName, tbl => {
     tbl.increments('id');
     tbl.string(columnNames.user).references('email').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
-    tbl.string(columnNames.activationCode).notNullable();
+    tbl.string(columnNames.activationCode).unique().notNullable();
     tbl.bigInteger(columnNames.createdAt).defaultTo(new Date().getTime());
   })
 };
