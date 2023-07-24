@@ -15,7 +15,14 @@ async function sendResetCode(req, res){
         const transport = nodemailer.createTransport(transportOptions);
 
         const resetCode = crypto.randomBytes(8).toString('hex');
-        
+        await db('password_reset_codes').insert({
+            user: email,
+            reset_code: resetCode,
+            created_at: new Date().getTime(),
+        })
+        .onConflict('user')
+        .merge(['reset_code', 'created_at']);
+
         const passwordResetContent = `
             <span>Olet pyytänyt salasanasi nollausta. Jos et tehnyt tätä, voit jättää tämän viestin huomioimatta.</span></br>
             <span>Kopioi ja liitä alla oleva koodi sille varattuun kenttään 30min kuluessa.</span></br>

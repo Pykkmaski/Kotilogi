@@ -29,7 +29,7 @@ function EmailForm(props){
     }
 
     return (
-        <Form onSubmit={onSubmitHandler}>
+        <Form onSubmit={onSubmitHandler} className="animated">
             <Form.Group>
                 <Form.Label>Anna Sähköpostiosoitteesi</Form.Label>
                 <Form.Control type="email" name="email"></Form.Control>
@@ -81,6 +81,7 @@ function ResetCodeForm({email, setStep}){
     }
 
     useEffect(() => {
+        //Automatically step back to asking for the email address when a provided code has expired.
         if(error === 410) setTimeout(() => setStep(0), stepTransitionDelay);
     }, [error]);
 
@@ -120,7 +121,7 @@ function PasswordForm({setStep, email}){
         e.preventDefault();
         setLoading(true);
 
-        axios.post('/api/users/password', {
+        axios.post('/api/users/reset/password', {
             step: 2,
             password1: e.target.password1.value,
             password2: e.target.password2.value,
