@@ -39,9 +39,9 @@ function PropertyInfoSection(props){
 
     function onSubmitHandler(e){
         e.preventDefault();
-        console.log('submitting...');
 
         const data = {
+            address: e.target.address.value,
             type: e.target.type.value,
             build_permission: e.target.build_permission.value,
             building_material: e.target.building_material.value,

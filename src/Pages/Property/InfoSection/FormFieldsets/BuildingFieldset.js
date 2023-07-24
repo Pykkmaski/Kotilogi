@@ -14,6 +14,11 @@ function BuildingFieldset(props){
             <Form.Legend>Rakennus</Form.Legend>
 
             <Form.Group>
+                <Form.Label>Osoite</Form.Label>
+                <Form.Control type="text" name="address" defaultValue={property.address}></Form.Control>
+            </Form.Group>
+
+            <Form.Group>
                 <Form.Label>Postinumero</Form.Label>
                 <Form.Control name="zip_code" defaultValue={property.zip_code}></Form.Control>
             </Form.Group>
