@@ -3,9 +3,10 @@ import Button from '../../Components/Buttons/Button';
 import Form from '../../Components/Form';
 import {useState} from 'react';
 
+const stepTransitionDelay = 2000; //In milliseconds.
 function EmailForm(props){
 
-    const [error, setError] = useState(0);
+    const [error, setError] = useState(-1);
     const [loading, setLoading] = useState(false);
 
     function onSubmitHandler(e){
@@ -13,13 +14,14 @@ function EmailForm(props){
         setLoading(true);
 
         axios.post('/api/users/reset/password', {
+            step: 0,
             email: e.target.email.value
         })
         .then(res => {
-            console.log('kalja');
             setError(0);
             props.setEmail(e.target.email.value);
-            props.setStep(1);
+
+            setTimeout(() => props.setStep(1), stepTransitionDelay);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
@@ -41,8 +43,13 @@ function EmailForm(props){
             }
 
             {
+                error === 0 ? <Form.Success>Nollauskoodi lähetetty onnistuneesti!</Form.Success>
+                :
                 error === 404 ? 
                 <Form.Error>Tiliä tällä sähköpostiosoitteella ei ole!</Form.Error>
+                :
+                error === 500 ?
+                <Form.Error>Tapahtui odottamaton virhe!</Form.Error>
                 :
                 <></>
             }
@@ -50,21 +57,23 @@ function EmailForm(props){
     )
 }
 
-function ResetCodeForm({email}){
-    const [error, setError] = useState(0);
+function ResetCodeForm({email, setStep}){
+    const [error, setError] = useState(-1);
     const [loading, setLoading] = useState(false);
 
     function onSubmitHandler(e){
         e.preventDefault();
         setLoading(true);
 
-        axios.post('/api/users/reset/password/code', {
+        axios.post('/api/users/reset/password', {
+            step: 1,
             email,
             reset_code: e.target.reset_code.value,
         })
         .then(res => {
             setError(0);
-            setStep(2);
+
+            setTimeout(() => setStep(2), stepTransitionDelay);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
@@ -86,7 +95,11 @@ function ResetCodeForm({email}){
             }
             
             {
+                error === 0 ? <Form.Success>Nollauskoodi hyväksytty!</Form.Success>
+                :
                 error === 403 ? <Form.Error>Nollauskoodia ei hyväksytty!</Form.Error>
+                :
+                error === 410 ? <Form.Error>Nollauskoodi on umpeutunut!</Form.Error> 
                 :
                 <></>
             }
@@ -94,7 +107,7 @@ function ResetCodeForm({email}){
     );
 }
 
-function PasswordForm(props){
+function PasswordForm({setStep, email}){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(-1);
     
@@ -106,10 +119,11 @@ function PasswordForm(props){
             step: 2,
             password1: e.target.password1.value,
             password2: e.target.password2.value,
+            email,
         })
         .then(res => {
             setError(0);
-
+            setTimeout(() => location.assign('#/login'), stepTransitionDelay);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
@@ -159,7 +173,7 @@ function ResetPassword(props){
                 :
                 step === 1 ? <ResetCodeForm setStep={setStep} email={email}/>
                 :
-                step === 2 ? <PasswordForm setStep={setStep}/>
+                step === 2 ? <PasswordForm setStep={setStep} email={email}/>
                 :
                 null
             }
