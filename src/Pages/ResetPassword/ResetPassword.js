@@ -2,6 +2,7 @@ import axios from 'axios';
 import Button from '../../Components/Buttons/Button';
 import Form from '../../Components/Form';
 import {useState} from 'react';
+import { useEffect } from 'react';
 
 const stepTransitionDelay = 2000; //In milliseconds.
 function EmailForm(props){
@@ -78,6 +79,10 @@ function ResetCodeForm({email, setStep}){
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
     }
+
+    useEffect(() => {
+        if(error === 410) setTimeout(() => setStep(0), stepTransitionDelay);
+    }, [error]);
 
     return (
         <Form onSubmit={onSubmitHandler} className="animated">
