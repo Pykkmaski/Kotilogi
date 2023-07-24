@@ -31,14 +31,12 @@ async function sendResetCode(req, res){
 
         console.log(resetCode);
 
-        /*
         const info  = await transport.sendMail({
             from: process.env.SERVICE_EMAIL_ADDRESS,
             to: email,
             subject: 'Salasanan nollaus',
             html: passwordResetContent,
         });
-        */
 
         resolve();
     });
@@ -64,18 +62,17 @@ async function verifyResetCode(req, res){
 }
 
 async function resetPassword(req, res){
-    try{
+    return new Promise(async (resolve, reject) => {
         const {email, password1, password2} = req.body;
-        if(password1 !== password2) throw 409;
+        if(password1 !== password2) return reject(409);
     
         const saltedPassword = await bcrypt.hash(password1, 15)
-        await db('users').where({email}).update({
+        db('users').where({email}).update({
             password : saltedPassword
-        });
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
+        })
+        .catch(err => reject(err))
+        .finally(() => resolve());
+    });  
 }
 
 router.post('/reset/password', async (req, res) => {
@@ -91,7 +88,7 @@ router.post('/reset/password', async (req, res) => {
             break;
     
             case 2:
-                resetPassword(req, res);
+                await resetPassword(req, res);
             break;
     
             default: throw 500;

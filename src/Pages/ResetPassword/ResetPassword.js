@@ -5,6 +5,8 @@ import {useState} from 'react';
 import { useEffect } from 'react';
 
 const stepTransitionDelay = 2000; //In milliseconds.
+const requestTimeout = 10000;
+
 function EmailForm(props){
 
     const [error, setError] = useState(-1);
@@ -32,7 +34,7 @@ function EmailForm(props){
         <Form onSubmit={onSubmitHandler} className="animated">
             <Form.Group>
                 <Form.Label>Anna Sähköpostiosoitteesi</Form.Label>
-                <Form.Control type="email" name="email"></Form.Control>
+                <Form.Control type="email" name="email" required></Form.Control>
             </Form.Group>
 
             <Form.ButtonGroup>
@@ -88,8 +90,11 @@ function ResetCodeForm({email, setStep}){
     return (
         <Form onSubmit={onSubmitHandler} className="animated">
             <Form.Group>
+                <span>Olemme lähettäneet salasanasi nollauskoodin sähköpostiisi.</span>
+            </Form.Group>
+            <Form.Group>
                 <Form.Label>Anna Salasanan Nollauskoodi</Form.Label>
-                <Form.Control name="reset_code"></Form.Control>
+                <Form.Control name="reset_code" required></Form.Control>
             </Form.Group>
 
             <Form.ButtonGroup>
@@ -139,12 +144,12 @@ function PasswordForm({setStep, email}){
         <Form className="animated" onSubmit={onSubmitHandler}>
             <Form.Group>
                 <Form.Label>Anna Uusi Salasana</Form.Label>
-                <Form.Control type="password" name="password1"></Form.Control>
+                <Form.Control type="password" name="password1" required></Form.Control>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Kirjoita Salasana Vielä Uudelleen</Form.Label>
-                <Form.Control type="password2" name="password2"></Form.Control>
+                <Form.Control type="password" name="password2" required></Form.Control>
             </Form.Group>
 
             <Form.ButtonGroup>
@@ -156,7 +161,7 @@ function PasswordForm({setStep, email}){
             }
 
             {
-                error === 403 ? <Form.Error>Antamasi salasanat eivät täsmää!</Form.Error>
+                error === 409 ? <Form.Error>Antamasi salasanat eivät täsmää!</Form.Error>
                 :
                 error === 0 ? <Form.Success>Salasanasi on vaihdettu onnistuneesti!</Form.Success>
                 : 
