@@ -21,7 +21,7 @@ Form.Header = Header;
 const Label = (props) => <label className="form-label">{props.children}</label>
 Form.Label = Label;
 
-const SubLabel = (props) => <div className="form-sub-label">{props.children}</div>
+const SubLabel = (props) => <div className="sub-label">{props.children}</div>
 Form.SubLabel = SubLabel;
 
 const Control = (props) => {

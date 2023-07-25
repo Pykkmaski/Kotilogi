@@ -40,6 +40,7 @@ function EmailForm(props){
             <Form.Group>
                 <Form.Label>Anna Sähköpostiosoitteesi</Form.Label>
                 <Form.Control type="email" name="email" required></Form.Control>
+                <Form.SubLabel>Lähetämme sinulle nollauskoodin pikapuolin.</Form.SubLabel>
             </Form.Group>
 
             <Form.ButtonGroup>
@@ -97,11 +98,9 @@ function ResetCodeForm({email, setStep}){
         <Form onSubmit={onSubmitHandler} className="animated">
             <Form.Header>Nollaa Salasanasi</Form.Header>
             <Form.Group>
-                <span>Olemme lähettäneet salasanasi nollauskoodin sähköpostiisi.</span>
-            </Form.Group>
-            <Form.Group>
                 <Form.Label>Anna Salasanan Nollauskoodi</Form.Label>
                 <Form.Control name="reset_code" required></Form.Control>
+                <Form.SubLabel>Olemme lähettäneet koodin sähköpostiisi. Etkö saanut sitä? Klikkaa <a href="">tästä</a></Form.SubLabel>
             </Form.Group>
 
             <Form.ButtonGroup>

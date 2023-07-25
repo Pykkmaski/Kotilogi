@@ -13,8 +13,8 @@ const columnNames = {
 exports.up = function(knex) {
   return knex.schema.createTable(tableName, tbl => {
     tbl.increments('id');
-    tbl.string(columnNames.user).unique().references('email').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
-    tbl.string(columnNames.activationCode).unique().notNullable();
+    tbl.string(columnNames.user).unique();
+    tbl.string(columnNames.activationCode).notNullable();
     tbl.bigInteger(columnNames.expires).notNullable();
   })
 };

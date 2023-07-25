@@ -8,7 +8,7 @@ require('dotenv').config();
 router.post('/', async (req, res) => {
     try{
         const {email, password} = req.body;
-        const savedUser = await db.select('password', 'email').from('users').where({email}).first();
+        const savedUser = await db.select('password', 'email', 'active').from('users').where({email}).first();
 
         if(!savedUser) throw 404;
 
@@ -19,7 +19,16 @@ router.post('/', async (req, res) => {
             token: 'Bearer ' + token,
             email,
         }
-        res.status(200).send(JSON.stringify(payload));
+
+        const data = JSON.stringify(payload);
+
+        if(!savedUser.active) {
+            res.status(403).send(data)
+        }
+        else{
+            res.status(200).send(data);
+        }
+       
         
     }
     catch(err){

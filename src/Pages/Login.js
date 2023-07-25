@@ -26,6 +26,10 @@ function Login(props){
             location.assign('/');
         })
         .catch(err => {
+            if(err.response.status === 403){
+                setUser(err.response.data);
+                location.assign('#/activate');
+            }
             setError(err.response.status);
         })
         .finally(() => {
