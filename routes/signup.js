@@ -26,10 +26,12 @@ router.post('/', async (req, res) => {
         });
 
         const activationCode = crypto.randomBytes(8).toString('hex');
+        const expiryTime = new Date().getTime() + parseInt(process.env.USER_ACTIVATION_CODE_EXPIRY_TIME);
+
         await db('account_activation_codes').insert({
             activation_code: activationCode,
             user: email,
-            expires: new Date().getTime() + process.env.USER_ACTIVATION_CODE_EXPIRY_TIME,
+            expires: expiryTime,
         })
         .onConflict('email')
         .merge(['activation_code', 'created_at']);

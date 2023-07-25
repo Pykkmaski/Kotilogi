@@ -15,10 +15,12 @@ async function sendResetCode(req, res){
         const transport = nodemailer.createTransport(transportOptions);
 
         const resetCode = crypto.randomBytes(8).toString('hex');
+        const expiryTime = new Date().getTime() + parseInt(process.env.PASSWORD_RESET_CODE_EXPIRY_TIME);
+
         await db('password_reset_codes').insert({
             user: email,
             reset_code: resetCode,
-            expires: new Date().getTime() + process.env.PASSWORD_RESET_CODE_EXPIRY_TIME,
+            expires: expiryTime,
         })
         .onConflict('user')
         .merge(['reset_code', 'expires']);
