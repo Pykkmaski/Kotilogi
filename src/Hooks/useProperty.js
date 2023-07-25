@@ -7,7 +7,10 @@ function useProperty(property_id){
     function loadProperty(){
         const url = `/api/properties/${property_id}`;
         axios.get(url)
-        .then(res => setProperty(res.data))
+        .then(res => {
+            const newProperty = res.data;
+            setProperty(newProperty);
+        })
         .catch(err => {
             const none = null;
             setProperty(none);

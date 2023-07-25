@@ -16,7 +16,6 @@ import HeatingFieldset from './FormFieldsets/HeatingFieldset';
 
 function PropertyInfoSection(props){
 
-    //kalja
     const {property, loadProperty} = useContext(PropertyContext);
     const [editing, setEditing] = useState(false);
     const [showSubmitEditsModal, setShowSubmitEditsModal] = useState(false);
