@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const router = require('express').Router();
 const db = require('../dbconfig');
 const bcrypt = require('bcrypt');
+const SendPasswordResetCode = require('../Functions/SendPasswordResetCode');
+const SendActivationCode = require('../Functions/SendActivationCode');
 
 async function sendResetCode(req, res){
     
@@ -10,41 +12,9 @@ async function sendResetCode(req, res){
         const {email} = req.body;
         if(!(await db('users').where({email}).first())) return reject(404); //A user with the provided email doesn't exist
 
-        const nodemailer = require('nodemailer');
-        const {transportOptions} = require('../nodemailer.config');
-        const transport = nodemailer.createTransport(transportOptions);
-
-        const resetCode = crypto.randomBytes(8).toString('hex');
-        const expiryTime = new Date().getTime() + parseInt(process.env.PASSWORD_RESET_CODE_EXPIRY_TIME);
-
-        await db('password_reset_codes').insert({
-            user: email,
-            reset_code: resetCode,
-            expires: expiryTime,
-        })
-        .onConflict('user')
-        .merge(['reset_code', 'expires']);
-
-        const passwordResetContent = `
-            <span>Olet pyytänyt salasanasi nollausta. Jos et tehnyt tätä, voit jättää tämän viestin huomioimatta.</span></br>
-            <span>Kopioi ja liitä alla oleva koodi sille varattuun kenttään 30min kuluessa.</span></br>
-            <h1>${resetCode}</h1>
-        `
-
-        console.log(resetCode);
-
-        const info  = await transport.sendMail({
-            from: process.env.SERVICE_EMAIL_ADDRESS,
-            to: email,
-            subject: 'Salasanan nollaus',
-            html: passwordResetContent,
-        });
-
+        SendPasswordResetCode(email);
         resolve();
     });
-
-    
-    
 }
 
 async function verifyResetCode(req, res){
@@ -116,6 +86,26 @@ router.post('/activate', async (req, res) => {
 
         await db('users').where({email}).update({active: true});
         res.sendStatus(200);
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
+router.post('/resend', async (req, res) => {
+    try{
+        const {instruction, email} = req.body;
+        switch(instruction){
+            case 0:
+                SendActivationCode(email);
+            break;
+
+            case 1:
+                SendPasswordResetCode(email);
+            break;
+
+            default: res.sendStatus(500);
+        }
     }
     catch(err){
         RouteHandleError(err, res);

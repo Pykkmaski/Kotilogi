@@ -6,7 +6,7 @@ import LoadingSpinner from '../Components/Spinner';
 
 function Login(props){
 
-    const {setToken, setUser} = useContext(AppContext);
+    const {setToken, setUser, setUserActiveStatus} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(0);
 
@@ -23,13 +23,15 @@ function Login(props){
             const token = res.data.token;
             setToken(token);
             setUser({email: res.data.email});
-            location.assign('/');
+
+            const newActiveStatus = res.data.active;
+            console.log('active status sent by the server: ' + newActiveStatus);
+            setUserActiveStatus(newActiveStatus);
+
+            location.assign('#/');
+            location.reload();
         })
         .catch(err => {
-            if(err.response.status === 403){
-                setUser(err.response.data);
-                location.assign('#/activate');
-            }
             setError(err.response.status);
         })
         .finally(() => {

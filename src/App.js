@@ -22,17 +22,22 @@ import ActivateUser from './Pages/ActivateUser/ActivateUser';
 function App(props){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
     const [user, setUser] = useLocalStorage(userStorageKey, null);
+    const [userActiveStatus, setUserActiveStatus] = useState(false);
     axios.defaults.headers['Authorization'] = token;
     
     useEffect(() => {
         axios.defaults.headers['Authorization'] = token;
     }, [token]);
 
+    useEffect(() => {
+        console.log('userActiveStatus changed to ' + userActiveStatus);
+    }, [userActiveStatus]);
+
     return (
         <Router>
             <div className="app">
 
-                <AppContext.Provider value={{token, setToken, user, setUser}}>
+                <AppContext.Provider value={{token, setToken, user, setUser, userActiveStatus, setUserActiveStatus}}>
                 <Header/>
                     <div className='body'>
                         <Routes>

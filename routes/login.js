@@ -18,18 +18,11 @@ router.post('/', async (req, res) => {
         const payload = {
             token: 'Bearer ' + token,
             email,
+            active: savedUser.active,
         }
 
         const data = JSON.stringify(payload);
-
-        if(!savedUser.active) {
-            res.status(403).send(data)
-        }
-        else{
-            res.status(200).send(data);
-        }
-       
-        
+        res.status(200).send(payload);
     }
     catch(err){
         RouteHandleError(err, res);
