@@ -22,6 +22,7 @@ function HeatingFieldset(props){
             <Form.Group>
                 <Form.Label>Toissijainen</Form.Label>
                 <Form.Control type="select" name="secondary_heating_system">
+                    <Form.Option value="none" selected={property.secondary_heating_system === 'none'}>Ei Mitään</Form.Option>
                     <Form.Option value="takka" selected={property.secondary_heating_system === 'takka'}>Takka</Form.Option>
                     <Form.Option value="ilmalampopumppu" selected={property.secondary_heating_system === 'ilmalampopumppu'}>Ilmalämpöpumppu</Form.Option>
                 </Form.Control>

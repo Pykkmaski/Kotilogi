@@ -64,7 +64,7 @@ function BuildingFieldset(props){
             <Form.Group>
                 <Form.Label>Energialuokitus</Form.Label>
                 <Form.Control type="select" name="energy_class">
-                    <Form.Option value="none" selected={property.energy_class === 'none'}>Ei Ole</Form.Option>
+                    <Form.Option value="none" selected={property.energy_class === 'none'}>Ei Mitään</Form.Option>
                     <Form.Option value="A" selected={property.energy_class === 'A'}>A</Form.Option>
                     <Form.Option value="B" selected={property.energy_class === 'B'}>B</Form.Option>
                     <Form.Option value="C" selected={property.energy_class === 'C'}>C</Form.Option>
