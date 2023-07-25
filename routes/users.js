@@ -55,9 +55,8 @@ async function verifyResetCode(req, res){
         
         if(data.reset_code !== reset_code) return reject(403);
 
-        const timeDifference = new Date().getTime() - data.created_at;
-        const {passwordResetWindow} = require('../server.config');
-        if(timeDifference > passwordResetWindow) return reject(410); //The code has expired.
+        const currentTime = new Date().getTime();
+        if(currentTime > data.expires) return reject(410); //The code has expired.
     
         resolve();
     });

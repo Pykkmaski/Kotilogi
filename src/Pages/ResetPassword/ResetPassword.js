@@ -7,6 +7,10 @@ import { useEffect } from 'react';
 const stepTransitionDelay = 2000; //In milliseconds.
 const requestTimeout = 10000;
 
+function cancel(e){
+    location.assign('#/login');
+}
+
 function EmailForm(props){
 
     const [error, setError] = useState(-1);
@@ -39,6 +43,7 @@ function EmailForm(props){
 
             <Form.ButtonGroup>
                 <button className="primary" type="submit">Lähetä Nollauskoodi</button> 
+                <button className="secondary" type="button" onClick={cancel}>Peruuta</button>
             </Form.ButtonGroup>
 
             {
@@ -98,7 +103,8 @@ function ResetCodeForm({email, setStep}){
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button type="submit">Lähetä</button>
+                <button type="submit" className="primary">Lähetä</button>
+                <button type="button" className="secondary" onClick={cancel}>Peruuta</button>
             </Form.ButtonGroup>
 
             {
@@ -154,6 +160,7 @@ function PasswordForm({setStep, email}){
 
             <Form.ButtonGroup>
                 <button className="primary" type="submit">Vaihda Salasana</button>
+                <button type="button" className="secondary" onClick={cancel}>Peruuta</button>
             </Form.ButtonGroup>
 
             {
