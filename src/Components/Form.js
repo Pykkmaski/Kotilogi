@@ -15,7 +15,7 @@ function Form(props){
     )
 }
 
-const Header = (props) => <div className="form-header">{props.children}</div>
+const Header = (props) => <div className="form-title">{props.children}</div>
 Form.Header = Header;
 
 const Label = (props) => <label className="form-label">{props.children}</label>

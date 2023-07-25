@@ -36,6 +36,7 @@ function EmailForm(props){
 
     return (
         <Form onSubmit={onSubmitHandler} className="animated">
+            <Form.Header>Nollaa Salasanasi</Form.Header>
             <Form.Group>
                 <Form.Label>Anna Sähköpostiosoitteesi</Form.Label>
                 <Form.Control type="email" name="email" required></Form.Control>
@@ -94,6 +95,7 @@ function ResetCodeForm({email, setStep}){
 
     return (
         <Form onSubmit={onSubmitHandler} className="animated">
+            <Form.Header>Nollaa Salasanasi</Form.Header>
             <Form.Group>
                 <span>Olemme lähettäneet salasanasi nollauskoodin sähköpostiisi.</span>
             </Form.Group>
@@ -148,6 +150,7 @@ function PasswordForm({setStep, email}){
 
     return (
         <Form className="animated" onSubmit={onSubmitHandler}>
+            <Form.Header>Nollaa Salasanasi</Form.Header>
             <Form.Group>
                 <Form.Label>Anna Uusi Salasana</Form.Label>
                 <Form.Control type="password" name="password1" required></Form.Control>
@@ -185,7 +188,7 @@ function ResetPassword(props){
 
     return (    
         <div id="reset-password-page">
-            <h1>Nollaa Salasana</h1>
+            <div className="bg-blur"></div>
             {
                 step === 0 ? <EmailForm setStep={setStep} setEmail={setEmail}/>
                 :
