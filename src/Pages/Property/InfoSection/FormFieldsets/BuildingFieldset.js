@@ -14,6 +14,10 @@ function BuildingFieldset(props){
             <Form.Legend>Rakennus</Form.Legend>
 
             <Form.Group>
+                <Form.Label>Omistaja</Form.Label>
+                <output name="property_owner">{property.owner}</output>
+            </Form.Group>
+            <Form.Group>
                 <Form.Label>Osoite</Form.Label>
                 <Form.Control type="text" name="address" defaultValue={property.address}></Form.Control>
             </Form.Group>
