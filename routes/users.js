@@ -18,10 +18,10 @@ async function sendResetCode(req, res){
         await db('password_reset_codes').insert({
             user: email,
             reset_code: resetCode,
-            created_at: new Date().getTime(),
+            expires: new Date().getTime() + process.env.PASSWORD_RESET_CODE_EXPIRY_TIME,
         })
         .onConflict('user')
-        .merge(['reset_code', 'created_at']);
+        .merge(['reset_code', 'expires']);
 
         const passwordResetContent = `
             <span>Olet pyytänyt salasanasi nollausta. Jos et tehnyt tätä, voit jättää tämän viestin huomioimatta.</span></br>

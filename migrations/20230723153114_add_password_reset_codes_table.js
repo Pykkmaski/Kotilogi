@@ -7,7 +7,7 @@ const tableName = 'password_reset_codes';
 const columnNames = {
     user: 'user',
     resetCode: 'reset_code',
-    createdAt: 'created_at',
+    expires: 'expires',
 }
 
 exports.up = function(knex) {
@@ -15,7 +15,7 @@ exports.up = function(knex) {
     tbl.increments('id');
     tbl.string(columnNames.user).unique().references('email').inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
     tbl.string(columnNames.resetCode).unique().notNullable();
-    tbl.bigInteger(columnNames.createdAt).defaultTo(new Date().getTime());
+    tbl.bigInteger(columnNames.expires).notNullable();
   });
 };
 
