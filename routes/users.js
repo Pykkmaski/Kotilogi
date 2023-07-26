@@ -104,8 +104,10 @@ router.post('/resend', async (req, res) => {
                 SendPasswordResetCode(email);
             break;
 
-            default: res.sendStatus(500);
+            default: return res.sendStatus(500);
         }
+
+        res.sendStatus(200);
     }
     catch(err){
         RouteHandleError(err, res);

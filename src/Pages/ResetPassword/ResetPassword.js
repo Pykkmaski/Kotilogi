@@ -44,8 +44,8 @@ function EmailForm(props){
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button className="primary" type="submit">Lähetä Nollauskoodi</button> 
-                <button className="secondary" type="button" onClick={cancel}>Peruuta</button>
+                <button className="primary" type="submit" disabled={loading || error === 0}>Lähetä Nollauskoodi</button> 
+                <button className="secondary" type="button" onClick={cancel} disabled={loading || error === 0}>Peruuta</button>
             </Form.ButtonGroup>
 
             {
@@ -89,6 +89,20 @@ function ResetCodeForm({email, setStep}){
         .finally(() => setLoading(false));
     }
 
+    function sendResetCode(e){
+        setLoading(true);
+
+        axios.post('/api/users/resend', {
+            instruction: 0,
+            email,
+        })
+        .then(res => {
+            setError(1);
+        })
+        .catch(err => setError(err.response.status))
+        .finally(() => setLoading(false));
+    }
+
     useEffect(() => {
         //Automatically step back to asking for the email address when a provided code has expired.
         if(error === 410) setTimeout(() => setStep(0), stepTransitionDelay);
@@ -100,12 +114,12 @@ function ResetCodeForm({email, setStep}){
             <Form.Group>
                 <Form.Label>Anna Salasanan Nollauskoodi</Form.Label>
                 <Form.Control name="reset_code" required></Form.Control>
-                <Form.SubLabel>Olemme lähettäneet koodin sähköpostiisi. Etkö saanut sitä? Klikkaa <a href="">tästä</a></Form.SubLabel>
+                <Form.SubLabel>Olemme lähettäneet koodin sähköpostiisi. Etkö saanut sitä? Klikkaa <span style={{cursor: 'pointer', color: 'blue', textDecoration: 'underline'}} onClick={sendResetCode}>tästä</span></Form.SubLabel>
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button type="submit" className="primary">Lähetä</button>
-                <button type="button" className="secondary" onClick={cancel}>Peruuta</button>
+                <button type="submit" className="primary" disabled={loading || error === 0}>Lähetä</button>
+                <button type="button" className="secondary" onClick={cancel} disabled={loading || error === 0}>Peruuta</button>
             </Form.ButtonGroup>
 
             {
@@ -114,6 +128,8 @@ function ResetCodeForm({email, setStep}){
             
             {
                 error === 0 ? <Form.Success>Nollauskoodi hyväksytty!</Form.Success>
+                :
+                error === 1 ? <Form.Success>Nollauskoodi lähetetty! Tarkista sähköpostisi.</Form.Success>
                 :
                 error === 403 ? <Form.Error>Nollauskoodia ei hyväksytty!</Form.Error>
                 :
@@ -161,8 +177,8 @@ function PasswordForm({setStep, email}){
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button className="primary" type="submit">Vaihda Salasana</button>
-                <button type="button" className="secondary" onClick={cancel}>Peruuta</button>
+                <button className="primary" type="submit" disabled={loading || error === 0}>Vaihda Salasana</button>
+                <button type="button" className="secondary" onClick={cancel} disabled={loading || error === 0}>Peruuta</button>
             </Form.ButtonGroup>
 
             {

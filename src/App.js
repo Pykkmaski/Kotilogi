@@ -15,29 +15,24 @@ import Pricing from './Pages/Pricing';
 import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ActivateUser from './Pages/ActivateUser/ActivateUser';
 
 function App(props){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
     const [user, setUser] = useLocalStorage(userStorageKey, null);
-    const [userActiveStatus, setUserActiveStatus] = useState(false);
     axios.defaults.headers['Authorization'] = token;
     
     useEffect(() => {
         axios.defaults.headers['Authorization'] = token;
     }, [token]);
 
-    useEffect(() => {
-        console.log('userActiveStatus changed to ' + userActiveStatus);
-    }, [userActiveStatus]);
-
     return (
         <Router>
             <div className="app">
 
-                <AppContext.Provider value={{token, setToken, user, setUser, userActiveStatus, setUserActiveStatus}}>
+                <AppContext.Provider value={{token, setToken, user, setUser}}>
                 <Header/>
                     <div className='body'>
                         <Routes>
@@ -50,7 +45,6 @@ function App(props){
                             <Route exact path="/properties/:property_id/events/:event_id/:section" element={<Event/>}></Route>
                             <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
                             <Route exact path="/reset/password" element={<ResetPassword/>}></Route>
-                            <Route exact path="/activate" element={<ActivateUser/>}></Route>
                             <Route exact path="*" element={<Unknown/>}></Route>
                         </Routes>
                     </div>

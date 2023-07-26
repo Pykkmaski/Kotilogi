@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const db = require('../dbconfig');
 
 async function SendPasswordResetCode(email){
     try{

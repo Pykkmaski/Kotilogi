@@ -12,10 +12,6 @@ function Home(props){
 
     console.log('userActiveStatus: ' + userActiveStatus);
     return( 
-            token && userActiveStatus === false
-            ?
-            <ActivateUser/>
-            :
             token
             ?
             <Properties/>

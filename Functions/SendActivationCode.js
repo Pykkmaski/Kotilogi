@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
-
+const crypto = require('crypto');
+const db = require('../dbconfig');
 async function SendActivationCode(email){
     try{    
         const activationCode = crypto.randomBytes(8).toString('hex');

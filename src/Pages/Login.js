@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import AppContext from '../Contexts/AppContext';
 import axios from 'axios';
 import LinkTo from '../Functions/LinkTo';
@@ -6,9 +6,10 @@ import LoadingSpinner from '../Components/Spinner';
 
 function Login(props){
 
-    const {setToken, setUser, setUserActiveStatus} = useContext(AppContext);
+    const {setToken, setUser, userActiveStatus, setUserActiveStatus} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(0);
+    const firstRender = useRef(true);
 
     function onSubmitHandler(e){
         e.preventDefault();
@@ -23,13 +24,7 @@ function Login(props){
             const token = res.data.token;
             setToken(token);
             setUser({email: res.data.email});
-
-            const newActiveStatus = res.data.active;
-            console.log('active status sent by the server: ' + newActiveStatus);
-            setUserActiveStatus(newActiveStatus);
-
-            location.assign('#/');
-            location.reload();
+            location.assign('/');
         })
         .catch(err => {
             setError(err.response.status);

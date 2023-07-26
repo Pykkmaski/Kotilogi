@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
         }
 
         const data = JSON.stringify(payload);
-        res.status(200).send(payload);
+        res.status(200).send(data);
     }
     catch(err){
         RouteHandleError(err, res);

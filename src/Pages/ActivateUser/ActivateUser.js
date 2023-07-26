@@ -31,7 +31,7 @@ function ActivateUser(props){
                 <Form.Header>Anna Tilisi Aktivointikoodi</Form.Header>
                 <Form.Group>
                     <Form.Label>Aktivointikoodi</Form.Label>
-                    <Form.Control name="activation_code"></Form.Control>
+                    <Form.Control name="activation_code" required></Form.Control>
                     <Form.SubLabel>Koodi on lähetetty sähköpostiisi. Etkö saanut sitä? Klikkaa <a href="#">tästä</a></Form.SubLabel>
                 </Form.Group>
 
