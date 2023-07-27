@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import AppDescription from '../Components/AppDescription';
 
 function Index(props){
 
@@ -15,6 +16,8 @@ function Index(props){
 
                 <img src="./img/index.jpg" id="main-image" className="rounded"/>
             </div>
+
+            <AppDescription/>
 
             <div  id="news-content" className="page-element gap-l font-sze-m">
                 <div className="blur"/>

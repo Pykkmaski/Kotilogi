@@ -8,10 +8,9 @@ const SendActivationCode = require('../Functions/SendActivationCode');
 require('dotenv').config();
 
 router.post('/', async (req, res) => {
-    
-    try{
-        const {email, password1, password2, first_name, last_name} = req.body;
+    const {email, password1, password2, first_name, last_name} = req.body;
 
+    try{
         const user = await db.select('username').from('users').where({email}).first();
 
         if(user) throw 406; //User already exists

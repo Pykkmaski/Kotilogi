@@ -42,7 +42,7 @@ function PropertyInfoSection(props){
         const data = {
             address: e.target.address.value,
             type: e.target.type.value,
-            build_permission: e.target.build_permission.value,
+            build_permission: e.target.build_permission?.value,
             building_material: e.target.building_material.value,
             build_year: e.target.build_year.valueAsNumber,
             color: e.target.color.value,
@@ -50,8 +50,8 @@ function PropertyInfoSection(props){
             living_area: e.target.living_area.value,
             other_area: e.target.other_area.value,
 
-            yard_area: e.target.yard_area.value,
-            yard_ownership: e.target.yard_ownership.value,
+            yard_area: e.target.yard_area?.value,
+            yard_ownership: e.target.yard_ownership?.value,
 
             primary_heating_system: e.target.primary_heating_system.value,
             secondary_heating_system: e.target.secondary_heating_system.value,
@@ -137,7 +137,11 @@ function PropertyInfoSection(props){
                     <BuildingFieldset disabled={!editing}/>
                     <RoofFieldset disabled={!editing}/>
                     <AreaFieldset disabled={!editing}/>
-                    <YardFieldset disabled={!editing}/>
+
+                    {
+                        property.type !== 'kerrostalo' ? <YardFieldset disabled={!editing}/> : <></>
+                    }
+                    
                     <HeatingFieldset disabled={!editing}/>
                 </Form>
             </Section.Body>

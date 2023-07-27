@@ -85,12 +85,12 @@ function BuildingFieldset(props){
             </Form.Group>
 
             <Form.Group>
-                <Form.Label>Kerrosluku</Form.Label>
+                <Form.Label>{property.type !== 'kerrostalo' ? 'Kerrosten lukumäärä' : 'Kerros'}</Form.Label>
                 <Form.Control type="number" min={1} step={1} name="floor_count" defaultValue={property.floor_count}></Form.Control>
             </Form.Group>
 
             <Form.Group>
-                <Form.Label>Huoneluku</Form.Label>
+                <Form.Label>Huoneiden lukumäärä</Form.Label>
                 <Form.Control type="number" min={1} step={1} name="room_count" defaultValue={property.room_count}></Form.Control>
             </Form.Group>
 

@@ -19,8 +19,9 @@ function ActivateUser(props){
         .then(res => {
             setError(0);
             const newUser = res.data;
-            setUser(newUser);
-            setTimeout(() => location.assign('/'), 2000);
+            setTimeout(() => {
+                setUser(newUser);
+            }, 2000);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
