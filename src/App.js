@@ -18,6 +18,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ActivateUser from './Pages/ActivateUser/ActivateUser';
+import useUser from './Hooks/useUser';
 
 function App(props){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);

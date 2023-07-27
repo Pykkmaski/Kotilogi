@@ -46,6 +46,17 @@ async function resetPassword(req, res){
     });  
 }
 
+router.get('/', async (req, res) => {
+    try{
+        const {email} = req.body;
+        const user = await db('users').where({email}).first();
+        res.status(200).send(JSON.stringify(user));
+    }
+    catch(err){
+        RouteHandleError(err, res);
+    }
+});
+
 router.post('/reset/password', async (req, res) => {
     const {step} = req.body;
     try{
@@ -84,8 +95,8 @@ router.post('/activate', async (req, res) => {
         const currentTime = new Date().getTime();
         if(currentTime > savedActivationCode.expires) throw 410;
 
-        await db('users').where({email}).update({active: true});
-        res.status(200).send('Käyttäjätilisi on aktivoitu!');
+        const user = (await db('users').where({email}).update({active: true}, ['email', 'active']))[0];
+        res.status(200).send(JSON.stringify(user));
     }
     catch(err){
         RouteHandleError(err, res);

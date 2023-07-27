@@ -18,10 +18,8 @@ function ActivateUser(props){
         })
         .then(res => {
             setError(0);
-            const newUser = user;
-            user.active = true;
+            const newUser = res.data;
             setUser(newUser);
-
             setTimeout(() => location.assign('/'), 2000);
         })
         .catch(err => setError(err.response.status))
