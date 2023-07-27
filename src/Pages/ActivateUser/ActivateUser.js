@@ -5,20 +5,23 @@ import AppContext from '../../Contexts/AppContext';
 
 function ActivateUser(props){
 
-    const {user} = useContext(AppContext);
+    const {user, setUser} = useContext(AppContext);
     const [error, setError] = useState(-1);
     const [loading, setLoading] = useState(false);
 
     function onSubmitHandler(e){
         e.preventDefault();
         setLoading(true);
-        console.log(user.email);
         axios.post('/api/users/activate', {
             activationCode: e.target.activation_code.value,
             email: user.email,
         })
         .then(res => {
             setError(0);
+            const newUser = user;
+            user.active = true;
+            setUser(newUser);
+
             setTimeout(() => location.assign('/'), 2000);
         })
         .catch(err => setError(err.response.status))
@@ -27,6 +30,7 @@ function ActivateUser(props){
 
     return (
         <div id="activate-user-page">
+            <div className="bg-blur"></div>
             <Form className="animated" onSubmit={onSubmitHandler}>
                 <Form.Header>Anna Tilisi Aktivointikoodi</Form.Header>
                 <Form.Group>
@@ -36,7 +40,7 @@ function ActivateUser(props){
                 </Form.Group>
 
                 <Form.ButtonGroup>
-                    <button type="submit" className="primary">Aktivoi</button>
+                    <button type="submit" className="primary" disabled={error === 0 || loading}>Aktivoi</button>
                 </Form.ButtonGroup>
 
                 {

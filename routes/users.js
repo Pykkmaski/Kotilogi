@@ -75,8 +75,8 @@ router.post('/reset/password', async (req, res) => {
 router.post('/activate', async (req, res) => {
     try{
         const {activationCode, email} = req.body;
+
         const savedActivationCode = await db('user_activation_codes').where({user: email}).first();
-        console.log(savedActivationCode);
         if(!savedActivationCode) throw 404;
 
         if(savedActivationCode.activation_code !== activationCode) throw 409;
@@ -85,7 +85,7 @@ router.post('/activate', async (req, res) => {
         if(currentTime > savedActivationCode.expires) throw 410;
 
         await db('users').where({email}).update({active: true});
-        res.sendStatus(200);
+        res.status(200).send('Käyttäjätilisi on aktivoitu!');
     }
     catch(err){
         RouteHandleError(err, res);

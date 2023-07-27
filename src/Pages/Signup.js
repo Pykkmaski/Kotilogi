@@ -112,6 +112,7 @@ function Signup(props){
                     <input type="password" required name="password2" className={error === 409 ? 'error' : ''}/>
                 </div>
 
+                <div className="form-checkbox-group">Hyväksyn Kotilogin käyttöehdot <input type="checkbox" required/></div>
                 <div className="form-button-group">
                     <button className="primary" type="submit" disabled={loading}>Luo Tili</button>
                 </div>

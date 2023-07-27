@@ -8,10 +8,13 @@ import ActivateUser from './ActivateUser/ActivateUser';
 function Home(props){
 
     const [content, setContent] = useState([]);
-    const {token, userActiveStatus} = useContext(AppContext);
+    const {token, user} = useContext(AppContext);
 
-    console.log('userActiveStatus: ' + userActiveStatus);
     return( 
+            token && user.active == false 
+            ?
+            <ActivateUser/>
+            :
             token
             ?
             <Properties/>

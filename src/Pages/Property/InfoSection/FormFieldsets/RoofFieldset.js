@@ -12,9 +12,10 @@ function RoofFieldset(props){
             <Form.Group>
                 <Form.Label>Katto</Form.Label>
                 <Form.Control type="select" name="roof_type">
-                    <Form.Option value="harjakate" selected={property.roof_type === 'harjakate'}>Harja</Form.Option>
+                    <Form.Option value="harjakate" selected={property.roof_type === 'harjakate'}>Harjakatto</Form.Option>
                     <Form.Option value="tasakatto" selected={property.roof_type === 'tasakatto'}>Tasakatto</Form.Option>
-                    <Form.Option value="pulpetti" selected={property.roof_type === 'pulpetti'}>Pulpetti</Form.Option>
+                    <Form.Option value="pulpetti" selected={property.roof_type === 'pulpetti'}>Pulpettikatto</Form.Option>
+                    <Form.Option value="other" selected={property.roof_type === 'other'}>Muu</Form.Option>
                 </Form.Control>
             </Form.Group>
 
@@ -24,6 +25,7 @@ function RoofFieldset(props){
                     <Form.Option value="pelti" selected={property.roof_material === 'pelti'}>Pelti</Form.Option>
                     <Form.Option value="tiili" selected={property.roof_material === 'tiili'}>Tiili</Form.Option>
                     <Form.Option value="huopa" selected={property.roof_material === 'huopa'}>Huopa</Form.Option>
+                    <Form.Option value="other" selected={property.roof_material === 'other'}>Muu</Form.Option>
                 </Form.Control>
             </Form.Group>
         </fieldset>

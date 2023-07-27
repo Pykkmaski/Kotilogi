@@ -23,7 +23,10 @@ function Login(props){
         .then(res => {
             const token = res.data.token;
             setToken(token);
-            setUser({email: res.data.email});
+            setUser({
+                email: res.data.email,
+                active: res.data.active,
+            });
             location.assign('/');
         })
         .catch(err => {

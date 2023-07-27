@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
             username: email,
         });
 
-        res.status(200).send('Signup success!');
+        res.sendStatus(200);
     }
     catch(err){
         RouteHandleError(err, res);

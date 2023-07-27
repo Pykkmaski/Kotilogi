@@ -135,6 +135,8 @@ function ResetCodeForm({email, setStep}){
                 :
                 error === 410 ? <Form.Error>Nollauskoodi on umpeutunut!</Form.Error> 
                 :
+                error === 500 ? <Form.Error>Tapahtui odottamaton virhe!</Form.Error>
+                :
                 <></>
             }
         </Form>
@@ -190,6 +192,8 @@ function PasswordForm({setStep, email}){
                 :
                 error === 0 ? <Form.Success>Salasanasi on vaihdettu onnistuneesti!</Form.Success>
                 : 
+                error === 500 ? <Form.Error>Tapahtui odottamaton virhe!</Form.Error>
+                :
                 <></>
             }
         </Form>

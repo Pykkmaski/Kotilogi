@@ -3,8 +3,8 @@ const crypto = require('crypto');
 const db = require('../dbconfig');
 async function SendActivationCode(email){
     try{    
-        const activationCode = crypto.randomBytes(8).toString('hex');
         const expiryTime = new Date().getTime() + parseInt(process.env.USER_ACTIVATION_CODE_EXPIRY_TIME);
+        const activationCode = crypto.createHash('SHA256').update(expiryTime + email + new Date().getTime()).digest().toString('hex');
 
         await db('user_activation_codes').insert({
             activation_code: activationCode,
