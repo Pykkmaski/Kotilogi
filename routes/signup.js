@@ -31,6 +31,8 @@ router.post('/', async (req, res) => {
         res.sendStatus(200);
     }
     catch(err){
+        //Delete the saved user
+        db('users').where({email}).del().catch(err => console.log(err));
         RouteHandleError(err, res);
     }
 });
