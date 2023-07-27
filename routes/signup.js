@@ -17,8 +17,6 @@ router.post('/', async (req, res) => {
         if(user) throw 406; //User already exists
         if(password1 !== password2) throw 409;
 
-        SendActivationCode(email);
-        
         const saltedPassword = await bcrypt.hash(password1, 15);
         await db('users').insert({
             email,
@@ -27,6 +25,8 @@ router.post('/', async (req, res) => {
             last_name,
             username: email,
         });
+
+        SendActivationCode(email);
 
         res.sendStatus(200);
     }

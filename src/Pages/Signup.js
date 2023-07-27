@@ -129,6 +129,9 @@ function Signup(props){
                             "Annetut salasanat eivät täsmää!" :
                             error === 406 ?
                             "Tili annetulla sähköpostiosoitteella on jo olemassa!" :
+                            error === 500 ?
+                            "Tapahtui odottamaton virhe!"
+                            :
                             null
                         }
                     </div>
