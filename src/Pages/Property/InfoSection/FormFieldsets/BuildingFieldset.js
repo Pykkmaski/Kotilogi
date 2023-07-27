@@ -30,7 +30,7 @@ function BuildingFieldset(props){
             <Form.Group>
                 <Form.Label>Asuntotyyppi</Form.Label>
                 <Form.Control name="type" type="select">
-                    <Form.Option value="none" selected={property.type === 'none'}>Ei Valittu</Form.Option>
+                    <Form.Option value={null} selected={property.type === null}>Ei Valittu</Form.Option>
                     <Form.Option value="omakotitalo" selected={property.type === 'omakotitalo'}>Omakotitalo</Form.Option>
                     <Form.Option value="kerrostalo" selected={property.type === 'kerrostalo'}>Kerrostalo</Form.Option>
                     <Form.Option value="rivitalo" selected={property.type === 'rivitalo'}>Rivitalo</Form.Option>
@@ -68,7 +68,7 @@ function BuildingFieldset(props){
             <Form.Group>
                 <Form.Label>Energialuokitus</Form.Label>
                 <Form.Control type="select" name="energy_class">
-                    <Form.Option value="none" selected={property.energy_class === 'none'}>Ei Mitään</Form.Option>
+                    <Form.Option value={null} selected={property.energy_class === null}>Ei Mitään</Form.Option>
                     <Form.Option value="A" selected={property.energy_class === 'A'}>A</Form.Option>
                     <Form.Option value="B" selected={property.energy_class === 'B'}>B</Form.Option>
                     <Form.Option value="C" selected={property.energy_class === 'C'}>C</Form.Option>
