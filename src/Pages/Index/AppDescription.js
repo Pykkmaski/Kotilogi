@@ -1,4 +1,4 @@
-import useSubComponents from "../Hooks/useSubComponents"
+import useSubComponents from "../../Hooks/useSubComponents"
 
 function DescriptionElement(props){
 
