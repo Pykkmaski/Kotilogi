@@ -29,48 +29,55 @@ function AppDescription(props){
 
     return (
         <div className="app-description">
-            <DescriptionElement id="events-description">
-                <DescriptionElement.Body>
-                    <DescriptionElement.Img src="img/history.png"/>
-                    <DescriptionElement.Title>Tapahtumat</DescriptionElement.Title>
+            <div className="app-description-title">
+                Kotilogin Toiminnot
+            </div>
 
-                    <DescriptionElement.Text>
-                        Tapahtumiin voit tallentaa niin pienet kuin suuremmat remontit joita taloosi tehdään tai on tehty. 
-                        Lisää muutama hyvä kuva, kirjoita kattava kuvaus remontista ja liitteisiin vielä laskut ja muut kuitit.
-                    </DescriptionElement.Text>
-                </DescriptionElement.Body>
-            </DescriptionElement>
+            <div className="app-description-body">
+                <DescriptionElement id="events-description">
+                    <DescriptionElement.Body>
+                        <DescriptionElement.Img src="img/history.png"/>
+                        <DescriptionElement.Title>Tapahtumat</DescriptionElement.Title>
 
-            <DescriptionElement id="usage-description">
-                
-                <DescriptionElement.Body>
-                    <DescriptionElement.Img src="img/bolt.png"/>
-                    <DescriptionElement.Title>Kulutus</DescriptionElement.Title>
-                    <DescriptionElement.Text>
-                        Kulutus osiossa saat seurattua talosi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut. 
-                    </DescriptionElement.Text>
-                </DescriptionElement.Body>
-            </DescriptionElement>
+                        <DescriptionElement.Text>
+                            Tapahtumiin voit tallentaa niin pienet kuin suuremmat remontit joita taloosi tehdään tai on tehty. 
+                            Lisää muutama hyvä kuva, kirjoita kattava kuvaus remontista ja liitteisiin vielä laskut ja muut kuitit.
+                        </DescriptionElement.Text>
+                    </DescriptionElement.Body>
+                </DescriptionElement>
 
-            <DescriptionElement id="images-description">
-                <DescriptionElement.Body>
-                    <DescriptionElement.Img src="img/no-pictures.png"/>
-                    <DescriptionElement.Title>Kuvat</DescriptionElement.Title>
-                    <DescriptionElement.Text>
-                        Tähän osioon voit lisätä vapaasti taloosi liittyviä kuvia. Vaikka muutama kuva eri vuoden aikoina.
-                    </DescriptionElement.Text>
-                </DescriptionElement.Body>
-            </DescriptionElement>
+                <DescriptionElement id="usage-description">
+                    
+                    <DescriptionElement.Body>
+                        <DescriptionElement.Img src="img/bolt.png"/>
+                        <DescriptionElement.Title>Kulutus</DescriptionElement.Title>
+                        <DescriptionElement.Text>
+                            Kulutus osiossa saat seurattua talosi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut. 
+                        </DescriptionElement.Text>
+                    </DescriptionElement.Body>
+                </DescriptionElement>
 
-            <DescriptionElement id="files-description">
-                <DescriptionElement.Body>
-                    <DescriptionElement.Img src="img/copy.png"/>
-                    <DescriptionElement.Title>Tiedostot</DescriptionElement.Title>
-                    <DescriptionElement.Text>
-                        Tähän osioon on hyvä laittaa talteen esimerkiksi rakennuspiirustuksia, tontin lunastuskuitti vuosien takaa jne.
-                    </DescriptionElement.Text>
-                </DescriptionElement.Body>
-            </DescriptionElement>
+                <DescriptionElement id="images-description">
+                    <DescriptionElement.Body>
+                        <DescriptionElement.Img src="img/image.png"/>
+                        <DescriptionElement.Title>Kuvat</DescriptionElement.Title>
+                        <DescriptionElement.Text>
+                            Tähän osioon voit lisätä vapaasti taloosi liittyviä kuvia. Vaikka muutama kuva eri vuoden aikoina.
+                        </DescriptionElement.Text>
+                    </DescriptionElement.Body>
+                </DescriptionElement>
+
+                <DescriptionElement id="files-description">
+                    <DescriptionElement.Body>
+                        <DescriptionElement.Img src="img/copy.png"/>
+                        <DescriptionElement.Title>Tiedostot</DescriptionElement.Title>
+                        <DescriptionElement.Text>
+                            Tähän osioon on hyvä laittaa talteen esimerkiksi rakennuspiirustuksia, tontin lunastuskuitti vuosien takaa jne.
+                        </DescriptionElement.Text>
+                    </DescriptionElement.Body>
+                </DescriptionElement>
+            </div>
+            
         </div>
     )
 }

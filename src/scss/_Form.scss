@@ -14,7 +14,7 @@ form{
     $sd : 0.5rem; /*Shadow distance*/
     $so : 0.4; /*Shadow opacity*/
     box-shadow: $sd $sd $sd $sd rgba(black, $so);
-    
+
     fieldset{
         display: inherit;
         flex-flow: column;

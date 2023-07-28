@@ -39,9 +39,11 @@
     }
 
     .gallery-body{
-        display: flex;
-        flex-flow: row wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        
         gap: 1rem;
+        justify-content: center;
 
         @media screen and (max-width: 1000px){
             flex-flow: column;

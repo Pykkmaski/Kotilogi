@@ -63,7 +63,7 @@ function Login(props){
                 </div>
 
                 <div className="form-links">
-                    <a href="/#/reset/password">Unohditko Salasanasi?</a>
+                    <a href="/#/reset/password" disabled={true}>Unohditko Salasanasi?</a>
                 </div>
 
                 <div className="form-spinner">

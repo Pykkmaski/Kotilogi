@@ -61,10 +61,8 @@ function InfoSection(props){
                     </Image.Controls>
                 </Image>
                 <h2>{event.name}</h2>
-                <p>
+                <p contentEditable={true}>
                     {event.description}
-                    <br/>
-                    ryyppägs
                 </p>
             </Section.Body>
 

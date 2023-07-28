@@ -5,6 +5,7 @@ import UpdateEvent from '../../Functions/UpdateEvent';
 import UpdateEventModal from "../../Components/Modals/UpdateEventModal";
 import useMainImage from "../../Hooks/useMainImage";
 import Update from '../../Functions/Update';
+import { useRef } from "react";
 
 function Header(props){
     const {event, loadEvent, mainImageId} = useContext(EventContext);
@@ -13,7 +14,20 @@ function Header(props){
 
     const time = typeof(event.date) === 'string' ? parseInt(event.date) : event.date;
     const date = new Date(time).toLocaleDateString('fi-FI');
-    
+    const timeout = useRef(null);
+
+    function saveContent(e, where){
+        const timeoutDuration = 500;
+        if(timeout.current) clearTimeout(timeout.current);
+        timeout.current = setTimeout(() => {
+            const content = {
+                where : e.target.innerHTML,
+            }
+
+            console.log(content);
+        }, timeoutDuration);
+    }
+
     return (
         <div className="event-header">
             <div className="event-header-buttons">
@@ -28,7 +42,7 @@ function Header(props){
                     </Image>
                     <div className="event-text-container">
                         <h1>{event.name}</h1>
-                        <p>
+                        <p spellCheck={false} contentEditable={false} onInput={(e) => null}>
                             {
                                 event.description
                             }
