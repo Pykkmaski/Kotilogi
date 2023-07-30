@@ -84,6 +84,7 @@ function ImagesSection(props){
                     <EditButton
                         editFunction={() => setEditing(true)}
                         cancelFunction={() => setEditing(false)}
+                        hidden={images.length === 0}
                     >Muokkaa</EditButton>
                     <Button variant="add" className="primary" onClick={() => setShowUploadModal(true)}>Lisää Kuva</Button>
                 </div>
@@ -113,7 +114,7 @@ function ImagesSection(props){
 
             <Section.Body>
                 <Gallery>
-                    <Gallery.Body>
+                    <Gallery.Body className={images.length === 0 ? 'empty' : null}>
                         {
                             images.length ?
                             images.map(image => {

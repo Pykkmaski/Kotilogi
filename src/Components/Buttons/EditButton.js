@@ -22,6 +22,8 @@ function EditButton(props){
         }
     }, [editing])
 
+    if(props.hidden) return null;
+    
     return(
         <Button className={editing ? 'secondary' : 'primary'} onClick={onClickHandler}>{label}</Button>
     )

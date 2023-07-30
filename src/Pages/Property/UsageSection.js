@@ -242,7 +242,7 @@ function UsageSection(props){
 
             <Section.Body>
                 <Gallery>
-                    <Gallery.Body>
+                    <Gallery.Body className="empty">
                         <div id="charts">
                             <Chart
                                 type={chartType}

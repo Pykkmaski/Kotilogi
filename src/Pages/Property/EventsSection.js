@@ -48,7 +48,7 @@ function EventsSection(props){
                     <EditButton
                         editFunction={editFunction}
                         cancelFunction={cancelEditFunction}
-                    
+                        hidden={events.length === 0}
                     >Muokkaa</EditButton>
                     <Button variant="add" className="primary" onClick={() => AddEvent(null, property.id, (id) => {
                         location.assign(`/#/properties/${property.id}/events/${id}/info`);

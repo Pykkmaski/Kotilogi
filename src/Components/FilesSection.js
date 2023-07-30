@@ -65,6 +65,7 @@ function FilesSection(props){
                     <EditButton
                         editFunction={() => setEditing(true)}
                         cancelFunction={() => setEditing(false)}
+                        hidden={files.length === 0}
                     >Muokkaa</EditButton>
                     <Button variant="add" className="primary" onClick={() => setShowUploadModal(true)}>Lisää Tiedosto</Button>
                 </div>
@@ -111,7 +112,7 @@ function FilesSection(props){
 
             <Section.Body>
                 <Gallery>
-                    <Gallery.Body>
+                    <Gallery.Body className={files.length === 0 ? 'empty' : null}>
                         {
                             files.length ?
                             files.map(file => {

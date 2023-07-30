@@ -1,4 +1,5 @@
 import {render, screen} from 'react-test-renderer';
+import {userEvent} from '@testing-library/'
 import Property from '../Property';
 
 describe('Property page', () => {
