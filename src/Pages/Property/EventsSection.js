@@ -71,7 +71,7 @@ function EventsSection(props){
 
             <Section.Body data-testid="events-section-body">
                 <Gallery buttonTitle="Lisää Tapahtuma" >
-                    <Gallery.Body>
+                    <Gallery.Body className={events.length === 0 ? 'empty' : null}>
                     {
                         events.length ?
                         events.map(ev => {

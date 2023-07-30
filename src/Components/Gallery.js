@@ -1,3 +1,4 @@
+import useClassName from "../Hooks/useClassName";
 import useSubComponents from "../Hooks/useSubComponents";
 import FileCard from './Cards/FileCard';
 import ImageCard from "./Cards/ImageCard";
@@ -6,7 +7,7 @@ function Gallery(props){
     const subComponents = useSubComponents(Object.keys(Gallery), props);
 
     return (
-        <div className={"gallery"}>
+        <div className={'gallery'}>
             {
                 subComponents.map((component) => component)
             }
@@ -24,7 +25,12 @@ const Button = (props) => <div className="gallery-item add-button" onClick={prop
 </div>
 Gallery.Button = Button;
 
-const Body = (props) => <div className="gallery-body">{props.children}</div>
+const Body = (props) => {
+    const {className} = useClassName('gallery-body', props.className);
+    return (
+        <div className={className}>{props.children}</div>
+    );
+}
 Gallery.Body = Body;
 
 export default Gallery;
