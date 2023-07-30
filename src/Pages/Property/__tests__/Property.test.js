@@ -1,10 +1,12 @@
-import renderer from 'react-test-renderer';
+import {render, screen} from 'react-test-renderer';
 import Property from '../Property';
 
-test('Testing the tests', () => {
-    const component = renderer.create(
-        <Property/>
-    ).toJSON();
-
-    expect(component).toBeDefined();
-});
+describe('Property page', () => {
+    const pageComponent = renderer.create(<Property/>);
+    describe('Navbar', () => {
+        
+        it('Contains the link to the property info section', () => {
+            expect()
+        });
+    })
+})

@@ -3,7 +3,7 @@
 .card{
     display: flex;
     flex-flow: column;
-    width: 18rem;
+    width: 25fr; /*Galleries contain four cards on each row*/
     border-radius: $border-radius;
     border: 1px solid $border-color;
     padding: 0.25rem;
