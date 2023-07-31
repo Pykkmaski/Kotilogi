@@ -65,7 +65,7 @@ function Properties(props){
 
             <Section.Body>
                 <Gallery>
-                    <Gallery.Body>
+                    <Gallery.Body className={properties.length === 0 ? 'empty' : null}>
                         {
                             properties.length ? 
                             properties.map(item => {
