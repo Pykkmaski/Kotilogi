@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const db = require('../dbconfig');
 const RouteHandleError = require('./RouteHandleError');
+const bcrypt = require('bcrypt');
 
 async function SendPasswordResetCode(email, res){
     try{
@@ -14,7 +15,7 @@ async function SendPasswordResetCode(email, res){
 
         await db('password_reset_codes').insert({
             user: email,
-            reset_code: resetCode,
+            reset_code: await bcrypt.hash(resetCode, 15),
             expires: expiryTime,
         })
         .onConflict('user')

@@ -24,7 +24,7 @@ async function verifyResetCode(req, res){
         if(!data) return reject (404); //No reset code exists for the provided email
         
         //Compare the provided code with the encrypted code stored in the database.
-        const comparisonResult = await bcrypt.compare(data.reset_code, reset_code);
+        const comparisonResult = await bcrypt.compare(reset_code, data.reset_code);
         if(!comparisonResult) return reject(403);
 
         const currentTime = new Date().getTime();
