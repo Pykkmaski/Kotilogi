@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const db = require('../dbconfig');
+const RouteHandleError = require('./RouteHandleError');
 
-async function SendPasswordResetCode(email){
+async function SendPasswordResetCode(email, res){
     try{
         const nodemailer = require('nodemailer');
         const {transportOptions} = require('../nodemailer.config');
@@ -24,9 +25,6 @@ async function SendPasswordResetCode(email){
             <span>Kopioi ja liitä alla oleva koodi sille varattuun kenttään 30min kuluessa.</span></br>
             <h1>${resetCode}</h1>
         `
-
-        console.log(resetCode);
-
         const info  = await transport.sendMail({
             from: process.env.SERVICE_EMAIL_ADDRESS,
             to: email,
@@ -35,7 +33,7 @@ async function SendPasswordResetCode(email){
         });
     }
     catch(err){
-        console.log(err);
+        RouteHandleError(err, res);
     }
 }
 

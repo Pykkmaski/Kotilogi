@@ -108,17 +108,13 @@ router.post('/resend', async (req, res) => {
         const {instruction, email} = req.body;
         switch(instruction){
             case 0:
-                SendActivationCode(email);
-            break;
+                return SendActivationCode(email, res);
 
             case 1:
-                SendPasswordResetCode(email);
-            break;
+                return SendPasswordResetCode(email, res);
 
             default: return res.sendStatus(500);
         }
-
-        res.sendStatus(200);
     }
     catch(err){
         RouteHandleError(err, res);

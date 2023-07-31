@@ -35,7 +35,7 @@ function ActivateUser(props){
                 <Form.Group>
                     <Form.Label>Aktivointikoodi</Form.Label>
                     <Form.Control name="activation_code" required></Form.Control>
-                    <Form.SubLabel>Koodi on lähetetty sähköpostiisi. Etkö saanut sitä? Klikkaa <a href="#">tästä</a></Form.SubLabel>
+                    <Form.SubLabel>Koodi on lähetetty sähköpostiisi. Etkö saanut sitä? Klikkaa <a href="/send/activationcode">tästä</a></Form.SubLabel>
                 </Form.Group>
 
                 <Form.ButtonGroup>
