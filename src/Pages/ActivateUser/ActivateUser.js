@@ -12,6 +12,8 @@ function ActivateUser(props){
     function onSubmitHandler(e){
         e.preventDefault();
         setLoading(true);
+        setError(-1);
+        
         axios.post('/api/users/activate', {
             activationCode: e.target.activation_code.value,
             email: user.email,
@@ -51,7 +53,7 @@ function ActivateUser(props){
                     :
                     error === 403 ? <Form.Error>Aktivointikoodia ei hyväksytty!</Form.Error>
                     :
-                    error === 410 ? <Form.Error>Aktivointikoodi on umpeutunut! Ole hyvä ja luo uusi tili.</Form.Error>
+                    error === 410 ? <Form.Error>Aktivointikoodi on umpeutunut! Aikaisemmin luomasi tili on poistettu. Ole hyvä ja <a href="/#/register">Luo uusi tili</a></Form.Error>
                     :
                     <></>
                 }

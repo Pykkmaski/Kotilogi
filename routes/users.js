@@ -23,7 +23,9 @@ async function verifyResetCode(req, res){
         const data = await db('password_reset_codes').where({user: email}).first();
         if(!data) return reject (404); //No reset code exists for the provided email
         
-        if(data.reset_code !== reset_code) return reject(403);
+        //Compare the provided code with the encrypted code stored in the database.
+        const comparisonResult = await bcrypt.compare(data.reset_code, reset_code);
+        if(!comparisonResult) return reject(403);
 
         const currentTime = new Date().getTime();
         if(currentTime > data.expires) return reject(410); //The code has expired.
@@ -90,7 +92,8 @@ router.post('/activate', async (req, res) => {
         const savedActivationCode = await db('user_activation_codes').where({user: email}).first();
         if(!savedActivationCode) throw 404;
 
-        if(savedActivationCode.activation_code !== activationCode) throw 409;
+        const comparisonResult = await bcrypt.compare(activationCode, savedActivationCode.activation_code);
+        if(!comparisonResult) throw 403;
         
         const currentTime = new Date().getTime();
         if(currentTime > savedActivationCode.expires) throw 410;
