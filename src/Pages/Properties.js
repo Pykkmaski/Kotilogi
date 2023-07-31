@@ -39,6 +39,7 @@ function Properties(props){
                 <EditButton
                     editFunction={() => setEditing(true)}
                     cancelFunction={() => setEditing(false)}
+                    hidden={!properties.length}
                 >Muokkaa</EditButton>
                 <Button className="primary" variant="add" onClick={() => AddProperty(null, (property_id) => location.assign(`/#/properties/${property_id}/info`))}>Lisää Talo</Button>
                 </div>
