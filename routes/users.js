@@ -7,31 +7,6 @@ const SendPasswordResetCode = require('../Functions/SendPasswordResetCode');
 const SendActivationCode = require('../Functions/SendActivationCode');
 const VerifyResetCode = require('../Functions/VerifyResetCode');
 
-async function sendResetCode(req, res){
-    
-    return new Promise(async (resolve, reject) => {
-        const {email} = req.body;
-        if(!(await db('users').where({email}).first())) return reject(404); //A user with the provided email doesn't exist
-
-        SendPasswordResetCode(email);
-        resolve();
-    });
-}
-
-async function resetPassword(req, res){
-    return new Promise(async (resolve, reject) => {
-        const {email, password1, password2} = req.body;
-        if(password1 !== password2) return reject(409);
-    
-        const saltedPassword = await bcrypt.hash(password1, 15)
-        db('users').where({email}).update({
-            password : saltedPassword
-        })
-        .catch(err => reject(err))
-        .finally(() => resolve());
-    });  
-}
-
 router.get('/', async (req, res) => {
     try{
         const {email} = req.body;
@@ -47,16 +22,22 @@ router.post('/reset/password', async (req, res) => {
     const {step} = req.body;
     try{
         switch(step){
-            case 0: 
-                await sendResetCode(req, res);
+            case 0: {
+                const {email} = req.body;
+                await SendPasswordResetCode(email);
+            }
             break;
     
-            case 1:
-                await VerifyResetCode(req, res);
+            case 1:{
+                const {reset_code, email} = req.body;
+                await VerifyResetCode(reset_code, email);
+            }
+                
             break;
     
             case 2:
-                await resetPassword(req, res);
+                const {email, password1, password2} = req.body;
+                await ResetPassword(email, password1, password2);
             break;
     
             default: throw 500;

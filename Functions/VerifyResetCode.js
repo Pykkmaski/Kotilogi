@@ -1,13 +1,13 @@
 const db = require('../dbconfig');
 const bcrypt = require('bcrypt');
 
-async function VerifyResetCode(req, res){
+async function VerifyResetCode(reset_code, email){
+    ///Verifies a provided reset code matches the encrypted code stored in the database
     return new Promise(async (resolve, reject) => {
-        const {reset_code, email} = req.body;
         const data = await db('password_reset_codes').where({user: email}).first();
         if(!data) return reject (404); //No reset code exists for the provided email
         
-        //Compare the provided code with the encrypted code stored in the database.
+        //Reject unmatching codes
         const comparisonResult = await bcrypt.compare(reset_code, data.reset_code);
         if(!comparisonResult) return reject(403);
 
@@ -18,4 +18,4 @@ async function VerifyResetCode(req, res){
     });
 }
 
-export default VerifyResetCode;
+module.exports = VerifyResetCode;

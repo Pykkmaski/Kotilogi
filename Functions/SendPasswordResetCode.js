@@ -4,8 +4,10 @@ const db = require('../dbconfig');
 const RouteHandleError = require('./RouteHandleError');
 const bcrypt = require('bcrypt');
 
-async function SendPasswordResetCode(email, res){
-    try{
+async function SendPasswordResetCode(email){
+    return new Promise(async (resolve, reject) => {
+        if(!(await db('users').where({email}).first())) return reject(404); //A user with the provided email doesn't exist
+
         const nodemailer = require('nodemailer');
         const {transportOptions} = require('../nodemailer.config');
         const transport = nodemailer.createTransport(transportOptions);
@@ -33,16 +35,13 @@ async function SendPasswordResetCode(email, res){
             html: passwordResetContent,
         }, (err) => {
             if(err){
-                res.sendStatus(500);
+                return reject(500);
             }
             else{
-                res.sendStatus(200);
+                resolve();
             }
         });
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
+    });
 }
 
 module.exports = SendPasswordResetCode;
