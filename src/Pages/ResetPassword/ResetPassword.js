@@ -131,6 +131,8 @@ function ResetCodeForm({email, setStep}){
                 :
                 error === 1 ? <Form.Success>Nollauskoodi lähetetty! Tarkista sähköpostisi.</Form.Success>
                 :
+                error === 400 ? <Form.Error>Nollauskoodia ei voida lähettää! Tarkista että olet kirjoittanut sähköpostisi oikein.</Form.Error>
+                :
                 error === 403 ? <Form.Error>Nollauskoodia ei hyväksytty!</Form.Error>
                 :
                 error === 410 ? <Form.Error>Nollauskoodi on umpeutunut!</Form.Error> 

@@ -1,4 +1,5 @@
 import useSubComponents from "../../Hooks/useSubComponents"
+import useClassName from "../../Hooks/useClassName";
 
 function DescriptionElement(props){
 
@@ -22,10 +23,15 @@ DescriptionElement.Title = Title;
 const Text = (props) => <div className="description-text">{props.children}</div>
 DescriptionElement.Text = Text;
 
-const Img = ({src}) => <img src={src} className="description-image" width="200px"></img>
+const Img = (props) => {
+    const {className} = useClassName('description-image', props.className)
+    return <img src={props.src} className={className} width="200px"></img>
+}
 DescriptionElement.Img = Img;
 
 function AppDescription(props){
+
+    const imageClassName = "animated";
 
     return (
         <div className="app-description">
@@ -36,7 +42,7 @@ function AppDescription(props){
             <div className="app-description-body">
                 <DescriptionElement id="events-description">
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/history.png"/>
+                        <DescriptionElement.Img src="img/history.png" className={imageClassName}/>
                         <DescriptionElement.Title>Tapahtumat</DescriptionElement.Title>
 
                         <DescriptionElement.Text>
@@ -49,7 +55,7 @@ function AppDescription(props){
                 <DescriptionElement id="usage-description">
                     
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/bolt.png"/>
+                        <DescriptionElement.Img src="img/bolt.png" className={imageClassName}/>
                         <DescriptionElement.Title>Kulutus</DescriptionElement.Title>
                         <DescriptionElement.Text>
                             Kulutus osiossa saat seurattua talosi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut. 
@@ -59,7 +65,7 @@ function AppDescription(props){
 
                 <DescriptionElement id="images-description">
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/image.png"/>
+                        <DescriptionElement.Img src="img/image.png" className={imageClassName}/>
                         <DescriptionElement.Title>Kuvat</DescriptionElement.Title>
                         <DescriptionElement.Text>
                             Tähän osioon voit lisätä vapaasti taloosi liittyviä kuvia. Vaikka muutama kuva eri vuoden aikoina.
@@ -69,7 +75,7 @@ function AppDescription(props){
 
                 <DescriptionElement id="files-description">
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/copy.png"/>
+                        <DescriptionElement.Img src="img/copy.png" className={imageClassName}/>
                         <DescriptionElement.Title>Tiedostot</DescriptionElement.Title>
                         <DescriptionElement.Text>
                             Tähän osioon on hyvä laittaa talteen esimerkiksi rakennuspiirustuksia, tontin lunastuskuitti vuosien takaa jne.

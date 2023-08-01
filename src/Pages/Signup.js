@@ -127,6 +127,9 @@ function Signup(props){
                         {
                             error === 409 ? 
                             "Annetut salasanat eivät täsmää!" :
+                            error === 400 ?
+                            "Rekisteröinti epäonnistui! Tarkista että olet kirjoittanut sähköpostisi oikein."
+                            :
                             error === 406 ?
                             "Tili annetulla sähköpostiosoitteella on jo olemassa!" :
                             error === 500 ?

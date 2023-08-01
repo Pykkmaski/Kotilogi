@@ -34,6 +34,22 @@ $title-color : rgb(183, 201, 255);
         flex-flow: column;
         align-items: center;
 
+        @keyframes ImageAnimation{
+
+            0%{
+                transform: rotate(20deg);
+            }
+
+            100%{
+                transform: rotate(-20deg);
+            }
+        }
+            
+        &:hover .description-image{
+            
+            transform: translateY(-10px);
+        }
+
         .description-title{
             font-size: 2rem;
             text-align: center;
@@ -42,7 +58,7 @@ $title-color : rgb(183, 201, 255);
 
         .description-image{
             filter: invert(1);
-
+            transition: transform 0.3s ease-in-out;
             margin-bottom: 2rem;
         }
 

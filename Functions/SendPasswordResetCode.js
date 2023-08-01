@@ -35,7 +35,7 @@ async function SendPasswordResetCode(email){
             html: passwordResetContent,
         }, (err) => {
             if(err){
-                return reject(500);
+                return reject(400);
             }
             else{
                 resolve();

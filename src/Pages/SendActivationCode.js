@@ -50,6 +50,8 @@ function UserActivationForm(props){
             {
                 error === 0 ? <Form.Success>Aktivointikoodi lähetetty onnistuneesti!</Form.Success>
                 :
+                error === 400 ? <Form.Error>Aktivointikoodia ei voida lähettää! Tarkista että olet kirjoittanut sähköpostisi oikein.</Form.Error>
+                :
                 error === 404 ? 
                 <Form.Error>Tiliä tällä sähköpostiosoitteella ei ole!</Form.Error>
                 :

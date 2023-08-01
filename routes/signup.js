@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
             username: email,
         });
 
-        SendActivationCode(email);
+        await SendActivationCode(email);
 
         res.sendStatus(200);
     }

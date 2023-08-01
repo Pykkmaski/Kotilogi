@@ -36,7 +36,7 @@ async function SendActivationCode(email, res){
             `
         }, (err) => {
             if(err){
-                return reject(500);
+                return reject(400);
             }
             else{
                 return resolve();
