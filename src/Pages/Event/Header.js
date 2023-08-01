@@ -38,14 +38,14 @@ function Header(props){
 
                     </Image>
                     <div className="event-text-container">
-                        <h1 spellCheck={false} contentEditable={true} onBlur={(e) => saveContent(e, 'name')}>{event.name}</h1>
-                        <p spellCheck={false} contentEditable={true} onBlur={(e) => saveContent(e, 'description')}>
+                        <h1 spellCheck={false} contentEditable={false} onBlur={(e) => saveContent(e, 'name')}>{event.name}</h1>
+                        <p spellCheck={false} contentEditable={false} onBlur={(e) => saveContent(e, 'description')}>
                             {
                                 event.description
                             }
                         </p>
 
-                        <input type="date" id="date" defaultValue={new Date(date)} onChange={(e) => saveContent(e, 'date')}></input>
+                        <span id="date" onBlur={(e) => saveContent(e, 'date')}>{date}</span>
                     </div>
                 </div>
             </div>  
