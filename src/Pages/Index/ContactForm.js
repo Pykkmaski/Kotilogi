@@ -14,7 +14,7 @@ function ContactForm(props){
         axios.post('/api/contact', {
             email: e.target.email.value,
             message: e.target.message.value,
-            name: e.target.name.value
+            name: e.target.name.value || ''
         })
         .then(res => {
             setError(0);

@@ -108,6 +108,23 @@
         gap: 1rem;
         align-items: center;
 
+        form{
+            background: none !important;
+            box-shadow: none !important;
+            border-radius: 10px;
+
+            label{
+                color : white;
+            } 
+
+            button.primary{
+                background: rgb(85, 252, 255);
+                color: black;
+                &:hover{
+                    background: rgb(200, 251, 255);
+                }
+            }
+        }
         p{
             color: white;
             text-align: center;
