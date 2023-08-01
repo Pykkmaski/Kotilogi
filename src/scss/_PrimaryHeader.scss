@@ -5,6 +5,8 @@
     z-index: 2;
     background: white;
     border-bottom: 1px solid $border-color;
+    position: sticky;
+    top: 0;
     
     #user-email{
         font-style: italic;

@@ -1,13 +1,9 @@
-import {render, screen} from 'react-test-renderer';
-import {userEvent} from '@testing-library/'
+import TestRenderer from 'react-test-renderer';
 import Property from '../Property';
 
-describe('Property page', () => {
-    const pageComponent = renderer.create(<Property/>);
-    describe('Navbar', () => {
-        
-        it('Contains the link to the property info section', () => {
-            expect()
-        });
-    })
-})
+test('testing the test', () => {
+   const renderer = TestRenderer.create(<Property/>);
+   const testInstance = renderer.root;
+
+   expect(testInstance.findByType())
+});

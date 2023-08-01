@@ -17,15 +17,12 @@ function Header(props){
     const timeout = useRef(null);
 
     function saveContent(e, where){
-        const timeoutDuration = 500;
-        if(timeout.current) clearTimeout(timeout.current);
-        timeout.current = setTimeout(() => {
-            const content = {
-                where : e.target.innerHTML,
-            }
+        const content = {};
+        content[where] = e.target.innerText || e.target.textContent;
 
-            console.log(content);
-        }, timeoutDuration);
+        const url = `/api/events/${event.id}`;
+        console.log(content);
+        Update(url, content, () => loadEvent());
     }
 
     return (
@@ -41,14 +38,14 @@ function Header(props){
 
                     </Image>
                     <div className="event-text-container">
-                        <h1>{event.name}</h1>
-                        <p spellCheck={false} contentEditable={false} onInput={(e) => null}>
+                        <h1 spellCheck={false} contentEditable={true} onBlur={(e) => saveContent(e, 'name')}>{event.name}</h1>
+                        <p spellCheck={false} contentEditable={true} onBlur={(e) => saveContent(e, 'description')}>
                             {
                                 event.description
                             }
                         </p>
 
-                        <span id="date">{date}</span>
+                        <input type="date" id="date" defaultValue={new Date(date)} onChange={(e) => saveContent(e, 'date')}></input>
                     </div>
                 </div>
             </div>  
