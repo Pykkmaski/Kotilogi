@@ -2,12 +2,12 @@
 
 #primary-header{
     padding: 1rem;
-    z-index: 2;
+    z-index: 4;
     background: white;
     border-bottom: 1px solid $border-color;
     position: sticky;
     top: 0;
-    
+
     #user-email{
         font-style: italic;
         font-weight: 1;
