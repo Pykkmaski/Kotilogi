@@ -51,7 +51,7 @@ app.post('/api/contact', async (req, res) => {
         const transport = nodemailer.createTransport(transportOptions);
         transport.sendMail({
             from: `${name} <${email}>`,
-            to: process.env.SERVICE_EMAIL_CONTACT_TARGET,
+            to: process.env.SERVICE_CONTACT_EMAIL_ADDRESS,
             subject: 'Kotilogi yhteydenotto',
             text: message,
         }, (err => {
