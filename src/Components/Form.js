@@ -37,7 +37,7 @@ const Control = (props) => {
         )
     }
     else if(props.type === 'textarea'){
-        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue} required={props.required}/>
+        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue} required={props.required} maxLength={props.maxLength}/>
     }
     else{
         return <input 

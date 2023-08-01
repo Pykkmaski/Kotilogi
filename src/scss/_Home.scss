@@ -94,11 +94,13 @@
 
 #home-page-footer{
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: center;
+    align-items: center;
     padding-top: 5rem;
+    padding-bottom: 5rem;
     background: $primary-color;
-    height: 500px;
+    gap: 1rem;
 
     h1{
         color: white;

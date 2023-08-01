@@ -1,3 +1,5 @@
+import ContactForm from "./ContactForm";
+
 function Footer(props){
     return (
         <div className="group-column" id="home-page-footer">
@@ -5,16 +7,7 @@ function Footer(props){
                 <h1>Ota Yhteyttä</h1>
             </header>
 
-            <div className="group-column">
-                <div className="footer-contact-info">
-                    <header>
-                        <h2>Jani Österberg</h2>
-                        <p>
-
-                        </p>
-                    </header>
-                </div>
-            </div>
+            <ContactForm/>
         </div>
     )
 }
