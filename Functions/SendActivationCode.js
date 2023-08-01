@@ -5,11 +5,11 @@ const RouteHandleError = require('./RouteHandleError');
 const bcrypt = require('bcrypt');
 
 async function SendActivationCode(email, res){
-    try{   
+    return new Promise(async (resolve, reject) => {
         const user = await db('users').where({email}).first();
-        if(!user) throw 404;
+        if(!user) return reject(404);
         
-        if(user.active) throw 409;
+        if(user.active) return reject(409);
 
         const expiryTime = new Date().getTime() + parseInt(process.env.USER_ACTIVATION_CODE_EXPIRY_TIME);
         const activationCode = crypto.randomBytes(4).toString('hex');
@@ -36,16 +36,13 @@ async function SendActivationCode(email, res){
             `
         }, (err) => {
             if(err){
-                res.sendStatus(500);
+                return reject(500);
             }
             else{
-                res.sendStatus(200);
+                return resolve();
             }
         });
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
+    });
 }
 
 module.exports = SendActivationCode;
