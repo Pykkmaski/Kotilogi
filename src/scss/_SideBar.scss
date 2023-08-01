@@ -2,13 +2,13 @@
 
 .sidebar{
     background: $sidebar-color;
-    min-height: 100vh;
     padding: 1rem;
     width: 18rem;
     display: flex;
     flex-flow: column;
+
     position: sticky;
-    top: 0;
+    top: 68px;
 }
 
 .sidebar .sidebar-group{

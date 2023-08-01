@@ -102,6 +102,18 @@
     background: $primary-color;
     gap: 1rem;
 
+    .footer-element{
+        display: flex;
+        flex-flow: column;
+        gap: 1rem;
+        align-items: center;
+
+        p{
+            color: white;
+            text-align: center;
+        }
+    }
+
     h1{
         color: white;
     }
