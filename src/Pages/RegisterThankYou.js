@@ -7,7 +7,7 @@ function RegisterThankYou(props){
         }, 2000);
     }, []);
     return(
-        <div className="d-flex flex-column align-items-center justify-content-center">
+        <div id="register-thank-you-page">
             <h1>Kiitos Rekisteröitymisestä!</h1>
             <span>Sinut uudelleenohjataan sisäänkirjautumiseen hetken kuluttua...</span>
         </div>
