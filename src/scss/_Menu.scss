@@ -1,0 +1,37 @@
+.menu{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 0.5rem;
+    background: white;
+    z-index: 5;
+}
+
+.menu-btn{
+    display: none; /*Not displayed by default. Will become visible when viewing on a mobile device.*/
+    flex-flow: column;
+    gap: 0.5rem;
+
+    .btn-line{
+        width: 3rem;
+        height: 0.5rem;
+        background: black;
+
+        transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    }
+
+    &.open{
+
+        .btn-line:nth-child(1){
+            transform: rotate(45deg);
+        }
+
+        .btn-line:nth-child(2){
+            opacity: 0;
+        }
+
+        .btn-line:nth-child(3){
+            transform: rotate(-45deg);
+        }
+    }
+}

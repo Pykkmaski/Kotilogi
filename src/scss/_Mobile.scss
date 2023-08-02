@@ -1,5 +1,12 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
+        .menu-btn{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex !important;
+        }
+
         .bg-blur{
             backdrop-filter: blur(20px) !important;
             background: rgba(black, 0.3) !important;

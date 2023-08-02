@@ -1,10 +1,10 @@
 const nodemailer = require('nodemailer');
 const router = require('express').Router();
 
-router.post('/api/contact', async (req, res) => {
+router.post('/', async (req, res) => {
     try{
         const {email, name, message} = req.body;
-        const {transportOptions} = require('./nodemailer.config.js');
+        const {transportOptions} = require('../nodemailer.config.js');
         const transport = nodemailer.createTransport(transportOptions);
         transport.sendMail({
             from: `${name} <${email}>`,
@@ -21,7 +21,7 @@ router.post('/api/contact', async (req, res) => {
         }));
     }
     catch(err){
-        const RouteHandleError = require('./Functions/RouteHandleError.js');
+        const RouteHandleError = require('../Functions/RouteHandleError.js');
         RouteHandleError(err, res);
     }
 });

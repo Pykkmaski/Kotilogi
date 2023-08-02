@@ -7,6 +7,7 @@ function ContactForm(props){
     const [error, setError] = useState(-1);
     
     const messageLength = useRef(0);
+
     function onSubmitHandler(e){
         e.preventDefault();
         setLoading(true);
@@ -18,6 +19,7 @@ function ContactForm(props){
         })
         .then(res => {
             setError(0);
+            e.target.email.value = e.target.message.value = e.target.name.value = "";
         })
         .catch(err => {
             setError(err.response.status);

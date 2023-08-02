@@ -1,7 +1,9 @@
 import {Link} from 'react-router-dom';
-import { useContext} from 'react';
+import { useContext, useState} from 'react';
 import AppContext from '../Contexts/AppContext';
 import Logout from '../Functions/Logout';
+import Menu from './Menu/Menu';
+import MenuButton from './Menu/MenuButton';
 
 const logo = './img/logo.png';
 
@@ -32,9 +34,13 @@ function LoggedInLinks(){
 function Header(props){
 
     const {token, user} = useContext(AppContext);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     return(
         <header className="d-flex flex-row align-items-center justify-content-between" id="primary-header">
+            <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+            <Menu token={token} visible={menuOpen} loggedInLinks={LoggedInLinks} LoggedOutLinks={LoggedOutLinks}/>
+
             <div className="flex-row gap-m" id="header-logo-area">
                 <Link to="/">
                     <img src={logo}/>
