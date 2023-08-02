@@ -29,6 +29,7 @@
 @import './AppDescription';
 @import './Loading';
 @import './RegisterThankYou';
+@import './Mobile';
 
 *{
     box-sizing: border-box;
@@ -450,6 +451,8 @@ a{
     }
 
 }
+
+@include MediaSM;
 
 @media screen and(max-width: 1000px){
     .page{

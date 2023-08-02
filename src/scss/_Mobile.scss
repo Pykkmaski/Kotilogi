@@ -1,0 +1,35 @@
+@mixin MediaSM{
+    @media screen and (max-width: 1000px){
+        .bg-blur{
+            backdrop-filter: blur(20px) !important;
+            background: rgba(black, 0.3) !important;
+        }
+
+        form{
+            min-width: auto !important;
+            width: 100%;
+            background: none !important;
+            box-shadow: none !important;
+
+            label, .form-title{
+                color: white !important;
+            }
+
+            .sub-label{
+                color: lightgray !important;
+            }
+        }
+
+        #login-page{
+            a{
+                color: white !important;
+            }
+        }
+
+        #signup-page{
+            #tos-agreement-text{
+                color: white !important;
+            }
+        }
+    }
+}

@@ -12,7 +12,7 @@ function Footer(props){
 
                 <p>
                     Kysyttävää? Lähetä meille viesti ja palaamme asiaan mahdollisimman pian.<br/>
-                    Antamaasi sähköpostia ei käytetä mihinkään muuhun kuin viestiisi vastaamiseen.
+                    Antamaasi sähköpostia ei käytetä mihinkään muuhun tarkoitukseen kuin viestiisi vastaamiseen.
                 </p>
 
                 <ContactForm/>
