@@ -43,31 +43,8 @@ app.use('/api/reset', resetRouter);
 const usersRouter = require('./routes/users.js');
 app.use('/api/users', usersRouter);
 
-const nodemailer = require('nodemailer');
-app.post('/api/contact', async (req, res) => {
-    try{
-        const {email, name, message} = req.body;
-        const {transportOptions} = require('./nodemailer.config.js');
-        const transport = nodemailer.createTransport(transportOptions);
-        transport.sendMail({
-            from: `${name} <${email}>`,
-            to: process.env.SERVICE_CONTACT_EMAIL_ADDRESS,
-            subject: 'Kotilogi yhteydenotto',
-            text: message,
-        }, (err => {
-            if(err){
-                throw err;
-            }
-            else{
-                res.sendStatus(200);
-            }
-        }));
-    }
-    catch(err){
-        const RouteHandleError = require('./Functions/RouteHandleError.js');
-        RouteHandleError(err, res);
-    }
-});
+const contactRoute = require('./routes/contact.js');
+app.use('/api/contact', contactRoute);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
