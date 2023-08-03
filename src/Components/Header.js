@@ -39,7 +39,7 @@ function Header(props){
     return(
         <header className="d-flex flex-row align-items-center justify-content-between" id="primary-header">
             <MenuButton menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
-            <Menu token={token} visible={menuOpen} loggedInLinks={LoggedInLinks} LoggedOutLinks={LoggedOutLinks}/>
+            <Menu token={token} visible={menuOpen} setMenuOpen={setMenuOpen} loggedInLinks={LoggedInLinks} LoggedOutLinks={LoggedOutLinks}/>
 
             <div className="flex-row gap-m" id="header-logo-area">
                 <Link to="/">

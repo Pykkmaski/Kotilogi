@@ -10,15 +10,9 @@ function Menu(props){
     return (
         <div className={className}>
             <nav>
-                {
-                    !token ?
-                    props.loggedOutLinks
-                    :
-                    <div className="group-row">
-                        <span id="user-email">{user?.email}</span>
-                        {props.loggedInLinks}  
-                    </div>
-                }
+                <a href="/#/" onClick={() => props.setMenuOpen(false)}>Etusivu</a>
+                <a href="/#/login" onClick={() => props.setMenuOpen(false)}>Kirjaudu Sisään</a>
+                <a href="/#/register" onClick={() => props.setMenuOpen(false)}>Rekisteröidy</a>
             </nav>
         </div>
     );
