@@ -15,13 +15,12 @@ import Pricing from './Pages/Pricing';
 import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
-import ActivateUser from './Pages/ActivateUser/ActivateUser';
-import useUser from './Hooks/useUser';
 import SendActivationCode from './Pages/SendActivationCode';
 
-function App(props){
+
+function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
     const [user, setUser] = useLocalStorage(userStorageKey, null);
     axios.defaults.headers['Authorization'] = token;
@@ -38,17 +37,17 @@ function App(props){
                 <Header/>
                     <div className='body'>
                         <Routes>
-                            <Route exact path="/" element={<Home/>}></Route>
-                            <Route exact path="/login" element={<Login/>}></Route>
-                            <Route exact path="/register" element={<Signup/>}></Route>
-                            <Route exact path="/user/" element={<Properties/>}></Route>
-                            <Route exact path="/pricing" element={<Pricing/>}></Route>
-                            <Route exact path="/properties/:property_id/:section" element={<Property/>}></Route>
-                            <Route exact path="/properties/:property_id/events/:event_id/:section" element={<Event/>}></Route>
-                            <Route exact path="/thankyou" element={<RegisterThankYou/>}></Route>
-                            <Route exact path="/reset/password" element={<ResetPassword/>}></Route>
-                            <Route exact path="/send/activationcode" element={<SendActivationCode/>}></Route>
-                            <Route exact path="*" element={<Unknown/>}></Route>
+                            <Route path="/" element={<Home/>}></Route>
+                            <Route path="/login" element={<Login/>}></Route>
+                            <Route path="/register" element={<Signup/>}></Route>
+                            <Route path="/user/" element={<Properties/>}></Route>
+                            <Route path="/pricing" element={<Pricing/>}></Route>
+                            <Route path="/properties/:property_id/:section" element={<Property/>}></Route>
+                            <Route path="/properties/:property_id/events/:event_id/:section" element={<Event/>}></Route>
+                            <Route path="/thankyou" element={<RegisterThankYou/>}></Route>
+                            <Route path="/reset/password" element={<ResetPassword/>}></Route>
+                            <Route path="/send/activationcode" element={<SendActivationCode/>}></Route>
+                            <Route path="*" element={<Unknown/>}></Route>
                         </Routes>
                     </div>
                     

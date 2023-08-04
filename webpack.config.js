@@ -19,7 +19,7 @@ module.exports = {
     module : {
         rules : [
             {
-                test: /.js$/,
+                test: /.jsx$/,
                 exclude: /node_modules/, 
                 
                 use: {
@@ -38,7 +38,17 @@ module.exports = {
                     "css-loader",
                     "sass-loader"
                 ]
+            },
+
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
             }
         ],
+    },
+
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
 };
