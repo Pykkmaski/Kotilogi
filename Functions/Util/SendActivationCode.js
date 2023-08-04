@@ -1,28 +1,27 @@
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const db = require('../dbconfig');
-const RouteHandleError = require('./RouteHandleError');
-const bcrypt = require('bcrypt');
+const HashPassword = require('./HashPassword');
 
 async function SendActivationCode(email, res){
     return new Promise(async (resolve, reject) => {
         const user = await db('users').where({email}).first();
-        if(!user) return reject(404);
+        if(!user) return reject(new Error(404));
         
-        if(user.active) return reject(409);
+        if(user.active) return reject(new Error(409));
 
         const expiryTime = new Date().getTime() + parseInt(process.env.USER_ACTIVATION_CODE_EXPIRY_TIME);
         const activationCode = crypto.randomBytes(4).toString('hex');
 
         await db('user_activation_codes').insert({
-            activation_code: await bcrypt.hash(activationCode, 15),
+            activation_code: HashPassword(activationCode, 15),
             user: email,
             expires: expiryTime,
         })
         .onConflict('user')
         .merge(['activation_code', 'expires']);
 
-        const {transportOptions} = require('../nodemailer.config');
+        const {transportOptions} = require('../../nodemailer.config');
         const transport = nodemailer.createTransport(transportOptions);
 
         transport.sendMail({
@@ -36,7 +35,7 @@ async function SendActivationCode(email, res){
             `
         }, (err) => {
             if(err){
-                return reject(400);
+                return reject(new Error(400));
             }
             else{
                 return resolve();

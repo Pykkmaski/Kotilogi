@@ -1,10 +1,10 @@
 function RouteHandleError(err, res){
-    if(typeof(err) === 'number'){
-        res.sendStatus(err);
+    if(typeof(err.message) === 'number'){
+        return res.sendStatus(err.message);
     }
     else{
         console.log(err.message);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
 }
 

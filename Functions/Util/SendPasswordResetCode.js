@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 async function SendPasswordResetCode(email){
     return new Promise(async (resolve, reject) => {
-        if(!(await db('users').where({email}).first())) return reject(404); //A user with the provided email doesn't exist
+        if(!(await db('users').where({email}).first())) return reject(new Error(404)); //A user with the provided email doesn't exist
 
         const nodemailer = require('nodemailer');
         const {transportOptions} = require('../nodemailer.config');
@@ -35,7 +35,7 @@ async function SendPasswordResetCode(email){
             html: passwordResetContent,
         }, (err) => {
             if(err){
-                return reject(400);
+                return reject(new Error(400));
             }
             else{
                 resolve();

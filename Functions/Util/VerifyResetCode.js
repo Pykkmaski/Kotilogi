@@ -1,5 +1,5 @@
 const db = require('../dbconfig');
-const bcrypt = require('bcrypt');
+const VerifyPassword = require('./VerifyPassword');
 
 async function VerifyResetCode(reset_code, email){
     ///Verifies a provided reset code matches the encrypted code stored in the database
@@ -8,7 +8,7 @@ async function VerifyResetCode(reset_code, email){
         if(!data) return reject (404); //No reset code exists for the provided email
         
         //Reject unmatching codes
-        const comparisonResult = await bcrypt.compare(reset_code, data.reset_code);
+        const comparisonResult = VerifyPassword(reset_code, data.reset_code);
         if(!comparisonResult) return reject(403);
 
         const currentTime = new Date().getTime();

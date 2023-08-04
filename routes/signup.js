@@ -6,32 +6,14 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const SendActivationCode = require('../Functions/SendActivationCode');
 require('dotenv').config();
+const Signup = require('../Functions/Signup');
 
 router.post('/', async (req, res) => {
-    const {email, password1, password2, first_name, last_name} = req.body;
-
     try{
-        const user = await db.select('username').from('users').where({email}).first();
-
-        if(user) throw 406; //User already exists
-        if(password1 !== password2) throw 409;
-
-        const saltedPassword = await bcrypt.hash(password1, 15);
-        await db('users').insert({
-            email,
-            password : saltedPassword,
-            first_name,
-            last_name,
-            username: email,
-        });
-
-        await SendActivationCode(email);
-
+        await Signup(req.body);
         res.sendStatus(200);
     }
     catch(err){
-        //Delete the saved user
-        db('users').where({email}).del().catch(err => console.log(err));
         RouteHandleError(err, res);
     }
 });
