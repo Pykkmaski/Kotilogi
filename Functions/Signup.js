@@ -1,6 +1,6 @@
 const db = require('../dbconfig');
-const SendActivationCode = require('./SendActivationCode');
-const HashPassword = require('./HashPassword');
+const SendActivationCode = require('./Util/SendActivationCode');
+const HashPassword = require('./Util/HashPassword');
 
 module.exports = async (data) => {
     

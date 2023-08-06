@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const db = require('../dbconfig');
 const checkAuth = require('../middleware/checkAuth');
-const RouteHandleError = require('../Functions/RouteHandleError');
+const RouteHandleError = require('../Functions/Util/RouteHandleError');
 const convertDateToTime = require('../middleware/convertDateToTime');
 
 router.get('/:event_id', checkAuth, async (req, res) => {

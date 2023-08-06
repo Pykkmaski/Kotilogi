@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const db = require('../dbconfig');
-const RouteHandleError = require('../Functions/RouteHandleError');
+const RouteHandleError = require('../Functions/Util/RouteHandleError');
 
 router.delete('/:username', checkAuth, async (req, res) => {
     try{

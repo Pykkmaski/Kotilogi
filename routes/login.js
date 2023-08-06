@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const CreateLoginPayload = require('../Functions/CreateLoginPayload');
-const Login = require('../Functions/Login');
+const CreateLoginPayload = require('../Functions/Util/CreateLoginPayload');
 const RouteHandleError = require('../Functions/Util/RouteHandleError');
 
 router.post('/', async (req, res) => {

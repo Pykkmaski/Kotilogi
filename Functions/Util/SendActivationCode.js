@@ -1,11 +1,11 @@
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const db = require('../../dbconfig');
+const db = require('../../models/database');
 const HashPassword = require('./HashPassword');
 
 async function SendActivationCode(email, res){
     return new Promise(async (resolve, reject) => {
-        const user = await db('users').where({email}).first();
+        const user = await db.getUserByEmail(email);
         if(!user) return reject(new Error(404));
         
         if(user.active) return reject(new Error(409));

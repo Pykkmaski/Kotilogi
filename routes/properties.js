@@ -3,7 +3,7 @@ const checkAuth = require('../middleware/checkAuth');
 const checkPropertyAuth = require('../middleware/checkPropertyAuth');
 const upload = require('../middleware/fileUpload');
 const db = require('../dbconfig');
-const RouteHandleError = require('../Functions/RouteHandleError');
+const RouteHandleError = require('../Functions/Util/RouteHandleError');
 const path = require('path');
 const fs = require('fs');
 

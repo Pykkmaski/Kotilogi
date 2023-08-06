@@ -1,14 +1,10 @@
 const RouteHandleError = require('../Functions/Util/RouteHandleError');
+jest.mock('express');
+const res = require('express').response;
+
+jest.spyOn(res, 'sendStatus').mockImplementation((status) => status);
 
 describe('Testing route error handling', () => {
-    const res = {
-        sendStatus : (status) => status,
-    };
-
-    test('Testing the mock res object', () => {
-        expect(res.sendStatus(500)).toBe(500);
-    });
-
     it('Responds with the passed error when its a number', () => {
         const errNo = 500;
         expect(RouteHandleError(errNo, res)).toBe(errNo);

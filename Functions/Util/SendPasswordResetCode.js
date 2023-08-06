@@ -1,12 +1,12 @@
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const db = require('../dbconfig');
-const RouteHandleError = require('./RouteHandleError');
+const db = require('../../models/database');
 const bcrypt = require('bcrypt');
 
 async function SendPasswordResetCode(email){
     return new Promise(async (resolve, reject) => {
-        if(!(await db('users').where({email}).first())) return reject(new Error(404)); //A user with the provided email doesn't exist
+        const user = await db.getUserByEmail(email);
+        if(!user) return reject(new Error(404)); //A user with the provided email doesn't exist
 
         const nodemailer = require('nodemailer');
         const {transportOptions} = require('../nodemailer.config');

@@ -1,11 +1,10 @@
-const RouteHandleError = require('../Functions/RouteHandleError');
-const crypto = require('crypto');
+const RouteHandleError = require('../Functions/Util/RouteHandleError');
 const router = require('express').Router();
 const db = require('../dbconfig');
 const bcrypt = require('bcrypt');
-const SendPasswordResetCode = require('../Functions/SendPasswordResetCode');
-const SendActivationCode = require('../Functions/SendActivationCode');
-const VerifyResetCode = require('../Functions/VerifyResetCode');
+const SendPasswordResetCode = require('../Functions/Util/SendPasswordResetCode');
+const SendActivationCode = require('../Functions/Util/SendActivationCode');
+const VerifyResetCode = require('../Functions/Util/VerifyResetCode');
 
 router.get('/', async (req, res) => {
     try{

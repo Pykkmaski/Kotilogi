@@ -1,10 +1,8 @@
 const router = require('express').Router();
 const db = require('../dbconfig');
-const path = require('path');
 const checkAuth = require('../middleware/checkAuth');
-const RouteHandleError = require('../Functions/RouteHandleError');
+const RouteHandleError = require('../Functions/Util/RouteHandleError');
 const upload = require('../middleware/fileUpload');
-const fs = require('fs');
 require('dotenv').config();
 const DeleteFile = require('../Functions/DeleteFile');
 const { uploadPath } = require('../uploadsConfig');

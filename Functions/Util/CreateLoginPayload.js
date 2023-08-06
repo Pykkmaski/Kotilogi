@@ -1,19 +1,17 @@
-const db = require('../../dbconfig');
-const CheckPassword = require('./VerifyPassword');
+const db = require('../../models/database');
+const VerifyPassword = require('./VerifyPassword');
 const CreateToken = require('./CreateToken');
 
 require('dotenv').config();
 
 module.exports = (email, password) => {
-
     //Creates and returns the payload object as a string.
     return new Promise(async (resolve, reject) => {
-        const {email, password} = req.body;
-        const savedUser = await db.select('password', 'email', 'active').from('users').where({email}).first();
+        const savedUser = await db.getUserByEmail(email);
 
-        if(!savedUser) return reject(404);
+        if(!savedUser) return reject(new Error(404));
 
-        if(!CheckPassword(password, savedUser.password)) return reject(401);
+        if(!VerifyPassword(password, savedUser.password)) return reject(new Error(401));
         const token = CreateToken(email);
 
         const payload = {

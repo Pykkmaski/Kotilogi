@@ -10,11 +10,11 @@ const logo = './img/logo.png';
 function LoggedOutLinks(){
     return (
         <div className="group-row">
-            <a href="/#/login">
+            <a id="login-link" href="/#/login">
                 Kirjaudu
             </a>
 
-            <a href="/#/register">
+            <a id="register-link" href="/#/register">
                 Rekisteröidy
             </a> 
         </div>

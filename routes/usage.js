@@ -1,4 +1,4 @@
-const RouteHandleError = require('../Functions/RouteHandleError');
+const RouteHandleError = require('../Functions/Util/RouteHandleError');
 const db = require('../dbconfig');
 const checkAuth = require('../middleware/checkAuth');
 
