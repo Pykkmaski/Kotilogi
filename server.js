@@ -16,19 +16,19 @@ app.use('/api/signup', signupRouter);
 const propertyRouter = require('./routes/properties.js');
 app.use('/api/properties', propertyRouter);
 
-const propertyImagesRouter = require('./routes/propertyImages.js');
+const propertyImagesRouter = require('./routes/images.properties.js');
 app.use('/api/images/properties', propertyImagesRouter);
 
-const propertyFilesRouter = require('./routes/propertyFiles.js');
+const propertyFilesRouter = require('./routes/files.properties.js');
 app.use('/api/files/properties', propertyFilesRouter);
 
 const eventsRouter = require('./routes/events.js');
 app.use('/api/events', eventsRouter);
 
-const eventImagesRouter = require('./routes/eventImages.js');
+const eventImagesRouter = require('./routes/images.events.js');
 app.use('/api/images/events', eventImagesRouter);
 
-const eventFilesRouter = require('./routes/eventFiles.js');
+const eventFilesRouter = require('./routes/files.events.js');
 app.use('/api/files/events', eventFilesRouter);
 
 const usageRouter = require('./routes/usage.js');
