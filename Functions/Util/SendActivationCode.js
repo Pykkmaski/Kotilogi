@@ -3,13 +3,8 @@ const crypto = require('crypto');
 const db = require('../../models/database');
 const HashPassword = require('./HashPassword');
 
-async function SendActivationCode(email, res){
+async function SendActivationCode(email){
     return new Promise(async (resolve, reject) => {
-        const user = await db.getUserByEmail(email);
-        if(!user) return reject(new Error(404));
-        
-        if(user.active) return reject(new Error(409));
-
         const expiryTime = new Date().getTime() + parseInt(process.env.USER_ACTIVATION_CODE_EXPIRY_TIME);
         const activationCode = crypto.randomBytes(4).toString('hex');
 

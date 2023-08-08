@@ -1,4 +1,4 @@
-const db = require('../../dbconfig');
+const db = require('../../models/database');
 const VerifyPassword = require('./VerifyPassword');
 const CreateToken = require('./CreateToken');
 
@@ -8,7 +8,7 @@ module.exports = (email, password) => {
     //Creates and returns the payload object as a string.
     return new Promise(async (resolve, reject) => {
         try{
-            const savedUser = await db.select('*').from('users').where({email}).first();
+            const savedUser = await db.getUserByEmail(email);
 
             if(!savedUser) throw new Error(404);
     

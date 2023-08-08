@@ -46,5 +46,15 @@ app.use('/api/users', usersRouter);
 const contactRoute = require('./routes/contact.js');
 app.use('/api/contact', contactRoute);
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+try{
+    if(process.env.NODE_ENV !== 'test'){
+        const PORT = process.env.PORT || 3000;
+        server.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+    }
+}
+catch(err){
+    console.log('Server is alrready running!');
+}
+
+
+module.exports = server;

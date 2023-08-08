@@ -30,8 +30,4 @@ describe('Testing the CreateLoginPayload function', () => {
       expect(result.email).toBe('test');
       expect(result.active).toBe(true);
    });
-
-   afterAll(() => {
-      jest.clearAllMocks();
-   });
 });

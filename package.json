@@ -9,7 +9,7 @@
     "build": "npx webpack --mode production",
     "build:dev": "npx webpack --watch --mode development",
     "migrate:db": "npx knex migrate:latest --env production",
-    "test": "jest --watch --detectOpenHandles --silent"
+    "test": "jest --watch --detectOpenHandles --silent --runInBand"
   },
   "author": "Jens Österberg",
   "license": "UNLICENSED",
@@ -61,6 +61,7 @@
     "react-test-renderer": "^18.2.0",
     "sass-loader": "^13.2.1",
     "style-loader": "^3.3.2",
+    "supertest": "^6.3.3",
     "ts-loader": "^9.4.4",
     "typescript": "^5.1.6",
     "webpack": "^5.76.2",

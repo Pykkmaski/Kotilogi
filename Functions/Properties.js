@@ -1,4 +1,4 @@
-const db = require("../dbconfig");
+const db = require("../models/database");
 const RouteHandleError = require("./Util/RouteHandleError");
 
 exports.GetAllUserProperties = async (req, res) => {
