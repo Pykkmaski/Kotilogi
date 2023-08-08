@@ -1,18 +1,15 @@
 const router = require('express').Router();
 const checkAuth = require('../middleware/checkAuth');
 const checkPropertyAuth = require('../middleware/checkPropertyAuth');
-const upload = require('../middleware/fileUpload');
 const db = require('../dbconfig');
 const RouteHandleError = require('../Functions/Util/RouteHandleError');
-const path = require('path');
-const fs = require('fs');
 
 router.get('/', checkAuth, checkPropertyAuth, async (req, res) => {
     ///If request property_id is defined, responds with the property with the given id. Otherwise responds with all properties belonging to the authorized user making the request.
     try{
-        const {user, body} = req;
+        const {user} = req;
         const {property_id} = req.body;
-        const properties = !property_id ? await db('properties').where({owner: user.email}).orderBy('created_at', 'desc') : await db('properties').where({property_id});
+        const properties = !property_id ? await db('properties').where({owner: user.email}).orderBy('created_at', 'desc') : await db('properties').where({id: property_id});
         res.status(200).send(JSON.stringify(properties));
 
     }catch(err){
@@ -20,13 +17,12 @@ router.get('/', checkAuth, checkPropertyAuth, async (req, res) => {
     }
 });
 
-router.get('/:property_id', checkAuth, checkPropertyAuth, async (req, res) => {
-    ///Returns the property with the given ID.
+router.get('/:property_id', checkAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         const property = await db('properties').where({id: property_id}).first();
-        if(!property) throw new Error(`Property with ID ${property_id} does not exist!`);
-        res.status(200).send(JSON.stringify(property));
+        if(!property) throw new Error(404);
+        res.status(200).json(property);
     }
     catch(err){
         RouteHandleError(err, res);

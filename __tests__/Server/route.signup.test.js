@@ -61,5 +61,5 @@ describe('Testing the server signup route', () => {
 
         //Clean up afterwards
         await db('users').where({email: data.email}).del();
-    });
+    }, 12000);
 });

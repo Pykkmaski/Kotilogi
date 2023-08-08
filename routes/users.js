@@ -5,9 +5,6 @@ const bcrypt = require('bcrypt');
 const SendPasswordResetCode = require('../Functions/Util/SendPasswordResetCode');
 const SendActivationCode = require('../Functions/Util/SendActivationCode');
 const VerifyResetCode = require('../Functions/Util/VerifyResetCode');
-const {GetUser} = require('../Functions/Users');
-
-router.get('/', GetUser);
 
 router.post('/reset/password', async (req, res) => {
     const {step} = req.body;
