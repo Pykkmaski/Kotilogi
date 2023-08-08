@@ -15,7 +15,7 @@ router.get('/:property_id', checkAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         const imageIds = await db('property_files').where({property_id, mime_type: imageMimeType});
-        if(!imageIds.length) throw 404;
+        if(!imageIds.length) throw new Error(404);
         res.status(200).send(JSON.stringify(imageIds));
     }
     catch(err){
@@ -28,7 +28,7 @@ router.get('/:property_id/main', async (req, res) => {
     try{
         const {property_id} = req.params;
         const image = await db('property_files').where({property_id, mime_type: imageMimeType, main: true}).first();
-        if(!image) throw 404;
+        if(!image) throw new Error(404);
         res.status(200).sendFile(uploadPath + image.filename);
     }
     catch(err){
@@ -41,7 +41,7 @@ router.get('/image/:image_id', async (req, res) => {
     try{   
         const {image_id} = req.params; 
         const file = await db('property_files').where({mime_type: imageMimeType, id: image_id}).first();
-        if(!file) throw 404;
+        if(!file) throw new Error(404);
         res.status(200).sendFile(uploadPath + file.filename);
     }
     catch(err){
@@ -77,7 +77,7 @@ router.put('/:property_id/image/main', checkAuth, async (req, res) => {
         console.log(image_id, imageMimeType);
         //Check if the image exists before doing anything else
         const img = await db('property_files').where({mime_type: imageMimeType, id: image_id}).first();
-        if(!img) throw 404;
+        if(!img) throw new Error(404);
 
         //Set previous main image to false
         await db('property_files').where({mime_type: imageMimeType, property_id, main: true}).update({main: false});

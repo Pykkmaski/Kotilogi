@@ -9,7 +9,7 @@ router.get('/:event_id', checkAuth, async (req, res) => {
     try{
         const {event_id} = req.params;
         const event = await db('property_events').where({id: event_id}).first();
-        if(!event) throw 404;
+        if(!event) throw new Error(404);
 
         res.status(200).send(JSON.stringify(event));
     }

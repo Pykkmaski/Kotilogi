@@ -1,0 +1,1 @@
+exports.getUserByEmail = jest.fn();

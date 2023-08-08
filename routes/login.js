@@ -1,16 +1,6 @@
 const router = require('express').Router();
-const CreateLoginPayload = require('../Functions/Util/CreateLoginPayload');
-const RouteHandleError = require('../Functions/Util/RouteHandleError');
+const Login = require('../Functions/Login');
 
-router.post('/', async (req, res) => {
-    try{
-        const {email, password} = req.body;
-        const payload = await CreateLoginPayload(email, password);
-        res.status(200).send(payload);
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
-});
+router.post('/', Login);
 
 module.exports = router;

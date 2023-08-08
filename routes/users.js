@@ -5,17 +5,9 @@ const bcrypt = require('bcrypt');
 const SendPasswordResetCode = require('../Functions/Util/SendPasswordResetCode');
 const SendActivationCode = require('../Functions/Util/SendActivationCode');
 const VerifyResetCode = require('../Functions/Util/VerifyResetCode');
+const {GetUser} = require('../Functions/Users');
 
-router.get('/', async (req, res) => {
-    try{
-        const {email} = req.body;
-        const user = await db('users').where({email}).first();
-        res.status(200).send(JSON.stringify(user));
-    }
-    catch(err){
-        RouteHandleError(err, res);
-    }
-});
+router.get('/', GetUser);
 
 router.post('/reset/password', async (req, res) => {
     const {step} = req.body;
@@ -39,7 +31,7 @@ router.post('/reset/password', async (req, res) => {
                 await ResetPassword(email, password1, password2);
             break;
     
-            default: throw 500;
+            default: throw new Error(500);
         }
     
         res.sendStatus(200);
@@ -54,13 +46,13 @@ router.post('/activate', async (req, res) => {
         const {activationCode, email} = req.body;
 
         const savedActivationCode = await db('user_activation_codes').where({user: email}).first();
-        if(!savedActivationCode) throw 404;
+        if(!savedActivationCode) throw new Error(404);
 
         const comparisonResult = await bcrypt.compare(activationCode, savedActivationCode.activation_code);
-        if(!comparisonResult) throw 403;
+        if(!comparisonResult) throw new Error(403);
         
         const currentTime = new Date().getTime();
-        if(currentTime > savedActivationCode.expires) throw 410;
+        if(currentTime > savedActivationCode.expires) throw new Error(410);
 
         const user = (await db('users').where({email}).update({active: true}, ['email', 'active']))[0];
         res.status(200).send(JSON.stringify(user));
@@ -80,7 +72,7 @@ router.post('/resend', async (req, res) => {
             case 1:
                 return SendPasswordResetCode(email, res);
 
-            default: return res.sendStatus(500);
+            default: throw new Error(500);
         }
     }
     catch(err){

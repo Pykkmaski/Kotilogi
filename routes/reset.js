@@ -23,7 +23,7 @@ router.post('/password', async (req, res) => {
         const {email} = req.body;
         console.log('Received password reset request for email ' + email);
         const user = await db('users').where({email}).first();
-        if(!user) throw 404;
+        if(!user) throw new Error(404);
         
         const resetCode = crypto.randomBytes(8).toString('hex');
         transport.sendMail({

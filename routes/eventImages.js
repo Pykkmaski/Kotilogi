@@ -14,7 +14,7 @@ router.get('/:event_id', checkAuth, async (req, res) => {
     try{
         const {event_id} = req.params;
         const ids = await db('event_files').where({event_id, mime_type: imageMimeType});
-        if(!ids) throw 404;
+        if(!ids) throw new Error(404);
         res.status(200).send(JSON.stringify(ids));
     }
     catch(err){
@@ -28,7 +28,7 @@ router.get('/image/:image_id', async (req, res) => {
         const {image_id} = req.params;
 
         const file = await db('event_files').where({id: image_id}).first();
-        if(!file) throw 404;
+        if(!file) throw new Error(404);
 
         res.status(200).sendFile(uploadPath + file.filename);
     }
@@ -42,7 +42,7 @@ router.get('/:event_id/id/main', async (req, res) => {
     try{
         const {event_id} = req.params;
         const image = await db('event_files').where({event_id, mime_type: imageMimeType, main: true}).first();
-        if(!image) throw 404;
+        if(!image) throw new Error(404);
         res.status(200).send(JSON.stringify(image.id));
     }
     catch(err){
@@ -55,7 +55,7 @@ router.get('/:event_id/image/main', async (req, res) => {
     try{
         const {event_id} = req.params;
         const image = await db('event_files').where({event_id, mime_type: imageMimeType, main: true}).first();
-        if(!image) throw 404;
+        if(!image) throw new Error(404);
     
         res.status(200).sendFile(uploadPath + image.filename);
     }

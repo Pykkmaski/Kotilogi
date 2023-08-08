@@ -8,7 +8,7 @@ router.get('/:property_id', checkAuth, async (req, res) => {
     try{
         const {property_id} = req.params;
         const data = await db('usage').where({property_id}).orderBy('time', 'asc');
-        if(!data) throw 404;
+        if(!data) throw new Error(404);
         res.status(200).send(JSON.stringify(data));
     }
     catch(err){

@@ -23,7 +23,7 @@ router.get('/', checkAuth, async (req, res) => {
             }
 
             const image = await db('property_files').where(query).first();
-            if(!image) throw 404;
+            if(!image) throw new Error(404);
             res.status(200).sendFile(uploadRoute + image.filename);
         }
         else if(target === 'event'){
@@ -40,7 +40,7 @@ router.get('/', checkAuth, async (req, res) => {
             }
 
             const image = await db('event_files').where(query).first();
-            if(!image) throw 404;
+            if(!image) throw new Error(404);
             res.status(200).sendFile(uploadRoute + image.filename);
         }
     }

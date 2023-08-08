@@ -15,7 +15,7 @@ router.get('/:event_id', checkAuth, async (req, res) => {
     try{
         const {event_id} = req.params;
         const ids = await db('event_files').where({event_id, mime_type: pdfMimeType}) || [];
-        if(!ids.length) throw 404;
+        if(!ids.length) throw new Error(404);
         res.status(200).send(JSON.stringify(ids));
     }
     catch(err){
@@ -51,7 +51,7 @@ router.get('/file/:file_id', async (req, res) => {
     try{
         const {file_id} = req.params;
         const file = await db('event_files').where({id: file_id}).first();
-        if(!file) throw 404;
+        if(!file) throw new Error(404);
 
         res.status(200).sendFile(uploadPath + file.filename);
     }
@@ -75,7 +75,7 @@ router.delete('/file/:file_id', async (req, res) => {
     try{
         const {file_id} = req.params;
         const file = await db('event_files').where({id: file_id}).first();
-        if(!file) throw 404;
+        if(!file) throw new Error(404);
 
         DeleteFile(file.filename);
 
