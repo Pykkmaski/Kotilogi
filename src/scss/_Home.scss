@@ -102,6 +102,10 @@
     background: $primary-color;
     gap: 1rem;
 
+    #tos-link{
+        color: white;
+    }
+    
     .footer-element{
         display: flex;
         flex-flow: column;
