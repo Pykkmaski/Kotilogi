@@ -1,5 +1,10 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
+
+        #tos-page{
+            text-align: center !important;
+        }
+        
         .menu-btn{
             position: absolute;
             top: 1rem;
