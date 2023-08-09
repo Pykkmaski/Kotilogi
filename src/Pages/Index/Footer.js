@@ -19,7 +19,7 @@ function Footer(props){
             </div>
 
             <footer>
-                <a href="/#/tos">Käyttöehdot</a>
+                <a id="tos-link" href="/#/tos">Käyttöehdot</a>
             </footer>
         </div>
     )

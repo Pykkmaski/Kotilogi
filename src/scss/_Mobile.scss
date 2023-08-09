@@ -1,6 +1,12 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
 
+        #home-page-footer{
+            #tos-link{
+                color: white !important;
+            }
+        }
+
         #tos-page{
             text-align: center !important;
         }
