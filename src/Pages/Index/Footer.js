@@ -17,6 +17,10 @@ function Footer(props){
 
                 <ContactForm/>
             </div>
+
+            <footer>
+                <a href="/#/tos">Käyttöehdot</a>
+            </footer>
         </div>
     )
 }

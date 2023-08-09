@@ -113,7 +113,7 @@ function Signup(props){
                 </div>
 
                 <div className="form-checkbox-group">
-                    <span id="tos-agreement-text">Hyväksyn Kotilogin käyttöehdot</span> 
+                    <span id="tos-agreement-text">Hyväksyn Kotilogin <a href="/#/tos" target="_blank">käyttöehdot</a></span> 
                     <input type="checkbox" required/>
                 </div>
 

@@ -18,7 +18,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import SendActivationCode from './Pages/SendActivationCode';
-
+import TOS from './Pages/TOS/TOS';
 
 function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
@@ -47,6 +47,7 @@ function App(){
                             <Route path="/thankyou" element={<RegisterThankYou/>}></Route>
                             <Route path="/reset/password" element={<ResetPassword/>}></Route>
                             <Route path="/send/activationcode" element={<SendActivationCode/>}></Route>
+                            <Route path="/tos" element={<TOS/>}></Route>
                             <Route path="*" element={<Unknown/>}></Route>
                         </Routes>
                     </div>
