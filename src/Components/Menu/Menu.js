@@ -9,11 +9,19 @@ function Menu(props){
 
     return (
         <div className={className}>
-            <nav>
-                <a href="/#/" onClick={() => props.setMenuOpen(false)}>Etusivu</a>
-                <a href="/#/login" onClick={() => props.setMenuOpen(false)}>Kirjaudu Sisään</a>
-                <a href="/#/register" onClick={() => props.setMenuOpen(false)}>Rekisteröidy</a>
-            </nav>
+            {
+                token ? 
+                <>
+                </>
+                :
+                <nav>
+                    <a href="/#/" onClick={() => props.setMenuOpen(false)}>Etusivu</a>
+                    <a href="/#/login" onClick={() => props.setMenuOpen(false)}>Kirjaudu Sisään</a>
+                    <a href="/#/register" onClick={() => props.setMenuOpen(false)}>Rekisteröidy</a>
+                </nav>
+
+            }
+            
         </div>
     );
 }

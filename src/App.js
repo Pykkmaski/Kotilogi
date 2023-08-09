@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import SendActivationCode from './Pages/SendActivationCode';
 import TOS from './Pages/TOS/TOS';
+import Notice from './Components/Notice';
 
 function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
@@ -53,6 +54,7 @@ function App(){
                     </div>
                     
                 </AppContext.Provider>
+                <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa ilmetä virheitä."/>
             </div> 
 
         </Router>
