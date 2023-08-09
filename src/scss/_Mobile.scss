@@ -1,6 +1,43 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
 
+        #info-form{
+            width: 100% !important;
+            label{
+                color: dimgray !important;
+                text-align: center !important;
+            }
+
+            fieldset{
+                text-align: center;
+
+                .form-group{
+                    display: flex !important;
+                    flex-flow: column !important;
+                    align-items: center !important;
+
+                    input, select{
+                        text-align: center !important;
+                        color: black !important;
+                    }
+                }
+
+                form{
+                    display: flex !important;
+                    align-items: center !important;
+                }
+            }
+        }
+
+        .card{
+            width: 20rem !important;
+        }
+
+        .gallery-body{
+            display: flex !important;
+            flex-flow: column !important;
+        }
+
         .notice-box{
             font-size: 0.75rem !important;
         }
