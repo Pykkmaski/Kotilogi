@@ -1,6 +1,10 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
 
+        .notice-box{
+            font-size: 0.75rem !important;
+        }
+
         #home-page-footer{
             #tos-link{
                 color: white !important;
