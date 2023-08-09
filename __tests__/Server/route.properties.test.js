@@ -22,10 +22,13 @@ describe('Testing the properties route', () => {
     var headers = {};
 
     beforeAll(async () => {
+
+        //Add a test user on the database
         await db('users').insert(testUser);
         const response = await request(server).post('/api/login').send({email: 'Test', password: 'pass'});
-        user = JSON.parse(response.text);
+        user = response.body;
 
+        //Make sure the 
         expect(user.token).toBeDefined();
         headers.Authorization = user.token;
 

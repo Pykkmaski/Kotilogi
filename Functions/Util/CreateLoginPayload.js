@@ -23,7 +23,7 @@ module.exports = (email, password) => {
                 active: savedUser.active,
             }
     
-            return resolve(JSON.stringify(payload));
+            return resolve(payload);
         }
         catch(err){
             return reject(err);

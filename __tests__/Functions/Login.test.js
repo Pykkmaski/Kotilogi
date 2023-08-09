@@ -58,7 +58,7 @@ describe('Testing the login function', () => {
         VerifyPassword.mockResolvedValue(true);
         CreateToken.mockImplementation(() => 'token');
 
-        const payload = JSON.parse(await Login(req, res));
+        const payload = await Login(req, res);
         expect(typeof(payload)).toEqual('object');
         expect(payload.email).toEqual('Test');
         expect(payload.token).toEqual('Bearer token');

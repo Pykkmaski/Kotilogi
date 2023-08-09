@@ -24,7 +24,7 @@ describe('Testing the CreateLoginPayload function', () => {
       VerifyPassword.mockResolvedValueOnce(true);
       CreateToken.mockImplementationOnce(() => 'token');
 
-      const result = JSON.parse(await CreateLoginPayload('test', 'pass'));
+      const result = await CreateLoginPayload('test', 'pass');
 
       expect(result.token).toBe('Bearer token');
       expect(result.email).toBe('test');

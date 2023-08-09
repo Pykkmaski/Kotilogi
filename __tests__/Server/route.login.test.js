@@ -42,7 +42,7 @@ describe('Testing the server login route', () => {
     it('Responds with a payload containing user data when email and password is correct', async () => {
         const response = await request(server).post(testedRoute).send({email: testUser.email, password: testUser.password});
         expect(response.statusCode).toBe(200);
-        const data = JSON.parse(response.text);
+        const data = response.body;
         expect(data.email).toEqual(testUser.email);
         expect(data.token).toBeDefined();
     });
