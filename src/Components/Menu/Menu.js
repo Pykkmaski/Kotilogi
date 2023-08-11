@@ -1,28 +1,36 @@
-import { useContext } from 'react';
+import {useState, useEffect, Component} from 'react';
 import useClassName from '../../Hooks/useClassName';
-import AppContext from '../../Contexts/AppContext';
 
-function Menu(props){
-
-    const {className} = useClassName('menu', props.visible ? 'open' : null);
-    const {user, token} = useContext(AppContext);
+function MenuButton(props){
+    const className = useClassName('menu-btn', props.open ? 'open' : null);
 
     return (
-        <div className={className}>
-            {
-                token ? 
-                <>
-                </>
-                :
-                <nav>
-                    <a href="/#/" onClick={() => props.setMenuOpen(false)}>Etusivu</a>
-                    <a href="/#/login" onClick={() => props.setMenuOpen(false)}>Kirjaudu Sisään</a>
-                    <a href="/#/register" onClick={() => props.setMenuOpen(false)}>Rekisteröidy</a>
-                </nav>
-
-            }
-            
+        <div className={className} onClick={() => props.setOpen(!props.open)}>
+            <div className="btn-line"></div>
+            <div className="btn-line"></div>
+            <div className="btn-line"></div>
         </div>
+    );
+}
+
+function MenuBody(props){
+    const className = useClassName('menu-body', props.open ? 'open' : null);
+    return (
+        <div className={className} key='app-menu-body'>
+            {
+                props.render
+            }
+        </div>
+    )
+}
+function Menu(props){
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <MenuButton open={open} setOpen={setOpen} style={{position: 'fixed'}}/>
+            <MenuBody open={open} render={props.renderBody}/>
+        </>
     );
 }
 

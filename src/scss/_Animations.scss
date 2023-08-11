@@ -10,6 +10,18 @@
     }
 }
 
+@keyframes SlideDown{
+    0%{
+        transform: translateY(-50px);
+        opacity: 0;
+    };
+
+    100%{
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 @keyframes SlideRight{
     0%{
         transform: translateX(-50px);
@@ -36,6 +48,12 @@
 
 @mixin SlideRightAnimation{
     animation-name: SlideRight;
+    animation-duration: 0.125s;
+    animation-timing-function: ease-out;
+}
+
+@mixin SlideDownAnimation{
+    animation-name: SlideDown;
     animation-duration: 0.125s;
     animation-timing-function: ease-out;
 }

@@ -15,15 +15,24 @@ import Pricing from './Pages/Pricing';
 import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import SendActivationCode from './Pages/SendActivationCode';
 import TOS from './Pages/TOS/TOS';
 import Notice from './Components/Notice';
+import Menu from './Components/Menu/Menu';
 
 function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
     const [user, setUser] = useLocalStorage(userStorageKey, null);
+    const [menuRenderBody, setMenuRenderBody] = useState((
+        <nav>
+            <a href="/#/">Etusivu</a>
+            <a href="/#/login">Kirjaudu</a>
+            <a href="/#/regster">Rekisteröidy</a>
+        </nav>
+    ));
+  
     axios.defaults.headers['Authorization'] = token;
     
     useEffect(() => {
@@ -33,9 +42,12 @@ function App(){
     return (
         <Router>
             <div className="app">
-
                 <AppContext.Provider value={{token, setToken, user, setUser}}>
+                <Menu renderBody={<nav>
+                    <a href="/#/">Etusivu</a>
+                </nav>}/>
                 <Header/>
+                <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä."/>
                     <div className='body'>
                         <Routes>
                             <Route path="/" element={<Home/>}></Route>
@@ -54,7 +66,7 @@ function App(){
                     </div>
                     
                 </AppContext.Provider>
-                <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa ilmetä virheitä."/>
+                
             </div> 
 
         </Router>

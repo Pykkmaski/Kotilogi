@@ -29,7 +29,7 @@ const Control = (props) => {
         const subComponents = useSubComponents(Object.keys(Control), props);
 
         return (
-            <select name={props.name} disabled={props.disabled}>
+            <select name={props.name} disabled={props.disabled} id={props.id}>
                 {
                    props.children
                 }
@@ -37,7 +37,7 @@ const Control = (props) => {
         )
     }
     else if(props.type === 'textarea'){
-        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue} required={props.required} maxLength={props.maxLength}/>
+        return <textarea disabled={props.disabled} name={props.name} defaultValue={props.defaultValue} required={props.required} maxLength={props.maxLength} id={props.id}/>
     }
     else{
         return <input 
@@ -53,6 +53,7 @@ const Control = (props) => {
             max={props.max}
             step={props.step}
             onInput={props.onInput}
+            id={props.id}
         />
     }
 }

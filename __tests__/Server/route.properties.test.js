@@ -22,7 +22,6 @@ describe('Testing the properties route', () => {
     var headers = {};
 
     beforeAll(async () => {
-
         //Add a test user on the database
         await db('users').insert(testUser);
         const response = await request(server).post('/api/login').send({email: 'Test', password: 'pass'});

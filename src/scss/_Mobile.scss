@@ -1,6 +1,18 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
 
+        #header-logo-area{
+            img{
+                height: 24px !important;
+            }
+        }
+
+        .section-header button{
+            font-size: 0.75rem !important;
+            img{
+                width: 20px;
+            }
+        }
         #info-form{
             width: 100% !important;
             label{

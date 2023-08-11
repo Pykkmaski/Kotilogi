@@ -31,21 +31,21 @@ function ContactForm(props){
         <Form onSubmit={onSubmitHandler}>
             <Form.Group>
                 <Form.Label>Nimesi</Form.Label>
-                <Form.Control type="text" name="name"></Form.Control>
+                <Form.Control type="text" name="name" id="contact-name-input"></Form.Control>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Sähköpostiosoitteesi</Form.Label>
-                <Form.Control type="email" name="email" required={true}></Form.Control>
+                <Form.Control type="email" name="email" required={true} id="contact-email-input"></Form.Control>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Viesti</Form.Label>
-                <Form.Control type="textarea" name="message" maxLength={200} required={true}></Form.Control>
+                <Form.Control type="textarea" name="message" maxLength={200} required={true} id="contact-message-input"></Form.Control>
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button type="submit" className="primary" disabled={loading}>Lähetä</button>
+                <button type="submit" className="primary" disabled={loading} id="contact-submit-button">Lähetä</button>
             </Form.ButtonGroup>
 
             {

@@ -7,11 +7,11 @@ import useProperty from '../../Hooks/useProperty';
 import Loading from '../Loading';
 import PropertyContext from "../../Contexts/PropertyContext";
 import UsageSection from "./UsageSection";
+import AppContext from "../../Contexts/AppContext";
 
 function Property(props){
     const {property_id, section} = useParams();
     const [property, loadProperty] = useProperty(property_id);
-
 
     if(!property) return <Loading message="Ladataan Taloa..."/>
 
