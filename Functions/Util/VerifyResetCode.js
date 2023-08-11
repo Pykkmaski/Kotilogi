@@ -1,10 +1,10 @@
-const db = require('../../models/database');
+const db = require('../../dbconfig');
 const VerifyPassword = require('./VerifyPassword');
 
 async function VerifyResetCode(reset_code, email){
     ///Verifies a provided reset code matches the encrypted code stored in the database
     return new Promise(async (resolve, reject) => {
-        const data = await db.getPasswordResetCode(email);
+        const data = await db.select('reset_code').from('password_reset_codes').where({user: email}).first();
         if(!data) return reject (new Error(404)); //No reset code exists for the provided email
         
         //Reject unmatching codes

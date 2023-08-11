@@ -1,24 +1,12 @@
 const {req,  res} = require('express');
-const VerifyPassword = require('../../Functions/Util/VerifyPassword');
-const {getUserByEmail} = require('../../models/database');
-const Login = require('../../Functions/Login');
-const CreateToken = require('../../Functions/Util/CreateToken');
-
-/*
-const res = express.response;
-const req = express.request;
-
-jest.mock('express');
-
-jest.spyOn(res, 'sendStatus').mockImplementation((status) => status);
-jest.spyOn(res, 'status').mockReturnThis();
-jest.spyOn(res, 'send').mockImplementation((data) => data);
-
-*/
+const VerifyPassword = require('../Util/VerifyPassword');
+const db = require('../../dbconfig');
+const Login = require('../Login');
+const CreateToken = require('../Util/CreateToken');
 
 jest.mock('../../Functions/Util/VerifyPassword');
 jest.mock('../../Functions/Util/CreateToken');
-jest.mock('../../models/database');
+jest.mock('../../dbconfig');
 
 describe('Testing the login function', () => {
 
@@ -30,7 +18,7 @@ describe('Testing the login function', () => {
     });
 
     it('Fails when providing an unregistered email', async () => {
-        getUserByEmail.mockResolvedValue(undefined);
+        db.first.mockResolvedValueOnce(undefined);
 
         /*
         CreateLoginPayload should throw a 404 error inside Login, which gets handled by RouteHandleError, where res.sendStatus 
@@ -41,20 +29,20 @@ describe('Testing the login function', () => {
     });
 
     it('Fails when providing an incorrect password', async () => {
-        getUserByEmail.mockResolvedValue(true);
+        db.first.mockResolvedValueOnce(true);
         VerifyPassword.mockResolvedValue(false);
         const status = await Login(req, res);
         expect(status).toBe(401);
     });
 
     it('Responds with 500 on internal server error', async () => {
-        getUserByEmail.mockRejectedValueOnce(new Error('Test: internal server error'));
+        db.first.mockRejectedValueOnce(new Error('Test: internal server error'));
         const status = await Login(req, res);
         expect(status).toBe(500);
     });
 
     it('Succeeds on existing user', async () => {
-        getUserByEmail.mockResolvedValue({email : 'Test', active: true});
+        db.first.mockResolvedValueOnce({email : 'Test', active: true});
         VerifyPassword.mockResolvedValue(true);
         CreateToken.mockImplementation(() => 'token');
 
@@ -63,8 +51,4 @@ describe('Testing the login function', () => {
         expect(payload.email).toEqual('Test');
         expect(payload.token).toEqual('Bearer token');
     });
-
-    afterAll(() => {
-        jest.clearAllMocks();
-     });
 })

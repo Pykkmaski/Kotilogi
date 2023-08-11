@@ -21,17 +21,11 @@ import SendActivationCode from './Pages/SendActivationCode';
 import TOS from './Pages/TOS/TOS';
 import Notice from './Components/Notice';
 import Menu from './Components/Menu/Menu';
+import Logout from './Pages/Logout';
 
 function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
     const [user, setUser] = useLocalStorage(userStorageKey, null);
-    const [menuRenderBody, setMenuRenderBody] = useState((
-        <>
-            <a href="/#/">Etusivu</a>
-            <a href="/#/login">Kirjaudu</a>
-            <a href="/#/register">Rekisteröidy</a>
-        </>
-    ));
   
     axios.defaults.headers['Authorization'] = token;
     
@@ -42,8 +36,8 @@ function App(){
     return (
         <Router>
             <div className="app">
-                <AppContext.Provider value={{token, setToken, user, setUser, menuRenderBody}}>
-                <Menu renderBody={menuRenderBody}/>
+                <AppContext.Provider value={{token, setToken, user, setUser}}>
+                <Menu/>
 
                 <Header/>
                 <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä."/>
@@ -60,6 +54,7 @@ function App(){
                             <Route path="/reset/password" element={<ResetPassword/>}></Route>
                             <Route path="/send/activationcode" element={<SendActivationCode/>}></Route>
                             <Route path="/tos" element={<TOS/>}></Route>
+                            <Route path="/logout" element={<Logout/>}></Route>
                             <Route path="*" element={<Unknown/>}></Route>
                         </Routes>
                     </div>

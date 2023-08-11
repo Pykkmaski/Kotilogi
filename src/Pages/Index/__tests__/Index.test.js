@@ -7,15 +7,21 @@ describe('Testing the index page', () => {
 
     beforeAll(async () => {
         browser = await puppeteer.launch({
-            headless: false,
-            sloMo: 20,
+            headless: true,
         });
 
         page = await browser.newPage();
+        
     });
 
     beforeEach(async () => {
-        await page.goto(baseUrl);
+        try{
+            await page.goto(baseUrl);
+        }
+        catch(err){
+            return console.log(err.message);
+        }
+        
     });
 
     afterAll(async () => {

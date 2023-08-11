@@ -1,5 +1,6 @@
-import {useState, useEffect, Component} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import useClassName from '../../Hooks/useClassName';
+import AppContext from '../../Contexts/AppContext';
 
 function MenuButton(props){
     const {className} = useClassName('menu-btn', props.open ? 'open' : null);
@@ -15,6 +16,7 @@ function MenuButton(props){
 
 function MenuBody(props){
     const {className} = useClassName('menu-body', props.open ? 'open' : null);
+    const {token} = useContext(AppContext);
 
     useEffect(() => {
         const links = document.querySelectorAll('.menu-nav a');
@@ -26,7 +28,17 @@ function MenuBody(props){
         <div className={className} key='app-menu-body'>
             <nav className="menu-nav">
                 {
-                    props.render
+                    token ? 
+                    <>
+                        <a href="/#/">Talot</a>
+                        <a href="/#/logout">Kirjaudu Ulos</a>
+                    </>
+                    :
+                    <>
+                        <a href="/#/">Etusivu</a>
+                        <a href="/#/login">Kirjaudu</a>
+                        <a href="/#/register">Rekisteröidy</a>
+                    </>
                 }
             </nav>
         </div>

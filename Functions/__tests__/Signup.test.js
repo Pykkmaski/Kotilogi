@@ -1,9 +1,9 @@
 const Signup = require('../../Functions/Signup');
 const {req, res} = require('express');
-const {getUserByEmail} = require('../../models/database');
+const db = require('../../dbconfig');
 
 jest.mock('../../Functions/Util/VerifyPassword');
-jest.mock('../../models/database');
+jest.mock('../../dbconfig');
 
 describe('Testing the signup function', () => {
 
@@ -11,13 +11,13 @@ describe('Testing the signup function', () => {
         req.body = {
             email: 'Test'
         }
-        getUserByEmail.mockResolvedValueOnce(true);
+        db().first.mockResolvedValueOnce(true);
         const status = await Signup(req, res);
         expect(status).toBe(406); 
     });
 
     it('Responds with 500 on internal server error', async () => {
-        getUserByEmail.mockRejectedValueOnce(new Error('Test: internal server error'));
+        db().first.mockRejectedValueOnce(new Error('Test: internal server error'));
         const status = await Signup(req, res);
         expect(status).toBe(500);
     });

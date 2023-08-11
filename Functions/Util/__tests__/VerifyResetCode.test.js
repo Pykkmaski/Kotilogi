@@ -1,25 +1,25 @@
-const VerifyResetCode = require('../../../Functions/Util/VerifyResetCode');
-const {getPasswordResetCode} = require('../../../models/database');
-const VerifyPassword = require('../../../Functions/Util/VerifyPassword');
+const VerifyResetCode = require('../VerifyResetCode');
+const db = require('../../../dbconfig');
+const VerifyPassword = require('../VerifyPassword');
 
-jest.mock('../../../models/database');
+jest.mock('../../../dbconfig');
 jest.mock('../../../Functions/Util/VerifyPassword');
 
 VerifyPassword.mockImplementation((a, b) => a === b);
 
 describe('Testing the verifyResetCode function', () => {
     it('Rejects when no reset code exists', () => {
-        getPasswordResetCode.mockResolvedValueOnce(undefined);
+        db().first.mockResolvedValueOnce(undefined);
         expect(VerifyResetCode('code', 'email')).rejects.toThrow('404');
     });
 
     it('Rejects when the code does not match the encrypted code', () => {
-        getPasswordResetCode.mockResolvedValueOnce({reset_code: 'code1'});
+        db().first.mockResolvedValueOnce({reset_code: 'code1'});
         expect(VerifyResetCode('code2', 'email')).rejects.toThrow('403');
     });
 
     it('Rejects when a code has expired', () => {
-        getPasswordResetCode.mockResolvedValueOnce({
+        db().first.mockResolvedValueOnce({
             reset_code: 'code',
             expires: 1,
         });
@@ -27,7 +27,7 @@ describe('Testing the verifyResetCode function', () => {
     });
 
     it('Resolves when the code is found, matches the encrypted version and isn\'t expired', () => {
-        getPasswordResetCode.mockResolvedValueOnce({
+        db().first.mockResolvedValueOnce({
             reset_code: 'code',
             expires: new Date().getTime() * 2,
         });
