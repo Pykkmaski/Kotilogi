@@ -29,7 +29,7 @@ function App(){
         <>
             <a href="/#/">Etusivu</a>
             <a href="/#/login">Kirjaudu</a>
-            <a href="/#/regster">Rekisteröidy</a>
+            <a href="/#/register">Rekisteröidy</a>
         </>
     ));
   
