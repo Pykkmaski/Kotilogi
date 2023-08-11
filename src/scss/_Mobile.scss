@@ -1,6 +1,28 @@
 @mixin MediaSM{
     @media screen and (max-width: 1000px){
 
+        .label-heading{
+            .label{
+                font-size: 1rem !important;
+            }
+
+            h1{
+                font-size: 0.75rem !important;
+            }
+        }
+
+        #property-page-content{
+            padding: 0 0.5rem !important;
+        }
+
+        .section{
+            padding: 0.5rem !important;
+            .section-header{
+                padding: 0 !important;
+                top: 65px;
+            }
+        }
+
         #header-logo-area{
             img{
                 height: 24px !important;
@@ -104,6 +126,7 @@
         }
 
         #primary-header{
+            padding: 0.5rem !important;
             .navigation{
                 visibility: hidden;
             }

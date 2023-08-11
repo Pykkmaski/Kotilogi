@@ -15,7 +15,7 @@ import Pricing from './Pages/Pricing';
 import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import SendActivationCode from './Pages/SendActivationCode';
 import TOS from './Pages/TOS/TOS';
@@ -42,7 +42,7 @@ function App(){
     return (
         <Router>
             <div className="app">
-                <AppContext.Provider value={{token, setToken, user, setUser}}>
+                <AppContext.Provider value={{token, setToken, user, setUser, menuRenderBody}}>
                 <Menu renderBody={menuRenderBody}/>
 
                 <Header/>

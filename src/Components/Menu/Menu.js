@@ -18,6 +18,7 @@ function MenuBody(props){
 
     useEffect(() => {
         const links = document.querySelectorAll('.menu-nav a');
+        if(!links) return;
         links.forEach(node => node.addEventListener('click', () => props.setOpen(false)));
     }, [props.render]);
 
