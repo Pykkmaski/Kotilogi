@@ -26,11 +26,11 @@ function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
     const [user, setUser] = useLocalStorage(userStorageKey, null);
     const [menuRenderBody, setMenuRenderBody] = useState((
-        <nav>
+        <>
             <a href="/#/">Etusivu</a>
             <a href="/#/login">Kirjaudu</a>
             <a href="/#/regster">Rekisteröidy</a>
-        </nav>
+        </>
     ));
   
     axios.defaults.headers['Authorization'] = token;
@@ -43,9 +43,8 @@ function App(){
         <Router>
             <div className="app">
                 <AppContext.Provider value={{token, setToken, user, setUser}}>
-                <Menu renderBody={<nav>
-                    <a href="/#/">Etusivu</a>
-                </nav>}/>
+                <Menu renderBody={menuRenderBody}/>
+
                 <Header/>
                 <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä."/>
                     <div className='body'>

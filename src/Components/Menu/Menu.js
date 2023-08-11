@@ -2,7 +2,7 @@ import {useState, useEffect, Component} from 'react';
 import useClassName from '../../Hooks/useClassName';
 
 function MenuButton(props){
-    const className = useClassName('menu-btn', props.open ? 'open' : null);
+    const {className} = useClassName('menu-btn', props.open ? 'open' : null);
 
     return (
         <div className={className} onClick={() => props.setOpen(!props.open)}>
@@ -14,12 +14,20 @@ function MenuButton(props){
 }
 
 function MenuBody(props){
-    const className = useClassName('menu-body', props.open ? 'open' : null);
+    const {className} = useClassName('menu-body', props.open ? 'open' : null);
+
+    useEffect(() => {
+        const links = document.querySelectorAll('.menu-nav a');
+        links.forEach(node => node.addEventListener('click', () => props.setOpen(false)));
+    }, [props.render]);
+
     return (
         <div className={className} key='app-menu-body'>
-            {
-                props.render
-            }
+            <nav className="menu-nav">
+                {
+                    props.render
+                }
+            </nav>
         </div>
     )
 }
@@ -29,7 +37,7 @@ function Menu(props){
     return (
         <>
             <MenuButton open={open} setOpen={setOpen} style={{position: 'fixed'}}/>
-            <MenuBody open={open} render={props.renderBody}/>
+            <MenuBody open={open} setOpen={setOpen} render={props.renderBody}/>
         </>
     );
 }

@@ -8,10 +8,12 @@ import Loading from '../Loading';
 import PropertyContext from "../../Contexts/PropertyContext";
 import UsageSection from "./UsageSection";
 import AppContext from "../../Contexts/AppContext";
+import { useContext } from "react";
 
 function Property(props){
     const {property_id, section} = useParams();
     const [property, loadProperty] = useProperty(property_id);
+    const {setMenuRenderBody} = useContext(AppContext);
 
     if(!property) return <Loading message="Ladataan Taloa..."/>
 
@@ -31,6 +33,20 @@ function Property(props){
             targetClassList.add(className);
         }
     }
+
+    useEffect(() => {
+        const renderBody = (
+            <nav>
+                <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/info`} title="Tarkastele talon tietoja" >Tiedot</a>
+                <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/events`} title="Tarkastele ja hallinnoi talon tapahtumia">Tapahtumat</a>
+                <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/energy`} >Kulutus</a>
+                <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/pictures`}>Kuvat</a>
+                <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/files`}>Tiedostot</a>
+            </nav>
+        );
+
+        setMenuRenderBody(renderBody);
+    }, [])
 
     return (
         <PropertyContext.Provider value={{property, loadProperty}}>
