@@ -8,13 +8,8 @@ const logo = './img/logo.png';
 function LoggedOutLinks(){
     return (
         <div className="group-row">
-            <a id="login-link" href="/#/login">
-                Kirjaudu
-            </a>
-
-            <a id="register-link" href="/#/register">
-                Rekisteröidy
-            </a> 
+            <Link to="/login" id="login-link">Kirjaudu</Link>
+            <Link to="/register" id="register-link">Rekisteröidy</Link>
         </div>
     );
 }

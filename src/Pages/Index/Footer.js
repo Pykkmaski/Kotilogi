@@ -1,4 +1,5 @@
 import ContactForm from "./ContactForm";
+import {Link} from 'react-router-dom';
 
 function Footer(props){
     return (
@@ -19,7 +20,7 @@ function Footer(props){
             </div>
 
             <footer>
-                <a id="tos-link" href="/#/tos">Käyttöehdot</a>
+                <Link to="/tos" id="tos-link">Käyttöehdot</Link>
             </footer>
         </div>
     )

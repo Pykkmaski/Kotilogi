@@ -5,6 +5,7 @@ import EventCard from '../../Components/Cards/EventCard';
 import Delete from '../../Functions/Delete';
 import AddEvent from '../../Functions/AddEvent';
 import {useState, useContext} from 'react';
+import {Link} from 'react-router-dom';
 
 import Section from '../../Components/Section';
 import Button from '../../Components/Buttons/Button';
@@ -82,9 +83,9 @@ function EventsSection(props){
 
                             return (
                                 !editing ? 
-                                <a className="container-link" href={url}>
+                                <Link className="container-link" to={url}>
                                     {eventCard}
-                                </a> 
+                                </Link> 
                                 :
                                 eventCard
                                 

@@ -4,10 +4,5 @@ nav{
 
     a{
         color: white;
-
-        &.active{
-            color: $primary-color !important;
-            text-decoration: underline;
-        } 
     }
 }

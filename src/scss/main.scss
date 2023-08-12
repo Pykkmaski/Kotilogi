@@ -34,7 +34,6 @@
 @import './Notice';
 @import './Mobile';
 
-
 *{
     box-sizing: border-box;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -66,17 +65,23 @@ h2, h3{
     color: $secondary-color;
 }
 
-a:disabled{
-    text-decoration:line-through;
-    color: gray;
+a{
+    font-weight: 300;
+
+    &:hover{
+        text-decoration: underline;
+    }
+
+    &:disabled{
+        text-decoration:line-through;
+        color: gray;
+    }
 }
 
 nav{
     font-weight: bold;
     
-    a{
-        font-weight: bold;
-    }
+    
 }
 
 img.inverted{

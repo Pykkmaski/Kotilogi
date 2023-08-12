@@ -14,6 +14,7 @@ import DeleteProperty from '../Functions/DeleteProperty';
 import ConfirmModal from '../Components/Modals/ConfirmModal';
 import Delete from '../Functions/Delete';
 import NoProperties from '../Components/Error/NoProperties';
+import {Link} from 'react-router-dom';
 
 function Properties(props){
     const [properties, loadProperties] = useProperties();
@@ -70,15 +71,15 @@ function Properties(props){
                         {
                             properties.length ? 
                             properties.map(item => {
-                                const url = `/#/properties/${item.id}/info`;
+                                const url = `/properties/${item.id}/info`;
                                 const propertyCard = <PropertyCard property={item} key={`property-card-${item.id}`} editing={editing} functions={{
                                     deleteProperty: (property) => deleteHandler(property)
                                 }}/>
                                 return(
                                     !editing ?
-                                    <a href={url} className="container-link">
+                                    <Link to={url} className="container-link">
                                         {propertyCard}
-                                    </a>
+                                    </Link>
                                     :
                                     propertyCard
                                 )

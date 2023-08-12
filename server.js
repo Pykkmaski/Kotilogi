@@ -1,6 +1,8 @@
 const express = require('express');
 const http = require('http');
 const app = express();
+const path = require('path');
+
 app.use(express.static('node_modules'));
 app.use(express.static('public'));
 app.use(express.static('uploads'));
@@ -45,6 +47,15 @@ app.use('/api/users', usersRouter);
 
 const contactRoute = require('./routes/contact.js');
 app.use('/api/contact', contactRoute);
+
+
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, './public/index.html'), function(err) {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+});
 
 try{
     if(process.env.NODE_ENV !== 'test'){

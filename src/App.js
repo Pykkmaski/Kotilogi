@@ -9,7 +9,7 @@ import RegisterThankYou from './Pages/RegisterThankYou';
 import AppContext from './Contexts/AppContext';
 import Properties from './Pages/Properties';
 import Event from './Pages/Event/Event';
-import {HashRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Property from './Pages/Property/Property';
 import Pricing from './Pages/Pricing';
 import { tokenStorageKey, userStorageKey } from './appconfig';
@@ -40,12 +40,13 @@ function App(){
                 <Menu/>
 
                 <Header/>
-                <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä."/>
+                
                     <div className='body'>
                         <Routes>
                             <Route path="/" element={<Home/>}></Route>
                             <Route path="/login" element={<Login/>}></Route>
                             <Route path="/register" element={<Signup/>}></Route>
+                            <Route path="/tos" element={<TOS/>}></Route>
                             <Route path="/user/" element={<Properties/>}></Route>
                             <Route path="/pricing" element={<Pricing/>}></Route>
                             <Route path="/properties/:property_id/:section" element={<Property/>}></Route>
@@ -53,12 +54,12 @@ function App(){
                             <Route path="/thankyou" element={<RegisterThankYou/>}></Route>
                             <Route path="/reset/password" element={<ResetPassword/>}></Route>
                             <Route path="/send/activationcode" element={<SendActivationCode/>}></Route>
-                            <Route path="/tos" element={<TOS/>}></Route>
+                            
                             <Route path="/logout" element={<Logout/>}></Route>
                             <Route path="*" element={<Unknown/>}></Route>
                         </Routes>
                     </div>
-                    
+                    <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä."/>
                 </AppContext.Provider>
                 
             </div> 
