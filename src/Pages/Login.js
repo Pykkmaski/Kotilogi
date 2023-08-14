@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useRef } from 'react';
+import {Link} from 'react-router-dom';
 import AppContext from '../Contexts/AppContext';
 import axios from 'axios';
-import LinkTo from '../Functions/LinkTo';
 import LoadingSpinner from '../Components/Spinner';
 
 function Login(props){
@@ -63,7 +63,7 @@ function Login(props){
                 </div>
 
                 <div className="form-links">
-                    <a href="/#/reset/password" disabled={true}>Unohditko Salasanasi?</a>
+                    <Link to="/reset/password" id="password-reset-link">Unohditko Salasanasi?</Link>
                 </div>
 
                 <div className="form-spinner">

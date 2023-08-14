@@ -15,7 +15,7 @@ app.use('/api/login', loginRouter);
 const signupRouter = require('./routes/signup.js');
 app.use('/api/signup', signupRouter);
 
-const propertyRouter = require('./routes/properties.js');
+const propertyRouter = require('./routes/properties/router.js');
 app.use('/api/properties', propertyRouter);
 
 const propertyImagesRouter = require('./routes/images.properties.js');
@@ -24,7 +24,7 @@ app.use('/api/images/properties', propertyImagesRouter);
 const propertyFilesRouter = require('./routes/files.properties.js');
 app.use('/api/files/properties', propertyFilesRouter);
 
-const eventsRouter = require('./routes/events.js');
+const eventsRouter = require('./routes/events/router.js');
 app.use('/api/events', eventsRouter);
 
 const eventImagesRouter = require('./routes/images.events.js');
@@ -48,6 +48,8 @@ app.use('/api/users', usersRouter);
 const contactRoute = require('./routes/contact.js');
 app.use('/api/contact', contactRoute);
 
+const authRouter = require('./routes/verify.js');
+app.use('/api/auth', authRouter);
 
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, './public/index.html'), function(err) {

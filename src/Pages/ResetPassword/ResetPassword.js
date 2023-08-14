@@ -3,12 +3,13 @@ import Button from '../../Components/Buttons/Button';
 import Form from '../../Components/Form';
 import {useState} from 'react';
 import { useEffect } from 'react';
+import AppContext from '../../Contexts/AppContext';
 
 const stepTransitionDelay = 2000; //In milliseconds.
 const requestTimeout = 10000;
 
 function cancel(e){
-    location.assign('#/login');
+    location.assign('/login');
 }
 
 function EmailForm(props){
@@ -161,7 +162,7 @@ function PasswordForm({setStep, email}){
         })
         .then(res => {
             setError(0);
-            setTimeout(() => location.assign('#/login'), stepTransitionDelay);
+            setTimeout(() => location.assign('/login'), stepTransitionDelay);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));
@@ -202,11 +203,10 @@ function PasswordForm({setStep, email}){
     )
 }
 
-function ResetPassword(props){
+export function ResetPassword(props){
 
     const [step, setStep] = useState(0) //0 for asking for the email, 1 for asking for the reset code, 2 for new password input.
     const [email, setEmail] = useState(null);
-
     return (    
         <div id="reset-password-page">
             <div className="bg-blur"></div>
@@ -222,5 +222,3 @@ function ResetPassword(props){
         </div>
     )
 }
-
-export default ResetPassword;

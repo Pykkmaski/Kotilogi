@@ -16,7 +16,7 @@ import { tokenStorageKey, userStorageKey } from './appconfig';
 import useLocalStorage from './Hooks/useLocalStorage';
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import {ResetPassword} from './Pages/ResetPassword/ResetPassword';
 import SendActivationCode from './Pages/SendActivationCode';
 import TOS from './Pages/TOS/TOS';
 import Notice from './Components/Notice';
@@ -43,8 +43,12 @@ function App(){
                 
                     <div className='body'>
                         <Routes>
-                            <Route path="/" element={<Home/>}></Route>
+                            <Route path="/" element={<Home/>}>
+                                
+                            </Route>
+
                             <Route path="/login" element={<Login/>}></Route>
+                            
                             <Route path="/register" element={<Signup/>}></Route>
                             <Route path="/tos" element={<TOS/>}></Route>
                             <Route path="/user/" element={<Properties/>}></Route>

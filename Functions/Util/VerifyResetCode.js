@@ -8,7 +8,7 @@ async function VerifyResetCode(reset_code, email){
         if(!data) return reject (new Error(404)); //No reset code exists for the provided email
         
         //Reject unmatching codes
-        const comparisonResult = VerifyPassword(reset_code, data.reset_code);
+        const comparisonResult = await VerifyPassword(reset_code, data.reset_code);
         if(!comparisonResult) return reject(new Error(403));
 
         const currentTime = new Date().getTime();
