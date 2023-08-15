@@ -1,9 +1,8 @@
 import axios from 'axios';
-import Button from '../../Components/Buttons/Button';
 import Form from '../../Components/Form';
 import {useState} from 'react';
 import { useEffect } from 'react';
-import AppContext from '../../Contexts/AppContext';
+import {redirect} from 'react-router-dom';
 
 const stepTransitionDelay = 2000; //In milliseconds.
 const requestTimeout = 10000;
@@ -162,7 +161,7 @@ function PasswordForm({setStep, email}){
         })
         .then(res => {
             setError(0);
-            setTimeout(() => location.assign('/login'), stepTransitionDelay);
+            setTimeout(() => redirect('/login'), stepTransitionDelay);
         })
         .catch(err => setError(err.response.status))
         .finally(() => setLoading(false));

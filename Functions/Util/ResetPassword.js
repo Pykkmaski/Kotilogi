@@ -6,7 +6,7 @@ async function ResetPassword(email, password1, password2){
         if(password1 !== password2) return reject(new Error(409));
     
         const saltedPassword = HashPassword(password1, 15);
-        db.updateUserByEmail(email)({
+        db('users').where({email}).update({
             password : saltedPassword
         })
         .catch(err => reject(err))
