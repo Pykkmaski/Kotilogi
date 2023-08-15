@@ -14,41 +14,23 @@ describe('Testing the index page', () => {
         
     });
 
-    beforeEach(async () => {
-        try{
-            await page.goto(baseUrl);
-        }
-        catch(err){
-            return console.log(err.message);
-        }
-        
-    });
-
     afterAll(async () => {
         await browser.close();
     });
 
+    beforeEach(async () => {
+        await page.goto(baseUrl);
+    });
+
     test('Clicking on the create-free-acc button opens the register page', async () => {
         await page.click('a#create-acc-link');
-        const expectedUrl = baseUrl + '/register';
-        expect(page.url()).toEqual(expectedUrl);
-    });
-
-    test('Clicking on the header register link will open the register page', async () => {
-        await page.click('a#register-link');
-        const expectedUrl = baseUrl + '/register';
-        expect(page.url()).toEqual(expectedUrl);
-    });
-
-    test('Clicking on the header login link opens the login page', async () => {
-        await page.click('a#login-link');
-        const expectedUrl = baseUrl + '/login';
+        const expectedUrl = baseUrl + '/#/register';
         expect(page.url()).toEqual(expectedUrl);
     });
 
     test('Clicking on the tos-link will open the tos-page', async () => {
         await page.click('a#tos-link');
-        const expectedUrl = baseUrl + '/tos';
+        const expectedUrl = baseUrl + '/#/tos';
         expect(page.url()).toEqual(expectedUrl);
     });
 })

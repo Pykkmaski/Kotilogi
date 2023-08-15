@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import EventsSection from "./EventsSection";
 import ImagesSection from "./ImagesSection";
 import FilesSection from './FilesSection';
@@ -40,11 +40,11 @@ function Property(props){
                     <div className="sidebar-group">
                         <div className="sidebar-title">Talon toiminnot</div>
                         <nav>
-                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/info`} title="Tarkastele talon tietoja" >Tiedot</a>
-                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/events`} title="Tarkastele ja hallinnoi talon tapahtumia">Tapahtumat</a>
-                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/energy`} >Kulutus</a>
-                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/pictures`}>Kuvat</a>
-                            <a onClick={toggleActive} className="cursor-pointer nav-link" href={`/#/properties/${property_id}/files`}>Tiedostot</a>
+                            <Link className="cursor-pointer nav-link" to={`/properties/${property_id}/info`} title="Tarkastele talon tietoja" >Tiedot</Link>
+                            <Link className="cursor-pointer nav-link" to={`/properties/${property_id}/events`} title="Tarkastele ja hallinnoi talon tapahtumia">Tapahtumat</Link>
+                            <Link className="cursor-pointer nav-link" to={`/properties/${property_id}/energy`} >Kulutus</Link>
+                            <Link className="cursor-pointer nav-link" to={`/properties/${property_id}/pictures`}>Kuvat</Link>
+                            <Link className="cursor-pointer nav-link" to={`/properties/${property_id}/files`}>Tiedostot</Link>
                         </nav>
                     </div>
                     

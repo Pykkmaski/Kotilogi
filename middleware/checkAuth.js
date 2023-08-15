@@ -9,16 +9,7 @@ async function checkAuth(req, res, next){
         
         const token = authorization.split(' ')[1]; //Format of token: Bearer TOKEN
 
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-            if(err){
-                throw new Error(err);
-            }
-            else{
-                req.user = user;
-            }
-        });
-
-        
+        req.user = jwt.verify(token, process.env.TOKEN_SECRET);
         next();
     }
     catch(err){

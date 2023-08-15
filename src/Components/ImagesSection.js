@@ -1,4 +1,5 @@
 import {useState, useRef} from 'react';
+import {Link} from 'react-router-dom';
 import Gallery from './Gallery';
 import ImageCard from './Cards/ImageCard';
 import Delete from '../Functions/Delete';
@@ -130,9 +131,9 @@ function ImagesSection(props){
 
                                 return (
                                     !editing ?
-                                    <a className="container-link" href={imgSrc} target="_blank">
+                                    <Link className="container-link" to={imgSrc} target="_blank">
                                         {element}
-                                    </a>
+                                    </Link>
                                     :
                                     element
                                 );

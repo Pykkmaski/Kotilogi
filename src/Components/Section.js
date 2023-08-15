@@ -13,7 +13,6 @@ function Section(props){
 }
 
 const Header = (props) => {
-    console.log('Rendering header...');
     const {className} = useClassName('section-header', props.className);
     return <div className={className}>{props.children}</div>
 }

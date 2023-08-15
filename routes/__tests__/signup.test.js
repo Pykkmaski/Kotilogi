@@ -44,7 +44,7 @@ describe('Testing the server signup route', () => {
         expect(response.statusCode).toBe(409);
     });
 
-    it('Responds with 200 and the database now contains the new user', async () => {
+    it('Responds with 200 on success and the database now contains the new user', async () => {
         const data = {
             email: 'test@gmail.com',
             password1: 'pass',

@@ -1,4 +1,6 @@
 const RouteHandleError = require('../../Functions/Util/RouteHandleError');
+const db = require('../../dbconfig');
+
 module.exports = async (req, res) => {
      //Responds with all properties owned by the provided email.
      try{

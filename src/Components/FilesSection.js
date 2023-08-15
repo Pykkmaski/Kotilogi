@@ -1,5 +1,6 @@
 import UploadFile from "../Functions/UploadFile";
 import {useState, useRef} from 'react';
+import {Link} from 'react-router-dom';
 import Section from "./Section";
 import Button from './Buttons/Button';
 import Gallery from './Gallery';
@@ -124,9 +125,9 @@ function FilesSection(props){
 
                                 return (
                                     !editing ?
-                                    <a className="container-link" href={fileSrc} target="_blank">
+                                    <Link className="container-link" to={fileSrc} target="_blank">
                                         {element}
-                                    </a>
+                                    </Link>
                                     :
                                     element
                                 )

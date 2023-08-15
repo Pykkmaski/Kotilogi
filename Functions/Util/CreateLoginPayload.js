@@ -4,11 +4,11 @@ const CreateToken = require('./CreateToken');
 
 require('dotenv').config();
 
-module.exports = (email, password) => {
+module.exports = async (email, password) => {
     //Creates and returns the payload object as a string.
     return new Promise(async (resolve, reject) => {
         try{
-            const savedUser = await db.select('email', 'active', 'password').where({email}).first();
+            const savedUser = await db.select('email', 'active', 'password').from('users').where({email}).first();
 
             if(!savedUser) throw new Error(404);
     

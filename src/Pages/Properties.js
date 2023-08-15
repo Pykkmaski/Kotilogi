@@ -17,8 +17,9 @@ import NoProperties from '../Components/Error/NoProperties';
 import {Link} from 'react-router-dom';
 
 function Properties(props){
-    const [properties, loadProperties] = useProperties();
-    const {token} = useContext(AppContext);
+    
+    const {token, user} = useContext(AppContext);
+    const [properties, loadProperties] = useProperties(user.email);
     const [editing, setEditing] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 

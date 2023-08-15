@@ -1,8 +1,7 @@
 import {Link} from 'react-router-dom';
 import { useContext, useState} from 'react';
 import AppContext from '../Contexts/AppContext';
-import Logout from '../Functions/Logout';
-import Menu from './Menu/Menu';
+
 const logo = './img/logo.png';
 
 function LoggedOutLinks(){
@@ -15,11 +14,9 @@ function LoggedOutLinks(){
 }
 
 function LoggedInLinks(){
-    const {setToken} = useContext(AppContext);
-    
     return (
         <div className="group-row">
-            <a href="" onClick={() => Logout(setToken)}>Kirjaudu Ulos</a>
+            <Link to="/logout">Kirjaudu Ulos</Link>
         </div>
     );
 }

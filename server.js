@@ -48,9 +48,6 @@ app.use('/api/users', usersRouter);
 const contactRoute = require('./routes/contact.js');
 app.use('/api/contact', contactRoute);
 
-const authRouter = require('./routes/verify.js');
-app.use('/api/auth', authRouter);
-
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, './public/index.html'), function(err) {
       if (err) {

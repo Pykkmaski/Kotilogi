@@ -9,7 +9,7 @@ import RegisterThankYou from './Pages/RegisterThankYou';
 import AppContext from './Contexts/AppContext';
 import Properties from './Pages/Properties';
 import Event from './Pages/Event/Event';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import Property from './Pages/Property/Property';
 import Pricing from './Pages/Pricing';
 import { tokenStorageKey, userStorageKey } from './appconfig';
@@ -34,7 +34,7 @@ function App(){
     }, [token]);
 
     return (
-        <Router>
+        <Router basename="/">
             <div className="app">
                 <AppContext.Provider value={{token, setToken, user, setUser}}>
                 <Menu/>

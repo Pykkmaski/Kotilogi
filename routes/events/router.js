@@ -3,6 +3,7 @@ const checkAuth = require('../../middleware/checkAuth');
 const convertDateToTime = require('../../middleware/convertDateToTime');
 const deleteEventById = require('./deleteEventById');
 const updateEventById = require('./updateEventById');
+const getEventById = require('./getEventById');
 
 router.get('/:event_id', checkAuth, getEventById);
 

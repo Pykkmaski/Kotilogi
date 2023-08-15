@@ -6,7 +6,7 @@ const RouteHandleError = require('../../Functions/Util/RouteHandleError');
 
 const getAllPropertiesByEmail = require('./getAllPropertiesByEmail');
 const getPropertyById = require('./getPropertyById');
-const getEventsByPropertyId = require('./getEventsByPropertyId');
+const getAllEventsByPropertyId = require('./getAllEventsByPropertyId');
 const postEventByPropertyId = require('./postEventByPropertyId');
 const postProperty = require('./postProperty');
 const deletePropertyById = require('./deletePropertyById');
@@ -27,7 +27,7 @@ router.get('/', checkAuth, checkPropertyAuth, async (req, res) => {
 
 router.get('/user/:email', checkAuth, getAllPropertiesByEmail);
 router.get('/:property_id', checkAuth, getPropertyById);
-router.get('/:property_id/events', checkAuth, checkPropertyAuth, getEventsByPropertyId);
+router.get('/:property_id/events', checkAuth, getAllEventsByPropertyId);
 
 router.post('/:property_id/events', checkAuth, postEventByPropertyId);
 router.post('/', checkAuth, postProperty);

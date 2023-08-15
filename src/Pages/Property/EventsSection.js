@@ -76,7 +76,7 @@ function EventsSection(props){
                     {
                         events.length ?
                         events.map(ev => {
-                            const url = `/#/properties/${ev.property_id}/events/${ev.id}/info`;
+                            const url = `/properties/${ev.property_id}/events/${ev.id}/info`;
                             const eventCard = <EventCard event={ev} editing={editing} functions={{
                                 deleteEvent: (id) => showDeleteConfirmation(id)
                             }}/>

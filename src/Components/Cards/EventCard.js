@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import Card from './Card';
 import PropertyContext from '../../Contexts/PropertyContext';
 import Button from '../Buttons/Button';
+import axios from 'axios';
+
 
 function EventCard({event, editing, functions}){
 
