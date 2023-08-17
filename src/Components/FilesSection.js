@@ -59,7 +59,7 @@ function FilesSection(props){
                         props.target.address ? <span className="label">{props.target.address}</span> : null
                     }
                     
-                    <h1>Tiedostot</h1>
+                    <small>Tiedostot</small>
                 </div>
 
                 <div className="group-row">

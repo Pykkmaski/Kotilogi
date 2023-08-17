@@ -98,7 +98,7 @@ function PropertyInfoSection(props){
             <Section.Header>
                 <div className="label-heading">
                     <span className="label">{property.address}</span>
-                    <h1>Tiedot</h1>
+                    <small>Tiedot</small>
                 </div>
                 
 

@@ -33,12 +33,19 @@
 
         .label-heading{
             display: flex;
-            flex-flow: column;
+            flex-flow: row;
+            align-items: baseline;
+            gap: 1rem;
+
+            small{
+                font-weight: bold;
+                color: $secondary-color;
+            }
 
             .label{
                 font-size: 2rem;
-                color: $secondary-color;
-            }
+                color: black;
+            }   
 
             h1{
                 font-size: 1.25rem !important;

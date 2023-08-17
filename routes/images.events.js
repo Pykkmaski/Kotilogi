@@ -50,7 +50,7 @@ router.get('/:event_id/id/main', async (req, res) => {
     }
 });
 
-router.get('/:event_id/image/main', async (req, res) => {
+router.get('/:event_id/main', async (req, res) => {
     ///Returns the main image for specified event id
     try{
         const {event_id} = req.params;

@@ -26,7 +26,7 @@ function Header(props){
     }
 
     return (
-        <div className="event-header">
+        <div className="event-header" onClick={() => !showModal ? setShowModal(true) : null} title={'Muokkaa'}>
             <div className="event-header-buttons">
                 <button className="primary" onClick={() => location.assign(`/#/properties/${event.property_id}/events`)}>Takaisin Tapahtumiin</button>
                 <button className="primary" onClick={() => setShowModal(true)}>Muokkaa Tapahtumaa</button>

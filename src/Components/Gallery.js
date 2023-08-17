@@ -4,12 +4,13 @@ import FileCard from './Cards/FileCard';
 import ImageCard from "./Cards/ImageCard";
 
 function Gallery(props){
+    const {className} = useClassName('gallery', props.className);
     const subComponents = useSubComponents(Object.keys(Gallery), props);
 
     return (
-        <div className={'gallery'}>
+        <div className={className}>
             {
-                subComponents.map((component) => component)
+                props.children
             }
         </div>
     )
@@ -32,5 +33,13 @@ const Body = (props) => {
     );
 }
 Gallery.Body = Body;
+
+const Header = (props) => {
+    const {className} = useClassName('gallery-header', props.className);
+    return (
+        <div className={className} id={props.id}>{props.children}</div>
+    )
+}
+Gallery.Header = Header;
 
 export default Gallery;

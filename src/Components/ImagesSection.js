@@ -78,7 +78,7 @@ function ImagesSection(props){
                        props.target.address ? <span className="label">{props.target.address}</span> : null
                     }
                     
-                    <h1>Kuvat</h1>
+                    <small>Kuvat</small>
                 </div>
 
                 <div className="group-row">

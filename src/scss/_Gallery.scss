@@ -1,8 +1,8 @@
 .gallery{
     display: flex;
     flex-flow: column;
-    gap: 1rem;
-    
+    width: 100%;
+
     .add-button{
         display: flex;
         flex-flow: column;
@@ -38,9 +38,42 @@
         }
     }
 
+    .gallery-header{
+        display: flex;
+        flex-flow: row;
+        text-align: left;
+        justify-content: space-between;
+
+        padding: 1rem;
+
+        .header-item{
+            display: flex;
+            flex-flow: row;
+            gap: 0.5rem;
+
+            &.baseline{
+                align-items: baseline;
+            }
+        }
+
+        .add-btn{
+            .group-row{
+                justify-content: center;
+            }
+        
+        }
+
+        .group-row{
+            max-height: 50px;
+        }
+
+        margin-bottom: 2rem;
+        border-bottom: 1px dashed $border-color;
+    }
+
     .gallery-body{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: auto auto auto auto;
         
         gap: 1rem;
         justify-content: center;

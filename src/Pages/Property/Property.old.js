@@ -57,19 +57,21 @@ function Property(props){
                     </div>
                 </div>
 
-                {
-                    section === 'info' ? <InfoSection/>
-                    :
-                    section === 'events' ? <EventsSection/>
-                    :
-                    section === 'pictures' ? <ImagesSection/>
-                    :
-                    section === 'files' ? <FilesSection/>
-                    :
-                    section === 'energy' ? <UsageSection/>
-                    : 
-                    null
-                }
+                <div id="property-page-content">
+                    {
+                        section === 'info' ? <InfoSection/>
+                        :
+                        section === 'events' ? <EventsSection/>
+                        :
+                        section === 'pictures' ? <ImagesSection/>
+                        :
+                        section === 'files' ? <FilesSection/>
+                        :
+                        section === 'energy' ? <UsageSection/>
+                        : 
+                        null
+                    }
+                </div>
             </div>
         </PropertyContext.Provider>
         

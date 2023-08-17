@@ -110,6 +110,10 @@ form .form-button-group{
             border-color: $danger-color;
         }
     }
+
+    textarea{
+        color: gray;
+    }
 }
 
 .form-checkbox-group{

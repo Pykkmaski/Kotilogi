@@ -9,9 +9,14 @@
     padding: 0.25rem;
     height: 100%;
     transition: border-width 0.2s ease-in-out;
-    
+    position: relative;
+
     &:hover{
         border-color: black;
+    }
+
+    &.selected{
+        background: lighten($primary-color, 30);
     }
 
     .control-link{
@@ -112,10 +117,39 @@
         width: 100%;
     }
 
+    a{
+        display: flex;
+        flex-flow: column;
+        flex: 1;
+        color: $secondary-color;
+        
+        &:hover{
+            text-decoration: none;
+            color: none;
+        }
+    }
+
+    .card-menu{
+        position: absolute;
+        min-height: 50px;
+        bottom: -50px;
+        right: 0;
+        width: 100%;
+        padding: 5px;
+        background: rgba(255, 255, 189, 0.545);
+        display: none;
+        z-index: 5;
+        
+        &.open{
+            display: block;
+        }   
+
+    }
+
     .card-footer{
         display: inherit;
         flex-flow: row;
-        justify-content: center;
+        justify-content: space-between;
         width: 100%;
         background: none;
         gap: 0.5rem;
@@ -123,6 +157,14 @@
 
         button{
             font-size: 0.9rem;
+        }
+
+        .cog-img{
+            width: 25px;
+        }
+
+        input[type=checkbox]{
+            width: 50px;
         }
     }
 

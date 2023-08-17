@@ -22,6 +22,7 @@ import TOS from './Pages/TOS/TOS';
 import Notice from './Components/Notice';
 import Menu from './Components/Menu/Menu';
 import Logout from './Pages/Logout';
+import { PropertiesGallery } from './Components/PropertiesGallery';
 
 function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);
@@ -48,13 +49,13 @@ function App(){
                             </Route>
 
                             <Route path="/login" element={<Login/>}></Route>
-                            
+                            <Route path="/properties" element={<Properties/>}></Route>
                             <Route path="/register" element={<Signup/>}></Route>
                             <Route path="/tos" element={<TOS/>}></Route>
                             <Route path="/user/" element={<Properties/>}></Route>
                             <Route path="/pricing" element={<Pricing/>}></Route>
                             <Route path="/properties/:property_id/:section" element={<Property/>}></Route>
-                            <Route path="/properties/:property_id/events/:event_id/:section" element={<Event/>}></Route>
+                            <Route path="/properties/:property_id/events/:event_id" element={<Event/>}></Route>
                             <Route path="/thankyou" element={<RegisterThankYou/>}></Route>
                             <Route path="/reset/password" element={<ResetPassword/>}></Route>
                             <Route path="/send/activationcode" element={<SendActivationCode/>}></Route>

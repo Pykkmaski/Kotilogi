@@ -207,7 +207,7 @@ function UsageSection(props){
             <Section.Header>
                 <div className="label-heading">
                     <span className="label">{property.address}</span>
-                    <h1>Kulutus</h1>
+                    <small>Kulutus</small>
                 </div>
 
                 <div className="group-row">
@@ -251,7 +251,7 @@ function UsageSection(props){
                                     data: usage.filter(u => u.type === 'electricity').map(d => d.price),
                                     colors: ['#f00'],
                                 }]}
-                                width="800"
+                                
                                 height="350"
                                 options={electricityOptions}
                             />

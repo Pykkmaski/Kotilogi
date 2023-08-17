@@ -5,7 +5,7 @@ function Button(props){
 
     if(props.variant === 'add'){
         return (
-            <button className={className} onClick={onClick} type={type} disabled={disabled}>
+            <button className={className} onClick={onClick} type={type} disabled={disabled} id={props.id}>
                 <div className="group-row">
                     <img className="inverted" src={'./img/plus.png'} width="25px"/>
                     {props.children}
@@ -14,7 +14,7 @@ function Button(props){
         )
     }
     else{
-        return <button className={className} onClick={onClick} disabled={disabled}>{props.children}</button>
+        return <button className={className} onClick={onClick} disabled={disabled} id={props.id}>{props.children}</button>
     }
 }
 
