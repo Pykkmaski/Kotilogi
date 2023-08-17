@@ -1,6 +1,6 @@
 import {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
-import Gallery from './Gallery';
+import Gallery from './Gallery/Gallery';
 import ImageCard from './Cards/ImageCard';
 import Delete from '../Functions/Delete';
 import Update from '../Functions/Update';

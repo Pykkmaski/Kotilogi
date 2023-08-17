@@ -1,12 +1,12 @@
 import Card from "./Card";
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
 import PropertiesGalleryContext from "../../Contexts/PropertiesGalleryContext";
 
 export function PropertyCard({property}){
-    const [selected, setSelected] = useState(false);
-    const {deleteProperties, selectProperty} = useContext(PropertiesGalleryContext);
+    const {deleteProperties, selectProperty, selectedProperties} = useContext(PropertiesGalleryContext);
+    const [selected, setSelected] = useState(selectedProperties.includes(property.id));
     const [menuOpen, setMenuOpen] = useState(false);
     const propertyMainImage = '/api/images/properties/' + property.id + '/main';
 
@@ -16,6 +16,10 @@ export function PropertyCard({property}){
         setSelected(newState);
         selectProperty(property.id);
     }
+
+    useEffect(() => {
+        setSelected(selectedProperties.includes(property.id));
+    }, [selectedProperties]);
 
     return (
         <Card className={selected ? 'selected' : null}>
@@ -28,7 +32,7 @@ export function PropertyCard({property}){
             </Link>
             
             <Card.Footer>
-                <input type="checkbox" onInput={checkboxHandler}></input>
+                <input type="checkbox" onInput={checkboxHandler} checked={selected}></input>
                 <img className="cog-img" src={'/img/settings.png'} onClick={() => setMenuOpen(!menuOpen)}></img>
             </Card.Footer>
 

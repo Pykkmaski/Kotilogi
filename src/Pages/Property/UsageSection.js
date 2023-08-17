@@ -7,7 +7,7 @@ import ApexCharts from 'apexcharts';
 import UploadUsageModal from '../../Components/Modals/UploadUsageModal';
 import useUsage from '../../Hooks/useUsage';
 import EnergyUsageCard from '../../Components/Cards/EnergyUsageCard';
-import Gallery from '../../Components/Gallery';
+import Gallery from '../../Components/Gallery/Gallery';
 import Loading from '../Loading';
 import Upload from '../../Functions/Upload';
 import Chart from 'react-apexcharts';

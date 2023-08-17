@@ -1,7 +1,5 @@
-import useClassName from "../Hooks/useClassName";
-import useSubComponents from "../Hooks/useSubComponents";
-import FileCard from './Cards/FileCard';
-import ImageCard from "./Cards/ImageCard";
+import useClassName from "../../Hooks/useClassName";
+import useSubComponents from "../../Hooks/useSubComponents";
 
 function Gallery(props){
     const {className} = useClassName('gallery', props.className);

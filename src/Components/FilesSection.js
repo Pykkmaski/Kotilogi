@@ -3,7 +3,7 @@ import {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import Section from "./Section";
 import Button from './Buttons/Button';
-import Gallery from './Gallery';
+import Gallery from './Gallery/Gallery';
 import UploadFileModal from "./Modals/UploadFileModal";
 import NoFiles from "./Error/NoFiles";
 import EditButton from "./Buttons/EditButton";

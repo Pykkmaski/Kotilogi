@@ -22,7 +22,7 @@ import TOS from './Pages/TOS/TOS';
 import Notice from './Components/Notice';
 import Menu from './Components/Menu/Menu';
 import Logout from './Pages/Logout';
-import { PropertiesGallery } from './Components/PropertiesGallery';
+import { PropertiesGallery } from './Components/Gallery/PropertiesGallery';
 
 function App(){
     const [token, setToken] = useLocalStorage(tokenStorageKey, null);

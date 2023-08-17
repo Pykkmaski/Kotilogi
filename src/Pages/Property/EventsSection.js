@@ -1,6 +1,6 @@
 import {useState, useContext} from 'react';
 import PropertyContext from '../../Contexts/PropertyContext';
-import { EventsGallery } from '../../Components/EventsGallery';
+import { EventsGallery } from '../../Components/Gallery/EventsGallery';
 
 function EventsSection(props){
     const {property} = useContext(PropertyContext);

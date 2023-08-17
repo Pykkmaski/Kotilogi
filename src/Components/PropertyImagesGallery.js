@@ -5,7 +5,7 @@ import useProperties from "../Hooks/useProperties";
 import Button from "./Buttons/Button";
 import { PropertyCard } from "./Cards/PropertyCard.new";
 import NoProperties from "./Error/NoProperties";
-import Gallery from './Gallery';
+import Gallery from './Gallery/Gallery';
 import Delete from '../Functions/Delete';
 import AddProperty from '../Functions/AddProperty';
 import { Redirect, useNavigate } from 'react-router-dom';
