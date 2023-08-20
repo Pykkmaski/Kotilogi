@@ -56,6 +56,10 @@
             flex-flow: row;
             gap: 0.5rem;
 
+            small{
+                font-weight: bold;
+            }
+
             &.baseline{
                 align-items: baseline;
             }
@@ -65,11 +69,11 @@
             }
         }
 
+    
         .add-btn{
             .group-row{
                 justify-content: center;
             }
-        
         }
 
         .group-row{

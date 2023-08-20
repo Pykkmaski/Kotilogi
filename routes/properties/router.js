@@ -29,7 +29,7 @@ router.get('/user/:email', checkAuth, getAllPropertiesByEmail);
 router.get('/:property_id', checkAuth, getPropertyById);
 router.get('/:property_id/events', checkAuth, getAllEventsByPropertyId);
 
-router.post('/:property_id/events', checkAuth, postEventByPropertyId);
+router.post('/:property_id/events', checkAuth, checkPropertyAuth, postEventByPropertyId);
 router.post('/', checkAuth, postProperty);
 
 router.delete('/:property_id', checkAuth, checkPropertyAuth, deletePropertyById);

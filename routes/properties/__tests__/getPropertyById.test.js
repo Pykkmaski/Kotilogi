@@ -6,13 +6,12 @@ const CreateLoginPayload = require('../../../Functions/Util/CreateLoginPayload')
 jest.unmock('../../../dbconfig');
 jest.unmock('express');
 
-const testPropertyId = 178;
 var user;
 var testProperty;
 
 beforeAll(async () => {
     user = await CreateLoginPayload('test@test.com', 'pass');
-    testProperty = await db('properties').where({id: testPropertyId}).first();
+    testProperty = await db('properties').where({owner: user.email}).first();
 });
 
 it('Fails with response code 404 when the property is not found', async () => {
@@ -24,14 +23,14 @@ it('Fails with response code 404 when the property is not found', async () => {
 });
 
 it('Fails with code 403 when the fetch does not include an authorization header', async () => {
-    request(server)
-    .get('/api/properties' + testPropertyId)
+    await request(server)
+    .get('/api/properties' + testProperty.id)
     .expect(403);
 });
 
 it('Fails with code 403 when the authorization header is of incorrect format', async () => {
-    request(server)
-    .get('/api/properties' + testPropertyId)
+    await request(server)
+    .get('/api/properties' + testProperty.id)
     .set({
         'Authorization': 'Bearer token',
     })
@@ -39,7 +38,7 @@ it('Fails with code 403 when the authorization header is of incorrect format', a
 });
 
 it('Succeeds with response code 200 when property is found', async () => {
-    const response = await request(server).get('/api/properties/' + testPropertyId)
+    const response = await request(server).get('/api/properties/' + testProperty.id)
     .set({
         'Authorization': user.token,
     });

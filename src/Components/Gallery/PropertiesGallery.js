@@ -97,7 +97,7 @@ export function PropertiesGallery(props){
                 </div>
 
                 <div className="header-item"> 
-                    <input type="checkbox" onChange={selectAll}></input> 
+                    <input id="select-all" type="checkbox" onChange={selectAll} data-selected-count={selectedProperties.length}></input> 
 
                     <button className="primary" disabled={selectedProperties.length === 0} onClick={() => setShowDeleteModal(true)}>Poista</button>
                     <Button id="add-property-btn" className="primary add-btn" variant="add" onClick={addProperty}>Lisää Talo</Button>

@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
         const event = await db('property_events').where({id: event_id}).first();
         if(!event) throw new Error(404);
 
-        res.status(200).send(JSON.stringify(event));
+        res.status(200).send(event);
     }
     catch(err){
         RouteHandleError(err, res);
