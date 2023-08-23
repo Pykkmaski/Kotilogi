@@ -1,0 +1,77 @@
+@import 'kotilogi-app/scss/Config';
+
+.container{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    padding: 5rem;
+    
+    background: $event-header-color;
+    background-attachment: fixed;
+
+    .element{
+        display: flex;
+        flex-flow: row;
+        gap: 2rem;
+        flex: 1;
+
+        .text{
+            display: flex;
+            flex-flow: column;
+            gap: 1rem;
+
+            h1, p{
+                color: white;
+            }
+
+            h1{
+                margin-bottom: 2rem;
+            }
+        
+            p{
+                font-size: 1.2rem;
+                max-width: 500px;
+            }
+
+            .signature{
+                &:before{
+                    content: '—';
+                }   
+        
+                color: white;
+                margin-top: 2rem;
+                font-style: italic;
+            }
+        }
+        
+        .imageContainer{
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+
+            .image{
+                border-radius: 10px;
+                width: 300px;
+                filter: grayscale(1);
+            }
+        }
+        
+    }
+}
+
+@media screen and (max-width: $mobile-width){
+    .container{
+        .element{
+            flex-flow: column !important;
+            align-items: center;
+
+            p, h1, .signature{  
+                text-align: center;
+            }
+        }
+        
+    }
+}

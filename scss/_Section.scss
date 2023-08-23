@@ -1,0 +1,74 @@
+.section{
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    
+    .section-header, .section-body, .section-footer{
+        padding: 0 1rem 1rem 1rem;
+    }
+
+    .section-header{
+        background: white;
+        border-bottom: 1px dashed $border-color;
+        display: inherit;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        
+        margin-bottom: 1rem;
+        position: sticky;
+        top: 68px;
+        z-index: 2;
+
+        .button-group{
+            display: flex;
+            flex-flow: row;
+            gap: 0.5rem;
+
+            button{
+                @include SlideRightAnimation;
+            }
+        }
+
+        .label-heading{
+            display: flex;
+            flex-flow: row;
+            align-items: baseline;
+            gap: 1rem;
+
+            small{
+                font-weight: bold;
+                color: $secondary-color;
+            }
+
+            .label{
+                font-size: 2rem;
+                color: black;
+            }   
+
+            h1{
+                font-size: 1.25rem !important;
+            }
+        }
+    }
+
+    .section-body{
+        display: inherit;
+        flex-flow: column;
+        flex: 1;
+        align-items: center;
+    }
+
+    .section.footer{
+        display: flex;
+    }
+
+    @media screen and (max-width: 1000px){
+        .section-header{
+            .label-heading{
+                font-size: 1rem !important;
+            }
+        }
+    }
+}

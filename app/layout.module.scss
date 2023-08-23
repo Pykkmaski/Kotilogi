@@ -1,0 +1,24 @@
+@import 'kotilogi-app/scss/Config';
+
+.body{
+    display: flex;
+    flex-flow: column;
+    background: gray;
+    min-height: 100vh;
+}
+
+.container{
+    display: flex;
+    flex-flow: column;
+    
+    $margin-amount: 5vw;
+    background: white;
+    margin: 0 $margin-amount 0 $margin-amount;
+    flex: 1;
+}
+
+@media screen and (max-width: $mobile-width){
+    .container{
+        margin: 0 !important;
+    }
+}

@@ -1,0 +1,45 @@
+@import 'kotilogi-app/scss/Config';
+
+.header{
+    position: sticky;
+    top: 0;
+    background: white;
+
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid $border-color;
+    z-index: 2;
+    
+    a{
+        color: $secondary-color;
+        font-weight: 700;
+    }
+
+    
+}
+
+.links{
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.navDesktop{
+    @media screen and (max-width: 700px){
+        display: none !important;
+    }
+}
+
+#logoutButton{
+    margin-left: 2rem;
+}
+
+#userEmail{
+    font-weight: normal;
+    font-style: italic;
+}

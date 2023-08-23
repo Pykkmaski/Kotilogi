@@ -1,0 +1,11 @@
+#signup-page{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    background-position: fixed;
+
+    background: url('../src/img/signup-bg.jpg');
+}

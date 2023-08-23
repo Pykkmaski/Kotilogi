@@ -1,0 +1,27 @@
+@import 'kotilogi-app/scss/Config';
+@import 'kotilogi-app/scss/Animations';
+
+.container{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 1rem;
+
+    @include SlideUpAnimation;
+}
+
+.spinner{
+    border-radius: 50%;
+    border: 5px solid $primary-color;
+
+    animation: RingAnimation;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 0.7s;
+
+    border-top-color: white;
+}
+
+.message{
+    font-size: 1.25rem;
+}

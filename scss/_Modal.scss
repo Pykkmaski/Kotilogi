@@ -1,0 +1,92 @@
+@import './Animations';
+@import './Config';
+
+.component-modal{
+    $modal-padding: 0.5rem;
+
+    border-radius: 5px;
+    min-width: 25%;
+    border: 2px solid $secondary-color;
+    padding: 0;
+    position: absolute;
+    color: $secondary-color;
+
+    &::backdrop{
+        backdrop-filter: blur(10px) saturate(100%);
+    }
+
+    form{
+        background: none !important;
+        box-shadow: none !important;
+    }
+
+    .animated{
+        @include SlideUpAnimation;
+    }
+
+    .modal-header, .modal-body, .modal-footer{
+        padding: $modal-padding;
+    }
+
+    .modal-header, .modal-footer{
+        display: flex;
+        flex-flow: row;
+        gap: 0.5rem;
+    }
+
+    .modal-header{
+        justify-content: space-between;
+        border-bottom: 1px solid $border-color;
+        font-size: 2rem;
+    }
+
+    .modal-footer{
+        justify-content: right;
+        border-top: 1px solid $border-color;
+    }
+
+    .modal-body{
+        display: flex;
+        width: 100%;
+        text-align: center !important;
+        padding: 1rem $modal-padding 1rem $modal-padding !important;
+
+        form{
+            width: 100% !important;
+        }
+    }
+
+    .modal-image{
+        object-fit: scale-down;
+    }
+
+    .modal-close-button{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        width: 25px;
+        height: 25px;
+
+        cursor: pointer;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+
+        .line{
+            height: 2px;
+            width: 20px;
+            position: absolute;
+            background: $secondary-color;
+            
+            &:nth-child(1){
+                transform: rotate(45deg);
+            }
+
+            &:nth-child(2){
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

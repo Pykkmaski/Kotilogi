@@ -1,0 +1,118 @@
+@import './Animations';
+
+.property-info-section{
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    width: 100%;
+
+    header{
+        display: inherit;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        position: sticky;
+        top: 0;
+        border-bottom: 1px dashed $border-color;
+    }
+
+    .body{
+        display: inherit;
+        flex-flow: inherit;
+        align-items: center;
+    }
+
+    input{
+        &:disabled{
+            border: none;
+        }
+    }
+
+    
+}
+
+.main-image{
+    img{
+        margin-bottom: 2rem;
+    }
+    
+}
+
+.info-group{
+    display: flex;
+    flex-flow: column;
+    border-bottom: 1px solid $border-color;
+    margin-bottom: 2rem;
+    align-items: baseline;
+    gap: 0.25rem;
+    
+    header{
+        width: 100%;
+        padding-bottom: 1rem;
+    }
+}
+
+.info-row{
+    display: flex;
+    flex-flow: row;
+    align-items: baseline;
+
+    h2{
+        font-size: 1rem;
+        font-weight: bold;
+        min-width: 200px;
+
+        &:after{
+            content: ':';
+        }
+    }
+
+    input{
+        margin-right: 1rem;
+    }
+
+    button{
+        background: none;
+        padding: 0;
+        
+        &.primary{
+            color: $primary-color;
+        }
+
+        &.secondary{
+            color: $secondary-color;
+        }
+
+        &:active{
+            background: none !important;
+        }
+    }
+
+    .button-group{
+        display: none;
+
+        &.editing{
+            display: inherit;
+        }
+    }
+
+    &:hover{
+        .button-group{
+            display: inherit;
+            flex-flow: inherit;
+            gap: 0.5rem;
+        }
+    }
+}
+
+#info-form{
+    min-width: 50rem !important;
+
+    output{
+        font-size: 1.25rem;
+        color: $secondary-color;
+    }
+    select{
+        background: white;
+    }
+}
