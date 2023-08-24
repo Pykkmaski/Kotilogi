@@ -4,7 +4,7 @@ import Gallery from './Gallery/Gallery';
 import ImageCard from './Cards/ImageCard';
 import Delete from '../Functions/Delete';
 import Update from '../Functions/Update';
-import NoImages from '../app/properties/[property_id]/images/NoImages';
+import NoImages from '../app/properties/[property_id]/images/_components/NoImages';
 import UploadImageModal from './Modals/UploadImageModal';
 import ConfirmModal from './Modals/ConfirmModal';
 import EditFileInfoModal from './Modals/EditFileInfoModal';

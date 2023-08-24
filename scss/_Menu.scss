@@ -14,7 +14,7 @@
     background: rgba(white, 1);
     backdrop-filter: saturate(180%) blur(20px);
 
-    z-index: 5;
+    z-index: 30;
     
     width: 100vw;
     height: 100vh;
@@ -55,7 +55,7 @@
 
     gap: 0.5rem;
 
-    z-index: 6;
+    z-index: 31;
 
     $transition-time: 0.2s;
     

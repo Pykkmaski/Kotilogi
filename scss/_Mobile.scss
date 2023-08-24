@@ -23,18 +23,13 @@
             }
         }
 
-        #header-logo-area{
-            img{
-                height: 24px !important;
-            }
-        }
-
         .section-header button{
             font-size: 0.75rem !important;
             img{
                 width: 20px;
             }
         }
+
         #info-form{
             width: 100% !important;
             label{
@@ -65,11 +60,6 @@
 
         .card{
             width: 20rem !important;
-        }
-
-        .gallery-body{
-            display: flex !important;
-            flex-flow: column !important;
         }
 
         .notice-box{

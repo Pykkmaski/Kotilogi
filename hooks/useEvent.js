@@ -1,27 +1,13 @@
-import {useState, useEffect} from 'react';
 import axios from 'axios';
+import useSWR from 'swr';
 
-function useEvent(event_id){
-    const [event, setEvent] = useState(null);
+const fetcher = (url) => axios.get(url).then(res => res.data);
 
-    function loadEvent(){
-        const url = `/api/events/${event_id}`;
-        axios.get(url)
-        .then(res => {
-            const data = res.data;
-            setEvent(data);
-         })
-        .catch(err => {
-            const none = null;
-            setEvent(none);
-        })
+export default function useEvents(eventId){
+    const {data, error, isLoading} = useSWR('/api/events/' + eventId, fetcher);
+    return {
+        event: data,
+        error,
+        isLoading,
     }
-
-    useEffect(() => {
-       loadEvent();
-    }, []);
-
-    return [event, loadEvent];
 }
-
-export default useEvent;

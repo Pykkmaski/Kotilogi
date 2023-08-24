@@ -4,7 +4,7 @@ import Card from "./Card";
 import {useState, useEffect} from 'react';
 import Link from 'next/link';
 
-import {useItemGalleryContext} from "kotilogi-app/contexts/ItemGalleryContext";
+import {useItemGalleryContext} from "kotilogi-app/contexts/GalleryProvider";
 
 export default function PropertyCard({property, image}){
     const {deleteItems, selectItem, selectedItems} = useItemGalleryContext();

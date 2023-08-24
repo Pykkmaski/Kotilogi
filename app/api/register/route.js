@@ -1,4 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
+import bcrypt from 'bcrypt';
+import { NextResponse } from 'next/server';
 
 async function getUser(email){
     return await db('users').where({email}).first();
@@ -6,26 +8,25 @@ async function getUser(email){
 
 export async function POST(req){
     try{
-        const {email, password1, password2, first_name, last_name} = await req.json();
-        const user = await getUser(email);
-        if(user) return new Response('User already exists', {status: 406});
+        const data = await req.json();
+        const {password} = data;
 
-        if(password1 !== password2) return new Response('Passwords do not match', {status: 409});
-
-        const hashedPassword = await bcrypt.hash(password1, 15);
+        data.password = await bcrypt.hash(password, 15);
 
         await db('users').insert({
-            first_name,
-            last_name,
-            email,
-            password: hashedPassword,
+            ...data,
+            first_name: 'unused',
+            last_name: 'unused',
             active: 0,
         });
 
-        return new Response(null, {status: 200});
+        return new Response(null, {status: 201});
     }
     catch(err){
         console.log(err.message);
+        const regex = new RegExp(err.message);
+        if(regex.test('UNIQUE constraint failed')) return new NextResponse('invalid_user', {status: 406});
+        
         return new Response(err.message, {status: 500});    
     }
 }

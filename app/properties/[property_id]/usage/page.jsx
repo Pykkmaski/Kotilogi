@@ -1,4 +1,4 @@
-import UsageGallery from './UsageGallery';
+import UsageGallery from './_components/UsageGallery';
 
 export default function UsagePage(props){
     const usage = [

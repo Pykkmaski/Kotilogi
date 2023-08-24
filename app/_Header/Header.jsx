@@ -1,14 +1,18 @@
+"use client";
+
 import Link from 'next/link';
-import {SignIn, SignOut, useSession, getProviders} from 'next-auth/react';
+import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
 import Menu from './Menu/Menu';
 import style from './component.module.scss';
 import logo from 'kotilogi-app/public/img/logo.png';
 import Image from 'next/image';
+import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 
 export default function Header(props){
-    const user = undefined;
-    const userIsLoggedIn = true;
-    const userEmail = user ? user.email : 'testUser@app.com';
+    const {data: session, status} = useSession();
+
+    const userIsLoggedIn = status === 'authenticated';
+    const userEmail = session?.user ? session?.user.email : 'testUser@app.com';
 
     return(
         <header className={style.header}>
@@ -21,11 +25,13 @@ export default function Header(props){
             {/**Desktop nav */}
             <nav className={style.navDesktop}>
                 {
+                    status === 'loading' ? <Spinner size="2rem"/>
+                    :
                     userIsLoggedIn ?
                     <div className={style.links}>
                         <span id={style.userEmail}>{userEmail}</span>
                         <Link href="/properties">Talot</Link>
-                        <button id={style.logoutButton} className="primary" type="button" onClick={SignOut}>Kirjaudu Ulos</button>
+                        <button id={style.logoutButton} className="primary" type="button" onClick={signOut}>Kirjaudu Ulos</button>
                     </div>
                     :
                     <div className={style.links}>

@@ -2,7 +2,7 @@ import Card from "./Card";
 import {useContext, useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
-import PropertiesGalleryContext, { useItemGalleryContext } from "../../contexts/ItemGalleryContext";
+import PropertiesGalleryContext, { useItemGalleryContext } from "../../contexts/GalleryProvider";
 
 export function PropertyCard({item, imageUrl}){
     const {deleteItems, selectItem, selectedItems} = useItemGalleryContext();

@@ -2,7 +2,7 @@ import Card from "./Card";
 import {useContext, useState, useEffect} from 'react';
 import Link from 'next/link';
 
-import { useItemGalleryContext } from "kotilogi-app/contexts/ItemGalleryContext";
+import { useItemGalleryContext } from "kotilogi-app/contexts/GalleryProvider";
 
 export function EventCard({property, event}){
     const [selected, setSelected] = useState(false);

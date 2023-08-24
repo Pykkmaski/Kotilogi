@@ -1,28 +1,13 @@
-import {useState, useEffect} from 'react';
 import axios from 'axios';
-import SortEvents from '../Functions/SortEvents';
+import useSWR from 'swr';
 
-function useEvents(property_id){
-    const [events, setEvents] = useState([]);
+const fetcher = (url) => axios.get(url).then(res => res.data);
 
-    function loadEvents(){
-        const url = `/api/properties/${property_id}/events`;
-        axios.get(url)
-        .then(res => {
-            const sortedEvents = SortEvents(res.data, 'desc');
-            setEvents(sortedEvents);
-        })
-        .catch(err => {
-            const empty = [];
-            setEvents(empty);
-        })
+export default function useEvents(){
+    const {data, error, isLoading} = useSWR('/api/events/', fetcher);
+    return {
+        events: data,
+        error,
+        isLoading,
     }
-
-    useEffect(() => {
-       loadEvents();
-    }, []);
-
-    return [events, loadEvents];
 }
-
-export default useEvents;

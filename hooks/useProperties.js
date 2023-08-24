@@ -1,27 +1,13 @@
-import {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
+import useSWR from 'swr';
 
-function useProperties(username){
-    const [properties, setProperties] = useState([]);
+const fetcher = (url) => axios.get(url).then(res => res.data);
 
-    function loadProperties(){
-        const url = `/api/properties/user/${username}`;
-        axios.get(url)
-        .then(res => {
-            console.log(res.data.response);
-        })
-        .catch(err => {
-            const empty = [];
-            setProperties(empty);
-            console.log(err);
-        });
+export default function useProperties(userId){
+    const {data, error, isLoading} = useSWR('/api/properties/user/' + userId, fetcher);
+    return {
+        properties: data,
+        error,
+        isLoading,
     }
-
-    useEffect(() => {
-       loadProperties();
-    }, []);
-
-    return [properties, loadProperties];
 }
-
-export default useProperties;

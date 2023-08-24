@@ -1,4 +1,4 @@
-import ImagesGallery from './ImagesGallery';
+import ImagesGallery from './_components/ImagesGallery';
 
 export default function PropertyImagesPage(props){
     const images = []; //TODO fetch from database.

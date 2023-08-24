@@ -1,5 +1,7 @@
 import db from 'kotilogi-app/dbconfig';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+
 import bcrypt from 'bcrypt';
 
 export const options = {
@@ -8,26 +10,24 @@ export const options = {
         maxAge: 60 * 60 * 24,
     },
     
+    pages: {
+        signIn: '/login',
+        error: '/login',
+    },
+
     providers : [
         CredentialsProvider({
+            id: 'credentials',
             name: 'Credentials',
-            credentials: {
-                username: {
-                    label: 'Sähköposti:',
-                    type: 'email',
-                    placeholder: 'Anna Sähköpostiosoitteesi',
-                },
-                password: {
-                    label: 'Salasana:',
-                    type: 'password',
-                }
-            },
 
             async authorize(credentials){
-                const user = await db('users').where({username: credentials?.username});
-                const ok = user && bcrypt.compare(credentials?.password, user.password);
-                if(!ok) return null;
+                const {email, password} = credentials;
+                const user = await db('users').where({email}).first();
                 
+                if(!user) throw new Error('invalid_user');
+
+                const isPasswordCorrect = await bcrypt.compare(password, user.password);
+                if(!isPasswordCorrect) throw new Error('invalid_password');
                 return user;
             }
         })

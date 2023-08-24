@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from 'react';
 import useClassName from 'kotilogi-app/hooks/useClassName';
+import Link from 'next/link';
 
 function MenuButton(props){
     const {className} = useClassName('menu-btn', props.open ? 'open' : null);
@@ -24,20 +25,54 @@ function MenuBody(props){
         links.forEach(node => node.addEventListener('click', () => props.setOpen(false)));
     }, [props.render]);
 
+    const loggedInLinks = [
+        {
+            title: 'Talot',
+            href: '/properties'
+        },
+
+        {
+            title: 'Kirjaudu Ulos',
+            href: '/logout'
+        }
+    ];
+
+    const loggedOutLinks = [
+        {
+            title: 'Etusivu',
+            href: '/'
+        },
+
+        {
+            title: 'Kirjaudu',
+            href: '/login'
+        },
+
+        {
+            title: 'Rekisteröidy',
+            href: '/register'
+        }
+    ];
+
     return (
         <div className={className} key='app-menu-body'>
             <nav className="menu-nav">
                 {
                     props.userIsLoggedIn ? 
                     <>
-                        <a href="/#/">Talot</a>
-                        <a href="/#/logout">Kirjaudu Ulos</a>
+                        {
+                            loggedInLinks.map(link => {
+                                return <Link href={link.href} >{link.title}</Link>
+                            })
+                        }
                     </>
                     :
                     <>
-                        <a href="/#/">Etusivu</a>
-                        <a href="/#/login">Kirjaudu</a>
-                        <a href="/#/register">Rekisteröidy</a>
+                        {
+                            loggedOutLinks.map(link => {
+                                return <Link href={link.href}>{link.title}</Link>
+                            })
+                        }
                     </>
                 }
             </nav>
