@@ -1,13 +1,16 @@
-.loading{
+.container{
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
     flex: 1;
-
-    color: gray;
-
-    h1{
+    text-align: center;
+    
+    .title, .message{
         color: gray;
+    }
+
+    .message{
+        margin-top: 2rem;
     }
 }

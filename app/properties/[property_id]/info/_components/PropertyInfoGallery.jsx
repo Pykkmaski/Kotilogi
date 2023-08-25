@@ -1,6 +1,6 @@
 "use client";
 
-import { usePropertyContext } from "kotilogi-app/contexts/PropertyProvider"
+import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider"
 
 function GalleryHeader({property}){
     return (
@@ -22,7 +22,7 @@ function GalleryBody({property}){
 }
 
 export default function PropertyInfoGallery(props){
-    const {property} = usePropertyContext();
+    const {property} = usePropertyProvider();
 
     return (
         <div className="gallery">

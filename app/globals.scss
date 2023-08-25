@@ -1,6 +1,10 @@
 @import 'kotilogi-app/scss/Config';
 @import './_partials/gallery';
 
+img{
+    text-align: center;
+}
+
 button{
     padding: 0.5rem;
     border: none;

@@ -5,9 +5,11 @@ import { createContext, useContext, useEffect } from "react";
 const PropertyContext = createContext();
 
 export default function PropertyProvider({property, children}){
+    
     const contextValue = {
         property
     }
+
     return (
         <PropertyContext.Provider value={contextValue}>
             {children}
@@ -15,6 +17,6 @@ export default function PropertyProvider({property, children}){
     );
 }
 
-export function usePropertyContext(){
+export function usePropertyProvider(){
     return useContext(PropertyContext);
 }
