@@ -15,8 +15,8 @@ export default function Header(props){
     const userEmail = session?.user ? session?.user.email : 'testUser@app.com';
 
     return(
-        <header className={style.header}>
-            <div className="flex-row gap-m" id="header-logo-area">
+        <header className={style.header} id="main-header">
+            <div className={style.logo} id="app-logo">
                 <Link href="/" id="app-logo-link">
                     <Image src={logo} alt="Kotilogi logo"/>
                 </Link>

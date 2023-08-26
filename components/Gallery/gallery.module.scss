@@ -1,0 +1,67 @@
+@import 'kotilogi-app/scss/Config';
+
+.container{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    z-index: 0;
+
+    .galleryHeader{
+        display: flex;
+        flex-flow: row;
+        text-align: left;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+
+        padding: 1rem;
+        z-index: 1;
+        background: rgba(white, 1);
+        backdrop-filter: saturate(200%) blur(20px);
+
+        margin-bottom: 2rem;
+        border-bottom: 1px dashed $border-color;
+
+        .titleContainer{
+            display: flex;
+            flex-flow: column;
+
+            small{
+                font-weight: bold;
+                color: gray;
+                margin-left: 0.25rem;
+                font-size: 1.25rem;
+            }
+        }
+
+        .buttonsContainer{
+            display: flex;
+            flex-flow: row;
+            gap: 0.5rem;
+        }
+    }
+
+    .galleryBody{
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+
+        gap: 1rem;
+        justify-content: center;
+        
+        &.empty{
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+        }
+    }
+}
+
+@media screen and (max-width: $mobile-width){
+    .gallery .body{
+        display: flex !important;
+        flex-flow: column;
+        align-items: center;
+    }
+}

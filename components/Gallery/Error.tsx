@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import styles from './component.module.scss';
+import styles from './error.module.scss';
 import Image from 'next/image';
 
 

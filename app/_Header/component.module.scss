@@ -13,13 +13,21 @@
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-bottom: 1px solid $border-color;
     z-index: 2;
+
+    min-height: 57px;
     
     a{
         color: $secondary-color;
         font-weight: 700;
     }
 
-    
+    .logo{
+        z-index: 4;
+    }
+
+    &.open{
+        justify-content: center;
+    }
 }
 
 .links{
@@ -30,7 +38,7 @@
 }
 
 .navDesktop{
-    @media screen and (max-width: 700px){
+    @media screen and (max-width: $mobile-width){
         display: none !important;
     }
 }
@@ -42,4 +50,10 @@
 #userEmail{
     font-weight: normal;
     font-style: italic;
+}
+
+@media screen and (max-width: $mobile-width){
+    .header{
+        position: static !important;
+    }
 }

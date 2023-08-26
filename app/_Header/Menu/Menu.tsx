@@ -3,24 +3,36 @@
 import {useState, useEffect} from 'react';
 import useClassName from 'kotilogi-app/hooks/useClassName';
 import Link from 'next/link';
+import styles from './component.module.scss';
 
 function MenuButton(props){
-    const {className} = useClassName('menu-btn', props.open ? 'open' : null);
+    const {className} = useClassName(styles.button, props.open ? styles.btnOpen : null);
 
+    useEffect(() => {
+        const logo = document.querySelector('#main-header');
+        if(!logo) return;
+
+        if(props.open){
+            logo!.classList.add('open');
+        }
+        else{
+            logo!.classList.remove('open');
+        }
+    }, [props.open])
     return (
-        <div className={className} onClick={() => props.setOpen(!props.open)}>
-            <div className="btn-line"></div>
-            <div className="btn-line"></div>
-            <div className="btn-line"></div>
+        <div className={className} onClick={() => props.setOpen(prev => !prev)}>
+            <div className={styles.btnLine}></div>
+            <div className={styles.btnLine}></div>
+            <div className={styles.btnLine}></div>
         </div>
     );
 }
 
 function MenuBody(props){
-    const {className} = useClassName('menu-body', props.open ? 'open' : null);
+    const {className} = useClassName(styles.body, props.open ? styles.bodyOpen : null);
 
     useEffect(() => {
-        const links = document.querySelectorAll('.menu-nav a');
+        const links = document.querySelectorAll(`${styles.nav} a`);
         if(!links) return;
         links.forEach(node => node.addEventListener('click', () => props.setOpen(false)));
     }, [props.render]);
@@ -55,14 +67,14 @@ function MenuBody(props){
     ];
 
     return (
-        <div className={className} key='app-menu-body'>
-            <nav className="menu-nav">
+        <div className={className}>
+            <nav className={styles.nav}>
                 {
                     props.userIsLoggedIn ? 
                     <>
                         {
                             loggedInLinks.map(link => {
-                                return <Link href={link.href} >{link.title}</Link>
+                                return <Link href={link.href} key={`link-${link.title}`}>{link.title}</Link>
                             })
                         }
                     </>
@@ -70,7 +82,7 @@ function MenuBody(props){
                     <>
                         {
                             loggedOutLinks.map(link => {
-                                return <Link href={link.href}>{link.title}</Link>
+                                return <Link href={link.href} key={`link-${link.title}`}>{link.title}</Link>
                             })
                         }
                     </>

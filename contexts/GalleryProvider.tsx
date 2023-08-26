@@ -1,5 +1,8 @@
 "use client";
+import axios from 'axios';
+import { ContentType, GalleryOptions } from 'kotilogi-app/components/Gallery/Gallery';
 import {createContext, useContext, useEffect, useState} from 'react';
+import useSWR from 'swr';
 
 export type ItemType = {
     id: string | number,
@@ -14,6 +17,11 @@ export type SelectedItemsType = {
 }
 
 export type ProviderValueType = {
+    options: GalleryOptions,
+    contentType: ContentType,
+    data: any,
+    isLoading: boolean,
+    error: any,
     selectedItems: number[],
     toggleSelected: (id: number) => void,
 }
@@ -24,11 +32,13 @@ export function useGallery(){
     return useContext(GalleryContext);
 }
 
-export default function GalleryProvider({children}){
+const fetcher = async (key) => axios.get(key).then(res => res.data);
+
+export default function GalleryProvider(props){
     /**
      * Provides item selection functionality to galleries wrapped inside.
      */
-
+    const {data, error, isLoading} = useSWR(props.contentSrc, fetcher);
     const [selectedItems, setSelectedItems] = useState([] as number[]);
 
     function toggleSelected(id: number){
@@ -42,15 +52,19 @@ export default function GalleryProvider({children}){
         
         setSelectedItems(newSelected);
     }
-
     const contextValue: ProviderValueType = {
+        options: props.options,
+        contentType: props.options.contentType,
+        data: data || [],
+        isLoading,
+        error,
         selectedItems,
         toggleSelected,
     }
 
     return (
         <GalleryContext.Provider value={contextValue}>
-            {children}
+            {props.children}
         </GalleryContext.Provider>
     )
 }

@@ -1,7 +1,14 @@
 "use client";
 
+import Image from 'next/image';
 import useSubComponents from "kotilogi-app/hooks/useSubComponents"
 import useClassName from "kotilogi-app/hooks/useClassName";
+
+import EventsIcon from 'kotilogi-app/assets/history.png';
+import UsageIcon from 'kotilogi-app/assets/bolt.png';
+import FilesIcon from 'kotilogi-app/assets/copy.png';
+import ImagesIcon from 'kotilogi-app/assets/image.png';
+
 import styles from './styles.module.scss';
 
 function DescriptionElement(props){
@@ -28,7 +35,7 @@ DescriptionElement.Text = Text;
 
 const Img = (props) => {
     const {className} = useClassName(styles.image, props.className)
-    return <img src={props.src} className={className} width="200px"></img>
+    return <Image alt="Description Image" src={props.src} className={className} width={200} height={200}></Image>
 }
 DescriptionElement.Img = Img;
 
@@ -45,7 +52,7 @@ function AppDescription(props){
             <div className={styles.body}>
                 <DescriptionElement id={styles.events}>
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/history.png" className={imageClassName}/>
+                        <DescriptionElement.Img src={EventsIcon} className={imageClassName}/>
                         <DescriptionElement.Title>Tapahtumat</DescriptionElement.Title>
 
                         <DescriptionElement.Text>
@@ -58,7 +65,7 @@ function AppDescription(props){
                 <DescriptionElement id="usage-description">
                     
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/bolt.png" className={imageClassName}/>
+                        <DescriptionElement.Img src={UsageIcon} className={imageClassName}/>
                         <DescriptionElement.Title>Kulutus</DescriptionElement.Title>
                         <DescriptionElement.Text>
                             Kulutus osiossa saat seurattua talosi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut. 
@@ -68,7 +75,7 @@ function AppDescription(props){
 
                 <DescriptionElement id="images-description">
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/image.png" className={imageClassName}/>
+                        <DescriptionElement.Img src={ImagesIcon} className={imageClassName}/>
                         <DescriptionElement.Title>Kuvat</DescriptionElement.Title>
                         <DescriptionElement.Text>
                             Tähän osioon voit lisätä vapaasti taloosi liittyviä kuvia. Vaikka muutama kuva eri vuoden aikoina.
@@ -78,7 +85,7 @@ function AppDescription(props){
 
                 <DescriptionElement id="files-description">
                     <DescriptionElement.Body>
-                        <DescriptionElement.Img src="img/copy.png" className={imageClassName}/>
+                        <DescriptionElement.Img src={FilesIcon} className={imageClassName}/>
                         <DescriptionElement.Title>Tiedostot</DescriptionElement.Title>
                         <DescriptionElement.Text>
                             Tähän osioon on hyvä laittaa talteen esimerkiksi rakennuspiirustuksia, tontin lunastuskuitti vuosien takaa jne.

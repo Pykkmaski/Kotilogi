@@ -10,11 +10,15 @@ function NavBar(props){
         <>
             {/*Desktop devices*/}
             <nav className={styles.navbar}>
+                <span className={styles.title}>Osiot</span>
                 <Link href="info">Tiedot</Link>
                 <Link href="events">Tapahtumat</Link>
                 <Link href="usage">Kulutus</Link>
                 <Link href="images">Kuvat</Link>
                 <Link href="files">Tiedostot</Link>
+                
+                <span className={styles.title}>Muut</span>
+                <Link href="/properties">Takaisin Taloihin</Link>
             </nav>
         </>
     )

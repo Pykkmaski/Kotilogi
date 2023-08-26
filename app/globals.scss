@@ -1,6 +1,10 @@
 @import 'kotilogi-app/scss/Config';
 @import './_partials/gallery';
 
+#main-header{
+    transition: all 0.2s ease;
+}
+
 img{
     text-align: center;
 }

@@ -1,52 +1,42 @@
 "use client";
 import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider";
-import ItemCard, {ItemType} from 'kotilogi-app/components/Cards/ItemCard';
-import ItemError from 'kotilogi-app/components/Gallery/Error';
-import errorImage from 'kotilogi-app/assets/no-pictures.png';
+import Gallery, { Header, Button, GalleryOptions } from "kotilogi-app/components/Gallery/Gallery";
+import Error from 'kotilogi-app/components/Gallery/Error';
+import ErrorImage from 'kotilogi-app/assets/image.png';
 
-function GalleryHeader(){
+export default function PropertyImagesGallery(){
     const {property} = usePropertyProvider();
+    const options: GalleryOptions = {
+        contentType: 'image',
+        contentError: (
+            <Error
+                title="Ei Kuvia"
+                message="Et ole vielä lisännyt talolle kuvia."
+                imageUrl={ErrorImage}
+            />
+        ),
 
+        header: {
+            title: property.address,
+            subtitle: 'Kuvat',
+            buttons: [
+                {
+                    type: 'add',
+                    action: () => console.log('Adding new image'),
+                },
+
+                {
+                    type: 'delete',
+                    action: () => console.log('Deleting selected images'),
+                }
+            ]
+        }
+    }
+    
     return (
-        <div className="gallery-header">
-            <div>
-                <h1>{property.address}</h1>
-                <small>Tiedostot</small>
-            </div>
-
-            <div className="group-row">
-                <button type="button" className="secondary">Poista</button>
-                <button type="button" className="primary add">Lisää Uusi</button>
-            </div>
-        </div>
-    )
-}
-
-function GalleryBody({images}){
-    return (
-        <div className="gallery-body">
-            {
-                images.length ? 
-                images.map(image => {
-                    const item: ItemType = {
-                        id: image.id,
-                        title: image.title,
-                        description: image.description,
-                    }
-
-                    return <ItemCard item={item} destinationUrl={'/api/images/' + item.id} imageUrl={'/'}/>
-                })
-                :
-                <ItemError title="Ei Kuvia" message="Talosi ei vielä sisällä kuvia." imageUrl={errorImage}/>
-            }
-        </div>
-    )
-}
-export default function PropertyFilesGallery({images}){
-    return (
-        <div className="gallery">
-            <GalleryHeader/>
-            <GalleryBody images={images}/>
-        </div>
+        <Gallery 
+            contentSrc={'/api/images/property/' + property.id}
+            options={options}
+        />
     )
 }

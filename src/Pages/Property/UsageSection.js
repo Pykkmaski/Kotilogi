@@ -17,10 +17,6 @@ function UsageSection(props){
     const [showModal, setShowModal] = useState(false);
     const [usage, loadUsage] = useUsage(property.id);
 
-    const chartType = 'bar';
-
-    const dataLabelFormatter = (value, {seriesIndex, dataPointIndex, w}) => value + '€';
-
     const toolbar = {
         show: true,
 
@@ -36,58 +32,8 @@ function UsageSection(props){
         //console.log(config.w.config.series.data[config.dataPointIndex]);
     }
 
-    const chart = {
-        height: 350,
-        width: 850,
-        toolbar,
+  
 
-        zoom: {
-          enabled: true
-        },
-
-        events: {
-            dataPointSelection
-        },
-
-        background: '#fff',
-    };
-
-    const yaxis = {
-        title: {
-            text: undefined,
-            rotate: 0,
-            offsetX: -5,
-            style: {
-                fontSize: '1.5rem'
-            }
-        },
-    }
-
-    const noData = {
-        text: 'Ei tietoja.'
-    };
-
-    const dataLabelStyle = {
-        fontWeight: 300,
-    }
-    
-
-    const tooltip = {
-        enabled: false,
-    }
-
-    const processDate = (d) => {
-        const type = typeof(d.time);
-        return type === 'string' ? parseInt(d.time) : d.time;
-    }
-
-    
-
-    function getCategories(usageFilter){
-        return usage?.filter(u => u.type === usageFilter).map(d => {
-            const time = processDate(d);
-            return new Date(time).toLocaleDateString('fi-FI')
-        });
     }
 
     const electricityOptions = {
@@ -122,44 +68,7 @@ function UsageSection(props){
         },
     }
 
-    const waterOptions = {
-        series: [
-            {
-                type: 'line',
-                name: 'Hinta',
-                data: [],
-                colors: ['#00f']
-            },
-
-            {
-                type: 'column',
-                data: [],
-                colors: ['#00f']
-            }
-        ],
-
-        noData,
-        chart,
-        tooltip,
-        yaxis,
-
-        dataLabels: {
-            formatter: dataLabelFormatter,
-        },
-
-        xaxis: {
-            categories: getCategories('water')
-        },
-
-        fill:{
-            colors: ['#00f'],
-        },
-
-        title: {
-            text: 'Vesi',
-            align: 'left'
-        },
-    }
+    
 
     const heatingOptions = {
         series: [

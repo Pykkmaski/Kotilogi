@@ -5,8 +5,12 @@ import Modal from "kotilogi-app/components/Modals/Modal";
 import Form from "kotilogi-app/components/Form";
 import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider";
 import { useState } from "react";
-export default function EventsGalleryHeader(props){
+import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
+import { Button, Header } from "kotilogi-app/components/Gallery/Gallery";
 
+export default function EventsGalleryHeader({events}: {events: any[]}){
+
+    const {selectedItems} = useGallery();
     const [showAddModal, setShowAddModal] = useState(false);
     const {property} = usePropertyProvider();
 
@@ -14,9 +18,20 @@ export default function EventsGalleryHeader(props){
         e.preventDefault();
     }
 
-    return (
-        <div className="gallery-header">
+    const buttons: Button[] = [
+        {
+            type: 'add',
+            action: () => setShowAddModal(true),
+        },
 
+        {
+            type: 'delete',
+            action: () => console.log('Deleting event')
+        }
+    ]
+
+    return (
+        <>
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
                 <Modal.Header>Lisää Tapahtuma</Modal.Header>
                 <Modal.Body>
@@ -28,7 +43,7 @@ export default function EventsGalleryHeader(props){
 
                         <Form.Group>
                             <label>Tapahtuman Kuvaus</label>
-                            <textarea name="name"></textarea>
+                            <textarea name="name" spellCheck={false}></textarea>
                             <Form.SubLabel>Anna vaihtoehtoinen kuvaus.</Form.SubLabel>
                         </Form.Group>
 
@@ -39,15 +54,13 @@ export default function EventsGalleryHeader(props){
                     </Form>
                 </Modal.Body>
             </Modal>
-            <div>
-                <h1>{property.address}</h1>
-                <small>Tapahtumat</small>
-            </div>
 
-            <div className="group-row">
-                <button type="button" className="primary" onClick={undefined}>Poista</button>
-                <button type="button" className="primary add" onClick={() => setShowAddModal(true)}>Lisää Uusi</button>
-            </div>
-        </div>
+            <Header 
+                title={property.address}
+                subtitle="Tapahtumat"
+                content={events}
+                buttons={buttons}
+            />
+        </>
     );
 }
