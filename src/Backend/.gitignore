@@ -1,8 +1,0 @@
-node_modules
-data
-*.db3
-public/*.js
-public/*.html
-.env
-uploads
-./notes.txt

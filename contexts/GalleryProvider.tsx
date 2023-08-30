@@ -2,9 +2,11 @@
 import addEvent from 'kotilogi-app/actions/addEvent';
 import addProperty from 'kotilogi-app/actions/addProperty';
 import { deleteProperties } from 'kotilogi-app/actions/deleteProperties';
+import { deleteEvents } from 'kotilogi-app/actions/deleteEvents';
 import { ContentType, GalleryOptions } from 'kotilogi-app/components/Gallery/Types';
 import {createContext, experimental_useOptimistic as useOptimistic, useContext, useEffect, useState} from 'react';
 import toast from 'react-hot-toast';
+import { revalidatePath } from 'next/cache';
 
 export type ItemType = {
     id: string | number,
@@ -68,17 +70,28 @@ export default function GalleryProvider(props: GalleryProviderProps){
 
     async function deleteSelected(){
         //const newData = [...optimisticData];
-        selectedItems.forEach((id: number) => {
-            const itemInData = optimisticData.find(d => d.id === id);
-            if(!itemInData) return;
-            optimisticData.splice(optimisticData.indexOf(itemInData), 1);
-        });
 
+        const runDelete = () => {
+            selectedItems.forEach((id: number) => {
+                const itemInData = optimisticData.find(d => d.id === id);
+                if(!itemInData) return;
+                optimisticData.splice(optimisticData.indexOf(itemInData), 1);
+            });
+        } 
+        
         try{
             switch(props.options.contentType){
                 case 'property':{
+                    runDelete();
                     await deleteProperties(selectedItems);
                     toast.success('Talo(t) poistettu onnistuneesi!');
+                }
+                break;
+
+                case 'event':{
+                    runDelete();
+                    await deleteEvents(selectedItems);
+                    toast.success('Tapahtuma(t) poistettu onnistuneesti!');
                 }
                 break;
     
@@ -89,7 +102,7 @@ export default function GalleryProvider(props: GalleryProviderProps){
             toast.error(err.message);
         }
         
-        
+        revalidatePath('/')
         setSelectedItems([]);
     }
 
