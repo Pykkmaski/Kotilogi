@@ -25,7 +25,7 @@ export function Body(){
                     const destinationUrl = 
                     contentType === 'property' ? '/auth/properties/' + item.id + '/info'
                     : 
-                    contentType === 'event' ? 'auth/events/' + item.id : '/login';
+                    contentType === 'event' ? '/auth/events/' + item.id : '/login';
 
                     console.log(destinationUrl);
                     
