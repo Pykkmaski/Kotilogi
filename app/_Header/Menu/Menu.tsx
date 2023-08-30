@@ -32,10 +32,10 @@ function MenuBody(props){
     const {className} = useClassName(styles.body, props.open ? styles.bodyOpen : null);
 
     useEffect(() => {
-        const links = document.querySelectorAll(`${styles.nav} a`);
+        const links = document.querySelectorAll(`nav a`);
         if(!links) return;
         links.forEach(node => node.addEventListener('click', () => props.setOpen(false)));
-    }, [props.render]);
+    }, [props.userIsLoggedIn]);
 
     const loggedInLinks = [
         {
@@ -46,13 +46,19 @@ function MenuBody(props){
         {
             title: 'Kirjaudu Ulos',
             href: '/logout'
+        },
+
+        {
+            title: 'Käyttöehdot',
+            href: '/tos',
         }
     ];
 
     const loggedOutLinks = [
         {
             title: 'Etusivu',
-            href: '/'
+            href: '/',
+            className: styles.indexLink,
         },
 
         {
@@ -67,7 +73,7 @@ function MenuBody(props){
     ];
 
     return (
-        <div className={className}>
+        <dialog className={className} open={props.open}>
             <nav className={styles.nav}>
                 {
                     props.userIsLoggedIn ? 
@@ -82,13 +88,13 @@ function MenuBody(props){
                     <>
                         {
                             loggedOutLinks.map(link => {
-                                return <Link href={link.href} key={`link-${link.title}`}>{link.title}</Link>
+                                return <Link href={link.href} key={`link-${link.title}`} className={link.className}>{link.title}</Link>
                             })
                         }
                     </>
                 }
             </nav>
-        </div>
+        </dialog>
     )
 }
 

@@ -3,15 +3,10 @@ import { StaticImageData, StaticImport } from "next/dist/shared/lib/get-img-prop
 import ImageComponent from 'next/image';
 import NextLink from "next/link";
 
-type CardProps = {
-    className: string | null | undefined,
-    children: any,
-}
-
-function Card(props: CardProps){
-    const {className} = useClassName('card', props.className);
+function Card(props: any){
+    const {className} = useClassName("card", props.className);
     return (
-        <div className={className}>
+        <div className={className} key={props.key}>
             {props.children}
         </div>
     );
@@ -34,16 +29,16 @@ Card.Image = Image;
 const Header = (props) => <div className="card-header">{props.children}</div>
 Card.Header = Header;
 
-const Title = (props) => <h2 className="card-title">{props.children}</h2>
+const Title = (props) => <h2 className={"card-title"}>{props.children}</h2>
 Card.Title = Title;
 
-const Text = (props) => <div className="card-text">{props.children}</div>
+const Text = (props) => <div className={"card-text"}>{props.children}</div>
 Card.Text = Text;
 
-const Body = (props) => <div className="card-body">{props.children}</div>
+const Body = (props) => <div className={"card-body"}>{props.children}</div>
 Card.Body = Body;
 
-const Footer = (props) => <div className="card-footer">{props.children}</div>
+const Footer = (props) => <div className={"card-footer"}>{props.children}</div>
 Card.Footer = Footer;
 
 export type MenuProps = {
@@ -53,29 +48,12 @@ export type MenuProps = {
 }
 
 const Menu = ({open, id, children}: MenuProps) => {
-    const {className} = useClassName('card-menu', open ? 'open' : null);
+    const {className} = useClassName("card-menu", open ? "open" : null);
     return (
-        <div className={className} id={id}>{children}</div>
+        <dialog className={className} id={id} open={open}>{children}</dialog>
     );
 }
 Card.Menu = Menu;
-
-export type ControlLinkProps = {
-    className: string,
-    disabled: boolean,
-    onClick: any,
-    children: any,
-}
-
-const ControlLink = (props: ControlLinkProps) => {
-    const {className, addClass, removeClass} = useClassName('control-link', props.className);
-
-    return(
-        <button className={className} disabled={props.disabled} onClick={props.onClick}>{props.children}</button>
-    )
-}
-Card.ControlLink = ControlLink;
-
 
 const Link = (props) => {
     return (

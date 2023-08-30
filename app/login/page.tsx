@@ -20,10 +20,9 @@ export default function LoginPage(props){
         const credentials = {
             email: e.target.email.value,
             password: e.target.password.value,
-            callbackUrl: '/properties',
+            callbackUrl: '/auth/properties',
         }
 
-        sessionStorage.removeItem(formEmail);
         signIn('credentials', credentials);
 
     }
@@ -33,7 +32,12 @@ export default function LoginPage(props){
     }
     
     const getEmailField = () => sessionStorage && sessionStorage.getItem(formEmail) as string | undefined;
-    const setEmailField = (value: string) => sessionStorage.setItem(formEmail, value);
+    const setEmailField = (value: string) => {
+        if(!sessionStorage) return '';
+
+        sessionStorage.setItem(formEmail, value);
+    }
+
     return (
         <div className={styles.container}>
             <Form onSubmit={onSubmitHandler}>

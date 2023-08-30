@@ -88,7 +88,7 @@ export default function RegisterPage(props){
                 </Form.Group>
 
                 <div className={styles.agreementContainer}>
-                    <span>
+                    <span className={styles.tosAgreementText}>
                         Olen lukenut ja hyväksyn Kotilogin <a href="/tos" target="_blank">käyttöehdot</a>
                     </span>
 

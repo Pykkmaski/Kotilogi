@@ -1,10 +1,23 @@
 import { NextResponse } from "next/server";
 import db from 'kotilogi-app/dbconfig';
+import { getServerSession } from "next-auth";
 
 export async function GET(request){
     try{
-        const properties = await db('properties');
-        return new NextResponse(JSON.stringify(properties), {status: 200});
+        const session = await getServerSession();
+        if(session && session.user){
+            const properties = await db('properties').where({owner: session.user.email});
+            return new NextResponse(JSON.stringify(properties), {
+                status: 200
+            });
+        }
+        else {
+           return new NextResponse(null, {
+            status: 401,
+            statusText: 'Unauthorized to fetch properties',
+           });
+        }
+        
     }
     catch(err){
         console.log(err.message);

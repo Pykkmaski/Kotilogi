@@ -3,7 +3,7 @@
 .header{
     position: sticky;
     top: 0;
-    background: white;
+    background: black;
 
     display: flex;
     flex-flow: row;
@@ -11,13 +11,14 @@
     align-items: center;
 
     padding: 0.5rem 1rem 0.5rem 1rem;
-    border-bottom: 1px solid $border-color;
+    
     z-index: 2;
+    flex: 0 1;
 
     min-height: 57px;
     
     a{
-        color: $secondary-color;
+        color: white;
         font-weight: 700;
     }
 
@@ -50,6 +51,7 @@
 #userEmail{
     font-weight: normal;
     font-style: italic;
+    color: $primary-color;
 }
 
 @media screen and (max-width: $mobile-width){

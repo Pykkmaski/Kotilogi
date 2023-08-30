@@ -11,7 +11,7 @@ type ErrorProps = {
 
 export default function Error({title, message, imageUrl}: ErrorProps){
     return (
-        <div className="error-no-files">
+        <div className={styles.errorContainer}>
             <Image src={imageUrl} className={styles.errorImage} width={70} height={70} alt="Error Image"/>
             <h2 className={styles.errorTitle}>{title}</h2>
             <p className={styles.errorMessage}>{message}</p>

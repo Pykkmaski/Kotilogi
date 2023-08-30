@@ -13,7 +13,7 @@
     background: red;
     color: white;
     z-index: 2;
-    font-weight: bold;
+    font-weight: 500;
 
     @include SlideDownAnimation;
 }

@@ -1,3 +1,5 @@
+@import 'kotilogi-app/scss/Config';
+
 .form{
     background: none !important;
     box-shadow: none !important;
@@ -8,10 +10,10 @@
     } 
 
     .submitButton{
-        background: rgb(85, 252, 255);
+        background: $primary-color;
         color: black;
         &:hover{
-            background: rgb(200, 251, 255);
+            background: lighten($primary-color, 10);
         }
     }
 

@@ -1,0 +1,10 @@
+@import 'kotilogi-app/scss/Config';
+@import '../globals.scss';
+
+.container{
+    @include Container;
+
+    .header{
+        @include Header;
+    }
+}

@@ -4,21 +4,23 @@ import Link from 'next/link';
 import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
 import Menu from './Menu/Menu';
 import style from './component.module.scss';
-import logo from 'kotilogi-app/public/img/logo.png';
+import Logo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
+import { redirect } from 'next/navigation';
 
 export default function Header(props){
     const {data: session, status} = useSession();
 
     const userIsLoggedIn = status === 'authenticated';
     const userEmail = session?.user ? session?.user.email : 'testUser@app.com';
+    //<Image src={Logo} alt="Kotilogi logo"/>
 
     return(
         <header className={style.header} id="main-header">
             <div className={style.logo} id="app-logo">
                 <Link href="/" id="app-logo-link">
-                    <Image src={logo} alt="Kotilogi logo"/>
+                    <Image src={Logo} alt="Kotilogi logo"/>
                 </Link>
             </div>
 
@@ -30,8 +32,10 @@ export default function Header(props){
                     userIsLoggedIn ?
                     <div className={style.links}>
                         <span id={style.userEmail}>{userEmail}</span>
-                        <Link href="/properties">Talot</Link>
-                        <button id={style.logoutButton} className="primary" type="button" onClick={() => signOut()}>Kirjaudu Ulos</button>
+                        <Link href="/auth/properties">Talot</Link>
+                        <button id={style.logoutButton} className="primary" type="button" onClick={async () => {
+                            await signOut();
+                        }}>Kirjaudu Ulos</button>
                     </div>
                     :
                     <div className={style.links}>

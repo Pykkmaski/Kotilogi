@@ -1,0 +1,188 @@
+@import 'kotilogi-app/scss/Config';
+
+.container{
+    display: flex;
+    flex-flow: column;
+    width: 15rem; /*Galleries contain four cards on each row*/
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    padding: 0.25rem;
+    height: 100%;
+    transition: border-width 0.2s ease-in-out;
+    position: relative;
+
+    transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
+
+    &:hover, &.selected{
+        border-color: black;
+        box-shadow: 2px 2px 2px 2px rgba(black, 0.25);
+    }
+
+    &.selected{
+        background: lighten($primary-color, 30);
+    }
+
+    .control-link{
+        font-weight: bold;
+        cursor: pointer;
+        background: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-width: auto !important;
+        min-height: auto !important;
+        height: auto !important;
+        width: auto !important;
+
+        &:active, &:disabled{
+            background: none;
+        }
+
+        &:disabled{
+            color: $secondary-color !important;
+        }
+
+        &.primary{
+            color: $primary-color;
+        }
+
+        &.danger{
+            color: $danger-color;
+        }
+
+        &:hover{
+            text-decoration: underline;
+        }
+
+        
+    }
+
+    .imageContainer{
+        display: flex;
+        justify-content: center;
+        max-width: inherit;
+        margin-bottom: 1rem;
+        flex: 1;
+    }
+
+    .image{
+        display: inherit;
+        height: 18rem;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    .errorImage{
+        $size: 60px;
+
+        width: $size;
+        height: $size;
+        border-bottom: 1px solid $border-color;
+    }
+
+    .title{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 100%;
+        white-space: nowrap;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .text, .body{
+        flex: 1;
+    }
+
+    .text{
+        overflow: hidden;
+        max-height: auto;
+        line-clamp: 4;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+    .body{
+        display: inherit;
+        flex-flow: column;
+        width: 100%;
+    }
+
+    a{
+        display: flex;
+        flex-flow: column;
+        flex: 1;
+        color: $secondary-color;
+        
+        &:hover{
+            text-decoration: none;
+            color: none;
+        }
+    }
+
+    .menu{
+        position: absolute;
+        min-height: 50px;
+        bottom: -50px;
+        right: 0;
+        width: 50%;
+        padding: 5px;
+        background: rgba(255, 255, 189, 0.545);
+        display: none;
+        z-index: 7;
+        
+        &.menuOpen{
+            display: flex;
+            flex-flow: column;
+            padding: 1rem;
+            justify-content: center;
+        }   
+
+    }
+
+    .footer{
+        display: inherit;
+        flex-flow: row;
+        justify-content: space-between;
+        width: 100%;
+        background: none;
+        gap: 0.5rem;
+        border-top: 1px solid $border-color;
+
+        button{
+            font-size: 0.9rem;
+        }
+
+        .cogImg{
+            width: 25px;
+            transition: transform 0.2s ease-out;
+            transition-delay: 0.1s;
+            
+            &:hover{
+                transform: rotate(45deg);
+            }
+        }
+
+        input[type=checkbox]{
+            width: 50px;
+        }
+    }
+
+    .card-button-group{
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    @media screen and (max-width: 1000px){
+        width: 100% !important;
+    }
+}
+
+.card-button-group button{
+    flex: 1;
+}
+

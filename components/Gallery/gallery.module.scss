@@ -6,6 +6,7 @@
     flex-flow: column;
     flex: 1;
     z-index: 0;
+    color: white;
 
     .galleryHeader{
         display: flex;
@@ -18,21 +19,14 @@
 
         padding: 1rem;
         z-index: 1;
-        background: rgba(white, 1);
+        background: rgba($secondary-color, 0);
         backdrop-filter: saturate(200%) blur(20px);
 
         margin-bottom: 2rem;
-        border-bottom: 1px dashed $border-color;
 
         .titleContainer{
-            display: flex;
-            flex-flow: column;
-
-            small{
-                font-weight: bold;
-                color: gray;
-                margin-left: 0.25rem;
-                font-size: 1.25rem;
+            h1{
+                color: $primary-color;
             }
         }
 
@@ -59,7 +53,7 @@
 }
 
 @media screen and (max-width: $mobile-width){
-    .gallery .body{
+    .container .galleryBody{
         display: flex !important;
         flex-flow: column;
         align-items: center;

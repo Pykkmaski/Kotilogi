@@ -16,7 +16,16 @@ input.error{
     flex-flow: row;
     justify-content: space-between;
 
+    color: white;
+
+    a{
+        color: $primary-color;
+    }
+
     input[type=checkbox]{
         width: 2rem;
+        &:checked{
+            background: $primary-color;
+        }
     }
 }

@@ -3,21 +3,31 @@
 
 .container{
     display:flex;
-    flex-flow:row;
+    flex-flow:column;
+    align-items: center;
     gap:1.5rem;
-    padding: 2rem 1rem 2rem 2rem;
-    justify-content: center;
-}
+    padding: 5rem 0 5rem 0;
 
-.textContainer{
-    .title{
-        font-size: 5rem;
-        font-family: 'Script MT Bold Segoe UI';
-        font-style: italic;
-        color: $primary-color;
+    position: relative;
+    justify-content: center;
+    background: url('./index.jpg');
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+
+    .bgOpacity{
+        position: absolute;
+        top:0;
+        width: 100%;
+        height: 100%;
+        $color1: rgba(rgb(0, 0, 0), 0.3);
+        $color2: black;
+        background: radial-gradient($color2, $color1);
+        backdrop-filter: blur(2px);
     }
 
     .registerLink{
+        z-index: 1;
         margin-top: 3rem;
         background: $primary-color;
         padding: 1rem;
@@ -26,10 +36,10 @@
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
-        color: white;
+        color: rgb(0, 0, 0);
         border-radius: 50px;
         text-decoration: none;
-        width: 50%;
+        width: 30%;
 
         transition: box-shadow 0.2s ease-out;
 
@@ -38,6 +48,26 @@
             background: lighten($primary-color, 10);
             color: white;
         }
+    }
+
+    .loginLink{
+        color: white;
+        z-index: 1;
+    }
+}
+
+.textContainer{
+    z-index: 1;
+
+    .title{
+        font-size: 5rem;
+        font-family: 'Script MT Bold Segoe UI';
+        font-style: italic;
+        color: white;
+    }
+
+    .secondaryTitle{
+        color: white;
     }
 }
 
@@ -64,9 +94,12 @@
 
 @media screen and (max-width: $mobile-width){
     .container{
-        flex-flow: column-reverse !important;
+        flex-flow: column !important;
         align-items: center;
 
+        .registerLink{
+            width: 80% !important;
+        }
         .textContainer{
 
             .title{

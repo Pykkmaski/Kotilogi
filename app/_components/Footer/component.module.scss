@@ -7,9 +7,10 @@
     align-items: center;
     padding-top: 5rem;
     padding-bottom: 5rem;
-    background: $primary-color;
+    background: rgb(62, 62, 62);
     gap: 1rem;
     width: 100%;
+
 
     .tosLink{
         color: white;
@@ -28,7 +29,7 @@
     }
 
     h1{
-        color: white;
+        color: $primary-color;
     }
 
     .footer-contact-info{

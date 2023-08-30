@@ -1,0 +1,37 @@
+@import 'kotilogi-app/scss/Config';
+@import '../globals.scss';
+
+.container{
+    @include Container;
+
+    .header{
+        @include Header;
+    }
+
+    .body{
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+
+        .summary{
+            display: flex;
+            flex-flow: column;
+            flex: 1;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .form{
+            width: 500px;
+    
+            .ownerText{
+                color: $primary-color;
+            }
+    
+            .title{
+                color: $primary-color;
+            }
+        }
+    }
+    
+}

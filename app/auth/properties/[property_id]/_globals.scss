@@ -1,0 +1,15 @@
+$navbar-color: rgb(42, 42, 42);
+
+@mixin Container{
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    padding: 1rem;
+    color: white;
+}
+
+@mixin Header{
+    h1{
+        color: $primary-color;
+    }
+}

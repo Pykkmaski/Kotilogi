@@ -7,13 +7,12 @@ form{
     min-width: 30rem;
     gap: 1rem;
     z-index: 1;
-    background: $form-color;
     padding: 1rem;
     border-radius: 10px;
 
-    $sd : 0.5rem; /*Shadow distance*/
-    $so : 0.4; /*Shadow opacity*/
-    box-shadow: $sd $sd $sd $sd rgba(black, $so);
+    label{
+        color: white !important;
+    }
 
     fieldset{
         display: inherit;
@@ -23,7 +22,7 @@ form{
 
     .form-title{
         font-size: 3rem;
-        color: $secondary-color;
+        color: $primary-color;
         width: inherit;
         display: inherit;
         justify-content: center;
@@ -97,7 +96,7 @@ form .form-button-group{
     }
 
     .sub-label{
-        color: $secondary-color;
+        color: white;
         font-size: 0.75rem;
     }
 

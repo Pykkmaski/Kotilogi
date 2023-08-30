@@ -4,10 +4,10 @@ import Image from 'next/image';
 import useSubComponents from "kotilogi-app/hooks/useSubComponents"
 import useClassName from "kotilogi-app/hooks/useClassName";
 
-import EventsIcon from 'kotilogi-app/assets/history.png';
-import UsageIcon from 'kotilogi-app/assets/bolt.png';
-import FilesIcon from 'kotilogi-app/assets/copy.png';
-import ImagesIcon from 'kotilogi-app/assets/image.png';
+import EventsIcon from 'kotilogi-app/assets/events-img.png';
+import UsageIcon from 'kotilogi-app/assets/usage-img.png';
+import FilesIcon from 'kotilogi-app/assets/files-img.png';
+import ImagesIcon from 'kotilogi-app/assets/images-img.png';
 
 import styles from './styles.module.scss';
 
@@ -27,7 +27,7 @@ function DescriptionElement(props){
 const Body = (props) => <div className={styles.body}>{props.children}</div>
 DescriptionElement.Body = Body;
 
-const Title = (props) => <div className={styles.title}>{props.children}</div>
+const Title = (props) => <div className={styles.elementTitle}>{props.children}</div>
 DescriptionElement.Title = Title;
 
 const Text = (props) => <div className={styles.text}>{props.children}</div>
@@ -35,7 +35,7 @@ DescriptionElement.Text = Text;
 
 const Img = (props) => {
     const {className} = useClassName(styles.image, props.className)
-    return <Image alt="Description Image" src={props.src} className={className} width={200} height={200}></Image>
+    return <Image alt="Description Image" src={props.src} className={className} objectFit='contain'></Image>
 }
 DescriptionElement.Img = Img;
 
@@ -45,7 +45,7 @@ function AppDescription(props){
 
     return (
         <div className={styles.container}>
-            <div className={styles.title}>
+            <div className={styles.containerTitle}>
                 Kotilogin Toiminnot
             </div>
 
