@@ -1,0 +1,135 @@
+@mixin MediaSM{
+    @media screen and (max-width: 1000px){
+
+        .label-heading{
+            .label{
+                font-size: 1rem !important;
+            }
+
+            h1{
+                font-size: 0.75rem !important;
+            }
+        }
+
+        #property-page-content{
+            padding: 0 0.5rem !important;
+        }
+
+        .section{
+            padding: 0.5rem !important;
+            .section-header{
+                padding: 0 !important;
+                top: 65px;
+            }
+        }
+
+        #header-logo-area{
+            img{
+                height: 24px !important;
+            }
+        }
+
+        .section-header button{
+            font-size: 0.75rem !important;
+            img{
+                width: 20px;
+            }
+        }
+        #info-form{
+            width: 100% !important;
+            label{
+                color: dimgray !important;
+                text-align: center !important;
+            }
+
+            fieldset{
+                text-align: center;
+
+                .form-group{
+                    display: flex !important;
+                    flex-flow: column !important;
+                    align-items: center !important;
+
+                    input, select{
+                        text-align: center !important;
+                        color: black !important;
+                    }
+                }
+
+                form{
+                    display: flex !important;
+                    align-items: center !important;
+                }
+            }
+        }
+
+        .card{
+            width: 20rem !important;
+        }
+
+        .gallery-body{
+            display: flex !important;
+            flex-flow: column !important;
+        }
+
+        .notice-box{
+            font-size: 0.75rem !important;
+        }
+
+        #home-page-footer{
+            #tos-link{
+                color: white !important;
+            }
+        }
+
+        #tos-page{
+            text-align: center !important;
+        }
+        
+        .menu-btn{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex !important;
+        }
+
+        .bg-blur{
+            backdrop-filter: blur(20px) !important;
+            background: rgba(black, 0.3) !important;
+        }
+
+        form{
+            min-width: auto !important;
+            width: 100%;
+            background: none !important;
+            box-shadow: none !important;
+
+            label, .form-title{
+                color: white !important;
+            }
+
+            .sub-label{
+                color: lightgray !important;
+            }
+        }
+
+        #login-page{
+            a{
+                color: white !important;
+            }
+        }
+
+        #signup-page{
+            #tos-agreement-text{
+                color: white !important;
+            }
+        }
+
+        #primary-header{
+            padding: 0.5rem !important;
+            .navigation{
+                visibility: hidden;
+            }
+        }
+    }
+}

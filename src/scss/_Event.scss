@@ -1,0 +1,69 @@
+.event-page{
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    
+    .event-header, .event-body{
+        padding: 1rem;
+    }
+
+    .event-header{
+        display: inherit;
+        flex-flow: inherit;
+        background: $event-header-color;
+
+        .event-header-buttons{
+            display: flex;
+            flex-flow: row;
+            justify-content: space-between;
+        }
+
+        .event-header-body{
+            display: flex;
+            justify-content: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+
+            #date{
+                color: white;
+                font-size: 3rem;
+            }
+            .event-info-container{
+                display: flex;
+                flex-flow: row;
+                gap: 1rem;
+
+                .image{
+                    max-width: 400px !important;
+                }
+                .event-text-container{
+                    padding: 1rem;
+                    max-width: 500px;
+                    h1, p{
+                        color: white;
+                    }
+
+                    h1{
+                        margin-bottom: 1rem;
+                    }
+
+                    p{
+                        font-size: 1.1rem;
+                    }
+                    display: flex;
+                    flex-flow: column;
+                }
+            }
+        }
+    }
+
+    .event-body{
+        display: flex;
+        flex-flow: column;
+
+        .event-images{
+            display: inherit;
+            flex-flow: row wrap;
+        }
+    }
+}

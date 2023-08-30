@@ -1,0 +1,28 @@
+@import './Config';
+
+.toast{
+    position: absolute;
+    bottom: 0;
+    min-height: 3rem;
+    border-radius: 10px;
+
+    transform: translateY(100%);
+    background: white;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between; /*Toasts have text on the left and a close button on the right*/
+    align-items: center;
+
+    $color-modify-amount : 10;
+
+    color: white;
+    background: $secondary-color;
+    
+    &.danger{
+        background: darken($danger-color, $color-modify-amount);
+    }
+
+    &.success{
+        background: darken($success-color, $color-modify-amount);
+    }
+}

@@ -1,0 +1,22 @@
+@import './Config';
+
+.app{
+    display: flex;
+    flex-flow: column;
+    background: white;
+    margin: 0 $global-padding 0 $global-padding;
+    min-height: 100vh;
+}
+
+.app .body{
+    width: 100%;
+    display: flex;
+    flex: 1;
+}
+
+
+@media screen and (max-width: 1000px){
+    .app{
+        margin: 0 !important;
+    }
+}

@@ -1,0 +1,36 @@
+.image{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    max-width: 200px;
+    object-fit: fill;
+
+    img{
+        max-width: inherit;
+        object-fit: fill;
+        border-radius: inherit;
+    }
+    
+    &:hover{
+        .image-controls{
+            display: flex;
+        }
+    }
+
+    .image-controls{
+        position:absolute;
+        bottom: 0;
+
+        min-width: inherit;
+        display: none;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+
+        background: rgba(black, 0.5);
+        padding: 1rem;
+    }
+}

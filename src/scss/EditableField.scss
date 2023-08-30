@@ -1,0 +1,66 @@
+.component-editablefield{
+    display: flex;
+    flex-flow: row;
+    align-items: baseline;
+
+    h2{
+        font-size: 1rem;
+        font-weight: bold;
+        min-width: 200px;
+
+        &:after{
+            content: ':';
+        }
+    }
+
+    input{
+        margin-right: 1rem;
+        border: none;
+        background: $input-editing-color;
+
+        &[type=number]::-webkit-outer-spin-button{
+            appearance: none;
+        }
+
+        &:disabled{
+            background: none !important;
+        }
+
+        &:active{
+            border: none;
+        }
+    }
+
+    button{
+        background: none;
+        padding: 0;
+        
+        &.primary{
+            color: $primary-color;
+        }
+
+        &.secondary{
+            color: $secondary-color;
+        }
+
+        &:active{
+            background: none !important;
+        }
+    }
+
+    .button-group{
+        display: none;
+
+        &.editing{
+            display: inherit;
+        }
+    }
+
+    &:hover{
+        .button-group{
+            display: inherit;
+            flex-flow: inherit;
+            gap: 0.5rem;
+        }
+    }
+}

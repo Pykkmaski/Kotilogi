@@ -1,0 +1,13 @@
+@import './Animations';
+
+.group-row{
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem;
+}
+
+.group-column{
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+}

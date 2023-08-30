@@ -1,0 +1,45 @@
+@import './Config';
+
+button{
+    padding: 0.5rem;
+    border: none;
+    border-radius: $border-radius !important;
+    color: white;
+    min-width: 100px;
+    cursor: pointer;
+
+    transition: width 0.2s ease-in-out;
+    
+    &:disabled{
+        background: $disabled-color !important;
+        color: lighten($disabled-color, 15);
+    }
+}
+
+button.primary{
+    background: $primary-color;
+    &:active{
+        background: darken($primary-color, $button-hover-lighten-amount);
+    }
+}
+
+button.secondary{
+    background: $secondary-color;
+    &:active{
+        background: darken($secondary-color, $button-hover-lighten-amount);
+    }
+}
+
+button.danger{
+    background: $danger-color;
+    &:active{
+        background: darken($danger-color, $button-hover-lighten-amount);
+    }
+}
+
+button.black{
+    background: black;
+    &:active{
+        background: darken(black, $button-hover-lighten-amount);
+    }
+}
