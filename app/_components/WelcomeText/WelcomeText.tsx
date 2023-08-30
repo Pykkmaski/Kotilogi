@@ -7,7 +7,7 @@ async function WelcomeText(props){
     const session = await getServerSession();
 
     const linkButton = {
-        href: !session ? '/register' : '/properties',
+        href: !session ? '/register' : '/auth/properties',
         text: !session ? 'Luo Tili' : 'Siirry Taloihisi',
     }
 

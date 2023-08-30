@@ -7,6 +7,7 @@ import { ContentType, GalleryOptions } from 'kotilogi-app/components/Gallery/Typ
 import {createContext, experimental_useOptimistic as useOptimistic, useContext, useEffect, useState} from 'react';
 import toast from 'react-hot-toast';
 import { revalidatePath } from 'next/cache';
+import { usePathname } from 'next/navigation';
 
 export type ItemType = {
     id: string | number,
@@ -46,6 +47,7 @@ export default function GalleryProvider(props: GalleryProviderProps){
     /**
      * Provides item selection functionality to galleries wrapped inside.
      */
+    const pathname = usePathname();
     const [optimisticData, addOptimisticData] = useOptimistic(
         props.data,
         (state, newData) => [
@@ -102,7 +104,7 @@ export default function GalleryProvider(props: GalleryProviderProps){
             toast.error(err.message);
         }
         
-        revalidatePath('/')
+        revalidatePath(pathname);
         setSelectedItems([]);
     }
 
@@ -131,6 +133,8 @@ export default function GalleryProvider(props: GalleryProviderProps){
         catch(err){
             toast.error(err.message);
         }
+
+        revalidatePath(pathname);
     }
 
     const contextValue: ProviderValueType = {
