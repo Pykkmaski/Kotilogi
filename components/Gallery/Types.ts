@@ -9,7 +9,7 @@ export interface GalleryProps{
 
 export interface BodyProps{
     content: any[],
-    contentType: 'property' | 'event' | 'file' | 'image',
+    contentType: 'property' | 'event' | 'property_file' | 'property_image',
     error: any,
 }
 
@@ -38,7 +38,7 @@ export interface ModalOptions{
     fields?: FormField[],
 }
 
-export type ContentType = 'property' | 'event' | 'image' | 'file';
+export type ContentType = 'property' | 'event' | 'property_file' | 'file';
 
 export interface GalleryOptions{
     defaultData: any,

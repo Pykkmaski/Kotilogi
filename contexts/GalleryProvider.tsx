@@ -6,8 +6,8 @@ import { deleteEvents } from 'kotilogi-app/actions/deleteEvents';
 import { ContentType, GalleryOptions } from 'kotilogi-app/components/Gallery/Types';
 import {createContext, experimental_useOptimistic as useOptimistic, useContext, useEffect, useState} from 'react';
 import toast from 'react-hot-toast';
-import { revalidatePath } from 'next/cache';
-import { usePathname } from 'next/navigation';
+import generateId from 'kotilogi-app/utils/generateId';
+import addPropertyFile from 'kotilogi-app/actions/addPropertyFile';
 
 export type ItemType = {
     id: string | number,
@@ -33,33 +33,23 @@ export type ProviderValueType = {
 
 const GalleryContext = createContext({} as ProviderValueType);
 
-export function useGallery(){
-    return useContext(GalleryContext);
-}
-
-interface GalleryProviderProps{
+interface GalleryProviderProps<T>{
     options: GalleryOptions,
-    data: any,
-    children: any,
+    data: T[],
+    children: React.ReactNode,
 }
 
-export default function GalleryProvider(props: GalleryProviderProps){
+export default function GalleryProvider<T>(props: GalleryProviderProps<T>){
     /**
      * Provides item selection functionality to galleries wrapped inside.
      */
-    const pathname = usePathname();
-    const [optimisticData, addOptimisticData] = useOptimistic(
-        props.data,
-        (state, newData) => [
-            ...state,
-            newData
-        ]
-    );
 
-    const [selectedItems, setSelectedItems] = useState([] as number[]);
+    const [data, setData] = useState<T[]>(props.data);
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
     function toggleSelected(id: number){
-        const newSelected = [...selectedItems];
+        const newSelected: number[] = [...selectedItems];
+
         if(newSelected.includes(id)){
             newSelected.splice(newSelected.indexOf(id), 1);
         }
@@ -71,83 +61,84 @@ export default function GalleryProvider(props: GalleryProviderProps){
     }
 
     async function deleteSelected(){
-        //const newData = [...optimisticData];
+        const oldData: T[] = [...data];
+        const newData: T[] = [...data];
 
-        const runDelete = () => {
-            selectedItems.forEach((id: number) => {
-                const itemInData = optimisticData.find(d => d.id === id);
-                if(!itemInData) return;
-                optimisticData.splice(optimisticData.indexOf(itemInData), 1);
-            });
-        } 
-        
-        try{
-            switch(props.options.contentType){
-                case 'property':{
-                    runDelete();
-                    const error = await deleteProperties(selectedItems);
-                    if(error) throw error;
+        for(const id of selectedItems){
+            const item: T | undefined = newData.find((i: T & {id: number}) => i.id === id);
+            if(!item) continue;
 
-                    toast.success('Talo(t) poistettu onnistuneesi!');
-                }
-                break;
+            const index: number = newData.indexOf(item);
+            if(index === -1) continue; //This should not fail at this point, but you never know.
+            newData.splice(index, 1);
+        }
 
-                case 'event':{
-                    runDelete();
-                    const error = await deleteEvents(selectedItems);
-                    console.log(error);
-                    if(error) throw error;
+        setData(newData);
 
-                    toast.success('Tapahtuma(t) poistettu onnistuneesti!');
-                }
-                break;
-    
-                default: throw new Error('Tätä toimintoa ei ole määritelty!');
+        var result: null | {message: string} = null;
+        const contentType: ContentType = props.options.contentType;
+
+        if(contentType === 'property'){
+            result = await deleteProperties(selectedItems);
+        }
+        else if(contentType === 'event'){
+            result = await deleteEvents(selectedItems);
+        }
+        else if(contentType === 'property_file'){
+            result = await deletePropertyFiles(selectedItems);
+        }
+        else {
+            result = {
+                message: 'Toimintoa ei ole määritelty!'
             }
-
-            revalidatePath(pathname);
-            setSelectedItems([]);
-        }
-        catch(err){
-            toast.error(err.message);
         }
         
-        
+        if(typeof result === 'object'){
+            toast.error('Kohteiden poisto epäonnistui!');
+            setData(oldData);
+        }
+        else {
+            toast.success('Kohteiden poisto onnistui!');
+        }
     }
 
     async function addData(newData: any){
-        try{
-            switch(props.options.contentType){
-                case 'property':{
-                    const id = await addProperty(newData);
-                    newData.id = id;
-                    addOptimisticData(newData);
-                    toast.success('Talo lisätty onnistuneesti');
-                }
-                break;
+        newData.id = await generateId();
+        const oldData: T[] = [...data];
+        setData(prev => [...prev, newData]);
 
-                case 'event':{
-                    const id = await addEvent(newData);
-                    newData.id = id;
-                    addOptimisticData(newData);
-                    toast.success('Tapahtuma lisätty onnistuneesti!');
-                }
-                break;
-    
-                default: throw new Error('Tätä toimintoa ei ole määritelty!');
+        var result: string | {message: string} | null = null;
+        const contentType: ContentType = props.options.contentType;
+
+        if(contentType === 'property'){
+            result = await addProperty(newData);
+        }
+        else if(contentType === 'event'){
+            result = await addEvent(newData);
+        }
+        else if(contentType === 'property_file'){
+            result = await addPropertyFile(newData);
+        }
+        else{
+            result = {
+                message: 'Toimintoa ei ole määritelty!',
             }
         }
-        catch(err){
-            toast.error(err.message);
-        }
 
-        revalidatePath(pathname);
+        if(typeof result === 'object' || result === null){
+            console.log(result.message);
+            toast.error('Kohteen lisääminen epäonnistui!');
+            setData(oldData);
+        }
+        else{
+            toast.success('Kohteen lisääminen onnistui!');
+        }
     }
 
     const contextValue: ProviderValueType = {
         options: props.options,
         contentType: props.options.contentType,
-        data: optimisticData || [],
+        data: data || [],
         selectedItems,
         toggleSelected,
         deleteSelected,
@@ -159,4 +150,8 @@ export default function GalleryProvider(props: GalleryProviderProps){
             {props.children}
         </GalleryContext.Provider>
     )
+}
+
+export function useGallery(){
+    return useContext(GalleryContext);
 }

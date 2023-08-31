@@ -1,3 +1,5 @@
+"use client";
+
 import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
 import { useReducer } from "react";
 import { HeaderProps, HeaderOptions, Button } from "./Types";
@@ -5,12 +7,12 @@ import { Action, reducer } from "./headerReducer";
 import ModalElement from "./ModalElement";
 import styles from './gallery.module.scss';
 
-export function Header(props: HeaderProps){
+export function Header<T>(props: HeaderProps){
     const {
         options, 
         deleteSelected, 
         selectedItems, 
-        addData
+        addData,
     } = useGallery();
         
     const headerOptions: HeaderOptions = options.header;
@@ -25,7 +27,7 @@ export function Header(props: HeaderProps){
     const modals: JSX.Element[] = [];
     buttonsWithModals.forEach((button: Button, index: number) => {
         if(button.type === 'add'){
-            const modalElement = <ModalElement
+            const modalElement = <ModalElement<T>
                 modalOptions = {button.modalOptions}
                 action = {(data) => addData(data)}
                 show = {state.showAddModal}
@@ -42,7 +44,7 @@ export function Header(props: HeaderProps){
         }
 
         if(button.type === 'delete'){
-            const modalElement = <ModalElement
+            const modalElement = <ModalElement<T>
                 modalOptions = {button.modalOptions}
                 action = { () => deleteSelected() }
                 show = {state.showDeleteModal}

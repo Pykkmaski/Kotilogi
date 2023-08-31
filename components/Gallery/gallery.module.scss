@@ -19,7 +19,7 @@
 
         padding: 1rem;
         z-index: 1;
-        background: rgba($secondary-color, 0);
+        background: lighten($secondary-color, 5);
         backdrop-filter: saturate(200%) blur(20px);
 
         margin-bottom: 2rem;

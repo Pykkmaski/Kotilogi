@@ -1,3 +1,5 @@
+"use client";
+
 import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
 import ItemCard, { ItemType } from "../Cards/ItemCard";
 import Loading from "../Loading/Loading";

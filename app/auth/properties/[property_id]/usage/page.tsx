@@ -16,7 +16,7 @@ export default async function UsagePage({params}){
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>{property.address}</h1>
+                <h1>{property?.address}</h1>
                 <small>Kulutustiedot</small>
             </div>
         </div>  

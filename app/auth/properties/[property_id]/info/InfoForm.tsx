@@ -8,7 +8,7 @@ import updateProperty from "kotilogi-app/actions/updateProperty";
 import { toast } from "react-hot-toast";
 import { BuildingMaterial, Color, EnergyClass, HeatingSystem, Property, PropertyType, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/Property";
 
-export default function InfoForm({property}: {property: Property}){
+export default function InfoForm({property}: {property: Property | undefined}){
     const [currentData, setCurrentData] = useState<Property | null>(property);
     const initialRender = useRef(true);
 

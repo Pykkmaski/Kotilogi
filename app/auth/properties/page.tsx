@@ -68,7 +68,7 @@ export default async function PropertiesPage({params}){
     }
 
     return (
-        <Gallery 
+        <Gallery<{owner: string}>
             options={galleryOptions}
             data={properties}
         />

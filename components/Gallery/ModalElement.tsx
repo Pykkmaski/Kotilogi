@@ -1,18 +1,19 @@
-
 import { useState } from "react";
 import Form from "../Form";
 import Modal from "../Modals/Modal";
 import { FormField, ModalOptions } from "./Types";
 import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
 
-export default function ModalElement({modalOptions, show, onHide, action, key}){
+export default function ModalElement<T>({modalOptions, show, onHide, action, key}){
     const {options} = useGallery();
-    const [data, setData] = useState({
+    const [data, setData] = useState<T & {id: string}>({
         ...options.defaultData,
+        id: crypto.randomUUID(),
     });
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
+        console.log(data);
         action(data);
         onHide(); //Hide the modal when finished
     }
