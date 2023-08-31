@@ -19,7 +19,7 @@ async function WelcomeText(props){
                 <h2 className={styles.secondaryTitle}>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa.</h2>
             </div>
             <Link href={linkButton.href} className={styles.registerLink}>{linkButton.text}</Link>
-            <Link href="/login" className={styles.loginLink} hidden={!session}>Tai Kirjaudu Sisään</Link>
+            <Link href="/login" className={styles.loginLink} hidden={session !== null}>Tai Kirjaudu Sisään</Link>
             <div className={styles.bgOpacity}/>
         </div>
     );

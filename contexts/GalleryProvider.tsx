@@ -85,27 +85,34 @@ export default function GalleryProvider(props: GalleryProviderProps){
             switch(props.options.contentType){
                 case 'property':{
                     runDelete();
-                    await deleteProperties(selectedItems);
+                    const error = await deleteProperties(selectedItems);
+                    if(error) throw error;
+
                     toast.success('Talo(t) poistettu onnistuneesi!');
                 }
                 break;
 
                 case 'event':{
                     runDelete();
-                    await deleteEvents(selectedItems);
+                    const error = await deleteEvents(selectedItems);
+                    console.log(error);
+                    if(error) throw error;
+
                     toast.success('Tapahtuma(t) poistettu onnistuneesti!');
                 }
                 break;
     
                 default: throw new Error('Tätä toimintoa ei ole määritelty!');
             }
+
+            revalidatePath(pathname);
+            setSelectedItems([]);
         }
         catch(err){
             toast.error(err.message);
         }
         
-        revalidatePath(pathname);
-        setSelectedItems([]);
+        
     }
 
     async function addData(newData: any){
