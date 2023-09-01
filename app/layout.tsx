@@ -16,13 +16,13 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang="en">
+      <AuthProvider>
       <body className={styles.body}>
+          <Header/>
           <div className={styles.container}>
-              <AuthProvider>
-                <Header/>
                 {children}
                 <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä. Lisäämäsi sisältö ei säily palvelussa!"/>
-              </AuthProvider>
+              
               <Toaster position="bottom-right" toastOptions={{
                 duration: 5000,
                 style: {
@@ -31,6 +31,7 @@ export default async function RootLayout({ children }) {
               }}/>
           </div>
       </body>
+      </AuthProvider>
     </html>
   )
 }

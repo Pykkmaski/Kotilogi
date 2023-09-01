@@ -1,11 +1,13 @@
 "use server"
 import db from "kotilogi-app/dbconfig";
+import { revalidatePath } from "next/cache";
 
-export async function deleteEvents(selectedItems: number[]): Promise<{message: string} | null>{
+export async function deleteEvents(selectedItems: string[]): Promise<{message: string} | null>{
     try{
         for(const id of selectedItems){
-            await db('property_events_1').where({id}).del();
+            await db('property_events').where({id}).del();
         }
+        revalidatePath('/events');
         return null;
     }
     catch(err){

@@ -4,6 +4,8 @@ import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
 import ItemCard, { ItemType } from "../Cards/ItemCard";
 import Loading from "../Loading/Loading";
 import styles from './gallery.module.scss';
+import { deleteProperties } from "kotilogi-app/actions/deleteProperties";
+import { deleteEvents } from "kotilogi-app/actions/deleteEvents";
 
 export function Body(){
     const {data, contentType, options} = useGallery();
@@ -29,10 +31,12 @@ export function Body(){
                     : 
                     contentType === 'event' ? '/auth/events/' + item.id : '/login';
 
-                    console.log(destinationUrl);
+                    const deleteAction = 
+                        contentType === 'property' ? (id: string) => deleteProperties([id]) : 
+                        contentType === 'event' ? (id: string) => deleteEvents([id]) : null;
                     
                     return (
-                        <ItemCard item={item} destinationUrl={destinationUrl} imageUrl={'/'} key={index}/>
+                        <ItemCard item={item} destinationUrl={destinationUrl} imageUrl={'/'} key={index} deleteAction={deleteAction}/>
                     )
                 })
                 :

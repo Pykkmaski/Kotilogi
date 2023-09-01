@@ -8,7 +8,7 @@ import { StaticImageData } from "next/image";
 import Spinner from "../Spinner/Spinner";
 
 export type ItemType = {
-    id: number,
+    id: string,
     title: string,
     description?: string,
 }
@@ -18,9 +18,10 @@ export type ItemCardProps = {
     destinationUrl: string,
     imageUrl: string | StaticImageData,
     key: number,
+    deleteAction?: (ids: string[]) => null,
 }
 
-export default function ItemCard({item, destinationUrl, imageUrl, key}: ItemCardProps){
+export default function ItemCard({item, destinationUrl, imageUrl, key, deleteAction}: ItemCardProps){
     const {selectedItems, toggleSelected} = useGallery();
     const [selected, setSelected] = useState(selectedItems.includes(item.id));
     const [menuOpen, setMenuOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function ItemCard({item, destinationUrl, imageUrl, key}: ItemCard
     return (
         <Card className={selected ? 'selected' : null} key={key}>
             <Link href={destinationUrl}>
-                <Card.Image src={propertyMainImageUrl}></Card.Image>
+                <Card.Image src={'/'}></Card.Image>
                 <Card.Body>
                     <Card.Title>{item.title}</Card.Title>
                     <Card.Text>
