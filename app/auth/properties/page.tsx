@@ -1,11 +1,12 @@
 import { getServerSession } from "next-auth";
 import { options } from "../../api/auth/[...nextauth]/options";
-import getPropertiesByOwner from "kotilogi-app/actions/getPropertyByOwner";
+import {getPropertiesByOwner } from 'kotilogi-app/actions/getData';
 import Error from "kotilogi-app/components/Gallery/Error";
 import Gallery from 'kotilogi-app/components/Gallery/Gallery';
 import { GalleryOptions } from "kotilogi-app/components/Gallery/Types";
 import ErrorImage from 'kotilogi-app/assets/house.png';
 import { redirect } from "next/navigation";
+import { PropertyType } from "kotilogi-app/types/PropertyType";
 
 type SessionType = {
     user: {
@@ -15,14 +16,14 @@ type SessionType = {
 
 export default async function PropertiesPage({params}){
     const session: SessionType = await getServerSession(options);
-    const properties = await getPropertiesByOwner(session!.user.email);
+    const properties: PropertyType[] | null = await getPropertiesByOwner(session!.user.email);
 
     const galleryOptions: GalleryOptions = {
         defaultData: {
             owner: session!.user.email,
-        },
+        } as PropertyType,
 
-        contentType: 'property',
+        contentTarget: 'properties',
         contentError: (
             <Error 
                 title="Ei Taloja"
@@ -68,9 +69,9 @@ export default async function PropertiesPage({params}){
     }
 
     return (
-        <Gallery<{owner: string}>
+        <Gallery
             options={galleryOptions}
-            data={properties}
+            data={properties!}
         />
     );
 }

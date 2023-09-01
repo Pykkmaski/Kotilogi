@@ -1,19 +1,25 @@
+"use client";
+
 import styles from './gallery.module.scss';
 import GalleryProvider from 'kotilogi-app/contexts/GalleryProvider';
 import { GalleryOptions, HeaderProps } from './Types';
 import { Header } from './Header';
 import { Body } from './Body';
+import { PropertyType } from 'kotilogi-app/types/PropertyType';
+import { EventType } from 'kotilogi-app/types/EventType';
 
-type GalleryProps<T> = {
+type GalleryTypes = PropertyType | EventType;
+
+type GalleryProps = {
     options: GalleryOptions,
-    data: T[],
+    data: GalleryTypes[],
 }
 
-function Gallery<T>(props: GalleryProps<T>){
+function Gallery(props: GalleryProps){
     const headerProps: HeaderProps = props.options.header;
     return (
         <div className={styles.container}>
-            <GalleryProvider<T> options={props.options} data={props.data}>
+            <GalleryProvider options={props.options} data={props.data}>
                 <Header
                     title={headerProps.title}
                     subtitle={headerProps.subtitle}

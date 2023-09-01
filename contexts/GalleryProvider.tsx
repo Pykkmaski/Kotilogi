@@ -1,13 +1,12 @@
 "use client";
-import addEvent from 'kotilogi-app/actions/addEvent';
-import addProperty from 'kotilogi-app/actions/addProperty';
-import { deleteProperties } from 'kotilogi-app/actions/deleteProperties';
-import { deleteEvents } from 'kotilogi-app/actions/deleteEvents';
+import { serverAddData } from 'kotilogi-app/actions/serverAddData';
+import { serverDeleteDataByIds } from 'kotilogi-app/actions/serverDeleteDataByIds';
 import { ContentType, GalleryOptions } from 'kotilogi-app/components/Gallery/Types';
+import { EventType } from 'kotilogi-app/types/EventType';
+import { IdType } from 'kotilogi-app/types/IdType';
+import { PropertyType } from 'kotilogi-app/types/PropertyType';
 import {createContext, experimental_useOptimistic as useOptimistic, useContext, useEffect, useState} from 'react';
 import toast from 'react-hot-toast';
-import generateId from 'kotilogi-app/utils/generateId';
-import addPropertyFile from 'kotilogi-app/actions/addPropertyFile';
 
 export type ItemType = {
     id: string | number,
@@ -23,7 +22,7 @@ export type SelectedItemsType = {
 
 export type ProviderValueType = {
     options: GalleryOptions,
-    contentType: ContentType,
+    contentTarget: ContentType,
     data: any,
     selectedItems: string[],
     toggleSelected: (id: string) => void,   
@@ -33,25 +32,27 @@ export type ProviderValueType = {
 
 const GalleryContext = createContext({} as ProviderValueType);
 
-interface GalleryProviderProps<T>{
+type GalleryTypes = PropertyType | EventType;
+
+interface GalleryProviderProps{
     options: GalleryOptions,
-    data: T[],
+    data: GalleryTypes[],
     children: React.ReactNode,
 }
 
-export default function GalleryProvider<T>(props: GalleryProviderProps<T>){
+export default function GalleryProvider(props: GalleryProviderProps){
     /**
      * Provides item selection functionality to galleries wrapped inside.
      */
 
     const [optimisticData, addOptimisticData] = useOptimistic(
         props.data,
-        (state, newData: T) => {
+        (state, newData: GalleryTypes) => {
             return [...state, newData];
         }
     );
 
-    const [data, setData] = useState<T[]>(props.data);
+    const [data, setData] = useState<GalleryTypes[]>(props.data);
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
     function toggleSelected(id: string){
@@ -67,74 +68,49 @@ export default function GalleryProvider<T>(props: GalleryProviderProps<T>){
         setSelectedItems(newSelected);
     }
 
-    const handleResult = (result: {message: string} | string | null) => {
-        if(typeof result === 'object' && result !== null){
-            console.log(result.message);
-            toast.error('Kohteiden poisto epäonnistui!');
-        }
-        else {
+    async function deleteSelected(){
+        try{
+            const success: boolean = await serverDeleteDataByIds(selectedItems, props.options.contentTarget);
+            if(!success) throw new Error('Kohteiden poisto epäonnistui!');
+            
+            const newData: GalleryTypes[] = [...data];
+            selectedItems.forEach((id: IdType) => {
+                const item: GalleryTypes | undefined = newData.find((i: GalleryTypes & {id: string}) => i.id === id);
+                if(!item) return;
+
+                const index: number = newData.indexOf(item);
+                if(index === -1) return; //This should not fail at this point, but you never know.
+                newData.splice(index, 1);
+            });
+            
+            setData(newData);
             toast.success('Kohteiden poisto onnistui!');
         }
-    }
-
-    async function deleteSelected(){
-
-        /*
-        for(const id of selectedItems){
-            const item: T | undefined = optimisticData.find((i: T & {id: string}) => i.id === id);
-            if(!item) continue;
-
-            const index: number = optimisticData.indexOf(item);
-            if(index === -1) continue; //This should not fail at this point, but you never know.
-            optimisticData.splice(index, 1);
+        catch(err){
+            toast.error(err.message);
         }
-        */
-
-        var result: null | {message: string} = null;
-        const contentType: ContentType = props.options.contentType;
-
-        if(contentType === 'property'){
-            result = await deleteProperties(selectedItems);
+        finally{
+            setSelectedItems([]);
         }
-        else if(contentType === 'event'){
-            result = await deleteEvents(selectedItems);
-        }
-        else {
-            result = {
-                message: 'Toimintoa ei ole määritelty!'
-            }
-        }
-        
-        handleResult(result);
-        setSelectedItems([]);
     }
 
     async function addData(newData: any){
-        newData.id = await generateId();
-        addOptimisticData(newData);
+        try{
+            const addedItem: GalleryTypes | null = await serverAddData(newData, props.options.contentTarget);
+            if(!addedItem) throw new Error('Kohteen lisääminen epäonnistui!');
 
-        var result: string | {message: string} | null = null;
-        const contentType: ContentType = props.options.contentType;
-
-        if(contentType === 'property'){
-            result = await addProperty(newData);
+            setData(prev => [...prev, addedItem!]);
+            toast.success('Kohteen lisäys onnistui!');
         }
-        else if(contentType === 'event'){
-            result = await addEvent(newData);
+        catch(err){
+            toast.error(err.message);
         }
-        else{
-            result = {
-                message: 'Toimintoa ei ole määritelty!',
-            }
-        }
-
-        handleResult(result);
     }
 
     const contextValue: ProviderValueType = {
         options: props.options,
-        contentType: props.options.contentType,
-        data: optimisticData || [],
+        contentTarget: props.options.contentTarget,
+        data: data || [],
         selectedItems,
         toggleSelected,
         deleteSelected,

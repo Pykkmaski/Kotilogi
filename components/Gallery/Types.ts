@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEvent, FormEventHandler } from "react";
 import { ItemType } from "../Cards/ItemCard";
 
 export type ButtonType = 'add' | 'delete';
@@ -9,7 +9,7 @@ export interface GalleryProps{
 
 export interface BodyProps{
     content: any[],
-    contentType: 'property' | 'event' | 'property_file' | 'property_image',
+    contentTarget: ContentType,
     error: any,
 }
 
@@ -38,11 +38,11 @@ export interface ModalOptions{
     fields?: FormField[],
 }
 
-export type ContentType = 'property' | 'event' | 'property_file' | 'file';
+export type ContentType = 'properties' | 'events' | 'property_files' | 'event_files';
 
 export interface GalleryOptions{
     defaultData: any,
-    contentType: ContentType,
+    contentTarget: ContentType,
     header: HeaderOptions,
     contentError: JSX.Element,
 }

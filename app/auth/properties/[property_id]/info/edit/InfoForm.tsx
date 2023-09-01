@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import updateProperty from "kotilogi-app/actions/updateProperty";
 import { toast } from "react-hot-toast";
-import { BuildingMaterial, Color, EnergyClass, HeatingSystem, Property, PropertyType, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/Property";
+import { BuildingMaterial, Color, EnergyClass, HeatingSystem, Property, PropertyType, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/PropertyType";
 
-export default function InfoForm({property}: {property: Property | undefined}){
-    const [currentData, setCurrentData] = useState<Property | null>(property);
+export default function InfoForm({property}){
+    const [currentData, setCurrentData] = useState(property);
     const initialRender = useRef(true);
 
     const updateData = (e) => {

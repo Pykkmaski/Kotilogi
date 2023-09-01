@@ -1,14 +1,16 @@
+import { HasDescription } from "./HasDescription";
+import { HasId } from "./HasId";
+
 export type EnergyClass = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'Muu';
 export type YardOwnership = 'Oma' | 'Vuokra' | 'Ei Kelvollinen';
-export type PropertyType = 'Omakotitalo' | 'Kerrostalo' | 'Luhtitalo' | 'Rivitalo' |'Erillistalo' | 'Puutalo-osake' | 'Paritalo' | 'Muu';
+export type PropertyKind = 'Omakotitalo' | 'Kerrostalo' | 'Luhtitalo' | 'Rivitalo' |'Erillistalo' | 'Puutalo-osake' | 'Paritalo' | 'Muu';
 export type BuildingMaterial = 'Puu' | 'Betoni' | 'Tiili' | 'Hirsi';
 export type Color = 'Valkoinen' | 'Sininen' | 'Vihreä' | 'Punainen' | 'Ruskea' | 'Keltainen' | 'Musta' | 'Harmaa' | 'Muu';
 export type RoofMaterial = 'Huopa' | 'Pelti' | 'Tiili' | 'Muu';
 export type HeatingSystem = 'Ilmalämpöpumppu' | 'Kaukolämpö' | 'Vesi-Ilmalämpöpumppu' | 'Sähkö' | 'Takka' | 'Muu' | 'Ei Mitään';
 export type RoofType = 'Harjakatto' | 'Tasakatto' | 'Pulpettikatto' | 'Muu';
 
-export type Property = {
-    id: number,
+export type PropertyType = HasId & HasDescription & {
     owner?: string,
     room_count?: number,
     floor_count?: number,
@@ -27,7 +29,6 @@ export type Property = {
     color?: Color,
     address: string,
     zip_code?: string,
-    description?: string,
-    property_type?: PropertyType,
+    property_type?: PropertyKind,
     energy_class?: EnergyClass,
 }

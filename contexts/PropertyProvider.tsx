@@ -1,5 +1,5 @@
 import React, { createContext, useContext, PropsWithChildren } from "react";
-import { Property } from "kotilogi-app/types/Property";
+import { Property } from "kotilogi-app/types/PropertyType";
 
 interface PropertyProviderProps{
     property: Property,

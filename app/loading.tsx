@@ -1,7 +1,7 @@
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 import style from './loading.module.scss';
 
-export default function Loading(){
+export default async function Loading(){
     return(
         <div className={style.loading}>
             <h1>Ladataan...</h1>
