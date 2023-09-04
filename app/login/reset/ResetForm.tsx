@@ -1,19 +1,17 @@
 "use client";
 
-import { resetPassword, sendResetCode, verifyResetCode } from "kotilogi-app/actions/resetPassword";
+import { resetPassword, sendResetCode } from "kotilogi-app/actions/resetPassword";
 import { StatusCode } from "kotilogi-app/utils/statusCode";
 import Form from "kotilogi-app/components/Form";
-import Link from "next/link";
-import { useReducer, useRef, useState } from "react";
-import styles from './page.module.scss';
-import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
-import resetFormReducer, { Action, State, emailKey } from "./resetFormReducer";
+import { useReducer, useState } from "react";
+import resetFormReducer, { State, emailKey } from "./resetFormReducer";
 import ResetFormProvider, { useResetFormProvider } from "./ResetFormContext";
 import useSessionStorage from 'kotilogi-app/hooks/useSessionStorage';
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 function StepOne(){
+    const router = useRouter();
     const {dispatch, state, next} = useResetFormProvider();
 
     const onSubmitHandler = async (e) => {
@@ -21,31 +19,35 @@ function StepOne(){
         const email = e.target.email.value;
         const status = await sendResetCode(email);
 
-        if(status !== StatusCode.SUCCESS){
-            console.log('Error sending verification code! (' + status + ')');
-            return dispatch({
-                type: 'set_error',
-                value: status,
-            });
-        } 
+        switch(status){
+            case StatusCode.SUCCESS:{
+                toast.success('Varmennuskoodi lähetetty onnistuneesti!');
+                dispatch({
+                    type: 'set_email',
+                    value: email,
+                });
+                next();
+            }
+            break;
 
-        dispatch({
-            type: 'set_email',
-            value: email,
-        });
-
-        next();
+            default:{
+                dispatch({
+                    type: 'set_error',
+                    value: status,
+                });
+            }
+        }
     }
 
     return (
         <Form onSubmit={onSubmitHandler}>
             <Form.Group>
                 <label>Anna Sähköpostiosoitteesi</label>
-                <input type="email" name="email"></input>
+                <input type="email" name="email" required></input>
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button className="secondary">Peruuta</button>
+                <button type="button" className="secondary" onClick={() => router.replace('/login')}>Peruuta</button>
                 <button type="submit" className="primary">Seuraava</button>
             </Form.ButtonGroup>
         </Form>

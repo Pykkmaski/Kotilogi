@@ -97,19 +97,24 @@ export async function sendResetCode(email: string): Promise<number>{
         to: email,
         subject: 'Salasanan nollaus',
         html: htmlContent,
-    }, async err => {
+    }, async (err, info) => {
         if(err) {
             console.log(err);
             status = StatusCode.UNEXPECTED;
         }
         else{
-            await db('password_reset_codes').insert({
-                user: email,
-                expires: new Date().getTime() + (1000 * 60 * 30),
-                reset_code: resetCode,
-            })
-            .onConflict('user')
-            .merge();
+            try{
+                await db('password_reset_codes').insert({
+                    user: email,
+                    expires: new Date().getTime() + (1000 * 60 * 30),
+                    reset_code: resetCode,
+                })
+                .onConflict('user')
+                .merge();
+            }
+            catch(err){
+                status = StatusCode.UNEXPECTED;
+            }
         }
     });
 
