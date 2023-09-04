@@ -3,6 +3,7 @@
 import styles from './page.module.scss';
 import Form from 'kotilogi-app/components/Form';
 import {signIn} from 'next-auth/react';
+import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState, useRef} from 'react';
 
@@ -54,7 +55,11 @@ export default function LoginPage(props){
                 </Form.Group>
 
                 <Form.Group>
-                    <label>Salasana</label>
+                    <div className={styles.passwordLabelContainer}>
+                        <label>Salasana</label>
+                        <Link href="/login/reset">Unohditko salasanasi?</Link>
+                    </div>
+                   
                     <input type="password" name="password" required className={error === 'invalid_password' ? 'error' : undefined}></input>
                 </Form.Group>
 

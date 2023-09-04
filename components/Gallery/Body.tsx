@@ -11,7 +11,7 @@ export function Body(){
 
     const getContentItem = (entry: any): ItemType => {
         const item: ItemType = {
-            title: contentTarget === 'properties' ? entry.address : contentTarget === 'events' ? entry.name : 'none',
+            title: contentTarget === 'properties' ? entry.address : contentTarget === 'property_events' ? entry.name : 'none',
             description: entry.description,
             id: entry.id,
         }
@@ -28,7 +28,7 @@ export function Body(){
                     const destinationUrl = 
                     contentTarget === 'properties' ? '/auth/properties/' + item.id + '/info'
                     : 
-                    contentTarget === 'events' ? '/auth/events/' + item.id : '/login';
+                    contentTarget === 'property_events' ? '/auth/events/' + item.id : '/login';
                     return (
                         <ItemCard item={item} destinationUrl={destinationUrl} imageUrl={'/'} key={index}/>
                     )

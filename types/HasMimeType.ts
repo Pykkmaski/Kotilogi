@@ -1,5 +1,3 @@
-type MimeTypeValues = 'image/jpeg' | 'application/json';
-
 export type HasMimeType = {
-    mime_type: MimeTypeValues,
+    mime_type: 'image/jpeg' |'application/pdf',
 }

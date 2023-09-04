@@ -1,12 +1,12 @@
-import Form from 'kotilogi-app/components/Form';
 import styles from './page.module.scss';
-import getPropertyById from 'kotilogi-app/actions/getPropertyById';
-import { FormField } from 'kotilogi-app/components/Gallery/Types';
+import {serverGetDataById} from 'kotilogi-app/actions/serverGetData';
 import InfoForm from './InfoForm';
-import {Property} from 'kotilogi-app/types/Types';
+import { PropertyType } from 'kotilogi-app/types/PropertyType';
+import { throwErrorIfNull } from 'kotilogi-app/utils/throwErrorIfNull';
 
 export default async function InfoEditPage({params}){
-    const property: Property | undefined = await getPropertyById(params.property_id);
+    const property = await serverGetDataById(params.property_id, 'properties') as PropertyType | null;
+    throwErrorIfNull(property, 'Talon lataaminen epäonnistui!');
 
     return (
         <div className={styles.container}>

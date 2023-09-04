@@ -12,6 +12,7 @@
     position: relative;
 
     transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
+    background: rgba(white, 0.5);
 
     &:hover, &.selected{
         border-color: black;

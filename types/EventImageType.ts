@@ -1,4 +1,4 @@
 import { HasEventId } from "./HasEventId";
-import { ImageType } from "./ImageType";
+import { JpegFileType } from "./JpegFileType";
 
-export type EventImageType = ImageType & HasEventId;
+export type EventImageType = JpegFileType & HasEventId;

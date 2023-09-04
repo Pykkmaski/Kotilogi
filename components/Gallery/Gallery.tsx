@@ -2,17 +2,13 @@
 
 import styles from './gallery.module.scss';
 import GalleryProvider from 'kotilogi-app/contexts/GalleryProvider';
-import { GalleryOptions, HeaderProps } from './Types';
+import { AcceptedGalleryTypes, GalleryOptions, HeaderProps } from './Types';
 import { Header } from './Header';
 import { Body } from './Body';
-import { PropertyType } from 'kotilogi-app/types/PropertyType';
-import { EventType } from 'kotilogi-app/types/EventType';
-
-type GalleryTypes = PropertyType | EventType;
 
 type GalleryProps = {
     options: GalleryOptions,
-    data: GalleryTypes[],
+    data: AcceptedGalleryTypes[],
 }
 
 function Gallery(props: GalleryProps){

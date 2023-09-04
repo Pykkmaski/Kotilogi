@@ -2,19 +2,25 @@ import { GalleryOptions } from "kotilogi-app/components/Gallery/Types";
 import Error from "kotilogi-app/components/Gallery/Error";
 import ErrorImage from 'kotilogi-app/assets/copy.png';
 import Gallery from "kotilogi-app/components/Gallery/Gallery";
-import getPropertyById from "kotilogi-app/actions/getPropertyById";
-import getFilesByPropertyId from "kotilogi-app/actions/getFilesByPropertyId";
+import { serverGetDataById, serverGetDataByPropertyId } from "kotilogi-app/actions/serverGetData";
+import { PropertyType } from "kotilogi-app/types/PropertyType";
+import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
+import { PropertyFileType } from "kotilogi-app/types/PropertyFileType";
 
 export default async function PropertyEventsPage({params}){
-    const property = await getPropertyById(params.property_id);
-    const files = await getFilesByPropertyId(property.id);
+    const property = await serverGetDataById(params.property_id, 'properties') as PropertyType | null;
+    throwErrorIfNull(property, 'Talon lataaminen epäonnistui!');
+
+    const files = await serverGetDataByPropertyId(property!.id, 'property_files') as PropertyFileType[] | null;
+    throwErrorIfNull(files, 'Tiedostojen lataaminen epäonnistui!');
+    
 
     const options: GalleryOptions = {
         defaultData: {
-            property_id: property.id,
+            property_id: property!.id,
         },
 
-        contentType: 'file',
+        contentTarget: 'property_files',
         contentError: (
             <Error
                 title="Ei Tiedostoja"
@@ -24,7 +30,7 @@ export default async function PropertyEventsPage({params}){
         ),
 
         header: {
-            title: property.address,
+            title: property!.address,
             subtitle: 'Tiedostot',
             buttons: [
                 {
@@ -35,7 +41,8 @@ export default async function PropertyEventsPage({params}){
                             {
                                 label: 'Otsikko',
                                 type: 'text',
-                                name: 'name',
+                                name: 'title',
+                                required: true,
                             },
 
                             {
@@ -50,6 +57,7 @@ export default async function PropertyEventsPage({params}){
                                 type: 'file',
                                 accept: 'application/pdf',
                                 name: 'file',
+                                required: true,
                             }
                         ]
                     }
@@ -69,7 +77,7 @@ export default async function PropertyEventsPage({params}){
 
     return (
         <Gallery 
-            data={files}
+            data={files!}
             options={options}
         />
     )

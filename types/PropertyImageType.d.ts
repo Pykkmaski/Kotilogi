@@ -1,4 +1,4 @@
 import { HasPropertyId } from "./HasPropertyId";
-import { ImageType } from "./ImageType";
+import { JpegFileType } from "./JpegFileType";
 
-export type PropertyImageType = ImageType & HasPropertyId;
+export type PropertyImageType = JpegFileType & HasPropertyId;

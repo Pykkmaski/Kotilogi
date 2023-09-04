@@ -1,5 +1,7 @@
 import { FormEvent, FormEventHandler } from "react";
 import { ItemType } from "../Cards/ItemCard";
+import { PropertyType } from "kotilogi-app/types/PropertyType";
+import { EventType } from "kotilogi-app/types/EventType";
 
 export type ButtonType = 'add' | 'delete';
 
@@ -38,7 +40,7 @@ export interface ModalOptions{
     fields?: FormField[],
 }
 
-export type ContentType = 'properties' | 'events' | 'property_files' | 'event_files';
+export type ContentType = 'properties' | 'property_events' | 'property_files' | 'event_files' | 'property_images' | 'event_images';
 
 export interface GalleryOptions{
     defaultData: any,
@@ -63,3 +65,5 @@ export interface HeaderOptions{
     subtitle?: string,
     buttons: Button[],
 }
+
+export type AcceptedGalleryTypes = PropertyType | EventType;

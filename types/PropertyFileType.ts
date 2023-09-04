@@ -1,4 +1,4 @@
-import { FileType } from "./FileType";
 import { HasPropertyId } from "./HasPropertyId";
+import { PdfFileType } from "./PdfFileType";
 
-export type PropertyFileType = FileType & HasPropertyId;
+export type PropertyFileType = PdfFileType & HasPropertyId;

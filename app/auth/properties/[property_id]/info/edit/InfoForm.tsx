@@ -4,7 +4,7 @@ import Form from "kotilogi-app/components/Form"
 import styles from './page.module.scss';
 import { useEffect, useRef, useState } from "react";
 import { experimental_useOptimistic as useOptimistic } from "react";
-import updateProperty from "kotilogi-app/actions/updateProperty";
+import updateProperty from "kotilogi-app/actions/serverUpdateDataById";
 import { toast } from "react-hot-toast";
 import { BuildingMaterial, Color, EnergyClass, HeatingSystem, Property, PropertyType, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/PropertyType";
 

@@ -1,7 +1,7 @@
 @import './Config';
 
 .card{
-    background: none !important;
+    background: rgba(white, 0.3);
 
     display: flex;
     flex-flow: column;
@@ -54,8 +54,6 @@
         &:hover{
             text-decoration: underline;
         }
-
-        
     }
 
     .card-image-container{

@@ -4,14 +4,14 @@ import db from "kotilogi-app/dbconfig";
 import { EventType } from "kotilogi-app/types/EventType";
 import { PropertyType } from "kotilogi-app/types/PropertyType";
 import generateId from "kotilogi-app/utils/generateId";
-import processFormData from "kotilogi-app/utils/processFormData";
+import formDataToType from "kotilogi-app/utils/formDataToType";
 
 type ParamType = PropertyType | EventType;
 
 export async function serverAddData(data: FormData, dbTableName: string): Promise<ParamType | null>{
     try{
         const property: ParamType = {
-            ...processFormData<ParamType>(data),
+            ...formDataToType<ParamType>(data),
             id: await generateId(),
         }
 

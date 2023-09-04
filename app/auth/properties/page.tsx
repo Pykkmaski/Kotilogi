@@ -1,11 +1,10 @@
 import { getServerSession } from "next-auth";
 import { options } from "../../api/auth/[...nextauth]/options";
-import {getPropertiesByOwner } from 'kotilogi-app/actions/getData';
+import {getPropertiesByOwner } from 'kotilogi-app/actions/serverGetData';
 import Error from "kotilogi-app/components/Gallery/Error";
 import Gallery from 'kotilogi-app/components/Gallery/Gallery';
 import { GalleryOptions } from "kotilogi-app/components/Gallery/Types";
 import ErrorImage from 'kotilogi-app/assets/house.png';
-import { redirect } from "next/navigation";
 import { PropertyType } from "kotilogi-app/types/PropertyType";
 
 type SessionType = {

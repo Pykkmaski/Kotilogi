@@ -1,20 +1,50 @@
+@import 'kotilogi-app/scss/Config';
+
 .container{
     display: flex;
     flex-flow: column;
     flex: 1;
+    background-image: url('./placeholder.jpg');
+    
+    .subContainer{
+        padding: 1rem;
+        background: rgba(black, 0.6);
+        flex: 1;
 
-    .overview{
-        background: white;
-        height: 500px;
-        display: flex;
+        .titleContainer{ 
+            h1{
+                font-size: 3rem;
+                color: white;
+            }
+    
+            small{
+                color: $primary-color;
+            }
+    
+            p{
+                margin-top: 2rem;
+                color: white;
+                font-size: 1.5rem;
+            }
 
-        .address{
-            padding: 1rem;
-            font-size: 3rem;
-            background: rgba(black, 0.5);
-            width: 100%;
-            color: white;
-            height: 100px;
+            border-bottom: 1px solid white;
+        }
+    
+        .infoContainer{
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+            gap: 1rem;
+            width: 60%;
+    
+            span{
+                font-size: 1.25rem;
+                color: white;
+            }
+    
+            .value{
+                font-size: 1.5rem; 
+                color: $primary-color;
+            }
         }
     }
 }

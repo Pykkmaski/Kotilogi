@@ -2,19 +2,25 @@ import { GalleryOptions } from "kotilogi-app/components/Gallery/Types";
 import Error from "kotilogi-app/components/Gallery/Error";
 import ErrorImage from 'kotilogi-app/assets/image.png';
 import Gallery from "kotilogi-app/components/Gallery/Gallery";
-import getPropertyById from "kotilogi-app/actions/getPropertyById";
-import getImagesByPropertyId from "kotilogi-app/actions/getImagesByPropertyId";
+import { serverGetDataById, serverGetDataByPropertyId } from "kotilogi-app/actions/serverGetData";
+import { PropertyType } from "kotilogi-app/types/PropertyType";
+import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
+import { PropertyImageType } from "kotilogi-app/types/PropertyImageType";
+import { PropertyFileType } from "kotilogi-app/types/PropertyFileType";
 
 export default async function PropertyEventsPage({params}){
-    const property = await getPropertyById(params.property_id);
-    const images = await getImagesByPropertyId(property.id);
+    const property = await serverGetDataById(params.property_id, 'properties') as PropertyType | null;
+    throwErrorIfNull(property, 'Talon lataaminen epäonnistui!');
+
+    const images = await serverGetDataByPropertyId(property!.id, 'property_images') as PropertyImageType[] | null;
+    throwErrorIfNull(images, 'Kuvien lataaminen epäonnistui!');
 
     const options: GalleryOptions = {
         defaultData: {
-            property_id: property.id,
+            property_id: property!.id,
         },
 
-        contentType: 'image',
+        contentTarget: 'property_files',
         contentError: (
             <Error
                 title="Ei Kuvia"
@@ -24,7 +30,7 @@ export default async function PropertyEventsPage({params}){
         ),
 
         header: {
-            title: property.address,
+            title: property!.address,
             subtitle: 'Kuvat',
             buttons: [
                 {
@@ -35,7 +41,7 @@ export default async function PropertyEventsPage({params}){
                             {
                                 label: 'Otsikko',
                                 type: 'text',
-                                name: 'name',
+                                name: 'title',
                             },
 
                             {
@@ -69,7 +75,7 @@ export default async function PropertyEventsPage({params}){
 
     return (
         <Gallery 
-            data={images}
+            data={images!}
             options={options}
         />
     )

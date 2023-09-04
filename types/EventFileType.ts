@@ -1,4 +1,4 @@
-import { FileType } from "./FileType";
 import { HasEventId } from "./HasEventId";
+import { PdfFileType } from "./PdfFileType";
 
-export type EventFileType = FileType & HasEventId;
+export type EventFileType = PdfFileType & HasEventId;
