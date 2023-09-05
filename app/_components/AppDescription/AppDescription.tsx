@@ -12,13 +12,10 @@ import ImagesIcon from 'kotilogi-app/assets/images-img.png';
 import styles from './styles.module.scss';
 
 function DescriptionElement(props){
-
-    const subComponents = useSubComponents(Object.keys(DescriptionElement), props);
-
     return (
         <div className={styles.element} id={props.id}>
             {
-                subComponents.map(component => component)
+                props.children
             }
         </div>
     );
@@ -35,11 +32,11 @@ DescriptionElement.Text = Text;
 
 const Img = (props) => {
     const {className} = useClassName(styles.image, props.className)
-    return <Image alt="Description Image" src={props.src} className={className} objectFit='contain'></Image>
+    return <img alt="Description Image" src={props.src} className={className}></img>
 }
 DescriptionElement.Img = Img;
 
-function AppDescription(props){
+export default function AppDescription(props){
 
     const imageClassName = "animated";
 
@@ -97,5 +94,3 @@ function AppDescription(props){
         </div>
     )
 }
-
-export default AppDescription;
