@@ -1,13 +1,16 @@
+"use client";
+
 import React, { createContext, useContext, PropsWithChildren } from "react";
-import { Property } from "kotilogi-app/types/PropertyType";
+import { PropertyType } from "kotilogi-app/types/PropertyType";
 
 interface PropertyProviderProps{
-    property: Property,
+    property: PropertyType,
+    children: React.ReactNode,
 }
 
-const PropertyContext = createContext(null as {property: Property} | null);
+const PropertyContext = createContext<{property: PropertyType} | null>(null);
 
-export default function PropertyProvider(props: PropsWithChildren<PropertyProviderProps>){
+export default function PropertyProvider(props: PropertyProviderProps){
     
     const contextValue = {
         property: props.property,
@@ -20,9 +23,8 @@ export default function PropertyProvider(props: PropsWithChildren<PropertyProvid
     );
 }
 
-export function usePropertyProvider(){
-    const context: {property: Property} | null = useContext(PropertyContext);
+export function usePropertyProvider(): {property: PropertyType}{
+    const context: {property: PropertyType} | null = useContext(PropertyContext);
     if(!context) throw new Error('Property context: Property cannot be null!');
-
-    return useContext(PropertyContext);
+    return context;
 }

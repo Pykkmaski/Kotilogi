@@ -3,10 +3,9 @@
 import Form from "kotilogi-app/components/Form"
 import styles from './page.module.scss';
 import { useEffect, useRef, useState } from "react";
-import { experimental_useOptimistic as useOptimistic } from "react";
-import updateProperty from "kotilogi-app/actions/serverUpdateDataById";
 import { toast } from "react-hot-toast";
-import { BuildingMaterial, Color, EnergyClass, HeatingSystem, Property, PropertyType, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/PropertyType";
+import { BuildingMaterial, Color, EnergyClass, HeatingSystem, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/PropertyType";
+import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 
 export default function InfoForm({property}){
     const [currentData, setCurrentData] = useState(property);
@@ -31,7 +30,7 @@ export default function InfoForm({property}){
         //Limit the frequency of backend updates.
         const timeoutId = setTimeout(async () => {
             try{
-                await updateProperty(currentData);
+                await serverUpdateDataById(currentData, 'properties');
             }
             catch(err){
                 toast.error('Talon päivitys epäonnistui!');
@@ -108,7 +107,7 @@ export default function InfoForm({property}){
                             'Paritalo',
                             'Puutalo-osake',
                             'Muu'
-                        ] as PropertyType[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={'property-type-option-' + index} selected={currentData?.property_type === item}>{item}</option>
@@ -273,7 +272,7 @@ export default function InfoForm({property}){
                 <input type="number" name="area" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.area}></input>
             </Form.Group>
 
-            <Form.Group hidden={(['Kerrostalo'] as PropertyType[]).includes(currentData?.property_type)}>
+            <Form.Group hidden={(['Kerrostalo']).includes(currentData?.property_type)}>
                 <label>Tontin pinta-ala (m<sup>2</sup>)</label>
                 <input type="number" name="yard_area" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.yard_area}></input>
             </Form.Group>

@@ -1,9 +1,9 @@
 Password reset functionality using json web tokens.
 + Implement password reset functionality
 + Implement front page contact form functionality.
-- Implement reusable chart options to be used in the usage page.
-- Implement usage page
-- Implement usage type selector for choosing between different usage types when viewing the usage data
++ Implement reusable chart options to be used in the usage page.
++ Implement usage page
++ Implement usage type selector for choosing between different usage types when viewing the usage data
 - Implement file uploading
 - Implement image uploading
 - Implement main image setting on properties

@@ -5,11 +5,14 @@ import { EventType } from "kotilogi-app/types/EventType";
 import { PropertyType } from "kotilogi-app/types/PropertyType";
 import generateId from "kotilogi-app/utils/generateId";
 import formDataToType from "kotilogi-app/utils/formDataToType";
+import { upload } from "./upload";
 
 type ParamType = PropertyType | EventType;
 
-export async function serverAddData(data: FormData, dbTableName: string): Promise<ParamType | null>{
+export async function serverAddData(data: any, dbTableName: string): Promise<ParamType | null>{
     try{
+        if(data.file) await upload(data.file);
+
         const property: ParamType = {
             ...formDataToType<ParamType>(data),
             id: await generateId(),

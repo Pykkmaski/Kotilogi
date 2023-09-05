@@ -12,7 +12,6 @@ export default function ModalElement<T>({modalOptions, show, onHide, action, key
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log(data);
         action(data);
         onHide(); //Hide the modal when finished
     }
