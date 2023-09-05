@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import Form from 'kotilogi-app/components/Form';
 import axios from 'axios';
 import styles from './component.module.scss';
+import serverSendContactMessage from 'kotilogi-app/actions/serverSendContactMessage';
 
 function ContactForm(props){
     const [loading, setLoading] = useState(false);
@@ -11,23 +12,26 @@ function ContactForm(props){
     
     const messageLength = useRef(0);
 
-    function onSubmitHandler(e){
+    async function onSubmitHandler(e){
         e.preventDefault();
         setLoading(true);
 
-        axios.post('/api/contact', {
-            email: e.target.email.value,
+        const messageData = {
+            name: e.target.name.value,
             message: e.target.message.value,
-            name: e.target.name.value || ''
-        })
-        .then(res => {
-            setError(0);
-            e.target.email.value = e.target.message.value = e.target.name.value = "";
-        })
-        .catch(err => {
-            setError(err.response.status);
-        })
-        .finally(() => setLoading(false));
+            email: e.target.email.value,
+        }
+
+        const result = await serverSendContactMessage(messageData);
+        if(!result){
+            console.log('Could not send contact message!');
+            setError(500);
+        }
+        else{
+            setError(0); 
+        }
+
+        setLoading(false);
     }
 
     return (

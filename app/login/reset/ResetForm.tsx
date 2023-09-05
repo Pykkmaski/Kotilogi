@@ -3,12 +3,13 @@
 import { resetPassword, sendResetCode } from "kotilogi-app/actions/resetPassword";
 import { StatusCode } from "kotilogi-app/utils/statusCode";
 import Form from "kotilogi-app/components/Form";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import resetFormReducer, { State, emailKey } from "./resetFormReducer";
 import ResetFormProvider, { useResetFormProvider } from "./ResetFormContext";
 import useSessionStorage from 'kotilogi-app/hooks/useSessionStorage';
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Spinner from "kotilogi-app/components/Spinner/Spinner";
 
 function StepOne(){
     const router = useRouter();
@@ -16,28 +17,43 @@ function StepOne(){
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        dispatch({
+            type: 'set_loading',
+            value: true,
+        });
+
         const email = e.target.email.value;
         const status = await sendResetCode(email);
 
-        switch(status){
-            case StatusCode.SUCCESS:{
-                toast.success('Varmennuskoodi lähetetty onnistuneesti!');
-                dispatch({
-                    type: 'set_email',
-                    value: email,
-                });
-                next();
-            }
-            break;
-
-            default:{
-                dispatch({
-                    type: 'set_error',
-                    value: status,
-                });
-            }
+        if(status === StatusCode.SUCCESS){
+            toast.success('Varmennuskoodi lähetetty onnistuneesti!');
+            dispatch({
+                type: 'set_email',
+                value: email,
+            });
         }
+
+        dispatch({
+            type: 'set_status',
+            value: status,
+        });
+
+        dispatch({
+            type: 'set_loading',
+            value: false,
+        });
     }
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            dispatch({
+                type: 'set_status',
+                value: -1,
+            });
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+    }, [state.status])
 
     return (
         <Form onSubmit={onSubmitHandler}>
@@ -48,14 +64,26 @@ function StepOne(){
 
             <Form.ButtonGroup>
                 <button type="button" className="secondary" onClick={() => router.replace('/login')}>Peruuta</button>
-                <button type="submit" className="primary">Seuraava</button>
+                <button type="submit" className="primary" disabled={state.isLoading}>
+                    {state.isLoading ? <Spinner size="1rem"/> : null} 
+                    <span>Seuraava</span>
+                </button>
             </Form.ButtonGroup>
+            {
+                state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
+                :
+                state.status === StatusCode.UNEXPECTED ? <Form.Error>Varmennuslinkin lähetys epäonnistui!</Form.Error>
+                :
+                <></>
+            }
         </Form>
     );
 }
 
 function StepTwo(){
     const router = useRouter();
+    const params = useSearchParams();
+
     const [isLoading, setIsLoading] = useState(false);
     const {previous, state} = useResetFormProvider();
 
@@ -65,13 +93,17 @@ function StepTwo(){
 
         const password1: string = e.target.password1.value;
         const password2: string = e.target.password2.value;
+        const verificationCode = params.get('token');
+        console.log(verificationCode);
 
-        if(password1 !== password2) {
+        if(!verificationCode){
+            toast.error('Salasanan nollaustodennus puuttuu!');
+        }
+        else if(password1 !== password2) {
             toast.error('Salasanat eivät täsmää!');
         }
         else{
-            const verificationCode = e.target.verificationCode.value;
-            const status = await resetPassword(verificationCode, password1, state.email as string);
+            const status = await resetPassword(verificationCode, password1);
             switch(status){
                 case StatusCode.SUCCESS:{
                     toast.success('Salasana vaihdettu onnistuneesti!');
@@ -105,12 +137,6 @@ function StepTwo(){
                 <input type="password" name="password2" required minLength={8}></input>
             </Form.Group>
 
-            <Form.Group>
-                <label>Vahvistuskoodi</label>
-                <input type="text" name="verificationCode" required></input>
-                <Form.SubLabel>Vahvistuskoodi on lähetetty sähköpostiisi.</Form.SubLabel>
-            </Form.Group>
-
             <Form.ButtonGroup>
                 <button type="button" className="secondary" onClick={() => previous()} disabled={isLoading}>Takaisin</button>
                 <button type="submit" className="primary" disabled={isLoading}>Lähetä</button>
@@ -120,14 +146,16 @@ function StepTwo(){
 }
 
 export default function ResetForm(){
-    const {value: savedEmail} = useSessionStorage(emailKey);
+    const params = useSearchParams();
+    const token = params.get('token');
 
     const initialValue: State = {
-        email: savedEmail,
-        step: savedEmail ? 2 : 1,
-        error: null,
+        token,
+        step:  token ? 2 : 1,
+        status: -1,
         isLoading: false,
     }
+
     const [state, dispatch] = useReducer(resetFormReducer, initialValue);
 
     function previous(): void{
@@ -152,7 +180,7 @@ export default function ResetForm(){
     }
 
     return (
-        <ResetFormProvider state={state} next={next} previous={previous} reset={reset} dispatch={dispatch}>
+        <ResetFormProvider state={state as State} next={next} previous={previous} reset={reset} dispatch={dispatch}>
             {    
                 state.step === 1 ? <StepOne />
                 :

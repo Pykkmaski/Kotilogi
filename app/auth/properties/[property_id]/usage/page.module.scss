@@ -6,5 +6,8 @@
 
     .header{
         @include Header;
+        .title{
+            margin-bottom: 1rem;
+        }
     }
 }

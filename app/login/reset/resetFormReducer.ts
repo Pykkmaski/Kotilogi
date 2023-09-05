@@ -2,7 +2,7 @@
 
 import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
 
-type ActionType = 'step_forward' | 'step_backwards' | 'set_email' | 'set_error' | 'reset' | 'set_loading';
+type ActionType = 'step_forward' | 'step_backwards' | 'set_token' | 'set_status' | 'reset' | 'set_loading';
 
 export type Action = {
     type: ActionType,
@@ -10,9 +10,9 @@ export type Action = {
 }
 
 export type State = {
-    email: string | null,
+    token: string | null,
     step: number,
-    error: string | number | null,
+    status: string | number | null,
     isLoading: boolean,
 }
 
@@ -32,7 +32,7 @@ export default function resetFormReducer(state: State, action: Action){
                 step: state.step - 1,
             }
 
-        case 'set_email':{
+        case 'set_token':{
             throwErrorIfNull(action.value, 'resetFormReducer: Email cannot be null!');
             sessionStorage.setItem(emailKey, action.value as string);
             return {
@@ -41,10 +41,10 @@ export default function resetFormReducer(state: State, action: Action){
             }
         }
             
-        case 'set_error':
+        case 'set_status':
             return {
                 ...state,
-                error: action.value,
+                status: action.value,
             }
 
         case 'reset':{

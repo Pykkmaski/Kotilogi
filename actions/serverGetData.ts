@@ -8,6 +8,18 @@ import { EventType } from "kotilogi-app/types/EventType";
 import { PropertyFileType } from "kotilogi-app/types/PropertyFileType";
 import { PropertyImageType } from "kotilogi-app/types/PropertyImageType";
 
+export async function serverGetData(dbTableName: string, query: any, onlyOne: boolean): Promise<AcceptedGalleryTypes | AcceptedGalleryTypes[] | null>{
+    var data: AcceptedGalleryTypes | AcceptedGalleryTypes[] | undefined;
+    if(onlyOne){
+        data = await db(dbTableName).where(query).first();
+    }
+    else{
+        data = await db(dbTableName).where(query);
+    }
+
+    return data || null;
+}
+
 export async function serverGetDataById(id: IdType, dbTableName: string): Promise<AcceptedGalleryTypes | null>{
     try{
         const data: AcceptedGalleryTypes | undefined = await db(dbTableName).where({id}).first();

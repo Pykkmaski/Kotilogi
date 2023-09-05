@@ -5,18 +5,20 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import db from 'kotilogi-app/dbconfig';
 import { StatusCode } from 'kotilogi-app/utils/statusCode';
-import fs from 'fs';
+import jwt from 'jsonwebtoken';
 
-export async function resetPassword(verificationCode: string, newPassword: string, email: string): Promise<number>{
+export async function resetPassword(verificationCode: string, newPassword: string): Promise<number>{
     try{
-        const verifyResult = await verifyResetCode(verificationCode, email);
-        if(verifyResult !== 0) return verifyResult;
+        const decoded: any = await verifyToken(verificationCode);
+        if(decoded === null) throw new Error('Invalid token');
 
-        await db('users').where({email}).update({
+        const currentTime = new Date().getTime();
+        if(currentTime > decoded.expires) return StatusCode.EXPIRED;
+
+        await db('users').where({email: decoded.email}).update({
             password: await bcrypt.hash(newPassword, 15) as string,
         });
 
-        await db('password_reset_codes').where({user: email}).del();
         return StatusCode.SUCCESS;
     }
     catch(err){
@@ -25,16 +27,15 @@ export async function resetPassword(verificationCode: string, newPassword: strin
     }
 }
 
-export async function verifyResetCode(code: string, email: string): Promise<number>{
-    const correct: object & {expires: number, reset_code: string} | undefined = await db('password_reset_codes').where({user: email}).first();
-    if(correct === undefined) return StatusCode.UNEXPECTED;
-
-    const currentTime: number = new Date().getTime();
-    if(currentTime > correct.expires) return StatusCode.EXPIRED;
-
-    if(correct.reset_code === code) return StatusCode.SUCCESS;
-
-    return StatusCode.MISMATCH;
+export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>{
+    try{
+        const decoded: any = jwt.verify(token, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
+        return decoded;
+    }
+    catch(err){
+        console.log(err.message);
+        return null;
+    }
 }
 
 export async function sendResetCode(email: string): Promise<number>{
@@ -46,7 +47,13 @@ export async function sendResetCode(email: string): Promise<number>{
         numbers.push(crypto.randomInt(6));
     }
 
-    const resetCode: string = numbers.join('');
+    const payload = {
+        email,
+        expires: new Date().getTime() + (1000 * 60 * 30),
+    }
+
+    const resetToken: string = jwt.sign(payload, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
+    const link = 'http://localhost:3000/login/reset?token=' + resetToken;
     const htmlContent = `
         <html>
             <head>
@@ -75,11 +82,11 @@ export async function sendResetCode(email: string): Promise<number>{
                     <h2>Salasanan nollauskoodi</h2>
                     <p>
                         Olet pyytänyt salasanasi nollausta.</br>
-                        Kopioi alla oleva koodi sille varattuun kenttään 30 minuutin kuluessa.</br>
+                        Klikkaa alla olevaa linkkiä 30 minuutin kuluessa.</br>
                         Jos et pyytänyt salasanasi nollausta, voit jättää tämän viestin huiomioimatta.
                     </p>
 
-                    <h1>${resetCode}</h2>
+                    <a href=${link}>${link}</a>
                     <p>
                         <a href="mailto:kotilogi.service@gmail.com">kotilogi.service@gmail.com</a></br>
                         <span class="contact"><strong>Kotilogi</strong>, Timontie 13 Vaasa</span>
@@ -101,20 +108,6 @@ export async function sendResetCode(email: string): Promise<number>{
         if(err) {
             console.log(err);
             status = StatusCode.UNEXPECTED;
-        }
-        else{
-            try{
-                await db('password_reset_codes').insert({
-                    user: email,
-                    expires: new Date().getTime() + (1000 * 60 * 30),
-                    reset_code: resetCode,
-                })
-                .onConflict('user')
-                .merge();
-            }
-            catch(err){
-                status = StatusCode.UNEXPECTED;
-            }
         }
     });
 
