@@ -29,6 +29,9 @@ function ContactForm(props){
         }
         else{
             setError(0); 
+            e.target.name.value = null;
+            e.target.message.value = null;
+            e.target.email.value = null;
         }
 
         setLoading(false);
