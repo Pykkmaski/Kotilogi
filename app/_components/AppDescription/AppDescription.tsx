@@ -32,7 +32,7 @@ DescriptionElement.Text = Text;
 
 const Img = (props) => {
     const {className} = useClassName(styles.image, props.className)
-    return <img alt="Description Image" src={props.src} className={className}></img>
+    return <Image alt="Description Image" src={props.src} className={className}></Image>
 }
 DescriptionElement.Img = Img;
 
