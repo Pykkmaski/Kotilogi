@@ -1,11 +1,15 @@
+import { UsageType } from "kotilogi-app/types/UsageType";
+import getUsageDataByCategory from "./getUsageDataByCategory";
+
 type State = {
+    data: UsageType[],
     showModal: boolean,
     isLoading: boolean,
     selectedSection: 'heating' | 'water' | 'electric',
 }
 
 type Action = {
-    type: 'toggle_modal' | 'toggle_section' | 'toggle_loading',
+    type: 'toggle_modal' | 'toggle_section' | 'toggle_loading' | 'add_data',
     value: any,
 }
 
@@ -22,6 +26,14 @@ export default function chartSelectorReducer(state: State, action: Action): Stat
             return {
                 ...state,
                 selectedSection: action.value,
+            }
+        }
+
+        case 'add_data':{
+            const newData = [...state.data, action.value];
+            return {
+                ...state,
+                data: newData,
             }
         }
 

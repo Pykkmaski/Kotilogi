@@ -35,21 +35,31 @@ export const options: ApexOptions = {
     yaxis: {
         show: true,
         title: {
-            text: '€',
+            text: 'Euroa',
             style: {
                 color: 'white',
-                fontSize: '2rem'
+                fontSize: '1rem'
             } 
         },
         labels: {
             style: {
-                colors: ['#ffff']
+                colors: ['white']
             }
         }
     },
     xaxis: {
-        type: 'category',
-        categories: [1, 2 ,3],
+        title:{
+            text: 'Päivämäärä',
+            style: {
+                color: 'white',
+            }
+        },
+
+        labels: {
+            style: {
+                colors:['white'],
+            }
+        }
 
     }
 }

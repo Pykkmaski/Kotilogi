@@ -12,4 +12,6 @@ Password reset functionality using json web tokens.
 - Implement user dashboard
 - Implement property ownership transfer to another user
 - Implement a reusable button component that displays a spinner when something is loading
+- Fix "window is not defined" error when loading or refreshing the usage page.
+- Fix all dates not showing up in charts.
 

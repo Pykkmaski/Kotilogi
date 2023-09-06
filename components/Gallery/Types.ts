@@ -2,6 +2,7 @@ import { FormEvent, FormEventHandler } from "react";
 import { ItemType } from "../Cards/ItemCard";
 import { PropertyType } from "kotilogi-app/types/PropertyType";
 import { EventType } from "kotilogi-app/types/EventType";
+import { UsageType } from "kotilogi-app/types/UsageType";
 
 export type ButtonType = 'add' | 'delete';
 
@@ -66,4 +67,4 @@ export interface HeaderOptions{
     buttons: Button[],
 }
 
-export type AcceptedGalleryTypes = PropertyType | EventType;
+export type AcceptedGalleryTypes = PropertyType | EventType | UsageType;

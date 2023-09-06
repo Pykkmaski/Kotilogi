@@ -10,13 +10,20 @@ import reducer from './chartSelectorReducer';
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import Form from "kotilogi-app/components/Form";
 import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider";
+import { UsageType } from "kotilogi-app/types/UsageType";
+import getUsageDataByCategory from "./getUsageDataByCategory";
 
 type Sections = 'heating' | 'water' | 'electric';
+type ChartSelectorProps = {
+    usage: UsageType[],
+}
 
-export default function ChartSelector(){
+
+export default function ChartSelector(props: ChartSelectorProps){
     const {property} = usePropertyProvider();
 
     const initialState = {
+        data: props.usage,
         isLoading: false,
         showModal: false,
         selectedSection: 'heating' as Sections,
@@ -35,12 +42,13 @@ export default function ChartSelector(){
         e.preventDefault();
         const currentSection = state?.selectedSection;
         const data = {
-            time: new Date(e.target.date.value).getTime(),
-            amount: e.target.amount.valueAsNumber,
+            time: new Date(e.target.time.value).getTime(),
+            price: e.target.amount.valueAsNumber,
             property_id: property.id,
             type: currentSection,
         }
         await serverAddData(data, 'usage');
+        dispatch({type: 'add_data', value: data});
         dispatch({type: 'toggle_modal', value: false});
     }
     
@@ -90,13 +98,26 @@ export default function ChartSelector(){
            
            <section id="chart-selector-charts">
                 {
-                    state.selectedSection === 'heating' ? <HeatingUsageChart/>
+                    state.selectedSection === 'heating' ? <HeatingUsageChart data={getUsageDataByCategory(state.selectedSection, state.data)}/>
                     :
-                    state.selectedSection === 'water' ? <WaterUsageChart/>
+                    state.selectedSection === 'water' ? <WaterUsageChart data={getUsageDataByCategory(state.selectedSection, state.data)}/>
                     :
-                    state.selectedSection === 'electric' ? <ElectricalUsageChart/>
+                    state.selectedSection === 'electric' ? <ElectricalUsageChart data={getUsageDataByCategory(state.selectedSection, state.data)}/>
                     : 
                     null
+                }
+           </section>
+
+           <section id="chart-selector-data">
+                {
+                    getUsageDataByCategory(state.selectedSection, state.data).map((item, index: number) => {
+                        return (
+                            <div key={index}>
+                                {item.price}
+                                <span>Valinnat</span>
+                            </div>
+                        )
+                    })
                 }
            </section>
         </>
