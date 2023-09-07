@@ -2,7 +2,7 @@ import generateDummyData from 'kotilogi-app/utils/generateDummyData';
 import ChartBase from './ChartBase';
 import { ChartProps } from './ChartProps';
 
-export default function WaterUsageChart({data}: ChartProps){
+export default function WaterUsageChart(props: ChartProps){
 
     const options = {
         colors: ['#00f'],
@@ -23,10 +23,11 @@ export default function WaterUsageChart({data}: ChartProps){
             series={[
                 {
                     name: 'Hinta',
-                    data: data.map(item => item.price)
+                    data: props.data.map(item => item.price)
                 }
             ]}
-            rawdata={data}
+            rawdata={props.data}
+            type={props.type}
         />  
 
     )

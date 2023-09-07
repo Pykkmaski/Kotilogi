@@ -4,7 +4,7 @@ import generateDummyData from "kotilogi-app/utils/generateDummyData";
 import { ChartProps } from "./ChartProps";
 import { UsageType } from "kotilogi-app/types/UsageType";
 
-export default function HeatingUsageChart({data}: ChartProps){
+export default function HeatingUsageChart(props: ChartProps){
     const options: ApexOptions = {
         chart: {
             background: '#f001',
@@ -24,11 +24,12 @@ export default function HeatingUsageChart({data}: ChartProps){
                 [
                     {
                         name: 'Hinta',
-                        data: data.map(item => item.price)
+                        data: props.data.map(item => item.price)
                     }
                 ]
             }
-            rawdata={data}
+            rawdata={props.data}
+            type={props.type}
         />
     )
 }

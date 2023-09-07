@@ -2,7 +2,7 @@ import generateDummyData from "kotilogi-app/utils/generateDummyData";
 import ChartBase from "./ChartBase";
 import { ChartProps } from "./ChartProps";
 
-export default function ElectricalUsageChart({data}: ChartProps){
+export default function ElectricalUsageChart(props: ChartProps){
     const options = {
         colors: ['#ff0'],
         chart: {
@@ -20,10 +20,11 @@ export default function ElectricalUsageChart({data}: ChartProps){
             series={[
                 {
                     name: 'Values',
-                    data: data.map(item => item.price)
+                    data: props.data.map(item => item.price)
                 }
             ]}
-            rawdata={data}
+            rawdata={props.data}
+            type={props.type}
         />
     )
 }

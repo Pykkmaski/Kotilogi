@@ -12,8 +12,10 @@ import Form from "kotilogi-app/components/Form";
 import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider";
 import { UsageType } from "kotilogi-app/types/UsageType";
 import getUsageDataByCategory from "./getUsageDataByCategory";
+import ChartEntry from "./ChartEntry";
 
 type Sections = 'heating' | 'water' | 'electric';
+
 type ChartSelectorProps = {
     usage: UsageType[],
 }
@@ -27,13 +29,21 @@ export default function ChartSelector(props: ChartSelectorProps){
         isLoading: false,
         showModal: false,
         selectedSection: 'heating' as Sections,
+        selectedType: 'bar',
     }
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const onChangeHandler = (e: any) => {
+    const handleSectionChange = (e: any) => {
         dispatch({
             type: 'toggle_section',
+            value: e.target.value,
+        })
+    }
+
+    const handleTypeChange = (e: any) => {
+        dispatch({
+            type: 'toggle_charttype',
             value: e.target.value,
         })
     }
@@ -87,35 +97,39 @@ export default function ChartSelector(props: ChartSelectorProps){
             </Modal>
             
             <section id="chart-selector-header" className={styles.selectorHeader}>
-                <select onChange={onChangeHandler}>
-                    <option value="heating">Lämmitys</option>
-                    <option value="water">Vesi</option>
-                    <option value="electric">Sähkö</option>
-                </select>
+                <div>
+                    <select onChange={handleSectionChange}>
+                        <option value="heating">Lämmitys</option>
+                        <option value="water">Vesi</option>
+                        <option value="electric">Sähkö</option>
+                    </select>
 
+                    <select onChange={handleTypeChange}>
+                        <option value="bar">Palkki</option>
+                        <option value="line">Viiva</option>
+                    </select>
+                </div>
+                
                 <button className="add primary" onClick={() => dispatch({type: 'toggle_modal', value: true})}>Lisää Uusi Tieto</button>
             </section>
            
            <section id="chart-selector-charts">
                 {
-                    state.selectedSection === 'heating' ? <HeatingUsageChart data={getUsageDataByCategory(state.selectedSection, state.data)}/>
+                    state.selectedSection === 'heating' ? <HeatingUsageChart type={state.selectedType} data={getUsageDataByCategory(state.selectedSection, state.data)}/>
                     :
-                    state.selectedSection === 'water' ? <WaterUsageChart data={getUsageDataByCategory(state.selectedSection, state.data)}/>
+                    state.selectedSection === 'water' ? <WaterUsageChart type={state.selectedType} data={getUsageDataByCategory(state.selectedSection, state.data)}/>
                     :
-                    state.selectedSection === 'electric' ? <ElectricalUsageChart data={getUsageDataByCategory(state.selectedSection, state.data)}/>
+                    state.selectedSection === 'electric' ? <ElectricalUsageChart type={state.selectedType} data={getUsageDataByCategory(state.selectedSection, state.data)}/>
                     : 
                     null
                 }
            </section>
 
-           <section id="chart-selector-data">
+           <section className={styles.chartEntryList}>
                 {
                     getUsageDataByCategory(state.selectedSection, state.data).map((item, index: number) => {
                         return (
-                            <div key={index}>
-                                {item.price}
-                                <span>Valinnat</span>
-                            </div>
+                            <ChartEntry data={item}/>
                         )
                     })
                 }

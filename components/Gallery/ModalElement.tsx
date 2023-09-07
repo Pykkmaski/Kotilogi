@@ -6,12 +6,13 @@ import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
 
 export default function ModalElement<T>({modalOptions, show, onHide, action, key}){
     const {options} = useGallery();
-    const [data, setData] = useState<T & {id: string}>({
+    const [data, setData] = useState<T & {id: string, file: any}>({
         ...options.defaultData,
     });
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
+        console.log(data.file.files[0]);
         action(data);
         onHide(); //Hide the modal when finished
     }
