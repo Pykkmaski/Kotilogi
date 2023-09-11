@@ -5,42 +5,38 @@ import { useGallery } from "kotilogi-app/contexts/GalleryProvider";
 import {useState, useEffect} from 'react';
 import Link from 'next/link';
 import { StaticImageData } from "next/image";
-import Spinner from "../Spinner/Spinner";
 import CardImage from 'kotilogi-app/assets/house.png';
-import { IdType } from "kotilogi-app/types/IdType";
 import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataByIds";
+import useGalleryContext from "../new/Gallery/GalleryBase/GalleryContext";
+import serverGetFile from "kotilogi-app/actions/serverGetFile";
 
 export type ItemType = {
     id: string,
     title: string,
+    imageId: Kotilogi.IdType,
     description?: string,
 }
 
 export type ItemCardProps = {
     item: ItemType,
-    destinationUrl: string,
-    imageUrl: string | StaticImageData,
-    key: number,
+    destination: string,
+    imageId: Kotilogi.IdType
+    key: string,
 }
 
-export default function ItemCard({item, destinationUrl, imageUrl, key}: ItemCardProps){
-    const {selectedItems, toggleSelected} = useGallery();
-    const [selected, setSelected] = useState(selectedItems.includes(item.id));
+export default function ItemCard({item, destination, imageId, key}: ItemCardProps){
+    const {state, dispatch} = useGalleryContext();
+    const [selected, setSelected] = useState(state.selectedItemIds.includes(item.id));
     const [menuOpen, setMenuOpen] = useState(false);
-    const propertyMainImageUrl = imageUrl;
-
-    function checkboxHandler(e){
-        toggleSelected(item.id);
-    }
     
     useEffect(() => {
-        setSelected(selectedItems.includes(item.id));
-    }, [selectedItems]);
+        setSelected(state.selectedItemIds.includes(item.id));
+    }, [state.selectedItemIds]);
 
     return (
         <Card className={selected ? 'selected' : null} key={key}>
-            <Link href={destinationUrl}>
-                <Card.Image src={CardImage}></Card.Image>
+            <Link href={destination}>
+                <Card.Image src={`/api/files/${imageId}?dbTableName`}></Card.Image>
                 <Card.Body>
                     <Card.Title>{item.title}</Card.Title>
                     <Card.Text>
@@ -50,7 +46,7 @@ export default function ItemCard({item, destinationUrl, imageUrl, key}: ItemCard
             </Link>
             
             <Card.Footer>
-                <input type="checkbox" onInput={checkboxHandler} checked={selected} defaultChecked={false}></input>
+                <input type="checkbox" onInput={() => dispatch({type: 'select_id', value: item.id})} checked={selected} defaultChecked={false}></input>
                 <img className="cog-img" src={'/img/settings.png'} onClick={() => setMenuOpen(!menuOpen)}></img>
             </Card.Footer>
                

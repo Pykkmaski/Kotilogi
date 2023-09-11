@@ -14,7 +14,7 @@ function SettingsButton(props: SettingsButtonProps){
     const [open, setOpen] = useState(false);
 
     const dotClassName = open ? `settingsButtonDot open` : "settingsButtonDot";
-    console.log(open);
+
     return (
         <div className={styles.settingsButton} onClick={() => setOpen(prev => !prev)}>
             <div className={dotClassName}></div>

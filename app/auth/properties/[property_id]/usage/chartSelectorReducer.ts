@@ -15,7 +15,7 @@ type Action = {
     value: any,
 }
 
-export default function chartSelectorReducer(state: State, action: Action): State{
+export default function chartSelectorReducer(state: State, action: Action){
     switch(action.type){
         case 'toggle_modal':{
             return {

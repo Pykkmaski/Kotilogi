@@ -13,28 +13,22 @@ function CloseButton(props){
 function Modal(props){
     const {show, onHide} = props;
     const subComponents = useSubComponents(Object.keys(Modal), props);
-    const id = 'modal-' + (Math.round(Math.random() * 0x10000)).toString(16);
-    const modalElement = useRef(null as any);
-
-    useEffect(() => {
-        //Grab a reference to the modal element.
-        modalElement.current = document.querySelector(`dialog#${id}`);
-    }, []);
 
     useEffect(() => {
         //Toggle visibility of the modal when showModal variable is changed.
-        if(!modalElement.current) return;
+        const modal = document.querySelector(`dialog#${props.id}`) as HTMLDialogElement;
+        if(!modal) return;
 
         if(show === true){
-            modalElement.current.showModal();
+            modal.showModal();
         }
         else{
-            modalElement.current.close();
+            modal.close();
         }
     }, [show]);
 
     return (
-        <dialog className="component-modal animated" key={props.key} id={id}>
+        <dialog className="component-modal animated" key={props.key} id={props.id}>
             <CloseButton onHide={onHide}/>
             {subComponents.map((component) => component)}
         </dialog>

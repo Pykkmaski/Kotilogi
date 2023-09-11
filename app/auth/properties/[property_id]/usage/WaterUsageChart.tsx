@@ -1,4 +1,3 @@
-import generateDummyData from 'kotilogi-app/utils/generateDummyData';
 import ChartBase from './ChartBase';
 import { ChartProps } from './ChartProps';
 
@@ -27,7 +26,6 @@ export default function WaterUsageChart(props: ChartProps){
                 }
             ]}
             rawdata={props.data}
-            type={props.type}
         />  
 
     )

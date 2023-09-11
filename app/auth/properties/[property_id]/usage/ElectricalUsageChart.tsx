@@ -24,7 +24,6 @@ export default function ElectricalUsageChart(props: ChartProps){
                 }
             ]}
             rawdata={props.data}
-            type={props.type}
         />
     )
 }

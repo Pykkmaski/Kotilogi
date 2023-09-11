@@ -1,7 +1,7 @@
 "use server";
 
 import db from "kotilogi-app/dbconfig";
-import { IdType } from "kotilogi-app/types/IdType";
+import { IdType } from "kotilogi-app/types/Types";
 import { PropertyType } from "kotilogi-app/types/PropertyType";
 import { AcceptedGalleryTypes } from "kotilogi-app/components/Gallery/Types";
 import { EventType } from "kotilogi-app/types/EventType";

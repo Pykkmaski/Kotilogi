@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import style from './modal.module.scss';
+//import style from './modal.module.scss';
 
 type Button = {
     text: string,
@@ -17,22 +17,24 @@ export type ModalOptions = {
 
     body: JSX.Element,
 
-    footer: {
+    footer?: {
         buttons: Button[],
     }, 
 }
 
 type ModalProps = {
     onHide: () => void,
+    id: string,
     show: boolean,
     options: ModalOptions,
+    key?: string,
 }
 
 export default function Modal(props: ModalProps){
-    const modalId = useRef<string>(crypto.randomUUID()); //This wont work if not on an https server!
-
     useEffect(() => {
-        const modal = document.querySelector('dialog#' + modalId.current) as HTMLDialogElement;
+        const modal = document.querySelector(`dialog#${props.id}`) as HTMLDialogElement;
+        if(!modal) return;
+
         if(props.show){
             modal.showModal();
         }
@@ -41,33 +43,39 @@ export default function Modal(props: ModalProps){
         }
     }, [props.show]);
 
-    const buttons: JSX.Element[] = props.options.footer.buttons.map((button: Button, index: number) => {
+    const buttons: JSX.Element[] | undefined = props.options.footer?.buttons.map((button: Button, index: number) => {
         return (
             <button 
-                key={`${modalId.current}-footerbutton-${index}`} 
+                key={`${props.id}-footerbutton-${index}`} 
                 className={button.variant} 
                 type='button' onClick={button.action}>{button.text}</button>
         );
     });
 
     return(
-        <dialog className={style.container} open={props.show} key={modalId.current} id={modalId.current}>
-            <div className={style.header}>
+        <dialog className={'component-modal animated'} key={props.key} id={props.id}>
+            <div className={'modal-header'}>
                 <span>{props.options.header.text}</span>
                 {
                     props.options.header.closeButton ? 
-                    <div className={style.closeButton} onClick={props.onHide}>
-                        <div className={style.buttonLine}/>
-                        <div className={style.buttonLine}/>
+                    <div className={'modal-close-button'} onClick={props.onHide}>
+                        <div className={'line'}/>
+                        <div className={'line'}/>
                     </div>
                     :
                     null
                 }
             </div>
             {props.options.body}
-            <div className={style.footer}>
-                {buttons}
-            </div>
+            {
+                props.options.footer ? 
+                <div className={'modal-footer'}>
+                    {buttons}
+                </div>
+                :
+                null
+            }
+            
         </dialog>
     );
 }

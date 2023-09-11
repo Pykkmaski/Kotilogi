@@ -11,13 +11,14 @@ const Chart = dynamic(() => import('react-apexcharts'));
 type ChartBaseProps = {
     options: ApexOptions,
     series: any,
-    type: ChartDatapointType,
     rawdata: UsageType[],
 }
 
 export default function ChartBase(props: ChartBaseProps){
 
-    const dateCategories = props.rawdata.map((item, index: number) => new Date(item.time).toLocaleDateString('fi-FI'));
+    const categories: string[] = props.rawdata.map((item: UsageType) => {
+        return new Date(item.time).toLocaleDateString('fi');
+    });
 
     const options: ApexOptions = {
         ...chartOptions,
@@ -39,7 +40,7 @@ export default function ChartBase(props: ChartBaseProps){
 
         xaxis: {
             ...chartOptions.xaxis,
-            categories: dateCategories,
+           categories,
         },
 
         tooltip: {
@@ -47,11 +48,9 @@ export default function ChartBase(props: ChartBaseProps){
         }
     };
 
-    console.log(dateCategories);
-
     return (
         <Chart
-            type={props.type}
+            type={'bar'}
             height="500"
             options={options}
             series={props.series}

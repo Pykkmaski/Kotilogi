@@ -3,7 +3,7 @@ import { serverAddData } from 'kotilogi-app/actions/serverAddData';
 import { serverDeleteDataByIds } from 'kotilogi-app/actions/serverDeleteDataByIds';
 import { ContentType, GalleryOptions } from 'kotilogi-app/components/Gallery/Types';
 import { EventType } from 'kotilogi-app/types/EventType';
-import { IdType } from 'kotilogi-app/types/IdType';
+import { IdType } from 'kotilogi-app/types/Types';
 import { PropertyType } from 'kotilogi-app/types/PropertyType';
 import {createContext, experimental_useOptimistic as useOptimistic, useContext, useEffect, useState} from 'react';
 import toast from 'react-hot-toast';

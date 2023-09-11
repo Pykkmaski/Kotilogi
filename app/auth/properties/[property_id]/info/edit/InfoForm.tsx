@@ -4,7 +4,6 @@ import Form from "kotilogi-app/components/Form"
 import styles from './page.module.scss';
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { BuildingMaterial, Color, EnergyClass, HeatingSystem, RoofMaterial, RoofType, YardOwnership } from "kotilogi-app/types/PropertyType";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 
 export default function InfoForm({property}){
@@ -75,12 +74,12 @@ export default function InfoForm({property}){
                 <label>Tontin omistus</label>
                 <select name="yard_ownership" onChange={updateData}>
                     {
-                        ([
+                        [
                             'Oma',
                             'Vuokra',
                             'Ei Kelvollinen'
-                        ] as YardOwnership[])
-                        .map((item: YardOwnership, index: number) => {
+                        ]
+                        .map((item: string, index: number) => {
                             return (
                                 <option value={item} selected={currentData?.yard_ownership === item}>{item}</option>
                             )
@@ -127,7 +126,7 @@ export default function InfoForm({property}){
                             'Puu',
                             'Hirsi',
                             'Muu'
-                        ] as BuildingMaterial[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`building-material-${index}`} selected={currentData?.building_material == item}>{item || 'Muu'}</option>
@@ -149,7 +148,7 @@ export default function InfoForm({property}){
                             'Ruskea',
                             'Musta',
                             'Muu'
-                        ]as Color[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`color-option-${item}`} selected={currentData?.color === item}>{item || 'Muu'}</option>
@@ -178,7 +177,7 @@ export default function InfoForm({property}){
                 <label>Energialuokka</label>
                 <select name="energy_class" onChange={updateData}>
                     {
-                        (['A', 'B', 'C', 'D', 'E', 'F', 'Ei Määritelty'] as EnergyClass[]).map((item, index: number) => {
+                        (['A', 'B', 'C', 'D', 'E', 'F', 'Ei Määritelty']).map((item, index: number) => {
                             return (
                                 <option value={item} key={index} selected={currentData?.energy_class === item}>{item || 'Ei Määritelty'}</option>
                             )
@@ -198,7 +197,7 @@ export default function InfoForm({property}){
                             'Maalämpö',
                             'Vesi-Ilmalämpöpumppu',
                             'Muu'
-                        ] as HeatingSystem[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`heating-primary-option-${index}`} selected={currentData?.primary_heating_system === item}>{item || 'Muu'}</option>
@@ -217,7 +216,7 @@ export default function InfoForm({property}){
                             'Ilmalämpöpumppu',
                             'Muu',
                             'Ei Mitään'
-                        ] as HeatingSystem[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`heating-secondary-option-${index}`} selected={currentData?.secondary_heating_system === item}>{item || 'Ei Mitään'}</option>
@@ -237,7 +236,7 @@ export default function InfoForm({property}){
                             'Huopa',
                             'Tiili',
                             'Muu'
-                        ] as RoofMaterial[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={index} selected={currentData?.roof_material === item}>{item || 'Muu'}</option>
@@ -256,7 +255,7 @@ export default function InfoForm({property}){
                             'Pulpettikatto',
                             'Tasakatto',
                             'Muu'
-                        ] as RoofType[])
+                        ])
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={index} selected={currentData?.roof_type === item}>{item || 'Muu'}</option>
