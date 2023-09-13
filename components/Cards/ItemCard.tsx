@@ -13,18 +13,17 @@ import serverGetFile from "kotilogi-app/actions/serverGetFile";
 export type ItemType = {
     id: string,
     title: string,
-    imageId: Kotilogi.IdType,
+    imageUrl: Kotilogi.IdType,
     description?: string,
 }
 
 export type ItemCardProps = {
     item: ItemType,
     destination: string,
-    imageId: Kotilogi.IdType
     key: string,
 }
 
-export default function ItemCard({item, destination, imageId, key}: ItemCardProps){
+export default function ItemCard({item, destination, key}: ItemCardProps){
     const {state, dispatch} = useGalleryContext();
     const [selected, setSelected] = useState(state.selectedItemIds.includes(item.id));
     const [menuOpen, setMenuOpen] = useState(false);
@@ -36,7 +35,7 @@ export default function ItemCard({item, destination, imageId, key}: ItemCardProp
     return (
         <Card className={selected ? 'selected' : null} key={key}>
             <Link href={destination}>
-                <Card.Image src={`/api/files/${imageId}?dbTableName`}></Card.Image>
+                <Card.Image src={item.imageUrl}></Card.Image>
                 <Card.Body>
                     <Card.Title>{item.title}</Card.Title>
                     <Card.Text>

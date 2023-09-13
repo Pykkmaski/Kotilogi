@@ -5,6 +5,8 @@ import BodyContent from './AddModalBodyContent';
 import SelectAllButton from "../GalleryBase/SelectAllButton";
 import RemoveSelectionsButton from "../GalleryBase/RemoveSelectionsButton";
 import db from "kotilogi-app/dbconfig";
+import Error from "../GalleryBase/Error";
+import ErrorImage from 'kotilogi-app/assets/history.png';
 
 type EventsGalleryProps = {
     property_id: string
@@ -35,6 +37,7 @@ export default async function EventsGallery(props: EventsGalleryProps){
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
             contentType='event'
+            error={<Error title="Ei Tiedostoja" message="Et ole vielä lisännyt talolle tiedostoja" imageUrl={ErrorImage}/>}
         />
     )
 }

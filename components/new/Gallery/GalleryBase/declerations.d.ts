@@ -8,6 +8,7 @@ declare namespace GalleryBase{
     declare type ModalOptions = {
         headerText: string,
         bodyContent: JSX.Element,/**A fragment of elements to display inside the add modal */
+        callback?: () => void | Promise<void>,
     }
 
     declare type Props = HasData & {
@@ -16,13 +17,13 @@ declare namespace GalleryBase{
         headerButtons: JSX.Element[], /**Additional buttons to be included alongside the shared add button */
         addModalOptions: ModalOptions,
         contentType: ContentType,
+        error: JSX.Element /**Error component to be displayed if data is empty */
     }
     
     declare type CardProps = {
         item: any,
         key: string,
         destination: string,
-        imageUrl: string | null,
     }
     
     declare type ContextValue = {

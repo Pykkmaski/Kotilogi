@@ -48,11 +48,11 @@ export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps)
             }
         
             dispatch({type: 'set_data', value: newData});
-            toast.success('Talojen poisto onnistui!');
+            toast.success('Kohteiden poisto onnistui!');
         }
         catch(err){
             console.log(err.message);
-            toast.error('Talojen poisto epäonnistui!');
+            toast.error('Kohteiden poisto epäonnistui!');
         }
         finally{
             dispatch({type: 'reset_selected'});

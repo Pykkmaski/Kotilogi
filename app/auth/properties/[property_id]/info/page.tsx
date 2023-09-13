@@ -1,21 +1,17 @@
 import { serverGetDataById } from 'kotilogi-app/actions/serverGetData';
 import styles from './page.module.scss';
-import { PropertyType } from 'kotilogi-app/types/PropertyType';
 import { throwErrorIfNull } from 'kotilogi-app/utils/throwErrorIfNull';
-import Background from './placeholder.jpg';
 
 export default async function InfoPage({params}){
-    const property = await serverGetDataById(params.property_id, 'properties') as PropertyType | null;
+    const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
     throwErrorIfNull(property, 'Talon lataamienn epäonnistui!');
 
-    const titleContainerStyleConfig = {
-        backgroundImage: `url(${Background})`,
-    }
-
+    const backgroundImage = `url(/api/files?dbTableName=property_images&id=${property?.main_image_id})`
+    
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{backgroundImage}}>
             <div className={styles.subContainer}>
-                <div className={styles.titleContainer} style={titleContainerStyleConfig}>
+                <div className={styles.titleContainer} style={undefined}>
                     <h1>{property?.address}</h1>
                     <small>{property?.owner}</small>
                     <p>

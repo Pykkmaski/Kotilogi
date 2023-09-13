@@ -17,9 +17,10 @@ Password reset functionality using json web tokens.
 + Implement events gallery
 - Implement event files gallery
 - Implement event images gallery
-- Implement property images gallery
-- Implement property files gallery
++ Implement property images gallery
++ Implement property files gallery
 - Implement loading indicator on the modals when adding data into a gallery
+- Implement error images into the new galleries
 + Disable modal buttons when sending data into a gallery
 The items are not removed from the db if trying to delete them immediately after creation. It only works when first refreshing the page.
 + Fix delete-galleries not deleting data on the database.

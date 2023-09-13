@@ -2,6 +2,7 @@ declare namespace GalleryWithDelete{
     declare type DeleteModalOptions = {
         headerText: string,
         bodyText: string,
+        callback?: () => void,
     }
 
     declare type Props = GalleryBase.Props & {

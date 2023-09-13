@@ -1,16 +1,10 @@
 "use client";
 
 import { useReducer, useRef, useState } from "react";
-import Card from "../Card/Card";
 import useGalleryContext, { GalleryContext } from "./GalleryContext";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import GalleryBaseReducer from "./GalleryBaseReducer";
 import style from './gallery.module.scss';
-import ItemCard, { ItemType } from "kotilogi-app/components/Cards/ItemCard";
-import BodyWithCards from "./BodyWithCards";
-import getEntryAsItem from "./getEntryAsItem";
-import getCardDestination from "./getCardDestination";
-import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
 import getCard from "./getCard";
 
 type AddModalProps = {
@@ -54,7 +48,11 @@ function Header(props: HeaderProps){
     )
 }
 
-function Body(){
+type BodyProps = {
+    error: JSX.Element,
+}
+
+function Body(props: BodyProps){
     const {state, contentType} = useGalleryContext();
 
     const cards = state.data.map((entry, index: number) => {
@@ -63,7 +61,9 @@ function Body(){
 
     return (
         <div className={style.galleryBody}>
-            {cards}
+            {
+                cards.length ? cards : props.error
+            }
         </div>
     )
 }
@@ -107,7 +107,7 @@ export default function GalleryBase(props: GalleryBase.Props){
                     buttons={buttons}
                 />
 
-                <Body/>
+                <Body error={props.error}/>
             </GalleryContext.Provider>
         </div>
     )

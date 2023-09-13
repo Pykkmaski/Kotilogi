@@ -72,6 +72,8 @@
         align-items: center;
         max-width: 100%;
         color: white;
+        object-fit:cover;
+        object-position: 50%;
     }
 
     .error-image{

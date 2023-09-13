@@ -3,22 +3,21 @@ import {join} from 'path';
 import {writeFile, readFile} from 'fs/promises';
 import db from 'kotilogi-app/dbconfig';
 import generateId from 'kotilogi-app/utils/generateId';
-import uploadPath from 'kotilogi-app/uploadsConfig';
+import {uploadPath, limit} from 'kotilogi-app/uploadsConfig';
 
 type TargetIdType = 'property_id' | 'event_id';
-type Table = 'property_files' | 'event_files';
-type FileTypes = PropertyFileType | EventFileType | PropertyImageType | EventImageType;
+type Table = 'property_files' | 'event_files' | 'property_images' | 'event_images';
 
 function getTargetIdFieldName(tableName: Table): TargetIdType{
   var targetIdFieldName: TargetIdType;
-  if(tableName === 'property_files'){
+  if(tableName === 'property_files' || tableName === 'property_images'){
     targetIdFieldName = 'property_id';
   }
-  else if(tableName === 'event_files'){
+  else if(tableName === 'event_files' || tableName === 'event_images'){
     targetIdFieldName = 'event_id';
   }
   else{
-    throw new Error(`Unsupported dbTableName in formData! (${tableName}). Cannot save the file info into the database`);
+    throw new Error(`Unsupported dbTableName in formData! (${tableName}). Cannot determine id field name!`);
   }
 
   return targetIdFieldName;
@@ -38,8 +37,7 @@ export async function POST(req, res){
     }
 
     //Only process files within an allowed size.
-    const maxFileSize = 1024 * 1024 * 5; //Five megabytes.
-    if(file.size > maxFileSize) throw new Error(`File size (${file.size}) exceedes allowed limit! (${maxFileSize})`);
+    if(file.size > limit) throw new Error(`File size (${file.size}) exceedes allowed limit! (${limit})`);
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -51,20 +49,19 @@ export async function POST(req, res){
 
     const tableName: Table = data.get('dbTableName');
 
-    const dbData: FileTypes = {
+    const dbData = {
       filename,
       title: data.get('title'),
       description: data.get('description'),
       [getTargetIdFieldName(tableName)] : data.get('target_id') as TargetIdType,
-      mime_type: file.type as 'image/jpeg' | 'application/pdf',
       id: await generateId(),
-    } as FileTypes;
+    };
 
-    await db(tableName).insert(dbData);
+    const insertedData = await db(tableName).insert(dbData, '*');
 
     console.log(`Open ${path} to see the uploaded file`);
 
-    return new NextResponse(null, {
+    return new NextResponse(insertedData[0], {
       status: 200,
       statusText: 'File uploaded successfully!',
     });

@@ -29,7 +29,7 @@ type ImageContainerProps = {
 function ImageContainer(props: ImageContainerProps){
     return (
         <div className="card-image-container">
-            <img src={props.imageUrl} onError={undefined}></img>
+            <img src={props.imageUrl} onError={undefined} className='card-image'></img>
         </div>
     )
 }
@@ -58,7 +58,7 @@ export default function Card(props: GalleryBase.CardProps){
         setIsSelected(state.selectedItemIds.includes(props.item.id));
     }, [state.selectedItemIds]); //This is an object. Maybe useMemo
 
-    const imageUrl = props.imageUrl || 'public/img/not-found.jpeg';
+    const imageUrl = props.item.imageUrl || 'public/img/not-found.jpeg';
 
     const contextValue: CardContextValue = {
         isSelected,

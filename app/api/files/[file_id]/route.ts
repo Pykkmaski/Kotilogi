@@ -1,7 +1,7 @@
 import db from "kotilogi-app/dbconfig";
 import { NextRequest, NextResponse } from "next/server";
 import {readFileSync} from 'fs';
-import uploadPath from 'kotilogi-app/uploadsConfig';
+import {uploadPath} from 'kotilogi-app/uploadsConfig';
 
 export async function GET(req: NextRequest, {params}){
     /*
@@ -10,8 +10,9 @@ export async function GET(req: NextRequest, {params}){
     try{
         const {file_id} = params;
         const {searchParams} = new URL(req.url);
-
-        const data = await db(searchParams.get('dbTableName')).where({id: file_id}).select('filename').first();
+        const dbTableName = searchParams.get('dbTableName');
+        
+        const data = await db(dbTableName).where({id: file_id}).select('filename').first();
         const filepath = uploadPath + data.filename;
         const fileBuffer = readFileSync(filepath);
         return new NextResponse(fileBuffer, {

@@ -11,6 +11,10 @@ export default function getCardDestination(contentType: GalleryBase.ContentType,
         return `/api/files/${contentId}?dbTableName=property_files`;
     }
 
+    if(contentType == 'property_image'){
+        return `/api/files/${contentId}?dbTableName=property_images`;
+    }
+
     if(contentType == 'event_file'){
         return `/api/files/${contentId}?dbTableName=event_files`;
     }

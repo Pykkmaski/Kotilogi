@@ -3,6 +3,8 @@ import BodyContent from './AddModalBodyContent';
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
 import RemoveSelectionsButton from "../GalleryBase/RemoveSelectionsButton";
 import SelectAllButton from "../GalleryBase/SelectAllButton";
+import Error from "../GalleryBase/Error";
+import ErrorImage from 'kotilogi-app/assets/house.png';
 
 type PropertiesGalleryProps = {
     ownerId: string,
@@ -29,6 +31,7 @@ export default async function PropertiesGallery(props: PropertiesGalleryProps){
             deleteModalOptions={deleteModalOptions}
             headerButtons={[<RemoveSelectionsButton/>, <SelectAllButton/>]}
             contentType='property'
+            error={<Error title="Ei Tiedostoja" message="Et ole vielä lisännyt talolle tiedostoja" imageUrl={ErrorImage}/>}
         />
     );
 }

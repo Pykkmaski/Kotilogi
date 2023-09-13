@@ -9,12 +9,8 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
 
     return (
         <GalleryBase
-            data={props.data}
+            {...props}
             headerButtons={headerButtons}
-            title={props.title}
-            subTitle={props.subTitle}
-            addModalOptions={props.addModalOptions}
-            contentType={props.contentType}
         />
     )
 }

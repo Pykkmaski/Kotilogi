@@ -39,8 +39,12 @@ namespace Kotilogi{
         type: 'heating' | 'electric' | 'water',
         price: number,
     }
+
+    type HasMainImageId = {
+        main_image_id: IdType,
+    }
     
-    type PropertyType = HasId & HasDescription & HasMainImageFilename & HasDate & {
+    type PropertyType = HasId & HasDescription & HasMainImageId & HasDate & {
         owner?: string,
         room_count?: number,
         floor_count?: number,
@@ -63,7 +67,7 @@ namespace Kotilogi{
         energy_class?: string,
     }
 
-    type EventType = HasId & HasDescription & HasDate & HasPropertyId & HasMainImageFilename &{
+    type EventType = HasId & HasDescription & HasDate & HasPropertyId & HasMainImageId &{
         name: string,
     };
 
@@ -74,4 +78,6 @@ namespace Kotilogi{
     type PropertyFileType = BaseFileType & HasPropertyId;
 
     type EventFileType = BaseFileType & HasEventId;
+
+    type Table = 'property_files' | 'event_files' | 'property_images' | 'event_images' | 'properties' | 'property_events';
 }

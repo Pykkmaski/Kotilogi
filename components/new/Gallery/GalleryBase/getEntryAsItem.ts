@@ -1,4 +1,5 @@
 import { ItemType } from "kotilogi-app/components/Cards/ItemCard";
+import getImageUrl from "./getImageUrl";
 
 type ParamTypes = Kotilogi.PropertyType | Kotilogi.EventType | Kotilogi.PropertyFileType | Kotilogi.EventFileType;
 
@@ -14,12 +15,14 @@ function getTitle(entry: ParamTypes): string{
     }
 }
 
-export default function getEntryAsItem(entry: ParamTypes): ItemType{
+export default function getEntryAsItem(contentType: GalleryBase.ContentType, entry: ParamTypes): ItemType{
     const title = getTitle(entry);
+    const imageUrl = getImageUrl(entry, contentType);
 
     return {
         title,
         description: entry.description,
         id: entry.id,
+        imageUrl,
     } as ItemType;
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext, createContext } from "react";
 
 export const GalleryContext = createContext<GalleryBase.ContextValue | null>(null);
