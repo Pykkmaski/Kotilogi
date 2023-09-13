@@ -5,25 +5,9 @@ import useGalleryContext from "../GalleryBase/GalleryContext";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataByIds";
 import {toast} from 'react-hot-toast';
-import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
-
-function getDbTableName(contentType: GalleryBase.ContentType): string | null{
-    if(contentType === 'property'){
-        return 'properties';
-    }
-    else if(contentType === 'event'){
-        return 'property_events';
-    }
-    else if(contentType === 'event_file' || contentType === 'event_image'){
-        return 'event_files';
-    }
-    else if(contentType === 'property_file' || contentType === 'property_image'){
-        return 'property_files';
-    }
-    else{
-        return null;
-    }
-}
+import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFile";
+import getTableNameByContentType from '../Util/getTableNameByContentType';
+import contentTypeError from "../Util/contentTypeError";
 
 export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps){
     const {state, dispatch, contentType} = useGalleryContext();
@@ -31,10 +15,19 @@ export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps)
 
     async function deleteSelected(){
         try{
-            const dbTableName: string | null = getDbTableName(contentType);
-            throwErrorIfNull(dbTableName, 'GalleryWithDelete: Unsupported content type! Cannot determine dbTableName!');
+            const dbTableName: Kotilogi.Table | null = getTableNameByContentType(contentType);
+            if(!dbTableName) contentTypeError('DeleteButton, deleteSelected', contentType, 'Cannot determine table name.');
 
-            const result: boolean = await serverDeleteDataByIds(state.selectedItemIds, dbTableName!);
+            var result: boolean = false;
+            const fileContent: GalleryBase.ContentType[] = ['property_file', 'property_image', 'event_file', 'event_image'];
+
+            if(fileContent.includes(contentType)){
+                result = await serverDeleteFilesByIds(state.selectedItemIds, dbTableName!);
+            }
+            else{
+                result = await serverDeleteDataByIds(state.selectedItemIds, dbTableName!);
+            }
+
             if(!result) throw new Error('Failed to delete data!');
 
             const newData = [...state.data];
