@@ -4,8 +4,8 @@ Password reset functionality using json web tokens.
 + Implement reusable chart options to be used in the usage page.
 + Implement usage page
 + Implement usage type selector for choosing between different usage types when viewing the usage data
-- Implement file uploading
-- Implement image uploading
++ Implement file uploading
++ Implement image uploading
 - Implement main image setting on properties
 - Implement main image setting on events
 - Implement event page
@@ -14,4 +14,13 @@ Password reset functionality using json web tokens.
 - Implement a reusable button component that displays a spinner when something is loading
 - Fix "window is not defined" error when loading or refreshing the usage page.
 - Fix all dates not showing up in charts.
++ Implement events gallery
+- Implement event files gallery
+- Implement event images gallery
+- Implement property images gallery
+- Implement property files gallery
+- Implement loading indicator on the modals when adding data into a gallery
++ Disable modal buttons when sending data into a gallery
+The items are not removed from the db if trying to delete them immediately after creation. It only works when first refreshing the page.
++ Fix delete-galleries not deleting data on the database.
 

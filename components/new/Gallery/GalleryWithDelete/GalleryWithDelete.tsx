@@ -12,9 +12,9 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
             data={props.data}
             headerButtons={headerButtons}
             title={props.title}
-            subtitle={props.subtitle}
+            subTitle={props.subTitle}
             addModalOptions={props.addModalOptions}
-            dbTableName={props.dbTableName}
+            contentType={props.contentType}
         />
     )
 }

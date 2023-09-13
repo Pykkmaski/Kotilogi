@@ -1,12 +1,10 @@
 "use client";
 
-import Form from "kotilogi-app/components/Form";
 import useGalleryContext from "../GalleryBase/GalleryContext";
-import DescriptionFragment from "../ModalFragments/DescriptionFragment";
-import ButtonsFragment from "../ModalFragments/ButtonsFragment";
 import generateId from "kotilogi-app/utils/generateId";
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import {toast} from 'react-hot-toast';
+import BaseAddModalContent from "../GalleryBase/AddModalBodyContent";
 
 type AddModalBodyContentProps = {
     ownerId: string,
@@ -30,7 +28,7 @@ export default function AddModalBodyContent(props: AddModalBodyContentProps){
             if(result === null) throw new Error('Failed to save new property!');
             
             dispatch({type: 'add_data', value: {
-                data: newProperty,
+                data: result,
                 dbTableName: 'properties',
             }});
 
@@ -40,18 +38,7 @@ export default function AddModalBodyContent(props: AddModalBodyContentProps){
             console.log(err.message);
             toast.error('Talon lisääminen epäonnistui!');
         }
-        
     }
 
-    return (
-        <Form onSubmit={onSubmitHandler}>
-            <Form.Group>
-                <label>Osoite</label>
-                <input type="text" name="address" required></input>
-            </Form.Group>
-
-            <DescriptionFragment/>
-            <ButtonsFragment/>
-        </Form>
-    );
+    return <BaseAddModalContent titleInputLabel="Osoite" titleInputName="address" onSubmitHandler={onSubmitHandler}/>
 }

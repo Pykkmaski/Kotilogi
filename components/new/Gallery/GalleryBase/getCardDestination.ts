@@ -1,19 +1,17 @@
-import ContentType = GalleryBase.ContentType;
-
 export default function getCardDestination(contentType: GalleryBase.ContentType, contentId: Kotilogi.IdType): string | null{
-    if(contentType == ContentType.PROPERTY){
+    if(contentType == 'property'){
         return `/auth/properties/${contentId}/info`;
     }
 
-    if(contentType == ContentType.EVENT){
+    if(contentType == 'event'){
         return `/auth/events/${contentId}`;
     }
 
-    if(contentType == (ContentType.PROPERTY | ContentType.FILE)){
+    if(contentType == 'property_file'){
         return `/api/files/${contentId}?dbTableName=property_files`;
     }
 
-    if(contentType == (ContentType.EVENT | ContentType.FILE)){
+    if(contentType == 'event_file'){
         return `/api/files/${contentId}?dbTableName=event_files`;
     }
 

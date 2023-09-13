@@ -31,6 +31,14 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             }
         }
 
+        case 'select_all':{
+            console.log('seelcting all')
+            return {
+                ...state,
+                selectedItemIds: state.data.map(item => item.id) as string[],
+            }
+        }
+
         case 'reset_selected': {
             return {
                 ...state,
@@ -49,10 +57,19 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             const newState: GalleryBase.State = {
                 ...state,
                 showAddModal: false,
-                data: [...state.data, action.value.data]
+                data: [...state.data, action.value.data],
+                isLoading: false,
             }
             
             return newState;
+        }
+
+        case 'toggle_loading':{
+            console.log('Setting loading state to ' + action.value);
+            return {
+                ...state,
+                isLoading: action.value,
+            }
         }
 
         case 'set_data': {

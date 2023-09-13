@@ -83,7 +83,7 @@ export default function GalleryBase(props: GalleryBase.Props){
         setPendingData({
             ...pendingData,
             [e.target.name] : e.target.value,
-        })
+        });
     }
 
     const contextValue: GalleryBase.ContextValue = {

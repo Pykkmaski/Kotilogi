@@ -5,12 +5,12 @@ declare namespace GalleryWithDelete{
     }
 
     declare type Props = GalleryBase.Props & {
-        deleteButtonText: string,
-        deleteModalOptions: DeleteModalOptions,
+        deleteModalOptions: GalleryBase.ModalOptions,
+        contentType: GalleryBase.ContentType,
         
     }
 
     declare type DeleteButtonProps = {
-        deleteModalOptions: DeleteModalOptions,
+        deleteModalOptions: GalleryBase.ModalOptions,
     }
 }

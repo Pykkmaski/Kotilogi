@@ -1,46 +1,46 @@
-declare namespace Kotilogi{
-    declare type IdType = string;
+namespace Kotilogi{
+    type IdType = string;
 
-    declare type HasId = {
-        id: IdType,
+    type HasId = {
+        id?: IdType,
     }
 
-    declare type HasMainImageFilename = {
-        mainImageFilename: string,
+    type HasMainImageFilename = {
+        mainImageFilename?: string,
     }
 
-    declare type HasTitle = {
+    type HasTitle = {
         title: string,
     }
 
-    declare type HasDescription = {
+    type HasDescription = {
         description: string,
     }
 
-    declare type HasEventId = {
+    type HasEventId = {
         event_id: IdType,
     }
 
-    declare type HasPropertyId = {
+    type HasPropertyId = {
         property_id: IdType,
     }
 
-    declare type HasDate = {
+    type HasDate = {
         date: number,
     }
 
-    declare type MimeType = 'image/jpeg' | 'application/pdf';
+   type MimeType = 'image/jpeg' | 'application/pdf';
 
     declare type HasMimeType = {
         mime_type: MimeType,
     }
 
-    declare type UsageType = HasId & HasPropertyId & HasDate & {
+    type UsageType = HasId & HasPropertyId & HasDate & {
         type: 'heating' | 'electric' | 'water',
         price: number,
     }
     
-    declare type PropertyType = HasId & HasDescription & HasMainImageFilename & {
+    type PropertyType = HasId & HasDescription & HasMainImageFilename & HasDate & {
         owner?: string,
         room_count?: number,
         floor_count?: number,
@@ -63,15 +63,15 @@ declare namespace Kotilogi{
         energy_class?: string,
     }
 
-    declare type EventType = HasId & HasDescription & HasDate & HasPropertyId & HasMainImageFilename &{
+    type EventType = HasId & HasDescription & HasDate & HasPropertyId & HasMainImageFilename &{
         name: string,
     };
 
-    declare type BaseFileType = HasId & HasTitle & HasDescription & HasMimeType & HasDate & {
+    type BaseFileType = HasId & HasTitle & HasDescription & HasMimeType & HasDate & {
         filename: string,
     }
 
-    declare type PropertyFileType = BaseFileType & HasPropertyId;
+    type PropertyFileType = BaseFileType & HasPropertyId;
 
-    declare type EventFileType = BaseFileType & HasEventId;
+    type EventFileType = BaseFileType & HasEventId;
 }

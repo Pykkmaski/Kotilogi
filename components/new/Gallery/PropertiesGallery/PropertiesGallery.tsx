@@ -1,7 +1,8 @@
 import { serverGetData } from "kotilogi-app/actions/serverGetData";
-import AddModalBodyContent from "./AddModalBodyContent";
+import BodyContent from './AddModalBodyContent';
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
-import ContentType = GalleryBase.ContentType;
+import RemoveSelectionsButton from "../GalleryBase/RemoveSelectionsButton";
+import SelectAllButton from "../GalleryBase/SelectAllButton";
 
 type PropertiesGalleryProps = {
     ownerId: string,
@@ -9,15 +10,14 @@ type PropertiesGalleryProps = {
 
 export default async function PropertiesGallery(props: PropertiesGalleryProps){
     const properties = await serverGetData('properties', {owner: props.ownerId}, false);
-
     const addModalOptions = {
         headerText: 'Lisää Uusi Talo',
-        bodyContent: <AddModalBodyContent ownerId={props.ownerId}/>
+        bodyContent: <BodyContent ownerId={props.ownerId}/>
     }   
 
-    const deleteModalOptions: GalleryWithDelete.DeleteModalOptions = {
+    const deleteModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Poista valitut talot',
-        bodyText: 'Haluatko varmasti poistaa valitsemasi talot?'
+        bodyContent: <span>Haluatko varmasti poistaa valitsemasi talot?</span>
     }
 
     return (
@@ -27,9 +27,8 @@ export default async function PropertiesGallery(props: PropertiesGalleryProps){
             subTitle={props.ownerId}
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
-            headerButtons={[]}
-            deleteButtonText="Poista Valinnat"
-            contentType={ContentType.PROPERTY}
+            headerButtons={[<RemoveSelectionsButton/>, <SelectAllButton/>]}
+            contentType='property'
         />
     );
 }
