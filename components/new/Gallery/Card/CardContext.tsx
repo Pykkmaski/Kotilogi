@@ -5,6 +5,8 @@ export type CardContextValue = {
     isSelected: boolean,
     item: ItemType,
     dispatch: any,
+    setMenuOpen: any,
+    menuOpen: boolean,
 }
 
 export const CardContext = createContext<CardContextValue | null>(null);

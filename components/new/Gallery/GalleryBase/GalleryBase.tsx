@@ -1,11 +1,15 @@
 "use client";
 
-import { useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import useGalleryContext, { GalleryContext } from "./GalleryContext";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import GalleryBaseReducer from "./GalleryBaseReducer";
 import style from './gallery.module.scss';
-import getCard from "./getCard";
+import getCard from "./Util/getCard";
+import { serverGetData, serverGetDataById } from "kotilogi-app/actions/serverGetData";
+import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import Loading from "kotilogi-app/components/Loading/Loading";
+import BaseAddModalBody from "./Components/BaseAddModalBody";
 
 type AddModalProps = {
     addModalOptions: GalleryBase.ModalOptions,
@@ -19,7 +23,7 @@ function AddButton(props: AddModalProps){
             <Modal show={state.showAddModal} onHide={() => dispatch({type: 'toggle_add_modal', value: false})} id='gallery-add-modal'>
                 <Modal.Header>{props.addModalOptions.headerText}</Modal.Header>
                 <Modal.Body>
-                    {props.addModalOptions.bodyContent}
+                    <BaseAddModalBody additionalContent={props.addModalOptions.bodyContent}/>
                 </Modal.Body>
             </Modal>
             <button className="primary add" type="button" onClick={() => dispatch({type: 'toggle_add_modal', value: true})}>Lisää Uusi</button>
@@ -53,16 +57,16 @@ type BodyProps = {
 }
 
 function Body(props: BodyProps){
-    const {state, contentType} = useGalleryContext();
+    const {state, dbTableName} = useGalleryContext();
 
     const cards = state.data.map((entry, index: number) => {
-        return getCard(entry, contentType, index);
+        return getCard(entry, dbTableName, index);
     });
 
     return (
         <div className={style.galleryBody}>
             {
-                cards.length ? cards : props.error
+                cards.length ? cards : state.isLoading ? <Loading message="Ladataan Sisältöä..."/> : props.error
             }
         </div>
     )
@@ -70,26 +74,19 @@ function Body(props: BodyProps){
 
 export default function GalleryBase(props: GalleryBase.Props){
     const initialState: GalleryBase.State = {
-        data: [...props.data],
+        data: [],
         selectedItemIds: [],
         showAddModal: false,
-        isLoading: false,
+        isLoading: true,
     }
 
-    const [pendingData, setPendingData] = useState({});
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
-
-    const onInputChangeHandler = (e) => {
-        setPendingData({
-            ...pendingData,
-            [e.target.name] : e.target.value,
-        });
-    }
 
     const contextValue: GalleryBase.ContextValue = {
         state,
         contentType: props.contentType,
-        onInputChangeHandler,
+        dbTableName: props.dbTableName,
+        refId: props.refId,
         dispatch,
     }
 
@@ -97,6 +94,30 @@ export default function GalleryBase(props: GalleryBase.Props){
         ...props.headerButtons,
         <AddButton addModalOptions={props.addModalOptions}/>
     ];
+
+    useEffect(() => {
+        serverGetData(props.dbTableName, {ref_id: props.refId}, false)
+        .then(data => {
+            if(!data){
+                console.log('No data present!');
+            }
+            else{
+                dispatch({
+                    type: 'set_data',
+                    value: data
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+        .finally(() => {
+            dispatch({
+                type: 'toggle_loading',
+                value: false,
+            });
+        });''
+    }, []);
 
     return (
         <div className={style.container}>

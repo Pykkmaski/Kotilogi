@@ -1,10 +1,7 @@
-import useSubComponents from "kotilogi-app/hooks/useSubComponents";
 import LoadingSpinner from "./Spinner/Spinner";
-import useClassName from "kotilogi-app/hooks/useClassName";
 
 function Form(props){
-    const {className} = useClassName(null, props.className);
-    const subComponents = useSubComponents(Object.keys(Form), props);
+    const className = props.className || null;
     
     return (
         <form className={className} onSubmit={props.onSubmit} id={props.id}>
@@ -26,8 +23,6 @@ Form.SubLabel = SubLabel;
 
 const Control = (props) => {
     if(props.type === 'select'){
-        const subComponents = useSubComponents(Object.keys(Control), props);
-
         return (
             <select name={props.name} disabled={props.disabled} id={props.id}>
                 {

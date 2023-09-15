@@ -8,7 +8,6 @@
     width: 15rem; /*Galleries contain four cards on each row*/
     border-radius: $border-radius;
     border: 1px solid $border-color;
-    padding: 0.25rem;
     height: 100%;
     transition: border-width 0.2s ease-in-out;
     position: relative;
@@ -67,7 +66,6 @@
     .card-image{
         display: inherit;
         height: 18rem;
-        border-radius: 5px;
         justify-content: center;
         align-items: center;
         max-width: 100%;
@@ -120,6 +118,10 @@
         }
     }
 
+    .card-body, .card-footer{
+        padding: 0.25rem;
+    }
+
     .card-body{
         display: inherit;
         flex-flow: column;
@@ -138,42 +140,13 @@
         }
     }
 
-    .card-menu{
-        position: absolute;
-        min-height: 50px;
-        bottom: -65px;
-        width: 50%;
-        left: 50%;
-
-        border-radius: 5px;
-        border: 2px solid black;
-
-        padding: 5px;
-        background: white;
-
-        visibility: hidden;
-        z-index: 7;
-        
-        transform: translateY(25px);
-        transition: transform 0.1s ease;
-
-        &.open{
-            display: flex;
-            flex-flow: column;
-            padding: 1rem;
-            justify-content: center;
-            transform: translateY(0);
-            visibility: visible;
-        }   
-
-    }
+   
 
     .card-footer{
         display: inherit;
         flex-flow: row;
         justify-content: space-between;
         width: 100%;
-        background: none;
         gap: 0.5rem;
         border-top: 1px solid $border-color;
 
@@ -181,19 +154,49 @@
             font-size: 0.9rem;
         }
 
-        .cog-img{
-            width: 25px;
-            transition: transform 0.2s ease-out;
-            transition-delay: 0.1s;
-            filter: invert(1);
-            opacity: 0.9;
-            &:hover{
-                transform: rotate(45deg);
-            }
-        }
-
         input[type=checkbox]{
             width: 50px;
+        }
+
+        .card-menu-btn{
+            .cog-img{
+                width: 25px;
+                transition: transform 0.2s ease-out;
+                filter: invert(1);
+                opacity: 0.9;
+            }
+
+            .card-menu{
+                position: absolute;
+                display: none;
+                flex-flow: column;
+                justify-content: center;
+
+                min-height: 50px;
+                bottom: -65px;
+                width: 50%;
+                left: 50%;
+        
+                border-radius: 5px;
+                border: 2px solid black;
+        
+                padding: 1rem;
+                background: white;
+        
+                z-index: 7;
+                transform: translateY(25px);
+                transition: transform 0.1s ease;
+            }
+
+            &.open .card-menu{
+                display: flex;
+                flex-flow: column;
+                transform: translateY(0);
+            } 
+
+            &.open .cog-img{
+                transform: rotate(90deg);
+            }
         }
     }
 

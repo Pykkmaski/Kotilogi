@@ -1,20 +1,26 @@
 import db from "kotilogi-app/dbconfig";
-import BodyContent from './AddModalBodyContent';
 import BaseFileGallery from "../BaseFileGallery/BaseFileGallery";
 import Error from "../GalleryBase/Error";
 import ErrorImage from 'kotilogi-app/assets/copy.png'
+import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
+import Form from "kotilogi-app/components/Form";
 
 type PropertyImagesGalleryProps = {
     property_id: Kotilogi.IdType,
 }
 
 export default async function PropertyFilesGallery(props: PropertyImagesGalleryProps){
-    const {address} = await db('properties').where({id: props.property_id}).select('address').first();
-    const data = await db('property_files').where({property_id: props.property_id});
+    const {address} = await db('properties').where({id: props.property_id}).select('title').first();
+    const data = await db('property_files').where({ref_id: props.property_id});
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Tiedosto',
-        bodyContent: <BodyContent property_id={props.property_id}/>
+        bodyContent: (
+            <Form.Group>
+                <label>Tiedosto</label>
+                <input type="file" accept="application/pdf" name="file"/>
+            </Form.Group>
+        )
     }
 
     const deleteModalOptions: GalleryBase.ModalOptions = {
@@ -23,11 +29,13 @@ export default async function PropertyFilesGallery(props: PropertyImagesGalleryP
     }
 
     return (
-        <BaseFileGallery
+        <GalleryWithDelete
+            dbTableName="property_files"
+            refId={props.property_id}
+            
             contentType="property_file"
             title="Tiedostot"
             subTitle={address}
-            data={data}
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
             headerButtons={[]}

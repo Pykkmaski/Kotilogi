@@ -1,12 +1,7 @@
 "use server";
 
 import db from "kotilogi-app/dbconfig";
-import { IdType } from "kotilogi-app/types/Types";
-import { PropertyType } from "kotilogi-app/types/PropertyType";
 import { AcceptedGalleryTypes } from "kotilogi-app/components/Gallery/Types";
-import { EventType } from "kotilogi-app/types/EventType";
-import { PropertyFileType } from "kotilogi-app/types/PropertyFileType";
-import { PropertyImageType } from "kotilogi-app/types/PropertyImageType";
 
 export async function serverGetData(dbTableName: string, query: any, onlyOne: boolean): Promise<AcceptedGalleryTypes | AcceptedGalleryTypes[] | null>{
     var data: AcceptedGalleryTypes | AcceptedGalleryTypes[] | undefined;
@@ -20,7 +15,7 @@ export async function serverGetData(dbTableName: string, query: any, onlyOne: bo
     return data || null;
 }
 
-export async function serverGetDataById(id: IdType, dbTableName: string): Promise<AcceptedGalleryTypes | null>{
+export async function serverGetDataById(id: Kotilogi.IdType, dbTableName: string): Promise<AcceptedGalleryTypes | null>{
     try{
         const data: AcceptedGalleryTypes | undefined = await db(dbTableName).where({id}).first();
         if(!data) throw new Error(`serverGetDataById: Data with id ${id} from table ${dbTableName} not found!`);
@@ -32,7 +27,18 @@ export async function serverGetDataById(id: IdType, dbTableName: string): Promis
     }
 }
 
-export async function serverGetDataByPropertyId(property_id: IdType, dbTableName: 'property_events' | 'property_files' | 'property_images'): Promise<(EventType | PropertyFileType | PropertyImageType)[] | null>{
+export async function serverGetDataByArray(ids: Kotilogi.IdType[], dbTableName: Kotilogi.Table): Promise<object[] | null>{
+    try{
+        const data = await db(dbTableName).whereIn('id', ids);
+        return data;
+    }
+    catch(err){
+        console.log(err.message);
+        return null;
+    }
+}
+
+export async function serverGetDataByPropertyId(property_id: Kotilogi.IdType, dbTableName: 'property_events' | 'property_files' | 'property_images'): Promise<(Kotilogi.EventType | Kotilogi.PropertyFileType)[] | null>{
     try{
         return await db(dbTableName).where({property_id});
     }
@@ -42,7 +48,7 @@ export async function serverGetDataByPropertyId(property_id: IdType, dbTableName
     }
 }
 
-export async function getPropertiesByOwner(owner: string): Promise<PropertyType[] | null>{
+export async function getPropertiesByOwner(owner: string): Promise<Kotilogi.PropertyType[] | null>{
     try{
         return await db('properties').where({owner});
     }

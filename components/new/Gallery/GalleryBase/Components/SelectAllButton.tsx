@@ -1,6 +1,6 @@
 "use client";
 
-import useGalleryContext from "./GalleryContext"
+import useGalleryContext from "../GalleryContext"
 
 export default function SelectAllButton(){
     const {dispatch} = useGalleryContext();

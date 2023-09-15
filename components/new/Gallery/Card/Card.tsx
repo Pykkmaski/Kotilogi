@@ -10,16 +10,36 @@ type FooterProps = {
 }
 
 function Footer(){
-    const {isSelected, dispatch, item} = useCardContext();
+    const {isSelected, dispatch, item, setMenuOpen, menuOpen} = useCardContext();
+    const buttonClassName = menuOpen ? 'card-menu-btn open' : 'card-menu-btn';
 
     return (
         <div className="card-footer">
-            <input type="checkbox" 
-                defaultChecked={isSelected} 
-                checked={isSelected}
-                onInput={() => dispatch({type: 'select_id', value: item.id})}></input>
+            <input type="checkbox" checked={isSelected} onInput={() => dispatch({type: 'select_id', value: item.id})}/>
+
+            <div className={buttonClassName}>
+                <img className="cog-img" src={'/img/settings.png'} onClick={() => setMenuOpen(prev => !prev)}/>
+                <Menu open={menuOpen} id={undefined}>
+                    <nav>
+                        <a href="">Poista</a>
+                    </nav>
+                </Menu>
+            </div>
         </div>
     )
+}
+
+export type MenuProps = {
+    open: boolean,
+    id: string | undefined,
+    children: React.ReactNode,
+}
+
+function Menu({open, id, children}: MenuProps){
+    const className = 'card-menu'
+    return (
+        <dialog className={className} id={id} open={open}>{children}</dialog>
+    );
 }
 
 type ImageContainerProps = {
@@ -53,17 +73,21 @@ function Body(){
 export default function Card(props: GalleryBase.CardProps){
     const {state, dispatch} = useGalleryContext();
     const [isSelected, setIsSelected] = useState(state.selectedItemIds.includes(props.item.id));
-    
+    const [menuOpen, setMenuOpen] = useState(false);
+
     useEffect(() => {
         setIsSelected(state.selectedItemIds.includes(props.item.id));
     }, [state.selectedItemIds]); //This is an object. Maybe useMemo
 
+    useEffect(() => console.log('Menu open changed'), [menuOpen]);
     const imageUrl = props.item.imageUrl || 'public/img/not-found.jpeg';
 
     const contextValue: CardContextValue = {
         isSelected,
         item: props.item,
-        dispatch
+        dispatch,
+        setMenuOpen,
+        menuOpen
     }
 
     return (

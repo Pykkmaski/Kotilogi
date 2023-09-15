@@ -5,19 +5,15 @@ import useGalleryContext from "../GalleryBase/GalleryContext";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataByIds";
 import {toast} from 'react-hot-toast';
-import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFile";
-import getTableNameByContentType from '../Util/getTableNameByContentType';
-import contentTypeError from "../Util/contentTypeError";
+import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFilesByIds";
+import { serverGetData } from "kotilogi-app/actions/serverGetData";
 
 export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps){
-    const {state, dispatch, contentType} = useGalleryContext();
+    const {state, dispatch, contentType, dbTableName, refId} = useGalleryContext();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     async function deleteSelected(){
         try{
-            const dbTableName: Kotilogi.Table | null = getTableNameByContentType(contentType);
-            if(!dbTableName) contentTypeError('DeleteButton, deleteSelected', contentType, 'Cannot determine table name.');
-
             var result: boolean = false;
             const fileContent: GalleryBase.ContentType[] = ['property_file', 'property_image', 'event_file', 'event_image'];
 
@@ -30,18 +26,14 @@ export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps)
 
             if(!result) throw new Error('Failed to delete data!');
 
-            const newData = [...state.data];
-            for(const id of state.selectedItemIds){
-                const item = newData.find(data => data.id === id);
-                if(!item) continue;
-    
-                const index = newData.indexOf(item);
-                if(index < 0) continue; //This should never be the case, but you never know.
-                newData.splice(index, 1);
-            }
-        
-            dispatch({type: 'set_data', value: newData});
+            const currentData = await serverGetData(dbTableName, {ref_id: refId}, false);
+            dispatch({
+                type: 'set_data',
+                value: currentData,
+            });
+
             toast.success('Kohteiden poisto onnistui!');
+            
         }
         catch(err){
             console.log(err.message);

@@ -1,4 +1,5 @@
 "use server";
+
 import {join} from 'path';
 import {writeFile} from 'fs/promises';
 import { uploadPath, limit } from 'kotilogi-app/uploadsConfig';
@@ -6,21 +7,6 @@ import db from 'kotilogi-app/dbconfig';
 import generateId from 'kotilogi-app/utils/generateId';
 
 type TargetIdType = 'property_id' | 'event_id';
-
-function getTargetIdFieldName(tableName: Kotilogi.Table): TargetIdType{
-  var targetIdFieldName: TargetIdType;
-  if(tableName === 'property_files' || tableName === 'property_images'){
-    targetIdFieldName = 'property_id';
-  }
-  else if(tableName === 'event_files' || tableName === 'event_images'){
-    targetIdFieldName = 'event_id';
-  }
-  else{
-    throw new Error(`Unsupported dbTableName in formData! (${tableName}). Cannot determine id field name!`);
-  }
-
-  return targetIdFieldName;
-}
 
 export default async function upload(data: FormData, tableName: Kotilogi.Table): Promise<object | null>{
     try{
@@ -49,7 +35,7 @@ export default async function upload(data: FormData, tableName: Kotilogi.Table):
           filename,
           title: data.get('title'),
           description: data.get('description'),
-          [getTargetIdFieldName(tableName)] : data.get('target_id') as TargetIdType,
+          ref_id : data.get('ref_id'),
           id: await generateId(),
         };
     

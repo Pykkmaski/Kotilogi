@@ -47,7 +47,7 @@ export type MenuProps = {
     children: any,
 }
 
-const Menu = ({open, id, children}: MenuProps) => {
+export const Menu = ({open, id, children}: MenuProps) => {
     const {className} = useClassName("card-menu", open ? "open" : null);
     return (
         <dialog className={className} id={id} open={open}>{children}</dialog>

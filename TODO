@@ -19,9 +19,13 @@ Password reset functionality using json web tokens.
 - Implement event images gallery
 + Implement property images gallery
 + Implement property files gallery
+- Implement a one-source-of-truth principle for all data.
 - Implement loading indicator on the modals when adding data into a gallery
 - Implement error images into the new galleries
 + Disable modal buttons when sending data into a gallery
 The items are not removed from the db if trying to delete them immediately after creation. It only works when first refreshing the page.
 + Fix delete-galleries not deleting data on the database.
+Try removing the foreign key reference
+- Fix foreign key constraint error when trying to delete something from the property images table.
+- Move data fetching into the base gallery component.
 

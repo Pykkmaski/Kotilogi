@@ -7,17 +7,19 @@ declare namespace GalleryBase{
 
     declare type ModalOptions = {
         headerText: string,
-        bodyContent: JSX.Element,/**A fragment of elements to display inside the add modal */
+        bodyContent?: JSX.Element,/**A fragment of elements to display inside the add modal */
         callback?: () => void | Promise<void>,
     }
 
-    declare type Props = HasData & {
+    declare type Props = {
         title: string,
         subTitle: string,
         headerButtons: JSX.Element[], /**Additional buttons to be included alongside the shared add button */
         addModalOptions: ModalOptions,
         contentType: ContentType,
         error: JSX.Element /**Error component to be displayed if data is empty */
+        dbTableName: Kotilogi.Table,
+        refId: Kotilogi.IdType,
     }
     
     declare type CardProps = {
@@ -29,7 +31,8 @@ declare namespace GalleryBase{
     declare type ContextValue = {
         state: State,
         contentType: ContentType,
-        onInputChangeHandler: (e) => void,
+        dbTableName: Kotilogi.Table,
+        refId: Kotilogi.IdType,
         dispatch: any,
     }
 

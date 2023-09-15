@@ -3,7 +3,7 @@
 .header{
     position: sticky;
     top: 0;
-    background: black;
+    background: $header-color;
 
     display: flex;
     flex-flow: row;

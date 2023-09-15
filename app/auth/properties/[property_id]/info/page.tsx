@@ -1,6 +1,7 @@
 import { serverGetDataById } from 'kotilogi-app/actions/serverGetData';
 import styles from './page.module.scss';
 import { throwErrorIfNull } from 'kotilogi-app/utils/throwErrorIfNull';
+import Link from 'next/link';
 
 export default async function InfoPage({params}){
     const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
@@ -39,6 +40,8 @@ export default async function InfoPage({params}){
                         Rakennusmateriaali: 
                         <span className={styles.value}> {property!.building_material}</span>
                     </span>
+
+                    <Link href="info/edit">Muokkaa</Link>
                 </div>
             </div>
             

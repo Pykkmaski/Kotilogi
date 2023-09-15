@@ -1,8 +1,8 @@
 "use client";
 
-import useGalleryContext from "./GalleryContext"
+import useGalleryContext from "../GalleryContext";
 
-export default function RemoveSelectionsButton(){
+export default function DeselectAllButton(){
     const {dispatch, state} = useGalleryContext();
     const onClickHandler = (e) => {
         dispatch({

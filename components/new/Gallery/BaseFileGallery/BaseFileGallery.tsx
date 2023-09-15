@@ -1,8 +1,8 @@
-import RemoveSelectionsButton from "../GalleryBase/RemoveSelectionsButton";
-import SelectAllButton from "../GalleryBase/SelectAllButton";
+import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
 import AddForm from "./Components/AddForm";
 import getFileTypeByContentType from "../Util/getFileTypeByContentType";
+import DeselectAllButton from "../GalleryBase/Components/DeselectAllButton";
 
 type BaseFileGalleryProps = GalleryBase.Props & {
     deleteModalOptions: GalleryBase.ModalOptions,
@@ -22,7 +22,7 @@ export default function BaseFileGallery(props: BaseFileGalleryProps){
     const headerButtons = [
         ...props.headerButtons,
         <SelectAllButton/>,
-        <RemoveSelectionsButton/>
+        <DeselectAllButton/>
     ]
 
     return (

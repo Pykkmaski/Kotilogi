@@ -1,12 +1,9 @@
-import { serverGetData } from "kotilogi-app/actions/serverGetData";
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
-import { throwErrorIfNull } from "kotilogi-app/utils/throwErrorIfNull";
-import BodyContent from './AddModalBodyContent';
-import SelectAllButton from "../GalleryBase/SelectAllButton";
-import RemoveSelectionsButton from "../GalleryBase/RemoveSelectionsButton";
+import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import db from "kotilogi-app/dbconfig";
 import Error from "../GalleryBase/Error";
 import ErrorImage from 'kotilogi-app/assets/history.png';
+import DeselectAllButton from "../GalleryBase/Components/DeselectAllButton";
 
 type EventsGalleryProps = {
     property_id: string
@@ -14,13 +11,10 @@ type EventsGalleryProps = {
 }
 
 export default async function EventsGallery(props: EventsGalleryProps){
-    const {address} = await db('properties').where({id: props.property_id}).select('address').first();
-    const events = await serverGetData('property_events', {property_id: props.property_id}, false);
-    throwErrorIfNull(events, 'Tapahtumien lataaminen epäonnistui!');
+    const {address} = await db('properties').where({id: props.property_id}).select('title').first();
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Tapahtuma',
-        bodyContent: <BodyContent property_id={props.property_id}/>
     }
 
     const deleteModalOptions: GalleryBase.ModalOptions = {
@@ -30,14 +24,15 @@ export default async function EventsGallery(props: EventsGalleryProps){
 
     return (
         <GalleryWithDelete
-            data={events}
+            dbTableName="property_events"
+            refId={props.property_id}
             title="Tapahtumat"
             subTitle={address}
-            headerButtons={[<SelectAllButton/>, <RemoveSelectionsButton/>]}
+            headerButtons={[<SelectAllButton/>, <DeselectAllButton/>]}
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
             contentType='event'
-            error={<Error title="Ei Tiedostoja" message="Et ole vielä lisännyt talolle tiedostoja" imageUrl={ErrorImage}/>}
+            error={<Error title="Ei Tapahtumia" message="Et ole vielä lisännyt talolle tapahtumia" imageUrl={ErrorImage}/>}
         />
     )
 }
