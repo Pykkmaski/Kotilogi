@@ -57,12 +57,12 @@ export default function InfoForm({property}){
             <h2 className={styles.title}>Yleistiedot</h2>
             <Form.Group>
                 <label>Omistaja</label>
-                <span className={styles.ownerText}>{currentData?.owner}</span>
+                <span className={styles.ownerText}>{currentData?.ref_id}</span>
             </Form.Group>
 
             <Form.Group>
                 <label>Osoite</label>
-                <input name="address" onChange={updateData} defaultValue={currentData?.address}></input>
+                <input name="title" onChange={updateData} defaultValue={currentData?.title}></input>
             </Form.Group>
 
             <Form.Group>

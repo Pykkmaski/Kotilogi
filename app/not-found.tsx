@@ -7,7 +7,7 @@ export default function NotFound(){
             <h1 className={styles.title}>Tätä sivua ei vielä ole.</h1>
             <p className={styles.message}>
                 Rakennamme sivua niin nopeasti kuin pystymme.<br/>
-                Tutustu sillä välin sivun muihin osioihin.
+                <Link href="/">Palaa Etusivulle</Link>
             </p>
         </div>
     )

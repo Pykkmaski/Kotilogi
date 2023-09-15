@@ -1,6 +1,9 @@
 @import './Config';
+@import './Animations';
 
 .card{
+    @include SlideUpAnimation;
+
     background: rgba(white, 0.3);
 
     display: flex;

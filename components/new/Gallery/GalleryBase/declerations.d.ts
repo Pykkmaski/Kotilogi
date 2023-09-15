@@ -14,11 +14,27 @@ declare namespace GalleryBase{
     declare type Props = {
         title: string,
         subTitle: string,
-        headerButtons: JSX.Element[], /**Additional buttons to be included alongside the shared add button */
+
+        /**
+         * Additional buttons to include with the default add button common to all galleries.
+         */
+        headerButtons: JSX.Element[], 
         addModalOptions: ModalOptions,
         contentType: ContentType,
-        error: JSX.Element /**Error component to be displayed if data is empty */
+
+        /**
+         * Error component to display when there is no data.
+         */
+        error: JSX.Element,
+
+        /**
+         * Name of the database table containing the data to be displayed.
+         */
         dbTableName: Kotilogi.Table,
+
+        /**
+         * Reference id of the table. For example the id of the owner in the case of properties.
+         */
         refId: Kotilogi.IdType,
     }
     

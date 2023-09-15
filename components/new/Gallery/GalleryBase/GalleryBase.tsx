@@ -63,10 +63,21 @@ function Body(props: BodyProps){
         return getCard(entry, dbTableName, index);
     });
 
+    const loadingMessage = 
+        dbTableName === 'properties' ? 'Ladataan Taloja...' 
+        : 
+        dbTableName === 'property_events' ? 'Ladataan Tapahtumia...'
+        :
+        dbTableName.includes('_images') ? 'Ladataan Kuvia...'
+        :
+        dbTableName.includes('_files') ? 'Ladataan Tiedostoja...'
+        :
+        'Ladataan...';
+
     return (
         <div className={style.galleryBody}>
             {
-                cards.length ? cards : state.isLoading ? <Loading message="Ladataan Sisältöä..."/> : props.error
+                cards.length ? cards : state.isLoading ? <Loading message={loadingMessage}/> : props.error
             }
         </div>
     )

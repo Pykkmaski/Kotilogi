@@ -26,7 +26,7 @@ export default async function PropertiesGallery(props: PropertiesGalleryProps){
             subTitle={props.ownerId}
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
-            headerButtons={[<DeselectAllButton/>, <SelectAllButton/>]}
+            headerButtons={[]}
             contentType='property'
             error={<Error title="Ei Tiedostoja" message="Et ole vielä lisännyt talolle tiedostoja" imageUrl={ErrorImage}/>}
         />

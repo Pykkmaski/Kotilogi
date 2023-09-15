@@ -10,7 +10,9 @@ import Form from "kotilogi-app/components/Form";
  * @component
  */
 
-type PropertyFilesGalleryProps = Kotilogi.HasPropertyId;
+type PropertyFilesGalleryProps = {
+    property_id: Kotilogi.IdType,
+};
 
 export default async function PropertyFilesGallery(props: PropertyFilesGalleryProps){
     const {address} = await db('properties').where({id: props.property_id}).select('title').first();

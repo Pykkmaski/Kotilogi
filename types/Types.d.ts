@@ -5,6 +5,10 @@ namespace Kotilogi{
         id?: IdType,
     }
 
+    type HasRefId = {
+        ref_id: IdType,
+    }
+
     type HasMainImageFilename = {
         mainImageFilename?: string,
     }
@@ -21,10 +25,6 @@ namespace Kotilogi{
         event_id: IdType,
     }
 
-    type HasPropertyId = {
-        property_id: IdType,
-    }
-
     type HasDate = {
         date: number,
     }
@@ -35,7 +35,7 @@ namespace Kotilogi{
         mime_type: MimeType,
     }
 
-    type UsageType = HasId & HasPropertyId & HasDate & {
+    type UsageType = HasId & HasRefId & HasDate & {
         type: 'heating' | 'electric' | 'water',
         price: number,
     }
@@ -44,8 +44,7 @@ namespace Kotilogi{
         main_image_id: IdType,
     }
     
-    type PropertyType = HasId & HasDescription & HasMainImageId & HasDate & {
-        owner?: string,
+    type PropertyType = HasId & HasDescription & HasMainImageId & HasDate & HasRefId & {
         room_count?: number,
         floor_count?: number,
         wc_count?: number,  
@@ -61,13 +60,13 @@ namespace Kotilogi{
         primary_heating_system?: string,
         secondary_heating_system?: string,
         color?: string,
-        address: string,
+        title: string,
         zip_code?: string,
         property_type?: string,
         energy_class?: string,
     }
 
-    type EventType = HasId & HasDescription & HasDate & HasPropertyId & HasMainImageId &{
+    type EventType = HasId & HasDescription & HasDate & HasRefId & HasMainImageId &{
         name: string,
     };
 
@@ -75,9 +74,9 @@ namespace Kotilogi{
         filename: string,
     }
 
-    type PropertyFileType = BaseFileType & HasPropertyId;
+    type PropertyFileType = BaseFileType & HasRefId;
 
-    type EventFileType = BaseFileType & HasEventId;
+    type EventFileType = BaseFileType & HasRefId;
 
     type Table = 'property_files' | 'event_files' | 'property_images' | 'event_images' | 'properties' | 'property_events';
 }

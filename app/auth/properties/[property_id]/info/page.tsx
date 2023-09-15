@@ -13,8 +13,8 @@ export default async function InfoPage({params}){
         <div className={styles.container} style={{backgroundImage}}>
             <div className={styles.subContainer}>
                 <div className={styles.titleContainer} style={undefined}>
-                    <h1>{property?.address}</h1>
-                    <small>{property?.owner}</small>
+                    <h1>{property?.title}</h1>
+                    <small>{property?.ref_id}</small>
                     <p>
                         {property!.description}
                     </p>

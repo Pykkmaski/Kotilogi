@@ -44,7 +44,7 @@ export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps)
             setShowDeleteModal(false);
         }
     }
-
+    
     return (
         <>
             <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} id="gallery-delete-modal">
@@ -53,8 +53,8 @@ export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps)
                     Haluatko varmasti poistaa valitsemasi kohteet?
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="secondary" onClick={() => setShowDeleteModal(false)}>Ei</button>
-                    <button className="primary" onClick={deleteSelected}>Kyllä</button>
+                    <button className="secondary" onClick={deleteSelected}>Kyllä</button>
+                    <button className="primary" onClick={() => setShowDeleteModal(false)}>Ei</button>
                 </Modal.Footer>
             </Modal>
             <button className="secondary" onClick={() => setShowDeleteModal(true)} disabled={!state.selectedItemIds.length}>Poista</button>

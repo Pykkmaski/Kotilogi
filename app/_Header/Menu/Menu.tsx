@@ -40,7 +40,7 @@ function MenuBody(props){
     const loggedInLinks = [
         {
             title: 'Talot',
-            href: '/properties'
+            href: '/auth/properties'
         },
 
         {
