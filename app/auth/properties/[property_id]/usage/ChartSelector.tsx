@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import HeatingUsageChart from "./HeatingUsageChart";
 import WaterUsageChart from "./WaterUsageChart";
 import ElectricalUsageChart from "./ElectricalUsageChart";
@@ -9,7 +9,6 @@ import chartSelectorReducer from './chartSelectorReducer';
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import Form from "kotilogi-app/components/Form";
 import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider";
-import { UsageType } from "kotilogi-app/types/UsageType";
 import getUsageDataByCategory from "./getUsageDataByCategory";
 import ChartEntry from "./ChartEntry";
 import Modal, { ModalOptions } from "kotilogi-app/components/new/Modal/Modal";
@@ -17,7 +16,7 @@ import Modal, { ModalOptions } from "kotilogi-app/components/new/Modal/Modal";
 type Sections = 'heating' | 'water' | 'electric';
 
 type ChartSelectorProps = {
-    usage: UsageType[],
+    usage: Kotilogi.UsageType[],
 }
 
 

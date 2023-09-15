@@ -4,6 +4,16 @@ import ErrorImage from 'kotilogi-app/assets/image.png';
 import Form from "kotilogi-app/components/Form";
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
 
+/**
+ * Pre-configured gallery component for displaying images associated with a property.
+ * @component
+ * @example
+ * const property_id = 'some_id'
+ * <PropertyImagesGallery property_id={property_id}/>
+ * 
+ * @param {Kotilogi.IdType} property_id The id of the property to fetch images for. 
+ */
+
 type PropertyImagesGalleryProps = {
     property_id: Kotilogi.IdType,
 }
@@ -12,7 +22,7 @@ export default async function PorpertyImagesGallery(props: PropertyImagesGallery
     const {address} = await db('properties').where({id: props.property_id}).select('title').first();
 
     const addModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Lisää kyykky',
+        headerText: 'Lisää Kuva',
         bodyContent: (
             <Form.Group>
                 <label>Kuva</label>

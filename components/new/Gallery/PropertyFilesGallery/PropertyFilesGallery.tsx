@@ -5,13 +5,15 @@ import ErrorImage from 'kotilogi-app/assets/copy.png'
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
 import Form from "kotilogi-app/components/Form";
 
-type PropertyImagesGalleryProps = {
-    property_id: Kotilogi.IdType,
-}
+/**
+ * Pre-configured component for displaying files associated with a property.
+ * @component
+ */
 
-export default async function PropertyFilesGallery(props: PropertyImagesGalleryProps){
+type PropertyFilesGalleryProps = Kotilogi.HasPropertyId;
+
+export default async function PropertyFilesGallery(props: PropertyFilesGalleryProps){
     const {address} = await db('properties').where({id: props.property_id}).select('title').first();
-    const data = await db('property_files').where({ref_id: props.property_id});
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Tiedosto',

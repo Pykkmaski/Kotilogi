@@ -18,6 +18,11 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
         var addedData;
 
         try{
+            dispatch({
+                type: 'toggle_loading',
+                value: true,
+            });
+
             const file = e.target.file?.files[0];
             if(file){
                 const data = new FormData();
@@ -48,6 +53,11 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 type: 'add_data',
                 value: addedData,
             });
+
+            dispatch({
+                type: 'toggle_loading',
+                value: false,
+            })
         }
     }
 

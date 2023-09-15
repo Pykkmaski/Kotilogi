@@ -56,7 +56,7 @@
 
         small{
             font-weight: bold;
-            color: gray;
+            color: $text-color;
             margin-left: 0.25rem;
             font-size: 1.25rem;
         }
@@ -115,22 +115,21 @@
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: $text-color;
 
     .errorTitle{
-        color: white;
+        color: $text-color;
     }
 
     .errorImage{
         width: 70px;
         height: 70px;
-        opacity: 0.5;
         margin-bottom: 2rem;
         filter:invert(1);
     }
 
     .errorMessage{
-        color: white;
+        color: $text-color;
         text-align: center;
     }
 

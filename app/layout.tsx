@@ -19,17 +19,15 @@ export default async function RootLayout({ children }) {
       <AuthProvider>
       <body className={styles.body}>
           <Header/>
-          <div className={styles.container}>
-                {children}
-                <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä. Lisäämäsi sisältö ei säily palvelussa!"/>
-              
-              <Toaster position="bottom-right" toastOptions={{
-                duration: 5000,
-                style: {
-                  fontSize: '1.2rem'
-                }
-              }}/>
-          </div>
+            {children}
+            <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä. Lisäämäsi sisältö ei säily palvelussa!"/>
+          
+            <Toaster position="bottom-center" toastOptions={{
+              duration: 5000,
+              style: {
+                fontSize: '1.2rem'
+              }
+            }}/>
       </body>
       </AuthProvider>
     </html>

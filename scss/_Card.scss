@@ -119,7 +119,7 @@
     }
 
     .card-body, .card-footer{
-        padding: 0.25rem;
+        padding: 0.5rem;
     }
 
     .card-body{
@@ -173,7 +173,7 @@
                 justify-content: center;
 
                 min-height: 50px;
-                bottom: -65px;
+                bottom: -67px;
                 width: 50%;
                 left: 50%;
         
@@ -181,11 +181,15 @@
                 border: 2px solid black;
         
                 padding: 1rem;
-                background: white;
+                background: $text-color;
         
                 z-index: 7;
                 transform: translateY(25px);
                 transition: transform 0.1s ease;
+
+                a{
+                    color: darkgray !important;
+                }
             }
 
             &.open .card-menu{

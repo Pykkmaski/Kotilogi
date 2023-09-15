@@ -16,7 +16,9 @@ export default async function upload(data: FormData, tableName: Kotilogi.Table):
         }
     
         //Only allow PDF's or JPEG's
-        if(file.type !== 'image/jpeg' && 'application/pdf'){
+        const fileType: string = file.type;
+
+        if(fileType !== 'application/pdf' && fileType !== 'image/jpeg'){
           throw new Error(`Unsupported file type detected (${file.type})`);
         }
     
@@ -36,6 +38,7 @@ export default async function upload(data: FormData, tableName: Kotilogi.Table):
           title: data.get('title'),
           description: data.get('description'),
           ref_id : data.get('ref_id'),
+          mime_type: fileType,
           id: await generateId(),
         };
     

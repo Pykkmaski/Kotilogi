@@ -19,13 +19,17 @@
 
         padding: 1rem;
         z-index: 1;
-        backdrop-filter: saturate(200%) blur(20px);
+        backdrop-filter: blur(20px);
 
         margin-bottom: 2rem;
 
         .titleContainer{
             h1{
                 color: $primary-color;
+            }
+
+            small{
+                color: whitesmoke;
             }
         }
 

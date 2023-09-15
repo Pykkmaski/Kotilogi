@@ -71,7 +71,7 @@ function Body(){
 }
 
 export default function Card(props: GalleryBase.CardProps){
-    const {state, dispatch} = useGalleryContext();
+    const {state, dispatch, dbTableName} = useGalleryContext();
     const [isSelected, setIsSelected] = useState(state.selectedItemIds.includes(props.item.id));
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -90,10 +90,11 @@ export default function Card(props: GalleryBase.CardProps){
         menuOpen
     }
 
+    const linkTarget = dbTableName.includes('_files') || dbTableName.includes('_images') ? '_blank' : '_self'
     return (
         <div className={isSelected ? 'card selected' : 'card'} key={props.key}>
             <CardContext.Provider value={contextValue}>
-                <Link href={props.destination}>
+                <Link href={props.destination} target={linkTarget}>
                    <ImageContainer imageUrl={imageUrl}/>
                     <Body/>
                 </Link>

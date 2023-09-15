@@ -33,14 +33,20 @@
 @import './Properties';
 @import './Mobile';
 
+@font-face{
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/montserrat/Montserrat-VariableFont_wght.ttf');
+}
+
 *{
     box-sizing: border-box;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: $font-family;
     font-weight: 2px;
     color: $text-color;
 }
-
-
+main{
+    padding: 1rem;
+}
 
 input, select, option{
     color: gray;
@@ -60,11 +66,11 @@ h1, h2{
 }
 
 h1{
-    color: black;
+    color: $primary-color;
 }
 
 h2, h3{
-    color: $secondary-color;
+    color: $text-color;
 }
 
 a{
