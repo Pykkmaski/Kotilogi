@@ -8,7 +8,6 @@ const columnName = 'owner';
 
 exports.up = function(knex) {
     return knex.schema.table(tableName, tbl => {
-        tbl.dropForeign('owner');
         tbl.foreign(columnName).references('email').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
     })
 };
@@ -19,7 +18,6 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
     return knex.schema.table(tableName, tbl => {
-        tbl.dropForeign('email');
         tbl.foreign('owner').references('username').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
     })
 };
