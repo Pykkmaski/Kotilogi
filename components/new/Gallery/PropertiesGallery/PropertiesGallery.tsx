@@ -28,7 +28,7 @@ export default async function PropertiesGallery(props: PropertiesGalleryProps){
             deleteModalOptions={deleteModalOptions}
             headerButtons={[]}
             contentType='property'
-            error={<Error title="Ei Tiedostoja" message="Et ole vielä lisännyt talolle tiedostoja" imageUrl={ErrorImage}/>}
+            error={<Error title="Ei Taloja" message="Et ole vielä lisännyt taloja." imageUrl={ErrorImage}/>}
         />
     );
 }

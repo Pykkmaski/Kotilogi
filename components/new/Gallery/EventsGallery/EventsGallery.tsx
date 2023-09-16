@@ -28,11 +28,11 @@ export default async function EventsGallery(props: EventsGalleryProps){
             refId={props.property_id}
             title="Tapahtumat"
             subTitle={address}
-            headerButtons={[<SelectAllButton/>, <DeselectAllButton/>]}
+            headerButtons={[]}
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
             contentType='event'
-            error={<Error title="Ei Tapahtumia" message="Et ole vielä lisännyt talolle tapahtumia" imageUrl={ErrorImage}/>}
+            error={<Error title="Ei Tapahtumia" message="Et ole vielä lisännyt talolle tapahtumia." imageUrl={ErrorImage}/>}
         />
     )
 }

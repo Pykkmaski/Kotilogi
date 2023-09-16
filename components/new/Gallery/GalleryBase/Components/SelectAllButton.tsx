@@ -32,7 +32,7 @@ export default function SelectAllButton(){
 
     return (
         buttonState === 'closed' ? 
-        <button type="button" className="secondary" onClick={selectAll}>Valitse Kaikki</button>
+        <button type="button" className="secondary" onClick={selectAll} disabled={!state.data.length}>Valitse Kaikki</button>
         :
         <button type="button" className="secondary" onClick={deselectAll}>Kumoa Valinnat</button>
     );

@@ -7,10 +7,20 @@ const tableName = 'properties';
 const columnName = 'owner';
 
 exports.up = function(knex) {
-    return knex.schema.alterTable(tableName, tbl => {
-        tbl.dropForeign('owner');
-        tbl.foreign(columnName).references('email').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
-    })
+    return new Promise(async (resolve, reject) => {
+        try{
+            await knex.schema.alterTable(tableName, tbl => {
+                tbl.dropForeign('owner');
+                tbl.foreign(columnName).references('email').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
+            })
+        }
+        catch(err){
+            console.log(err.message);
+        }
+        finally{
+            resolve();
+        }
+    });
 };
 
 /**
@@ -18,8 +28,18 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.alterTable(tableName, tbl => {
-        tbl.dropForeign('email');
-        tbl.foreign('owner').references('username').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
-    })
+   return new Promise(async (resolve, reject) => {
+        try{
+            await knex.schema.alterTable(tableName, tbl => {
+                tbl.dropForeign('email');
+                tbl.foreign('owner').references('username').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
+            })
+        }
+        catch(err){
+            console.log(err.message);
+        }
+        finally{
+            resolve();
+        }
+   });
 };

@@ -31,4 +31,5 @@ Try removing the foreign key reference
 - Fix routing to wrong url (/info/info) when returning from /info/edit
 - Change property sections to be search params instead of slugs
 - Fix property address not being filled by default when editing info.
+- Fix cannot destructure property 'filename' of (intermediate value) as it is undefined, when updating properties page.
 
