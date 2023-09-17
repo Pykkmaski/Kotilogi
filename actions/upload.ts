@@ -29,17 +29,15 @@ export default async function upload(data: FormData, tableName: Kotilogi.Table):
         const buffer = Buffer.from(bytes);
     
         //Write the file to disk
-        const filename: string = Date.now() + '-' + file.name;
-        const path: string = join(uploadPath as string, filename);
+        const fileName: string = Date.now() + '-' + file.name;
+        const path: string = join(uploadPath as string, fileName);
         await writeFile(path, buffer);
     
         const dbData = {
-          filename,
+          fileName,
           title: data.get('title'),
           description: data.get('description'),
-          ref_id : data.get('ref_id'),
-          mime_type: fileType,
-          id: await generateId(),
+          refId : data.get('refId'),
         };
     
         const insertedData = await db(tableName).insert(dbData, '*');

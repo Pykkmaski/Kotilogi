@@ -4,18 +4,29 @@
 .card{
     @include SlideUpAnimation;
 
-    background: rgba(white, 0.3);
+    background: lighten($secondary-color, 7);
 
     display: flex;
     flex-flow: column;
     width: 15rem; /*Galleries contain four cards on each row*/
-    border-radius: $border-radius;
-    border: 1px solid $border-color;
+    border-radius: 7px;
     height: 100%;
     transition: border-width 0.2s ease-in-out;
     position: relative;
 
     transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
+
+    a{
+        display: flex;
+        flex-flow: column;
+        flex: 1;
+        color: $secondary-color;
+        
+        &:hover{
+            text-decoration: none;
+            color: none;
+        }
+    }
 
     &:hover, &.selected{
         border-color: $primary-color;
@@ -59,42 +70,53 @@
     }
 
     .card-image-container{
+        position: relative;
         display: flex;
         justify-content: center;
         max-width: inherit;
         margin-bottom: 1rem;
         flex: 1;
+
+        .card-image-gradient{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(black, 0), rgba(black, 0.25), rgba(black, 0.75));
+        }
+
+        .card-title{
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+            white-space: nowrap;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+        }
+
+        .card-image{
+            display: inherit;
+            height: 18rem;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            color: white;
+            object-fit:cover;
+            object-position: 50%;
+
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+        }
     }
 
-    .card-image{
-        display: inherit;
-        height: 18rem;
-        justify-content: center;
-        align-items: center;
-        max-width: 100%;
-        color: white;
-        object-fit:cover;
-        object-position: 50%;
-    }
 
-    .error-image{
-        $size: 60px;
-
-        width: $size;
-        height: $size;
-        border-bottom: 1px solid $border-color;
-    }
-
-    .card-title{
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 100%;
-        white-space: nowrap;
-        font-size: 1rem;
-        font-weight: bold;
-        text-align: center;
-        color: white;
-    }
+    
 
     .card-text, .card-body{
         flex: 1;
@@ -110,17 +132,6 @@
         color: white;
     }
 
-    .event-card-text{
-        display: flex;
-        flex-flow: column;
-        justify-content: space-between;
-        
-        #date{
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-    }
-
     .card-body, .card-footer{
         padding: 0.5rem;
     }
@@ -131,19 +142,7 @@
         width: 100%;
     }
 
-    a{
-        display: flex;
-        flex-flow: column;
-        flex: 1;
-        color: $secondary-color;
-        
-        &:hover{
-            text-decoration: none;
-            color: none;
-        }
-    }
-
-   
+    
 
     .card-footer{
         display: inherit;
@@ -176,14 +175,14 @@
                 justify-content: center;
 
                 min-height: 50px;
-                bottom: -67px;
+                bottom: -90px;
                 width: 50%;
                 left: 50%;
         
                 border-radius: 5px;
                 border: 2px solid black;
         
-                padding: 1rem;
+                padding: 1rem 0 1rem 0;
                 background: $text-color;
         
                 z-index: 7;
@@ -191,13 +190,21 @@
                 transition: transform 0.1s ease;
 
                 a{
-                    color: darkgray !important;
+                    padding: 0 5px;
+                    color: $secondary-color !important;
+                    cursor: pointer;
+                    font-weight: 600;
+
+                    &:hover{
+                        background: $primary-color;
+                    }
                 }
             }
 
             &.open .card-menu{
                 display: flex;
                 flex-flow: column;
+                gap: 0.25rem;
                 transform: translateY(0);
             } 
 
@@ -206,21 +213,5 @@
             }
         }
     }
-
-    .card-button-group{
-        display: flex;
-        flex-flow: row;
-        justify-content: center;
-        gap: 0.5rem;
-        width: 100%;
-    }
-
-    @media screen and (max-width: 1000px){
-        width: 100% !important;
-    }
-}
-
-.card-button-group button{
-    flex: 1;
 }
 

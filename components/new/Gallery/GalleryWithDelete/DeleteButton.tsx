@@ -9,15 +9,15 @@ import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFilesByIds"
 import { serverGetData } from "kotilogi-app/actions/serverGetData";
 
 export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps){
-    const {state, dispatch, contentType, dbTableName, refId} = useGalleryContext();
+    const {state, dispatch, dbTableName, refId} = useGalleryContext();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     async function deleteSelected(){
         try{
             var result: boolean = false;
-            const fileContent: GalleryBase.ContentType[] = ['property_file', 'property_image', 'event_file', 'event_image'];
+            const fileTables: Kotilogi.Table[] = ['propertyFiles', 'propertyImages', 'eventFiles', 'eventImages'];
 
-            if(fileContent.includes(contentType)){
+            if(fileTables.includes(dbTableName)){
                 result = await serverDeleteFilesByIds(state.selectedItemIds, dbTableName!);
             }
             else{
@@ -26,7 +26,7 @@ export default function DeleteButton(props: GalleryWithDelete.DeleteButtonProps)
 
             if(!result) throw new Error('Failed to delete data!');
 
-            const currentData = await serverGetData(dbTableName, {ref_id: refId}, false);
+            const currentData = await serverGetData(dbTableName, {refId: refId}, false);
             dispatch({
                 type: 'set_data',
                 value: currentData,

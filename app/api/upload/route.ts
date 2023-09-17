@@ -8,21 +8,6 @@ import {uploadPath, limit} from 'kotilogi-app/uploadsConfig';
 type TargetIdType = 'property_id' | 'event_id';
 type Table = 'property_files' | 'event_files' | 'property_images' | 'event_images';
 
-function getTargetIdFieldName(tableName: Table): TargetIdType{
-  var targetIdFieldName: TargetIdType;
-  if(tableName === 'property_files' || tableName === 'property_images'){
-    targetIdFieldName = 'property_id';
-  }
-  else if(tableName === 'event_files' || tableName === 'event_images'){
-    targetIdFieldName = 'event_id';
-  }
-  else{
-    throw new Error(`Unsupported dbTableName in formData! (${tableName}). Cannot determine id field name!`);
-  }
-
-  return targetIdFieldName;
-}
-
 export async function POST(req, res){
   try{
     const data = await req.formData();
@@ -53,7 +38,7 @@ export async function POST(req, res){
       filename,
       title: data.get('title'),
       description: data.get('description'),
-      [getTargetIdFieldName(tableName)] : data.get('target_id') as TargetIdType,
+      refId : data.get('refId') as TargetIdType,
       id: await generateId(),
     };
 

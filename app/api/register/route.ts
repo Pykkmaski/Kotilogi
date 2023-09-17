@@ -15,17 +15,19 @@ export async function POST(request){
 
         await db('users').insert({
             ...data,
-            first_name: 'unused',
-            last_name: 'unused',
-            active: 0,
         });
 
         return new Response(null, {status: 201});
     }
     catch(err){
-        console.log(err.message);
-        const regex = new RegExp(err.message);
-        if(regex.test('UNIQUE constraint failed')) return new NextResponse('invalid_user', {status: 406});
+        const msg = err.message;
+        console.log(msg);
+        
+        if(msg.includes('UNIQUE')) return new NextResponse('duplicate_user', {
+            status: 406,
+            statusText: 'Register failed! User already exists!',
+        });
+        
         
         return new Response(err.message, {status: 500});    
     }

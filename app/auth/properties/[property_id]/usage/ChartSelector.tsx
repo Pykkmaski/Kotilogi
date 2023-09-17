@@ -13,7 +13,7 @@ import getUsageDataByCategory from "./getUsageDataByCategory";
 import ChartEntry from "./ChartEntry";
 import Modal, { ModalOptions } from "kotilogi-app/components/new/Modal/Modal";
 
-type Sections = 'heating' | 'water' | 'electric';
+type Sections = 'heat' | 'water' | 'electric';
 
 type ChartSelectorProps = {
     usage: Kotilogi.UsageType[],
@@ -22,7 +22,7 @@ type ChartSelectorProps = {
 
 function getChartBySection(section: Sections, data: any[]): JSX.Element | null{
     const filteredData = getUsageDataByCategory(section, data);
-    if(section === 'heating'){
+    if(section === 'heat'){
         return <HeatingUsageChart data={filteredData}/>
     }
     else if(section === 'electric'){
@@ -43,7 +43,7 @@ export default function ChartSelector(props: ChartSelectorProps){
         data: props.usage,
         isLoading: false,
         showModal: false,
-        selectedSection: 'heating' as Sections,
+        selectedSection: 'heat' as Sections,
         selectedType: 'bar',
     }
 
@@ -107,7 +107,7 @@ export default function ChartSelector(props: ChartSelectorProps){
             <section id="chart-selector-header" className={styles.selectorHeader}>
                 <div>
                     <select onChange={handleSectionChange}>
-                        <option value="heating">Lämmitys</option>
+                        <option value="heat">Lämmitys</option>
                         <option value="water">Vesi</option>
                         <option value="electric">Sähkö</option>
                     </select>

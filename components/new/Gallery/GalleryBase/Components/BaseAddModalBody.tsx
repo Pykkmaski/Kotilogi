@@ -29,7 +29,7 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 data.set('file', file);
                 data.set('title', e.target.title.value);
                 data.set('description', e.target.description.value);
-                data.set('ref_id', refId);
+                data.set('refId', refId);
 
                 addedData = await upload(data, dbTableName);
                 if(!addedData) throw new Error('Failed to add data!');
@@ -38,7 +38,7 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 const data = {
                     title: e.target.title.value,
                     description: e.target.description.value,
-                    ref_id: refId,
+                    refId,
                 }
 
                 addedData = await serverAddData(data, dbTableName);

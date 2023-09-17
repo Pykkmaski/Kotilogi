@@ -66,11 +66,11 @@ function Body(props: BodyProps){
     const loadingMessage = 
         dbTableName === 'properties' ? 'Ladataan Taloja...' 
         : 
-        dbTableName === 'property_events' ? 'Ladataan Tapahtumia...'
+        dbTableName === 'propertyEvents' ? 'Ladataan Tapahtumia...'
         :
-        dbTableName.includes('_images') ? 'Ladataan Kuvia...'
+        dbTableName.includes('Images') ? 'Ladataan Kuvia...'
         :
-        dbTableName.includes('_files') ? 'Ladataan Tiedostoja...'
+        dbTableName.includes('Files') ? 'Ladataan Tiedostoja...'
         :
         'Ladataan...';
 
@@ -107,7 +107,7 @@ export default function GalleryBase(props: GalleryBase.Props){
     ];
 
     useEffect(() => {
-        serverGetData(props.dbTableName, {ref_id: props.refId}, false)
+        serverGetData(props.dbTableName, {refId: props.refId}, false)
         .then(data => {
             if(!data){
                 console.log('No data present!');

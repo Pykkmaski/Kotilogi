@@ -12,7 +12,7 @@ export default async function serverDeleteFilesByIds(selectedIds: Kotilogi.IdTyp
      */
     try{
         selectedIds.forEach(async id => {
-            const {filename} = await db(tableName).where({id}).select('filename').first();
+            const {filename} = await db(tableName).where({id}).select('fileName').first();
             await unlink(uploadPath + filename);
         });
 

@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import useGalleryContext from "../GalleryBase/GalleryContext";
 import Link from "next/link";
+import Image from "next/image";
 import { CardContext, useCardContext, CardContextValue } from "./CardContext";
+import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import style from './styles.module.scss';
 
 type FooterProps = {
     isSelected: boolean,
@@ -11,17 +14,18 @@ type FooterProps = {
 
 function Footer(){
     const {isSelected, dispatch, item, setMenuOpen, menuOpen} = useCardContext();
-    const buttonClassName = menuOpen ? 'card-menu-btn open' : 'card-menu-btn';
+    const buttonClassName = menuOpen ? `${'card-menu-btn'} open` : 'card-menu-btn';
 
     return (
-        <div className="card-footer">
+        <div className='card-footer'>
             <input type="checkbox" checked={isSelected} onInput={() => dispatch({type: 'select_id', value: item.id})}/>
 
             <div className={buttonClassName}>
-                <img className="cog-img" src={'/img/settings.png'} onClick={() => setMenuOpen(prev => !prev)}/>
+                <img className='cog-img' src={'/img/settings.png'} onClick={() => setMenuOpen(prev => !prev)}/>
                 <Menu open={menuOpen} id={undefined}>
                     <nav>
                         <a href="">Poista</a>
+                        <a href="">Muokkaa</a>
                     </nav>
                 </Menu>
             </div>
@@ -36,7 +40,7 @@ export type MenuProps = {
 }
 
 function Menu({open, id, children}: MenuProps){
-    const className = 'card-menu'
+    const className = 'card-menu';
     return (
         <dialog className={className} id={id} open={open}>{children}</dialog>
     );
@@ -44,12 +48,23 @@ function Menu({open, id, children}: MenuProps){
 
 type ImageContainerProps = {
     imageUrl: string,
+    title: string,
 }
 
 function ImageContainer(props: ImageContainerProps){
     return (
-        <div className="card-image-container">
-            <img src={props.imageUrl} onError={undefined} className='card-image'></img>
+        <div className={'card-image-container'}>
+            <div className={'card-image-gradient'}/>
+            <div className={'card-title'}>{props.title}</div>
+          
+            <Suspense fallback={<Spinner size="2rem"/>}>
+                <img 
+                    src={props.imageUrl} 
+                    onError={undefined} 
+                    className={'card-image'}
+                    alt="Ei Kuvaa"
+                />
+            </Suspense>
         </div>
     )
 }
@@ -58,12 +73,8 @@ function Body(){
     const {item} = useCardContext();
 
     return (
-        <div className="card-body">
-            <div className="card-header">
-                <div className="card-title">{item.title}</div>
-            </div>
-
-            <div className="card-text">
+        <div className={'card-body'}>
+            <div className={'card-text'}>
                 {item.description}
             </div>
         </div>
@@ -90,17 +101,18 @@ export default function Card(props: GalleryBase.CardProps){
         menuOpen
     }
 
-    const linkTarget = dbTableName.includes('_files') || dbTableName.includes('_images') ? '_blank' : '_self'
+    const linkTarget = dbTableName.includes('Files') || dbTableName.includes('Images') ? '_blank' : '_self';
+    const containerClassName = isSelected ? 'card selected' : 'card';
     return (
-        <div className={isSelected ? 'card selected' : 'card'} key={props.key}>
-            <CardContext.Provider value={contextValue}>
+        <CardContext.Provider value={contextValue}>
+            <div className={containerClassName} key={props.key}>
                 <Link href={props.destination} target={linkTarget}>
-                   <ImageContainer imageUrl={imageUrl}/>
+                    <ImageContainer imageUrl={imageUrl} title={props.item.title}/>
                     <Body/>
                 </Link>
 
                 <Footer/>
-            </CardContext.Provider>
-        </div>
+            </div>
+        </CardContext.Provider>
     );
 }

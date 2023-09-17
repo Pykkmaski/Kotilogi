@@ -12,8 +12,8 @@ export async function GET(req: NextRequest, {params}){
         const {searchParams} = new URL(req.url);
         const dbTableName = searchParams.get('dbTableName');
         
-        const data = await db(dbTableName).where({id: file_id}).select('filename').first();
-        const filepath = uploadPath + data.filename;
+        const data = await db(dbTableName).where({id: file_id}).select('fileName').first();
+        const filepath = uploadPath + data.fileName;
         const fileBuffer = readFileSync(filepath);
         return new NextResponse(fileBuffer, {
             status: 200,

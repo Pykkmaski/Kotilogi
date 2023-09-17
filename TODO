@@ -25,11 +25,17 @@ Password reset functionality using json web tokens.
 + Disable modal buttons when sending data into a gallery
 The items are not removed from the db if trying to delete them immediately after creation. It only works when first refreshing the page.
 + Fix delete-galleries not deleting data on the database.
+
 Try removing the foreign key reference
 + Fix foreign key constraint error when trying to delete something from the property images table.
+
 + Move data fetching into the base gallery component.
-- Fix routing to wrong url (/info/info) when returning from /info/edit
-- Change property sections to be search params instead of slugs
-- Fix property address not being filled by default when editing info.
+
+Did a workaround and made the edit path a child of the base property_id path.
++ Fix routing to wrong url (/info/info) when returning from /info/edit 
+
+- Change property sections to be search params instead of slugs?
++ Fix property address not being filled by default when editing info.
 - Fix cannot destructure property 'filename' of (intermediate value) as it is undefined, when updating properties page.
+- Fix property values not updating without a refresh when changing them on the edit page.
 

@@ -6,7 +6,7 @@ type State = {
     data: UsageType[],
     showModal: boolean,
     isLoading: boolean,
-    selectedSection: 'heating' | 'water' | 'electric',
+    selectedSection: 'heat' | 'water' | 'electric',
     selectedType: ChartDatapointType,
 }
 

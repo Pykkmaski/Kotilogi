@@ -7,14 +7,16 @@ export default async function InfoPage({params}){
     const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
     throwErrorIfNull(property, 'Talon lataamienn epäonnistui!');
 
-    const backgroundImage = `url(/api/files?dbTableName=property_images&id=${property?.main_image_id})`
+    const backgroundImage = `url(/api/files?dbTableName=propertyImages&id=${property?.mainImageId})`
     
     return (
-        <div className={styles.container} style={{backgroundImage}}>
+        <div className={styles.container} style={{backgroundImage, backgroundSize: 'cover'}}>
+            <Link href="edit" className={styles.editLink}>Muokkaa</Link>
+
             <div className={styles.subContainer}>
                 <div className={styles.titleContainer} style={undefined}>
                     <h1>{property?.title}</h1>
-                    <small>{property?.ref_id}</small>
+                    <small>{property?.refId}</small>
                     <p>
                         {property!.description}
                     </p>
@@ -23,25 +25,23 @@ export default async function InfoPage({params}){
                 <div className={styles.infoContainer}>
                     <span>
                         Talotyyppi: 
-                        <span className={styles.value}> {property!.property_type}</span>
+                        <span className={styles.value}> {property!.buildingType}</span>
                     </span>
 
                     <span>
                         Rakennusvuosi: 
-                        <span className={styles.value}> {property!.build_year}</span>
+                        <span className={styles.value}> {property!.buildYear}</span>
                     </span>
 
                     <span>
                         Energialuokka: 
-                        <span className={styles.value}> {property!.energy_class}</span>
+                        <span className={styles.value}> {property!.energyClass}</span>
                     </span>
 
                     <span>
                         Rakennusmateriaali: 
-                        <span className={styles.value}> {property!.building_material}</span>
+                        <span className={styles.value}> {property!.buildingMaterial}</span>
                     </span>
-
-                    <Link href="info/edit">Muokkaa</Link>
                 </div>
             </div>
             

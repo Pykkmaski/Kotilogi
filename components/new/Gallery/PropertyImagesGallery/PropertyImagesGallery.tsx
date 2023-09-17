@@ -38,7 +38,7 @@ export default async function PorpertyImagesGallery(props: PropertyImagesGallery
 
     return (
         <GalleryWithDelete
-            dbTableName="property_images"
+            dbTableName="propertyImages"
             refId={props.property_id}
             title='Kuvat'
             subTitle={address}

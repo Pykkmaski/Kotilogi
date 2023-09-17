@@ -10,15 +10,15 @@ function getImageUrl(entry: any, dbTableName: Kotilogi.Table): string | null{
      * @returns {string | null} The url to the image, or null if not applicable.
      */
 
-    const contentId: string = 'main_image_id' in entry ? entry.main_image_id : entry.id;
+    const contentId: string = 'mainImageId' in entry ? entry.mainImageId : entry.id;
 
     const getImagesTableName = (): Kotilogi.Table | null => {
-        if(String('properties property_images').includes(dbTableName)){
-            return 'property_images';
+        if(String('properties propertyImages').includes(dbTableName)){
+            return 'propertyImages';
         }
 
-        if(String('property_events event_images').includes(dbTableName)){
-            return 'event_images';
+        if(String('propertyEvents eventImages').includes(dbTableName)){
+            return 'eventImages';
         }
 
         return null;
@@ -35,7 +35,7 @@ function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdT
     if(dbTableName == 'properties'){
         return `/auth/properties/${contentId}/info`;
     }
-    else if(dbTableName == 'property_events'){
+    else if(dbTableName == 'propertyEvents'){
         return `/auth/events/${contentId}`;
     }
     else{
@@ -49,10 +49,10 @@ export default function getCard(entry, dbTableName: Kotilogi.Table, key: number)
     entry.imageUrl = getImageUrl(entry, dbTableName) || '/copy.png';
 
     //TODO: Return unique cards based on what type of content is in the gallery.
-    if(dbTableName =='properties' || dbTableName == 'property_events'){
+    if(dbTableName =='properties' || dbTableName == 'propertyEvents'){
         return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>
     }
-    else if(dbTableName === 'property_images' || dbTableName === 'event_images'){
+    else if(dbTableName === 'propertyImages' || dbTableName === 'eventImages'){
         /*
         return (
             <Link href={entry.imageUrl} target="_blank" className="image-link">
@@ -71,7 +71,7 @@ export default function getCard(entry, dbTableName: Kotilogi.Table, key: number)
 
         return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>
     }
-    else if(dbTableName === 'event_files' || dbTableName === 'property_files'){
+    else if(dbTableName === 'eventFiles' || dbTableName === 'propertyFiles'){
         //entry refers to a pdf file, return generic copy img.
        return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>
     }

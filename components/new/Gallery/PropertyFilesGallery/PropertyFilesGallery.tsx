@@ -34,7 +34,7 @@ export default async function PropertyFilesGallery(props: PropertyFilesGalleryPr
 
     return (
         <GalleryWithDelete
-            dbTableName="property_files"
+            dbTableName="propertyFiles"
             refId={props.property_id}
             
             contentType="property_file"

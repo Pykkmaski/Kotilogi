@@ -8,8 +8,8 @@ export default async function PropertyEventsPage({params}){
 
     return (
        <EventsGallery
-            property_id={property!.id as string}
-            property_address={property!.address}
+            propertyId={property!.id as string}
+            propertyAddress={property!.title}
        />
     )
 

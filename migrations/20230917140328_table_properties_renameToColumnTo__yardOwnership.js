@@ -3,12 +3,16 @@
  * @returns { Promise<void> }
  */
 
+/**
+ * Fix a typo in the yardOwnership column.
+ */
 const tableName = 'properties';
-const columnName = 'owner';
+const newColumnName = 'yardOwnership';
+const oldColumnName = 'yardOwnerhip';
 
 exports.up = function(knex) {
   return knex.schema.alterTable(tableName, tbl => {
-    tbl.dropForeign(columnName);
+    tbl.renameColumn(oldColumnName, newColumnName);
   })
 };
 
@@ -17,7 +21,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.alterTable(tableName, tbl => {
-    tbl.foreign(columnName).references('username').inTable('users').onUpdate('CASCADE').onDelete('CASCADE');
-  })
+    tbl.renameColumn(newColumnName, oldColumnName);
 };

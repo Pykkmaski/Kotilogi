@@ -9,7 +9,6 @@ export async function serverAddData(data: any, dbTableName: string): Promise<Par
     try{
         const dataToSave: ParamType = {
             ...data,
-            id: await generateId(),
         }
 
         const insertedProperties: ParamType[] = await db(dbTableName).insert(dataToSave, '*');

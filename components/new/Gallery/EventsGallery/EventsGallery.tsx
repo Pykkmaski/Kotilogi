@@ -3,15 +3,14 @@ import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import db from "kotilogi-app/dbconfig";
 import Error from "../GalleryBase/Error";
 import ErrorImage from 'kotilogi-app/assets/history.png';
-import DeselectAllButton from "../GalleryBase/Components/DeselectAllButton";
 
 type EventsGalleryProps = {
-    property_id: string
-    property_address: string,
+    propertyId: string
+    propertyAddress: string,
 }
 
 export default async function EventsGallery(props: EventsGalleryProps){
-    const {address} = await db('properties').where({id: props.property_id}).select('title').first();
+    const {address} = await db('properties').where({id: props.propertyId}).select('title').first();
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Tapahtuma',
@@ -24,8 +23,8 @@ export default async function EventsGallery(props: EventsGalleryProps){
 
     return (
         <GalleryWithDelete
-            dbTableName="property_events"
-            refId={props.property_id}
+            dbTableName="propertyEvents"
+            refId={props.propertyId}
             title="Tapahtumat"
             subTitle={address}
             headerButtons={[]}

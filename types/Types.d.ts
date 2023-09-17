@@ -6,7 +6,7 @@ namespace Kotilogi{
     }
 
     type HasRefId = {
-        ref_id: IdType,
+        refId: IdType,
     }
 
     type HasMainImageFilename = {
@@ -21,10 +21,6 @@ namespace Kotilogi{
         description: string,
     }
 
-    type HasEventId = {
-        event_id: IdType,
-    }
-
     type HasDate = {
         date: number,
     }
@@ -32,7 +28,7 @@ namespace Kotilogi{
    type MimeType = 'image/jpeg' | 'application/pdf';
 
     declare type HasMimeType = {
-        mime_type: MimeType,
+        mimeType: MimeType,
     }
 
     type UsageType = HasId & HasRefId & HasDate & {
@@ -41,29 +37,28 @@ namespace Kotilogi{
     }
 
     type HasMainImageId = {
-        main_image_id: IdType,
+        mainImageId: IdType,
     }
     
     type PropertyType = HasId & HasDescription & HasMainImageId & HasDate & HasRefId & {
-        room_count?: number,
-        floor_count?: number,
-        wc_count?: number,  
-        area?: number,
-        yard_area?: number,
-        other_area?: number,
-        build_year?: number,
+        roomCount?: number,
+        floorCount?: number,
+        wcCount?: number,  
+        livingArea?: number,
+        yardArea?: number,
+        buildYear?: number,
     
-        yard_ownership?: string,
-        building_material?: string,
-        roof_material?: string,
-        roof_type?: string,
-        primary_heating_system?: string,
-        secondary_heating_system?: string,
+        yardOwnership?: string,
+        buildingMaterial?: string,
+        roofMaterial?: string,
+        roofType?: string,
+        primaryHeatingSystem?: string,
+        secondaryHeatingSystem?: string,
         color?: string,
         title: string,
-        zip_code?: string,
-        property_type?: string,
-        energy_class?: string,
+        zipCode?: string,
+        buildingType?: string,
+        energyClass?: string,
     }
 
     type EventType = HasId & HasDescription & HasDate & HasRefId & HasMainImageId &{
@@ -71,12 +66,12 @@ namespace Kotilogi{
     };
 
     type BaseFileType = HasId & HasTitle & HasDescription & HasMimeType & HasDate & {
-        filename: string,
+        fileName: string,
     }
 
     type PropertyFileType = BaseFileType & HasRefId;
 
     type EventFileType = BaseFileType & HasRefId;
 
-    type Table = 'property_files' | 'event_files' | 'property_images' | 'event_images' | 'properties' | 'property_events';
+    type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents';
 }
