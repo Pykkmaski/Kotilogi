@@ -12,7 +12,6 @@ function CloseButton(props){
 
 function Modal(props){
     const {show, onHide} = props;
-    const subComponents = useSubComponents(Object.keys(Modal), props);
 
     useEffect(() => {
         //Toggle visibility of the modal when showModal variable is changed.
@@ -30,7 +29,7 @@ function Modal(props){
     return (
         <dialog className="component-modal animated" key={props.key} id={props.id}>
             <CloseButton onHide={onHide}/>
-            {subComponents.map((component) => component)}
+           {props.children}
         </dialog>
     );
 }
