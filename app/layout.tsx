@@ -20,7 +20,7 @@ export default async function RootLayout({ children }) {
       <body className={styles.body}>
           <Header/>
             {children}
-            <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä. Lisäämäsi sisältö ei säily palvelussa!"/>
+            <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä. Lisäämäsi sisältö ei välttämättä säily palvelussa!"/>
           
             <Toaster position="bottom-center" toastOptions={{
               duration: 5000,

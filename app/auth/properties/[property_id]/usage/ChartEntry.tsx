@@ -1,9 +1,8 @@
-import { UsageType } from "kotilogi-app/types/UsageType";
 import styles from './page.module.scss';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type ChartEntryProps = {
-    data: UsageType,
+    data: Kotilogi.UsageType,
 }
 
 type SettingsButtonProps = {
@@ -27,7 +26,7 @@ function SettingsButton(props: SettingsButtonProps){
 export default function ChartEntry(props: ChartEntryProps){
     return (
         <div className={styles.chartEntry}>
-            <span>Päiväys: {new Date(props.data.time).toLocaleDateString('fi-Fi')}</span>
+            <span>Päiväys: {new Date(props.data.createdAt).toLocaleDateString('fi-Fi')}</span>
             <span>Hinta: {props.data.price + '€'}</span>
             <SettingsButton/>
         </div>

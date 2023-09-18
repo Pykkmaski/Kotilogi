@@ -1,9 +1,8 @@
-import { UsageType } from "kotilogi-app/types/UsageType";
-import getUsageDataByCategory from "./getUsageDataByCategory";
+
 import { ChartDatapointType } from "./ChartDatapointType";
 
 type State = {
-    data: UsageType[],
+    data: Kotilogi.UsageType[],
     showModal: boolean,
     isLoading: boolean,
     selectedSection: 'heat' | 'water' | 'electric',

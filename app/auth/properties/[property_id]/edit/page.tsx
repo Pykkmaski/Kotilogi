@@ -3,10 +3,6 @@ import {serverGetDataById} from 'kotilogi-app/actions/serverGetData';
 import InfoForm from './InfoForm';
 import { throwErrorIfNull } from 'kotilogi-app/utils/throwErrorIfNull';
 
-export async function getServerSideProps(){
-    console.log('Calling getServerSideProps');
-}
-
 export default async function InfoEditPage({params}){
     const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
     throwErrorIfNull(property, 'Talon lataaminen epäonnistui!');

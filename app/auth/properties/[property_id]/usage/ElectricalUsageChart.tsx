@@ -1,4 +1,3 @@
-import generateDummyData from "kotilogi-app/utils/generateDummyData";
 import ChartBase from "./ChartBase";
 import { ChartProps } from "./ChartProps";
 

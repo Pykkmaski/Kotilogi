@@ -9,6 +9,11 @@ namespace Kotilogi{
         refId: IdType,
     }
 
+    type HasTimeStamp = {
+        createdAt: string,
+        updatedAt: string,
+    }
+
     type HasMainImageFilename = {
         mainImageFilename?: string,
     }
@@ -31,7 +36,7 @@ namespace Kotilogi{
         mimeType: MimeType,
     }
 
-    type UsageType = HasId & HasRefId & HasDate & {
+    type UsageType = HasId & HasRefId & HasDate & HasTimeStamp & {
         type: 'heating' | 'electric' | 'water',
         price: number,
     }

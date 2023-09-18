@@ -5,7 +5,6 @@ import styles from './page.module.scss';
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
-import { revalidatePath } from "next/cache";
 
 export default function InfoForm({property}){
     const [currentData, setCurrentData] = useState(property);

@@ -1,5 +1,4 @@
-import { UsageType } from "kotilogi-app/types/UsageType";
 
-export default function getUsageDataByCategory(category: string, usage: UsageType[]): UsageType[]{
-    return usage.filter((data: UsageType) => data.type === category);
+export default function getUsageDataByCategory(category: string, usage: Kotilogi.UsageType[]): Kotilogi.UsageType[]{
+    return usage.filter((data: Kotilogi.UsageType) => data.type === category);
 }

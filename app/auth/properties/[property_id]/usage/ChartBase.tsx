@@ -3,21 +3,19 @@
 import { ApexOptions } from "apexcharts"
 import dynamic from 'next/dynamic';
 import {options as chartOptions} from './chartOptions';
-import { UsageType } from "kotilogi-app/types/UsageType";
-import { ChartDatapointType } from "./ChartDatapointType";
 
 const Chart = dynamic(() => import('react-apexcharts'));
 
 type ChartBaseProps = {
     options: ApexOptions,
     series: any,
-    rawdata: UsageType[],
+    rawdata: Kotilogi.UsageType[],
 }
 
 export default function ChartBase(props: ChartBaseProps){
 
-    const categories: string[] = props.rawdata.map((item: UsageType) => {
-        return new Date(item.time).toLocaleDateString('fi');
+    const categories: string[] = props.rawdata.map((item: Kotilogi.UsageType) => {
+        return new Date(item.createdAt).toLocaleDateString('fi');
     });
 
     const options: ApexOptions = {

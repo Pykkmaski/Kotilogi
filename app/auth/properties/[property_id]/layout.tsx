@@ -1,5 +1,4 @@
 import IconLink from './_components/IconLink/IconLink';
-import Link from 'next/link';
 import styles from './layout.module.scss';
 
 import InfoIcon from 'kotilogi-app/assets/info.png';
