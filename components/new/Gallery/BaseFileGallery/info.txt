@@ -1,2 +1,0 @@
-Base file-oriented gallery component providing functionality shared by all file galleries,
-from which more specific file-oriented galleries can be composed.
