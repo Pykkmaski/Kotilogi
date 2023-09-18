@@ -1,5 +1,4 @@
 import db from "kotilogi-app/dbconfig";
-import BaseFileGallery from "../BaseFileGallery/BaseFileGallery";
 import Error from "../GalleryBase/Error";
 import ErrorImage from 'kotilogi-app/assets/copy.png'
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";

@@ -1,9 +1,8 @@
-import { ItemType } from 'kotilogi-app/contexts/GalleryProvider';
 import {createContext, useContext} from 'react';
 
 export type CardContextValue = {
     isSelected: boolean,
-    item: ItemType,
+    item: Kotilogi.ItemType,
     dispatch: any,
     setMenuOpen: any,
     menuOpen: boolean,

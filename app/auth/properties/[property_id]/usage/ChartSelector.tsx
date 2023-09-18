@@ -62,7 +62,7 @@ export default function ChartSelector(props: ChartSelectorProps){
         const data = {
             time: new Date(e.target.time.value).getTime(),
             price: e.target.amount.valueAsNumber,
-            property_id: property.id,
+            refId: property.id,
             type: currentSection,
         }
         await serverAddData(data, 'usage');

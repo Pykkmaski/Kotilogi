@@ -8,7 +8,7 @@ export default async function UsagePage({params}){
     const property = await serverGetData('properties', {id: params.property_id}, true) as Kotilogi.PropertyType;
     throwErrorIfNull(property, 'Virhe ladattaessa taloa!');
 
-    const usage = await serverGetData('usage', {property_id: property.id}, false) as Kotilogi.UsageType[];
+    const usage = await serverGetData('usage', {refId: property.id}, false) as Kotilogi.UsageType[];
     throwErrorIfNull(usage, 'Virhe ladattaessa kulutustietoja!');
     
     return (
