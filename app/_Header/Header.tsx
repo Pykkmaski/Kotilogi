@@ -1,13 +1,12 @@
 "use client";
 
 import Link from 'next/link';
-import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
+import {signOut, useSession} from 'next-auth/react';
 import Menu from './Menu/Menu';
 import style from './component.module.scss';
 import Logo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
-import { redirect } from 'next/navigation';
 
 export default function Header(props){
     const {data: session, status} = useSession();

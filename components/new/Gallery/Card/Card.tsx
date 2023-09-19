@@ -14,21 +14,10 @@ type FooterProps = {
 
 function Footer(){
     const {isSelected, dispatch, item, setMenuOpen, menuOpen} = useCardContext();
-    const buttonClassName = menuOpen ? `${'card-menu-btn'} open` : 'card-menu-btn';
-
+    
     return (
         <div className='card-footer'>
             <input type="checkbox" checked={isSelected} onInput={() => dispatch({type: 'select_id', value: item.id})}/>
-
-            <div className={buttonClassName}>
-                <img className='cog-img' src={'/img/settings.png'} onClick={() => setMenuOpen(prev => !prev)}/>
-                <Menu open={menuOpen} id={undefined}>
-                    <nav>
-                        <a href="">Poista</a>
-                        <a href="">Muokkaa</a>
-                    </nav>
-                </Menu>
-            </div>
         </div>
     )
 }

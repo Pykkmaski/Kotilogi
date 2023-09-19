@@ -4,16 +4,17 @@ import Image from 'next/image';
 import useSubComponents from "kotilogi-app/hooks/useSubComponents"
 import useClassName from "kotilogi-app/hooks/useClassName";
 
-import EventsIcon from 'kotilogi-app/assets/events-img.png';
-import UsageIcon from 'kotilogi-app/assets/usage-img.png';
-import FilesIcon from 'kotilogi-app/assets/files-img.png';
-import ImagesIcon from 'kotilogi-app/assets/images-img.png';
+import EventsIcon from 'kotilogi-app/assets/history.png';
+import UsageIcon from 'kotilogi-app/assets/bolt.png';
+import ImagesIcon from 'kotilogi-app/assets/image.png';
+import FilesIcon from 'kotilogi-app/assets/copy.png';
 
-import styles from './styles.module.scss';
+import style from './style.module.scss';
+import Carousel from 'kotilogi-app/components/Carousel/Carousel';
 
-function DescriptionElement(props){
+export function DescriptionElement(props){
     return (
-        <div className={styles.element} id={props.id}>
+        <div className={style.element} id={props.id}>
             {
                 props.children
             }
@@ -21,76 +22,62 @@ function DescriptionElement(props){
     );
 }
 
-const Body = (props) => <div className={styles.body}>{props.children}</div>
+const Body = (props) => <div className={style.body}>{props.children}</div>
 DescriptionElement.Body = Body;
 
-const Title = (props) => <div className={styles.elementTitle}>{props.children}</div>
+const Title = (props) => <div className={style.elementTitle}>{props.children}</div>
 DescriptionElement.Title = Title;
 
-const Text = (props) => <div className={styles.text}>{props.children}</div>
+const Text = (props) => <div className={style.text}>{props.children}</div>
 DescriptionElement.Text = Text;
 
 const Img = (props) => {
-    const {className} = useClassName(styles.image, props.className)
-    return <Image alt="Description Image" src={props.src} className={className}></Image>
+    const {className} = useClassName(style.image, props.className)
+    return <Image alt="Description Image" src={props.src} className={className} width={100} height={100}></Image>
 }
 DescriptionElement.Img = Img;
 
 export default function AppDescription(props){
 
     const imageClassName = "animated";
+    const carouselItems = [
+        <DescriptionElement id={style.eventsElement} style={{backgroundImage: 'url(/img/AppDescription/events-img.png)'}}>
+            <DescriptionElement.Text>
+                <DescriptionElement.Title><span>Tapahtumat</span> <DescriptionElement.Img src={EventsIcon}></DescriptionElement.Img> </DescriptionElement.Title>
+                Tapahtumiin voit tallentaa niin pienet kuin suuremmat remontit joita taloosi tehdään tai on tehty. 
+                Lisää muutama hyvä kuva, kirjoita kattava kuvaus remontista ja liitteisiin vielä laskut ja muut kuitit.
+            </DescriptionElement.Text>
+            
+        </DescriptionElement>,
+
+        <DescriptionElement id={style.usageElement}>    
+            <DescriptionElement.Text>
+                <DescriptionElement.Title><span>Kulutus</span> <DescriptionElement.Img src={UsageIcon}></DescriptionElement.Img> </DescriptionElement.Title>
+                Kulutus osiossa saat seurattua talosi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut. 
+            </DescriptionElement.Text>
+            
+        </DescriptionElement>,
+
+        <DescriptionElement id="images-description">
+            <DescriptionElement.Text>
+                <DescriptionElement.Title><span>Kuvat</span> <DescriptionElement.Img src={ImagesIcon}></DescriptionElement.Img> </DescriptionElement.Title>
+                Tähän osioon voit lisätä vapaasti taloosi liittyviä kuvia. Vaikka muutama kuva eri vuoden aikoina.
+            </DescriptionElement.Text>
+            
+        </DescriptionElement>,
+
+        <DescriptionElement id="files-description">
+            <DescriptionElement.Text>
+                <DescriptionElement.Title><span>Tiedostot</span> <DescriptionElement.Img src={FilesIcon}></DescriptionElement.Img> </DescriptionElement.Title>
+                Tähän osioon on hyvä laittaa talteen esimerkiksi rakennuspiirustuksia, tontin lunastuskuitti vuosien takaa jne.
+            </DescriptionElement.Text>
+            
+        </DescriptionElement>
+    ];
 
     return (
-        <div className={styles.container}>
-            <div className={styles.containerTitle}>
-                Kotilogin Toiminnot
-            </div>
-
-            <div className={styles.body}>
-                <DescriptionElement id={styles.events}>
-                    <DescriptionElement.Body>
-                        <DescriptionElement.Img src={EventsIcon} className={imageClassName}/>
-                        <DescriptionElement.Title>Tapahtumat</DescriptionElement.Title>
-
-                        <DescriptionElement.Text>
-                            Tapahtumiin voit tallentaa niin pienet kuin suuremmat remontit joita taloosi tehdään tai on tehty. 
-                            Lisää muutama hyvä kuva, kirjoita kattava kuvaus remontista ja liitteisiin vielä laskut ja muut kuitit.
-                        </DescriptionElement.Text>
-                    </DescriptionElement.Body>
-                </DescriptionElement>
-
-                <DescriptionElement id="usage-description">
-                    
-                    <DescriptionElement.Body>
-                        <DescriptionElement.Img src={UsageIcon} className={imageClassName}/>
-                        <DescriptionElement.Title>Kulutus</DescriptionElement.Title>
-                        <DescriptionElement.Text>
-                            Kulutus osiossa saat seurattua talosi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut. 
-                        </DescriptionElement.Text>
-                    </DescriptionElement.Body>
-                </DescriptionElement>
-
-                <DescriptionElement id="images-description">
-                    <DescriptionElement.Body>
-                        <DescriptionElement.Img src={ImagesIcon} className={imageClassName}/>
-                        <DescriptionElement.Title>Kuvat</DescriptionElement.Title>
-                        <DescriptionElement.Text>
-                            Tähän osioon voit lisätä vapaasti taloosi liittyviä kuvia. Vaikka muutama kuva eri vuoden aikoina.
-                        </DescriptionElement.Text>
-                    </DescriptionElement.Body>
-                </DescriptionElement>
-
-                <DescriptionElement id="files-description">
-                    <DescriptionElement.Body>
-                        <DescriptionElement.Img src={FilesIcon} className={imageClassName}/>
-                        <DescriptionElement.Title>Tiedostot</DescriptionElement.Title>
-                        <DescriptionElement.Text>
-                            Tähän osioon on hyvä laittaa talteen esimerkiksi rakennuspiirustuksia, tontin lunastuskuitti vuosien takaa jne.
-                        </DescriptionElement.Text>
-                    </DescriptionElement.Body>
-                </DescriptionElement>
-            </div>
-            
-        </div>
-    )
+        <section className={style.container}>
+            <Carousel items={carouselItems} autoScroll={true}/>
+        </section>
+    );
 }

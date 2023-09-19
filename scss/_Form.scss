@@ -101,10 +101,11 @@ form .form-button-group{
     }
 
     input, select, textarea{
-        border-radius: 5px;
-        border: 1px solid $border-color;
         font-size: 1.25rem;
-
+        background: none;
+        border-radius: 5px;
+        background: white;
+        
         &.error{
             border-color: $danger-color;
         }

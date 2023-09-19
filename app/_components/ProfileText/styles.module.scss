@@ -7,10 +7,10 @@
     justify-content: center;
 
     position: relative;
-    padding: 5rem;
     
-    background: $event-header-color;
+    border-left: 1px solid whitesmoke;
     background-attachment: fixed;
+    padding: 1rem 0 1rem 0;
 
     .element{
         display: flex;
@@ -29,11 +29,11 @@
 
             h1{
                 margin-bottom: 2rem;
-                color: $primary-color;
+                color: white;
             }
         
             p{
-                font-size: 1.2rem;
+                font-size: 1rem;
                 max-width: 500px;
             }
 
@@ -65,10 +65,12 @@
 
 @media screen and (max-width: $mobile-width){
     .container{
+        border: none !important;
+
         .element{
             flex-flow: column !important;
             align-items: center;
-
+           
             p, h1, .signature{  
                 text-align: center;
             }

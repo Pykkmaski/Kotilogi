@@ -13,14 +13,15 @@ async function WelcomeText(props){
 
     return (
         <div className={styles.container}>
-            
-            <div className={styles.textContainer}>
-                <h1 className={styles.title}>"Talosi Huoltokirja"</h1>
-                <h2 className={styles.secondaryTitle}>Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa.</h2>
-            </div>
-            <Link href={linkButton.href} className={styles.registerLink}>{linkButton.text}</Link>
-            <Link href="/login" className={styles.loginLink} hidden={session !== null}>Tai Kirjaudu Sisään</Link>
             <div className={styles.bgOpacity}/>
+
+            <div className={styles.textContainer}>
+                <h1 className={styles.title}>Talosi Huoltokirja</h1>
+                <p>
+                    Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa.
+                </p>
+                <Link href={linkButton.href} className={styles.registerLink}>{linkButton.text}</Link>
+            </div>
         </div>
     );
     

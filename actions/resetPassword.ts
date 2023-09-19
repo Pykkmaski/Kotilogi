@@ -39,6 +39,9 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
 }
 
 export async function sendResetCode(email: string): Promise<number>{
+    const user = await db('users').where({email}).select('email');
+    if(!user.length) return StatusCode.INVALID_USER;
+
     const {transportOptions} = require('kotilogi-app/nodemailer.config');
     const transport = nodemailer.createTransport(transportOptions);
 

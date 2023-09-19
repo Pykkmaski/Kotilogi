@@ -38,4 +38,6 @@ Did a workaround and made the edit path a child of the base property_id path.
 + Fix property address not being filled by default when editing info.
 - Fix cannot destructure property 'filename' of (intermediate value) as it is undefined, when updating properties page.
 - Fix property values not updating without a refresh when changing them on the edit page.
++ Fix ability to send password reset emails to unregistered users.
+- Implement feedback for occuring errors when trying to reset passwords.
 

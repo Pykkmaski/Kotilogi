@@ -1,0 +1,13 @@
+.description{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+}
+
+@media screen and (max-width: 1000px){
+    .description{
+        display: flex !important;
+        flex-flow: column;
+        min-height: auto !important;
+    }
+}

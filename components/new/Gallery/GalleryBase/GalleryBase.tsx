@@ -10,6 +10,7 @@ import { serverGetData, serverGetDataById } from "kotilogi-app/actions/serverGet
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import Loading from "kotilogi-app/components/Loading/Loading";
 import BaseAddModalBody from "./Components/BaseAddModalBody";
+import { useGalleryWithDeleteContext } from "../GalleryWithDelete/GalleryWithDeleteProvider";
 
 type AddModalProps = {
     addModalOptions: GalleryBase.ModalOptions,
