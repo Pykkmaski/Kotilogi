@@ -2,6 +2,7 @@ import { serverGetDataById } from 'kotilogi-app/actions/serverGetData';
 import styles from './page.module.scss';
 import { throwErrorIfNull } from 'kotilogi-app/utils/throwErrorIfNull';
 import Link from 'next/link';
+import NavBar from 'kotilogi-app/components/NavBar/NavBar';
 
 export default async function InfoPage({params}){
     const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
@@ -15,8 +16,8 @@ export default async function InfoPage({params}){
 
             <div className={styles.subContainer}>
                 <div className={styles.titleContainer} style={undefined}>
-                    <h1>{property?.title}</h1>
                     <small>{property?.refId}</small>
+
                     <p>
                         {property!.description}
                     </p>
@@ -24,13 +25,23 @@ export default async function InfoPage({params}){
 
                 <div className={styles.infoContainer}>
                     <span className={styles.infoEntry}>
+                        Postinumero: 
+                        <span className={styles.value}> {property!.zipCode}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
                         Talotyyppi: 
                         <span className={styles.value}> {property!.buildingType}</span>
                     </span>
 
                     <span className={styles.infoEntry}>
+                        Väri: 
+                        <span className={styles.value}> {property!.color}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
                         <span>Rakennusvuosi:</span>
-                        <span className={styles.value}> {property!.buildYear}</span>
+                        <span className={styles.value} contentEditable={true}> {property!.buildYear}</span>
                     </span>
 
                     <span className={styles.infoEntry}>
@@ -41,6 +52,16 @@ export default async function InfoPage({params}){
                     <span className={styles.infoEntry}>
                         Rakennusmateriaali: 
                         <span className={styles.value}> {property!.buildingMaterial}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Katto: 
+                        <span className={styles.value}> {property!.roofType}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Katon Materiaali: 
+                        <span className={styles.value}> {property!.roofMaterial}</span>
                     </span>
 
                     <span className={styles.infoEntry}>
@@ -61,6 +82,16 @@ export default async function InfoPage({params}){
                     <span className={styles.infoEntry}>
                         Neliöt:
                         <span className={styles.value}> {property!.livingArea}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Ensisijainen Lämmitysjärjestelmä:
+                        <span className={styles.value}> {property!.primaryHeatingSystem}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Toissijainen Lämmitysjärjestelmä:
+                        <span className={styles.value}> {property!.secondaryHeatingSystem}</span>
                     </span>
                 </div>
             </div>

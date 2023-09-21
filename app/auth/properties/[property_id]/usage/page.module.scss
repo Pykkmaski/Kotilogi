@@ -12,6 +12,15 @@
     }
 }
 
+.selectors{
+    display: flex;
+    gap: 0.5rem;
+
+    select{
+        height: 100%;
+    }
+}
+
 .selectorHeader{
     padding: 1rem;
     display: flex;
@@ -54,8 +63,10 @@
     padding: 0.25rem;
     align-items: center;
     background: #0006;
-    
+    border-radius: 5px;
+
     &:hover{
         background: $primary-color;
+        color: black;
     }
 }

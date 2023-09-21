@@ -59,6 +59,11 @@ export default function InfoForm({property}){
             </Form.Group>
 
             <Form.Group>
+                <label>Postinumero</label>
+                <span className={styles.ownerText}>{currentData?.zipCode}</span>
+            </Form.Group>
+            
+            <Form.Group>
                 <label>Osoite</label>
                 <input name="title" onChange={updateData} defaultValue={currentData?.title}></input>
             </Form.Group>

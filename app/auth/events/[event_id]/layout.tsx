@@ -9,7 +9,7 @@ export default async function EventPageLayout({params, children}){
 
     const headerContent = (
         <>
-            <NavBar>
+            <NavBar id="main-navbar">
                 <Link href="info">Tiedot</Link>
                 <Link href="images">Kuvat</Link>
                 <Link href="files">Tiedostot</Link>
@@ -22,6 +22,7 @@ export default async function EventPageLayout({params, children}){
 
     return (
         <Page headerContent={headerContent}>
+            <h1>{title}</h1>
             {children}
         </Page>
     )

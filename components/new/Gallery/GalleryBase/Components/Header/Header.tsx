@@ -10,7 +10,7 @@ export default function Header(props: HeaderProps){
     return (
         <div className={style.header}>
             <div className={style.titleContainer}>
-                <h1>{props.title}</h1>
+                <h2>{props.title}</h2>
                 <small>{props.subTitle}</small>
             </div>
 

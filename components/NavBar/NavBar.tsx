@@ -3,22 +3,30 @@
 import { useEffect, useRef } from 'react';
 import style from './style.module.scss';
 import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
 
 type Props = {
+    id: string,
     children: React.ReactNode,
 }
 
 export default function NavBar(props: Props){
     const firstRender = useRef(true);
     const pathname = usePathname();
-    
+ 
     useEffect(() => {
-        const links = document.querySelectorAll(`.${style.navBarContainer}  a`);
+        const links = document.querySelectorAll(`#${props.id} a`);
         if(firstRender.current === true){
-            //Make the first nav element activated by default on the first render.
+            /**
+             * Make the first nav element activated by default on the first render.
+             * If there are searchParams, use those primarily. Otherwise use the end of the pathname.
+             */
+
             const section = pathname.split('/').at(-1);
             const linksAsArray = Array.from(links);
             const element = linksAsArray.find(item => item.getAttribute('href') === section);
+
             if(!element) throw new Error('Unable to render NavBar, default index cannot be set due to undefined element!');
 
             const index = linksAsArray.indexOf(element);
@@ -46,7 +54,7 @@ export default function NavBar(props: Props){
     }, []);
 
     return (
-        <nav className={style.navBarContainer}>
+        <nav className={style.navBarContainer} id={props.id}>
             {props.children}
         </nav>
     );

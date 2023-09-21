@@ -5,7 +5,6 @@ export default async function EventInfoPage({params}){
 
     return (
         <section>
-            <h1>{event.title}</h1>
             <h2>{event.createdAt}</h2>
             <p>
                 {event.description}

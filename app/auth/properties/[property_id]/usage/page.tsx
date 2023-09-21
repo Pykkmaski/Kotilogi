@@ -15,8 +15,7 @@ export default async function UsagePage({params}){
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.title}>
-                    <h1>{property!.title}</h1>
-                    <small>Kulutustiedot</small>
+                    <h2>Kulutustiedot</h2>
                 </div>
             </div>
 

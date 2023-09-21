@@ -12,7 +12,7 @@ export const options = {
     
     pages: {
         signIn: '/login',
-        error: '/error',
+        error: '/login',
     },
 
     providers : [

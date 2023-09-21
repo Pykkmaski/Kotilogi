@@ -9,6 +9,8 @@ import Header from "./Components/Header/Header";
 import AddButton from "./Components/AddButton/AddButton";
 import { GalleryContext } from "./GalleryContext";
 import ViewSelector from "./Components/ViewSelector/ViewSelector";
+import ActionSelector from "./Components/ActionSelector/ActionSelector";
+import Entry from "./Components/ActionSelector/Components/Entry/Entry";
 
 export default function GalleryBase(props: GalleryBase.Props){
     const initialState: GalleryBase.State = {
@@ -27,6 +29,11 @@ export default function GalleryBase(props: GalleryBase.Props){
         refId: props.refId,
         dispatch,
     }
+
+    const selectorEntries = [
+        ...props.selectorEntries,
+        <Entry text="Valitse Kaikki" onClick={() => dispatch({type: 'select_all', value: null})}/>,
+    ];
 
     const buttons = [
         ...props.headerButtons,

@@ -1,10 +1,13 @@
 import NavBar from "kotilogi-app/components/NavBar/NavBar";
 import Page from "kotilogi-app/components/Page/Page";
+import db from "kotilogi-app/dbconfig";
 import Link from "next/link";
 
-export default function PropertiesLayout({children}){
+export default async function PropertiesLayout({params, children}){
+    const {title: address} = await db('properties').where({id: params.property_id}).select('title').first();
+    
     const headerContent = (
-        <NavBar>
+        <NavBar id="main-navbar">
             <Link href="info">Tiedot</Link>
             <Link href="events">Tapahtumat</Link>
             <Link href="usage">Kulutustiedot</Link>
@@ -16,6 +19,7 @@ export default function PropertiesLayout({children}){
 
     return (
         <Page headerContent={headerContent}>
+            <h1>{address}</h1>
             {children}
         </Page>
     );

@@ -3,12 +3,13 @@ import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import DeleteButton from "./DeleteButton";
 import { GalleryWithDeleteProvider } from "./GalleryWithDeleteProvider";
+import Entry from "../GalleryBase/Components/ActionSelector/Components/Entry/Entry";
+import DeleteActionEntry from "./Components/DeleteActionEntry/DeleteActionEntry";
 
 export default function GalleryWithDelete(props: GalleryWithDelete.Props){
     
     const headerButtons: JSX.Element[] = [
         ...props.headerButtons,
-        <SelectAllButton/>,
         <DeleteButton deleteModalOptions={props.deleteModalOptions}/>
     ];
 
@@ -31,6 +32,7 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
             <GalleryBase
                 {...props}
                 headerButtons={headerButtons}
+                selectorEntries={[]}
             />
         </GalleryWithDeleteProvider>
     )

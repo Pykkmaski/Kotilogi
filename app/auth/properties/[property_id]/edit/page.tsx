@@ -10,7 +10,6 @@ export default async function InfoEditPage({params}){
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>{property?.title}</h1>
                 <small>Tiedot</small>
             </div>
 

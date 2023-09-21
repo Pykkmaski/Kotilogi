@@ -36,6 +36,11 @@ declare namespace GalleryBase{
          * Reference id to parent content, eg. The property id of an event.
          */
         refId: Kotilogi.IdType,
+
+        /**
+         * Entries going in the action selector.
+         */
+        selectorEntries: JSX.Element[]
     }
     
     declare type CardProps = {
