@@ -1,0 +1,25 @@
+@import 'kotilogi-app/scss/Config';
+
+.navBarContainer{
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    gap: 1rem;
+
+    a{
+        color: $primary-color;
+        font-weight: 500;
+        padding: 0.5rem;
+        border-radius: 5px;
+        transition: background-color 0.2s ease;
+
+        &.activated{
+            background-color: $primary-color;
+            color: black;
+
+            &:hover{
+                text-decoration: none !important;
+            }
+        }
+    }
+}

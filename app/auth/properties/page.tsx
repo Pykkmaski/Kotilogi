@@ -1,5 +1,7 @@
 import { getServerSession } from "next-auth";
 import { options } from "../../api/auth/[...nextauth]/options";
+import Page from "kotilogi-app/components/Page/Page";
+import Link from "next/link";
 import PropertiesGallery from "kotilogi-app/components/new/Gallery/PropertiesGallery/PropertiesGallery";
 
 type SessionType = {
@@ -8,12 +10,13 @@ type SessionType = {
     },
 } | null;
 
-export default async function PropertiesPage({params}){
+export default async function PropertiesPage({searchParams}){
     const session: SessionType = await getServerSession(options);
+    if(!session) throw new Error('Failed to load dashboard!');
 
     return (
-       <PropertiesGallery 
-            ownerId={session!.user.email}
-        />
+        <Page backgroundUrl="/img/Properties/default-bg.jpg">
+            <PropertiesGallery ownerId={session.user.email}/>
+        </Page>
     );
 }

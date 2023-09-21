@@ -31,12 +31,13 @@ function getImageUrl(entry: any, dbTableName: Kotilogi.Table): string | null{
     return  url;
 }
 
-function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdType): string{
+function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdType, refId?: Kotilogi.IdType): string{
     if(dbTableName == 'properties'){
         return `/auth/properties/${contentId}/info`;
     }
     else if(dbTableName == 'propertyEvents'){
-        return `/auth/events/${contentId}`;
+        if(!refId) throw new Error('getCardDestination: refId must be defined if dbTableName is propertyEvents!');
+        return `/auth/events/${contentId}/info`;
     }
     else{
         return `/api/files/${contentId}?dbTableName=${dbTableName}`;
@@ -44,7 +45,7 @@ function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdT
 }
 
 export default function getCard(entry, dbTableName: Kotilogi.Table, key: number): JSX.Element | null{
-    const destination = getCardDestination(dbTableName, entry.id);
+    const destination = getCardDestination(dbTableName, entry.id, entry.refId);
     
     entry.imageUrl = getImageUrl(entry, dbTableName) || '/copy.png';
 

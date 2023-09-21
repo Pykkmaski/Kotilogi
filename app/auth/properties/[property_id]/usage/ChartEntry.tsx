@@ -28,7 +28,6 @@ export default function ChartEntry(props: ChartEntryProps){
         <div className={styles.chartEntry}>
             <span>Päiväys: {new Date(props.data.time).toLocaleDateString('fi-Fi')}</span>
             <span>Hinta: {props.data.price + '€'}</span>
-            <SettingsButton/>
         </div>
     )
 }

@@ -1,3 +1,5 @@
+"use server";
+
 import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
 import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import Error from "../GalleryBase/Error";

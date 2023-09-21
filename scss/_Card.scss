@@ -4,7 +4,7 @@
 .card{
     @include SlideUpAnimation;
 
-    background: lighten($secondary-color, 7);
+    background: lighten($secondary-color, 15);
 
     display: flex;
     flex-flow: column;
@@ -15,6 +15,7 @@
     position: relative;
 
     transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
+    box-shadow: 2px 2px 2px 2px #0008;
 
     a{
         display: flex;
@@ -115,9 +116,6 @@
         }
     }
 
-
-    
-
     .card-text, .card-body{
         flex: 1;
         max-height: 250px;
@@ -160,13 +158,15 @@
             width: 50px;
         }
 
+        .cog-img{
+            width: 25px;
+            transition: transform 0.2s ease-out;
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
         .card-menu-btn{
-            .cog-img{
-                width: 25px;
-                transition: transform 0.2s ease-out;
-                filter: invert(1);
-                opacity: 0.9;
-            }
+            
 
             .card-menu{
                 position: absolute;

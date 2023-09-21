@@ -1,6 +1,19 @@
 @import 'kotilogi-app/scss/Config';
 @import './_partials/gallery';
 
+.page{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    flex: 1;
+    background-size: cover;
+    z-index: -2;
+    background: url('/img/Events/default-bg.jpg');
+    background-size: cover;
+}
+
 #main-header{
     transition: all 0.2s ease;
 }

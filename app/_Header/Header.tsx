@@ -32,6 +32,7 @@ export default function Header(props){
                     <div className={style.links}>
                         <span id={style.userEmail}>{userEmail}</span>
                         <Link href="/auth/properties">Talot</Link>
+                        <Link href="/auth/events"></Link>
                         <button id={style.logoutButton} className="primary" type="button" onClick={async () => {
                             await signOut();
                         }}>Kirjaudu Ulos</button>

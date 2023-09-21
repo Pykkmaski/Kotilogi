@@ -2,6 +2,6 @@ import PropertyFilesGallery from "kotilogi-app/components/new/Gallery/PropertyFi
 
 export default async function PropertyEventsPage({params}){
     return (
-       <PropertyFilesGallery property_id={params.property_id}/>
+       <PropertyFilesGallery propertyId={params.property_id}/>
     );
 }

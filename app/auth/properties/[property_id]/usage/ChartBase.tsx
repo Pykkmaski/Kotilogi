@@ -22,6 +22,10 @@ export default function ChartBase(props: ChartBaseProps){
         ...chartOptions,
         ...props.options,
 
+        chart: {
+            background: '#0006',
+        },
+
         title: {
             ...chartOptions.title,
             ...props.options.title,
@@ -39,6 +43,11 @@ export default function ChartBase(props: ChartBaseProps){
         xaxis: {
             ...chartOptions.xaxis,
            categories,
+           labels: {
+            style:{
+                colors: 'white'
+            }
+           }
         },
 
         tooltip: {

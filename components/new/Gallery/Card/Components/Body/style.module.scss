@@ -1,0 +1,20 @@
+.text, .body{
+    flex: 1;
+    max-height: 250px;
+}
+
+.text{
+    overflow: hidden;
+    max-height: auto;
+    line-clamp: 4;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: white;
+}
+
+.card-body{
+    display: inherit;
+    flex-flow: column;
+    width: 100%;
+    padding: 0.5rem;
+}

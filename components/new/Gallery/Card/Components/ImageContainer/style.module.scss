@@ -1,0 +1,45 @@
+.imageContainer{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    max-width: inherit;
+    height: 18rem;
+    margin-bottom: 1rem;
+
+    .gradient{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 18rem;
+        background: linear-gradient(rgba(black, 0), rgba(black, 0.25), rgba(black, 0.75));
+    }
+
+    .title{
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 100%;
+        white-space: nowrap;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        color: white;
+    }
+
+    .image{
+        display: inherit;
+        height: 18rem;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+        color: white;
+        object-fit:cover;
+        object-position: 50%;
+
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+    }
+}

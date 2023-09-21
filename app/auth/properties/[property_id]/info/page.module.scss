@@ -6,9 +6,10 @@
     flex: 1;
     position: relative;
 
+    
+
     .subContainer{
         padding: 1rem;
-        background: linear-gradient(rgba(black, 1), rgba(black, 0.1));
         flex: 1;
 
         .titleContainer{ 
@@ -28,14 +29,33 @@
             }
 
             border-bottom: 1px solid white;
+            margin-bottom: 1rem;
         }
     
         .infoContainer{
             display: flex;
             flex-flow: column;
             gap: 1rem;
-            width: 60%;
             
+            .infoEntry{
+                background: #0008;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 0.5rem;
+                align-items: center;
+                border-radius: 5px;
+
+                &:hover{
+                    background: $primary-color;
+                    color: black;
+
+                    span{
+                        color: black;
+                    }
+                }
+            }
+
             a{
                 color: $primary-color;
             }
@@ -46,7 +66,7 @@
             }
     
             .value{
-                font-size: 1.5rem; 
+                font-size: 2rem; 
                 color: $primary-color;
             }
         }

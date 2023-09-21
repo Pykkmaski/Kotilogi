@@ -33,7 +33,7 @@ declare namespace GalleryBase{
         dbTableName: Kotilogi.Table,
 
         /**
-         * Reference id of the table. For example the id of the owner in the case of properties.
+         * Reference id to parent content, eg. The property id of an event.
          */
         refId: Kotilogi.IdType,
     }

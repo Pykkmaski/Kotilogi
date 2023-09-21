@@ -35,3 +35,13 @@
         }
     }
 }
+
+.timerBar{
+    position: absolute;
+    bottom: 2px;
+    height: 5px;
+    $width-percent: attr(data-width px);
+
+    width: $width-percent;
+    background: white;
+}

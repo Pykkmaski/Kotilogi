@@ -41,6 +41,7 @@ export default function LoginPage(props){
 
     return (
         <div className={styles.container}>
+            <div className={styles.gradient}/>
             <Form onSubmit={onSubmitHandler}>
                 <Form.Header>Kirjaudu Sisään</Form.Header>
                 <Form.Group>

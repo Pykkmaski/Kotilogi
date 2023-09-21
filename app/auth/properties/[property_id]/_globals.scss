@@ -9,7 +9,6 @@ $navbar-color: rgb(42, 42, 42);
 }
 
 @mixin Header{
-    background: lighten($secondary-color, 5);
     padding: 0 1rem 0 1rem;
 
     h1{

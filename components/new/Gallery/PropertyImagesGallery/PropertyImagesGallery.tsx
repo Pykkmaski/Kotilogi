@@ -15,11 +15,11 @@ import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
  */
 
 type PropertyImagesGalleryProps = {
-    property_id: Kotilogi.IdType,
+    propertyId: Kotilogi.IdType,
 }
 
 export default async function PorpertyImagesGallery(props: PropertyImagesGalleryProps){
-    const {address} = await db('properties').where({id: props.property_id}).select('title').first();
+    const {address} = await db('properties').where({id: props.propertyId}).select('title').first();
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Kuva',
@@ -39,7 +39,7 @@ export default async function PorpertyImagesGallery(props: PropertyImagesGallery
     return (
         <GalleryWithDelete
             dbTableName="propertyImages"
-            refId={props.property_id}
+            refId={props.propertyId}
             title='Kuvat'
             subTitle={address}
             headerButtons={[]}

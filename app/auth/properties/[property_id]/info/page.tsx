@@ -7,10 +7,10 @@ export default async function InfoPage({params}){
     const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
     throwErrorIfNull(property, 'Talon lataamienn epäonnistui!');
 
-    const backgroundImage = `url(/api/files?dbTableName=propertyImages&id=${property?.mainImageId})`
+    //const backgroundImage = `url(/api/files?dbTableName=propertyImages&id=${property?.mainImageId})`
     
     return (
-        <div className={styles.container} style={{backgroundImage, backgroundSize: 'cover'}}>
+        <div className={styles.container}>
             <Link href="edit" className={styles.editLink}>Muokkaa</Link>
 
             <div className={styles.subContainer}>
@@ -23,24 +23,44 @@ export default async function InfoPage({params}){
                 </div>
 
                 <div className={styles.infoContainer}>
-                    <span>
+                    <span className={styles.infoEntry}>
                         Talotyyppi: 
                         <span className={styles.value}> {property!.buildingType}</span>
                     </span>
 
-                    <span>
-                        Rakennusvuosi: 
+                    <span className={styles.infoEntry}>
+                        <span>Rakennusvuosi:</span>
                         <span className={styles.value}> {property!.buildYear}</span>
                     </span>
 
-                    <span>
+                    <span className={styles.infoEntry}>
                         Energialuokka: 
                         <span className={styles.value}> {property!.energyClass}</span>
                     </span>
 
-                    <span>
+                    <span className={styles.infoEntry}>
                         Rakennusmateriaali: 
                         <span className={styles.value}> {property!.buildingMaterial}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Huoneiden Lukumäärä:
+                        <span className={styles.value}> {property!.roomCount}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Kerrosten Lukumäärä:
+                        <span className={styles.value}> {property!.floorCount}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Vessojen Lukumäärä:
+                        <span className={styles.value}> {property!.wcCount}</span>
+                    </span>
+
+                    <span className={styles.infoEntry}>
+                        Neliöt:
+                        <span className={styles.value}> {property!.livingArea}</span>
                     </span>
                 </div>
             </div>

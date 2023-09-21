@@ -3,6 +3,7 @@ import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import DeleteButton from "./DeleteButton";
 import { GalleryWithDeleteProvider } from "./GalleryWithDeleteProvider";
+
 export default function GalleryWithDelete(props: GalleryWithDelete.Props){
     
     const headerButtons: JSX.Element[] = [

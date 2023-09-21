@@ -10,11 +10,11 @@ import Form from "kotilogi-app/components/Form";
  */
 
 type PropertyFilesGalleryProps = {
-    property_id: Kotilogi.IdType,
+    propertyId: Kotilogi.IdType,
 };
 
 export default async function PropertyFilesGallery(props: PropertyFilesGalleryProps){
-    const {address} = await db('properties').where({id: props.property_id}).select('title').first();
+    const {address} = await db('properties').where({id: props.propertyId}).select('title').first();
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Tiedosto',
@@ -34,7 +34,7 @@ export default async function PropertyFilesGallery(props: PropertyFilesGalleryPr
     return (
         <GalleryWithDelete
             dbTableName="propertyFiles"
-            refId={props.property_id}
+            refId={props.propertyId}
             
             contentType="property_file"
             title="Tiedostot"

@@ -1,0 +1,51 @@
+@import 'kotilogi-app/scss/Config';
+
+.page{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    flex: 1;
+    background-size: cover;
+    z-index: 0;
+    background: url('/img/Events/default-bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.content{
+    width: 50%;
+    z-index: 2;
+
+    .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid whitesmoke;
+
+        .editButton{
+            cursor: pointer;
+            color: $primary-color;
+            &:hover{
+                text-decoration: none;
+            }
+        }
+    }
+
+    h1{
+        margin-bottom: 1.5rem;
+    }
+    
+
+    p{
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .content{
+        width: auto !important;
+    }
+}
+

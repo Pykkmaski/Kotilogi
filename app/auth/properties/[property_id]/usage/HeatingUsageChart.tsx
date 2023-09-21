@@ -5,7 +5,7 @@ import { ChartProps } from "./ChartProps";
 export default function HeatingUsageChart(props: ChartProps){
     const options: ApexOptions = {
         chart: {
-            background: '#f001',
+            background: '#0004',
         },
 
         colors: ['#f00'],

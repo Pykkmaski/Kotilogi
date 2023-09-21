@@ -1,0 +1,13 @@
+.body{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+
+    gap: 1rem;
+    justify-content: center;
+    
+    &.empty{
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+    }
+}
