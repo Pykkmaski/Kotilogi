@@ -1,4 +1,4 @@
-.container{
+.hoverOverlayContainer{
     z-index: 3;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
@@ -19,4 +19,5 @@
     visibility: visible;
     background: #0004;
     backdrop-filter: blur(10px);
+    z-index: 1;
 }

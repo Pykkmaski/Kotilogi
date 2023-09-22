@@ -25,7 +25,6 @@ export default async function InfoPage({params}){
     return (
         <div className={styles.container}>
             <Link href="edit" className={styles.editLink}>Muokkaa</Link>
-
             <div className={styles.subContainer}>
                 <div className={styles.titleContainer} style={undefined}>
                     <small>{property?.refId}</small>

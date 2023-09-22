@@ -22,7 +22,7 @@
             p{
                 margin-top: 2rem;
                 color: white;
-                font-size: 1.5rem;
+                font-size: 1rem;
             }
 
             border-bottom: 1px solid white;
@@ -63,7 +63,7 @@
             }
     
             .value{
-                font-size: 2rem; 
+                font-size: 1rem; 
                 color: $primary-color;
             }
         }
@@ -73,7 +73,7 @@
 .editLink{
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 0.5rem;
     color: $primary-color;
     font-weight: 600;
 }

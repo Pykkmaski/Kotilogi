@@ -6,6 +6,7 @@ import nodemailer from 'nodemailer';
 import db from 'kotilogi-app/dbconfig';
 import { StatusCode } from 'kotilogi-app/utils/statusCode';
 import jwt from 'jsonwebtoken';
+import domainName from 'kotilogi-app/domain.config';
 
 export async function resetPassword(verificationCode: string, newPassword: string): Promise<number>{
     try{
@@ -56,7 +57,7 @@ export async function sendResetCode(email: string): Promise<number>{
     }
 
     const resetToken: string = jwt.sign(payload, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
-    const link = 'http://localhost:3000/login/reset?token=' + resetToken;
+    const link = `${domainName}?token=${resetToken}`;
     const htmlContent = `
         <html>
             <head>

@@ -1,6 +1,6 @@
 @import 'kotilogi-app/scss/Config';
 
-.container{
+.galleryContainer{
     position: relative;
     display: flex;
     flex-flow: column;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: $mobile-width){
-    .container .galleryBody{
+    .galleryContainer .galleryBody{
         display: flex !important;
         flex-flow: column;
         align-items: center;

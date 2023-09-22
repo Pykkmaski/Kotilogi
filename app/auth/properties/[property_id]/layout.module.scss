@@ -1,60 +1,17 @@
-@import './globals';
-@import 'kotilogi-app/scss/Config';
-
-.navbar{
-    width: 200px;
-    display: flex;
-    flex-flow: column;
-    gap: 1rem;
-    align-items: center;
-    background: $navbar-color;
-    padding-top: 1rem;
-
-    a{
-        padding: 0.25rem 1rem 0.25rem 1rem;
-
-        color: white;
-        font-weight: normal;
-        width: 100%;;
-
-        &:hover{
-            background: darken($primary-color, 10);
-        }
-    }
-
-    .title{
-        color: white;
-        border-bottom: 1px solid white;
-        width: 100%;
-        text-align: center;
-    }
+#mainNavSelector{
+    display: none;
 }
 
-.container{
-    display: flex;
-    flex-flow: row;
-    flex: 1;
-    width: 100%;
+#mainNavBar{
+    display:block;
 }
 
-@media screen and (max-width: $mobile-width){
-    .navbar{
-        flex-flow: row !important;
-        width: auto !important;
-        flex: 0 1;
-        padding: 1rem;
-
-        a{
-            padding: 0 !important;
-            text-align: center;
-        }
-
-        .title{
-            display: none;
-        }
+@media screen and (max-width: 1000px){
+    #mainNavSelector{
+        display: block;
     }
-
-    .container{
-        flex-flow: column;
+    
+    #mainNavBar{
+        display:none;
     }
 }

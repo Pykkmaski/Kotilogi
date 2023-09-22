@@ -2,14 +2,14 @@ import Entry from './Components/Entry/Entry';
 import style from './style.module.scss';
 
 type Props = {
-    entries: JSX.Element[],
+    children: React.ReactNode,
 }
 
 export default function ActionSelector(props: Props){
     return (
         <select className={style.actionSelectorContainer}>
-            <option value="" selected={true} disabled>Valitse Toiminto</option>
-            {props.entries}
+            <option value="" selected={true} disabled={true}>Valitse Toiminto</option>
+            {props.children}
         </select>
     )
 }

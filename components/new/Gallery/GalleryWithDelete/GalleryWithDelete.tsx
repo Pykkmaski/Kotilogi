@@ -1,39 +1,26 @@
+"use client";
+
 import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataByIds";
 import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import DeleteButton from "./DeleteButton";
 import { GalleryWithDeleteProvider } from "./GalleryWithDeleteProvider";
-import Entry from "../GalleryBase/Components/ActionSelector/Components/Entry/Entry";
-import DeleteActionEntry from "./Components/DeleteActionEntry/DeleteActionEntry";
+import { useState } from "react";
+import DeleteModal from "./Components/DeleteModal/DeleteModal";
 
 export default function GalleryWithDelete(props: GalleryWithDelete.Props){
+    
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     
     const headerButtons: JSX.Element[] = [
         ...props.headerButtons,
         <SelectAllButton/>,
-        <DeleteButton deleteModalOptions={props.deleteModalOptions}/>
+        <DeleteButton toggleModal={setShowDeleteModal}/>
     ];
 
-    const deleteItem = async (id: Kotilogi.IdType) => {
-        "use server"
-        try{
-            const result = await serverDeleteDataByIds([id], props.dbTableName);
-            if(!result) throw new Error('Failed to delete item with id ' + id);
-        }
-        catch(err){
-            console.log(err.message);
-        }
-    }
-
-    const contextValue = {
-        deleteItem,
-    }
-    return (
-        <GalleryWithDeleteProvider value={contextValue}>
-            <GalleryBase
-                {...props}
-                headerButtons={headerButtons}
-            />
-        </GalleryWithDeleteProvider>
-    )
+    return ( 
+        <GalleryBase {...props} headerButtons={[]}>
+            <DeleteModal show={showDeleteModal} toggleVisible={setShowDeleteModal}/>
+        </GalleryBase>
+    );
 }

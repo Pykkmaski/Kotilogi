@@ -13,6 +13,7 @@ import ActionSelector from "./Components/ActionSelector/ActionSelector";
 import Entry from "./Components/ActionSelector/Components/Entry/Entry";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import Form from "kotilogi-app/components/Form";
+import AddModal from "./Components/AddModal/AddModal";
 
 export default function GalleryBase(props: GalleryBase.Props){
     const initialState: GalleryBase.State = {
@@ -34,7 +35,7 @@ export default function GalleryBase(props: GalleryBase.Props){
 
     const buttons = [
         ...props.headerButtons,
-        <AddButton addModalOptions={props.addModalOptions}/>
+        <AddButton/>
     ];
 
     useEffect(() => {
@@ -62,8 +63,10 @@ export default function GalleryBase(props: GalleryBase.Props){
     }, []);
 
     return (
-        <div className={style.container}>
+        <div className={style.galleryContainer}>
             <GalleryContext.Provider value={contextValue}>
+                {props.children}
+                <AddModal headerText={props.addModalOptions.headerText} bodyContent={props.addModalOptions.bodyContent}/>
                 <Header
                     title={props.title}
                     subTitle={props.subTitle}

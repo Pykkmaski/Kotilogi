@@ -14,11 +14,6 @@ export default function ImageContainer(props: Props){
 
     return (
         <div className={style.imageContainer}>
-            <HoverOverlay visible={menuOpen}>
-                <button className="primary">Muokkaa</button>
-                <button className="secondary">Avaa</button>
-            </HoverOverlay>
-
             <div className={style.gradient}/>
             <div className={style.title}>{props.title}</div>
           

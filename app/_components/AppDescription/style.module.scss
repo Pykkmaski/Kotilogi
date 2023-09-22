@@ -36,6 +36,15 @@ $title-color : rgb(0, 0, 0);
             text-align: left;
             justify-content: space-between;
             padding: 0 1rem 0 1rem;
+            align-items: center;
+
+            .image{
+                filter: invert(1);
+                $size: 75px;
+        
+                width: 70px;
+                height: 70px;
+            }
         }
 
         text-align: center;
@@ -44,13 +53,7 @@ $title-color : rgb(0, 0, 0);
         max-width: 500px;
     }
 
-    .image{
-        filter: invert(1);
-        $size: 75px;
-
-        width: $size;
-        height: $size;
-    }
+    
 }
    
 
@@ -64,6 +67,11 @@ $title-color : rgb(0, 0, 0);
 
         .title{
             font-size: 1.5rem !important;
+        }
+
+        .image{
+            width: 1.7rem !important;
+            height: 1.7rem !important;
         }
     }
 }

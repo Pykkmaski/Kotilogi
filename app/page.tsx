@@ -7,8 +7,6 @@ import Carousel from 'kotilogi-app/components/Carousel/Carousel';
 import style from './page.module.scss';
 
 export default function Page(props){
-    const carouselItems = [1, 2, 3];
-
     return (
         <>
             <WelcomeText/>

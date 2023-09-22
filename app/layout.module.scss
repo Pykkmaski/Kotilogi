@@ -7,18 +7,3 @@
     min-height: 100vh;
     color: $text-color;
 }
-
-.container{
-    display: flex;
-    flex-flow: column;
-    
-    $margin-amount: 0;
-    margin: 0 $margin-amount 0 $margin-amount;
-    flex: 1;
-}
-
-@media screen and (max-width: $mobile-width){
-    .container{
-        margin: 0 !important;
-    }
-}
