@@ -13,7 +13,7 @@ const plans = [
 
 exports.up = function(knex) {
     return knex.schema.alterTable(tableName, tbl => {
-        tbl.string(columnName, 11).checkIn(plans).defaultTo(planes.at(-1)).notNullable();
+        tbl.string(columnName, 11).checkIn(plans).defaultTo(plans.at(-1)).notNullable();
     })
 };
 
