@@ -14,7 +14,7 @@ declare namespace GalleryBase{
     declare type Props = {
         title: string,
         subTitle: string,
-        children: React.ReactNode,
+        children?: React.ReactNode,
 
         /**
          * Additional buttons to include with the default add button common to all galleries.

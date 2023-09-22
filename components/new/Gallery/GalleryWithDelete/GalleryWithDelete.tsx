@@ -14,12 +14,11 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
     
     const headerButtons: JSX.Element[] = [
         ...props.headerButtons,
-        <SelectAllButton/>,
         <DeleteButton toggleModal={setShowDeleteModal}/>
     ];
 
     return ( 
-        <GalleryBase {...props} headerButtons={[]}>
+        <GalleryBase {...props} headerButtons={headerButtons}>
             <DeleteModal show={showDeleteModal} toggleVisible={setShowDeleteModal}/>
         </GalleryBase>
     );
