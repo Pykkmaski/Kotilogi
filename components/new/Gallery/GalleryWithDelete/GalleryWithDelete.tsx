@@ -10,6 +10,7 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
     
     const headerButtons: JSX.Element[] = [
         ...props.headerButtons,
+        <SelectAllButton/>,
         <DeleteButton deleteModalOptions={props.deleteModalOptions}/>
     ];
 
@@ -32,7 +33,6 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
             <GalleryBase
                 {...props}
                 headerButtons={headerButtons}
-                selectorEntries={[]}
             />
         </GalleryWithDeleteProvider>
     )

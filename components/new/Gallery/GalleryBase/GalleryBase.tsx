@@ -32,11 +32,6 @@ export default function GalleryBase(props: GalleryBase.Props){
         dispatch,
     }
 
-    const selectorEntries = [
-        ...props.selectorEntries,
-        <Entry text="Valitse Kaikki" onClick={() => dispatch({type: 'select_all', value: null})}/>,
-    ];
-
     const buttons = [
         ...props.headerButtons,
         <AddButton addModalOptions={props.addModalOptions}/>

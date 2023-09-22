@@ -40,7 +40,6 @@ declare namespace GalleryBase{
         /**
          * Entries going in the action selector.
          */
-        selectorEntries: JSX.Element[]
     }
     
     declare type CardProps = {
