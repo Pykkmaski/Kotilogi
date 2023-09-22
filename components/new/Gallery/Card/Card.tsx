@@ -33,7 +33,7 @@ export default function Card(props: GalleryBase.CardProps){
     return (
         <CardContext.Provider value={contextValue}>
             <div className={containerClassName} key={props.key}>
-                <Link href={props.destination} target={linkTarget}>
+                <Link href={props.destination} target={linkTarget} style={{pointerEvents: menuOpen ? 'none' : 'all'}}>
                     <ImageContainer imageUrl={imageUrl} title={props.item.title}/>
                     <Body/>
                 </Link>

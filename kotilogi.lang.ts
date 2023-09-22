@@ -66,9 +66,9 @@ const lang = {
         'en': 'Color'
       },
       title: {
-        'fi': 'Otsikko',
-        'se': 'Rubrik',
-        'en': 'Title'
+        'fi': 'Osoite',
+        'se': 'Adress',
+        'en': 'Adress'
       },
       zipCode: {
         'fi': 'Postinumero',

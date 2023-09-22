@@ -15,9 +15,7 @@ export default async function EventPageLayout({params, children}){
                 <Link href="files">Tiedostot</Link>
                 <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Taloon</Link>
             </NavBar>
-            
         </>
-        
     );
 
     return (

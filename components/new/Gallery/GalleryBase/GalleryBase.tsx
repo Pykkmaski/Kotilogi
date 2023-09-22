@@ -11,6 +11,8 @@ import { GalleryContext } from "./GalleryContext";
 import ViewSelector from "./Components/ViewSelector/ViewSelector";
 import ActionSelector from "./Components/ActionSelector/ActionSelector";
 import Entry from "./Components/ActionSelector/Components/Entry/Entry";
+import Modal from "kotilogi-app/components/Modals/Modal";
+import Form from "kotilogi-app/components/Form";
 
 export default function GalleryBase(props: GalleryBase.Props){
     const initialState: GalleryBase.State = {

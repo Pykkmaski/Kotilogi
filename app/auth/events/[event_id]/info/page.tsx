@@ -1,3 +1,5 @@
+import Form from "kotilogi-app/components/Form";
+import Modal from "kotilogi-app/components/Modals/Modal";
 import db from "kotilogi-app/dbconfig";
 
 export default async function EventInfoPage({params}){
