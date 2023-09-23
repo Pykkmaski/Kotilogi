@@ -56,7 +56,6 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
         case 'add_data': {
             const newState: GalleryBase.State = {
                 ...state,
-                showAddModal: false,
                 data: [...state.data, action.value],
                 isLoading: false,
             }
@@ -67,6 +66,7 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
         case 'toggle_loading':{
             return {
                 ...state,
+                showAddModal: false,
                 isLoading: action.value,
             }
         }

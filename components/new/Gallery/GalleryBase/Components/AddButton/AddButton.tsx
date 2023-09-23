@@ -1,16 +1,17 @@
+import Button from "kotilogi-app/components/Button/Button";
 import useGalleryContext from "../../GalleryContext";
-import style from './style.module.scss';
+import PlusIcon from 'kotilogi-app/assets/plus.png';
 
 export default function AddButton(){
-    const {dispatch} = useGalleryContext();
+    const {dispatch, state} = useGalleryContext();
 
     return (
-        <>
-            <button id={style.desktopAddButton} className="primary add" type="button" onClick={() => dispatch({type: 'toggle_add_modal', value: true})}>Lisää Uusi</button>
-            {/**Mobile devices */}
-            <div className={style.mobileAddButton} onClick={() => dispatch({type: 'toggle_add_modal', value: true})}>
-                <img src="/img/Icons/plus.png"></img>
-            </div>
-        </>
+        <Button 
+            className='primary' 
+            desktopText="Lisää Uusi" 
+            mobileIconSrc={PlusIcon} 
+            onClick={() => dispatch({type: 'toggle_add_modal', value: true})}
+            disabled={state.isLoading}
+        />
     );
 }

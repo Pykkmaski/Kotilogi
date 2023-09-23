@@ -1,0 +1,35 @@
+@import 'kotilogi-app/scss/Config';
+
+.mobileButton, .desktopButton{
+    padding: 0.5rem;
+    img{
+        filter: invert(1);
+    }
+}
+
+.mobileButton{
+    display: none;
+    cursor: pointer;
+    
+}
+
+.desktopButton{
+    display: flex;
+    flex-flow: row;
+    
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 1000px){
+    .desktopButton{
+        display: none;
+    }
+
+    .mobileButton{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+}

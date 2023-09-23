@@ -35,5 +35,3 @@ export default function NavSelector(props: Props){
         </div>
     );
 }
-
-NavSelector.Link = SelectorLink;

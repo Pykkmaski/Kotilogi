@@ -15,6 +15,12 @@ export default function DeleteModal(props: Props){
     
     async function deleteSelected(){
         try{
+            props.toggleVisible(false);
+            dispatch({
+                type: 'toggle_loading',
+                value: true,
+            });
+
             var result: boolean = false;
             const fileTables: Kotilogi.Table[] = ['propertyFiles', 'propertyImages', 'eventFiles', 'eventImages'];
 
@@ -42,7 +48,10 @@ export default function DeleteModal(props: Props){
         }
         finally{
             dispatch({type: 'reset_selected'});
-            props.toggleVisible(false);
+            dispatch({
+                type: 'toggle_loading',
+                value: false,
+            });
         }
     }
 

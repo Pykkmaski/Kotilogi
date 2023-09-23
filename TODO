@@ -8,15 +8,15 @@ Password reset functionality using json web tokens.
 + Implement image uploading
 - Implement main image setting on properties
 - Implement main image setting on events
-- Implement event page
++ Implement event page
 - Implement user dashboard
 - Implement property ownership transfer to another user
-- Implement a reusable button component that displays a spinner when something is loading
++ Implement a reusable button component that displays a spinner when something is loading
 - Fix "window is not defined" error when loading or refreshing the usage page.
-- Fix all dates not showing up in charts.
++ Fix all dates not showing up in charts.
 + Implement events gallery
-- Implement event files gallery
-- Implement event images gallery
++ Implement event files gallery
++ Implement event images gallery
 + Implement property images gallery
 + Implement property files gallery
 + Implement a one-source-of-truth principle for all data.
@@ -34,13 +34,12 @@ Try removing the foreign key reference
 Did a workaround and made the edit path a child of the base property_id path.
 + Fix routing to wrong url (/info/info) when returning from /info/edit 
 
-- Change property sections to be search params instead of slugs?
 + Fix property address not being filled by default when editing info.
 - Fix cannot destructure property 'filename' of (intermediate value) as it is undefined, when updating properties page.
-- Fix property values not updating without a refresh when changing them on the edit page.
++ Fix property values not updating without a refresh when changing them on the edit page.
 + Fix ability to send password reset emails to unregistered users.
 - Implement feedback for occuring errors when trying to reset passwords.
 - Gallery header: remove title and subtitle. Add that info in the page component.
-- Fix elements not being interactable in page components.
++ Fix elements not being interactable in page components.
 - Add a button to the base header component to switch between card and list view.
 

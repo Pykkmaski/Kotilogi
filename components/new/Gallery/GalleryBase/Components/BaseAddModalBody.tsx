@@ -22,7 +22,7 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 type: 'toggle_loading',
                 value: true,
             });
-
+            
             const file = e.target.file?.files[0];
             if(file){
                 const data = new FormData();

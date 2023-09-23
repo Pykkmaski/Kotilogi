@@ -54,6 +54,7 @@ declare namespace GalleryBase{
         contentType: ContentType,
         dbTableName: Kotilogi.Table,
         refId: Kotilogi.IdType,
+        isLoading: booolean,
         dispatch: any,
     }
 

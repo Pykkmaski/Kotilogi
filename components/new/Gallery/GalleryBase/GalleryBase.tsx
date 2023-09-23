@@ -30,6 +30,7 @@ export default function GalleryBase(props: GalleryBase.Props){
         contentType: props.contentType,
         dbTableName: props.dbTableName,
         refId: props.refId,
+        isLoading: state.isLoading,
         dispatch,
     }
 
