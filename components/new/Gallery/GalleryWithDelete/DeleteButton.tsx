@@ -13,7 +13,7 @@ export default function DeleteButton(props: Props){
 
     return (
         <Button 
-            className="secondary" 
+            className="danger" 
             mobileIconSrc={BinIcon} 
             desktopText="Poista" 
             onClick={() => props.toggleModal(true)} 
