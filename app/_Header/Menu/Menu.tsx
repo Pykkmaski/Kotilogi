@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react';
 import useClassName from 'kotilogi-app/hooks/useClassName';
 import Link from 'next/link';
 import styles from './component.module.scss';
+import { signOut } from 'next-auth/react';
 
 function MenuButton(props){
     const {className} = useClassName(styles.button, props.open ? styles.btnOpen : null);
@@ -38,20 +39,9 @@ function MenuBody(props){
     }, [props.userIsLoggedIn]);
 
     const loggedInLinks = [
-        {
-            title: 'Talot',
-            href: '/auth/properties'
-        },
-
-        {
-            title: 'Kirjaudu Ulos',
-            href: '/logout'
-        },
-
-        {
-            title: 'Käyttöehdot',
-            href: '/tos',
-        }
+        <Link href="/auth/properties">Talot</Link>,
+        <Link href="/tos">Käyttöehdot</Link>,
+        <Link href="#" onClick={() => signOut()}>Kirjaudu Ulos</Link>
     ];
 
     const loggedOutLinks = [
@@ -78,11 +68,7 @@ function MenuBody(props){
                 {
                     props.userIsLoggedIn ? 
                     <>
-                        {
-                            loggedInLinks.map(link => {
-                                return <Link href={link.href} key={`link-${link.title}`}>{link.title}</Link>
-                            })
-                        }
+                        {loggedInLinks}
                     </>
                     :
                     <>

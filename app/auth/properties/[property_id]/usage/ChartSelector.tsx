@@ -12,6 +12,8 @@ import { usePropertyProvider } from "kotilogi-app/contexts/PropertyProvider";
 import getUsageDataByCategory from "./getUsageDataByCategory";
 import ChartEntry from "./ChartEntry";
 import Modal, { ModalOptions } from "kotilogi-app/components/new/Modal/Modal";
+import Button from "kotilogi-app/components/Button/Button";
+import PlusIcon from 'kotilogi-app/assets/plus.png';
 
 type Sections = 'heat' | 'water' | 'electric';
 
@@ -123,7 +125,12 @@ export default function ChartSelector(props: ChartSelectorProps){
                     </select>
                 </div>
                 
-                <button className="add primary" onClick={() => dispatch({type: 'toggle_modal', value: true})}>Lisää Uusi Tieto</button>
+                <Button 
+                    className="primary" 
+                    onClick={() => dispatch({type: 'toggle_modal', value: true})}
+                    mobileIconSrc={PlusIcon}
+                    desktopText="Lisää Uusi Tieto"
+                />
             </section>
            
            {
