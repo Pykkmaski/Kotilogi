@@ -80,6 +80,15 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             return newState;
         }
 
+        case 'update_data':{
+            const newState = state;
+            const index = newState.data.findIndex(data => data.id === action.value.id);
+            if(index != -1) newState.data[index] = action.value;
+            return {
+                ...newState,
+            }
+        }
+
         default: return state;
     }
 }

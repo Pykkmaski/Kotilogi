@@ -63,7 +63,7 @@ declare namespace GalleryBase{
         isLoading: boolean,
     }
     
-    declare type ActionType = 'toggle_add_modal' | 'select_id' | 'add_data' | 'toggle_loading' | 'set_data' | 'reset_selected' | 'select_all';
+    declare type ActionType = 'update_data' | 'toggle_add_modal' | 'select_id' | 'add_data' | 'toggle_loading' | 'set_data' | 'reset_selected' | 'select_all';
     
     declare type Action = {
         type: ActionType,

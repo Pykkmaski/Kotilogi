@@ -6,6 +6,7 @@ import Footer from "./Components/Footer/Footer";
 import ImageContainer from "./Components/ImageContainer/ImageContainer";
 import Body from "./Components/Body/Body";
 import style from './style.module.scss';
+import EditModal from "./Components/EditModal/EditModal";
 
 export default function Card(props: GalleryBase.CardProps){
     const {state, dispatch, dbTableName} = useGalleryContext();
@@ -32,6 +33,7 @@ export default function Card(props: GalleryBase.CardProps){
 
     return (
         <CardContext.Provider value={contextValue}>
+            <EditModal item={props.item} show={menuOpen} toggleModal={setMenuOpen}/>
             <div className={containerClassName} key={props.key}>
                 <Link href={props.destination} target={linkTarget} style={{pointerEvents: menuOpen ? 'none' : 'all'}}>
                     <ImageContainer imageUrl={imageUrl} title={props.item.title}/>
