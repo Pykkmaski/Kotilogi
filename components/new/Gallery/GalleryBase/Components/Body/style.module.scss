@@ -2,12 +2,20 @@
     display: grid;
     grid-template-columns: auto auto auto auto;
 
-    gap: 1rem;
     justify-content: center;
-    
+
     &.empty{
         display: flex;
         flex-flow: row;
         justify-content: center;
     }
+}
+
+@media screen and (max-width: 1000px){
+    .galleryBody{
+        display: flex !important;
+        flex-flow: column;
+        align-items: center;
+    }
+   
 }

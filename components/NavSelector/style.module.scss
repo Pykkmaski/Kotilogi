@@ -1,3 +1,20 @@
+@import 'kotilogi-app/scss/Config';
+
 .navSelectorContainer{
-    
+    position: relative;
+    min-width: 100px;
+    height: 1rem;
+    padding: 0.25rem;
+
+    span{
+        color: $primary-color;
+        font-weight: bold;
+        
+    } 
+}
+
+@media screen and (min-width: 1000px){
+    .navSelectorContainer{
+        display: none;
+    }
 }

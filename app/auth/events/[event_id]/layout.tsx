@@ -1,4 +1,5 @@
 import NavBar from "kotilogi-app/components/NavBar/NavBar";
+import NavSelector from "kotilogi-app/components/NavSelector/NavSelector";
 import Page from "kotilogi-app/components/Page/Page";
 import db from "kotilogi-app/dbconfig";
 import Link from "next/link";
@@ -15,6 +16,14 @@ export default async function EventPageLayout({params, children}){
                 <Link href="files">Tiedostot</Link>
                 <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Taloon</Link>
             </NavBar>
+
+            {/**Display this on mobile devices */}
+            <NavSelector id="event-main-nav-selector">
+                <Link href="info">Tiedot</Link>
+                <Link href="images">Kuvat</Link>
+                <Link href="files">Tiedostot</Link>
+                <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Taloon</Link>
+            </NavSelector>
         </>
     );
 

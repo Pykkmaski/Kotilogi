@@ -1,6 +1,8 @@
+"use client";
+
 import style from './style.module.scss';
-import React from 'react';
-import NavOption from './Components/Option';
+import React, { useState } from 'react';
+import SelectorWindow from './Components/SelectorWindow/SelectorWindow';
 
 type Props = {
     id: string,
@@ -8,11 +10,11 @@ type Props = {
 }
 
 export default function NavSelector(props: Props){
+    const [open, setOpen] = useState(false);
     return (
-        <select className={style.navSelectorContainer} id={props.id}>
-            {props.children}
-        </select>
-    )
+        <div className={style.navSelectorContainer} onClick={() => setOpen(prev => !prev)}>
+            <span>Valikko</span>
+            <SelectorWindow open={open}>{props.children}</SelectorWindow>
+        </div>
+    );
 }
-
-NavSelector.Option = NavOption;

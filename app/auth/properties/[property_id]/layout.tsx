@@ -29,12 +29,12 @@ export default async function PropertiesLayout({params, children}){
 
             {/**Display this on mobile devices */}
             <NavSelector id={style.mainNavSelector}>
-                <NavSelector.Option href="info">Tiedot</NavSelector.Option>
-                <NavSelector.Option href="events">Tapahtumat</NavSelector.Option>
-                <NavSelector.Option href="usage">Kulutustiedot</NavSelector.Option>
-                <NavSelector.Option href="images">Kuvat</NavSelector.Option>
-                <NavSelector.Option href="files">Tiedostot</NavSelector.Option>
-                <NavSelector.Option href="/auth/properties">Takaisin Taloihin</NavSelector.Option>
+                <Link href="info">Tiedot</Link>
+                <Link href="events">Tapahtumat</Link>
+                <Link href="usage">Kulutustiedot</Link>
+                <Link href="images">Kuvat</Link>
+                <Link href="files">Tiedostot</Link>
+                <Link href="/auth/properties">Takaisin Taloihin</Link>
             </NavSelector>
         </>
     );

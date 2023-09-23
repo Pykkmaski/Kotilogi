@@ -26,7 +26,7 @@ export default function Body(props: BodyProps){
         'Ladataan...';
         
     return (
-        <div className={style.galleryBody}>
+        <div className={style.galleryBody} style={{gap: state.data.length ? '1rem' : 0}}>
             {
                 cards.length ? cards : state.isLoading ? <Loading message={loadingMessage}/> : props.error
             }
