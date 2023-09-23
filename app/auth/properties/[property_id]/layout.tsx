@@ -1,5 +1,6 @@
 import NavBar from "kotilogi-app/components/NavBar/NavBar";
 import NavSelector from "kotilogi-app/components/NavSelector/NavSelector";
+import SelectorLink from "kotilogi-app/components/NavSelector/Components/SelectorWindow/Components/SelectorLink/SelectorLink";
 import Page from "kotilogi-app/components/Page/Page";
 import db from "kotilogi-app/dbconfig";
 import Link from "next/link";
@@ -29,12 +30,12 @@ export default async function PropertiesLayout({params, children}){
 
             {/**Display this on mobile devices */}
             <NavSelector id={style.mainNavSelector}>
-                <Link href="info">Tiedot</Link>
-                <Link href="events">Tapahtumat</Link>
-                <Link href="usage">Kulutustiedot</Link>
-                <Link href="images">Kuvat</Link>
-                <Link href="files">Tiedostot</Link>
-                <Link href="/auth/properties">Takaisin Taloihin</Link>
+                <SelectorLink href="info" text="Tiedot"/>
+                <SelectorLink href="events" text="Tapahtumat"/>
+                <SelectorLink href="usage" text="Kulutustiedot"/>
+                <SelectorLink href="images" text="Kuvat"/>
+                <SelectorLink href="files" text="Tiedostot"/>
+                <SelectorLink href="/auth/properties" text="Takaisin Taloihin"/>
             </NavSelector>
         </>
     );

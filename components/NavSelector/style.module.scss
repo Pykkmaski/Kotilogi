@@ -5,12 +5,20 @@
     min-width: 100px;
     height: 1rem;
     padding: 0.25rem;
+    display: flex;
+    flex-flow: row; 
+    align-items: center;
+    gap: 0.5rem;
 
     span{
         color: $primary-color;
         font-weight: bold;
         
     } 
+
+    .pageName{
+        color: whitesmoke;
+    }
 }
 
 @media screen and (min-width: 1000px){

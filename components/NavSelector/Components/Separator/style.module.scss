@@ -1,0 +1,8 @@
+@import 'kotilogi-app/scss/Config';
+
+.separatorContainer{
+    background: $primary-color;
+    width: 10px;
+    height: 10px;
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
