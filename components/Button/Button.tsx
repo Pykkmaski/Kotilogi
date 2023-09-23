@@ -19,7 +19,7 @@ export default function Button(props: Props){
 
     const imageSize = 30; //Size in pixels.
 
-    const image: StaticImageData | JSX.Element = props.loading ? <Spinner size={`${imageSize}px`}/> : (
+    const image: JSX.Element = props.loading ? <Spinner size={`${imageSize}px`}/> : (
         <Image
             src={props.mobileIconSrc}
             width={imageSize}

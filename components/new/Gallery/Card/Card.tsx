@@ -17,7 +17,6 @@ export default function Card(props: GalleryBase.CardProps){
         setIsSelected(state.selectedItemIds.includes(props.item.id));
     }, [state.selectedItemIds]); //This is an object. Maybe useMemo
 
-    useEffect(() => console.log('Menu open changed'), [menuOpen]);
     const imageUrl = props.item.imageUrl || 'public/img/not-found.jpeg';
 
     const contextValue: CardContextValue = {

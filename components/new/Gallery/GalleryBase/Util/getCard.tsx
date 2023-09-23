@@ -47,7 +47,7 @@ function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdT
 export default function getCard(entry, dbTableName: Kotilogi.Table, key: number): JSX.Element | null{
     const destination = getCardDestination(dbTableName, entry.id, entry.refId);
     
-    entry.imageUrl = getImageUrl(entry, dbTableName) || '/copy.png';
+    entry.imageUrl = getImageUrl(entry, dbTableName) || '/img/Files/default.jpg';
 
     //TODO: Return unique cards based on what type of content is in the gallery.
     if(dbTableName =='properties' || dbTableName == 'propertyEvents'){

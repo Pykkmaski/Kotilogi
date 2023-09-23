@@ -70,7 +70,7 @@ button.primary{
 }
 
 button.secondary{
-    background: darken($secondary-color, 10);
+    background: darken($secondary-color, 0);
     &:active{
         background: darken($secondary-color, $button-hover-lighten-amount);
     }
