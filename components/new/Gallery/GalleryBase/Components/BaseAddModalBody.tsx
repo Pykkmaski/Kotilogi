@@ -57,7 +57,12 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
             dispatch({
                 type: 'toggle_loading',
                 value: false,
-            })
+            });
+
+            dispatch({
+                type: 'toggle_add_modal',
+                value: false,
+            });
         }
     }
 

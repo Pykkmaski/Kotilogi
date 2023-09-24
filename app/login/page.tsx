@@ -1,5 +1,6 @@
 "use client";
 
+import Button from 'kotilogi-app/components/Button/Button';
 import styles from './page.module.scss';
 import Form from 'kotilogi-app/components/Form';
 import {signIn} from 'next-auth/react';
@@ -65,8 +66,21 @@ export default function LoginPage(props){
                 </Form.Group>
 
                 <Form.ButtonGroup>
-                    <button type="button" className="secondary" disabled={loading} onClick={cancelHandler}>Peruuta</button>
-                    <button type="submit" className={loading ? 'primary loading' : 'primary'} disabled={loading}>Lähetä</button>
+                    <Button 
+                        desktopText='Peruuta' 
+                        type="button" 
+                        className="secondary" 
+                        disabled={loading} 
+                        onClick={cancelHandler}
+                    />
+
+                    <Button 
+                        desktopText='Kirjaudu'
+                        type="submit"
+                        className="primary"
+                        disabled={loading}
+                        loading={loading}
+                    />
                 </Form.ButtonGroup>
 
                 {

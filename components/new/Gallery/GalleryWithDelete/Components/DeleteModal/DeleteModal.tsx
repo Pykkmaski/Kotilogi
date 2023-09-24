@@ -4,6 +4,7 @@ import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFilesByIds"
 import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataByIds";
 import { serverGetData } from "kotilogi-app/actions/serverGetData";
 import toast from "react-hot-toast";
+import Button from "kotilogi-app/components/Button/Button";
 
 type Props = {
     show: boolean,
@@ -15,7 +16,6 @@ export default function DeleteModal(props: Props){
     
     async function deleteSelected(){
         try{
-            props.toggleVisible(false);
             dispatch({
                 type: 'toggle_loading',
                 value: true,
@@ -52,6 +52,7 @@ export default function DeleteModal(props: Props){
                 type: 'toggle_loading',
                 value: false,
             });
+            props.toggleVisible(false);
         }
     }
 
@@ -62,8 +63,20 @@ export default function DeleteModal(props: Props){
                 Haluatko varmasti poistaa valitsemasi kohteet?
             </Modal.Body>
             <Modal.Footer>
-                <button className="secondary" onClick={deleteSelected}>Kyllä</button>
-                <button className="primary" onClick={() => props.toggleVisible(false)}>Ei</button>
+                <Button
+                    desktopText="Kyllä"
+                    className="secondary"
+                    onClick={deleteSelected}
+                    disabled={state.isLoading}
+                    loading={state.isLoading}
+                />
+
+                <Button
+                    desktopText="Ei"
+                    className="primary"
+                    onClick={() => props.toggleVisible(false)}
+                    disabled={state.isLoading}
+                />
             </Modal.Footer>
         </Modal>
     )

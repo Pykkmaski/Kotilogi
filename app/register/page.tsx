@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
+import Button from 'kotilogi-app/components/Button/Button';
 
 export default function RegisterPage(props){
 
@@ -96,8 +97,21 @@ export default function RegisterPage(props){
                 </div>
 
                 <Form.ButtonGroup>
-                    <button type="button" className="secondary" onClick={cancelHandler} disabled={loading}>Peruuta</button>
-                    <button type="submit" className={loading ? "primary loading" : "primary"} disabled={loading}>Lähetä</button>
+                    <Button
+                        type="button"
+                        desktopText='Peruuta'
+                        className="secondary"
+                        onClick={cancelHandler}
+                        disabled={loading}
+                    />
+
+                    <Button
+                        type="submit"
+                        desktopText='Lähetä'
+                        className="primary"
+                        disabled={loading}
+                        loading={loading}
+                    />
                 </Form.ButtonGroup>
 
                 {

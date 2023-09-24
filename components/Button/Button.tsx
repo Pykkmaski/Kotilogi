@@ -3,7 +3,7 @@ import style from './style.module.scss';
 import Spinner from "../Spinner/Spinner";
 
 type Props = {
-    mobileIconSrc: StaticImageData | string,
+    mobileIconSrc?: StaticImageData | string,
     desktopText: string,
     disabled?: boolean,
     loading?: boolean,
@@ -17,29 +17,37 @@ export default function Button(props: Props){
     const desktopClassName: string = [style.desktopButton, props.className].join(' ');
     const mobileClassName: string = [style.mobileButton, props.className].join(' ');
 
-    const imageSize = 30; //Size in pixels.
+    const imageSize = 25; //Size in pixels.
 
-    const image: JSX.Element = props.loading ? <Spinner size={`${imageSize}px`}/> : (
+    const image: JSX.Element | null = props.loading ? <Spinner size={`${imageSize}px`}/> : props.mobileIconSrc ? (
         <Image
             src={props.mobileIconSrc}
             width={imageSize}
             height={imageSize}
             alt={'add icon'}
         />
-    );
+    ) : null;
+
+    const BaseButton = ({className, children}) => {
+        return (
+            <button type={props.type || 'button'} className={className} onClick={props.onClick} disabled={props.disabled}>
+                {children}
+            </button>
+        );
+    }
 
     return (
         <>
             {/**Desktop devices */}
-            <button type={props.type || 'button'} className={desktopClassName} onClick={props.onClick} disabled={props.disabled}>
+            <BaseButton className={desktopClassName}>
                 {image}
                 {props.desktopText}
-            </button>
+            </BaseButton>
 
             {/**Mobile devices */}
-            <button className={mobileClassName} disabled={props.disabled} onClick={props.onClick}>
-                {image}
-            </button>
+            <BaseButton className={mobileClassName}>
+                {image || props.desktopText}
+            </BaseButton>
         </>
     );
 }

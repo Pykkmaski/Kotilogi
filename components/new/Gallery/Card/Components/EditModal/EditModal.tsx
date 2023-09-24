@@ -3,6 +3,7 @@ import Modal from "kotilogi-app/components/Modals/Modal";
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import toast from "react-hot-toast";
+import Button from "kotilogi-app/components/Button/Button";
 
 type Props = {
     item: Kotilogi.ItemType,
@@ -69,8 +70,21 @@ export default function EditModal(props: Props){
                     </Form.Group>
 
                     <Form.ButtonGroup>
-                        <button type="button" className="secondary" onClick={() => props.toggleModal(false)} disabled={state.isLoading}>Peruuta</button>
-                        <button type="submit" className="primary" disabled={state.isLoading}>Päivitä</button>
+                        <Button
+                            desktopText="Peruuta"
+                            className="secondary"
+                            type="button"
+                            onClick={() => props.toggleModal}
+                            disabled={state.isLoading}
+                        />
+
+                        <Button
+                            desktopText="Päivitä"
+                            className="primary"
+                            type="submit"
+                            disabled={state.isLoading}
+                            loading={state.isLoading}
+                        />
                     </Form.ButtonGroup>
                 </Form>
             </Modal.Body>

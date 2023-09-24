@@ -10,7 +10,10 @@ export default function AddButton(){
             className='primary' 
             desktopText="Lisää Uusi" 
             mobileIconSrc={PlusIcon} 
-            onClick={() => dispatch({type: 'toggle_add_modal', value: true})}
+            onClick={() => dispatch({
+                type: 'toggle_add_modal', 
+                value: true
+            })}
             disabled={state.isLoading}
         />
     );

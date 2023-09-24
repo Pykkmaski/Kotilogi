@@ -66,7 +66,6 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
         case 'toggle_loading':{
             return {
                 ...state,
-                showAddModal: false,
                 isLoading: action.value,
             }
         }

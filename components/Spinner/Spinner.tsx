@@ -3,17 +3,21 @@ import styles from './styles.module.scss';
 export type SpinnerProps = {
     size: string,
     message?: string,
-    classNameProp?: string,
+    className?: string,
+    animated?: boolean,
 }
 
-export default function Spinner({size, message, classNameProp} : SpinnerProps){
+export default function Spinner(props : SpinnerProps){
+
+    const className = props.animated ? `${styles.container} ${styles.animated}` : styles.container;
+
     return (
-        <div className={styles.container}>
-            <div className={styles.spinner} style={{width: size, height: size}}>
+        <div className={className}>
+            <div className={styles.spinner} style={{width: props.size, height: props.size}}>
 
             </div>
 
-            <span className={styles.message}>{message}</span>
+            <span className={styles.message}>{props.message}</span>
         </div>
         
     );
