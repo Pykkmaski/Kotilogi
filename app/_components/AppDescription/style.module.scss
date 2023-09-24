@@ -13,7 +13,7 @@ $title-color : rgb(0, 0, 0);
 }
 
 .container{
-    text-align: center;
+    text-align: left;
 }
 
 .container .element{
@@ -25,7 +25,6 @@ $title-color : rgb(0, 0, 0);
     position: relative;
     align-items: center;
     padding: 0 1rem 0 1rem;
-
     .text{
         .elementTitle{
             display: flex;
@@ -35,7 +34,7 @@ $title-color : rgb(0, 0, 0);
             margin-bottom: 1rem;
             text-align: left;
             justify-content: space-between;
-            padding: 0 1rem 0 1rem;
+
             align-items: center;
 
             .image{
@@ -47,7 +46,7 @@ $title-color : rgb(0, 0, 0);
             }
         }
 
-        text-align: center;
+        text-align: left;
         color:whitesmoke;
         font-size: 1.2rem;
         max-width: 500px;

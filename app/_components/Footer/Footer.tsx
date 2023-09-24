@@ -11,7 +11,7 @@ function Footer(props){
                 </header>
 
                 <p>
-                    Kysyttävää? Lähetä meille viesti ja palaamme asiaan mahdollisimman pian.<br/>
+                    Kysyttävää? Lähetä meille viesti ja palaamme asiaan mahdollisimman pian.
                     Antamaasi sähköpostia ei käytetä mihinkään muuhun tarkoitukseen kuin viestiisi vastaamiseen.
                 </p>
 
