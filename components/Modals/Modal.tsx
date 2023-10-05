@@ -40,7 +40,7 @@ Modal.Header = Header;
 const Title = (props) => <div className="modal-title">{props.children}</div>
 Modal.Title = Title;
 
-const Body = (props) => <span className="modal-body">{props.children}</span>
+const Body = (props) => <div className="modal-body">{props.children}</div>
 Modal.Body = Body;
 
 const Image = (props) => <img src={props.src} className="modal-image"/>

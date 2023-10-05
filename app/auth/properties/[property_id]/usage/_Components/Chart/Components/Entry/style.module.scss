@@ -1,0 +1,22 @@
+@import 'kotilogi-app/scss/Config';
+
+.chartEntry{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.25rem;
+    align-items: center;
+    background: #0006;
+    border-radius: 5px;
+
+    div{
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    &:hover{
+        background: $primary-color;
+        color: black;
+    }
+}

@@ -33,39 +33,6 @@
             display: flex;
             flex-flow: column;
             gap: 0.5rem;
-            
-            .infoEntry{
-                background: #0008;
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                padding: 0.25rem;
-                align-items: center;
-                border-radius: 5px;
-            
-                &:hover{
-                    background: $primary-color;
-                    color: black;
-
-                    span{
-                        color: black;
-                    }
-                }
-            }
-
-            a{
-                color: $primary-color;
-            }
-            
-            span{
-                font-size: 1rem;
-                color: white;
-            }
-    
-            .value{
-                font-size: 1rem; 
-                color: $primary-color;
-            }
         }
     }
 }

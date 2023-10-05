@@ -24,6 +24,7 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
             });
             
             const file = e.target.file?.files[0];
+            
             if(file){
                 const data = new FormData();
                 data.set('file', file);

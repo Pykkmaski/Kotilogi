@@ -1,16 +1,12 @@
-import Form from "kotilogi-app/components/Form";
-import Modal from "kotilogi-app/components/Modals/Modal";
 import db from "kotilogi-app/dbconfig";
+import EventInfo from "./EventInfo";
 
 export default async function EventInfoPage({params}){
-    const event  = await db('propertyEvents').where({id: params.event_id}).first();
+    const event  = await db('propertyEvents').where({id: params.event_id}).first() as Kotilogi.EventType;
 
     return (
-        <section>
-            <h2>{event.createdAt}</h2>
-            <p>
-                {event.description}
-            </p>
-        </section>
+        <>
+            <EventInfo event={event}/>
+        </>
     );
 }

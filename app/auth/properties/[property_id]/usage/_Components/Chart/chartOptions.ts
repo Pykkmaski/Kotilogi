@@ -6,6 +6,9 @@ export const options: ApexOptions = {
         zoom: {
             enabled: false,
         }, 
+        toolbar: {
+            show: false,
+        }
     },
 
     dataLabels:{
@@ -21,7 +24,8 @@ export const options: ApexOptions = {
             dataLabels: {
                 position: 'top',
                 orientation: 'vertical',
-            }
+            },
+            borderRadius: 5
         }
     },
 
@@ -29,23 +33,25 @@ export const options: ApexOptions = {
         style: {
             fontFamily: 'Segoe UI',
             color: 'white',
+            fontSize: '20px',
         }
     },
 
     yaxis: {
         show: true,
         title: {
-            text: 'Euroa',
+            text: 'Hinta',
             style: {
                 color: 'white',
-                fontSize: '1rem'
+                fontSize: '1.5rem'
             } 
         },
         labels: {
             style: {
                 colors: ['white']
-            }
-        }
+            },
+            formatter: (value) => `${value} €`,
+        },
     },
     xaxis: {
         title:{

@@ -56,11 +56,17 @@ export default function ChartBase(props: ChartBaseProps){
     };
 
     return (
-        <Chart
-            type={'bar'}
-            height="500"
-            options={options}
-            series={props.series}
-        /> 
+        <div style={{
+            borderRadius: '5px',
+            overflow: 'hidden'
+        }}>
+            <Chart
+                type={'bar'}
+                height="500"
+                options={options}
+                series={props.series}
+            /> 
+        </div>
+        
     );
 }

@@ -74,7 +74,7 @@ export default function EditModal(props: Props){
                             desktopText="Peruuta"
                             className="secondary"
                             type="button"
-                            onClick={() => props.toggleModal}
+                            onClick={() => props.toggleModal(false)}
                             disabled={state.isLoading}
                         />
 

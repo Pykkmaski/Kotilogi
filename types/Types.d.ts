@@ -69,9 +69,7 @@ namespace Kotilogi{
         energyClass?: string,
     }
 
-    type EventType = HasId & HasDescription & HasDate & HasRefId & HasMainImageId &{
-        name: string,
-    };
+    type EventType = HasId & HasTitle & HasDescription & HasDate & HasRefId & HasMainImageId & HasTimeStamps;
 
     type BaseFileType = HasId & HasTitle & HasDescription & HasMimeType & HasDate & {
         fileName: string,
@@ -81,5 +79,5 @@ namespace Kotilogi{
 
     type EventFileType = BaseFileType & HasRefId;
 
-    type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents';
+    type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage';
 }

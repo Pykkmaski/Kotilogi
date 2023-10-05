@@ -18,12 +18,10 @@ export default function Page(props: Props){
     return (
         <main className={style.page} style={additionalStyles}>
             <Gradient direction="bottom"/>
-            <section className={style.content}>
-                <Header>
-                    {props.headerContent}
-                </Header>
-                {props.children}
-            </section>
+            <Header>
+                {props.headerContent}
+            </Header>
+            {props.children}
         </main>
     )
 }

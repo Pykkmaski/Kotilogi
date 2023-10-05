@@ -3,6 +3,15 @@ import styles from './page.module.scss';
 import { throwErrorIfNull } from 'kotilogi-app/utils/throwErrorIfNull';
 import Link from 'next/link';
 import lang from 'kotilogi-app/kotilogi.lang';
+import Modal from 'kotilogi-app/components/Modals/Modal';
+import Form from 'kotilogi-app/components/Form';
+import InfoEntry from './_Components/InfoEntry/DbColumn';
+import DbColumn from './_Components/InfoEntry/DbColumn';
+
+type EntryProps = {
+    label: string,
+    value: any,
+}
 
 export default async function InfoPage({params}){
     const property = await serverGetDataById(params.property_id, 'properties') as Kotilogi.PropertyType | null;
@@ -14,12 +23,14 @@ export default async function InfoPage({params}){
         const label: string = lang.properties[entry[0]]['fi'];
         const value = entry[1];
         
-        return (
-            <span className={styles.infoEntry} hidden={!value}>
-                {label}
-                <span className={styles.value}>{value}</span>
-            </span>
-        );
+        const isNumber = label.includes('Count');
+        const isTextArea = label === 'description';
+        const isSelect = label.includes('Type');
+        const inputType = isNumber ? 'number' : isTextArea ? 'textarea' : 'text';
+
+        const row = <DbColumn defaultValue={value as string} id={`dbcolumn-info-${index}`} label={label} value={value as string} hidden={!value} type={inputType}/>
+
+        return row;
     });
     
     return (
@@ -28,7 +39,6 @@ export default async function InfoPage({params}){
             <div className={styles.subContainer}>
                 <div className={styles.titleContainer} style={undefined}>
                     <small>{property?.refId}</small>
-
                     <p>
                         {property!.description}
                     </p>
