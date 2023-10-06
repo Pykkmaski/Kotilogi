@@ -2,7 +2,7 @@
 
 import Modal from 'kotilogi-app/components/Modals/Modal';
 import style from './style.module.scss';
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import Form from 'kotilogi-app/components/Form';
 import Button from 'kotilogi-app/components/Button/Button';
 
@@ -18,6 +18,7 @@ type Props = {
     id: string,
     type: 'number' | 'text' | 'date' | 'textarea',
     defaultValue: string,
+    onClick?: MouseEventHandler,
 }
 
 export default function DbColumn(props: Props){
@@ -44,7 +45,7 @@ export default function DbColumn(props: Props){
 
                             <Button
                                 desktopText="Päivitä"
-                                onClick={() => console.log('Not implemented yet!')}
+                                type="submit"
                                 className='primary'
                             />
                         </Form.ButtonGroup>
@@ -52,7 +53,7 @@ export default function DbColumn(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <div className={style.container} onClick={() => setShowModal(true)} key={props.id}>
+            <div className={style.container} onClick={props.onClick} key={props.id}>
                 <span className={style.label}>{props.label}</span>
                 <span className={style.value}>{props.value}</span>
             </div>

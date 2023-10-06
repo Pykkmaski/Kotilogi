@@ -41,7 +41,7 @@ export default function EventInfo(props: Props){
     
     return (
         <>
-            <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+            <Modal show={showEditModal} onHide={() => setShowEditModal(false)} id="event-edit-modal">
                 <Modal.Header>Muokkaa</Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={onSubmitHandler}>
@@ -81,16 +81,18 @@ export default function EventInfo(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <h1>{props.event.title}</h1>
-            <h2>Kuvaus</h2>
-            <p>
-                {props.event.description}
-            </p>
+            <div onClick={() => setShowEditModal(true)}>
+                <h2>Kuvaus</h2>
+                <p>
+                    {props.event.description}
+                </p>
 
-            <h2>Päivämäärä</h2>
-            <p>
-                {props.event.createdAt}
-            </p>
+                <h2>Päivämäärä</h2>
+                <p>
+                    {props.event.createdAt}
+                </p>
+            </div>
+            
         </>
     )
 }

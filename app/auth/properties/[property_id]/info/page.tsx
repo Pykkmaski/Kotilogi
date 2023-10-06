@@ -5,8 +5,8 @@ import Link from 'next/link';
 import lang from 'kotilogi-app/kotilogi.lang';
 import Modal from 'kotilogi-app/components/Modals/Modal';
 import Form from 'kotilogi-app/components/Form';
-import InfoEntry from './_Components/InfoEntry/DbColumn';
-import DbColumn from './_Components/InfoEntry/DbColumn';
+import InfoEntry from './_Components/DBColumn/DbColumn';
+import DbColumn from './_Components/DBColumn/DbColumn';
 
 type EntryProps = {
     label: string,
@@ -28,7 +28,19 @@ export default async function InfoPage({params}){
         const isSelect = label.includes('Type');
         const inputType = isNumber ? 'number' : isTextArea ? 'textarea' : 'text';
 
-        const row = <DbColumn defaultValue={value as string} id={`dbcolumn-info-${index}`} label={label} value={value as string} hidden={!value} type={inputType}/>
+        const row = (
+            <Link href={`edit?to=${entry[0]}`}>
+                <DbColumn 
+                    defaultValue={value as string} 
+                    id={`dbcolumn-info-${index}`} 
+                    label={label} 
+                    value={value as string} 
+                    hidden={!value} 
+                    type={inputType}
+                />
+            </Link>
+            
+        );
 
         return row;
     });

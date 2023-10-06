@@ -27,9 +27,8 @@ export default function NavBar(props: Props){
             const linksAsArray = Array.from(links);
             const element = linksAsArray.find(item => item.getAttribute('href') === section);
 
-            if(!element) throw new Error('Unable to render NavBar, default index cannot be set due to undefined element!');
-
-            const index = linksAsArray.indexOf(element);
+            //Default the selection to the first element in case no section matches.
+            const index = element ? linksAsArray.indexOf(element) : 0;
 
             links[index].classList.add(style.activated);
             firstRender.current = false;

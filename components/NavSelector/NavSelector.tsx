@@ -22,8 +22,6 @@ export default function NavSelector(props: Props){
         open,
     }
 
-    console.log(selectedPage);
-
     return (
         <div className={style.navSelectorContainer} onClick={() => setOpen(prev => !prev)}>
             <NavSelectorProvider value={contextValue}>

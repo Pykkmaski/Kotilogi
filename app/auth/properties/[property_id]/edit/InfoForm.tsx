@@ -5,11 +5,36 @@ import styles from './page.module.scss';
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
+import * as Constants from "kotilogi-app/constants";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { useSearchParams } from "next/navigation";
 
 export default function InfoForm({property}){
+    const searchParams = useSearchParams();
     const [currentData, setCurrentData] = useState(property);
     const initialRender = useRef(true);
 
+    const refs = {
+        titleRef: useRef<HTMLInputElement | null>(null),
+        descriptionRef: useRef<HTMLTextAreaElement | null>(null),
+        yardOwnershipRef: useRef<HTMLSelectElement | null>(null),
+        buildYearRef: useRef<HTMLInputElement | null>(null),
+        buildingTypeRef: useRef<HTMLSelectElement | null>(null),
+        buildingMaterialRef: useRef<HTMLSelectElement | null>(null),
+        colorRef: useRef<HTMLSelectElement | null>(null),
+        primaryHeatingSystemRef: useRef<HTMLSelectElement | null>(null),
+        secondaryHeatingSystemRef: useRef<HTMLSelectElement | null>(null),
+        roofMaterialRef: useRef<HTMLSelectElement | null>(null),
+        roofTypeRef: useRef<HTMLSelectElement | null>(null),
+        livingAreaRef: useRef<HTMLInputElement | null>(null),
+        yardAreaRef: useRef<HTMLInputElement | null>(null),
+        otherAreaRef: useRef<HTMLInputElement | null>(null),
+        energyClassRef: useRef<HTMLSelectElement | null>(null),
+        floorCountRef: useRef<HTMLInputElement | null>(null),
+        wcCountRef: useRef<HTMLInputElement | null>(null),
+        roomCountRef: useRef<HTMLInputElement | null>(null),
+    };
+    
     const updateData = async (e) => {
         setCurrentData({
             ...currentData,
@@ -28,8 +53,10 @@ export default function InfoForm({property}){
         const timeoutId = setTimeout(async () => {
             try{
                 await serverUpdateDataById(currentData, property.id, 'properties');
+                revalidatePath('/properties/[id]/info');
             }
             catch(err){
+                console.log(err.message);
                 toast.error('Talon päivitys epäonnistui!');
             }
            
@@ -37,6 +64,33 @@ export default function InfoForm({property}){
 
         return () => clearTimeout(timeoutId);
     }, [currentData]);
+
+    /**Scroll to the position of the input referenced in the to-query on initial render*/
+    useEffect(() => {
+
+        const scrollIntoView = (ref) => {
+            const to = searchParams.get('to');
+            if(ref.current && to === ref.current.name){
+                ref.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+            }
+        }
+
+        const addActive = (ref) => {
+            const to = searchParams.get('to');
+            if(ref.current && ref.current.name === to){
+                ref.current.classList.add(styles.active);
+            }
+        }
+
+        Object.values(refs).forEach(ref => {
+            scrollIntoView(ref);
+            addActive(ref);
+        });
+        
+    }, [searchParams]);
 
     function getTotalArea(a: number | undefined | string, b: number | undefined | string){
         if(typeof a === 'undefined' || typeof b === 'undefined'){
@@ -65,7 +119,7 @@ export default function InfoForm({property}){
             
             <Form.Group>
                 <label>Osoite</label>
-                <input name="title" onChange={updateData} defaultValue={currentData?.title}></input>
+                <input ref={refs.titleRef} name="title" onChange={updateData} defaultValue={currentData?.title}></input>
             </Form.Group>
 
             <Form.Group>
@@ -75,13 +129,9 @@ export default function InfoForm({property}){
 
             <Form.Group hidden={currentData?.buildingType === 'Kerrostalo'}>
                 <label>Tontin omistus</label>
-                <select name="yardOwnership" onChange={updateData}>
+                <select ref={refs.yardOwnershipRef} name="yardOwnership" onChange={updateData}>
                     {
-                        [
-                            'Oma',
-                            'Vuokra',
-                            'Ei Mitään'
-                        ]
+                        Constants.yardOwnershipTypes
                         .map((item: string, index: number) => {
                             return (
                                 <option value={item} selected={currentData?.yardOwnership === item}>{item}</option>
@@ -93,23 +143,14 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>Rakennusvuosi</label>
-                <input type="number" step="1" min="1" name="buildYear" onChange={updateData} defaultValue={currentData?.buildYear}></input>
+                <input ref={refs.buildYearRef} type="number" step="1" min="1" name="buildYear" onChange={updateData} defaultValue={currentData?.buildYear}></input>
             </Form.Group>
 
             <Form.Group>
                 <label>Asuntotyyppi</label>
-                <select name="buildingType" onChange={updateData}>
+                <select ref={refs.buildingTypeRef} name="buildingType" onChange={updateData}>
                     {
-                        ([
-                            'Kerrostalo',
-                            'Omakotitalo',
-                            'Rivitalo',
-                            'Luhtitalo',
-                            'Erillistalo',
-                            'Paritalo',
-                            'Puutalo-osake',
-                            'Muu'
-                        ])
+                        Constants.buildingTypes
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={'property-type-option-' + index} selected={currentData?.buildingType === item}>{item}</option>
@@ -121,15 +162,9 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>Rakennusmateriaali</label>
-                <select name="buildingMaterial" onChange={updateData}>
+                <select ref={refs.buildingMaterialRef} name="buildingMaterial" onChange={updateData}>
                     {
-                        ([
-                            'Betoni',
-                            'Tiili',
-                            'Puu',
-                            'Hirsi',
-                            'Muu'
-                        ])
+                        Constants.buildingMaterials
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`building-material-${index}`} selected={currentData?.buildingMaterial == item}>{item || 'Muu'}</option>
@@ -141,17 +176,9 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>Väri</label>
-                <select name="color" onChange={updateData}>
+                <select ref={refs.colorRef} name="color" onChange={updateData}>
                     {
-                        ([
-                            'Valkoinen',
-                            'Keltainen',
-                            'Sininen',
-                            'Punainen',
-                            'Ruskea',
-                            'Musta',
-                            'Muu'
-                        ])
+                        Constants.colors
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`color-option-${item}`} selected={currentData?.color === item}>{item || 'Muu'}</option>
@@ -163,7 +190,7 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>{currentData?.buildingType === 'Kerrostalo' ? 'Kerros' : 'Kerrosten lukumäärä'}</label>
-                <input type="number" step="1" min="1" name="floorCount" onChange={updateData} defaultValue={currentData?.floorCount}></input>
+                <input ref={refs.floorCountRef} type="number" step="1" min="1" name="floorCount" onChange={updateData} defaultValue={currentData?.floorCount}></input>
             </Form.Group>
 
             <Form.Group>
@@ -173,14 +200,14 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>Vessojen lukumäärä</label>
-                <input type="number" step="1" min="1" name="wcCount" onChange={updateData} defaultValue={currentData?.wcCount}></input>
+                <input ref={refs.wcCountRef} type="number" step="1" min="1" name="wcCount" onChange={updateData} defaultValue={currentData?.wcCount}></input>
             </Form.Group>
 
             <Form.Group>
                 <label>Energialuokka</label>
-                <select name="energyClass" onChange={updateData}>
+                <select ref={refs.energyClassRef} name="energyClass" onChange={updateData}>
                     {
-                        (['A', 'B', 'C', 'D', 'E', 'F', 'Ei Määritelty']).map((item, index: number) => {
+                        Constants.energyClasses.map((item, index: number) => {
                             return (
                                 <option value={item} key={index} selected={currentData?.energyClass === item}>{item || 'Ei Määritelty'}</option>
                             )
@@ -192,15 +219,9 @@ export default function InfoForm({property}){
             <h2 className={styles.title}>Lämmitysjärjestelmät</h2>
             <Form.Group>
                 <label>Ensisijainen</label>
-                <select name="primaryHeatingSystem" onChange={updateData}>
+                <select ref={refs.primaryHeatingSystemRef} name="primaryHeatingSystem" onChange={updateData}>
                     {
-                        ([
-                            'Kaukolämpö',
-                            'Sähkö',
-                            'Maalämpö',
-                            'Vesi-Ilmalämpöpumppu',
-                            'Muu'
-                        ])
+                        Constants.primaryHeatingSystems
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`heating-primary-option-${index}`} selected={currentData?.primaryHeatingSystem === item}>{item || 'Muu'}</option>
@@ -212,14 +233,9 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>Toissijainen</label>
-                <select name="secondaryHeatingSystem" onChange={updateData}>
+                <select ref={refs.secondaryHeatingSystemRef} name="secondaryHeatingSystem" onChange={updateData}>
                     {
-                        ([
-                            'Takka',
-                            'Ilmalämpöpumppu',
-                            'Muu',
-                            'Ei Mitään'
-                        ])
+                        Constants.secondaryHeatingSystems
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={`heating-secondary-option-${index}`} selected={currentData?.secondaryHeatingSystem === item}>{item || 'Ei Mitään'}</option>
@@ -232,14 +248,9 @@ export default function InfoForm({property}){
             <h2 className={styles.title}>Katto</h2>
             <Form.Group>
                 <label>Katon Materiaali</label>
-                <select name="roofMaterial" onChange={updateData}>
+                <select ref={refs.roofMaterialRef} name="roofMaterial" onChange={updateData}>
                     {
-                        ([
-                            'Pelti',
-                            'Huopa',
-                            'Tiili',
-                            'Muu'
-                        ])
+                        Constants.roofMaterials
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={index} selected={currentData?.roofMaterial === item}>{item || 'Muu'}</option>
@@ -251,14 +262,9 @@ export default function InfoForm({property}){
 
             <Form.Group>
                 <label>Katon Tyyppi</label>
-                <select name="roofType" onChange={updateData}>
+                <select ref={refs.roofTypeRef} name="roofType" onChange={updateData}>
                     {
-                        ([
-                            'Harjakatto',
-                            'Pulpettikatto',
-                            'Tasakatto',
-                            'Muu'
-                        ])
+                        Constants.roofTypes
                         .map((item, index: number) => {
                             return (
                                 <option value={item} key={index} selected={currentData?.roofType === item}>{item || 'Muu'}</option>
@@ -271,17 +277,17 @@ export default function InfoForm({property}){
             <h2 className={styles.title}>Pinta-ala</h2>
             <Form.Group>
                 <label>Asuintilojen pinta-ala (m<sup>2</sup>)</label>
-                <input type="number" name="livingArea" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.livingArea}></input>
+                <input ref={refs.livingAreaRef} type="number" name="livingArea" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.livingArea}></input>
             </Form.Group>
 
             <Form.Group hidden={(['Kerrostalo']).includes(currentData?.buildingType)}>
                 <label>Tontin pinta-ala (m<sup>2</sup>)</label>
-                <input type="number" name="yardArea" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.yardArea}></input>
+                <input ref={refs.yardAreaRef} type="number" name="yardArea" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.yardArea}></input>
             </Form.Group>
 
             <Form.Group>
                 <label>Muut tilat (m<sup>2</sup>)</label>
-                <input type="number" name="otherArea" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.otherArea}></input>
+                <input ref={refs.otherAreaRef} type="number" name="otherArea" onChange={updateData} step="0.01" min="1" defaultValue={currentData?.otherArea}></input>
             </Form.Group>
 
             <Form.Group>
