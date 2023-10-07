@@ -31,6 +31,7 @@ export default function Header(props){
                     userIsLoggedIn ?
                     <div className={style.links}>
                         <span id={style.userEmail}>{userEmail}</span>
+                        <Link href="/">Etusivu</Link>
                         <Link href="/auth/properties">Talot</Link>
                         <Link href="/auth/events"></Link>
                         <button id={style.logoutButton} className="primary" type="button" onClick={async () => {
@@ -39,6 +40,7 @@ export default function Header(props){
                     </div>
                     :
                     <div className={style.links}>
+                        <Link href="/">Etusivu</Link>
                         <Link href="/login">Kirjaudu</Link>
                         <Link href="/register">Rekisteröidy</Link>
                     </div>

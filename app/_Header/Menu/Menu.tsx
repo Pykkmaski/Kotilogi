@@ -39,6 +39,7 @@ function MenuBody(props){
     }, [props.userIsLoggedIn]);
 
     const loggedInLinks = [
+        <Link href="/">Etusivu</Link>,
         <Link href="/auth/properties">Talot</Link>,
         <Link href="/tos">Käyttöehdot</Link>,
         <Link href="#" onClick={() => signOut()}>Kirjaudu Ulos</Link>

@@ -4,6 +4,7 @@ import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import Button from "kotilogi-app/components/Button/Button";
 import Form from "kotilogi-app/components/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
+import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -81,7 +82,7 @@ export default function EventInfo(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <div onClick={() => setShowEditModal(true)}>
+            <span onClick={() => setShowEditModal(true)}>
                 <h2>Kuvaus</h2>
                 <p>
                     {props.event.description}
@@ -91,8 +92,8 @@ export default function EventInfo(props: Props){
                 <p>
                     {props.event.createdAt}
                 </p>
-            </div>
-            
+            </span>
+             
         </>
     )
 }

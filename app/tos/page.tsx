@@ -1,7 +1,9 @@
-export default function TOS(props){
+import style from './page.module.scss';
+
+export default function TOS(){
     return (
-        <main id="tos-page">
-            <h1 id="large-header">Käyttöehdot</h1>
+        <main className={style.page}>
+            <h1 className={style.largeHeader}>Käyttöehdot</h1>
             <h1>Yleistä</h1>
             <p>
             Näitä yleisiä käyttöehtoja sovelletaan Kotilogi Oy:n kotilogi palvelun rekisteröitymis lomakkeessa määritellyn asiakkaan väliseen sitovaan sopimukseen. Palvelun käytön edellytyksenä on sopimusehtojen hyväksyminen ja noudattaminen. Käyttämällä palvelua hyväksyt nämä Sopimusehdot. Kulloinkin voimassa olevat sopimusehdot ja Palveluntarjoajan tietoturva seloste ovat luettavissa Palveluntarjoajan kotisivuilla ja/tai muutoin Palvelun yhteydessä.

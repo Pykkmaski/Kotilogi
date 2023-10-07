@@ -14,7 +14,7 @@ export default async function EventPageLayout({params, children}){
                 <Link href="info">Tiedot</Link>
                 <Link href="images">Kuvat</Link>
                 <Link href="files">Tiedostot</Link>
-                <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Taloon</Link>
+                <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Tapahtumiin</Link>
             </NavBar>
 
             {/**Display this on mobile devices */}
@@ -22,7 +22,7 @@ export default async function EventPageLayout({params, children}){
                 <Link href="info">Tiedot</Link>
                 <Link href="images">Kuvat</Link>
                 <Link href="files">Tiedostot</Link>
-                <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Taloon</Link>
+                <Link href={`/auth/properties/${propertyId}/events`}>Takaisin Tapahtumiin</Link>
             </NavSelector>
         </>
     );

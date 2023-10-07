@@ -1,0 +1,29 @@
+@import 'kotilogi-app/scss/Config';
+
+.page{
+    .largeHeader{
+        font-size: 3rem;
+        margin-bottom: 3rem;
+        margin-top: 1rem;
+    }
+
+    h1, h2{
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    h1{
+        font-size: 2rem;
+        color: $primary-color !important;
+    }
+
+    h2{
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem !important;
+    }
+
+    p{
+        margin-bottom: 3rem;
+        color: white;
+    }
+}
