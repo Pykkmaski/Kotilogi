@@ -60,6 +60,11 @@ function MenuBody(props){
         {
             title: 'Rekisteröidy',
             href: '/register'
+        },
+
+        {
+            title: 'Käyttöehdot',
+            href: '/tos',
         }
     ];
 

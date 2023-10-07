@@ -83,7 +83,7 @@ export default function TOS(){
             Kotilogi Oy <br/>
             Timontie 13, 65300 Vaasa Suomi<br/>
 
-            puh: <phone>+358 45 1310 749</phone><br/>
+            puh: <a href="tel:+358451310749">+358 45 1310 749</a><br/>
             Sähköposti: <a href="mailto:kotilogi.service@gmail.com">kotilogi.service@gmail.com</a>
             </p>
         </main>
