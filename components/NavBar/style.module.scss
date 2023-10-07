@@ -5,7 +5,8 @@
     flex-flow: row;
     width: 100%;
     gap: 1rem;
-
+    z-index: 1;
+    
     a{
         color: $primary-color;
         font-weight: 500;
