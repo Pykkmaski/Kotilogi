@@ -11,6 +11,10 @@
     background-size: cover;
     background-attachment: fixed;
     padding: 1rem 10vw 0 10vw;
+
+    h1{
+        z-index: 1;
+    }
 }
 
 .content{

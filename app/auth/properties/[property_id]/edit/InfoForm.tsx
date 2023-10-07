@@ -8,6 +8,7 @@ import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import * as Constants from "kotilogi-app/constants";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { useSearchParams } from "next/navigation";
+import updateInfo from "./Util/updateInfo";
 
 export default function InfoForm({property}){
     const searchParams = useSearchParams();
@@ -52,8 +53,7 @@ export default function InfoForm({property}){
         //Limit the frequency of backend updates.
         const timeoutId = setTimeout(async () => {
             try{
-                await serverUpdateDataById(currentData, property.id, 'properties');
-                revalidatePath('/properties/[id]/info');
+                updateInfo(currentData, property.id);
             }
             catch(err){
                 console.log(err.message);
