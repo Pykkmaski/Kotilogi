@@ -35,7 +35,7 @@ export default async function InfoPage({params}){
                     id={`dbcolumn-info-${index}`} 
                     label={label} 
                     value={value as string} 
-                    hidden={!value} 
+                    hidden={!value || value === 'Ei Mitään'} 
                     type={inputType}
                 />
             </Link>
