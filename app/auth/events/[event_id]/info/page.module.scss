@@ -1,0 +1,9 @@
+.infoContainer{
+
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover{
+        background: linear-gradient(to right, #0004, #0000);
+    }
+}

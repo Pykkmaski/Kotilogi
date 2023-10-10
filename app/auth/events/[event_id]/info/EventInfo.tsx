@@ -1,5 +1,6 @@
 "use client";
 
+import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import Button from "kotilogi-app/components/Button/Button";
 import Form from "kotilogi-app/components/Form";
@@ -7,6 +8,7 @@ import Modal from "kotilogi-app/components/Modals/Modal";
 import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import style from './page.module.scss';
 
 type Props = {
     event: Kotilogi.EventType,
@@ -28,6 +30,7 @@ export default function EventInfo(props: Props){
 
             const result = await serverUpdateDataById(newData, props.event.id, 'propertyEvents');
             if(!result) throw new Error('Failed to update event!');
+            serverRevalidatePath('/auth/events/[event_id]/info');
             toast.success('Tapahtuman päivitys onnistui!');
         }
         catch(err){
@@ -73,7 +76,6 @@ export default function EventInfo(props: Props){
                                 type="submit"
                                 className="primary"
                                 desktopText="Päivitä"
-                                onClick={() => setShowEditModal(false)}
                                 disabled={loading}
                                 loading={loading}
                             />
@@ -82,7 +84,7 @@ export default function EventInfo(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <span onClick={() => setShowEditModal(true)}>
+            <span className={style.infoContainer} onClick={() => setShowEditModal(true)}>
                 <h2>Kuvaus</h2>
                 <p>
                     {props.event.description}

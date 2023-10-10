@@ -1,0 +1,12 @@
+@import 'kotilogi-app/scss/Config';
+
+.cardContainer{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 5px;
+    background: lighten($secondary-color, 10);
+    width: 300px;
+    min-height: 18rem;
+}
