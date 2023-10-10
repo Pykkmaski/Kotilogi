@@ -53,7 +53,7 @@ export default function DbColumn(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <div className={style.container} onClick={props.onClick} key={props.id}>
+            <div className={style.container} onClick={props.onClick} key={props.id} hidden={props.hidden}>
                 <span className={style.label}>{props.label}</span>
                 <span className={style.value}>{props.value}</span>
             </div>
