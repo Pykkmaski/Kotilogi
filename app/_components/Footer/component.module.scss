@@ -24,6 +24,7 @@
         p{
             color: white;
             text-align: center;
+            width: 50%;
         }
     }
 
@@ -51,6 +52,14 @@
             color: white;
             text-decoration: underline;
             font-weight: bold;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .element{
+        p{
+            width: auto !important;
         }
     }
 }

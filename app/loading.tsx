@@ -4,8 +4,7 @@ import style from './loading.module.scss';
 export default function Loading(){
     return(
         <div className={style.loading}>
-            <h1>Ladataan...</h1>
-            <Spinner size="3rem"/>
+            <Spinner size="2rem"/>
         </div>
     );
 }

@@ -37,9 +37,12 @@ form{
     .form-error, .form-success{
         display: inherit;
         justify-content: center;
-        color: $danger-color;
-
+        background: #0004;
         @include SlideUpAnimation;
+    }
+
+    .form-error{
+        color: $danger-color;
     }
 
     .form-success{
