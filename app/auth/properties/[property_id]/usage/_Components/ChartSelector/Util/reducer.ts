@@ -18,7 +18,7 @@ type State = {
 }
 
 type Action = {
-    type: 'set_view_type' | 'toggle_add_modal' | 'toggle_delete_modal' | 'toggle_section' | 'toggle_loading' | 'set_chart_type' | 'toggle_selected' | 'add_data' | 'delete_selected',
+    type: 'set_data' | 'set_view_type' | 'toggle_add_modal' | 'toggle_delete_modal' | 'toggle_section' | 'toggle_loading' | 'set_chart_type' | 'toggle_selected' | 'add_data' | 'delete_selected',
     value: any,
 }
 
@@ -53,15 +53,12 @@ export default function chartSelectorReducer(state: State, action: Action): Stat
             }
         }
 
-        case 'delete_selected':{
-            (async () => {
-                await serverDeleteDataByIds(state.selectedItems, 'usage');
-                const newData = await serverGetDataByRefId(state.propertyId, 'usage');
-                return {
-                    ...state,
-                    data: newData,
-                }
-            })();
+        case 'set_data':{
+            const newData = [...action.value];
+            return {
+                ...state,
+                data: newData,
+            }
         }
 
         case 'set_chart_type':{
@@ -94,6 +91,13 @@ export default function chartSelectorReducer(state: State, action: Action): Stat
             return {
                 ...state,
                 viewType: action.value,
+            }
+        }
+
+        case 'toggle_loading':{
+            return {
+                ...state,
+                isLoading: true,
             }
         }
 

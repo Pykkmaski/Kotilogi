@@ -28,7 +28,7 @@ export default function ChartSelector(props: Props){
         selectedType: 'bar',
         selectedItems: [],
         propertyId: props.usage[0].refId,
-        viewType: searchParams.get('view') || 'chart',
+        viewType: 'chart',
     }
 
     const [state, dispatch] = useReducer(reducer, initialState as any);
