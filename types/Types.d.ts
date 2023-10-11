@@ -2,7 +2,7 @@ namespace Kotilogi{
     type IdType = string;
 
     type HasId = {
-        id?: IdType,
+        id: IdType,
     }
 
     type HasRefId = {

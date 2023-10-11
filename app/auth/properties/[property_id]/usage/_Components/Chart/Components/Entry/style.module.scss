@@ -10,9 +10,11 @@
     background: #0006;
     border-radius: 5px;
 
-    div{
+    .dataContainer{
         display: flex;
         gap: 0.5rem;
+        cursor: pointer;
+        flex: 1;
     }
 
     &:hover{
