@@ -18,7 +18,7 @@ export default function DeleteButton(){
                     type: 'toggle_delete_modal',
                     value: true,
                 })}
-                disabled={!state.selectedItems.length}
+                disabled={!state.selectedItems.length }
             />
         </>
         
