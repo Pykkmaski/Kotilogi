@@ -24,7 +24,8 @@ export default function Card(props: GalleryBase.CardProps){
         item: props.item,
         dispatch,
         setMenuOpen,
-        menuOpen
+        menuOpen,
+        dbTableName,
     }
 
     const linkTarget = dbTableName.includes('Files') || dbTableName.includes('Images') ? '_blank' : '_self';

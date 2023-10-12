@@ -43,5 +43,6 @@ Did a workaround and made the edit path a child of the base property_id path.
 - Gallery header: remove title and subtitle. Add that info in the page component.
 + Fix elements not being interactable in page components.
 - Add a button to the gallery header component to switch between card and list view.
-- Fix usage list items not updating when deleting.
++ Fix usage list items not updating when deleting.
+- Add some clear way of returning to the info section when editing a property.
 

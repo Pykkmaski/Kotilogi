@@ -6,6 +6,7 @@ export type CardContextValue = {
     dispatch: any,
     setMenuOpen: any,
     menuOpen: boolean,
+    dbTableName?: string,
 }
 
 export const CardContext = createContext<CardContextValue | null>(null);

@@ -4,6 +4,7 @@ import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import toast from "react-hot-toast";
 import Button from "kotilogi-app/components/Button/Button";
+import style from './style.module.scss';
 
 type Props = {
     item: Kotilogi.ItemType,
@@ -24,9 +25,12 @@ export default function EditModal(props: Props){
                 type: 'toggle_loading',
                 value: true,
             });
+
             const updatedData = {
                 title: e.target.title.value,
                 description: e.target.description.value,
+                isMainImage: e.target.isMainImage ? e.target.isMainImage.checked : undefined,
+                refId
             }
 
             const result = await serverUpdateDataById(updatedData, props.item.id as string, dbTableName);
@@ -52,6 +56,12 @@ export default function EditModal(props: Props){
     }
 
     const inputTitleLabel = dbTableName === 'properties' ? 'Osoite' : 'Otsikko';
+    const mainImageCheckbox = dbTableName.includes('Images') ? (
+        <div className={style.mainImageCheckboxContainer}>
+            <label>Aseta pääkuvaksi</label>
+            <input type="checkbox" name="isMainImage"></input>
+        </div>
+    ) : null;
 
     return (
         <Modal show={props.show} onHide={() => props.toggleModal(false)} id={`edit-modal-${props.item.id}`}>
@@ -68,6 +78,8 @@ export default function EditModal(props: Props){
                         <textarea name="description" defaultValue={props.item.description} spellCheck={false}></textarea>
                         <Form.SubLabel>Muokkaa kuvausta.</Form.SubLabel>
                     </Form.Group>
+
+                    {mainImageCheckbox}
 
                     <Form.ButtonGroup>
                         <Button
