@@ -3,4 +3,9 @@
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
+    input[type=checkbox]{
+        width: 25px;
+        height: 25px;
+    }
 }

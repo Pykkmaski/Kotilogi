@@ -14,12 +14,6 @@ type PropertiesGalleryProps = {
 export default async function PropertiesGallery(props: PropertiesGalleryProps){
     const addModalOptions = {
         headerText: 'Lisää Uusi Talo',
-        bodyContent: (
-            <Form.Group>
-                <label>Kuva</label>
-                <input type="file" name="file" required accept="image/jpeg"></input>
-            </Form.Group>
-        )
     }   
 
     const deleteModalOptions: GalleryBase.ModalOptions = {
