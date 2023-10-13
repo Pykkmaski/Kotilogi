@@ -24,7 +24,7 @@ async function setMainImage(tableName: Kotilogi.Table, refId: Kotilogi.IdType, i
   }
 }
 
-export default async function upload(data: FormData, tableName: Kotilogi.Table): Promise<object | null>{
+export default async function upload(data: FormData, tableName: Kotilogi.Table): Promise<string | null>{
     try{
         const file: File | null = data.get('file') as unknown as File;
         if(!file){
@@ -48,25 +48,8 @@ export default async function upload(data: FormData, tableName: Kotilogi.Table):
         const fileName: string = Date.now() + '-' + file.name;
         const path: string = join(uploadPath as string, fileName);
         await writeFile(path, buffer);
-    
-        const dbData = {
-          fileName,
-          title: data.get('title'),
-          description: data.get('description'),
-          refId : data.get('refId'),
-        };
-    
-        const insertedData = await db(tableName).insert(dbData, '*');
-    
-        console.log(`Open ${path} to see the uploaded file`);
-
-        /**If the file is an image and it's the only one for this refId, make it the main image. */
-        /*if(fileType === 'image/jpeg'){
-          const refId = data.get('refId');
-          await setMainImage(tableName, refId as Kotilogi.IdType, insertedData[0].id);
-        }*/
-
-        return insertedData[0];
+        
+        return fileName;
     }
     catch(err){
         console.log(err.message);

@@ -24,27 +24,46 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
             });
             
             const file = e.target.file?.files[0];
-            
+            var fileName: string | null = null;
+
             if(file){
                 const data = new FormData();
                 data.set('file', file);
-                data.set('title', e.target.title.value);
-                data.set('description', e.target.description.value);
-                data.set('refId', refId);
-
-                addedData = await upload(data, dbTableName);
-                if(!addedData) throw new Error('Failed to add data!');
+                fileName = await upload(data, dbTableName);
+                if(!fileName) throw new Error('Failed to add data!');
             }
-            else{
-                const data = {
-                    title: e.target.title.value,
-                    description: e.target.description.value,
-                    refId,
+
+            const formInputElements = [...e.target.elements].filter(item => (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') && item.name !== undefined);
+            var data = {refId};
+
+            //Insert the input values.
+            formInputElements.forEach(elem => {
+                data = {
+                    ...data,
+                    [elem.name] : elem.value,
                 }
+            });
 
-                addedData = await serverAddData(data, dbTableName);
-                if(!addedData) throw new Error('Failed to add data!');
+            console.log(data);
+
+            /*
+            const data = fileName ? {
+                title: e.target.title.value,
+                description: e.target.description.value,
+                refId,
+                fileName,
             }
+            :
+            {
+                title: e.target.title.value,
+                description: e.target.description.value,
+                refId,
+            }
+            */
+
+            addedData = await serverAddData(data, dbTableName);
+            if(!addedData) throw new Error('Failed to add data!');
+            
         }
         catch(err){
             console.log(err.message);

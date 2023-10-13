@@ -12,8 +12,14 @@ type PropertiesGalleryProps = {
 }
 
 export default async function PropertiesGallery(props: PropertiesGalleryProps){
-    const addModalOptions = {
+    const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Uusi Talo',
+        bodyContent: (
+            <Form.Group>
+                <label>Postinumero</label>
+                <input name="zipCode" required></input>
+            </Form.Group>
+        )
     }   
 
     const deleteModalOptions: GalleryBase.ModalOptions = {

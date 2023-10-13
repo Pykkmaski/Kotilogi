@@ -10,7 +10,7 @@ import AddModal from "./Components/Header/Components/AddButton/Components/AddMod
 import { Sections } from "./Types/Sections";
 import getChartBySection from "./Util/getChartBySection";
 import Header from "./Components/Header/Header";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 type Props = {
     usage: Kotilogi.UsageType[],
@@ -18,7 +18,8 @@ type Props = {
 
 export default function ChartSelector(props: Props){
     const searchParams = useSearchParams();
-
+    const {property_id} = useParams();
+    
     const initialState = {
         data: props.usage,
         isLoading: false,
@@ -27,7 +28,7 @@ export default function ChartSelector(props: Props){
         selectedSection: 'heat' as Sections,
         selectedType: 'bar',
         selectedItems: [],
-        propertyId: props.usage[0].refId,
+        propertyId: property_id,
         viewType: 'chart',
     }
 
