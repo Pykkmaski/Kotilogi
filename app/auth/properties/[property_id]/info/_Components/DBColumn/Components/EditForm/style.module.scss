@@ -4,7 +4,7 @@
     display: flex;
     flex-flow: column;
     gap: 0.5rem;
-    background: #0004;
+    background: #0006;
 
     .formGroup{
         display: flex;
@@ -36,9 +36,8 @@
             color: $primary-color;
         }
 
-        input[type="number"]::-webkit-inner-spin-button{
-            appearance: none;
-            -webkit-appearance: none;
+        input[type=number]{
+            appearance: textfield;
         }
 
         select option{

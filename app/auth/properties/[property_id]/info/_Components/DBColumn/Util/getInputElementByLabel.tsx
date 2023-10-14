@@ -12,7 +12,18 @@ export default function getInputElementByLabel(label: string, value: any, onChan
         switch(column.TYPE){
             case 'text':
             case 'number':
-                element = <input type={column.TYPE} name={column.LABEL} onChange={onChangeHandler} defaultValue={value}/>
+                element = (
+                    <input 
+                        disabled={[
+                            PropertyColumns.ADDRESS.LABEL, 
+                            PropertyColumns.ZIP_CODE.LABEL
+                        ].includes(column.LABEL)} 
+                        type={column.TYPE} 
+                        name={column.LABEL} 
+                        onChange={onChangeHandler} 
+                        defaultValue={value}
+                    />
+                )
             break;
 
             case 'textarea':

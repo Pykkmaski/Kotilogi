@@ -95,6 +95,7 @@ type PropertyColumnsType = {
     SECONDARY_HEATING_SYSTEM: ColumnType;
     ENERGY_CLASS: ColumnType;
     COLOR: ColumnType;
+    BUILD_YEAR: ColumnType;
 };
 
 export const PropertyColumns: PropertyColumnsType = {
@@ -151,6 +152,11 @@ export const PropertyColumns: PropertyColumnsType = {
         OPTIONS: buildingMaterials,
     },
 
+    BUILD_YEAR: {
+        LABEL: 'buildYear',
+        TYPE: 'number',
+    },
+    
     ROOF_TYPE: {
         LABEL: 'roofType',
         TYPE: 'select',
