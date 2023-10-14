@@ -67,6 +67,7 @@ namespace Kotilogi{
         zipCode?: string,
         buildingType?: string,
         energyClass?: string,
+        otherArea?: number,
     }
 
     type EventType = HasId & HasTitle & HasDescription & HasDate & HasRefId & HasMainImageId & HasTimeStamps;

@@ -63,7 +63,13 @@ Form.Legend = Legend;
 const Option = (props) => <option value={props.value} selected={props.selected}>{props.children}</option>
 Form.Option = Option;
 
-const Group = (props) => <div className="form-group" key={props.key} hidden={props.hidden}>{props.children}</div>
+const Group = (props) => {
+    const className = props.className || 'form-group';
+    return (
+        <div className={className} key={props.key} hidden={props.hidden}>{props.children}</div>
+    );
+}
+
 Form.Group = Group;
 
 const ButtonGroup = (props) => <div className="form-button-group">{props.children}</div>

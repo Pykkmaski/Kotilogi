@@ -1,3 +1,9 @@
+interface HasId{
+    ID: Kotilogi.IdType,
+}
+
+
+
 export const buildingTypes = [
     'Kerrostalo',
     'Omakotitalo',
@@ -63,6 +69,135 @@ export const roofTypes = [
     'Tasakatto',
     'Muu'
 ];
+
+type ColumnType = {
+    LABEL: string,
+    TYPE: 'number' | 'textarea' | 'text' | 'select',
+    OPTIONS?: string[],
+}
+
+type PropertyColumnsType = {
+    ADDRESS: ColumnType;
+    ZIP_CODE: ColumnType;
+    YARD_AREA: ColumnType;
+    LIVING_AREA: ColumnType;
+    OTHER_AREA: ColumnType;
+    ROOM_COUNT: ColumnType;
+    WC_COUNT: ColumnType;
+    FLOOR_COUNT: ColumnType;
+    BUILDING_TYPE: ColumnType;
+    BUILDING_MATERIAL: ColumnType;
+    ROOF_TYPE: ColumnType;
+    ROOF_MATERIAL: ColumnType;
+    YARD_OWNERSHIP: ColumnType;
+    MAIN_IMAGE_ID: ColumnType;
+    PRIMARY_HEATING_SYSTEM: ColumnType;
+    SECONDARY_HEATING_SYSTEM: ColumnType;
+    ENERGY_CLASS: ColumnType;
+    COLOR: ColumnType;
+};
+
+export const PropertyColumns: PropertyColumnsType = {
+
+    ADDRESS: {
+        LABEL: 'title',
+        TYPE: 'text',
+    },
+
+    ZIP_CODE: {
+        LABEL: 'zipCode',
+        TYPE: 'text',
+    },
+
+    YARD_AREA: {
+        LABEL: 'yardArea',
+        TYPE: 'number',
+    },
+
+    LIVING_AREA: {
+        LABEL: 'livingArea',
+        TYPE: 'number'
+    },
+
+    OTHER_AREA: {
+        LABEL: 'otherArea',
+        TYPE: 'number'
+    },
+
+    ROOM_COUNT: {
+        LABEL: 'roomCount',
+        TYPE: 'number',
+    },
+
+    WC_COUNT: {
+        LABEL: 'wcCount',
+        TYPE: 'number',
+    },
+
+    FLOOR_COUNT: {
+        LABEL: 'floorCount',
+        TYPE: 'number',
+    },
+
+    BUILDING_TYPE: {
+        LABEL: 'buildingType',
+        TYPE: 'select',
+        OPTIONS: buildingTypes,
+    },
+
+    BUILDING_MATERIAL: {
+        LABEL: 'buildingMaterial',
+        TYPE: 'select',
+        OPTIONS: buildingMaterials,
+    },
+
+    ROOF_TYPE: {
+        LABEL: 'roofType',
+        TYPE: 'select',
+        OPTIONS: roofTypes,
+    },
+
+    ROOF_MATERIAL: {
+        LABEL: 'roofMaterial',
+        TYPE: 'select',
+        OPTIONS: roofMaterials,
+    },
+
+    YARD_OWNERSHIP: {
+        LABEL: 'yardOwnership',
+        TYPE: 'select',
+        OPTIONS: yardOwnershipTypes,
+    },
+
+    MAIN_IMAGE_ID: {
+        LABEL: 'mainImageId',
+        TYPE: 'text',
+    },
+
+    PRIMARY_HEATING_SYSTEM: {
+        LABEL: 'primaryHeatingSystem',
+        TYPE: 'select',
+        OPTIONS: primaryHeatingSystems,
+    },
+
+    SECONDARY_HEATING_SYSTEM: {
+        LABEL: 'secondaryHeatingSystem',
+        TYPE: 'select',
+        OPTIONS: secondaryHeatingSystems,
+    },
+
+    ENERGY_CLASS: {
+        LABEL: 'energyClass',
+        TYPE: 'select',
+        OPTIONS: energyClasses,
+    },
+
+    COLOR: {
+        LABEL: 'color',
+        TYPE: 'select',
+        OPTIONS: colors,
+    },
+}
 
 
 

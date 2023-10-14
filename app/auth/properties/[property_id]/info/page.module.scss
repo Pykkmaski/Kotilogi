@@ -33,6 +33,41 @@
             display: flex;
             flex-flow: column;
             gap: 0.5rem;
+            background: #0004;
+        }
+    }
+
+    .formGroup{
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+
+        &:hover{
+            background: $primary-color;
+
+            input, textarea, select, label{
+                color: black;
+            }
+
+        }
+
+        input, textarea, select{
+            background: none;
+            border: none;
+            text-align: right;
+            color: $primary-color;
+
+            &:focus{
+                outline: none;
+                border-radius: 0;
+                background: #0004;
+            }
+        }
+
+        input[type="number"]::-webkit-inner-spin-button{
+            appearance: none;
+            -webkit-appearance: none;
         }
     }
 }
