@@ -1,4 +1,5 @@
 import { PropertyColumns } from "kotilogi-app/constants";
+import lang from "kotilogi-app/kotilogi.lang";
 
 export default function getInputElementByLabel(label: string, value: any, onChangeHandler: (e: any) => void): JSX.Element | null{
     const column = Object.values(PropertyColumns).find(item => {
@@ -8,6 +9,7 @@ export default function getInputElementByLabel(label: string, value: any, onChan
     });
 
     var element: JSX.Element | null = null;
+
     if(column){
         switch(column.TYPE){
             case 'text':
@@ -20,18 +22,18 @@ export default function getInputElementByLabel(label: string, value: any, onChan
                         ].includes(column.LABEL)} 
                         type={column.TYPE} 
                         name={column.LABEL} 
-                        onChange={onChangeHandler} 
+                        onBlur={onChangeHandler} 
                         defaultValue={value}
                     />
                 )
             break;
 
             case 'textarea':
-                element = <textarea name={column.LABEL} defaultValue={value} onChange={onChangeHandler}></textarea>
+                element = <textarea name={column.LABEL} defaultValue={value} onBlur={onChangeHandler}></textarea>
             break;
 
             case 'select': (
-                element = <select name={column.LABEL}  onChange={onChangeHandler}>
+                element = <select name={column.LABEL} onChange={onChangeHandler}>
                     {column.OPTIONS?.map((option, index: number) => {
                         return (
                             <option selected={value == option} value={option} key={`${column.LABEL}-option-${index}`}>{option}</option>
