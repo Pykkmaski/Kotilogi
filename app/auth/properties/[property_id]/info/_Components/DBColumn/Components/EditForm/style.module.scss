@@ -40,8 +40,19 @@
             appearance: textfield;
         }
 
+        select{
+            flex: 1;
+            
+        }
+
         select option{
             background: white;
         }
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .editForm{
+        background: #0006;
     }
 }

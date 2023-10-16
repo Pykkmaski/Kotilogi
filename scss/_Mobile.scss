@@ -44,7 +44,6 @@
                     display: flex !important;
                     flex-flow: column !important;
                     align-items: center !important;
-
                     input, select{
                         text-align: center !important;
                         color: black !important;
@@ -85,7 +84,6 @@
         form{
             min-width: auto !important;
             width: 100%;
-            background: none !important;
             box-shadow: none !important;
 
             label, .form-title{
@@ -94,6 +92,11 @@
 
             .sub-label{
                 color: lightgray !important;
+            }
+
+            select{
+                max-width: 40%;
+                text-overflow: ellipsis;
             }
         }
 

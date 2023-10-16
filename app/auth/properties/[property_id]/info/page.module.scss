@@ -1,29 +1,21 @@
 @import 'kotilogi-app/scss/Config';
 
-.container{
-    display: flex;
-    flex-flow: column;
-    flex: 1;
-    position: relative;
+    .titleContainer{ 
+        z-index: 2;
+        h1{
+            font-size: 3rem;
+            color: white;
+        }
 
-    .subContainer{
-        flex: 1;
+        small{
+            color: $primary-color;
+        }
 
-        .titleContainer{ 
-            h1{
-                font-size: 3rem;
-                color: white;
-            }
-    
-            small{
-                color: $primary-color;
-            }
-    
-            p{
-                margin-top: 2rem;
-                color: white;
-                font-size: 1rem;
-            }
+        p{
+            margin-top: 2rem;
+            color: white;
+            font-size: 1rem;
+        }
 
             border-bottom: 1px solid white;
             margin-bottom: 1rem;
@@ -35,7 +27,7 @@
             gap: 0.5rem;
             background: #0004;
         }
-    }
+    
 
     .formGroup{
         display: flex;
@@ -70,7 +62,7 @@
             -webkit-appearance: none;
         }
     }
-}
+    
 
 .editLink{
     position: absolute;

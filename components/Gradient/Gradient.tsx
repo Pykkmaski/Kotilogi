@@ -6,11 +6,7 @@ type Props = {
 
 export default function Gradient(props: Props){
 
-    const styles = {
-        background: `linear-gradient(to ${props.direction}, black, #0001)`,
-    }
-
     return (
-        <div style={styles} className={style.container}/>
+        <div className={style.gradientContainer}/>
     )
 }

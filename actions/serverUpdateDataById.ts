@@ -15,6 +15,10 @@ async function setMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdType, db
     });
 }
 
+async function addEditHistory(data: object, refId: Kotilogi.IdType, dbTableName: string){
+    
+}
+
 export default async function serverUpdateDataById(newData: object, id: Kotilogi.IdType, dbTableName: string): Promise<object | null>{
     ///Updates the data with id in given database tablename and returns the updated data.
     try{
