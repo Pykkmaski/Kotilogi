@@ -11,8 +11,8 @@ export async function serverAddData(data: any, dbTableName: string): Promise<Par
             ...data,
         }
 
-        const insertedProperties: ParamType[] = await db(dbTableName).insert(dataToSave, '*');
-        return insertedProperties[0];
+        const insertedData: ParamType[] = await db(dbTableName).insert(dataToSave, '*');
+        return insertedData[0];
     }
     catch(err){
         console.log('Server add data: ' + err.message);
