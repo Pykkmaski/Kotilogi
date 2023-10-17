@@ -27,7 +27,7 @@ namespace Kotilogi{
     }
 
     type HasDate = {
-        date: number,
+        time: number,
     }
 
    type MimeType = 'image/jpeg' | 'application/pdf';

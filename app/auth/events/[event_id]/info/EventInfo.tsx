@@ -9,6 +9,7 @@ import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import style from './page.module.scss';
+import InfoContainer from "./_Components/InfoContainer/InfoContainer";
 
 type Props = {
     event: Kotilogi.EventType,
@@ -22,7 +23,7 @@ export default function EventInfo(props: Props){
         e.preventDefault();
         try{
             setLoading(true);
-            const time = e.target.time.value ? new Date(e.target.time.value).getTime() : null;
+            const time = e.target.time.value ? new Date(e.target.time.value).getTime() : undefined;
             const newData = {
                 title: e.target.title.value,
                 description: e.target.description.value,
@@ -44,6 +45,8 @@ export default function EventInfo(props: Props){
         }
     }
     
+    const date = new Date(props.event.time).toLocaleDateString('de-DE');
+
     return (
         <>
             <Modal show={showEditModal} onHide={() => setShowEditModal(false)} id="event-edit-modal">
@@ -62,7 +65,7 @@ export default function EventInfo(props: Props){
 
                         <Form.Group>
                             <label>Päiväys</label>
-                            <input type="date" name="time" defaultValue={new Date(props.event.time).toDateString()}/>
+                            <input type="date" name="time" defaultValue={date} placeholder={date}/>
                         </Form.Group>
 
                         <Form.ButtonGroup>
@@ -85,20 +88,7 @@ export default function EventInfo(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <span className={style.infoContainer} onClick={() => setShowEditModal(true)} title="Muokkaa klikkaamalla">
-                <h2>Kuvaus</h2>
-                <p>
-                    {props.event.description || 'Ei kuvausta.'}
-                </p>
-
-                <h2>Päivämäärä</h2>
-                <p>
-                    {
-                        props.event.time ? new Date(props.event.time).toLocaleDateString('de-DE') : 'Ei tiedossa.'
-                    }
-                </p>
-            </span>
-             
+            <InfoContainer event={props.event} setShowEditModal={setShowEditModal}/>
         </>
     )
 }
