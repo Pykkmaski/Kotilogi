@@ -3,6 +3,7 @@ import SelectAllButton from "../GalleryBase/Components/SelectAllButton";
 import db from "kotilogi-app/dbconfig";
 import Error from "../GalleryBase/Error";
 import ErrorImage from 'kotilogi-app/assets/history.png';
+import Form from "kotilogi-app/components/Form";
 
 type EventsGalleryProps = {
     propertyId: string
@@ -14,6 +15,12 @@ export default async function EventsGallery(props: EventsGalleryProps){
 
     const addModalOptions: GalleryBase.ModalOptions = {
         headerText: 'Lisää Tapahtuma',
+        bodyContent: (
+            <Form.Group>
+                <label>Päivämäärä</label>
+                <input type="date" name="time"/>
+            </Form.Group>
+        )
     }
 
     const deleteModalOptions: GalleryBase.ModalOptions = {

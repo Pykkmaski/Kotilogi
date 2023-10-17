@@ -22,10 +22,11 @@ export default function EventInfo(props: Props){
         e.preventDefault();
         try{
             setLoading(true);
+            const time = e.target.time.value ? new Date(e.target.time.value).getTime() : null;
             const newData = {
                 title: e.target.title.value,
                 description: e.target.description.value,
-                createdAt: e.target.date.value,
+                time
             }
 
             const result = await serverUpdateDataById(newData, props.event.id, 'propertyEvents');
@@ -61,7 +62,7 @@ export default function EventInfo(props: Props){
 
                         <Form.Group>
                             <label>Päiväys</label>
-                            <input type="date" name="date" defaultValue={props.event.createdAt}/>
+                            <input type="date" name="time" defaultValue={new Date(props.event.time).toDateString()}/>
                         </Form.Group>
 
                         <Form.ButtonGroup>
@@ -87,12 +88,14 @@ export default function EventInfo(props: Props){
             <span className={style.infoContainer} onClick={() => setShowEditModal(true)}>
                 <h2>Kuvaus</h2>
                 <p>
-                    {props.event.description}
+                    {props.event.description || 'Ei kuvausta.'}
                 </p>
 
                 <h2>Päivämäärä</h2>
                 <p>
-                    {props.event.createdAt}
+                    {
+                        props.event.time ? new Date(props.event.time).toLocaleDateString('fi-FI') : 'Ei tiedossa.'
+                    }
                 </p>
             </span>
              

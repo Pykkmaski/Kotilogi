@@ -25,22 +25,30 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
             
             const file = e.target.file?.files[0];
             var fileName: string | null = null;
-
+            var data: any = {refId};
+            
             if(file){
-                const data = new FormData();
-                data.set('file', file);
-                fileName = await upload(data, dbTableName);
+                const formData = new FormData();
+                formData.set('file', file);
+                fileName = await upload(formData, dbTableName);
                 if(!fileName) throw new Error('Failed to add data!');
-            }
-
-            const formInputElements = [...e.target.elements].filter(item => (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') && item.name !== undefined);
-            var data = {refId};
-
-            //Insert the input values.
-            formInputElements.forEach(elem => {
                 data = {
                     ...data,
-                    [elem.name] : elem.value,
+                    fileName,
+                }
+            }
+
+            //Get all input elements, ignoring files, as they have already been uploaded at this point.
+            const formInputElements = [...e.target.elements].filter(item => (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') && item.name !== undefined && item.name !== 'file');
+            
+            //Insert the input values.
+            formInputElements.forEach(elem => {
+                //Convert non-null date inputs into milliseconds since epoch. Otherwise use the value as is.
+                const value = elem.name === 'time' && elem.value ? new Date(elem.value).getTime() : elem.value;
+
+                data = {
+                    ...data,
+                    [elem.name] : value,
                 }
             });
 
