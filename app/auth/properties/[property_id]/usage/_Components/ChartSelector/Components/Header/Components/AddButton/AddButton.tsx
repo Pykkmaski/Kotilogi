@@ -9,7 +9,6 @@ export default function AddButton(){
 
     return (
         <>
-            <AddModal/>
             <Button 
                 className="primary" 
                 onClick={() => dispatch({

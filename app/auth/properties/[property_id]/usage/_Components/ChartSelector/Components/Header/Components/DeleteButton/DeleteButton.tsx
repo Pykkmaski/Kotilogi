@@ -9,7 +9,6 @@ export default function DeleteButton(){
 
     return (
         <>
-            <DeleteModal/>
             <Button 
                 className="secondary"
                 mobileIconSrc={BinIcon}

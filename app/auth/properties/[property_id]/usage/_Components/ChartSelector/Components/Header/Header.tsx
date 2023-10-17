@@ -15,30 +15,35 @@ export default function Header(){
     const {state, dispatch} = useChartSelectorContext();
 
     return (
-        <div className={style.headerContainer}>
-            <div>
-                <select onChange={(e) => dispatch({
-                    type: 'toggle_section',
-                    value: e.target.value,
-                })}>
-                    <option value="heat">Lämmitys</option>
-                    <option value="water">Vesi</option>
-                    <option value="electric">Sähkö</option>
-                </select>
+        <>
+            <AddModal/>
+            <DeleteModal/>
+            <div className={style.headerContainer}>
+                <div>
+                    <select onChange={(e) => dispatch({
+                        type: 'toggle_section',
+                        value: e.target.value,
+                    })}>
+                        <option value="heat">Lämmitys</option>
+                        <option value="water">Vesi</option>
+                        <option value="electric">Sähkö</option>
+                    </select>
 
-                <select onChange={(e) => dispatch({
-                    type: 'set_view_type',
-                    value: e.target.value,
-                })}>
-                    <option value="chart">Kaavio</option>
-                    <option value="list">Lista</option>
-                </select>
+                    <select onChange={(e) => dispatch({
+                        type: 'set_view_type',
+                        value: e.target.value,
+                    })}>
+                        <option value="chart">Kaavio</option>
+                        <option value="list">Lista</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <DeleteButton/>
+                    <AddButton/>
+                </div>      
             </div>
-            
-            <div>
-                <DeleteButton/>
-                <AddButton/>
-            </div>      
-        </div>
+        </>
+        
     )
 }
