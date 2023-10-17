@@ -94,7 +94,7 @@ export default function EventInfo(props: Props){
                 <h2>Päivämäärä</h2>
                 <p>
                     {
-                        props.event.time ? new Date(props.event.time).toLocaleDateString('fi-FI') : 'Ei tiedossa.'
+                        props.event.time ? new Date(props.event.time).toLocaleDateString('de-DE') : 'Ei tiedossa.'
                     }
                 </p>
             </span>
