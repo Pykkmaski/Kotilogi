@@ -12,17 +12,25 @@ export default function Footer(){
 
     const handleSettingsButtonClick = () => {
         if(dbTableName === 'properties'){
-            router.push(`/auth/properties/${item.id}/edit`);
+            
         }
         else{
             setMenuOpen(prev => !prev);
         }
     }
 
+    const showSettingsButton = dbTableName !== 'properties';
+
     return (
         <div className={style.container}>
             <input type="checkbox" checked={isSelected} onInput={() => dispatch({type: 'select_id', value: item.id})}/>
-            <img src='/img/settings.png' className={cogClassName} onClick={handleSettingsButtonClick}></img>
+            {
+                showSettingsButton ? 
+                <img src='/img/settings.png' className={cogClassName} onClick={handleSettingsButtonClick}></img>
+                :
+                null
+            }
+            
         </div>
     )
 }

@@ -85,7 +85,7 @@ export default function EventInfo(props: Props){
                 </Modal.Body>
             </Modal>
 
-            <span className={style.infoContainer} onClick={() => setShowEditModal(true)}>
+            <span className={style.infoContainer} onClick={() => setShowEditModal(true)} title="Muokkaa klikkaamalla">
                 <h2>Kuvaus</h2>
                 <p>
                     {props.event.description || 'Ei kuvausta.'}
