@@ -12,6 +12,11 @@ export default function AddModal(){
     const onSubmitHandler = async (e: any) => {
         e.preventDefault();
         try{
+            dispatch({
+                type: 'toggle_loading',
+                value: true,
+            });
+
             const currentSection = state?.selectedSection;
             const data = {
                 time: new Date(e.target.time.value).getTime(),
@@ -28,6 +33,10 @@ export default function AddModal(){
             console.log(err.message);
         }
         finally{
+            dispatch({
+                type: 'toggle_loading',
+                value: true,
+            });
             dispatch({type: 'toggle_add_modal', value: false});
         }
         
