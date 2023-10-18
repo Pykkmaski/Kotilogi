@@ -57,7 +57,7 @@ export async function sendResetCode(email: string): Promise<number>{
     }
 
     const resetToken: string = jwt.sign(payload, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
-    const link = `${domainName}?token=${resetToken}`;
+    const link = `${domainName}/login/reset?token=${resetToken}`;
     const htmlContent = `
         <html>
             <head>

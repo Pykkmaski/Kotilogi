@@ -5,6 +5,9 @@
     flex: 1;
     align-items: center;
     justify-content: center;
+    background-image: url('/img/Login/login-bg.jpg');
+    background-size: cover;
+    background-position-x:right;
 }
 
 input.error{
@@ -12,6 +15,8 @@ input.error{
 }
 
 .agreementContainer{
+    /**The row in the form containing the checkbox for agreeing with the TOS*/
+
     display: flex;
     flex-flow: row;
     justify-content: space-between;

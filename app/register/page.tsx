@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import Button from 'kotilogi-app/components/Button/Button';
+import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 
 export default function RegisterPage(props){
 
@@ -62,6 +63,7 @@ export default function RegisterPage(props){
 
     return (
         <div className={styles.container}>
+            <Gradient direction={'bottom'}/>
             <Form onSubmit={onSubmitHandler}>
                 <Form.Header>Luo Tili</Form.Header>
 

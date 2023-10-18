@@ -7,6 +7,7 @@ import {signIn} from 'next-auth/react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState, useRef} from 'react';
+import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 
 export default function LoginPage(props){
     const router = useRouter();
@@ -42,7 +43,7 @@ export default function LoginPage(props){
 
     return (
         <div className={styles.container}>
-            <div className={styles.gradient}/>
+            <Gradient direction='bottom'/>
             <Form onSubmit={onSubmitHandler}>
                 <Form.Header>Kirjaudu Sisään</Form.Header>
                 <Form.Group>
