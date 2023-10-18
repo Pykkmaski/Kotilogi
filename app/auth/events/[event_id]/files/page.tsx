@@ -28,7 +28,7 @@ export default function EventFilesPage({params}){
             title="Tiedostot"
             subTitle=""
             refId={params.event_id}
-            dbTableName='propertyEvents'
+            dbTableName='eventFiles'
             headerButtons={[]}
             addModalOptions={addModalOptions}
             deleteModalOptions={deleteModalOptions}
