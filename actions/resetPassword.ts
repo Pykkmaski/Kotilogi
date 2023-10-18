@@ -7,7 +7,8 @@ import db from 'kotilogi-app/dbconfig';
 import { StatusCode } from 'kotilogi-app/utils/statusCode';
 import jwt from 'jsonwebtoken';
 import domainName from 'kotilogi-app/domain.config';
-
+import path from 'path';
+import * as fs from 'fs';
 export async function resetPassword(verificationCode: string, newPassword: string): Promise<number>{
     try{
         const decoded: any = await verifyToken(verificationCode);
@@ -71,6 +72,11 @@ export async function sendResetCode(email: string): Promise<number>{
                         color: gray;
                         font-size: 1.25rem;
                     }
+                    
+                    .container .reset-link{
+                        font-size: 2rem;
+                    }
+                    
                     .container h1{
                         font-size: 2rem;
                     }
@@ -90,7 +96,7 @@ export async function sendResetCode(email: string): Promise<number>{
                         Jos et pyytänyt salasanasi nollausta, voit jättää tämän viestin huiomioimatta.
                     </p>
 
-                    <a href=${link}>${link}</a>
+                    <a href=${link} class="reset-link">${link}</a>
                     <p>
                         <a href="mailto:kotilogi.service@gmail.com">kotilogi.service@gmail.com</a></br>
                         <span class="contact"><strong>Kotilogi</strong>, Timontie 13 Vaasa</span>
@@ -101,6 +107,8 @@ export async function sendResetCode(email: string): Promise<number>{
         </html>
        
     `;
+
+    //const htmlContent = fs.readFileSync(path.);
     var status = StatusCode.SUCCESS;
 
     transport.sendMail({

@@ -44,15 +44,21 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
             //Insert the input values.
             formInputElements.forEach(elem => {
                 //Convert non-null date inputs into milliseconds since epoch. Otherwise use the value as is.
-                const value = elem.name === 'time' && elem.value ? new Date(elem.value).getTime() : elem.value;
+                var value: number | string | null = null;
+
+                if(elem.type === 'date'){
+                    value = elem.value.length !== '' ? new Date(elem.value).getTime() : null;
+                    console.log(value);
+                }
+                else{
+                    value = elem.value;
+                }
 
                 data = {
                     ...data,
                     [elem.name] : value,
                 }
             });
-
-            console.log(data);
 
             /*
             const data = fileName ? {
