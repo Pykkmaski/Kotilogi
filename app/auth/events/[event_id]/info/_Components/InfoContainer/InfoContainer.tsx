@@ -5,7 +5,10 @@ type Props = {
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
+
 export default function infoContainer(props: Props){
+
+    const date: string | null = props.event.time && props.event.time !== '' ? new Date(props.event.time).toLocaleDateString('fi-FI') : 'Ei tiedossa.';
     return (
         <span className={style.infoContainer} onClick={() => props.setShowEditModal(true)} title="Muokkaa klikkaamalla">
             <h2>Kuvaus</h2>
@@ -15,9 +18,7 @@ export default function infoContainer(props: Props){
 
             <h2>Päivämäärä</h2>
             <p>
-                {
-                    props.event.time ? new Date(props.event.time).toLocaleDateString('de-DE') : 'Ei tiedossa.'
-                }
+                {date}
             </p>
         </span>
     )
