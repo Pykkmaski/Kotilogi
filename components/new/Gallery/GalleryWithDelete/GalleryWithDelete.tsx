@@ -17,9 +17,17 @@ export default function GalleryWithDelete(props: GalleryWithDelete.Props){
         <DeleteButton toggleModal={setShowDeleteModal}/>
     ];
 
+    const contextValue = {
+        showDeleteModal,
+        setShowDeleteModal,
+    }
+
     return ( 
-        <GalleryBase {...props} headerButtons={headerButtons}>
-            <DeleteModal show={showDeleteModal} toggleVisible={setShowDeleteModal}/>
-        </GalleryBase>
+        <GalleryWithDeleteProvider value={contextValue}>
+          <GalleryBase {...props} headerButtons={headerButtons}>
+                <DeleteModal show={showDeleteModal} toggleVisible={setShowDeleteModal}/>
+            </GalleryBase>  
+        </GalleryWithDeleteProvider>
+        
     );
 }

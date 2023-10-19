@@ -17,6 +17,7 @@
     transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
     box-shadow: 2px 2px 2px 2px #0008;
 
+    /*
     a{
         display: flex;
         flex-flow: column;
@@ -28,6 +29,7 @@
             color: none;
         }
     }
+    */
 
     &:hover{
         box-shadow: 2px 2px 2px 2px rgba(black, 0.25);

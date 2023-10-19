@@ -9,13 +9,17 @@ type Props = {
 export default function infoContainer(props: Props){
 
     const date: string | null = props.event.time && props.event.time !== '' ? new Date(props.event.time).toLocaleDateString('fi-FI') : 'Ei tiedossa.';
-    return (
-        <span className={style.infoContainer} onClick={() => props.setShowEditModal(true)} title="Muokkaa klikkaamalla">
-            <h2>Kuvaus</h2>
+    const headerContent = (
+        <div className={style.titleContainer}>
             <p>
                 {props.event.description || 'Ei kuvausta.'}
             </p>
+        </div>
+    );
 
+    return (
+        <span className={style.infoContainer} onClick={() => props.setShowEditModal(true)} title="Muokkaa klikkaamalla">
+            {headerContent}
             <h2>Päivämäärä</h2>
             <p>
                 {date}

@@ -74,7 +74,13 @@ export default function DeleteModal(props: Props){
                 <Button
                     desktopText="Ei"
                     className="primary"
-                    onClick={() => props.toggleVisible(false)}
+                    onClick={() => {
+                        props.toggleVisible(false);
+                        dispatch({
+                            type: 'reset_selected',
+                            value: null,
+                        })
+                    }}
                     disabled={state.isLoading}
                 />
             </Modal.Footer>

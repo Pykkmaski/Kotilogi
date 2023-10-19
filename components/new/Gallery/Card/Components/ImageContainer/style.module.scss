@@ -1,3 +1,5 @@
+@import 'kotilogi-app/scss/Config';
+
 .imageContainer{
     position: relative;
     display: flex;
@@ -5,7 +7,7 @@
     max-width: inherit;
     height: 18rem;
     margin-bottom: 1rem;
-
+    
     .gradient{
         position: absolute;
         top: 0;
@@ -40,8 +42,21 @@
         color: white;
         object-fit:cover;
         object-position: 50%;
+        border: none;
 
         border-top-left-radius: 7px;
         border-top-right-radius: 7px;
     }
+}
+
+.buttonLink{
+    text-align: center;
+    background: $primary-color;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: white;
+    &:hover{
+        text-decoration: none;
+    }
+    
 }

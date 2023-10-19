@@ -33,17 +33,9 @@ export default function Card(props: GalleryBase.CardProps){
 
     return (
         <CardContext.Provider value={contextValue}>
-            <EditModal item={props.item} show={menuOpen} toggleModal={setMenuOpen}/>
             <div className={containerClassName} key={props.key}>
-                <Link 
-                    href={props.destination} 
-                    target={linkTarget} 
-                    style={{pointerEvents: menuOpen ? 'none' : 'all'}}
-                    >
-                    <ImageContainer imageUrl={imageUrl} title={props.item.title}/>
-                    <Body/>
-                </Link>
-
+                <ImageContainer imageUrl={imageUrl} title={props.item.title}/>
+                <Body/>
                 <Footer/>
             </div>
         </CardContext.Provider>

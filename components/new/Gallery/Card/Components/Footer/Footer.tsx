@@ -1,5 +1,6 @@
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import { useCardContext } from "../../CardContext";
+import Menu from "../Menu/Menu";
 import style from './style.module.scss';
 import { useRouter } from "next/navigation";
 
@@ -30,7 +31,6 @@ export default function Footer(){
                 :
                 null
             }
-            
         </div>
     )
 }

@@ -21,6 +21,10 @@ function getImageUrl(entry: any, dbTableName: Kotilogi.Table): string | null{
             return 'eventImages';
         }
 
+        if(String('propertyFiles'.includes(dbTableName))){
+            return 'propertyFiles';
+        }
+
         return null;
     }
 
@@ -28,10 +32,10 @@ function getImageUrl(entry: any, dbTableName: Kotilogi.Table): string | null{
     if(!imagesTableName) return null;
 
     const url = `/api/files?dbTableName=${imagesTableName}&id=${contentId}`;
-    return  url;
+    return url;
 }
 
-function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdType, refId?: Kotilogi.IdType): string{
+export function getCardDestination(dbTableName: Kotilogi.Table, contentId: Kotilogi.IdType, refId?: Kotilogi.IdType): string{
     if(dbTableName == 'properties'){
         return `/auth/properties/${contentId}/info`;
     }

@@ -7,7 +7,7 @@ type Props = {
 
 export default function Menu(props: Props){
     return (
-        <dialog className={style.container} open={props.open}>
+        <dialog className={style.menuContainer} open={props.open}>
             {props.children}
         </dialog>
     );
