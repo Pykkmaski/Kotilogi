@@ -11,10 +11,13 @@ export default async function serverDeleteFilesByIds(selectedIds: Kotilogi.IdTyp
      * Deletes the files as well as the associated data entries from the db.
      */
     try{
-        selectedIds.forEach(async id => {
-            const {filename} = await db(tableName).where({id}).select('fileName').first();
-            await unlink(uploadPath + filename);
-        });
+
+        for(const id of selectedIds){
+            const {fileName} = await db(tableName).where({id}).select('fileName').first();
+            if(!fileName) throw new Error('DeleteFilesByIds: Cannot find file with id ' + id + ' in table: ' + tableName + '. Unable to proceed with deletion!');
+
+            await unlink(uploadPath + fileName);
+        }
 
         await serverDeleteDataByIds(selectedIds, tableName);
 
@@ -22,6 +25,6 @@ export default async function serverDeleteFilesByIds(selectedIds: Kotilogi.IdTyp
     }
     catch(err){
         console.log(err.message);
-        return null;
+        return false;
     }
 }

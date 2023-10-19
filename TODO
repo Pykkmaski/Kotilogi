@@ -6,8 +6,8 @@ Password reset functionality using json web tokens.
 + Implement usage type selector for choosing between different usage types when viewing the usage data
 + Implement file uploading
 + Implement image uploading
-- Implement main image setting on properties
-- Implement main image setting on events
++ Implement main image setting on properties
++ Implement main image setting on events
 + Implement event page
 - Implement user dashboard
 - Implement property ownership transfer to another user
@@ -44,5 +44,5 @@ Did a workaround and made the edit path a child of the base property_id path.
 + Fix elements not being interactable in page components.
 - Add a button to the gallery header component to switch between card and list view.
 + Fix usage list items not updating when deleting.
-- Add some clear way of returning to the info section when editing a property.
+- Fix uploads not actually being deleted. (The name of the file is undefined).
 
