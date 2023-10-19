@@ -12,6 +12,8 @@ import { useGalleryWithDeleteContext } from "../../../GalleryWithDelete/GalleryW
 import { getCardDestination } from "../../../GalleryBase/Util/getCard";
 import Link from "next/link";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
+import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
+import toast from "react-hot-toast";
 
 type Props = {
     imageUrl: string,
@@ -58,7 +60,9 @@ function ObjectsMenu(props: HOCProps){
                     className="primary"
                     desktopText="Aseta Pääkuvaksi"
                     onClick={async () => {
-                        await serverUpdateDataById({isMainImage: true, refId}, props.id, dbTableName)
+                        await serverUpdateDataById({isMainImage: true, refId}, props.id, dbTableName);
+                        serverRevalidatePath('/auth/properties/[property_id]/images');
+                        toast.success('Pääkuva vaihdettu onnistuneesti!');
                     }}
                 />
                 :
