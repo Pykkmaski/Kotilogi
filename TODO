@@ -44,5 +44,6 @@ Did a workaround and made the edit path a child of the base property_id path.
 + Fix elements not being interactable in page components.
 - Add a button to the gallery header component to switch between card and list view.
 + Fix usage list items not updating when deleting.
-- Fix uploads not actually being deleted. (The name of the file is undefined).
++ Fix uploads not actually being deleted. (The name of the file is undefined).
+- Remove file title from it's upload modal. Use filename instead.
 

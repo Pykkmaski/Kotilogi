@@ -11,6 +11,7 @@ import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import { useGalleryWithDeleteContext } from "../../../GalleryWithDelete/GalleryWithDeleteProvider";
 import { getCardDestination } from "../../../GalleryBase/Util/getCard";
 import Link from "next/link";
+import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 
 type Props = {
     imageUrl: string,
@@ -36,7 +37,7 @@ function PropertiesMenu(props: HOCProps){
 }
 
 function ObjectsMenu(props: HOCProps){
-    const {dispatch, dbTableName} = useGalleryContext();
+    const {dispatch, dbTableName, refId} = useGalleryContext();
     const {setShowDeleteModal} = useGalleryWithDeleteContext();
     const {setMenuOpen} = useCardContext();
 
@@ -49,6 +50,20 @@ function ObjectsMenu(props: HOCProps){
                 target="_blank"
                 className={style.buttonLink}
             >Avaa</Link>
+
+            {
+                dbTableName === 'propertyImages' || dbTableName === 'eventImages'
+                ?
+                <Button
+                    className="primary"
+                    desktopText="Aseta Pääkuvaksi"
+                    onClick={async () => {
+                        await serverUpdateDataById({isMainImage: true, refId}, props.id, dbTableName)
+                    }}
+                />
+                :
+                null
+            }
 
             <Button
                 className="danger"

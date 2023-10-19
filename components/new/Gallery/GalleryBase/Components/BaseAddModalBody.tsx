@@ -105,10 +105,19 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
     return (
         <Form onSubmit={onSubmitHandler}>
             {props.additionalContent}
-            <Form.Group>
-                <label>{labelText}</label>
-                <input type="text" name='title' required></input>
-            </Form.Group>
+
+            {
+                /**Only ask for a title if uploading something other than a file or an image. */
+                !dbTableName.includes('Files') && !dbTableName.includes('Images')
+                ?
+                <Form.Group>
+                    <label>{labelText}</label>
+                    <input type="text" name='title' required></input>
+                </Form.Group>
+                :
+                null
+            }
+            
 
             <DescriptionFragment/>
             <ButtonsFragment/>

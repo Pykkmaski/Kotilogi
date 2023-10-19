@@ -34,7 +34,7 @@ export default function Card(props: GalleryBase.CardProps){
     return (
         <CardContext.Provider value={contextValue}>
             <div className={containerClassName} key={props.key}>
-                <ImageContainer imageUrl={imageUrl} title={props.item.title}/>
+                <ImageContainer imageUrl={imageUrl} title={props.item.title || props.item.fileName || 'Ei Otsikkoa.'}/>
                 <Body/>
                 <Footer/>
             </div>
