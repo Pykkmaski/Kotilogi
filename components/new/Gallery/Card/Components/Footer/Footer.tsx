@@ -20,7 +20,7 @@ export default function Footer(){
         }
     }
 
-    const showSettingsButton = dbTableName !== 'properties';
+    const showSettingsButton = true;
 
     return (
         <div className={style.container}>

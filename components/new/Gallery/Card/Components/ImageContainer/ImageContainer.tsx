@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import HoverOverlay from "../HoverOverlay/HoverOverlay";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { useCardContext } from "../../CardContext";
@@ -14,6 +14,7 @@ import Link from "next/link";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import toast from "react-hot-toast";
+import isMainImage from "kotilogi-app/utils/isMainImage";
 
 type Props = {
     imageUrl: string,
@@ -43,32 +44,64 @@ function ObjectsMenu(props: HOCProps){
     const {setShowDeleteModal} = useGalleryWithDeleteContext();
     const {setMenuOpen} = useCardContext();
 
-    const routerDestinationUrl = getCardDestination(dbTableName, props.id);
+    //Is the button for setting a primary image disabled?
+    const [btnDisabled, setBtnDisabled] = useState(false);
 
-    return (
-        <HoverOverlay visible={props.showMenu}>
+    //Do not display the buttons until the main image state is resolved.
+    const [buttonsLoading, setButtonsLoading] = useState(dbTableName.includes('Images'));
+    
+    const routerDestinationUrl = getCardDestination(dbTableName, props.id);
+    
+    
+    useEffect(() => {
+        const tableWithMainImage: 'properties' | 'propertyEvents' | null = 
+            dbTableName === 'propertyImages' ? 'properties' : 
+            dbTableName === 'eventImages' ? 'propertyEvents' : 
+            null;
+
+        if(!tableWithMainImage) return;
+
+        isMainImage(props.id, refId, tableWithMainImage)
+        .then(res => {
+            setBtnDisabled(res);
+        })
+        .finally(() => {
+            setButtonsLoading(false);
+        });
+    }, []);
+
+    var content: JSX.Element | null = null;
+
+    if(buttonsLoading){
+        content = <Spinner size="2rem"/>
+    }
+    else{
+        const openLink = (
             <Link
                 href={routerDestinationUrl}
                 target="_blank"
                 className={style.buttonLink}
             >Avaa</Link>
+        );
 
-            {
-                dbTableName === 'propertyImages' || dbTableName === 'eventImages'
-                ?
-                <Button
-                    className="primary"
-                    desktopText="Aseta Pääkuvaksi"
-                    onClick={async () => {
-                        await serverUpdateDataById({isMainImage: true, refId}, props.id, dbTableName);
-                        serverRevalidatePath('/auth/properties/[property_id]/images');
-                        toast.success('Pääkuva vaihdettu onnistuneesti!');
-                    }}
-                />
-                :
-                null
-            }
+        const setMainImageButton = (
+            dbTableName === 'propertyImages' || dbTableName === 'eventImages'
+            ?
+            <Button
+                className="primary"
+                desktopText="Aseta Pääkuvaksi"
+                onClick={async () => {
+                    await serverUpdateDataById({isMainImage: true, refId}, props.id, dbTableName);
+                    toast.success('Pääkuva vaihdettu onnistuneesti!');
+                    setBtnDisabled(prev => !prev);
+                }}
+                disabled={btnDisabled}
+            />
+            :
+            null
+        );
 
+        const deleteButton = (
             <Button
                 className="danger"
                 desktopText="Poista"
@@ -82,6 +115,20 @@ function ObjectsMenu(props: HOCProps){
                     setMenuOpen(false);
                 }}
             />
+        );
+
+        content = (
+            <>
+                {openLink}
+                {setMainImageButton}
+                {deleteButton}
+            </>
+        );
+    }
+
+    return (
+        <HoverOverlay visible={props.showMenu}>
+            {content}
         </HoverOverlay>
     );
 }
