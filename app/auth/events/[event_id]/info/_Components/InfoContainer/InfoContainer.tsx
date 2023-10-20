@@ -8,7 +8,7 @@ type Props = {
 
 export default function infoContainer(props: Props){
 
-    const date: string | null = props.event.time && props.event.time !== '' ? new Date(props.event.time).toLocaleDateString('fi-FI') : 'Ei tiedossa.';
+    const date: string | null = props.event.time && props.event.time !== '' ? new Date(props.event.time).toLocaleDateString('de-DE') : 'Ei tiedossa.';
     const headerContent = (
         <div className={style.titleContainer}>
             <p>
