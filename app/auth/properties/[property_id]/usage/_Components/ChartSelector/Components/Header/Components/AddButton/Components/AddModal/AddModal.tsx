@@ -5,6 +5,7 @@ import { useChartSelectorContext } from "../../../../../../ChartSelectorContext"
 import Modal from "kotilogi-app/components/Modals/Modal";
 import Form from "kotilogi-app/components/Form";
 import Button from "kotilogi-app/components/Button/Button";
+import toast from "react-hot-toast";
 
 export default function AddModal(){
     const {state, dispatch} = useChartSelectorContext();
@@ -28,9 +29,11 @@ export default function AddModal(){
             if(!insertedData) throw new Error('Failed to add data!');
 
             dispatch({type: 'add_data', value: insertedData});
+            toast.success('Tieto lisätty onnistuneesti!');
         }
         catch(err){
             console.log(err.message);
+            toast.error('Tiedon lisääminen epäonnistui!');
         }
         finally{
             dispatch({
@@ -53,12 +56,12 @@ export default function AddModal(){
                 <Form onSubmit={onSubmitHandler}>
                     <Form.Group>
                         <label>Hinta</label>
-                        <input type="number" min="0.01" step="0.01" name="price"/>
+                        <input type="number" min="0.01" step="0.01" name="price" required/>
                     </Form.Group>
 
                     <Form.Group>
                         <label>Päiväys</label>
-                        <input type="date" name="time"/>
+                        <input type="date" name="time" required/>
                     </Form.Group>
                     
                     <Form.ButtonGroup>
