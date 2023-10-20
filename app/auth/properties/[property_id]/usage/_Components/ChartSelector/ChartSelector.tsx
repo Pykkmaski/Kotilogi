@@ -26,7 +26,7 @@ export default function ChartSelector(props: Props){
         isLoading: false,
         showAddModal: false,
         showDeleteModal: false,
-        selectedSection: 'heat' as Sections,
+        selectedSection: searchParams.get('section') || 'heat' as Sections,
         selectedType: 'bar',
         selectedItems: [],
         propertyId: property_id,
@@ -41,12 +41,12 @@ export default function ChartSelector(props: Props){
     }
 
     useEffect(() => {
-        const url = `?viewType=${state.viewType}`;
+        const url = `?viewType=${state.viewType}&section=${state.selectedSection}`;
         router.replace(url);
     }, [state.viewType]);
 
     const dataToDisplay = state.data.filter(item => item.type === state.selectedSection);
-    console.log(dataToDisplay);
+    //console.log(dataToDisplay);
 
     return(
         <ChartSelectorProvider contextValue={contextValue}>
