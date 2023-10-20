@@ -8,7 +8,7 @@ export default function Body(){
     return (
         <div className={style.container}>
             <div className={style.text}>
-                {item.description}
+                {item.description || 'Ei Kuvausta.'}
             </div>
         </div>
     )
