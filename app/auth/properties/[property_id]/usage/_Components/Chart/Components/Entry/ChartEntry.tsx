@@ -7,6 +7,7 @@ import serverUpdateDataById from 'kotilogi-app/actions/serverUpdateDataById';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import toast from 'react-hot-toast';
 import Button from 'kotilogi-app/components/Button/Button';
+import React from 'react';
 
 type ChartEntryProps = {
     data: Kotilogi.UsageType,
@@ -83,7 +84,7 @@ export default function ChartEntry(props: ChartEntryProps){
                     <Form onSubmit={onSubmitHandler}>
                         <Form.Group>
                             <label>Hinta</label>
-                            <input type="number" name="price" defaultValue={currentData.price} required onChange={onDataChangeHandler}/>
+                            <input type="number" name="price" defaultValue={currentData.price} required onChange={onDataChangeHandler} step={0.01} min={0}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -112,14 +113,13 @@ export default function ChartEntry(props: ChartEntryProps){
             </Modal>
 
             <div className={style.chartEntry}>
-                <div onClick={() => setShowModal(true)} className={style.dataContainer}>
-                    <span>Päiväys: {new Date(currentData.time).toLocaleDateString('fi-Fi')}</span>
-                    <span>Hinta: {currentData.price + '€'}</span>
+                <div onClick={() => setShowModal(true)} className={style.dataContainer} title="Muokkaa klikkaamalla">
+                    <span>Päiväys: {new Date(props.data.time).toLocaleDateString('fi-Fi')}</span>
+                    <span>Hinta: {props.data.price + '€'}</span>
                 </div>
                 
-                <input type="checkbox" onChange={onChangeHandler}></input>
+                <input type="checkbox" onChange={onChangeHandler} checked={state.selectedItems.includes(props.data.id)}></input>
             </div>
         </>
-        
     )
 }

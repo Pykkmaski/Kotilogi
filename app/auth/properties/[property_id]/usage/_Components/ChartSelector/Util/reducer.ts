@@ -18,7 +18,7 @@ type State = {
 }
 
 type Action = {
-    type: 'set_data' | 'set_view_type' | 'toggle_add_modal' | 'toggle_delete_modal' | 'toggle_section' | 'toggle_loading' | 'set_chart_type' | 'toggle_selected' | 'add_data' | 'delete_selected',
+    type: 'reset_selected' | 'set_data' | 'set_view_type' | 'toggle_add_modal' | 'toggle_delete_modal' | 'toggle_section' | 'toggle_loading' | 'set_chart_type' | 'toggle_selected' | 'add_data' | 'delete_selected',
     value: any,
 }
 
@@ -97,7 +97,14 @@ export default function chartSelectorReducer(state: State, action: Action): Stat
         case 'toggle_loading':{
             return {
                 ...state,
-                isLoading: true,
+                isLoading: action.value,
+            }
+        }
+
+        case 'reset_selected':{
+            return {
+                ...state,
+                selectedItems: [],
             }
         }
 

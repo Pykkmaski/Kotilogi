@@ -9,6 +9,7 @@ import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataById
 import { serverGetDataByRefId } from "kotilogi-app/actions/serverGetData";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 
 export default function DeleteModal(){
     const {state, dispatch} = useChartSelectorContext();
@@ -20,15 +21,19 @@ export default function DeleteModal(){
                 value: true,
             });
 
-            await serverDeleteDataByIds(state.selectedItems, 'usage');
-            const newData = await serverGetDataByRefId(state.propertyId, 'usage');
-            if(!newData) throw new Error('Failed to delete usage data!');
+            const deletionResult = await serverDeleteDataByIds(state.selectedItems, 'usage');
+            if(!deletionResult) throw new Error('Usage Delete Modal onDeleteHandler: Failed to delete usage data!');
 
+            const newData = await serverGetDataByRefId(state.propertyId, 'usage');
+            if(!newData) throw new Error('Usage Delete Modal onDeleteHandler: Failed to get current data after deletion!');
+           
+            console.log(newData);
+            
             dispatch({
                 type: 'set_data',
                 value: newData,
             });
-
+            
             toast.success('Tiedon poisto onnistui!');
         }
         catch(err){
@@ -43,7 +48,12 @@ export default function DeleteModal(){
 
             dispatch({
                 type: 'toggle_loading',
-                value: true,
+                value: false,
+            });
+
+            dispatch({
+                type: 'reset_selected',
+                value: null,
             });
         }
     }

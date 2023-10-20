@@ -45,5 +45,6 @@ Did a workaround and made the edit path a child of the base property_id path.
 - Add a button to the gallery header component to switch between card and list view.
 + Fix usage list items not updating when deleting.
 + Fix uploads not actually being deleted. (The name of the file is undefined).
-- Remove file title from it's upload modal. Use filename instead.
++ Remove file title from it's upload modal. Use filename instead.
+- Fix cards not being deselected when the modal close button is pressed.
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import style from './style.module.scss';
 import reducer from './Util/reducer';
 import getUsageDataByCategory from "./Util/getUsageDataByCategory";
@@ -10,7 +10,7 @@ import AddModal from "./Components/Header/Components/AddButton/Components/AddMod
 import { Sections } from "./Types/Sections";
 import getChartBySection from "./Util/getChartBySection";
 import Header from "./Components/Header/Header";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
     usage: Kotilogi.UsageType[],
@@ -19,7 +19,8 @@ type Props = {
 export default function ChartSelector(props: Props){
     const searchParams = useSearchParams();
     const {property_id} = useParams();
-    
+    const router = useRouter();
+
     const initialState = {
         data: props.usage,
         isLoading: false,
@@ -29,7 +30,7 @@ export default function ChartSelector(props: Props){
         selectedType: 'bar',
         selectedItems: [],
         propertyId: property_id,
-        viewType: 'chart',
+        viewType: searchParams.get('viewType') || 'chart',
     }
 
     const [state, dispatch] = useReducer(reducer, initialState as any);
@@ -39,6 +40,14 @@ export default function ChartSelector(props: Props){
         dispatch,
     }
 
+    useEffect(() => {
+        const url = `?viewType=${state.viewType}`;
+        router.replace(url);
+    }, [state.viewType]);
+
+    const dataToDisplay = state.data.filter(item => item.type === state.selectedSection);
+    console.log(dataToDisplay);
+
     return(
         <ChartSelectorProvider contextValue={contextValue}>
             <Header/>
@@ -47,15 +56,15 @@ export default function ChartSelector(props: Props){
                 ? 
                 <section id="chart-selector-charts">
                     {
-                        getChartBySection(state.selectedSection, state.data)
+                        getChartBySection(state.selectedSection, dataToDisplay)
                     }
                 </section>
                 :
                 <section className={style.list}>
                     {
-                        getUsageDataByCategory(state.selectedSection, state.data).map((item, index: number) => {
+                        dataToDisplay.map((item, index: number) => {
                             return (
-                                <ChartEntry data={item} id={`usage-entry-${index}`}/>
+                                <ChartEntry data={item} id={`index`} key={`usage-entry-${index}`}/>
                             )
                         })
                     }

@@ -5,7 +5,7 @@ import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import Button from "kotilogi-app/components/Button/Button";
 import Form from "kotilogi-app/components/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import style from './page.module.scss';
@@ -44,7 +44,7 @@ export default function EventInfo(props: Props){
             setShowEditModal(false);
         }
     }
-    
+
     const date = new Date(props.event.time).toLocaleDateString('de-DE');
 
     return (
@@ -60,7 +60,7 @@ export default function EventInfo(props: Props){
 
                         <Form.Group>
                             <label>Kuvaus</label>
-                            <input name="description" defaultValue={props.event.description}/>
+                            <textarea name="description" defaultValue={props.event.description} maxLength={200}/>
                         </Form.Group>
 
                         <Form.Group>

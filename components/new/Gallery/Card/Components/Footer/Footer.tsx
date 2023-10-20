@@ -12,12 +12,7 @@ export default function Footer(){
     const cogClassName = menuOpen ? `${style.cogImg} ${style.open}` : style.cogImg;
 
     const handleSettingsButtonClick = () => {
-        if(dbTableName === 'properties'){
-            
-        }
-        else{
-            setMenuOpen(prev => !prev);
-        }
+        setMenuOpen(prev => !prev);
     }
 
     const showSettingsButton = true;

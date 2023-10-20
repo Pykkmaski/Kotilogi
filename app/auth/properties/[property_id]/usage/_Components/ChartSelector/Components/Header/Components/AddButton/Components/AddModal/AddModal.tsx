@@ -35,9 +35,13 @@ export default function AddModal(){
         finally{
             dispatch({
                 type: 'toggle_loading',
-                value: true,
+                value: false,
             });
-            dispatch({type: 'toggle_add_modal', value: false});
+
+            dispatch({
+                type: 'toggle_add_modal', 
+                value: false
+            });
         }
         
     }

@@ -27,7 +27,7 @@ function Modal(props){
     }, [show]);
 
     return (
-        <dialog className="component-modal animated" key={props.key} id={props.id}>
+        <dialog className="component-modal animated" key={props.id} id={props.id}>
             <CloseButton onHide={onHide}/>
            {props.children}
         </dialog>

@@ -39,10 +39,10 @@ function MenuBody(props){
     }, [props.userIsLoggedIn]);
 
     const loggedInLinks = [
-        <Link href="/">Etusivu</Link>,
-        <Link href="/auth/properties">Talot</Link>,
-        <Link href="/tos">Käyttöehdot</Link>,
-        <Link href="#" onClick={() => signOut()}>Kirjaudu Ulos</Link>
+        <Link href="/" key={'index-link'}>Etusivu</Link>,
+        <Link href="/auth/properties" key={'houses-link'}>Talot</Link>,
+        <Link href="/tos" key={'tos-link'}>Käyttöehdot</Link>,
+        <Link href="#" onClick={() => signOut()} key={'signout-link'}>Kirjaudu Ulos</Link>
     ];
 
     const loggedOutLinks = [
@@ -79,8 +79,8 @@ function MenuBody(props){
                     :
                     <>
                         {
-                            loggedOutLinks.map(link => {
-                                return <Link href={link.href} key={`link-${link.title}`} className={link.className}>{link.title}</Link>
+                            loggedOutLinks.map((link, index: number) => {
+                                return <Link href={link.href} key={`link-${link.title}-${index}`} className={link.className}>{link.title}</Link>
                             })
                         }
                     </>

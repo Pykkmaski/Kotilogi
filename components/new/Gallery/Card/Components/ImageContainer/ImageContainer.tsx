@@ -32,7 +32,7 @@ function PropertiesMenu(props: HOCProps){
         <HoverOverlay visible={props.showMenu}>
             <Button
                 className="primary"
-                desktopText="Muokkaa"
+                desktopText="Avaa"
                 onClick={() => props.router.push(`/auth/properties/${props.id}/info`)}
             />
         </HoverOverlay>
@@ -142,7 +142,7 @@ function EventsMenu(props: HOCProps){
         <HoverOverlay visible={props.showMenu}>
             <Button
                 className="primary"
-                desktopText="Muokkaa"
+                desktopText="Avaa"
                 onClick={() => props.router.push(`/auth/events/${props.id}/info`)}
             />
 
