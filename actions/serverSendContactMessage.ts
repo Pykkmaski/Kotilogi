@@ -1,8 +1,6 @@
 "use server";
 
-import formDataToType from "kotilogi-app/utils/formDataToType";
-import nodemailer, { TransportOptions } from 'nodemailer';
-import {transportOptions} from 'kotilogi-app/nodemailer.config';
+import serverSendHTMLEmail from "./serverSendHTMLEmail";
 
 type MessageDataType = {
     email: string,
@@ -10,7 +8,7 @@ type MessageDataType = {
     message: string,
 }
 
-function createMessageHTML(from: string, message: string): string{
+function createMessageHTML(message: string): string{
     return `
         <html>
             <head>
@@ -21,11 +19,17 @@ function createMessageHTML(from: string, message: string): string{
                         text-align: center;
                     }
 
-                    header, footer{
-                        background: #333333;
+                    body{
+                        display: flex;
+                        flex-flow: column;
                     }
 
-                    main{
+                    .header, .footer{
+                        background: #333333;
+                        margin: 0;
+                    }
+
+                    .content{
                         background: #4d4d4d;
                     }
 
@@ -33,16 +37,16 @@ function createMessageHTML(from: string, message: string): string{
             </head>
 
             <body>
-                <header>
+                <div class="header">
                     <h1>Kotilogin Yhteydenotto</h1>
-                </header>
-                <main>
+                </div>
+                <div class="content">
                     ${message}
-                </main>
-                <footer>
+                </div>
+                <div class="footer">
                     <strong>Kotilogi</strong>
                     <small>Timontie, Vaasa</small>
-                </footer>
+                </div>
             </body>
         </html>
     `
@@ -51,20 +55,10 @@ function createMessageHTML(from: string, message: string): string{
 
 export default async function serverSendContactMessage(data: MessageDataType): Promise<boolean>{
     try{
-        const transport = nodemailer.createTransport(transportOptions as TransportOptions);
         const to = process.env.SERVICE_CONTACT_EMAILS as string;
 
-        transport.sendMail({
-            from: data.email,
-            to: to.split(','),
-            subject: 'Kotilogin yhteydenotto',
-            html: createMessageHTML(data.email, data.message),
-        }, async (err, info) => {
-            if(err) {
-                console.log(err);
-                return false;
-            }
-        });
+        const emailSuccess = await serverSendHTMLEmail('Kotilogin Yhteydenotto', data.email, to.split(','), createMessageHTML(data.message));
+        if(!emailSuccess) throw new Error('Failed to send contact message!');
 
         return true;
     }

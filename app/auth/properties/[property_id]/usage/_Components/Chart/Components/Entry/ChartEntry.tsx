@@ -8,6 +8,8 @@ import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import toast from 'react-hot-toast';
 import Button from 'kotilogi-app/components/Button/Button';
 import React from 'react';
+import locale from 'kotilogi-app/locale.config';
+import stringToDate from 'kotilogi-app/utils/stringToDate';
 
 type ChartEntryProps = {
     data: Kotilogi.UsageType,
@@ -114,7 +116,7 @@ export default function ChartEntry(props: ChartEntryProps){
 
             <div className={style.chartEntry}>
                 <div onClick={() => setShowModal(true)} className={style.dataContainer} title="Muokkaa klikkaamalla">
-                    <span>Päiväys: {new Date(props.data.time).toLocaleDateString('fi-Fi')}</span>
+                    <span>Päiväys: {new Date(parseInt(props.data.time)).toLocaleDateString('fi-FI')}</span>
                     <span>Hinta: {props.data.price + '€'}</span>
                 </div>
                 

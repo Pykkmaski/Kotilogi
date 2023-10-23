@@ -39,7 +39,7 @@ namespace Kotilogi{
     type UsageType = HasId & HasRefId & HasDate & HasTimeStamp & {
         type: 'heating' | 'electric' | 'water',
         price: number,
-        time: number,
+        time: string,
     }
 
     type HasMainImageId = {

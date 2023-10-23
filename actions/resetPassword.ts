@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 import domainName from 'kotilogi-app/domain.config';
 import path from 'path';
 import * as fs from 'fs';
+import serverSendHTMLEmail from './serverSendHTMLEmail';
 export async function resetPassword(verificationCode: string, newPassword: string): Promise<number>{
     try{
         const decoded: any = await verifyToken(verificationCode);
@@ -43,9 +44,6 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
 export async function sendResetCode(email: string): Promise<number>{
     const user = await db('users').where({email}).select('email');
     if(!user.length) return StatusCode.INVALID_USER;
-
-    const {transportOptions} = require('kotilogi-app/nodemailer.config');
-    const transport = nodemailer.createTransport(transportOptions);
 
     const numbers: number[] = [];
     for(let i = 0; i < 6; ++i){
@@ -105,24 +103,10 @@ export async function sendResetCode(email: string): Promise<number>{
                 </div>
             </body>
         </html>
-       
     `;
 
-    //const htmlContent = fs.readFileSync(path.);
-    var status = StatusCode.SUCCESS;
+    const emailSuccess = await serverSendHTMLEmail('Salasanan nollaus', process.env.SERVICE_EMAIL_ADDRESS || 'Kotilogi', email, htmlContent);
+    if(!emailSuccess) return StatusCode.UNEXPECTED;
 
-    transport.sendMail({
-        from: process.env.SERVICE_EMAIL_ADDRESS,
-        to: email,
-        subject: 'Salasanan nollaus',
-        html: htmlContent,
-    }, async (err, info) => {
-        if(err) {
-            console.log(err);
-            status = StatusCode.UNEXPECTED;
-        }
-    });
-
-    console.log('Code sent with status ' + status);
-    return status;
+    return StatusCode.SUCCESS;
 }

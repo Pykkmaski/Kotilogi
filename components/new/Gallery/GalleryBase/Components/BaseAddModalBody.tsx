@@ -47,7 +47,7 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 var value: number | string | null = null;
 
                 if(elem.type === 'date'){
-                    value = elem.value !== '' ? new Date(elem.value).getTime() : null;
+                    value = elem.value !== '' && elem.value !== null ? new Date(elem.value).getTime().toString() : null;
                     console.log(value);
                 }
                 else{

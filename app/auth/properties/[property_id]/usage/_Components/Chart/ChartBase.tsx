@@ -3,6 +3,8 @@
 import { ApexOptions } from "apexcharts"
 import dynamic from 'next/dynamic';
 import {options as chartOptions} from './chartOptions';
+import stringToDate from "kotilogi-app/utils/stringToDate";
+import locale from "kotilogi-app/locale.config";
 
 const Chart = dynamic(() => import('react-apexcharts'));
 
@@ -15,7 +17,7 @@ type ChartBaseProps = {
 export default function ChartBase(props: ChartBaseProps){
 
     const categories: string[] = props.rawdata.map((item: Kotilogi.UsageType) => {
-        return new Date(item.time).toLocaleDateString('fi');
+        return new Date(parseInt(item.time)).toLocaleDateString('fi-FI');
     });
 
     const options: ApexOptions = {

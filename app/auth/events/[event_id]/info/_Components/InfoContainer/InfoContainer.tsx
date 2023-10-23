@@ -1,3 +1,4 @@
+import stringToDate from 'kotilogi-app/utils/stringToDate';
 import style from './style.module.scss';
 
 type Props = {
@@ -5,10 +6,10 @@ type Props = {
     setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-
 export default function infoContainer(props: Props){
 
-    const date: string | null = props.event.time && props.event.time !== '' ? new Date(props.event.time).toLocaleDateString('de-DE') : 'Ei tiedossa.';
+    const date = props.event.time !== '' && props.event.time !== null ? new Date(parseInt(props.event.time)).toLocaleDateString('fi-FI') : null;
+
     const headerContent = (
         <div className={style.titleContainer}>
             <p>
@@ -22,7 +23,7 @@ export default function infoContainer(props: Props){
             {headerContent}
             <h2>Päivämäärä</h2>
             <p>
-                {date}
+                {date || 'Ei tiedossa.'}
             </p>
         </span>
     )

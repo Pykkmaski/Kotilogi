@@ -14,6 +14,7 @@ function DesktopLinks(){
             <Link href="usage">Kulutustiedot</Link>
             <Link href="images">Kuvat</Link>
             <Link href="files">Tiedostot</Link>
+            <Link href="transfer">Siirrä Omistajuus</Link>
             <Link href="/auth/properties">Takaisin Taloihin</Link>
         </>
     );
@@ -35,6 +36,7 @@ export default async function PropertiesLayout({params, children}){
                 <SelectorLink href="usage" text="Kulutustiedot"/>
                 <SelectorLink href="images" text="Kuvat"/>
                 <SelectorLink href="files" text="Tiedostot"/>
+                <SelectorLink href="transfer" text="Siirrä Omistajuus"/>
                 <SelectorLink href="/auth/properties" text="Takaisin Taloihin"/>
             </NavSelector>
         </>

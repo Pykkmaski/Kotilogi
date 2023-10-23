@@ -65,7 +65,7 @@ function ContactForm(props){
             {
                 error === 0 ? <Form.Success className={styles.formSuccess}>Viesti lähetetty!</Form.Success>
                 :
-                error === 500 ? <Form.Error>Jotain meni pieleen!</Form.Error>
+                error === 500 ? <Form.Error>Jotain meni pieleen! Yritä myöhemmin uudelleen.</Form.Error>
                 :
                 <></>
             }
