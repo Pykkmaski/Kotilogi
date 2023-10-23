@@ -2,7 +2,7 @@ import Form from "kotilogi-app/components/Form";
 import style from './style.module.scss';
 import Page from "kotilogi-app/components/Page/Page";
 import Button from "kotilogi-app/components/Button/Button";
-import TransferForm from "./transferForm";
+import TransferForm from "./TransferForm";
 export default async function TransferPage(){
 
 
