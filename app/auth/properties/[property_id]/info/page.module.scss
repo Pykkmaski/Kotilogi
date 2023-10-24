@@ -49,6 +49,7 @@
             border: none;
             text-align: right;
             color: $primary-color;
+            caret-color: $primary-color;
 
             &:focus{
                 outline: none;
@@ -57,7 +58,11 @@
             }
         }
 
-        input[type=number]::-webkit-inner-spin-button{
+        select:after{
+            color: $primary-color;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button{
             appearance: none;
             -webkit-appearance: none;
         }

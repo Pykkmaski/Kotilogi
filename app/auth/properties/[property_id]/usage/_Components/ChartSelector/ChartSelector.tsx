@@ -64,7 +64,7 @@ export default function ChartSelector(props: Props){
                     {
                         dataToDisplay.map((item, index: number) => {
                             return (
-                                <ChartEntry data={item} id={`index`} key={`usage-entry-${index}`}/>
+                                <ChartEntry data={item} id={`entry-${index}`} key={`usage-entry-${index}`}/>
                             )
                         })
                     }
