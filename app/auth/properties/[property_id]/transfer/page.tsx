@@ -3,8 +3,8 @@ import style from './style.module.scss';
 import Page from "kotilogi-app/components/Page/Page";
 import Button from "kotilogi-app/components/Button/Button";
 import TransferForm from "./TransferForm";
-export default async function TransferPage(){
 
+export default async function TransferPage(){
 
     return (
         <div className={style.contentContainer}>

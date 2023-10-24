@@ -62,9 +62,10 @@ declare namespace GalleryBase{
         selectedItemIds: string[],
         showAddModal: boolean,
         isLoading: boolean,
+        viewType: 'card' | 'list',
     }
     
-    declare type ActionType = 'update_data' | 'toggle_add_modal' | 'select_id' | 'add_data' | 'toggle_loading' | 'set_data' | 'reset_selected' | 'select_all';
+    declare type ActionType = 'update_data' | 'toggle_add_modal' | 'select_id' | 'add_data' | 'toggle_loading' | 'set_data' | 'reset_selected' | 'select_all' | 'set_viewtype';
     
     declare type Action = {
         type: ActionType,

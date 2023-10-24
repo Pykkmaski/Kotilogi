@@ -21,6 +21,7 @@ export default function GalleryBase(props: GalleryBase.Props){
         selectedItemIds: [],
         showAddModal: false,
         isLoading: true,
+        viewType: 'card',
     }
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
@@ -67,7 +68,11 @@ export default function GalleryBase(props: GalleryBase.Props){
         <div className={style.galleryContainer}>
             <GalleryContext.Provider value={contextValue}>
                 {props.children}
-                <AddModal headerText={props.addModalOptions.headerText} bodyContent={props.addModalOptions.bodyContent}/>
+                <AddModal 
+                    headerText={props.addModalOptions.headerText} 
+                    bodyContent={props.addModalOptions.bodyContent}
+                />
+
                 <Header
                     title={props.title}
                     subTitle={props.subTitle}

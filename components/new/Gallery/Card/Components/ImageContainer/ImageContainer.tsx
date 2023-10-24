@@ -15,6 +15,7 @@ import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import toast from "react-hot-toast";
 import isMainImage from "kotilogi-app/utils/isMainImage";
+import Image from "next/image";
 
 type Props = {
     imageUrl: string,
@@ -186,11 +187,18 @@ function getMenu(dbTableName: Kotilogi.Table): MenuComponent{
 
 export default function ImageContainer(props: Props){
     const {menuOpen, setMenuOpen, dbTableName, item} = useCardContext();
+    const [imageLoading, setImageLoading] = useState(true);
+
     const {refId} = useGalleryContext();
 
     const router = useRouter();
 
     const Menu = getMenu(dbTableName as Kotilogi.Table);
+
+    const imageOnLoadHandler = () => {
+        console.log('Image loaded.')
+        setImageLoading(false);
+    };
 
     return (
         <div 
@@ -204,22 +212,30 @@ export default function ImageContainer(props: Props){
             <div className={style.gradient}/>
             <div className={style.title}>{props.title}</div>
           
-            <Suspense fallback={<Spinner size="2rem"/>}>
-                {
-                    ['propertyFiles', 'eventFiles'].includes(dbTableName || '')
-                    ?
-                    <iframe src={props.imageUrl} className={style.image} seamless sandbox="allow-same-origin allow-scripts allow-popups allow-forms"/>
-                    :
-                    <img 
+            {
+                ['propertyFiles', 'eventFiles'].includes(dbTableName || '')
+                ?
+                <iframe 
+                    src={props.imageUrl} 
+                    className={style.image} 
+                    seamless 
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                    onLoad={imageOnLoadHandler}
+                />
+                :
+                <div className={style.image}>
+                    {imageLoading ? <Spinner size="2rem"/> : null}
+                    <Image 
                         src={props.imageUrl} 
-                        onError={undefined} 
+                        onError={imageOnLoadHandler} 
                         className={style.image}
                         alt="Ei Kuvaa"
+                        fill={true}
+                        onLoad={imageOnLoadHandler}
                     />
-                }
-            </Suspense>
-
-            
+                </div>
+                
+            }
         </div>
     )
 }

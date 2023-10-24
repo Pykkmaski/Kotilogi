@@ -79,6 +79,13 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             return newState;
         }
 
+        case 'set_viewtype':{
+            return {
+                ...state,
+                viewType: action.value,
+            }
+        }
+
         case 'update_data':{
             const newState = state;
             const index = newState.data.findIndex(data => data.id === action.value.id);
