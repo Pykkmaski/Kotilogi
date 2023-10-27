@@ -14,10 +14,13 @@ type Props = {
 
 export default function Description(props: Props){
     const [showEditModal, setShowEditModal] = useState(false);
-    
+    const [loading, setLoading] = useState(false);
+
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+
         try{
+            setLoading(true);
             const description = e.target.description.value;
             const result = await serverUpdateDataById({description}, props.property.id, 'properties');
             if(!result) throw new Error('Failed to update property description!');
@@ -27,16 +30,20 @@ export default function Description(props: Props){
             console.log(err.message);
             toast.error('Kuvauksen päivitys epäonnistui!');
         }
+        finally{
+            setLoading(false);
+            setShowEditModal(false);
+        }
     }
     return (
         <>
-            <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+            <Modal show={showEditModal} onHide={() => setShowEditModal(false)} id={`property-description-edit-modal`}>
                 <Modal.Header>Muokkaa Kuvausta</Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={onSubmitHandler}>
                         <Form.Group>
                             <label>Kuvaus</label>
-                            <textarea defaultValue={props.property.description}/>
+                            <textarea defaultValue={props.property.description} name="description" spellCheck={false}/>
                         </Form.Group>
 
                         <Form.ButtonGroup>
@@ -44,19 +51,22 @@ export default function Description(props: Props){
                                 className="secondary"
                                 desktopText="Peruuta"
                                 onClick={() => setShowEditModal(false)}
+                                disabled={loading}
                             />
 
                             <Button
                                 className="primary"
                                 desktopText="Päivitä"
                                 type="submit"
+                                loading={loading}
+                                disabled={loading}
                             />
                         </Form.ButtonGroup>
                     </Form>
                 </Modal.Body>
             </Modal>
 
-            <p onClick={() => setShowEditModal(true)}>
+            <p onClick={() => setShowEditModal(true)} title={'Muokkaa klikkaamalla'}>
                 {props.property.description}
             </p>
         </>
