@@ -90,6 +90,8 @@ export default function LoginPage(props){
                     :
                     error === 'invalid_password' ? <Form.Error>Annettu salasana on väärä!</Form.Error>
                     :
+                    error === 'undefined' ? <Form.Error>Tuntematon Virhe!</Form.Error>
+                    :
                     <></>
                 }
             </Form>

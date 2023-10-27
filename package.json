@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@vscode/sqlite3": "^5.1.6-vscode",
@@ -33,6 +35,14 @@
     "swr": "^2.2.1"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.5.1",
+    "@storybook/addon-interactions": "^7.5.1",
+    "@storybook/addon-links": "^7.5.1",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.5.1",
+    "@storybook/nextjs": "^7.5.1",
+    "@storybook/react": "^7.5.1",
+    "@storybook/testing-library": "^0.2.2",
     "@types/bcrypt": "^5.0.0",
     "@types/formidable": "^3.4.2",
     "@types/jsonwebtoken": "^9.0.2",
@@ -42,7 +52,14 @@
     "cypress": "^13.3.1",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "eslint-plugin-storybook": "^0.6.15",
     "sass": "^1.66.1",
+    "storybook": "^7.5.1",
     "typescript": "5.2.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
