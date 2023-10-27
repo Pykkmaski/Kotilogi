@@ -3,6 +3,7 @@ import styles from './page.module.scss';
 import Link from 'next/link';
 import EditForm from './_Components/DBColumn/Components/EditForm/EditForm';
 import Page from 'kotilogi-app/components/Page/Page';
+import Description from './Description';
 
 type EntryProps = {
     label: string,
@@ -16,9 +17,7 @@ export default async function InfoPage({params}){
     const headerContent = (
         <div className={styles.titleContainer}>
             <small>{property?.refId}</small>
-            <p>
-                {property!.description}
-            </p>
+            <Description property={property}/>
         </div>
     );
 
