@@ -10,6 +10,7 @@ import domainName from 'kotilogi-app/domain.config';
 import path from 'path';
 import * as fs from 'fs';
 import serverSendHTMLEmail from './serverSendHTMLEmail';
+
 export async function resetPassword(verificationCode: string, newPassword: string): Promise<number>{
     try{
         const decoded: any = await verifyToken(verificationCode);

@@ -1,6 +1,7 @@
 import db from 'kotilogi-app/dbconfig';
 import bcrypt from 'bcrypt';
 import { NextResponse } from 'next/server';
+require('dotenv').config();
 
 async function getUser(email : string){
     return await db('users').where({email}).first();
@@ -11,7 +12,7 @@ export async function POST(request){
         const data : {password: string, email: string} = await request.json();
         const {password} = data;
 
-        data.password = await bcrypt.hash(password, 15);
+        data.password = await bcrypt.hash(password, process.env.PASSWORD_HASH_ROUNDS || 15);
 
         await db('users').insert({
             ...data,
