@@ -225,13 +225,13 @@ export default function ImageContainer(props: Props){
                 :
                 <div className={style.image}>
                     {imageLoading ? <Spinner size="2rem"/> : null}
-                    <Image 
+                    <img 
                         src={props.imageUrl} 
                         onError={imageOnLoadHandler} 
                         className={style.image}
                         alt="Ei Kuvaa"
-                        onLoadingComplete={imageOnLoadHandler}
-                        fill={true}
+                        onLoad={imageOnLoadHandler}
+                        loading={'lazy'}
                     />
                 </div>
                 
