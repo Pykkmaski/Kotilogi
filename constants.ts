@@ -2,7 +2,15 @@ interface HasId{
     ID: Kotilogi.IdType,
 }
 
+export const MIN_PASSWORD_LENGTH = 8;
 
+export const ErrorCode = {
+    SUCCESS: 0,
+    INVALID_USER: 1,
+    INVALID_PASSWORD: 2,
+    UNEXPECTED: 3,
+    PASSWORD_MISMATCH: 4,
+}
 
 export const buildingTypes = [
     'Kerrostalo',

@@ -19,7 +19,7 @@ export default async function createPropertyTransferOrder(propertyId: Kotilogi.I
         const order = {
             propertyId,
             toOwner,
-            verificationCode: await bcrypt.hash(crypto.randomBytes(32).toString('base64').replace(/=/g, '0'), 15),
+            verificationCode: await bcrypt.hash(crypto.randomBytes(32).toString('base64'), 15),
             expires: orderExpiryTime,
         }
 
