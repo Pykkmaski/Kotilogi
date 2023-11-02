@@ -1,14 +1,17 @@
 import Card from 'kotilogi-app/components/new/Gallery/Card/Card';
 import Image from 'next/image';
 import Link from 'next/link';
+import ImageCard from '../../ImageCard/ImageCard';
+
+/**
+ * Returns the url to the main image for an entry, or the image itself, if entry represents the image.
+ * @param {any} entry The entry object. Should be an entry from one of the database tables.
+ * @param {Kotilogi.Table} dbTableName The name of the database table from where the gallery data originates.
+ * @returns {string | null} The url to the image, or null if not applicable.
+ */
 
 function getImageUrl(entry: any, dbTableName: Kotilogi.Table): string | null{
-    /**
-     * Returns the url to the main image for an entry, or the image itself, if entry represents the image.
-     * @param {any} entry The entry object. Should be an entry from one of the database tables.
-     * @param {Kotilogi.Table} dbTableName The name of the database table from where the gallery data originates.
-     * @returns {string | null} The url to the image, or null if not applicable.
-     */
+    
 
     const contentId: string = 'mainImageId' in entry ? entry.mainImageId : entry.id;
 
@@ -54,33 +57,8 @@ export default function getCard(entry, dbTableName: Kotilogi.Table, key: number)
     entry.imageUrl = getImageUrl(entry, dbTableName) || '/img/Files/default.jpg';
 
     //TODO: Return unique cards based on what type of content is in the gallery.
-    if(dbTableName =='properties' || dbTableName == 'propertyEvents'){
-        return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>
-    }
-    else if(dbTableName === 'propertyImages' || dbTableName === 'eventImages'){
-        /*
-        return (
-            <Link href={entry.imageUrl} target="_blank" className="image-link">
-                <Image
-                    src={entry.imageUrl}
-                    objectFit='contain'
-                    alt="Image"
-                    fill={true}
-                    quality={20}
-                    placeholder='blur'
-                    blurDataURL='img/image.png'
-                />
-            </Link>
-        )
-        */
 
-        return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>
-    }
-    else if(dbTableName === 'eventFiles' || dbTableName === 'propertyFiles'){
-        //entry refers to a pdf file, return generic copy img.
-       return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>
-    }
-    else{
-        return null;
+    switch(dbTableName){
+        default: return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>;
     }
 }

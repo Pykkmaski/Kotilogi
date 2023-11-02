@@ -3,8 +3,11 @@ import style from './style.module.scss';
 import Page from "kotilogi-app/components/Page/Page";
 import Button from "kotilogi-app/components/Button/Button";
 import TransferForm from "./TransferForm";
+import { serverGetData } from "kotilogi-app/actions/serverGetData";
 
-export default async function TransferPage(){
+export default async function TransferPage({params}){
+    const property = await serverGetData('properties', {id: params.property_id}, true) as Kotilogi.PropertyType | null;
+    if(!property) throw new Error('Loading of property failed!');
 
     return (
         <div className={style.contentContainer}>
@@ -13,9 +16,8 @@ export default async function TransferPage(){
                 <div>
                     <h1>Siirrä Talon Omistajuus</h1>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis tempore quas ut libero non, cupiditate quos aliquid labore totam cum amet voluptatibus illum dolorem alias consequuntur ex minima hic assumenda.
-                        Sequi amet ipsam nisi, corporis voluptatibus, similique debitis soluta quos quae dolore porro sit accusantium, non excepturi. Nesciunt cupiditate voluptatum consequuntur quasi perspiciatis, inventore, maxime excepturi eius numquam nulla delectus!
-                        Natus velit quae tempora excepturi neque hic corrupti, magni aspernatur quaerat facere, accusamus ducimus. Dolores dolor, laudantium nam minima officiis laboriosam, provident nemo deserunt, modi quae nisi illum nesciunt doloribus.
+                        Tämä lomake luo varmenteen, jonka avulla vastaanottavan sähköpostiosoitteen omistaja voi siirtää talon <br/> 
+                        <strong>{property.title}</strong> omistajuuden itselleen. Hyväksyttyä talon siirtoa ei voi kumota!
                     </p>
                 </div>
         </div>
