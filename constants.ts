@@ -10,6 +10,10 @@ export const ErrorCode = {
     INVALID_PASSWORD: 2,
     UNEXPECTED: 3,
     PASSWORD_MISMATCH: 4,
+    NOT_FOUND: 5,
+    EXPIRED: 6,
+    INVALID_TRANSFERCODE: 7,
+    INVALID_RESETCODE: 8,
 }
 
 export const buildingTypes = [

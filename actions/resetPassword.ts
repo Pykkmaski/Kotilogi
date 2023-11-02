@@ -2,34 +2,54 @@
 
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import nodemailer from 'nodemailer';
 import db from 'kotilogi-app/dbconfig';
 import { StatusCode } from 'kotilogi-app/utils/statusCode';
 import jwt from 'jsonwebtoken';
 import domainName from 'kotilogi-app/domain.config';
-import path from 'path';
-import * as fs from 'fs';
 import serverSendHTMLEmail from './serverSendHTMLEmail';
+import { ErrorCode } from 'kotilogi-app/constants';
 
-export async function resetPassword(verificationCode: string, newPassword: string): Promise<number>{
+/**
+ * Resets the password of the user encoded into the verification code.
+ * @param {string} verificationCode A JWT encoding the user whose password to reset.
+ * @param {string} newPassword The new password.
+ * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a message and an error code.
+ */
+
+export async function resetPassword(verificationCode: string, newPassword: string): Promise<Kotilogi.Error>{
     try{
         const decoded: any = await verifyToken(verificationCode);
         if(decoded === null) throw new Error('Invalid token');
 
         const currentTime = new Date().getTime();
-        if(currentTime > decoded.expires) return StatusCode.EXPIRED;
+        if(currentTime > decoded.expires) return {
+            message: 'The token has expired! Cannot reset password.',
+            code: ErrorCode.EXPIRED,
+        }
 
         await db('users').where({email: decoded.email}).update({
             password: await bcrypt.hash(newPassword, 15) as string,
         });
 
-        return StatusCode.SUCCESS;
+        return {
+            message: null,
+            code: ErrorCode.SUCCESS,
+        }
     }
     catch(err){
         console.log(err.message);
-        return StatusCode.UNEXPECTED;
+        return {
+            message: null,
+            code: ErrorCode.UNEXPECTED,
+        }
     }
 }
+
+/**
+ * Verifies a token generated for password resetting.
+ * @param {string} token The token to verify.
+ * @returns {Promise<jwt.JwtPayload | null>} Resolves to the payload encoded by the token, in this case the user, or null if the token is not valid.
+ */
 
 export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>{
     try{
@@ -42,9 +62,21 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
     }
 }
 
-export async function sendResetCode(email: string): Promise<number>{
+/**
+ * Generates and sends a password reset code to the provided email address.
+ * @param {string} email The email address to send the code to.
+ * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a message and an error code.
+ */
+
+export async function sendResetCode(email: string): Promise<Kotilogi.Error>{
+    
     const user = await db('users').where({email}).select('email');
-    if(!user.length) return StatusCode.INVALID_USER;
+
+    //A user with provided email address does not exist.
+    if(!user.length) return {
+        message: null,
+        code: ErrorCode.INVALID_USER,
+    }
 
     const numbers: number[] = [];
     for(let i = 0; i < 6; ++i){
@@ -106,8 +138,18 @@ export async function sendResetCode(email: string): Promise<number>{
         </html>
     `;
 
-    const emailSuccess = await serverSendHTMLEmail('Salasanan nollaus', process.env.SERVICE_EMAIL_ADDRESS || 'Kotilogi', email, htmlContent);
-    if(!emailSuccess) return StatusCode.UNEXPECTED;
-
-    return StatusCode.SUCCESS;
-}
+    try{
+        return await serverSendHTMLEmail(
+            'Salasanan nollaus', 
+            process.env.SERVICE_EMAIL_ADDRESS || 'Kotilogi', 
+            email, 
+            htmlContent
+        );
+    }
+    catch(err){
+        return {
+            message: null,
+            code: ErrorCode.UNEXPECTED,
+        }
+    }
+} 

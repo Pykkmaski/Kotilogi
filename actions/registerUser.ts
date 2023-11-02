@@ -4,13 +4,13 @@ import bcrypt from 'bcrypt';
 import { ErrorCode } from 'kotilogi-app/constants';
 import db from 'kotilogi-app/dbconfig';
 
-export default async function registerUser(credentials: {email: string, password: string}): Promise<Kotilogi.Error>{
-    /**
-     * Adds a new user to the database.
-     * @param {{email: string, password: string}} credentials An object containing the email and password for the new user.
-     * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a code and an error message.
-     */
+/**
+ * Adds a new user to the database.
+ * @param {{email: string, password: string}} credentials An object containing the email and password for the new user.
+ * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a code and an error message.
+ */
 
+export default async function registerUser(credentials: {email: string, password: string}): Promise<Kotilogi.Error>{
     try{
         const user = {
             email: credentials.email,

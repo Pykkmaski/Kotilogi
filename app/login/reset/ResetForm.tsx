@@ -6,10 +6,10 @@ import Form from "kotilogi-app/components/Form";
 import { useEffect, useReducer, useState } from "react";
 import resetFormReducer, { State, emailKey } from "./resetFormReducer";
 import ResetFormProvider, { useResetFormProvider } from "./ResetFormContext";
-import useSessionStorage from 'kotilogi-app/hooks/useSessionStorage';
 import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import { ErrorCode } from "kotilogi-app/constants";
+import Button from "kotilogi-app/components/Button/Button";
 
 function StepOne(){
     const router = useRouter();
@@ -23,9 +23,9 @@ function StepOne(){
         });
 
         const email = e.target.email.value;
-        const status = await sendResetCode(email);
+        const error = await sendResetCode(email);
 
-        if(status === StatusCode.SUCCESS){
+        if(error.code === StatusCode.SUCCESS){
             toast.success('Varmennuskoodi lähetetty onnistuneesti!');
             dispatch({
                 type: 'set_email',
@@ -35,7 +35,7 @@ function StepOne(){
 
         dispatch({
             type: 'set_status',
-            value: status,
+            value: error.code,
         });
 
         dispatch({
@@ -63,11 +63,21 @@ function StepOne(){
             </Form.Group>
 
             <Form.ButtonGroup>
-                <button type="button" className="secondary" onClick={() => router.replace('/login')}>Peruuta</button>
-                <button type="submit" className="primary" disabled={state.isLoading}>
-                    {state.isLoading ? <Spinner size="1rem"/> : null} 
-                    <span>Seuraava</span>
-                </button>
+                <Button 
+                    type="button" 
+                    className="secondary" 
+                    onClick={() => router.replace('/login')}
+                    desktopText='Peruuta'
+                    disabled={state.isLoading}
+                />
+
+                <Button 
+                    type="submit" 
+                    className="primary" 
+                    disabled={state.isLoading}
+                    loading={state.isLoading}
+                    desktopText='Seuraava'
+                />
             </Form.ButtonGroup>
             {
                 state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
@@ -94,7 +104,6 @@ function StepTwo(){
         const password1: string = e.target.password1.value;
         const password2: string = e.target.password2.value;
         const verificationCode = params.get('token');
-        console.log(verificationCode);
 
         if(!verificationCode){
             toast.error('Salasanan nollaustodennus puuttuu!');
@@ -103,9 +112,10 @@ function StepTwo(){
             toast.error('Salasanat eivät täsmää!');
         }
         else{
-            const status = await resetPassword(verificationCode, password1);
-            switch(status){
-                case StatusCode.SUCCESS:{
+            const error = await resetPassword(verificationCode, password1);
+
+            switch(error.code){
+                case ErrorCode.SUCCESS:{
                     toast.success('Salasana vaihdettu onnistuneesti!');
                     sessionStorage.removeItem(emailKey);
                     router.replace('/login');
@@ -113,7 +123,7 @@ function StepTwo(){
                     
                 break;
     
-                case StatusCode.MISMATCH:
+                case ErrorCode.INVALID_RESETCODE:
                     toast.error('Varmennuskoodia ei hyväksytty!');
                 break;
     
