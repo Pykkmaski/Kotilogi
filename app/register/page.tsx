@@ -3,18 +3,20 @@
 import Form from 'kotilogi-app/components/Form';
 import styles from './page.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Button from 'kotilogi-app/components/Button/Button';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
+import registerUser from 'kotilogi-app/actions/registerUser';
+import { ErrorCode, MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
+
 
 export default function RegisterPage(props){
 
-    const params = useSearchParams();
+    const rerouteTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-
-    const error = params!.get('error');
+    const [error, setError] = useState(-1);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -23,28 +25,28 @@ export default function RegisterPage(props){
 
         try{
             setLoading(true);
-            if(password1.value !== password2.value) throw 'password_mismatch'
+            setError(-1);
+
+            if(password1.value !== password2.value) throw {
+                message: null,
+                code: ErrorCode.PASSWORD_MISMATCH,
+            }
 
             const credentials = {
                 email: e.target.email.value,
                 password: password1.value,
             }
 
-            await axios.post('/api/register', credentials);
-            router.replace('/login?event=newUserCreated');
+            //await axios.post('/api/register', credentials);
+            const error = await registerUser(credentials);
+            if(error.code !== ErrorCode.SUCCESS) throw error;
 
+            setError(ErrorCode.SUCCESS);
+            const loginTransitionTime = 3000;
+            rerouteTimeout.current = setTimeout(() => router.replace('/login'), loginTransitionTime);
         }
         catch(err){
-            var error: string | null = typeof(err) === 'string' ? err : null;
-
-            if(err.response?.status === 406){
-                error = 'invalid_user'
-            }
-            else if(err.response?.status === 500){
-                error = 'server'
-            }
-
-            router.replace('/register?error=' + error);
+            setError(err.code);
         }
         finally{
             setLoading(false);
@@ -59,8 +61,12 @@ export default function RegisterPage(props){
     const getEmailField = () => sessionStorage && sessionStorage.getItem(formEmailField) as string | undefined;
     const setEmailField = (value: string) => sessionStorage && sessionStorage.setItem(formEmailField, value);
 
-    const passLen = 8;
-
+    useEffect(() => {
+        //Clean up the timeout.
+        if(rerouteTimeout.current === null) return;
+        return () => clearTimeout(rerouteTimeout.current);
+    }, []);
+    
     return (
         <div className={styles.container}>
             <Gradient direction={'bottom'}/>
@@ -73,7 +79,7 @@ export default function RegisterPage(props){
                         name="email" 
                         type="email" 
                         required={true} 
-                        className={error === 'invalid_user' ? 'error' : undefined}
+                        className={error === ErrorCode.INVALID_USER ? 'error' : undefined}
                         defaultValue={getEmailField()}
                         onChange={(e) => setEmailField(e.target.value)}
                         ></input>
@@ -81,13 +87,13 @@ export default function RegisterPage(props){
 
                 <Form.Group>
                     <Form.Label>Salasana</Form.Label>
-                    <input name="password1" type="password" required={true} className={error === 'password_mismatch' ? 'error' : undefined}></input>
-                    <Form.SubLabel>Salasanan tulee olla vähintään {passLen} merkkiä pitkä.</Form.SubLabel>
+                    <input name="password1" type="password" required={true} className={error === ErrorCode.PASSWORD_MISMATCH ? 'error' : undefined} minLength={MIN_PASSWORD_LENGTH}></input>
+                    <Form.SubLabel>Salasanan tulee olla vähintään {MIN_PASSWORD_LENGTH} merkkiä pitkä.</Form.SubLabel>
                 </Form.Group>
 
                 <Form.Group>
                     <label>Anna Salasana Uudelleen</label>
-                    <input type="password" name="password2" minLength={passLen} className={error === 'password_mismatch' ? 'error' : undefined}></input>
+                    <input type="password" name="password2" className={error === ErrorCode.PASSWORD_MISMATCH ? 'error' : undefined}></input>
                 </Form.Group>
 
                 <div className={styles.agreementContainer}>
@@ -117,10 +123,11 @@ export default function RegisterPage(props){
                 </Form.ButtonGroup>
 
                 {
-                    error && 
-                    error === 'password_mismatch' ? <Form.Error>Salasanat eivät täsmää!</Form.Error>
+                    error === ErrorCode.PASSWORD_MISMATCH ? <Form.Error>Salasanat eivät täsmää!</Form.Error>
                     :
-                    error === 'invalid_user' ? <Form.Error>Tili annetulla sähköpostisoitteella on käytössä!</Form.Error>
+                    error === ErrorCode.INVALID_USER ? <Form.Error>Tili annetulla sähköpostisoitteella on käytössä!</Form.Error>
+                    :
+                    error === ErrorCode.SUCCESS ? <Form.Success>Tili luotu onnistuneesti! Sinut uudelleenohjataan kirjautumaan...</Form.Success>
                     :
                     <></>
                 }

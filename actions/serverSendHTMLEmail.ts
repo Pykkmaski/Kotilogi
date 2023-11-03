@@ -1,18 +1,26 @@
+'use server';
+
+import { ErrorCode } from "kotilogi-app/constants";
 import { transportOptions } from "kotilogi-app/nodemailer.config";
 import nodemailer from 'nodemailer';
 
-export default async function serverSendHTMLEmail(subject: string, from: string, to: string | string [], content: string): Promise<boolean>{
-    /**
-     * Sends an email with html content using nodemailer.
-     * @param {string} subject The subject string of the email.
-     * @param {string} from The sender of the email.
-     * @param {string} to The recipient of the email.
-     * @param {string} content The html content to send.
-     * @returns {Promise<boolean>} A promise resolving to true if the email is sent successfully, or false in case of an error.
-     */
+/**
+ * Sends an email with html content using nodemailer.
+ * @param {string} subject The subject string of the email.
+ * @param {string} from The sender of the email.
+ * @param {string} to The recipient of the email.
+ * @param {string} content The html content to send.
+ * @returns {Promise<Kotilogi.Error>} A promise resolving to a custom Error-object containing a message and an error code.
+ */
 
-    try{
+export default async function serverSendHTMLEmail(subject: string, from: string, to: string | string [], content: string): Promise<Kotilogi.Error>{
+    return new Promise((resolve, reject) => {
         const transport = nodemailer.createTransport(transportOptions);
+        var error = {
+            message: null,
+            code: ErrorCode.SUCCESS,
+        };
+        
         transport.sendMail({
             subject,
             from,
@@ -20,14 +28,13 @@ export default async function serverSendHTMLEmail(subject: string, from: string,
             html: content,
         }, (err, info) => {
             if(err){
-                throw new Error('Failed to send email!', err);
+                console.log(err);
+                error.code = ErrorCode.UNEXPECTED;
+                reject(error);
+            }
+            else{
+                resolve(error);
             }
         });
-
-        return true;
-    }
-    catch(err){
-        console.log(err.message);
-        return false;
-    }
+    })  
 }

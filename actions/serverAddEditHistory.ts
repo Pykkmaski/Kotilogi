@@ -1,6 +1,6 @@
 import db from "kotilogi-app/dbconfig";
 
-export default async function serverAddEditHistory(columnName: string, tableName: string, previousValue: string, currentValue: string): Promise<void>{
+export default async function addEditHistory(columnName: string, tableName: string, previousValue: string, currentValue: string): Promise<void>{
     try{
         const entry = {
             columnName,

@@ -1,28 +1,16 @@
 import db from "kotilogi-app/dbconfig";
 import bcrypt from 'bcrypt';
+import { ErrorCode } from "kotilogi-app/constants";
 
-const ErrorCode = {
-    SUCCESS: 0,
-    NOT_FOUND: 1,
-    INVALID: 2,
-    EXPIRED: 3,
-    UNEXPECTED: 4,
-}
+/**
+ * Transfers the ownership of a property to another user.
+ * @param {Kotilogi.IdType} propertyId The id of the property to be transferred.
+ * @param {Kotilogi.IdType} toOwner The id of the owner to which the property is transferred.
+ * @param {string} verificationCode The secret code used to verify the transfer.
+ * @returns {Promise<Kotilogi.Error>} A promise resolving to an object containing a message containing null, or an error message on failure, as well as an error code.
+ */
 
-type ErrorMessage = {
-    message: string | null,
-    code: number,
-}
-
-export default async function transferPropertyOwnership(propertyId: Kotilogi.IdType, toOwner: Kotilogi.IdType, verificationCode: string): Promise<ErrorMessage>{
-    /**
-     * Transfers the ownership of a property to another user.
-     * @param {Kotilogi.IdType} propertyId The id of the property to be transferred.
-     * @param {Kotilogi.IdType} toOwner The id of the owner to which the property is transferred.
-     * @param {string} transferCode The secret code used to verify the transfer.
-     * @returns {Promise<ErrorMessage>} A promise resolving to an object containing a message containing null, or an error message on failure, as well as an error code.
-     */
-
+export default async function transferPropertyOwnership(propertyId: Kotilogi.IdType, toOwner: Kotilogi.IdType, verificationCode: string): Promise<Kotilogi.Error>{
     try{
         const transferOrder = await db('propertyTransferOrders').where({propertyId, toOwner}).first();
         if(!transferOrder) return {
@@ -41,7 +29,7 @@ export default async function transferPropertyOwnership(propertyId: Kotilogi.IdT
         const verificationCodeOk = await bcrypt.compare(verificationCode, transferOrder.verificationCode);
         if(!verificationCodeOk) return {
             message: 'Verification code is invalid!',
-            code: ErrorCode.INVALID,
+            code: ErrorCode.INVALID_TRANSFERCODE,
         }
     
         //Update the owner id of the given property id.

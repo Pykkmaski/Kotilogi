@@ -1,5 +1,7 @@
 "use server";
 
+import { ErrorCode } from "kotilogi-app/constants";
+import serverSendEmail from "./serverSendEmail";
 import serverSendHTMLEmail from "./serverSendHTMLEmail";
 
 type MessageDataType = {
@@ -8,7 +10,14 @@ type MessageDataType = {
     message: string,
 }
 
-function createMessageHTML(message: string): string{
+/**
+ * Creates an HTML layout containing the provided message.
+ * @param {string} from The email address of the sender, to be displayed on the bottom of the html.
+ * @param message The message to be sent.
+ * @returns {string} An html layout containing the message.
+ */
+
+function createMessageHTML(from: string, message: string): string{
     return `
         <html>
             <head>
@@ -46,6 +55,7 @@ function createMessageHTML(message: string): string{
                 <div class="footer">
                     <strong>Kotilogi</strong>
                     <small>Timontie, Vaasa</small>
+                    <small>Lähettäjä: <a href="mailto: ${from}">${from}</a><small>
                 </div>
             </body>
         </html>
@@ -57,8 +67,8 @@ export default async function serverSendContactMessage(data: MessageDataType): P
     try{
         const to = process.env.SERVICE_CONTACT_EMAILS as string;
 
-        const emailSuccess = await serverSendHTMLEmail('Kotilogin Yhteydenotto', data.email, to.split(','), createMessageHTML(data.message));
-        if(!emailSuccess) throw new Error('Failed to send contact message!');
+        const error = await serverSendEmail('Kotilogin Yhteydenotto', data.email, to.split(','), data.message);
+        if(error.code !== ErrorCode.SUCCESS) throw new Error('Failed to send contact message!');
 
         return true;
     }

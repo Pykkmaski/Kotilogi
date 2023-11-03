@@ -30,7 +30,12 @@ namespace Kotilogi{
         time: number,
     }
 
-   type MimeType = 'image/jpeg' | 'application/pdf';
+    type MimeType = 'image/jpeg' | 'application/pdf';
+
+    type Error = {
+        message: string | null,
+        code: number,
+    }
 
     declare type HasMimeType = {
         mimeType: MimeType,

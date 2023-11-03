@@ -60,10 +60,11 @@ export default class DatabaseTable implements DatabaseTableInterface{
         return this.getTable().where(query).update(updatedData, '*');
     }
 
-    async deleteData(query: object){
+    async deleteData(query: object): Promise<void>{
         /**
          * Deletes data in the table by query.
          * @param {object} query The query object accepted by the knex where-method.
+         * @returns {Promise<void>} 
          */
 
         return this.getTable().where(query).del();

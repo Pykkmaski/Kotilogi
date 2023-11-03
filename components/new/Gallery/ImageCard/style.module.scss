@@ -1,0 +1,40 @@
+.imageCardContainer{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 5px;
+    border: 1px solid white;
+
+    &:hover{
+        .menuButton{
+            visibility: visible;
+        }
+    }
+}
+
+.title{
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+}
+
+.menuButton{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    visibility: hidden;
+
+    display: flex;
+    flex-flow: column;
+    gap: 0.1rem;
+}
+
+.buttonDot{
+    $dotRadius: 5px;
+
+    background: white;
+    border-radius: 50%;
+    width: $dotRadius;
+    height: $dotRadius;
+}
