@@ -7,6 +7,7 @@ import style from './component.module.scss';
 import Logo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
+import MarginContainer from 'kotilogi-app/components/MarginContainer/MarginContainer';
 
 export default function Header(props){
     const {data: session, status} = useSession();
@@ -25,26 +26,26 @@ export default function Header(props){
 
             {/**Desktop nav */}
             <nav className={style.navDesktop}>
-                {
-                    status === 'loading' ? <Spinner size="2rem"/>
-                    :
-                    userIsLoggedIn ?
-                    <div className={style.links}>
-                        <span id={style.userEmail}>{userEmail}</span>
-                        <Link href="/">Etusivu</Link>
-                        <Link href="/auth/properties">Talot</Link>
-                        <Link href="/auth/events"></Link>
-                        <button id={style.logoutButton} className="primary" type="button" onClick={async () => {
-                            await signOut();
-                        }}>Kirjaudu Ulos</button>
-                    </div>
-                    :
-                    <div className={style.links}>
-                        <Link href="/">Etusivu</Link>
-                        <Link href="/login">Kirjaudu</Link>
-                        <Link href="/register">Rekisteröidy</Link>
-                    </div>
-                }
+            {
+                status === 'loading' ? <Spinner size="2rem"/>
+                :
+                userIsLoggedIn ?
+                <div className={style.links}>
+                    <span id={style.userEmail}>{userEmail}</span>
+                    <Link href="/">Etusivu</Link>
+                    <Link href="/auth/properties">Talot</Link>
+                    <Link href="/auth/events"></Link>
+                    <button id={style.logoutButton} className="primary" type="button" onClick={async () => {
+                        await signOut();
+                    }}>Kirjaudu Ulos</button>
+                </div>
+                :
+                <div className={style.links}>
+                    <Link href="/">Etusivu</Link>
+                    <Link href="/login">Kirjaudu</Link>
+                    <Link href="/register">Rekisteröidy</Link>
+                </div>
+            }
             </nav>
 
             {/**Mobile nav */}

@@ -57,7 +57,6 @@ export default function getCard(entry, dbTableName: Kotilogi.Table, key: number)
     entry.imageUrl = getImageUrl(entry, dbTableName) || '/img/Files/default.jpg';
 
     //TODO: Return unique cards based on what type of content is in the gallery.
-
     switch(dbTableName){
         default: return <Card item={entry} destination={destination!} key={`gallery-card-${key}`}/>;
     }

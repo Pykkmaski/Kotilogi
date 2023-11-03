@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from './styles.module.scss';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 import { getServerSession } from 'next-auth';
+import MarginContainer from 'kotilogi-app/components/MarginContainer/MarginContainer';
 
 async function WelcomeText(props){
     const session = await getServerSession();
@@ -14,7 +15,6 @@ async function WelcomeText(props){
     return (
         <div className={styles.container}>
             <div className={styles.bgOpacity}/>
-
             <div className={styles.textContainer}>
                 <h1 className={styles.title}>Talosi Huoltokirja</h1>
                 <p>
