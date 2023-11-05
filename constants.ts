@@ -14,6 +14,7 @@ export const ErrorCode = {
     EXPIRED: 6,
     INVALID_TRANSFERCODE: 7,
     INVALID_RESETCODE: 8,
+    NOT_ALLOWED: 9,
 }
 
 export const buildingTypes = [

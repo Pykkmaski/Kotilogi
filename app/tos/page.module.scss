@@ -1,6 +1,8 @@
 @import 'kotilogi-app/scss/Config';
 
 .page{
+    padding: 1rem 10vw 1rem 10vw;
+
     .largeHeader{
         font-size: 3rem;
         margin-bottom: 3rem;
@@ -9,12 +11,11 @@
 
     h1, h2{
         margin-bottom: 1rem;
-        color: white;
+        color: $body-text-color;
     }
 
     h1{
         font-size: 2rem;
-        color: $primary-color !important;
     }
 
     h2{
@@ -24,6 +25,6 @@
 
     p{
         margin-bottom: 3rem;
-        color: white;
+        color: $body-text-color;
     }
 }

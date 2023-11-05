@@ -42,6 +42,7 @@ export default function Header(props){
                 :
                 <div className={style.links}>
                     <Link href="/">Etusivu</Link>
+                    <Link href="/pricing">Hinnasto</Link>
                     <Link href="/login">Kirjaudu</Link>
                     <Link href="/register">Rekisteröidy</Link>
                 </div>

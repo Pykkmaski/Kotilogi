@@ -1,5 +1,7 @@
 @import 'kotilogi-app/scss/Config.scss';
 @import 'kotilogi-app/scss/Animations.scss';
+@import '../../_partials/padding';
+@import '../../_partials/shadow';
 
 .container{
     display:flex;
@@ -9,13 +11,13 @@
 
     position: relative;
     justify-content: center;
-    $padding: 10rem;
-    padding: 1rem $padding 0 $padding;
+    @include Padding;
+    @include Shadow;
 
     background: url('./index.jpg');
     background-position: center;
     background-size: cover;
-   
+    
     .bgOpacity{
         position: absolute;
         top:0;
