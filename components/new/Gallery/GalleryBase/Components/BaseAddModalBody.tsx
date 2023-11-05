@@ -4,6 +4,9 @@ import ButtonsFragment from "../../ModalFragments/ButtonsFragment"
 import useGalleryContext from "../GalleryContext"
 import { serverAddData } from "kotilogi-app/actions/serverAddData"
 import upload from "kotilogi-app/actions/upload"
+import addProperty from "kotilogi-app/utils/isAllowedToAddProperty"
+import { ErrorCode } from "kotilogi-app/constants"
+import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty"
 
 type BaseAddModalProps = {
     additionalContent?: JSX.Element,
@@ -23,6 +26,7 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 value: true,
             });
             
+            //Upload files if present.
             const file = e.target.file?.files[0];
             var fileName: string | null = null;
             var data: any = {refId};
@@ -60,34 +64,30 @@ export default function BaseAddModalBody(props: BaseAddModalProps){
                 }
             });
 
-            /*
-            const data = fileName ? {
-                title: e.target.title.value,
-                description: e.target.description.value,
-                refId,
-                fileName,
-            }
-            :
-            {
-                title: e.target.title.value,
-                description: e.target.description.value,
-                refId,
-            }
-            */
+            var error: Kotilogi.Error = {
+                message: null,
+                code: ErrorCode.SUCCESS,
+            };
 
-            addedData = await serverAddData(data, dbTableName);
-            if(!addedData) throw new Error('Failed to add data!');
+            //Run checks if nescessary to verify the data is allowed to be added.
+            switch(dbTableName){
+                case 'properties': error = await isAllowedToAddProperty(refId);
+                break;
+            }
             
+            if(error.code !== ErrorCode.SUCCESS) throw new Error('Failed to add data!');
+
+            const addedData = await serverAddData(data, dbTableName);
+
+            dispatch({
+                type: 'add_data',
+                value: addedData,
+            });
         }
         catch(err){
             console.log(err.message);
         }
         finally{
-            dispatch({
-                type: 'add_data',
-                value: addedData,
-            });
-
             dispatch({
                 type: 'toggle_loading',
                 value: false,

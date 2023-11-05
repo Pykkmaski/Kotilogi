@@ -1,3 +1,5 @@
+@import 'kotilogi-app/scss/Config';
+
 .container{
     display: flex;
     flex-flow: row;
@@ -24,13 +26,13 @@
 
         .point{
             border-radius: 50%;
-            border: 3px solid white;
+            border: 3px solid $body-text-color;
             width: 1rem;
             height: 1rem;
             cursor: pointer;
 
             &:hover, &.selected{
-                background: white;
+                background: $body-text-color;
             }
         }
     }

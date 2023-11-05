@@ -53,6 +53,11 @@ function MenuBody(props){
         },
 
         {
+            title: 'Hinnasto',
+            href: "/pricing",
+        },
+
+        {
             title: 'Kirjaudu',
             href: '/login'
         },

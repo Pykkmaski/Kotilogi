@@ -85,5 +85,10 @@ namespace Kotilogi{
 
     type EventFileType = BaseFileType & HasRefId;
 
+    type UserType = HasId & {
+        email: string,
+        password: string,
+    }
+
     type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage';
 }

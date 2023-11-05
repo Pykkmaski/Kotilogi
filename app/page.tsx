@@ -5,15 +5,18 @@ import Footer from './_components/Footer/Footer';
 import React from 'react';
 import Carousel from 'kotilogi-app/components/Carousel/Carousel';
 import style from './page.module.scss';
+import Pricing from './_components/Pricing/Pricing';
 
 export default function Page(props){
     return (
         <>
             <WelcomeText/>
             <section className={style.description}>
-                <AppDescription/>
+                <div className={style.gradient}/>
+                <div className={style.bgImage}/>
                 <ProfileText/>
             </section>
+            <Pricing/>
            
             <Footer/>
         </>

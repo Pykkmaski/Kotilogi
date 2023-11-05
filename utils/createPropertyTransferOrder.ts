@@ -18,7 +18,7 @@ import jwt from 'jsonwebtoken';
 export default async function createPropertyTransferOrder(propertyId: Kotilogi.IdType, toOwner: Kotilogi.IdType): Promise<boolean>{
     try{
         const expiryTime = process.env.TRANSFER_ORDER_EXPIRY;
-        const orderExpiryTime = expiryTime ? parseInt(expiryTime) : 0;
+        const orderExpiryTime = expiryTime ? parseInt(expiryTime) + Date.now() : 0;
 
         const order = {
             propertyId,

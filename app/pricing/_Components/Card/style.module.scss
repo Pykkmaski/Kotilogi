@@ -6,7 +6,17 @@
     align-items: center;
     padding: 1rem;
     border-radius: 5px;
-    background: lighten($secondary-color, 10);
-    width: 300px;
-    min-height: 18rem;
+    background: #0006;
+    width: 500px;
+    height: 100%;
+    box-shadow: 3px 3px 3px 3px #0008;
+
+    h1{
+        font-size: 3rem;
+    }
+
+    p{
+        font-size: 1.5rem;
+        text-align: center;
+    }
 }

@@ -1,6 +1,6 @@
 import ContactForm from "./ContactForm/ContactForm";
 import Link from 'next/link';
-import style from './component.module.scss';
+import style from './style.module.scss';
 
 function Footer(props){
     return (
@@ -20,6 +20,15 @@ function Footer(props){
 
             <footer>
                 <Link href="/tos" className={style.tosLink}>Käyttöehdot</Link>
+                <div className={style.socials}>
+                    <a className="fa fa-instagram" title="Instagram">
+                       
+                    </a>
+
+                    <a className="fa fa-facebook" title="Facebook">
+                        
+                    </a>
+                </div>
             </footer>
         </div>
     )
