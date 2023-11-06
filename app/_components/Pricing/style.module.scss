@@ -53,6 +53,14 @@
             p, h2{
                 color: $body-text-color;
             }
+
+            p{
+                font-size: 1.2rem;
+            }
+
+            h1{
+                color: $body-text-color;
+            }
         }
 
         .cardsContainer{
@@ -67,6 +75,9 @@
 }
 
 .card{
+    display: flex;
+    flex-flow: column;
+
     background: gray;
     border-radius: 5px;
     flex: 1;
@@ -77,10 +88,60 @@
         padding: 1rem;
     }
 
+    .cardBody{
+        flex: 1;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+    }
+
     .cardHeader{
         background: rgb(54, 54, 54);
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         height: 25%;
+    }
+
+    .linkButton{
+        padding: 0.5rem;
+        background: $primary-color;
+        text-align: center;
+        min-width: 30%;
+        border-radius: 5px;
+        color: black;
+        margin-top: auto;
+        text-decoration: none;
+
+        &:hover{
+            background: lighten($primary-color, 10);
+        }
+    }
+}
+
+@media screen and (max-width: $mobile-width){
+
+    .card{
+        min-height: 500px;
+    }
+
+    .pricingContainer{
+        padding: 0.5rem !important;
+
+        .containerBody{
+            flex-flow: column-reverse;
+
+            .cardsContainer{
+                flex-flow: column;
+            }
+
+            .textContainer{
+                width: 100%;
+                
+            }
+        }
+    }
+
+    .gradient{
+        background: $body-color;
     }
 }

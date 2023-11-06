@@ -38,9 +38,16 @@
 }
 
 @media screen and (max-width: 1000px){
+    .gradient{
+        background: $body-color;
+    }
+
     .description{
         display: flex !important;
         flex-flow: column;
         min-height: auto !important;
+        padding: 0.5rem !important;
     }
+
+    
 }
