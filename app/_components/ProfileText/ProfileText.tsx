@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import profileImage from 'kotilogi-app/public/img/profile1.jpg';
+import LinkButton from 'kotilogi-app/components/LinkButton/LinkButton';
 
 function ProfileText(props){
     return (
@@ -18,17 +19,22 @@ function ProfileText(props){
                     </p>
 
                     <p>
-                        Juuri tällaisessa tilanteessa syntyi ajatus "Kotilogi"-palvelusta. "Kotilogi" on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.
+                        Juuri tällaisessa tilanteessa syntyi ajatus Kotilogi-palvelusta. Kotilogi on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.
 
                     </p>
 
                     <p>
-                        Miksi tarvitset "Kotilogi"-palvelua? Sen avulla voit helposti tallentaa kaikki kotiisi tehdyt muutokset, remontit ja huoltopisteet yhteen paikkaan. Tiedot ovat helposti saatavilla aina kun niitä tarvitset, olipa kyseessä sitten kotitalousvähennyksen hakeminen, myynti tai seuraavan omistajan tietojen jakaminen tulevaisuudessa. 
+                        Miksi tarvitset Kotilogi-palvelua? Sen avulla voit helposti tallentaa kaikki kotiisi tehdyt muutokset, remontit ja huoltopisteet yhteen paikkaan. Tiedot ovat helposti saatavilla aina kun niitä tarvitset, olipa kyseessä sitten kotitalousvähennyksen hakeminen, myynti tai seuraavan omistajan tietojen jakaminen tulevaisuudessa. 
                     </p>
 
                     <p>
-                        Unohtakaa hukatut kuitit ja hajanaiset asiakirjat - "Kotilogi" tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa. Joten, pidä huolta kodistasi ja sen historiasta yksinkertaisesti ja kätevästi "Kotilogi"-palvelun avulla.
-                        <br/><br/><a href="/register">Luo Tili.</a>
+                        Unohtakaa hukatut kuitit ja hajanaiset asiakirjat - Kotilogi tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa. Joten, pidä huolta kodistasi ja sen historiasta yksinkertaisesti ja kätevästi Kotilogi-palvelun avulla.
+                        <br/><br/>
+                        <LinkButton
+                            href="/register"
+                            text="Aloita Kotilogin Käyttö"
+                            className={styles.registerLink}
+                        />
                     </p>
                 </div>
             </div>

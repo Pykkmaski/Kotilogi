@@ -1,0 +1,16 @@
+@import 'kotilogi-app/scss/Config';
+
+.linkButtonContainer{
+    padding: 0.5rem;
+    background: $primary-color;
+    text-align: center;
+    min-width: 30%;
+    border-radius: 5px;
+    color: black;
+    margin-top: auto;
+    text-decoration: none;
+    
+    &:hover{
+        background: lighten($primary-color, 10);
+    }
+}

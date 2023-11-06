@@ -59,5 +59,6 @@
 @media screen and (max-width: $mobile-width){
     .header{
         position: static !important;
+        padding: 1rem !important;
     }
 }
