@@ -1,52 +1,39 @@
-import db from "kotilogi-app/dbconfig";
-import Error from 'kotilogi-app/components/new/Gallery/GalleryBase/Error';
-import ErrorImage from 'kotilogi-app/assets/image.png';
-import Form from "kotilogi-app/components/Form";
-import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
+'use client';
+
+import GalleryBase from "../GalleryBase/GalleryBase";
+import AddFilesModal from "../Modals/AddFilesModal";
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
 /**
- * Pre-configured gallery component for displaying images associated with a property.
+ * Pre-configured component for displaying files associated with a property.
  * @component
- * @example
- * const property_id = 'some_id'
- * <PropertyImagesGallery property_id={property_id}/>
- * 
- * @param {Kotilogi.IdType} property_id The id of the property to fetch images for. 
  */
 
-type PropertyImagesGalleryProps = {
-    propertyId: Kotilogi.IdType,
-}
-
-export default async function PorpertyImagesGallery(props: PropertyImagesGalleryProps){
-    const {address} = await db('properties').where({id: props.propertyId}).select('title').first();
-
-    const addModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Lisää Kuva',
-        bodyContent: (
-            <Form.Group>
-                <label>Kuva</label>
-                <input type="file" name="file" accept="image/jpeg"/>
-            </Form.Group>
-        )
-    }
-
-    const deleteModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Poista kuvia',
-        bodyContent: <span>Haluatko varmasti poistaa valitut kuvat?</span>,
-    }
-
+export default function PropertyImagesGallery(props: {
+    propertyId: Kotilogi.IdType
+}){
     return (
-        <GalleryWithDelete
-            dbTableName="propertyImages"
-            refId={props.propertyId}
-            title='Kuvat'
-            subTitle={address}
-            headerButtons={[]}
-            addModalOptions={addModalOptions}
-            deleteModalOptions={deleteModalOptions}
-            contentType="property_image"
-            error={<Error title="Ei Kuvia" message="Et ole vielä lisännyt talolle kuvia." imageUrl={ErrorImage}/>}
+        <GalleryBase 
+            title="Kuvat"
+            contentType="image"
+            tableName="files"
+            query={{
+                refId: props.propertyId,
+                mimeType: 'image/jpeg',
+            }}
+            AddModal={(HOCProps: ModalProps & {id: Kotilogi.IdType}) => {
+                return (
+                    <AddFilesModal
+                        {...HOCProps}
+                        title="Lisää Kuvia"
+                        fileType="image/jpeg"
+                        id="property-add-images-modal"
+                        item={{
+                            id: props.propertyId
+                        }}
+                    />
+                )
+            }}
         />
     )
 }

@@ -1,0 +1,43 @@
+@import '@/scss/Config';
+
+$size: 1.25rem;
+
+.pageIndicator{
+    position: absolute;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: $medium-gap;
+    bottom: $medium-gap;
+    left: 50%;
+    transform: translateX(-50%);
+    user-select: none;
+}
+
+.number{
+    font-size: $size;
+    color: $body-text-color;
+    width: calc($medium-gap * 2);
+    text-align: center;
+}
+
+.button{
+    width: $size;
+    height: $size;
+    background: $body-text-color;
+    clip-path: polygon(50% 0, 100% 100%, 0% 100%);
+
+    cursor: pointer;
+    
+    &:active{
+        background: #AAA;
+    }
+
+    &:nth-child(1){
+        transform: rotate(-90deg);
+    }
+
+    &:nth-child(3){
+        transform: rotate(90deg);
+    }
+}

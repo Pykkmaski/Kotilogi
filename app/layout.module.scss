@@ -1,9 +1,9 @@
-@import 'kotilogi-app/scss/Config';
+@import '@/scss/Config';
 
 .body{
     display: flex;
     flex-flow: column;
-    background: rgb(230, 230, 230);
+    background: $body-color;
     min-height: 100vh;
     color: $text-color;
 }

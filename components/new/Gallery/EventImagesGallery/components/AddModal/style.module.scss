@@ -1,0 +1,46 @@
+@import '@/scss/Config';
+
+.modalBody{
+    display:flex;
+    flex-flow: row;
+
+    form{
+        padding: 0;
+        label{
+            color: $body-text-color;
+        }
+    }
+
+    .descriptionSection{
+        border-right: 1px solid #DDD;
+        padding: $medium-gap;
+    }
+
+    .contentSection{
+        padding: $medium-gap;
+
+        .contentSectionHeader{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            nav .links{
+                display: flex;
+                gap: $medium-gap;
+
+                span{
+                    color: $body-text-color;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.modalFooter{
+    display: flex;
+    gap: $small-gap;
+    padding: $medium-gap;
+    justify-content: right;
+    border-top: 1px solid #ddd;
+}

@@ -3,7 +3,9 @@
 .pageHeaderContainer{
     display: flex;
     flex-flow: row;
-    margin-bottom: 1rem;
+    margin-bottom: $medium-gap;
+    margin-top: $big-gap;
+
     justify-content: space-between;
     align-items: center;
 

@@ -2,10 +2,9 @@
 @import '../_partials/padding';
 
 .header{
-    position: sticky;
-    top: 0;
     background: $header-color;
 
+    width: 100%;
     display: flex;
     flex-flow: row;
     justify-content: space-between;
@@ -14,14 +13,14 @@
     padding: 0.5rem 0 0.5rem 0;
     @include Padding;
     
-    z-index: 4;
+    z-index: 5;
     flex: 0 1;
 
     min-height: 57px;
     
     a{
-        color: white;
-        font-weight: 700;
+        color:white;
+        font-weight: 600;
     }
 
     .logo{

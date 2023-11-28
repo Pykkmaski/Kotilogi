@@ -1,0 +1,204 @@
+@import 'kotilogi-app/scss/Config';
+
+$card-color: lighten($header-color, 10);
+$add-card-color: #C6C6C6;
+$content-card-color: #757575;
+
+$border-radius: 10px;
+$menu-button-width: 20px;
+$card-width: 18rem;
+$card-height: calc($card-width * 1.618034);
+$card-image-height: 18rem;
+
+@mixin BaseCardAttributes{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    border-radius: $border-radius;
+    background: $card-color;
+    object-fit: contain;
+
+    width: $card-width;
+    height: $card-height;
+
+    box-shadow: 3px 3px 3px 1px #0004;
+    z-index: 4;
+}
+
+.contentCardContainer, .addCardContainer, .emptyCardContainer{
+    @include BaseCardAttributes;
+}
+
+.contentCardContainer{
+    background: $content-card-color;
+}
+
+.addCardContainer{
+    background: $add-card-color;
+    &:hover{
+        background: lighten($add-card-color, 5);
+    }
+}
+
+.emptyCardContainer{
+    background: none;
+    border: 2px dashed $body-text-color;
+}
+
+$plus-icon-colors: $body-text-color;
+.addCardContainer{
+    /*  
+        Display a plus icon in the center of the card
+    */
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed $body-text-color;
+    cursor: pointer;
+
+    h2{
+        margin-top: 1rem;
+        color: $plus-icon-colors;
+        font-size: 1.2rem;
+    }
+
+}
+
+.plusIconContainer{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid $plus-icon-colors;
+    padding: 1rem;
+
+    /*The plus icon itself is an h1, containing the +-sign*/
+    h1{
+        color: $plus-icon-colors !important;
+    }
+}
+
+.cardBody{
+    padding: $medium-gap;
+}
+
+.cardMenuButton{
+    position: absolute;
+    top: $medium-gap;
+    right: $medium-gap;
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+
+    width: $menu-button-width;
+    z-index: 2;
+    visibility: hidden;
+
+    &.buttonOpen{
+        .cardMenuButtonLine:nth-child(1){
+            transform: translateY(calc(5px + 3px)) rotate(135deg);
+        }
+        .cardMenuButtonLine:nth-child(2){
+            transform: rotate(135deg);
+            opacity: 0;
+        }
+
+        .cardMenuButtonLine:nth-child(3){
+            transform: translateY(calc((5px + 3px) * -1)) rotate(-135deg);
+        }
+    }
+}
+
+.cardMenuButtonLine{
+    width: inherit;
+    height: 3px;
+    background: white;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cardMenu{
+    position: absolute;
+    display: flex;
+    flex-flow: row;
+    gap: $medium-gap;
+
+    top: $medium-gap;
+    left: $medium-gap;
+    width: 100%;
+
+    z-index: 3;
+    visibility: hidden;
+    border-radius: $border-radius;
+    transform: translateX(-10px);
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    transition-delay: 0.1s;
+
+    opacity: 0;
+
+    .control{
+        color: $body-color;
+        cursor: pointer;
+        font-weight: bold;
+
+    }
+
+    .openLink{
+        position: absolute;
+        bottom: 0;
+        right: $medium-gap;
+    }
+    
+    &.menuOpen{
+        visibility: visible;
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+.imageContainer{
+    position: relative;
+    height: 50%;
+    width: inherit;
+    height: 18rem;
+}
+
+.imageContainerTitle{
+    position: absolute;
+    bottom: $medium-gap;
+    left: $medium-gap;
+    z-index: 2;
+    font-weight: bold;
+}
+
+.imageContainerImage{
+    object-fit: cover;
+    border-top-right-radius: $border-radius;
+    border-top-left-radius: $border-radius;
+}
+
+.imageContainerGradient{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: linear-gradient(to top, black, #0000, #0000);
+    height: 100%;
+    width: 100%;
+}
+
+.imageCard{
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    
+    .image{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}

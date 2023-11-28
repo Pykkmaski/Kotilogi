@@ -1,48 +1,39 @@
-import db from "kotilogi-app/dbconfig";
-import Error from "../GalleryBase/Error";
-import ErrorImage from 'kotilogi-app/assets/copy.png'
-import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete";
-import Form from "kotilogi-app/components/Form";
+'use client';
+
+import GalleryBase from "../GalleryBase/GalleryBase";
+import AddFilesModal from "../Modals/AddFilesModal";
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
 /**
  * Pre-configured component for displaying files associated with a property.
  * @component
  */
 
-type PropertyFilesGalleryProps = {
+export default function PropertyFilesGallery(props: {
     propertyId: Kotilogi.IdType,
-};
-
-export default async function PropertyFilesGallery(props: PropertyFilesGalleryProps){
-    const {address} = await db('properties').where({id: props.propertyId}).select('title').first();
-
-    const addModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Lisää Tiedosto',
-        bodyContent: (
-            <Form.Group>
-                <label>Tiedosto</label>
-                <input type="file" accept="application/pdf" name="file"/>
-            </Form.Group>
-        )
-    }
-
-    const deleteModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Poista tiedostoja',
-        bodyContent: <span>Haluatko varmasti poistaa valitut tiedostot?</span>
-    }
-
+}){
     return (
-        <GalleryWithDelete
-            dbTableName="propertyFiles"
-            refId={props.propertyId}
-            
-            contentType="property_file"
-            title="Tiedostot"
-            subTitle={address}
-            addModalOptions={addModalOptions}
-            deleteModalOptions={deleteModalOptions}
-            headerButtons={[]}
-            error={<Error title="Ei Tiedostoja" message="Et ole vielä lisännyt talolle tiedostoja." imageUrl={ErrorImage}/>}
+        <GalleryBase 
+            title="Tiedosto"
+            contentType="file"
+            tableName="files"
+            query={{
+                refId: props.propertyId,
+                mimeType: 'application/pdf',
+            }}
+            AddModal={(HOCProps: ModalProps & {id: Kotilogi.IdType}) => {
+                return (
+                    <AddFilesModal
+                        {...HOCProps}
+                        title="Lisää Tiedostoja"
+                        fileType="application/pdf"
+                        id="property-add-files-modal"
+                        item={{
+                            id: props.propertyId
+                        }}
+                    />
+                )
+            }}
         />
     )
 }

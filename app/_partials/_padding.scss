@@ -1,4 +1,5 @@
 @mixin Padding {
-    padding-left: 15vw;
-    padding-right: 15vw;
+    $amount: 12.25vw;
+    padding-left: $amount;
+    padding-right: $amount;
 }

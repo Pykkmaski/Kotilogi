@@ -1,0 +1,11 @@
+@import 'kotilogi-app/scss/Config';
+
+.navBar{
+    padding: $small-gap;
+    display: flex;
+    flex-flow: column;
+    gap: $small-gap;
+    width: 200px;
+    background: $body-text-color;
+    margin-right: $medium-gap;
+}

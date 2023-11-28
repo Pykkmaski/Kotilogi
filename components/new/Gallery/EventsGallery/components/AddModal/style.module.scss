@@ -1,0 +1,12 @@
+@import '@/scss/Config';
+
+.contentSectionBody{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+    position: relative;
+}
+

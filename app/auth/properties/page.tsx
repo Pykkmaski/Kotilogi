@@ -1,7 +1,10 @@
 import { getServerSession } from "next-auth";
 import { options } from "../../api/auth/[...nextauth]/options";
-import Page from "kotilogi-app/components/Page/Page";
-import Link from "next/link";
+import style from './page.module.scss';
+import Gallery from "kotilogi-app/components/Experimental/Gallery/Gallery";
+import Modal from "kotilogi-app/components/Modals/Modal";
+import Form from "kotilogi-app/components/Form";
+import Button from "kotilogi-app/components/Button/Button";
 import PropertiesGallery from "kotilogi-app/components/new/Gallery/PropertiesGallery/PropertiesGallery";
 
 type SessionType = {
@@ -15,8 +18,11 @@ export default async function PropertiesPage({searchParams}){
     if(!session) throw new Error('Failed to load dashboard!');
 
     return (
-        <Page backgroundUrl="/img/Properties/default-bg.jpg">
+        <main className={style.page}>
+            <div className={style.gradient}/>
+            <div className={style.bgImage}/>
+
             <PropertiesGallery ownerId={session.user.email}/>
-        </Page>
+        </main>
     );
 }

@@ -9,14 +9,18 @@ import Button from 'kotilogi-app/components/Button/Button';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import registerUser from 'kotilogi-app/actions/registerUser';
 import { ErrorCode, MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
+import { ProCard, RegularCard } from '../_components/Pricing/Pricing';
 
 
-export default function RegisterPage(props){
+export default function RegisterPage(){
 
     const rerouteTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
     const router = useRouter();
+    const params = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(-1);
+
+    const plan = params.get('plan') || 'regular';
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -35,13 +39,15 @@ export default function RegisterPage(props){
             const credentials = {
                 email: e.target.email.value,
                 password: password1.value,
+                plan,
             }
 
-            //await axios.post('/api/register', credentials);
             const error = await registerUser(credentials);
             if(error.code !== ErrorCode.SUCCESS) throw error;
 
             setError(ErrorCode.SUCCESS);
+
+            //Automatically reroute to the login page after succesfull registration.
             const loginTransitionTime = 3000;
             rerouteTimeout.current = setTimeout(() => router.replace('/login'), loginTransitionTime);
         }
@@ -62,7 +68,7 @@ export default function RegisterPage(props){
     const setEmailField = (value: string) => sessionStorage && sessionStorage.setItem(formEmailField, value);
 
     useEffect(() => {
-        //Clean up the timeout.
+        //Clear the reroute timeout before each render.
         if(rerouteTimeout.current === null) return;
         return () => clearTimeout(rerouteTimeout.current);
     }, []);

@@ -29,7 +29,7 @@ export default async function serverDeleteFilesByIds(selectedIds: Kotilogi.IdTyp
             serverRevalidatePath('/auth/events/[event_id]/info');
         }
         
-        return true;
+        return selectedIds;
     }
     catch(err){
         console.log(err.message);

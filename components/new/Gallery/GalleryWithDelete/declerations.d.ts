@@ -6,9 +6,10 @@ declare namespace GalleryWithDelete{
     }
 
     declare type Props = GalleryBase.Props & {
-        deleteModalOptions: GalleryBase.ModalOptions,
-        contentType: GalleryBase.ContentType,
-        
+        DeleteModal?: React.FC<{
+            show: boolean,
+            onHide: () => void,
+        }>,
     }
 
     declare type DeleteButtonProps = {

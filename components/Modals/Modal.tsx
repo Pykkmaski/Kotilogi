@@ -1,3 +1,5 @@
+'use client';
+
 import {useEffect, useRef} from 'react';
 import useSubComponents from 'kotilogi-app/hooks/useSubComponents';
 
@@ -10,7 +12,14 @@ function CloseButton(props){
     );
 }
 
-function Modal(props){
+export type ModalProps = {
+    id: string,
+    className?: string,
+    show: boolean,
+    onHide: () => void,
+}
+
+function Modal(props: ModalProps & {children: React.ReactNode}){
     const {show, onHide} = props;
 
     useEffect(() => {
@@ -26,8 +35,10 @@ function Modal(props){
         }
     }, [show]);
 
+    const className = props.className ? `component-modal ${props.className} animated` : 'component-modal animated';
+
     return (
-        <dialog className="component-modal animated" key={props.id} id={props.id}>
+        <dialog className={className} key={props.id} id={props.id}>
             <CloseButton onHide={onHide}/>
            {props.children}
         </dialog>
@@ -40,7 +51,12 @@ Modal.Header = Header;
 const Title = (props) => <div className="modal-title">{props.children}</div>
 Modal.Title = Title;
 
-const Body = (props) => <div className="modal-body">{props.children}</div>
+const Body = (props) => {
+    const baseClassName = 'modal-body';
+    const className = props.className ? `${baseClassName} ${props.className}` : baseClassName;
+    
+    return <div className={className}>{props.children}</div>
+}
 Modal.Body = Body;
 
 const Image = (props) => <img src={props.src} className="modal-image"/>

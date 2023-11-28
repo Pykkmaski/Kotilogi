@@ -23,7 +23,7 @@ export default async function RootLayout({ children }) {
 
       <AuthProvider>
       <body className={styles.body}>
-          <Header/>
+            <Header/>
             {children}
             <Notice text="Huomio! Sivusto on työn alla, joten siinä saattaa esiintyä virheitä. Lisäämäsi sisältö ei välttämättä säily palvelussa!"/>
           

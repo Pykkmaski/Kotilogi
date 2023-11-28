@@ -1,49 +1,20 @@
-import db from "kotilogi-app/dbconfig"
-import GalleryWithDelete from "../GalleryWithDelete/GalleryWithDelete"
-import Form from "kotilogi-app/components/Form"
-import Error from 'kotilogi-app/components/new/Gallery/GalleryBase/Error';
-import ErrorImage from 'kotilogi-app/assets/image.png';
+'use client';
 
-type Props = {
+import GalleryBase from "../GalleryBase/GalleryBase";
+
+export default async function EventImagesGallery(props: {
     eventId: Kotilogi.IdType,
-}
-
-export default async function EventImagesGallery(props: Props){
-
-    const addModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Lisää Kuva',
-        bodyContent: (
-            <Form.Group>
-                <label>Kuva</label>
-                <input type="file" name="file" accept="image/jpeg" required></input>
-            </Form.Group>
-        )
-    }
-
-    const deleteModalOptions: GalleryBase.ModalOptions = {
-        headerText: 'Poista Valitut Kuvat',
-        bodyContent: <span>Haluatko varmasti poistaa valitsemasi kuvat?</span>
-    }
-
-    const error = (
-        <Error
-            title="Ei Kuvia"
-            message="Et ole vielä lisännyt tapahtumalle kuvia"
-            imageUrl={ErrorImage}
-        />
-    );
+}){
 
     return (
-        <GalleryWithDelete
-            contentType="event_image"
+        <GalleryBase
+            tableName="files"
+            contentType="image"
+            query={{
+                refId: props.eventId,
+                mimeType: 'image/jpeg',
+            }}
             title="Kuvat"
-            subTitle=""
-            dbTableName="eventImages"
-            refId={props.eventId}
-            addModalOptions={addModalOptions}
-            deleteModalOptions={deleteModalOptions}
-            headerButtons={[]}
-            error={error}
         />
     )
 }

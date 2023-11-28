@@ -1,8 +1,10 @@
+@import '@/scss/Config';
+
 .galleryBody{
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
 
-    justify-content: center;
+    justify-content: left;
 
     &.empty{
         display: flex;
@@ -10,6 +12,12 @@
         justify-content: center;
     }
 }
+
+.loadingBody{
+    flex: 1;
+}
+
+
 
 @media screen and (max-width: 1000px){
     .galleryBody{

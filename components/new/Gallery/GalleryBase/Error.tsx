@@ -1,20 +1,54 @@
 import { StaticImageData } from 'next/image';
 import styles from './error.module.scss';
 import Image from 'next/image';
+import HistoryIcon from '@/assets/history.png';
+import ImageIcon from '@/assets/image.png';
+import FileIcon from '@/assets/copy.png';
+import HouseIcon from '@/assets/house.png';
 
+import useGalleryContext from './GalleryContext';
+import { StyleRegistry } from 'styled-jsx';
 
 type ErrorProps = {
     title: string,
-    imageUrl: string | StaticImageData,
-    message?: string,
 }
 
-export default function Error({title, message, imageUrl}: ErrorProps){
+export default function Error(){
+    const {props: {contentType}, tableName} = useGalleryContext();
+
+    const attributes = (
+        contentType === 'image' ? {
+            errorImage: ImageIcon,
+            title: 'Ei Kuvia',
+            message: 'Et ole vielä lisännyt kuvia.'
+        }
+        :
+        contentType === 'file' ? {
+            errorImage: FileIcon,
+            title: 'Ei Tiedostoja',
+            message: 'Et ole vielä lisännyt tiedostoja.'
+        }
+        :
+        tableName === 'properties' ? {
+            errorImage: HouseIcon,
+            title: 'Ei Taloja',
+            message: 'Et ole vielä lisännyt taloja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.',
+        } 
+        :
+        {
+            errorImage: HistoryIcon,
+            title: 'Ei Tapahtumia',
+            message: 'Et ole vielä lisännyt talolle tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
+        }
+    );
+
     return (
         <div className={styles.errorContainer}>
-            <Image src={imageUrl} className={styles.errorImage} width={70} height={70} alt="Error Image"/>
-            <h2 className={styles.errorTitle}>{title}</h2>
-            <p className={styles.errorMessage}>{message}</p>
+            <Image src={attributes.errorImage} className={styles.errorImage} width={70} height={70} alt="Error Image"/>
+            <h2 className={styles.errorTitle}>{attributes.title}</h2>
+            <p  className={styles.errorMessage}>
+                {attributes.message}
+            </p>
         </div>
     )
 }

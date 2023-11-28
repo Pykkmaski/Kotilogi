@@ -12,6 +12,7 @@ img{
 main{
     z-index: 0;
     padding: 0 0.5rem 0 0.5rem;
+    height: 100%;
 }
 
 button{
@@ -26,7 +27,7 @@ button{
     color: white;
     cursor: pointer;
 
-    transition: width 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
     
     &:disabled{
         background: $disabled-color !important;
@@ -80,6 +81,7 @@ button.secondary{
 
 button.danger{
     background: $danger-color;
+    color: $body-color;
     &:active{
         background: darken($danger-color, $button-hover-lighten-amount);
     }

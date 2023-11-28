@@ -10,11 +10,12 @@ import db from 'kotilogi-app/dbconfig';
  * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a code and an error message.
  */
 
-export default async function registerUser(credentials: {email: string, password: string}): Promise<Kotilogi.Error>{
+export default async function registerUser(credentials: {email: string, password: string, plan: string}): Promise<Kotilogi.Error>{
     try{
         const user = {
             email: credentials.email,
             password: await bcrypt.hash(credentials.password, 15),
+            plan: credentials.plan,
         }
 
         await db('users').insert(user);
