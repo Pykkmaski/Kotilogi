@@ -1,16 +1,24 @@
 @import '@/scss/Config';
 
-.galleryBody{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-
-    justify-content: left;
-
+.galleryBodyGrid, .galleryBodyList{
     &.empty{
         display: flex;
         flex-flow: row;
         justify-content: center;
     }
+}
+
+.galleryBodyGrid{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+
+    justify-content: left;
+}
+
+.galleryBodyList{
+    display: flex;
+    flex-flow: column;
+    gap: $small-gap;
 }
 
 .loadingBody{

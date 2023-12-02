@@ -42,8 +42,7 @@ export default function CardDeleteModal(props: ModalProps & {item: Kotilogi.Item
             <Modal.Header>Poista</Modal.Header>
             <Modal.Body className={style.deleteModalBody}>
                 <p>
-                    <strong>Olet poistamassa tapahtumaa "{props.item.title}".</strong><br/>
-                    id: ({props.item.id}).<br/><br/>
+                    <strong>id: ({props.item.id}).</strong><br/><br/>
                     Anna poistolle selvitys. 
                     Selvitys tallennetaan talon muutoshistoriaan ja sen avulla saa selvän kuvan miksi kukin muutos on tehty.<br/><br/>
                     Poisto on pysyvä.
@@ -54,6 +53,11 @@ export default function CardDeleteModal(props: ModalProps & {item: Kotilogi.Item
                         <label>Poiston syy<span className="danger">*</span></label>
                         <textarea name="comment" required={true}/>
                     </Form.Group>
+
+                    <div className={style.checkboxContainer}>
+                        <label>Ymärrän että poisto on pysyvä:</label>
+                        <input type="checkbox" required={true}/>
+                    </div>
                 </Form>
             </Modal.Body>
             <Modal.Footer>

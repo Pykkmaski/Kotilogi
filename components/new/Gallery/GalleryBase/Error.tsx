@@ -5,7 +5,7 @@ import HistoryIcon from '@/assets/history.png';
 import ImageIcon from '@/assets/image.png';
 import FileIcon from '@/assets/copy.png';
 import HouseIcon from '@/assets/house.png';
-
+import BoltIcon from '@/assets/bolt.png';
 import useGalleryContext from './GalleryContext';
 import { StyleRegistry } from 'styled-jsx';
 
@@ -35,10 +35,17 @@ export default function Error(){
             message: 'Et ole vielä lisännyt taloja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.',
         } 
         :
+        tableName === 'propertyEvents' ? 
         {
             errorImage: HistoryIcon,
             title: 'Ei Tapahtumia',
             message: 'Et ole vielä lisännyt talolle tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
+        }
+        :
+        {
+            errorImage: BoltIcon,
+            title: 'Ei Kulutustietoja',
+            message: 'Et ole vielä lisännyt talolle kulutustietoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
         }
     );
 

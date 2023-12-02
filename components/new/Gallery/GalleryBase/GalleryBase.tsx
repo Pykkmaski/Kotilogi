@@ -12,7 +12,7 @@ import PageIndicator from "./Components/PageIndicator/PageIndicator";
 import getDataOffset from "./Util/getDataOffset";
 import { GalleryBase } from "./declerations";
 
-export default function GalleryBase(props: GalleryBase.Props){
+export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
     const initialState: GalleryBase.State = {
         data: [],
         selectedItemIds: [],
@@ -61,11 +61,12 @@ export default function GalleryBase(props: GalleryBase.Props){
                 value: false,
             });
         })
-    }, [state.currentPage]);
+    }, [state.currentPage, props.query]);
 
     return (
-        <div className={style.galleryContainer}>
-            <GalleryContext.Provider value={contextValue}>
+        <GalleryContext.Provider value={contextValue}>
+            <div className={style.galleryContainer}>
+                
                 {
                     props.AddModal ? <props.AddModal 
                         show={state.showAddModal} 
@@ -96,7 +97,7 @@ export default function GalleryBase(props: GalleryBase.Props){
                 />
 
                 <Body/>
-            </GalleryContext.Provider>
-        </div>
+            </div>
+        </GalleryContext.Provider>
     )
 }

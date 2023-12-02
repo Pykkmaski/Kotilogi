@@ -1,7 +1,7 @@
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
 declare namespace GalleryBase{
-    type ContentType = 'image' | 'file' | 'object';
+    type ContentType = 'image' | 'file' | 'object' | 'usage';
     
     declare type HasData = {
         data: (Kotilogi.PropertyType | Kotilogi.EventType | Kotilogi.PropertyFileType | Kotilogi.EventFileType)[],
@@ -50,7 +50,20 @@ declare namespace GalleryBase{
         /**
          * Query object passed to knex.
          */
-        query: {refId: Kotilogi.IdType, mimeType?: Kotilogi.MimeType},
+        query: {refId: Kotilogi.IdType, mimeType?: Kotilogi.MimeType, type?: 'heating' | 'water' | 'electric'},
+
+        /**
+         * For development purposes, Explicitly state this gallery is unsupported.
+         */
+
+        unsupported?: boolean,
+
+        /**
+         * The style to display the gallery in: Grid or List. 
+         * Ignored when the content type is set to file or image.
+         */
+
+        displayStyle?: 'grid' | 'list';
     }
     
     declare type CardProps = {

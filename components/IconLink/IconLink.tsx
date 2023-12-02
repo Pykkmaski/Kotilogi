@@ -14,6 +14,8 @@ export default function IconLink(props: {
             <Image
                 src={props.imageSrc}
                 alt="Link Icon"
+                width={15}
+                height={15}
             />
            {props.children}
         </Link>

@@ -78,6 +78,8 @@
     
     .bodySection{
         display: flex;
+        flex-flow: column;
+        
         flex: 1;
         padding: $medium-gap 0 $medium-gap $medium-gap;
     

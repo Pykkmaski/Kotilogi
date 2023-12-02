@@ -114,4 +114,20 @@ button.black{
     }
 }
 
+nav.overhead{
+    display:flex;
+    flex-flow: row;
+    gap: $medium-gap;
+
+    a{
+        color: $body-text-color;
+        font-weight: 600;
+        transition: text-decoration 0.2s ease-in-out;
+        
+        &:focus{
+            background: #DDD;
+        }
+    }
+}
+
 

@@ -31,4 +31,14 @@
     p{
         max-width: 500px;
     }
+
+    .checkboxContainer{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        input[type=checkbox]{
+            aspect-ratio: 1/1;
+            width: 25px;
+        }
+    }
 }

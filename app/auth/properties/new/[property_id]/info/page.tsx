@@ -58,7 +58,7 @@ export default function InfoPage(){
     return (
        <section className={style.body}>
             <div className={style.header}>
-                <nav className={style.navBar}>
+                <nav className="overhead">
                     <Link href="?section=general">Yleistiedot</Link>
                     <Link href="?section=building">Rakennus</Link>
                     <Link href="?section=exterior" hidden={currentData.buildingType === 'Kerrostalo'}>Tontti</Link>
