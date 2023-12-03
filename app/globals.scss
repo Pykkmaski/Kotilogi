@@ -114,6 +114,11 @@ button.black{
     }
 }
 
+::placeholder{
+    color: lighten($body-text-color, 15);
+    opacity: 1;
+}
+
 nav.overhead{
     display:flex;
     flex-flow: row;

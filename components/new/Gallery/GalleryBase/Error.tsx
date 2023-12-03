@@ -14,19 +14,19 @@ type ErrorProps = {
 }
 
 export default function Error(){
-    const {props: {contentType}, tableName} = useGalleryContext();
+    const {props: {contentType, query}, tableName} = useGalleryContext();
 
     const attributes = (
         contentType === 'image' ? {
             errorImage: ImageIcon,
             title: 'Ei Kuvia',
-            message: 'Et ole vielä lisännyt kuvia.'
+            message: 'Et ole vielä lisännyt kuvia. Aloita painamalla ylänurkassa näkyvää Lisää Uusi-painiketta.'
         }
         :
         contentType === 'file' ? {
             errorImage: FileIcon,
             title: 'Ei Tiedostoja',
-            message: 'Et ole vielä lisännyt tiedostoja.'
+            message: 'Et ole vielä lisännyt tiedostoja. Aloita painamalla ylänurkassa näkyvää Lisää Uusi-painiketta.',
         }
         :
         tableName === 'properties' ? {
@@ -42,11 +42,27 @@ export default function Error(){
             message: 'Et ole vielä lisännyt talolle tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
         }
         :
+        //The table must be a usage tabl. The table has different data based on the query object passed. Determine message based on that.
+        query.type === 'heating' ?
         {
             errorImage: BoltIcon,
-            title: 'Ei Kulutustietoja',
-            message: 'Et ole vielä lisännyt talolle kulutustietoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
+            title: 'Ei Lämmityskulutietoja',
+            message: 'Et ole vielä lisännyt talolle lämmityskulutietoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
         }
+        :
+        query.type === 'water' ? 
+        {
+            errorImage: BoltIcon,
+            title: 'Ei Vesikulutietoja',
+            message: 'Et ole vielä lisännyt talolle vesikulutietoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
+        }
+        :
+        {
+            errorImage: BoltIcon,
+            title: 'Ei Sähkökulutietoja',
+            message: 'Et ole vielä lisännyt talolle sähkökulutietoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta.'
+        }
+
     );
 
     return (

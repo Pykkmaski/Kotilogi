@@ -2,16 +2,35 @@
 
 import db from "kotilogi-app/dbconfig";
 import generateId from "kotilogi-app/utils/generateId";
+import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
 
 type ParamType = Kotilogi.PropertyType | Kotilogi.EventType;
 
-export async function serverAddData(data: any, dbTableName: string): Promise<ParamType | null>{
+/**
+ * Runs checks based on what table data is being inserted into, and returns true if ok, false otherwise.
+ * @param data 
+ * @param tableName 
+ */
+
+async function validateData(data: any, tableName: Kotilogi.Table): Promise<boolean>{
+    if(tableName === 'properties'){
+        return await isAllowedToAddProperty(data.refId);
+    }
+
+    return true;
+}
+
+export async function serverAddData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
     try{
         const dataToSave: ParamType = {
             ...data,
         }
 
-        const insertedData: ParamType[] = await db(dbTableName).insert(dataToSave, '*');
+        const ok = await validateData(dataToSave, tableName);
+
+        if(!ok) throw new Error('Adding of data was rejected!');
+
+        const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
 
         return insertedData[0];
     }

@@ -37,6 +37,8 @@ namespace Kotilogi{
         code: number,
     }
 
+    type Plans = 'regular' | 'pro';
+    
     declare type HasMimeType = {
         mimeType: MimeType,
     }

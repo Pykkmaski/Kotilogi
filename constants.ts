@@ -2,6 +2,11 @@ interface HasId{
     ID: Kotilogi.IdType,
 }
 
+export const MaxProperties = {
+    REGULAR: 1,
+    PRO: -1,
+}
+
 export const MIN_PASSWORD_LENGTH = 8;
 
 export const ErrorCode = {
