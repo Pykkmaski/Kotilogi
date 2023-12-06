@@ -55,7 +55,7 @@ export default function Body(){
     );
 
     const bodyClassName = (
-        displayStyle === 'list' && 'image' !== contentType || 'file' !== contentType ? style.galleryBodyList 
+        displayStyle === 'list' && (('image' || 'file') !== contentType) ? style.galleryBodyList 
         :
         style.galleryBodyGrid 
         

@@ -80,7 +80,6 @@ export default function Pricing(){
             <div className={style.containerBody}>
                 <div className={style.cardsContainer}>
                    <RegularCard buttonEnabled={true}/>
-                   <ProCard buttonEnabled={true}/>
                 </div>
                
                 <div className={style.textContainer}>
