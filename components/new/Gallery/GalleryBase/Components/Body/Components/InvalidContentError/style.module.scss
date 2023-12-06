@@ -1,0 +1,26 @@
+@import '@/scss/Config';
+
+.invalidContentError{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #DDD;
+    border-radius: 5px;
+    padding: $small-gap;
+    min-width: 250px;
+
+    aspect-ratio: 1/1;
+
+    &:hover{
+        background: #DDD;
+    }
+    
+    h2{
+        font-size: 1rem;
+    }
+
+    small{
+        color: $body-text-color;
+    }
+}

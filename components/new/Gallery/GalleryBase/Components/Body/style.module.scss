@@ -1,15 +1,31 @@
-.galleryBody{
-    display: grid;
-    grid-template-columns: auto auto auto auto;
+@import '@/scss/Config';
 
-    justify-content: center;
-
+.galleryBodyGrid, .galleryBodyList{
     &.empty{
         display: flex;
         flex-flow: row;
         justify-content: center;
     }
 }
+
+.galleryBodyGrid{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+
+    justify-content: left;
+}
+
+.galleryBodyList{
+    display: flex;
+    flex-flow: column;
+    gap: $small-gap;
+}
+
+.loadingBody{
+    flex: 1;
+}
+
+
 
 @media screen and (max-width: 1000px){
     .galleryBody{

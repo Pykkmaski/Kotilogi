@@ -1,0 +1,11 @@
+.container{
+    display: flex;
+    flex-flow: row; 
+    gap: 1rem;
+    align-items: center;
+
+    img{
+        opacity: 0.7;
+      
+    }
+}

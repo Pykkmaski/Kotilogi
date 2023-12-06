@@ -15,6 +15,20 @@ export async function serverGetData(dbTableName: string, query: any, onlyOne: bo
     return data;
 }
 
+export async function serverGetDataOffset(dbTableName: Kotilogi.Table, query: any, offsetAmount: number, limit: number): Promise<object | null>{
+    try{
+        console.log(query.mimeType);
+        const data = await db(dbTableName).where(query).offset(offsetAmount).limit(limit);
+        if(!data) return null;
+        return data;
+    }
+    catch(err){
+        console.log(err.message);
+        return null;
+    }
+    
+}
+
 export async function serverGetDataByRefId(refId: Kotilogi.IdType, dbTableName: Kotilogi.Table, onlyOne: boolean = false): Promise<object | object[] | null>{
     try{
         var data: object;
@@ -23,7 +37,7 @@ export async function serverGetDataByRefId(refId: Kotilogi.IdType, dbTableName: 
             if(!data) throw new Error('Data with refId ' + refId + ' not found!');
         }
         else{
-            data = await db(dbTableName).where({refId});
+            data = await db(dbTableName).where({refId}).orderBy('createdAt', 'asc');
         }
 
         return data;
@@ -45,4 +59,6 @@ export async function serverGetDataById(id: Kotilogi.IdType, dbTableName: string
         return null;
     }
 }
+
+
 

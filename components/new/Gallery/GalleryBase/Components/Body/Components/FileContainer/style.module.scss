@@ -1,0 +1,57 @@
+@import '@/scss/Config';
+
+.fileContainer{
+    $size: 200px;
+    position: relative;
+    width: $size;
+    height: $size;
+    object-fit: contain;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+
+    .fileMenu{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+
+        backdrop-filter: blur(5px);
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+
+        gap: $small-gap;
+        background: #0006;
+
+        a{
+            color: white;
+            text-decoration: none;
+        }
+
+        .controlButton{
+            cursor: pointer;
+
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .file{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    &:hover{
+        border: 1px solid $primary-color;
+    }
+}

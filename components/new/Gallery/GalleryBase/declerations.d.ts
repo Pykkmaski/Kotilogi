@@ -1,71 +1,119 @@
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+
 declare namespace GalleryBase{
-    type ContentType = 'property' | 'property_file' | 'property_image' | 'event' | 'event_file' | 'event_image';
+    /**
+     * The type of content contained by the gallery.
+     */
+    type ContentType = 'image' | 'file' | 'object' | 'usage';
     
     declare type HasData = {
         data: (Kotilogi.PropertyType | Kotilogi.EventType | Kotilogi.PropertyFileType | Kotilogi.EventFileType)[],
     }
 
-    declare type ModalOptions = {
-        headerText: string,
-        bodyContent?: JSX.Element,/**A fragment of elements to display inside the add modal */
-        callback?: () => void | Promise<void>,
-    }
-
     declare type Props = {
+        /**
+         * The title displayed in the header of the gallery.
+         */
         title: string,
-        subTitle: string,
-        children?: React.ReactNode,
 
         /**
-         * Additional buttons to include with the default add button common to all galleries.
+         * The modal displayed when the global add-button of the gallery is pressed.
          */
-        headerButtons: JSX.Element[], 
-        addModalOptions: ModalOptions,
+        AddModal?: React.FC<{
+            show: boolean,
+            onHide: () => void
+        }>,
+
+        /**
+         * The modal displayed when an object-cards open-button is pressed.
+         */
+        EditModal?: React.FC<{
+            show: boolean,
+            onHide: () => void
+            item: any,
+        }>,
+
+        /**
+         * The modal displayed when the global delete button of the gallery is pressed.
+         */
+        DeleteModal?: React.FC<{
+            show: boolean,
+            onHide: () => void,
+        }>,
+
+        /**
+         * The type of content the gallery contains.
+         */
         contentType: ContentType,
-
-        /**
-         * Error component to display when there is no data.
-         */
-        error: JSX.Element,
 
         /**
          * Name of the database table containing the data to be displayed.
          */
-        dbTableName: Kotilogi.Table,
+        tableName: Kotilogi.Table,
 
         /**
-         * Reference id to parent content, eg. The property id of an event.
+         * Query object passed to knex.
          */
-        refId: Kotilogi.IdType,
+        query: {refId: Kotilogi.IdType, mimeType?: Kotilogi.MimeType, type?: 'heating' | 'water' | 'electric'},
 
         /**
-         * Entries going in the action selector.
+         * For development purposes, Explicitly state this gallery is unsupported.
          */
+
+        unsupported?: boolean,
+
+        /**
+         * The style to display the gallery in: Grid or List. 
+         * Ignored when the content type is set to file or image.
+         */
+
+        displayStyle?: 'grid' | 'list';
     }
     
     declare type CardProps = {
         item: any,
-        key: string,
         destination: string,
     }
     
     declare type ContextValue = {
         state: State,
-        contentType: ContentType,
-        dbTableName: Kotilogi.Table,
-        refId: Kotilogi.IdType,
-        isLoading: booolean,
-        dispatch: any,
+        props: Props & {children?: React.ReactNode},
+        dispatch: React.Dispatch,
+        loadData: () => void,
     }
 
     declare type State = HasData & {
-        selectedItemIds: string[],
+        selectedItems: any[],
+        itemInFocus: any,
         showAddModal: boolean,
+        showEditModal: boolean,
+        showDeleteModal: boolean,
         isLoading: boolean,
+        currentPage: number,
         viewType: 'card' | 'list',
+        error: boolean,
+        searchString: string,
     }
     
-    declare type ActionType = 'update_data' | 'toggle_add_modal' | 'select_id' | 'add_data' | 'toggle_loading' | 'set_data' | 'reset_selected' | 'select_all' | 'set_viewtype';
+    declare type ActionType = 
+        'toggle_add_modal' | 
+        'toggle_delete_modal' |
+        'toggle_edit_modal' |
+        'select_item' | 
+        'add_data' | 
+        'delete_data' |
+        'delete_items' |
+        'toggle_loading' | 
+        'toggle_error' |
+        'set_data' | 
+        'reset_selected' | 
+        'select_all' | 
+        'set_viewtype' |
+        'show_edit_modal' |
+        'hide_edit_modal' |
+        'edit_item' |
+        'update_item' |
+        'set_page_number';
     
     declare type Action = {
         type: ActionType,

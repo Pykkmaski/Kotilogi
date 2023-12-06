@@ -9,13 +9,15 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import {useState, useRef} from 'react';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 
-export default function LoginPage(props){
+export default function LoginPage(){
     const router = useRouter();
     const params = useSearchParams();
-    const error = params?.get('error');
     const [loading, setLoading] = useState(false);
-    const formEmail = 'kl-login-form-email';
 
+    const formEmail = 'kl-login-form-email';
+    const error = params?.get('error');
+    const email = params?.get('email');
+    
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);

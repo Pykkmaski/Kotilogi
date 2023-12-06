@@ -37,6 +37,8 @@ namespace Kotilogi{
         code: number,
     }
 
+    type Plans = 'regular' | 'pro';
+    
     declare type HasMimeType = {
         mimeType: MimeType,
     }
@@ -90,5 +92,5 @@ namespace Kotilogi{
         password: string,
     }
 
-    type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage';
+    type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage' | 'files';
 }

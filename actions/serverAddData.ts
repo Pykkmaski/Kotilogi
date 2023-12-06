@@ -2,35 +2,35 @@
 
 import db from "kotilogi-app/dbconfig";
 import generateId from "kotilogi-app/utils/generateId";
+import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
 
 type ParamType = Kotilogi.PropertyType | Kotilogi.EventType;
 
-export async function serverAddData(data: any, dbTableName: string): Promise<ParamType | null>{
+/**
+ * Runs checks based on what table data is being inserted into, and returns true if ok, false otherwise.
+ * @param data 
+ * @param tableName 
+ */
+
+async function validateData(data: any, tableName: Kotilogi.Table): Promise<boolean>{
+    if(tableName === 'properties'){
+        return await isAllowedToAddProperty(data.refId);
+    }
+
+    return true;
+}
+
+export async function serverAddData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
     try{
         const dataToSave: ParamType = {
             ...data,
         }
 
-        const insertedData: ParamType[] = await db(dbTableName).insert(dataToSave, '*');
+        const ok = await validateData(dataToSave, tableName);
 
-        if(String('propertyImages eventImages').includes(dbTableName)){
-            //In case an image was uploaded, make the first image uploaded the main image by default.
-            const imageData = insertedData[0];
-            const images: {count: number} | undefined = await db(dbTableName).where({refId: imageData.refId}).count('*', {as : 'count'}).first();
-            
-            console.log(imageData, images);
+        if(!ok) throw new Error('Adding of data was rejected!');
 
-            if(images && images.count == 1){
-                //Set the main image id of the refId to be the image id.
-                if(dbTableName === 'propertyImages'){
-                    console.log('Setting property main image...');
-                    await db('properties').where({id: imageData.refId}).update({mainImageId: imageData.id})
-                }
-                else if(dbTableName === 'eventImages'){
-                    await db('propertyEvents').where({id: imageData.refId}).update({mainImageId: imageData.id});
-                }
-            }
-        }
+        const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
 
         return insertedData[0];
     }

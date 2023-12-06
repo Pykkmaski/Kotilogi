@@ -3,84 +3,107 @@
 import { useEffect, useReducer} from "react";
 import GalleryBaseReducer from "./GalleryBaseReducer";
 import style from './gallery.module.scss';
-import { serverGetData } from "kotilogi-app/actions/serverGetData";
+import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import Body from "./Components/Body/Body";
 import Header from "./Components/Header/Header";
 import AddButton from "./Components/AddButton/AddButton";
 import { GalleryContext } from "./GalleryContext";
-import ViewSelector from "./Components/ViewSelector/ViewSelector";
-import ActionSelector from "./Components/ActionSelector/ActionSelector";
-import Entry from "./Components/ActionSelector/Components/Entry/Entry";
-import Modal from "kotilogi-app/components/Modals/Modal";
-import Form from "kotilogi-app/components/Form";
-import AddModal from "./Components/AddModal/AddModal";
+import PageIndicator from "./Components/PageIndicator/PageIndicator";
+import getDataOffset from "./Util/getDataOffset";
+import { GalleryBase } from "./declerations";
 
-export default function GalleryBase(props: GalleryBase.Props){
+export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
     const initialState: GalleryBase.State = {
         data: [],
-        selectedItemIds: [],
+        selectedItems: [],
         showAddModal: false,
+        showEditModal: false,
+        showDeleteModal: false,
         isLoading: true,
         viewType: 'card',
+        error: false,
+        itemInFocus: null,
+        currentPage: 0,
+        searchString: '',
     }
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
 
     const contextValue: GalleryBase.ContextValue = {
         state,
-        contentType: props.contentType,
-        dbTableName: props.dbTableName,
-        refId: props.refId,
-        isLoading: state.isLoading,
+        props,
         dispatch,
+        loadData,
     }
 
-    const buttons = [
-        ...props.headerButtons,
-        <AddButton/>
-    ];
+    function loadData(){
+        dispatch({
+            type: 'toggle_loading',
+            value: true,
+        });
 
-    useEffect(() => {
-        serverGetData(props.dbTableName, {refId: props.refId}, false)
+        serverGetDataOffset(props.tableName, props.query, getDataOffset(state.currentPage, 10), 10)
         .then(data => {
-            if(!data){
-                console.log('No data present!');
-            }
-            else{
-                dispatch({
-                    type: 'set_data',
-                    value: data
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err.message);
+          if(!data){
+            dispatch({
+                type: 'toggle_error',
+                value: true,
+            });
+          }
+          else{
+            dispatch({
+                type: 'set_data',
+                value: data,
+            });
+          }
         })
         .finally(() => {
             dispatch({
                 type: 'toggle_loading',
                 value: false,
             });
-        });''
-    }, []);
+        })
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [state.currentPage, props.query]);
 
     return (
-        <div className={style.galleryContainer}>
-            <GalleryContext.Provider value={contextValue}>
-                {props.children}
-                <AddModal 
-                    headerText={props.addModalOptions.headerText} 
-                    bodyContent={props.addModalOptions.bodyContent}
-                />
+        <GalleryContext.Provider value={contextValue}>
+            <div className={style.galleryContainer}>
+                
+                {
+                    props.AddModal ? <props.AddModal 
+                        show={state.showAddModal} 
+                        onHide={() => dispatch({
+                            type: 'toggle_add_modal',
+                            value: false,
+                    })}
+                    />
+                    :
+                    null
+                }
+
+                {
+                    props.DeleteModal ? <props.DeleteModal
+                        show={state.showDeleteModal}
+                        onHide={() => dispatch({
+                            type: 'toggle_delete_modal',
+                            value: false,
+                        })}
+                    />
+                    :
+                    null
+
+                } 
 
                 <Header
                     title={props.title}
-                    subTitle={props.subTitle}
-                    buttons={buttons}
                 />
 
-                <Body error={props.error}/>
-            </GalleryContext.Provider>
-        </div>
+                <Body/>
+            </div>
+        </GalleryContext.Provider>
     )
 }

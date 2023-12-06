@@ -5,14 +5,16 @@ import {uploadPath} from 'kotilogi-app/uploadsConfig';
 
 export async function GET(req: NextRequest, {params}){
     /*
-        Responds with the image mapped to the id, from the provided database table.
+        Responds with the file mapped to the id.
     */
     try{
-        const {file_id} = params;
         const {searchParams} = new URL(req.url);
-        const dbTableName = searchParams.get('dbTableName');
-        
-        const data = await db(dbTableName).where({id: file_id}).select('fileName').first();
+        const {file_id} = params;
+
+        const tableName = searchParams.get('tableName');
+        if(!tableName) throw new Error('Table name not present in query!');
+
+        const data = await db(tableName).where({id: file_id}).select('fileName').first();
         const filepath = uploadPath + data.fileName;
         const fileBuffer = readFileSync(filepath);
         return new NextResponse(fileBuffer, {

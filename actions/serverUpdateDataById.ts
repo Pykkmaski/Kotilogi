@@ -15,27 +15,17 @@ async function setMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdType, db
     });
 }
 
-async function addEditHistory(data: object, refId: Kotilogi.IdType, dbTableName: string){
-    
-}
+ /**
+  * Updates the data with id in given database tablename and returns the updated data.
+  * 
+  * */
 
 export default async function serverUpdateDataById(newData: object, id: Kotilogi.IdType, dbTableName: string): Promise<object | null>{
-    ///Updates the data with id in given database tablename and returns the updated data.
+   
     try{
-        if('isMainImage' in newData && newData.isMainImage == true){
-            if(dbTableName === 'propertyImages'){
-                await setMainImage(id, (newData as any).refId, 'properties');
-            }
-
-            if(dbTableName === 'eventImages'){
-                await setMainImage(id, (newData as any).refId, 'propertyEvents');
-            }
-
-            delete newData.isMainImage;
-        }
-
-        const updatedProperty: object = await db(dbTableName).where({id}).update(newData, '*');
-        return updatedProperty[0];
+        console.log(newData);
+        const updatedData: object = await db(dbTableName).where({id}).update(newData, '*');
+        return updatedData[0];
     }
     catch(err){
         console.log(err.message);

@@ -49,4 +49,5 @@ Did a workaround and made the edit path a child of the base property_id path.
 - Fix cards not being deselected when the modal close button is pressed.
 - Fix 'no image' text jumping into the corner of a card when the mouse is hovered on top.
 - Fix login error 'undefined'
+- Images load too slowly. Fix this.
 

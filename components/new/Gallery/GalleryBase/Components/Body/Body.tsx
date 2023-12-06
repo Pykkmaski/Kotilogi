@@ -1,35 +1,90 @@
 import Loading from "kotilogi-app/components/Loading/Loading";
 import useGalleryContext from "../../GalleryContext";
-import getCard from "../../Util/getCard";
 import style from './style.module.scss';
+import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import Card from "./Components/Card/Card";
+import FileContainer from "./Components/FileContainer/FileContainer";
+import Error from "../../Error";
+import { GalleryBase } from "../../declerations";
+import InvalidContentError from "./Components/InvalidContentError/InvalidContentError";
+import ListEntry from "./Components/ListEntry/ListEntry";
 
-type BodyProps = {
-    error: JSX.Element,
+function LoadingBody(){
+    return (
+        <div className={style.loadingBody}>
+            <Spinner size="2rem" />
+        </div>
+    );
 }
 
-export default function Body(props: BodyProps){
-    const {state, dbTableName} = useGalleryContext();
+export default function Body(){
+    const {state, props: {contentType, tableName, children, displayStyle}} = useGalleryContext();
 
-    const cards = state.data.map((entry, index: number) => {
-        return getCard(entry, dbTableName, index);
+    const cards = state.isLoading || !state.data ? null : state.data.map((entry, index: number) => {
+        switch(contentType as GalleryBase.ContentType){
+            case 'object': {
+                const destination = (
+                    tableName === 'properties' ? `/auth/properties/new/${entry.id}/info?section=general`
+                    :
+                    undefined
+                );
+                
+                if(displayStyle === 'list') return  <ListEntry item={entry}/>
+
+                return <Card item={entry} key={`gallery-card-${tableName}-${index}`} destination={destination}/>;
+            }
+
+            case 'usage':{
+                return <ListEntry item={entry} key={`gallery-list-entry-${tableName}-${index}`}/>
+            }
+
+            case 'image':
+            case 'file':
+                return <FileContainer item={entry} key={`gallery-file-${tableName}-${index}`}/>
+
+            default: {
+                return <InvalidContentError/>
+            }
+        }
     });
 
-    const loadingMessage = 
-        dbTableName === 'properties' ? 'Ladataan Taloja...' 
-        : 
-        dbTableName === 'propertyEvents' ? 'Ladataan Tapahtumia...'
-        :
-        dbTableName.includes('Images') ? 'Ladataan Kuvia...'
-        :
-        dbTableName.includes('Files') ? 'Ladataan Tiedostoja...'
-        :
-        'Ladataan...';
-        
-    return (
-        <div className={style.galleryBody} style={{gap: state.data.length ? '1rem' : 0}}>
-            {
-                cards.length ? cards : state.isLoading ? <Loading message={loadingMessage}/> : props.error
-            }
+    const extraContent = (
+        <div className={style.extraContent}>
+            {children}
         </div>
-    )
+    );
+
+    const bodyClassName = (
+        displayStyle === 'list' && 'image' !== contentType || 'file' !== contentType ? style.galleryBodyList 
+        :
+        style.galleryBodyGrid 
+        
+    );
+
+    const galleryContent = (
+        <div className={bodyClassName} style={{gap: state.data.length ? '1rem' : 0}}>
+            {cards}
+        </div>
+    );
+
+    const body = (
+        cards && cards.length ?
+        children ?
+        <>
+            {extraContent}
+            {galleryContent}
+        </>
+        :
+        galleryContent
+        :
+        <Error/>
+    );
+    
+    return (
+        state.error ? <h1>Tapahtui odottamaton virhe!</h1>
+        :
+        state.isLoading ? <LoadingBody/>
+        :
+        body
+    );
 }

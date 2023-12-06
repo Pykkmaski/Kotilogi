@@ -7,9 +7,11 @@ type Props = {
     desktopText: string,
     disabled?: boolean,
     loading?: boolean,
+    hidden?: boolean,
     type?: 'button' |'submit',
     className?: string,
     onClick?: () => void,
+    form?: string,
 }
 
 export default function Button(props: Props){
@@ -30,7 +32,14 @@ export default function Button(props: Props){
 
     const BaseButton = ({className, children}) => {
         return (
-            <button type={props.type || 'button'} className={className} onClick={props.onClick} disabled={props.disabled}>
+            <button 
+                type={props.type || 'button'} 
+                className={className} 
+                onClick={props.onClick} 
+                disabled={props.disabled}
+                form={props.form}
+                hidden={props.hidden}
+            >
                 {children}
             </button>
         );

@@ -7,7 +7,7 @@ type Props = {
 }
 
 export default function LinkButton(props: Props){
-    const className = props.className ? `${style.linkButtonContainer} ${props.className}` : style.linkButtonContainer;
+    const className = props.className ? `${style.linkButton} ${props.className}` : style.linkButton;
 
     return (
         <a href={props.href} className={className}>{props.text}</a>

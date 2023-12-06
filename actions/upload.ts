@@ -1,10 +1,12 @@
 "use server";
 
 import {join} from 'path';
-import {writeFile} from 'fs/promises';
+import {writeFile, unlink} from 'fs/promises';
 import { uploadPath, limit } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';
 import generateId from 'kotilogi-app/utils/generateId';
+import { serverAddData } from './serverAddData';
+import serverDeleteFilesByIds from './serverDeleteFilesByIds';
 
 type TargetIdType = 'property_id' | 'event_id';
 
@@ -24,7 +26,14 @@ async function setMainImage(tableName: Kotilogi.Table, refId: Kotilogi.IdType, i
   }
 }
 
-export default async function upload(data: FormData, tableName: Kotilogi.Table): Promise<string | null>{
+
+/**
+ * Uploads files, saved their info into a database table and returns the associated database entry, or null in case of an error.
+ * @param data 
+ * @param tableName The name of the file data containing table.
+ * @returns 
+ */
+export default async function upload(data: FormData, tableName: 'propertyFiles' | 'eventFiles'): Promise<object | null>{
     try{
         const file: File | null = data.get('file') as unknown as File;
         if(!file){
@@ -43,13 +52,28 @@ export default async function upload(data: FormData, tableName: Kotilogi.Table):
     
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
-    
-        //Write the file to disk
+
         const fileName: string = Date.now() + '-' + file.name;
+        
+        //Save the database entry for the file.
+        const fileData = {
+          fileName,
+          mimeType: fileType,
+          refId: data.get('refId'),
+          description: data.get('description'),
+        }
+
+        const result = await serverAddData(fileData, tableName);
+        if(!result) throw {
+          code: 'DATABASE_FAILURE',
+          fileName,
+        }
+
+        //Write the file to disk
         const path: string = join(uploadPath as string, fileName);
         await writeFile(path, buffer);
-        
-        return fileName;
+
+        return result;
     }
     catch(err){
         console.log(err.message);

@@ -4,23 +4,16 @@
     display: flex;
     flex-flow: row;
     width: 100%;
-    gap: 1rem;
+    gap: $medium-gap;
     z-index: 1;
     
     a{
-        color: $primary-color;
+        color: $body-text-color;
         font-weight: 500;
-        padding: 0.5rem;
         border-radius: 5px;
-        transition: background-color 0.2s ease;
 
         &.activated{
-            background-color: $primary-color;
-            color: black;
-
-            &:hover{
-                text-decoration: none !important;
-            }
+            text-decoration: underline;
         }
     }
 }

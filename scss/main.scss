@@ -23,6 +23,14 @@
     color: $text-color;
 }
 
+strong{
+    color: $body-text-color;
+}
+
+.danger{
+    color: $danger-color;
+}
+
 input, select, option{
     color: gray;
 }
@@ -41,11 +49,11 @@ h1, h2{
 }
 
 h1{
-    color: $primary-color;
+    color: $body-text-color;
 }
 
 h2, h3{
-    color: $text-color;
+    color: $body-text-color;
 }
 
 a{
@@ -73,7 +81,7 @@ body, #root{
     margin: 0;
     padding: 0;
 
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
 
     overflow-x: hidden;

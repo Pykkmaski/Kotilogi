@@ -4,10 +4,20 @@ import Link from 'next/link';
 import {signOut, useSession} from 'next-auth/react';
 import Menu from './Menu/Menu';
 import style from './component.module.scss';
-import Logo from 'kotilogi-app/assets/logo_orange.png';
+import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 import MarginContainer from 'kotilogi-app/components/MarginContainer/MarginContainer';
+
+export function Logo(){
+    return (
+        <div className={style.logo} id="app-logo">
+            <Link href="/" id="app-logo-link">
+                <Image src={MainLogo} alt="Kotilogi logo"/>
+            </Link>
+        </div>
+    );
+}
 
 export default function Header(props){
     const {data: session, status} = useSession();
@@ -18,12 +28,8 @@ export default function Header(props){
 
     return(
         <header className={style.header} id="main-header">
-            <div className={style.logo} id="app-logo">
-                <Link href="/" id="app-logo-link">
-                    <Image src={Logo} alt="Kotilogi logo"/>
-                </Link>
-            </div>
-
+            
+            <Logo/>
             {/**Desktop nav */}
             <nav className={style.navDesktop}>
             {
@@ -31,13 +37,12 @@ export default function Header(props){
                 :
                 userIsLoggedIn ?
                 <div className={style.links}>
-                    <span id={style.userEmail}>{userEmail}</span>
                     <Link href="/">Etusivu</Link>
                     <Link href="/auth/properties">Talot</Link>
                     <Link href="/auth/events"></Link>
-                    <button id={style.logoutButton} className="primary" type="button" onClick={async () => {
+                    <Link href="" onClick={async () => {
                         await signOut();
-                    }}>Kirjaudu Ulos</button>
+                    }} className={style.logoutLink}>Kirjaudu Ulos</Link>
                 </div>
                 :
                 <div className={style.links}>

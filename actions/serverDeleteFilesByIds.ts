@@ -4,8 +4,6 @@ import {unlink} from 'fs/promises';
 import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { serverDeleteDataByIds } from './serverDeleteDataByIds';
-import { revalidatePath } from 'next/cache';
-import serverRevalidatePath from './serverRevalidatePath';
 
 export default async function serverDeleteFilesByIds(selectedIds: Kotilogi.IdType[], tableName: Kotilogi.Table): Promise<any | null>{
     /**
@@ -21,15 +19,8 @@ export default async function serverDeleteFilesByIds(selectedIds: Kotilogi.IdTyp
         }
 
         await serverDeleteDataByIds(selectedIds, tableName);
-
-        if(tableName == 'propertyImages'){
-            serverRevalidatePath('/auth/properties');
-        }
-        else if(tableName == 'eventImages'){
-            serverRevalidatePath('/auth/events/[event_id]/info');
-        }
         
-        return true;
+        return selectedIds;
     }
     catch(err){
         console.log(err.message);

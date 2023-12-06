@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "kotilogi-app/*": ["./*"]
+      "kotilogi-app/*": ["./*"],
+      "@/*": ["./*"],
     },
     "lib": [
       "dom",

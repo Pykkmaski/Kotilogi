@@ -1,0 +1,44 @@
+@import 'kotilogi-app/scss/Config';
+@import 'kotilogi-app/scss/Animations';
+
+.cardContainer{
+    @include SlideUpAnimation;
+
+    background: #888;
+
+    display: flex;
+    flex-flow: column;
+    width: 15rem; /*Galleries contain four cards on each row*/
+    border-radius: 7px;
+    height: 100%;
+    transition: border-width 0.2s ease-in-out;
+    position: relative;
+
+    transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
+    box-shadow: 2px 2px 2px 2px #0008;
+}
+
+.deleteModalBody{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    p, strong{
+        color: $body-text-color;
+    }
+
+    p{
+        max-width: 500px;
+    }
+
+    .checkboxContainer{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        input[type=checkbox]{
+            aspect-ratio: 1/1;
+            width: 25px;
+        }
+    }
+}
