@@ -8,6 +8,7 @@ import Error from "../../Error";
 import { GalleryBase } from "../../declerations";
 import InvalidContentError from "./Components/InvalidContentError/InvalidContentError";
 import ListEntry from "./Components/ListEntry/ListEntry";
+import UpdatePlanCard from "./Components/Card/UpdatePlanCard";
 
 function LoadingBody(){
     return (
@@ -64,6 +65,12 @@ export default function Body(){
     const galleryContent = (
         <div className={bodyClassName} style={{gap: state.data.length ? '1rem' : 0}}>
             {cards}
+            {
+                /**If a user is not a pro user and displaying properties, display a card prompting to update their account. */
+                tableName === 'properties' ? <UpdatePlanCard/>
+                :
+                null
+            }
         </div>
     );
 

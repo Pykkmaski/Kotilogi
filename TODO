@@ -1,53 +1,14 @@
-Password reset functionality using json web tokens.
-+ Implement password reset functionality
-+ Implement front page contact form functionality.
-+ Implement reusable chart options to be used in the usage page.
-+ Implement usage page
-+ Implement usage type selector for choosing between different usage types when viewing the usage data
-+ Implement file uploading
-+ Implement image uploading
-+ Implement main image setting on properties
-+ Implement main image setting on events
-+ Implement event page
-- Implement user dashboard
-- Implement property ownership transfer to another user
-+ Implement a reusable button component that displays a spinner when something is loading
-- Fix "window is not defined" error when loading or refreshing the usage page.
-+ Fix all dates not showing up in charts.
-+ Implement events gallery
-+ Implement event files gallery
-+ Implement event images gallery
-+ Implement property images gallery
-+ Implement property files gallery
-+ Implement a one-source-of-truth principle for all data.
-+ Implement loading indicator on the modals when adding data into a gallery.
-- Implement a timeout for data fetching actions.
-+ Implement error images into the new galleries
-+ Disable modal buttons when sending data into a gallery
-The items are not removed from the db if trying to delete them immediately after creation. It only works when first refreshing the page.
-+ Fix delete-galleries not deleting data on the database.
-
-Try removing the foreign key reference
-+ Fix foreign key constraint error when trying to delete something from the property images table.
-
-+ Move data fetching into the base gallery component.
-
-Did a workaround and made the edit path a child of the base property_id path.
-+ Fix routing to wrong url (/info/info) when returning from /info/edit 
-
-+ Fix property address not being filled by default when editing info.
-- Fix cannot destructure property 'filename' of (intermediate value) as it is undefined, when updating properties page.
-+ Fix property values not updating without a refresh when changing them on the edit page.
-+ Fix ability to send password reset emails to unregistered users.
-- Implement feedback for occuring errors when trying to reset passwords.
-- Gallery header: remove title and subtitle. Add that info in the page component.
-+ Fix elements not being interactable in page components.
-- Add a button to the gallery header component to switch between card and list view.
-+ Fix usage list items not updating when deleting.
-+ Fix uploads not actually being deleted. (The name of the file is undefined).
-+ Remove file title from it's upload modal. Use filename instead.
-- Fix cards not being deselected when the modal close button is pressed.
-- Fix 'no image' text jumping into the corner of a card when the mouse is hovered on top.
-- Fix login error 'undefined'
-- Images load too slowly. Fix this.
-
+#Problems. Check when fixed.
+- The file upload modal does not display the logo on chrome. (On render)
+- The price values on the columns in charts are white and cannot be seen.
+- Add warning when leaving an edited tab. Namely the info tab.
+- When adding a property or an event, change the file dropzone to only accept one image, that becomes the main image on upload.
+- Check the validity of zip codes.
+- Add update your plan-button to the properties gallery, if using a regular plan.
+- Add user dashboard button to the main header.
+- Add counter to show free users how long they have left of their subscription.
+- Add new user account email verification.
+- Add Gallery body scrolling to the right and left, with four events visible at a time.
++ The dates on charts do not display correctly.
+- Add indicator to indicate a picture is the main image.
+- Add the same modal as in other galleries to image and file galleries.

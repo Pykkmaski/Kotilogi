@@ -8,11 +8,11 @@ import Chart from "./Chart";
 
 export default function UsageGallery(props: {
     propertyId: Kotilogi.IdType,
-    type: 'heating' | 'water' | 'electric',
+    type: 'heat' | 'water' | 'electric',
 }){
 
     const title = (
-        props.type === 'heating' ? 'Lämmityskulut'
+        props.type === 'heat' ? 'Lämmityskulut'
         :
         props.type === 'water' ? 'Vesikulut'
         :

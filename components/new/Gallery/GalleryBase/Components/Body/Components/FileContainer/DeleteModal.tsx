@@ -6,6 +6,7 @@ import { useState } from "react";
 import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFilesByIds";
 import toast from "react-hot-toast";
 import Button from "kotilogi-app/components/Button/Button";
+import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 
 /**
  * Deletion modal to display before a deletion is executed
@@ -43,6 +44,16 @@ export default function DeleteModal(props: ModalProps & {item: {id: Kotilogi.IdT
             props.onHide();
         }
 
+        //Revalidate the page if on property images or files.
+        if(tableName === 'propertyImages' || tableName === 'propertyFiles'){
+            const path = (
+                contentType === 'image' ? '/auth/properties/new/[property_id]/images'
+                :
+                '/auth/properties/new/[property_id]/files'
+            );
+
+            await serverRevalidatePath(path);
+        }
         setLoading(false);
     }
     

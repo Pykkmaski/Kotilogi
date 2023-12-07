@@ -32,6 +32,7 @@ export default function AddFilesModal(props: ModalProps & {
                 data.append('file', file);
                 data.append('refId', props.item.id);
                 const res = await upload(data, tableName as 'propertyFiles' | 'eventFiles');
+                
                 if(res){
                     numSuccessfulUploads++;
                 }

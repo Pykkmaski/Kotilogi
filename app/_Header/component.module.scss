@@ -27,6 +27,21 @@
         z-index: 4;
     }
 
+    .userIcon{
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        div{
+            color: black;
+        }
+    }
+
     &.open{
         justify-content: center;
     }
@@ -58,6 +73,24 @@
     font-style: italic;
     color: $primary-color;
 }
+
+.userModal{
+    width: 100%;
+    height: 100%;
+
+    .userModalBody{
+        display: flex;
+        flex: 1;
+        nav{
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+            gap: $small-gap;
+            padding: $medium-gap;
+        }
+    }
+}
+
 
 @media screen and (max-width: $mobile-width){
     .header{

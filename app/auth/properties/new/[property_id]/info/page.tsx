@@ -17,6 +17,7 @@ import ExteriorSection from './ExteriorSection';
 import HeatingSection from './HeatingSection';
 import NavBar from 'kotilogi-app/components/NavBar/NavBar';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
+import RoofSection from './RoofSection';
 
 export default function InfoPage(){
     const params = useSearchParams();
@@ -60,8 +61,9 @@ export default function InfoPage(){
             <div className={style.header}>
                 <nav className="overhead">
                     <Link href="?section=general">Yleistiedot</Link>
-                    <Link href="?section=building">Rakennus</Link>
+                    <Link href="?section=building">Julkisivu</Link>
                     <Link href="?section=exterior" hidden={currentData.buildingType === 'Kerrostalo'}>Tontti</Link>
+                    <Link href="?section=roof">Katto</Link>
                     <Link href="?section=interior">Sisätilat</Link>
                     <Link href="?section=heating">Lämmitys</Link>
                 </nav>
@@ -88,6 +90,8 @@ export default function InfoPage(){
                     section === 'building' ? <BuildingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
                     :
                     section === 'heating' ? <HeatingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                    :
+                    section === 'roof' ? <RoofSection currentData={currentData} onChangeHandler={onChangeHandler}/>
                     :
                     null
                 }

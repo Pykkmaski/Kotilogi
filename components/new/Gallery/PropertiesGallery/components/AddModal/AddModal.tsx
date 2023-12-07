@@ -37,7 +37,7 @@ export default function AddModal(props: {
         const addedEvent = await serverAddData(currentData, tableName);
 
        if(!addedEvent){
-            toast.error('Tapahtuman lisääminen epäonnistui!');
+            toast.error('Talon lisääminen epäonnistui!');
        }
        else{
             //Upload the files.
@@ -51,7 +51,7 @@ export default function AddModal(props: {
             
             loadData();
 
-            toast.success('Tapahtuman lisääminen onnistui!');
+            toast.success('Talon lisääminen onnistui!');
        }
 
        setLoading(false);

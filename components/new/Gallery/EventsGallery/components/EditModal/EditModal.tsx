@@ -4,7 +4,7 @@ import Form from "kotilogi-app/components/Form";
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import Button from "kotilogi-app/components/Button/Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ObjectModalBase from "../../../Modals/ObjectModalBase";
 import toast from "react-hot-toast";
 import GalleryBase from "../../../GalleryBase/GalleryBase";
@@ -26,12 +26,6 @@ function AddImagesModal(props: ModalProps & {item: any}): JSX.Element{
 }
 
 function AddPdfsModal(props: ModalProps & {item: any}): JSX.Element{
-
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        console.log('Uploading files');
-    }
-
     return (
         <AddFilesModal
             show={props.show}
@@ -52,25 +46,23 @@ export default function EditModal(props: {
     const {props: {tableName, query}, dispatch}        = useGalleryContext();
     const [loading, setLoading]                        = useState(false);
     const [currentSection, setCurrentSection]          = useState<'images' | 'files'>('images');
-    const [currentData, setCurrentData]                = useState(props.item);
+    const data                                         = useRef(props.item);
 
-    if(!currentData) return;
+    if(!data.current) return;
 
     const onChangeHandler = (e) => {
-        setCurrentData(prev => {
-            return {
-                ...prev,
-                [e.target.name] : e.target.value,
-                refId: query.refId,
-            }
-        });
+        data.current = {
+            ...data.current,
+            [e.target.name] : e.target.value,
+            refId: query.refId,
+        };
     }
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const updateResult = await serverUpdateDataById(currentData, currentData.id, tableName);
+        const updateResult = await serverUpdateDataById(data.current, data.current.id, tableName);
         if(!updateResult){
             toast.error('Tapahtuman päivitys epäonnistui!');
         }
@@ -89,7 +81,7 @@ export default function EditModal(props: {
 
     const modalId = `event-edit-modal-${props.item.id}`;
     const formId = `form-${modalId}`;
-    const event = currentData;
+    const event = data.current;
 
     if(!event) return;
     
@@ -147,8 +139,7 @@ export default function EditModal(props: {
                                 {...HOCProps}
                                 item={props.item}
                             />
-                        )
-                        
+                        )  
                     }}
                     
                 />
@@ -195,7 +186,7 @@ export default function EditModal(props: {
 
             <Button
                 className="primary"
-                desktopText="Päivitä"
+                desktopText="Tallenna"
                 type="submit"
                 form={formId}
                 loading={loading}

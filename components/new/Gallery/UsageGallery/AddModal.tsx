@@ -54,7 +54,7 @@ export default function AddModal(props: {
         <Modal show={props.show} onHide={props.onHide} id={modalId}>
             <Modal.Header>
                 {
-                    props.type === 'heating' ? 'Lisää lämmitystieto'
+                    props.type === 'heat' ? 'Lisää lämmityskulutieto'
                     :
                     props.type === 'water' ? 'Lisää veden kulutustieto'
                     :

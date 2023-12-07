@@ -16,7 +16,7 @@ export default async function UsagePage({params}){
         <>
             <div className={style.header}>
                 <nav className="overhead">
-                    <Link href="?data=heating">Lämmitys</Link>
+                    <Link href="?data=heat">Lämmitys</Link>
                     <Link href="?data=water">Vesi</Link>
                     <Link href="?data=electric">Sähkö</Link>
                 </nav>

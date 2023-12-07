@@ -54,7 +54,7 @@ declare namespace GalleryBase{
         /**
          * Query object passed to knex.
          */
-        query: {refId: Kotilogi.IdType, mimeType?: Kotilogi.MimeType, type?: 'heating' | 'water' | 'electric'},
+        query: {refId: Kotilogi.IdType, mimeType?: Kotilogi.MimeType, type?: 'heat' | 'water' | 'electric'},
 
         /**
          * For development purposes, Explicitly state this gallery is unsupported.

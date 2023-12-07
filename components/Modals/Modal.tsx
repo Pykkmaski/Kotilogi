@@ -51,7 +51,7 @@ Modal.Header = Header;
 const Title = (props) => <div className="modal-title">{props.children}</div>
 Modal.Title = Title;
 
-const Body = (props) => {
+const Body = (props: {className?: string, children?: React.ReactNode}) => {
     const baseClassName = 'modal-body';
     const className = props.className ? `${baseClassName} ${props.className}` : baseClassName;
     

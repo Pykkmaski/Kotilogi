@@ -15,7 +15,7 @@ export default function NavBar(){
         <nav className={style.sectionNav}>
             <IconLink imageSrc={InfoIcon} href='info?section=general'>Tiedot</IconLink>
             <IconLink imageSrc={eventIcon} href="events">Tapahtumat</IconLink>
-            <IconLink imageSrc={usageIcon} href="usage?data=heating">Kulutustiedot</IconLink>
+            <IconLink imageSrc={usageIcon} href="usage?data=heat">Kulutustiedot</IconLink>
             <IconLink imageSrc={imageIcon} href="images">Kuvat</IconLink>
             <IconLink imageSrc={fileIcon} href="files">Tiedostot</IconLink>
 

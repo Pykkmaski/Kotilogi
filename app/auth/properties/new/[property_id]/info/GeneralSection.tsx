@@ -21,6 +21,19 @@ export default function GeneralSection({currentData, onChangeHandler}){
             </Form.Group>
 
             <Form.Group>
+                <label>Rakennustyyppi</label>
+                <select onChange={onChangeHandler} name="buildingType">
+                    {
+                        buildingTypes.map((val, index: number) => {
+                            return (
+                                <option value={val} selected={val === currentData.buildingType} key={`option-${index}`}>{val}</option>
+                            );
+                        })
+                    }
+                </select>
+            </Form.Group>
+
+            <Form.Group>
                 <label>Energialuokka</label>
                 <select onChange={onChangeHandler} name="energyClass">
                     {
@@ -30,6 +43,14 @@ export default function GeneralSection({currentData, onChangeHandler}){
                             );
                         })
                     }
+                </select>
+            </Form.Group>
+
+            <Form.Group>
+                <label>Autotalli</label>
+                <select name="hasGarage" onChange={onChangeHandler}>
+                    <option value={1} selected={currentData.hasGarage == true}>Kyllä</option>
+                    <option value={0} selected={currentData.hasGarage == false}>Ei</option>
                 </select>
             </Form.Group>
         </> 

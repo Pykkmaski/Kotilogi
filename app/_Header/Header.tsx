@@ -8,6 +8,10 @@ import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 import MarginContainer from 'kotilogi-app/components/MarginContainer/MarginContainer';
+import AccountIcon from '@/assets/user.png';
+import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
+import { useState } from 'react';
+import Button from 'kotilogi-app/components/Button/Button';
 
 export function Logo(){
     return (
@@ -16,6 +20,52 @@ export function Logo(){
                 <Image src={MainLogo} alt="Kotilogi logo"/>
             </Link>
         </div>
+    );
+}
+
+function UserModal(props: ModalProps){
+    return (
+        <Modal show={props.show} onHide={props.onHide} id={props.id} className={style.userModal}>
+            <Modal.Header>Käyttäjätili</Modal.Header>
+
+            <Modal.Body className={style.userModalBody}>
+                <nav className={style.bodyNav}>
+                    <span>Asetukset</span>
+                    <span>Kirjaudu Ulos</span>
+                </nav>
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button
+                    className="secondary"
+                    onClick={props.onHide}
+                    desktopText='Poistu'
+                />
+            </Modal.Footer>
+        </Modal>
+    )
+}
+
+function UserIcon(props: {
+    email?: string | null, 
+}){
+    const [showModal, setShowModal] = useState(false);
+
+    const content = (
+        props.email ? [props.email[0].toUpperCase(), props.email[1].toUpperCase()]
+        :
+        null
+    );
+
+    return (
+        <>
+            <UserModal show={showModal} onHide={() => setShowModal(false)} id='user-modal'/>
+            <div className={style.userIcon}>
+                <div>
+                    {content}
+                </div>
+            </div>
+        </>
     );
 }
 
@@ -43,6 +93,7 @@ export default function Header(props){
                     <Link href="" onClick={async () => {
                         await signOut();
                     }} className={style.logoutLink}>Kirjaudu Ulos</Link>
+                    <UserIcon email={userEmail}/>
                 </div>
                 :
                 <div className={style.links}>

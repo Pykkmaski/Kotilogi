@@ -67,9 +67,9 @@ export default function ImageContainer(props: Props){
 
             <div className={style.title}>
                 {
-                    item.time ? 
+                    tableName === 'propertyEvents' ? 
                     <>
-                        <span className={style.time}>{new Date(item.time).toLocaleDateString('fi-FI')}</span> 
+                        <span className={style.time}>{item.time !== null ? new Date(item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää'}</span> 
                         <br/>
                     </>
                     

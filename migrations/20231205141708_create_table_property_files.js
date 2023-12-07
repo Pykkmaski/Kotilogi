@@ -13,7 +13,7 @@ exports.up = function(knex) {
         .notNullable()
         .references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE');
 
-        tbl.string('mimeType').notNullable().checkIn(['image/jpeg', 'application/jpeg']);
+        tbl.string('mimeType').notNullable().checkIn(['image/jpeg', 'application/pdf']);
         tbl.string('fileName', 100).notNullable();
         tbl.string('title');
         tbl.text('description');

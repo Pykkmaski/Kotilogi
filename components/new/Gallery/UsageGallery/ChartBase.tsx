@@ -17,7 +17,7 @@ type ChartBaseProps = {
 export default function ChartBase(props: ChartBaseProps){
 
     const categories: string[] = props.rawdata.map((item: Kotilogi.UsageType) => {
-        return new Date(parseInt(item.time)).toLocaleDateString('fi-FI');
+        return new Date(item.time).toLocaleDateString('fi-FI');
     });
 
     const options: ApexOptions = {

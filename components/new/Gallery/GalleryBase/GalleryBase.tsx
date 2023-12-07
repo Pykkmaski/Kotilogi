@@ -43,7 +43,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         });
 
         serverGetDataOffset(props.tableName, props.query, getDataOffset(state.currentPage, 10), 10)
-        .then(data => {
+        .then((data: any[]) => {
           if(!data){
             dispatch({
                 type: 'toggle_error',
@@ -51,6 +51,23 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
             });
           }
           else{
+            //Sort the data by the time column, if one is present.
+            data = data.sort((a, b) => {
+                if('time' in a && 'time' in b){
+                    const ams = new Date(a.time).getTime();
+                    const bms = new Date(b.time).getTime();
+                    
+                    switch(props.tableName){
+                        case 'usage': return ams - bms;
+
+                        default: return bms - ams;
+                    }
+                }
+                else{
+                    return 0;
+                }
+            });
+
             dispatch({
                 type: 'set_data',
                 value: data,

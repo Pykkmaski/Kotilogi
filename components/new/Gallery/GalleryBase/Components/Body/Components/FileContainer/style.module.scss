@@ -45,10 +45,14 @@
         }
     }
 
-    .file{
+    .file, .mainImage{
         width: 100%;
         height: 100%;
         object-fit: contain;
+    }
+
+    .mainImage{
+        border: 2px solid $primary-color;
     }
 
     &:hover{

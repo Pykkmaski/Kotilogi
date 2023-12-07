@@ -5,19 +5,6 @@ export default function BuildingSection({currentData, onChangeHandler}){
     return (
         <>
             <Form.Group>
-                <label>Rakennustyyppi</label>
-                <select onChange={onChangeHandler} name="buildingType">
-                    {
-                        buildingTypes.map((val, index: number) => {
-                            return (
-                                <option value={val} selected={val === currentData.buildingType} key={`option-${index}`}>{val}</option>
-                            );
-                        })
-                    }
-                </select>
-            </Form.Group>
-            
-            <Form.Group>
                 <label>Rakennusmateriaali</label>
                 <select onChange={onChangeHandler} name="buildingMaterial">
                     {

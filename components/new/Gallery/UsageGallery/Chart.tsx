@@ -6,7 +6,7 @@ export default function ElectricalUsageChart(props: {
     type: string,
     title: string,
 }){
-    const color = props.type === 'heating' ? '#f00' : props.type === 'water' ? '#00f' : '#ff0';
+    const color = props.type === 'heat' ? '#f00' : props.type === 'water' ? '#00f' : '#ff0';
     const {state} = useGalleryContext();
     
     const options = {

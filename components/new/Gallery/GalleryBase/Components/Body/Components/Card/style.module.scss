@@ -1,7 +1,7 @@
 @import 'kotilogi-app/scss/Config';
 @import 'kotilogi-app/scss/Animations';
 
-.cardContainer{
+.cardContainer, .updatePlanCard{
     @include SlideUpAnimation;
 
     background: #888;
@@ -10,12 +10,26 @@
     flex-flow: column;
     width: 15rem; /*Galleries contain four cards on each row*/
     border-radius: 7px;
-    height: 100%;
+    height: 27rem;
     transition: border-width 0.2s ease-in-out;
     position: relative;
 
     transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.25s ease-out;
-    box-shadow: 2px 2px 2px 2px #0008;
+    $shadow-distance: 0.25rem;
+
+    box-shadow: $shadow-distance $shadow-distance $shadow-distance $shadow-distance #0008;
+}
+
+.updatePlanCard{
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px dashed $body-text-color;
+    padding: $medium-gap;
+    p{
+        text-align: center;
+        color: #555;
+    }
 }
 
 .deleteModalBody{
