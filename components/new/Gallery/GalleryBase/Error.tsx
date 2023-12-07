@@ -38,7 +38,7 @@ export default function Error(){
         }
         :
         //The table must be a usage tabl. The table has different data based on the query object passed. Determine message based on that.
-        query.type === 'heating' ?
+        query.type === 'heat' ?
         {
             errorImage: BoltIcon,
             title: 'Ei Lämmityskulutietoja',
