@@ -6,7 +6,6 @@
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
-    padding: $small-gap;
     border: 1px solid #DDD;
     width: 100%;
     background: #DDD;
@@ -20,8 +19,15 @@
             transform: translateX(0);
             opacity: 1;
         }
+
+        .title{
+            width: calc(100% / 1.61803);
+        }
     }
 
+    .menu, .title{
+        padding: $small-gap;
+    }
     .menu{
         position: absolute;
         top: 0;
@@ -42,5 +48,16 @@
             color: $body-text-color;
             cursor: pointer;
         }
+    }
+
+    .title{
+        width: calc(100% / 1.61803);
+        background: #888;
+        color: white;
+        font-weight: bold;
+        font-size: 1.61803rem;
+        border-top-right-radius: 1.61803rem;
+        border-bottom-right-radius: 1.61803rem;
+        transition: width 0.2s ease;
     }
 }

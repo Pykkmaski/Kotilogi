@@ -29,7 +29,7 @@ export default function ListEntry(props: {
                         });
                     }}>Poista</span>
                 </div>
-                <span className={style.title}>{props.item.price}</span>
+                <span className={style.title} data-price={props.item.price}>{props.item.price}€</span>
             </div>
         </>
     );
