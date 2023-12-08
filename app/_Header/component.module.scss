@@ -36,9 +36,35 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        position: relative;
 
         div{
             color: black;
+        }
+
+        .userMenu{
+            $menu-width: 300px;
+
+            width: $menu-width;
+
+            position: absolute;
+            top: calc(100% * 1.25);
+            right: 0;
+            border: 1px solid #DDD;
+            background: $body-color;
+            box-shadow: 2px 2px 2px 2px #0004;
+
+            nav{
+                display: flex;
+                flex-flow: column;
+                gap: $small-gap;
+                padding: 1rem;
+
+                a, .logoutLink{
+                    color: $body-text-color;
+                    font-weight: normal;
+                }
+            }
         }
     }
 
@@ -62,6 +88,9 @@
 
 .logoutLink{
     cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
 }
 
 #logoutButton{

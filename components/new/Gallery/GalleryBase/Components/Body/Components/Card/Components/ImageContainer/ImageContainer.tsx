@@ -2,16 +2,8 @@ import { useState } from "react";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { useCardContext } from "../../CardContext";
 import style from './style.module.scss';
-import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
-import EventsMenu from "./EventsMenu";
-import PropertiesMenu from "./PropertiesMenu";
 import useGalleryContext from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryContext";
-
-type Props = {
-    imageUrl: string,
-    title: string,
-}
 
 export type MenuProps = {
     showMenu: boolean,
@@ -19,28 +11,16 @@ export type MenuProps = {
     router: AppRouterInstance,
 }
 
-
-function getMenu(dbTableName: Kotilogi.Table): React.FC<MenuProps> | null{
-    switch(dbTableName){
-        case 'properties':
-           return PropertiesMenu;
-
-        case 'propertyEvents':
-            return EventsMenu;
-
-        default: return null;
-    }
+type Props = {
+    imageUrl: string,
+    title: string,
 }
 
 export default function ImageContainer(props: Props){
-    const {menuOpen, setMenuOpen, item} = useCardContext();
+    const {menuOpen, setMenuOpen, props: {item, OverlayMenu}} = useCardContext();
     const [imageLoading, setImageLoading] = useState(true);
 
-    const {props: {contentType, tableName}} = useGalleryContext();
-
-    const router = useRouter();
-
-    const Menu = getMenu(tableName as Kotilogi.Table);
+    const {props: {tableName}} = useGalleryContext();
 
     const imageOnLoadHandler = (e) => {
         setImageLoading(false);
@@ -52,17 +32,11 @@ export default function ImageContainer(props: Props){
     }
 
     return (
-        <div 
-            className={style.imageContainer} 
-            onMouseEnter={() => setMenuOpen(true)} 
-            onMouseLeave={() => setMenuOpen(false)}
-            >
-            
+        <div className={style.imageContainer} onMouseEnter={() => setMenuOpen(true)} onMouseLeave={() => setMenuOpen(false)}>
             {
-                Menu ? <Menu showMenu={menuOpen} id={item.id} router={router} /> : null
+                OverlayMenu ? <OverlayMenu show={menuOpen}/> : null
             }
             
-
             <div className={style.gradient}/>
 
             <div className={style.title}>

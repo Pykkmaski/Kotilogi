@@ -1,9 +1,8 @@
 import {SetStateAction, createContext, useContext} from 'react';
 
 export type CardContextValue = {
+    props,
     isSelected: boolean,
-    item: any,
-    dispatch: any,
     setMenuOpen: any,
     setShowEditModal: React.Dispatch<SetStateAction<boolean>>,
     setShowDeleteModal: React.Dispatch<SetStateAction<boolean>>,

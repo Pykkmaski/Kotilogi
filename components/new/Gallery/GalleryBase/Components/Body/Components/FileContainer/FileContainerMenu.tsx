@@ -24,7 +24,7 @@ export default function FileContainerMenu(props: {
     item: any,
 }){
 
-    const {props: {tableName, contentType}}     = useGalleryContext();
+    const {props: {tableName, contentType}, reloadItem}     = useGalleryContext();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const buttonClassName = style.controlButton;
@@ -50,15 +50,7 @@ export default function FileContainerMenu(props: {
                 }
                 else{
                     toast.success('Pääkuva asetettu onnistuneesti!');
-                    const path = (
-                        refType === 'property' ? '/auth/properties/'
-                        :
-                        refType === 'event' ? '/auth/properties/new/[property_id]/events'
-                        :
-                        ''
-                    );
-
-                    await serverRevalidatePath(path);
+                    reloadItem(props.item.id);
                 }
 
             }}>Aseta pääkuvaksi</span>

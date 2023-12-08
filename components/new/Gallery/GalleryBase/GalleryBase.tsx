@@ -3,7 +3,7 @@
 import { useEffect, useReducer} from "react";
 import GalleryBaseReducer from "./GalleryBaseReducer";
 import style from './gallery.module.scss';
-import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
+import { serverGetDataById, serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import Body from "./Components/Body/Body";
 import Header from "./Components/Header/Header";
 import AddButton from "./Components/AddButton/AddButton";
@@ -29,11 +29,20 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
 
-    const contextValue: GalleryBase.ContextValue = {
-        state,
-        props,
-        dispatch,
-        loadData,
+    
+
+    function reloadItem(id: Kotilogi.IdType){
+        serverGetDataById(id, props.tableName)
+        .then(data => {
+            console.log('Got updated data')
+            dispatch({
+                type: 'update_item',
+                value: data,
+            });
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
     }
 
     function loadData(){
@@ -85,6 +94,13 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     useEffect(() => {
         loadData();
     }, [state.currentPage, props.query]);
+
+    const contextValue: GalleryBase.ContextValue = {
+        state,
+        props,
+        dispatch,
+        reloadItem,
+    }
 
     return (
         <GalleryContext.Provider value={contextValue}>

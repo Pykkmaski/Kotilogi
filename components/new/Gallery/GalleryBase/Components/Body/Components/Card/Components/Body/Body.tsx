@@ -3,7 +3,7 @@ import Menu from "../Menu/Menu";
 import style from './style.module.scss';
 
 export default function Body(){
-    const {item} = useCardContext();
+    const {props:{item}} = useCardContext();
 
     return (
         <div className={style.container}>

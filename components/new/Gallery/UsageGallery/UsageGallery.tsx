@@ -1,10 +1,19 @@
 'use client';
 
-import { useEffect, useState } from "react";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import AddModal from "./AddModal";
-import HeatingUsageChart from "./HeatingUsageChart";
 import Chart from "./Chart";
+import style from './style.module.scss';
+
+function ItemComponent(props: {
+    item: any,
+}){
+    return (
+        <div className={style.item}>
+            <span>{props.item.price}€</span>
+        </div>
+    );
+}
 
 export default function UsageGallery(props: {
     propertyId: Kotilogi.IdType,
@@ -40,6 +49,7 @@ export default function UsageGallery(props: {
                 )
                 
             }}
+            ItemComponent={ItemComponent}
         >
             <Chart title={title} type={props.type}/>
         </GalleryBase>

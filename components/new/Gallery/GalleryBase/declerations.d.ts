@@ -68,6 +68,14 @@ declare namespace GalleryBase{
          */
 
         displayStyle?: 'grid' | 'list';
+
+        /**
+         * The element representing the individual data contained by the gallery.
+         */
+
+        ItemComponent: React.FC<{
+            item: any,
+        }>
     }
     
     declare type CardProps = {
@@ -79,7 +87,7 @@ declare namespace GalleryBase{
         state: State,
         props: Props & {children?: React.ReactNode},
         dispatch: React.Dispatch,
-        loadData: () => void,
+        reloadItem: (id: Kotilogi.IdType) => void,
     }
 
     declare type State = HasData & {

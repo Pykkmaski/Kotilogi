@@ -1,0 +1,16 @@
+@import '@/scss/Config';
+
+.itemElement{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: $medium-gap;
+    width: 100%;
+    height: 50px;
+    background: #DDD;
+
+    span{
+        color: black;
+    }
+}

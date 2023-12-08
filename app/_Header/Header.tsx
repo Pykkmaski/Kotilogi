@@ -31,7 +31,7 @@ function UserModal(props: ModalProps){
             <Modal.Body className={style.userModalBody}>
                 <nav className={style.bodyNav}>
                     <span>Asetukset</span>
-                    <span>Kirjaudu Ulos</span>
+                    <span onClick={async () => await signOut()}>Kirjaudu Ulos</span>
                 </nav>
             </Modal.Body>
 
@@ -50,6 +50,7 @@ function UserIcon(props: {
     email?: string | null, 
 }){
     const [showModal, setShowModal] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
 
     const content = (
         props.email ? [props.email[0].toUpperCase(), props.email[1].toUpperCase()]
@@ -59,8 +60,19 @@ function UserIcon(props: {
 
     return (
         <>
-            <UserModal show={showModal} onHide={() => setShowModal(false)} id='user-modal'/>
-            <div className={style.userIcon}>
+            <div className={style.userIcon} onClick={() => setShowMenu(prev => !prev)}>
+                <div 
+                    className={style.userMenu} 
+                    hidden={!showMenu} 
+                    onMouseLeave={() => setShowMenu(false)}
+                >
+                    <nav>
+                        <Link href="/">Etusivu</Link>
+                        <Link href="/auth/properties">Talot</Link>
+                        <Link href="" hidden={true}>Tilin Asetukset</Link>
+                        <span className={style.logoutLink} onClick={async () => await signOut()}>Kirjaudu Ulos</span>
+                    </nav>
+                </div>
                 <div>
                     {content}
                 </div>
@@ -87,18 +99,11 @@ export default function Header(props){
                 :
                 userIsLoggedIn ?
                 <div className={style.links}>
-                    <Link href="/">Etusivu</Link>
-                    <Link href="/auth/properties">Talot</Link>
-                    <Link href="/auth/events"></Link>
-                    <Link href="" onClick={async () => {
-                        await signOut();
-                    }} className={style.logoutLink}>Kirjaudu Ulos</Link>
                     <UserIcon email={userEmail}/>
                 </div>
                 :
                 <div className={style.links}>
                     <Link href="/">Etusivu</Link>
-                    <Link href="/pricing">Hinnasto</Link>
                     <Link href="/login">Kirjaudu</Link>
                     <Link href="/register">Rekisteröidy</Link>
                 </div>

@@ -1,8 +1,10 @@
+import useGalleryContext from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryContext";
 import { useCardContext } from "../../CardContext";
 import style from './style.module.scss';
 
 export default function Footer(){
-    const {isSelected, dispatch, item, setMenuOpen, menuOpen} = useCardContext();
+    const {isSelected, props: {item}, setMenuOpen, menuOpen} = useCardContext();
+    const {dispatch} = useGalleryContext();
     
     const cogClassName = menuOpen ? `${style.cogImg} ${style.open}` : style.cogImg;
 

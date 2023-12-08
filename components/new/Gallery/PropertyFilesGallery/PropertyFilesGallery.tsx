@@ -21,6 +21,7 @@ export default function PropertyFilesGallery(props: {
                 refId: props.propertyId,
                 mimeType: 'application/pdf',
             }}
+            displayStyle="list"
             AddModal={(HOCProps: ModalProps & {id: Kotilogi.IdType}) => {
                 return (
                     <AddFilesModal

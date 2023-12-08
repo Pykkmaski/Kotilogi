@@ -1,17 +1,15 @@
 import Button from "kotilogi-app/components/Button/Button";
-import HoverOverlay from "../HoverOverlay/HoverOverlay";
-import { MenuProps } from "./ImageContainer";
-import { useCardContext } from "../../CardContext";
-import { useState } from "react";
 import useGalleryContext from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryContext";
-import { truncate } from "cypress/types/lodash";
+import { OverlayMenuProps } from "../../../GalleryBase/Components/Body/Components/Card/Card";
+import HoverOverlay from "../../../GalleryBase/Components/Body/Components/Card/Components/HoverOverlay/HoverOverlay";
+import { useCardContext } from "../../../GalleryBase/Components/Body/Components/Card/CardContext";
 
-export default function EventsMenu(props: MenuProps){
+export default function EventsMenu(props: OverlayMenuProps){
     const {dispatch, props: {DeleteModal}} = useGalleryContext();
-    const {setMenuOpen, setShowEditModal, item} = useCardContext();
+    const {setMenuOpen, setShowEditModal, props: {item}} = useCardContext();
 
     return (
-        <HoverOverlay visible={props.showMenu}>
+        <HoverOverlay visible={props.show}>
             <Button
                 className="primary"
                 desktopText="Avaa"

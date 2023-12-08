@@ -1,11 +1,16 @@
 @import 'kotilogi-app/scss/Config';
 
-.navBarContainer{
+@mixin DefaultAttributes{
     display: flex;
-    flex-flow: row;
-    width: 100%;
     gap: $medium-gap;
     z-index: 1;
+}
+
+.containerHorizontal{
+    @include DefaultAttributes;
+
+    flex-flow: row;
+    width: 100%;
     
     a{
         color: $body-text-color;
@@ -16,6 +21,12 @@
             text-decoration: underline;
         }
     }
+}
+
+.containerVertical{
+    @include DefaultAttributes;
+    flex-flow: column;
+    height: 100%;
 }
 
 @media screen and (max-width: 1000px){

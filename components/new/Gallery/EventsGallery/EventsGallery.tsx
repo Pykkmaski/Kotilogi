@@ -4,6 +4,18 @@ import GalleryBase from '@/components/new/Gallery/GalleryBase/GalleryBase';
 import AddModal from './components/AddModal/AddModal';
 import DeleteModal from './components/DeleteModal/DeleteModal';
 import EditModal from './components/EditModal/EditModal';
+import Card from '../GalleryBase/Components/Body/Components/Card/Card';
+import EventsMenu from './components/OverlayMenu/EventsMenu';
+
+function ItemComponent(props: {
+    item: any
+}){
+    return <Card 
+        item={props.item}
+        OverlayMenu={EventsMenu}
+    />
+}
+
 
 type EventsGalleryProps = {
     propertyId: string
@@ -23,6 +35,7 @@ export default function EventsGallery(props: EventsGalleryProps){
             DeleteModal={DeleteModal}
             EditModal={EditModal}
             key={'event-gallery'}
+            ItemComponent={ItemComponent}
        />
     )
 }

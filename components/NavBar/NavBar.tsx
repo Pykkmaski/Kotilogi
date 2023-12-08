@@ -1,60 +1,53 @@
-"use client";
-
-import { useEffect, useRef } from 'react';
-import style from './style.module.scss';
-import { usePathname } from 'next/navigation';
+'use client';
 import { useSearchParams } from 'next/navigation';
+import style from './style.module.scss';
 import React from 'react';
+import Link, { LinkProps } from 'next/link';
 
 type Props = {
-    id: string,
-    children: React.ReactNode,
+    /**
+     * The direction in which the links inside the navbar will be distributed.
+     */
+    direction: 'vertical' | 'horizontal',
+
+    /**
+     * The name of the query inside the url which defines the selected-status of a link.
+     */
+    navSource: string,
+    className?: string,
+    links: JSX.Element[],
 }
 
-export default function NavBar(props: Props){
-    const firstRender = useRef(true);
-    const pathname = usePathname();
- 
-    useEffect(() => {
-        const links = document.querySelectorAll(`#${props.id} a`);
-        if(firstRender.current === true){
-            /**
-             * Make the first nav element activated by default on the first render.
-             * If there are searchParams, use those primarily. Otherwise use the end of the pathname.
-             */
+/**
+ * A navbar component, where each link is highlighted based on the current path of the page.
+ * @param props 
+ * @returns 
+ */
+export const NavBar: React.FC<Props> = (props) => {
+    
+    const searchParams = useSearchParams();
+    const currentNavSource = searchParams.get(props.navSource);
 
-            const section = pathname.split('/').at(-1);
-            const linksAsArray = Array.from(links);
-            const element = linksAsArray.find(item => item.getAttribute('href') === section);
-
-            //Default the selection to the first element in case no section matches.
-            const index = element ? linksAsArray.indexOf(element) : 0;
-
-            links[index].classList.add(style.activated);
-            firstRender.current = false;
+    props.links.forEach(link => {
+        const linkHref = new URL(link.props.href);
+        const navParam = linkHref.searchParams.get(props.navSource);
+        if(navParam === currentNavSource){
+            link.props.className = style.selected;
         }
+    });
 
-        const clickFunction = (e) => {
-            links.forEach(link => {
-                if(link.classList.contains(style.activated)){
-                    link.classList.remove(style.activated);
-                }
-            });
-
-            e.target.classList.add(style.activated);
-        }
-
-        links.forEach((link, index: number) => {
-            link.addEventListener('click', clickFunction);
-        });
-
-        //Add cleanup function
-        return () => links.forEach(link => link.removeEventListener('click', clickFunction))
-    }, []);
-
-    return (
-        <nav className={style.navBarContainer} id={props.id}>
-            {props.children}
-        </nav>
-    );
+    if(props.direction === 'horizontal'){
+        return (
+            <nav className={style.containerHorizontal}>
+                {props.links}
+            </nav>
+        );
+    }
+    else{
+        return (
+            <nav className={style.containerVertical}>
+                {props.links}
+            </nav>
+        );
+    }
 }

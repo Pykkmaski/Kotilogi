@@ -1,7 +1,6 @@
 import style from './style.module.scss';
 import { useEffect, useState } from "react";
 import NextImage from 'next/image';
-import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import useGalleryContext from '../../../../GalleryContext';
 import FileContainerMenu from './FileContainerMenu';
 import serverImageIsMainImage from 'kotilogi-app/actions/serverImageIsMainImage';
@@ -28,9 +27,9 @@ export default function FileContainer(props: {
     
     useEffect(() => {
         const targetTableName = (
-            tableName === 'propertyImages' ? 'properties'
+            tableName === 'propertyFiles' ? 'properties'
             :
-            tableName === 'eventImages' ? 'propertyEvents'
+            tableName === 'eventFiles' ? 'propertyEvents'
             :
             null
         );
@@ -41,7 +40,7 @@ export default function FileContainer(props: {
             setIsMainImage(result);
         })
         .catch(err => console.log(err.message));
-    });
+    }, []);
 
     var content: JSX.Element | null = null;
 

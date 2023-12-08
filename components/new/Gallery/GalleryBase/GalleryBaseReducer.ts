@@ -61,8 +61,10 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             const updatedData = [...state.data];
             const indexOfItemToUpdate = updatedData.findIndex(item => item.id === action.value.id);
 
+            
             if(indexOfItemToUpdate > -1){
                 updatedData[indexOfItemToUpdate] = action.value;
+                console.log('item updated.')
             }
 
             return {

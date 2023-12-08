@@ -8,12 +8,26 @@ import ImageContainer from "./Components/ImageContainer/ImageContainer";
 import Body from "./Components/Body/Body";
 import style from './style.module.scss';
 import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/DeleteModal";
+import Spinner from "kotilogi-app/components/Spinner/Spinner";
 
-export default function Card(props: {
-    item: Kotilogi.ItemType & {fileName?: string},
+export type OverlayMenuProps = {
+    show: boolean,
+}
+
+export type Props = {
+    item: Kotilogi.ItemType & {fileName?: string, loading?: boolean},
     destination?: string,
-}){
-    const {state, dispatch, props: {EditModal, DeleteModal, tableName}}    = useGalleryContext();
+
+    /**
+     * The menu displayed when the mouse is hovered over the card.
+     */
+    OverlayMenu?: React.FC<{
+        show: boolean,
+    }>,
+}
+
+export default function Card(props: Props){
+    const {state, props: {EditModal, tableName}} = useGalleryContext();
 
     //Initialize the cards selected state to true, if the item is included in the selected items list of the gallery.
     const [isSelected, setIsSelected] = useState(
@@ -24,12 +38,6 @@ export default function Card(props: {
     const [showEditModal, setShowEditModal]                     = useState(false);
     const [showDeleteModal, setShowDeleteModal]                 = useState(false);
 
-    useEffect(() => {
-        setIsSelected(
-            state.selectedItems.map(item => item.id).includes(props.item.id)
-        );
-    }, [state.selectedItems]); //selectedItems is a reference to an object. This probably doesn't work.
-
     const imageSrcTable = tableName === 'properties' ? 'propertyFiles' : tableName === 'propertyEvents' ? 'eventFiles' : null;
     const imageUrl = (
         'mainImageId' in props.item ? 
@@ -37,11 +45,16 @@ export default function Card(props: {
         :
         `/api/files/${props.item.id}?tableName=${imageSrcTable}`
     );
+    
+    useEffect(() => {
+        setIsSelected(
+            state.selectedItems.map(item => item.id).includes(props.item.id)
+        );
+    }, [state.selectedItems]); //selectedItems is a reference to an object. This probably doesn't work.
 
     const contextValue: CardContextValue = {
+        props,
         isSelected,
-        item: props.item,
-        dispatch,
         setMenuOpen,
         menuOpen,
         setShowEditModal,
@@ -64,12 +77,19 @@ export default function Card(props: {
             }
 
             <div className={containerClassName}>
-                <ImageContainer 
-                    imageUrl={imageUrl} 
-                    title={props.item.title || props.item.fileName || 'Ei Otsikkoa.'}
-                />
-                <Body/>
-                <Footer/>
+                {
+                    props.item.loading ? <Spinner size="2rem"/>
+                    :
+                    <>
+                    <ImageContainer 
+                        imageUrl={imageUrl} 
+                        title={props.item.title || props.item.fileName || 'Ei Otsikkoa.'}
+                    />
+                    <Body/>
+                    <Footer/>
+                    </>
+                }
+                
             </div>
         </CardContext.Provider>
     );
