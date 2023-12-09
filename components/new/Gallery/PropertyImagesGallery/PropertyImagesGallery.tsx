@@ -1,8 +1,11 @@
 'use client';
 
+import { useEffect, useState } from "react";
+import ImageItemComponent from "../GalleryBase/Components/Body/Components/ImageItemComponent/ImageItemComponent";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import AddFilesModal from "../Modals/AddFilesModal";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import serverImageIsMainImage from "kotilogi-app/actions/serverImageIsMainImage";
 
 /**
  * Pre-configured component for displaying files associated with a property.
@@ -34,6 +37,25 @@ export default function PropertyImagesGallery(props: {
                     />
                 )
             }}
+            ItemComponent={(hocprops) => {
+                const [isMain, setIsMain] = useState(false);
+
+                useEffect(() => {
+                    serverImageIsMainImage(hocprops.item.id, props.propertyId, 'properties')
+                    .then(result => {
+                        setIsMain(result as boolean);
+                    })
+                    .catch(err => console.log(err.message));
+                }, []);
+
+                return (
+                    <ImageItemComponent
+                        {...hocprops}
+                        isMain={isMain}
+                        imageSrc={`/api/files/${hocprops.item.id}?tableName=propertyFiles`}
+                    />
+                )
+            }}  
         />
     )
 }

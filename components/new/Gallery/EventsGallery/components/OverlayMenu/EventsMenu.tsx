@@ -5,8 +5,7 @@ import HoverOverlay from "../../../GalleryBase/Components/Body/Components/Card/C
 import { useCardContext } from "../../../GalleryBase/Components/Body/Components/Card/CardContext";
 
 export default function EventsMenu(props: OverlayMenuProps){
-    const {dispatch, props: {DeleteModal}} = useGalleryContext();
-    const {setMenuOpen, setShowEditModal, props: {item}} = useCardContext();
+    const {setMenuOpen, setShowEditModal} = useCardContext();
 
     return (
         <HoverOverlay visible={props.show}>
@@ -18,30 +17,6 @@ export default function EventsMenu(props: OverlayMenuProps){
                     setMenuOpen(false);
                 }}
             />
-
-            {
-                DeleteModal ? 
-                <Button
-                    hidden={true}
-                    className="danger"
-                    desktopText="Poista"
-                    onClick={() => {
-                        dispatch({
-                            type: 'select_item',
-                            value: item,
-                        });
-
-                        dispatch({
-                            type: 'toggle_delete_modal',
-                            value: true,
-                        });
-                        setMenuOpen(false);
-                    }}
-                />
-                :
-                null
-            }
-            
         </HoverOverlay>
     );
 }

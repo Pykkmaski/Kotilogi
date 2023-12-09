@@ -10,33 +10,9 @@ import toast from "react-hot-toast";
 import GalleryBase from "../../../GalleryBase/GalleryBase";
 import AddFilesModal from "../../../Modals/AddFilesModal";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
-import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
+import ImageGallery from "./components/ImageGallery";
+import FileGallery from "./components/FileGallery";
 
-function AddImagesModal(props: ModalProps & {item: any}): JSX.Element{
-    return (
-        <AddFilesModal 
-            show={props.show} 
-            onHide={props.onHide}
-            title="Lisää Kuvia"
-            fileType="image/jpeg"
-            id="add-event-images-modal"
-            item={props.item}
-        />
-    )
-}
-
-function AddPdfsModal(props: ModalProps & {item: any}): JSX.Element{
-    return (
-        <AddFilesModal
-            show={props.show}
-            onHide={props.onHide}
-            title="Lataa Tiedostoja"
-            fileType="application/pdf"
-            id="add-event-files-modal"
-            item={props.item}
-        />
-    )
-}
 
 export default function EditModal(props: {
     show: boolean, 
@@ -81,9 +57,7 @@ export default function EditModal(props: {
 
     const modalId = `event-edit-modal-${props.item.id}`;
     const formId = `form-${modalId}`;
-    const event = data.current;
-
-    if(!event) return;
+    if(!data.current) return;
     
     const formContent = (
         <>
@@ -93,7 +67,7 @@ export default function EditModal(props: {
                     name="title" 
                     required={true} 
                     placeholder="Kirjoita otsikko..." 
-                    defaultValue={event.title} 
+                    defaultValue={data.current.title} 
                     onChange={onChangeHandler}
                 />
             </Form.Group>
@@ -103,7 +77,7 @@ export default function EditModal(props: {
                 <input 
                     type="date" 
                     name="time" 
-                    defaultValue={event.time} 
+                    defaultValue={data.current.time} 
                     onChange={onChangeHandler}
                 />
             </Form.Group>
@@ -113,7 +87,7 @@ export default function EditModal(props: {
                 <textarea 
                     name="description" 
                     placeholder="Kirjoita kuvaus..." 
-                    defaultValue={event.description} 
+                    defaultValue={data.current.description} 
                     onChange={onChangeHandler}
                 />
                 <Form.SubLabel>Anna tapahtumalle vaihtoehtoinen kuvaus.</Form.SubLabel>
@@ -125,43 +99,10 @@ export default function EditModal(props: {
         <>
             {
                 currentSection === 'images' && props.show ?
-                <GalleryBase 
-                    title="Kuvat"
-                    query={{
-                        refId: event.id,
-                        mimeType: 'image/jpeg',
-                    }}
-                    tableName="eventFiles"
-                    contentType="image"
-                    AddModal={(HOCProps: ModalProps) => {
-                        return (
-                            <AddImagesModal
-                                {...HOCProps}
-                                item={props.item}
-                            />
-                        )  
-                    }}
-                    
-                />
+                    <ImageGallery item={data.current}/>
                 :
                 currentSection === 'files' && props.show ?
-                <GalleryBase
-                    title="Tiedostot"
-                    query={{
-                        refId: event.id,
-                        mimeType: 'application/pdf',
-                    }}
-                    tableName="eventFiles"
-                    contentType="file"
-                    AddModal={(HOCProps: ModalProps & {item: any}) => {
-                        return (
-                            <AddPdfsModal
-                                {...HOCProps}
-                                item={props.item}
-                            />
-                        )
-                    }}
-                />
+                    <FileGallery item={data.current}/>
                 :
                 null
             }

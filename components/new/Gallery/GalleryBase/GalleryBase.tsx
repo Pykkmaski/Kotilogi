@@ -29,8 +29,6 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
 
-    
-
     function reloadItem(id: Kotilogi.IdType){
         serverGetDataById(id, props.tableName)
         .then(data => {

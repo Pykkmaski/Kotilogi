@@ -9,6 +9,7 @@ import Body from "./Components/Body/Body";
 import style from './style.module.scss';
 import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/DeleteModal";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
 export type OverlayMenuProps = {
     show: boolean,
@@ -17,6 +18,7 @@ export type OverlayMenuProps = {
 export type Props = {
     item: Kotilogi.ItemType & {fileName?: string, loading?: boolean},
     destination?: string,
+    titleContent: JSX.Element,
 
     /**
      * The menu displayed when the mouse is hovered over the card.
@@ -24,6 +26,12 @@ export type Props = {
     OverlayMenu?: React.FC<{
         show: boolean,
     }>,
+
+    /**
+     * A item-specific deletion modal, overriding the global gallery delete modal.
+     * Adds a delete button to overlay menus.
+     */
+    DeleteModal?: React.FC<ModalProps>,
 }
 
 export default function Card(props: Props){
@@ -36,7 +44,6 @@ export default function Card(props: Props){
 
     const [menuOpen, setMenuOpen]                               = useState(false);
     const [showEditModal, setShowEditModal]                     = useState(false);
-    const [showDeleteModal, setShowDeleteModal]                 = useState(false);
 
     const imageSrcTable = tableName === 'properties' ? 'propertyFiles' : tableName === 'propertyEvents' ? 'eventFiles' : null;
     const imageUrl = (
@@ -58,7 +65,6 @@ export default function Card(props: Props){
         setMenuOpen,
         menuOpen,
         setShowEditModal,
-        setShowDeleteModal,
     }
 
     const containerClassName = isSelected ? `${style.cardContainer} ${style.selected}` : style.cardContainer;

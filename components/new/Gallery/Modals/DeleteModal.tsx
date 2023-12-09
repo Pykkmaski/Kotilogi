@@ -10,7 +10,7 @@ export default function DeleteModal(props: ModalProps & {
     title: string,
 }){
     const formId = `form-${props.id}`;
-    const {props: {tableName}, loadData, state, dispatch} = useGalleryContext();   
+    const {props: {tableName}, state, dispatch} = useGalleryContext();   
     const [loading, setLoading] = useState(false);
 
     const onDeleteHandler = async (e) => {
@@ -40,7 +40,6 @@ export default function DeleteModal(props: ModalProps & {
             value: null,
         });
 
-        loadData();
         setLoading(false);
         props.onHide();
     }

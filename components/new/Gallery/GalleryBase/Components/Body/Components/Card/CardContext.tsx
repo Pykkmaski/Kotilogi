@@ -1,11 +1,11 @@
 import {SetStateAction, createContext, useContext} from 'react';
+import { Props } from './Card';
 
 export type CardContextValue = {
-    props,
+    props: Props,
     isSelected: boolean,
     setMenuOpen: any,
     setShowEditModal: React.Dispatch<SetStateAction<boolean>>,
-    setShowDeleteModal: React.Dispatch<SetStateAction<boolean>>,
     menuOpen: boolean,
 }
 

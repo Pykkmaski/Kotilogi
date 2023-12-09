@@ -3,6 +3,8 @@
 import GalleryBase from "../GalleryBase/GalleryBase";
 import AddFilesModal from "../Modals/AddFilesModal";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import FileIcon from '@/assets/copy_filled.png';
+import FileItemComponent from "../GalleryBase/Components/Body/Components/FileItemComponent/FileItemComponent";
 
 /**
  * Pre-configured component for displaying files associated with a property.
@@ -32,6 +34,15 @@ export default function PropertyFilesGallery(props: {
                         item={{
                             id: props.propertyId
                         }}
+                    />
+                )
+            }}
+            ItemComponent={(hocprops) => {
+                return (
+                    <FileItemComponent
+                        {...hocprops}
+                        imageSrc={FileIcon}
+                        destination={`/api/files/${hocprops.item.id}?tableName=propertyFiles`}
                     />
                 )
             }}

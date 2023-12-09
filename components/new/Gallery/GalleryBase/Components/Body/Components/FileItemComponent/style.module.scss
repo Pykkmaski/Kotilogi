@@ -1,0 +1,31 @@
+@import '@/scss/Config';
+
+$background-color: rgba($primary-color, 0.7);
+
+.item{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $medium-gap;
+    background: $background-color;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+
+
+    span{
+        color: black;
+    }
+
+    div{
+        display: inherit;
+        gap: $medium-gap;
+        align-items: center;
+    }
+
+    &:hover{
+        background: lighten($background-color, 10);
+        text-decoration: none;
+    }
+}

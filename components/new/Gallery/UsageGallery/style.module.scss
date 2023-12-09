@@ -7,5 +7,9 @@
     justify-content: space-between;
     padding: $medium-gap;
     width: 100%;
-    background: #DDD;
+    background: #DDD8;
+
+    span{
+        color: $body-text-color;
+    }
 }

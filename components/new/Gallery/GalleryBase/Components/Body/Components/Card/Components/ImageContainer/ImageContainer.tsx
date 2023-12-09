@@ -17,10 +17,9 @@ type Props = {
 }
 
 export default function ImageContainer(props: Props){
-    const {menuOpen, setMenuOpen, props: {item, OverlayMenu}} = useCardContext();
-    const [imageLoading, setImageLoading] = useState(true);
-
-    const {props: {tableName}} = useGalleryContext();
+    const {menuOpen, setMenuOpen, props: {item, OverlayMenu, DeleteModal, titleContent}}  = useCardContext();
+    const [imageLoading, setImageLoading]                                   = useState(true);
+    const {props: {tableName}}                                              = useGalleryContext();
 
     const imageOnLoadHandler = (e) => {
         setImageLoading(false);
@@ -33,23 +32,12 @@ export default function ImageContainer(props: Props){
 
     return (
         <div className={style.imageContainer} onMouseEnter={() => setMenuOpen(true)} onMouseLeave={() => setMenuOpen(false)}>
-            {
-                OverlayMenu ? <OverlayMenu show={menuOpen}/> : null
-            }
+            {OverlayMenu ? <OverlayMenu show={menuOpen}/> : null}
             
             <div className={style.gradient}/>
 
             <div className={style.title}>
-                {
-                    tableName === 'propertyEvents' ? 
-                    <>
-                        <span className={style.time}>{item.time !== null ? new Date(item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää'}</span> 
-                        <br/>
-                    </>
-                    
-                    : 
-                    null
-                }
+                {titleContent}
                 <span className={style.name}>{props.title}</span>
             </div>
           
