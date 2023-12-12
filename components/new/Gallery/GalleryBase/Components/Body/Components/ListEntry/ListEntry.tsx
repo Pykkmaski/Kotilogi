@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DeleteModal from '@/components/new/Gallery/Modals/DeleteModal';
+import DeleteModal from 'kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal';
 import style from './style.module.scss';
 import useGalleryContext from '../../../../GalleryContext';
 

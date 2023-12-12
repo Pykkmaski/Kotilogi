@@ -36,10 +36,7 @@ declare namespace GalleryBase{
         /**
          * The modal displayed when the global delete button of the gallery is pressed.
          */
-        DeleteModal?: React.FC<{
-            show: boolean,
-            onHide: () => void,
-        }>,
+        DeleteModal?: React.FC<ModalProps>,
 
         /**
          * The type of content the gallery contains.
@@ -75,7 +72,12 @@ declare namespace GalleryBase{
 
         ItemComponent: React.FC<{
             item: any,
-        }>
+        }>,
+
+        /**
+         * The component to display when there is no content.
+         */
+        errorComponent: JSX.Element,
     }
     
     declare type CardProps = {

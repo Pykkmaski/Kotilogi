@@ -1,0 +1,52 @@
+@import '../../../_partials/padding';
+@import '@/scss/Config';
+
+.page{
+    @include Padding;
+    margin-top: $medium-gap;
+
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    flex: 1;
+    
+    form{
+        padding: 0;
+        padding-right: $medium-gap;
+        padding-bottom: $medium-gap;
+
+        border-right: 1px solid #DDD;
+        flex: 0 1;
+        width: 300px;
+
+        label{
+            color: $body-text-color;
+        }
+
+        textarea{
+            min-height: 350px;
+        }
+
+        .eventInfo{
+            display: flex;
+            gap: $small-gap;
+            align-items: center;
+            margin-top: auto;
+
+            .icon{
+                width: "1rem";
+                aspect-ratio: 1/1;
+            }
+        }
+    }
+
+    .galleryArea{
+        flex: 1;
+        nav{
+            padding-left: $medium-gap;
+            margin-bottom: $medium-gap;
+        }
+    }
+
+    
+}

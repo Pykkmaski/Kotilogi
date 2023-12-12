@@ -12,7 +12,7 @@ import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 
 export default function AddModal(props: {show: boolean, onHide: () => void}){
-    const {props: {query, tableName}, dispatch, loadData}   = useGalleryContext();
+    const {props: {query, tableName}, dispatch}   = useGalleryContext();
     const [loading, setLoading]                   = useState(false);
     const [currentData, setCurrentData]           = useState({refId: query.refId});
 
@@ -47,8 +47,7 @@ export default function AddModal(props: {show: boolean, onHide: () => void}){
                 if(!result) console.log('File upload failed!');
             });
 
-            loadData();
-
+            await serverRevalidatePath('/auth/properties/new/[property_id]/events');
             toast.success('Tapahtuman lisääminen onnistui!');
        }
 

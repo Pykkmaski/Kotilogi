@@ -37,8 +37,7 @@ export default function Header(props: {
                 <h2>{props.title}</h2>
             </div>
             
-            <div className={style.buttonsContainer}>
-                
+            <div className={style.buttonsContainer}>    
                 {buttons}
             </div>
         </div>

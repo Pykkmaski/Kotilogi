@@ -5,16 +5,14 @@ import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import React, { useState } from "react";
 import useGalleryContext from "../GalleryBase/GalleryContext";
 import toast from "react-hot-toast";
+import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 
-export default function DeleteModal(props: ModalProps & {
-    title: string,
-}){
+export default function DeleteModal(props: ModalProps){
     const formId = `form-${props.id}`;
     const {props: {tableName}, state, dispatch} = useGalleryContext();   
     const [loading, setLoading] = useState(false);
 
-    const onDeleteHandler = async (e) => {
-        e.preventDefault();
+    const onDeleteHandler = async () => {
         setLoading(true);
 
         for(const selectedItem of state.selectedItems){
@@ -32,6 +30,15 @@ export default function DeleteModal(props: ModalProps & {
                 `;
 
                 toast.success(message);
+                const path = (
+                    tableName === 'propertyEvents' ? '/auth/properties/new/[property_id]/events'
+                    :
+                    tableName === 'properties' ? '/auth/properties'
+                    :
+                    ''
+                );
+
+                await serverRevalidatePath(path);
             }
         }
 
@@ -45,26 +52,23 @@ export default function DeleteModal(props: ModalProps & {
     }
 
     return (
-        <Modal id={props.id} show={props.show} onHide={props.onHide}>
-            <Modal.Header>{props.title}</Modal.Header>
+        <Modal {...props}>
+            <Modal.Header>Poista</Modal.Header>
             <Modal.Body>
-                <Form onSubmit={onDeleteHandler} id={formId}>
-                    <p>
-                        Olet poistamassa seuraavia kohteita:<br/>
-                        {
-                            state.selectedItems.map((item, index: number) => {
-                                return (
-                                    <React.Fragment key={`item-pending-deletion-${index}`}>
-                                        <strong key={`item-pending-deletion-${index}`}>{item.title || item.fileName}</strong>
-                                        <br/>
-                                    </React.Fragment>  
-                                )
-                            })
-                        }
-                        Oletko Varma?
-                    </p>
-                </Form>
+                Olet poistamassa seuraavia kohteita:<br/>
+                {
+                    state.selectedItems.map((item, index: number) => {
+                        return (
+                            <React.Fragment key={`item-pending-deletion-${index}`}>
+                                <strong key={`item-pending-deletion-${index}`}>{item.title || item.fileName}</strong>
+                                <br/>
+                            </React.Fragment>  
+                        )
+                    })
+                }
+                Oletko Varma?
             </Modal.Body>
+
             <Modal.Footer>
                 <Button
                     className="secondary"
@@ -82,7 +86,7 @@ export default function DeleteModal(props: ModalProps & {
                 <Button
                     className="primary"
                     desktopText="Kyllä"
-                    type="submit"
+                    onClick={onDeleteHandler}
                     form={formId}
                     disabled={loading}
                     loading={loading}

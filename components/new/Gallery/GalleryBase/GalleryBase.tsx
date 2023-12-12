@@ -6,9 +6,7 @@ import style from './gallery.module.scss';
 import { serverGetDataById, serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import Body from "./Components/Body/Body";
 import Header from "./Components/Header/Header";
-import AddButton from "./Components/AddButton/AddButton";
 import { GalleryContext } from "./GalleryContext";
-import PageIndicator from "./Components/PageIndicator/PageIndicator";
 import getDataOffset from "./Util/getDataOffset";
 import { GalleryBase } from "./declerations";
 
@@ -118,6 +116,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
 
                 {
                     props.DeleteModal ? <props.DeleteModal
+                        id={`gallery-delete-modal-${props.tableName}`}
                         show={state.showDeleteModal}
                         onHide={() => dispatch({
                             type: 'toggle_delete_modal',

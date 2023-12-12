@@ -31,7 +31,7 @@ export default function ImageContainer(props: Props){
     }
 
     return (
-        <div className={style.imageContainer} onMouseEnter={() => setMenuOpen(true)} onMouseLeave={() => setMenuOpen(false)}>
+        <div className={style.imageContainer} onMouseEnter={() => setMenuOpen(true)} onMouseLeave={() => setMenuOpen(false)} onBlur={() => setMenuOpen(false)}>
             {OverlayMenu ? <OverlayMenu show={menuOpen}/> : null}
             
             <div className={style.gradient}/>

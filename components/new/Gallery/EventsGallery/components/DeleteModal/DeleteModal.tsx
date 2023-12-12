@@ -5,7 +5,7 @@ import Button from "kotilogi-app/components/Button/Button";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
-import BaseDeleteModal from '@/components/new/Gallery/Modals/DeleteModal';
+import BaseDeleteModal from 'kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal';
 
 export default function DeleteModal(props: ModalProps){
     const {state} = useGalleryContext();

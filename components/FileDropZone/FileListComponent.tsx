@@ -1,6 +1,6 @@
 import Image from "next/image"
-import ImageIcon from '@/assets/image.png';
-import FileIcon from '@/assets/copy.png';
+import ImageIcon from '@/assets/image_filled.png';
+import FileIcon from '@/assets/copy_filled.png';
 import style from './style.module.scss';
 import { useEffect, useRef } from "react";
 
@@ -23,31 +23,34 @@ function Item(props: {
     
     return (
         <div className={style.item}>
-            {
-                props.file.type === 'image/jpeg' ? 
-                <>
-                    <Image
-                        src={ImageIcon}
-                        width={imageSize}
-                        height={imageSize}
-                        alt=""
-                        ref={imageRef}
-                    />
-                </>
-                
-                :
-                <>
-                    <Image
-                        src={FileIcon}
-                        width={imageSize}
-                        height={imageSize}
-                        alt=""
-                    />
-                </>
-            }
+            <div className={style.fileContent}>
+                {
+                    props.file.type === 'image/jpeg' ? 
+                    <>
+                        <Image
+                            src={ImageIcon}
+                            width={imageSize}
+                            height={imageSize}
+                            alt=""
+                            ref={imageRef}
+                        />
+                    </>
+                    
+                    :
+                    <>
+                        <Image
+                            src={FileIcon}
+                            width={imageSize}
+                            height={imageSize}
+                            alt=""
+                        />
+                    </>
+                }
 
-            <span>{props.file.name}</span>
-           
+                <span>{props.file.name}</span>
+            </div>
+
+            <DeleteButton/>
         </div>
     )
 }   

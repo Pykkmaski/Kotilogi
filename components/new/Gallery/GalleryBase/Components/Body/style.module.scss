@@ -1,6 +1,9 @@
 @import '@/scss/Config';
 
 .galleryBodyGrid, .galleryBodyList{
+    padding-left: $medium-gap;
+    padding-bottom: $medium-gap;
+    
     &.empty{
         display: flex;
         flex-flow: row;

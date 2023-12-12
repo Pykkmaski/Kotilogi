@@ -11,7 +11,11 @@
     width: 100%;
     height: 2rem;
     background: red;
-    color: white;
+
+    span{
+        color: white;
+    }
+    
     z-index: 4;
     font-weight: 500;
 

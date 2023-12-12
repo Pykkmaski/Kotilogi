@@ -6,15 +6,20 @@ import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useGalleryContext from "../GalleryBase/GalleryContext";
+import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 
 export default function AddFilesModal(props: ModalProps & {
     title: string,
     fileType: Kotilogi.MimeType,
     id: string,
-    item: {id: Kotilogi.IdType},
+
+    /**
+     * The id of the target this file shall belong to.
+     */
+    refId: Kotilogi.IdType,
 }){
     const [loading, setLoading] = useState(false);
-    const {dispatch, props: {tableName}, loadData} = useGalleryContext();
+    const {dispatch, props: {tableName}} = useGalleryContext();
 
     var files: File[] = [];
 
@@ -27,10 +32,9 @@ export default function AddFilesModal(props: ModalProps & {
 
         try{
             for(const file of files){
-                console.log(props.item.id);
                 const data = new FormData();
                 data.append('file', file);
-                data.append('refId', props.item.id);
+                data.append('refId', props.refId);
                 const res = await upload(data, tableName as 'propertyFiles' | 'eventFiles');
                 
                 if(res){
@@ -52,10 +56,18 @@ export default function AddFilesModal(props: ModalProps & {
             toast.success(
                 `${numSuccessfulUploads}/${numFilesToUpload} Tiedostoa lähetetty onnistuneesti!`
             );
+            
+            const path = (
+                tableName === 'properties' ? `/auth/properties/new/[property_id]`
+                :
+                `/auth/events/[event_id]`
+            );
 
+            await serverRevalidatePath(path);
+            
             setLoading(false);
-            loadData();
             props.onHide();
+
         }
         
     }

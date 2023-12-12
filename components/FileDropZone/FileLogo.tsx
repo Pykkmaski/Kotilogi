@@ -15,7 +15,7 @@ export default function FileLogo(props: {
             />
 
             <p>
-                Lisää tiedostoja ja kuvia klikkaamalla, tai vetämällä ne tähän työpöydältäsi.
+                Klikkaa tähän ja valitse Tiedostot tietokoneeltasi.
             </p>
         </div>
     );

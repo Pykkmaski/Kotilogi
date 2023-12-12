@@ -2,6 +2,7 @@ import Loading from "kotilogi-app/components/Loading/Loading";
 import useGalleryContext from "../../GalleryContext";
 import style from './style.module.scss';
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import Error from "../Error/Error";
 
 function LoadingBody(){
     return (
@@ -12,7 +13,7 @@ function LoadingBody(){
 }
 
 export default function Body(){
-    const {state, props: {ItemComponent, displayStyle, children}} = useGalleryContext();
+    const {state, props: {ItemComponent, displayStyle, children, errorComponent}} = useGalleryContext();
     const bodyClassName = displayStyle === 'list' ? style.galleryBodyList : style.galleryBodyGrid;
 
     return (
@@ -20,6 +21,7 @@ export default function Body(){
         :
         state.isLoading ? <LoadingBody/>
         :
+        state.data.length ? 
         <>
             {children}
             <div className={bodyClassName} style={{gap: state.data.length ? '1rem' : 0}}>
@@ -30,6 +32,7 @@ export default function Body(){
                 }
             </div>
         </>
-        
+        :
+        errorComponent
     );
 }

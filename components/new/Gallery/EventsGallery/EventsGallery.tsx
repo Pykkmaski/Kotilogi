@@ -6,8 +6,13 @@ import EditModal from './components/EditModal/EditModal';
 import Card from '../GalleryBase/Components/Body/Components/Card/Card';
 import EventsMenu from './components/OverlayMenu/EventsMenu';
 import ItemDeleteModal from '../Modals/ItemDeleteModal';
-import DeleteModal from '../Modals/DeleteModal';
+import GlobalDeleteModal from '../Modals/GlobalDeleteModal';
 import { ModalProps } from 'kotilogi-app/components/Modals/Modal';
+import Error from '../GalleryBase/Components/Error/Error';
+import HistoryIcon from '@/assets/history.png';
+import { deleteFunction } from '../Util/deleteFunction';
+import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
+import toast from 'react-hot-toast';
 
 function ItemComponent(props: {
     item: any
@@ -15,18 +20,7 @@ function ItemComponent(props: {
     return <Card 
         item={props.item}
         OverlayMenu={EventsMenu}
-        DeleteModal={(hocprops: ModalProps) => {
-            const deleteHandler = async () => {
-                console.log('Deleting item...');
-            }
-
-            return (
-                <ItemDeleteModal
-                    {...hocprops}
-                    deleteHandler={deleteHandler}
-                />
-            )
-        }}
+        DeleteModal={ItemDeleteModal}
         titleContent={
         <>
             <span>{props.item.time !== null ? new Date(props.item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää'}</span> 
@@ -51,10 +45,17 @@ export default function EventsGallery(props: EventsGalleryProps){
                 refId: props.propertyId
             }}
             AddModal={AddModal}
-            DeleteModal={DeleteModal}
+            DeleteModal={GlobalDeleteModal}
             EditModal={EditModal}
             key={'event-gallery'}
             ItemComponent={ItemComponent}
+            errorComponent={
+                <Error
+                    title="Ei Tapahtumia"
+                    message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
+                    icon={HistoryIcon}
+                />
+            }   
        />
     )
 }

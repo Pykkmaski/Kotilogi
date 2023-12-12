@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, useRef, useState } from 'react';
 import style from './style.module.scss';
 import FileListComponent from './FileListComponent';
 import FileLogo from './FileLogo';
@@ -10,6 +10,7 @@ export default function FileDropZone(props: {
     onFileUploaded: (e) => void,
 }){
     const [files, setFiles] = useState<File[]>([]);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
     
     const onFileUploaded = (e) => {
         const newFiles = [...files];
@@ -25,9 +26,8 @@ export default function FileDropZone(props: {
     }
 
     return (
-        <div className={style.dropZoneArea}>
+        <>
             <input 
-                className={style.fileDropZone}
                 name={props.name} 
                 type="file" 
                 accept={props.accept}
@@ -35,11 +35,21 @@ export default function FileDropZone(props: {
                 multiple={true}
                 form={props.form}
                 onChange={onFileUploaded}
+                hidden={true}
+                ref={fileInputRef}
             />
 
-            <FileListComponent files={files}/>
-            <FileLogo hidden={files.length > 0}/>
-        </div>
+            <div className={style.dropZoneArea} 
+                onClick={() => {
+                    if(!fileInputRef.current) return;
+                    fileInputRef.current.click()
+                }}
+            >
+                <FileListComponent files={files}/>
+                <FileLogo hidden={files.length > 0}/>
+            </div>
+        </>
+        
         
     )
 }

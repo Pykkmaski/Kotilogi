@@ -7,9 +7,10 @@ import Footer from "./Components/Footer/Footer";
 import ImageContainer from "./Components/ImageContainer/ImageContainer";
 import Body from "./Components/Body/Body";
 import style from './style.module.scss';
-import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/DeleteModal";
+import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import ItemComponent from "../ItemComponent/ItemComponent";
 
 export type OverlayMenuProps = {
     show: boolean,
@@ -18,7 +19,11 @@ export type OverlayMenuProps = {
 export type Props = {
     item: Kotilogi.ItemType & {fileName?: string, loading?: boolean},
     destination?: string,
-    titleContent: JSX.Element,
+
+    /**
+     * Additional content displayed above the title.
+     */
+    titleContent?: JSX.Element,
 
     /**
      * The menu displayed when the mouse is hovered over the card.
@@ -35,15 +40,14 @@ export type Props = {
 }
 
 export default function Card(props: Props){
-    const {state, props: {EditModal, tableName}} = useGalleryContext();
+    const {state, props: {EditModal, tableName}}                = useGalleryContext();
+    const [menuOpen, setMenuOpen]                               = useState(false);
+    const [showEditModal, setShowEditModal]                     = useState(false);
 
     //Initialize the cards selected state to true, if the item is included in the selected items list of the gallery.
     const [isSelected, setIsSelected] = useState(
         state.selectedItems.map(item => item.id).includes(props.item.id)
     );
-
-    const [menuOpen, setMenuOpen]                               = useState(false);
-    const [showEditModal, setShowEditModal]                     = useState(false);
 
     const imageSrcTable = tableName === 'properties' ? 'propertyFiles' : tableName === 'propertyEvents' ? 'eventFiles' : null;
     const imageUrl = (
@@ -82,21 +86,23 @@ export default function Card(props: Props){
                 null
             }
 
-            <div className={containerClassName}>
-                {
-                    props.item.loading ? <Spinner size="2rem"/>
-                    :
-                    <>
-                    <ImageContainer 
-                        imageUrl={imageUrl} 
-                        title={props.item.title || props.item.fileName || 'Ei Otsikkoa.'}
-                    />
-                    <Body/>
-                    <Footer/>
-                    </>
-                }
-                
-            </div>
+            <ItemComponent item={props.item}>
+                <div className={containerClassName}>
+                    {
+                        props.item.loading ? <Spinner size="2rem"/>
+                        :
+                        <>
+                        <ImageContainer 
+                            imageUrl={imageUrl} 
+                            title={props.item.title || props.item.fileName || 'Ei Otsikkoa.'}
+                        />
+                        <Body/>
+                        <Footer/>
+                        </>
+                    }
+                </div>
+            </ItemComponent>
+            
         </CardContext.Provider>
     );
 }

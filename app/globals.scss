@@ -119,7 +119,7 @@ button.black{
     opacity: 1;
 }
 
-p, i, strong{
+p, i, strong, span{
     color: $body-text-color;
 }
 
@@ -137,6 +137,10 @@ nav.overhead{
             background: #DDD;
         }
     }
+}
+
+textarea:focus, input:focus{
+    outline: 2px solid $primary-color;
 }
 
 
