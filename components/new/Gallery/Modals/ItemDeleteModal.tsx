@@ -13,7 +13,11 @@ import { useItemComponentContext } from "../GalleryBase/Components/Body/Componen
  * @param props 
  * @returns 
  */
-export default function ItemDeleteModal(props: ModalProps){
+
+export default function ItemDeleteModal(props: ModalProps & {
+    /**Function to call after a successful deletion, for ex. deletion of files from disk.*/
+    callback?: () => Promise<void>
+}){
     const {item} = useItemComponentContext();
     const {props: {tableName}} = useGalleryContext();
     const [loading, setLoading] = useState(false);
@@ -22,7 +26,13 @@ export default function ItemDeleteModal(props: ModalProps){
         setLoading(true);
         const error = await serverDeleteData(item.id, tableName);
         if(error === 0){
-            toast.success('Poisto onnistui!');
+            if(props.callback) {
+                props.callback();
+            }
+            else{
+                toast.success('Poisto onnistui!');
+            }
+
             await serverRevalidatePath('');
         }
         else{

@@ -1,0 +1,10 @@
+@import '@/scss/Config';
+
+.body{
+    flex-flow: column;
+
+    li{
+        list-style-type: disc;
+        color: $primary-color;
+    }
+}

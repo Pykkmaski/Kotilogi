@@ -6,13 +6,10 @@ import EditModal from './components/EditModal/EditModal';
 import Card from '../GalleryBase/Components/Body/Components/Card/Card';
 import EventsMenu from './components/OverlayMenu/EventsMenu';
 import ItemDeleteModal from '../Modals/ItemDeleteModal';
-import GlobalDeleteModal from '../Modals/GlobalDeleteModal';
-import { ModalProps } from 'kotilogi-app/components/Modals/Modal';
+import GlobalDeleteModal from '../Modals/GlobalDeleteModal/GlobalDeleteModal';
 import Error from '../GalleryBase/Components/Error/Error';
 import HistoryIcon from '@/assets/history.png';
-import { deleteFunction } from '../Util/deleteFunction';
-import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
-import toast from 'react-hot-toast';
+import style from './style.module.scss';
 
 function ItemComponent(props: {
     item: any
@@ -23,7 +20,7 @@ function ItemComponent(props: {
         DeleteModal={ItemDeleteModal}
         titleContent={
         <>
-            <span>{props.item.time !== null ? new Date(props.item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää'}</span> 
+            <span className={style.date}>{props.item.time !== null ? new Date(props.item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää'}</span> 
             <br/>
         </>
         }

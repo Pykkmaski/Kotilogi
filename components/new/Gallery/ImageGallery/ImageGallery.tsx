@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import ImageItemComponent from "../GalleryBase/Components/Body/Components/ImageItemComponent/ImageItemComponent";
+import ImageItemComponent from "./ImageItemComponent/ImageItemComponent";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import serverImageIsMainImage from "kotilogi-app/actions/serverImageIsMainImage";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";

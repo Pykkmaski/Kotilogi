@@ -3,9 +3,10 @@ import Button from "kotilogi-app/components/Button/Button";
 import Form from "kotilogi-app/components/Form";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import React, { useState } from "react";
-import useGalleryContext from "../GalleryBase/GalleryContext";
+import useGalleryContext from "../../GalleryBase/GalleryContext";
 import toast from "react-hot-toast";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
+import style from './style.module.scss';
 
 export default function DeleteModal(props: ModalProps){
     const formId = `form-${props.id}`;
@@ -54,18 +55,20 @@ export default function DeleteModal(props: ModalProps){
     return (
         <Modal {...props}>
             <Modal.Header>Poista</Modal.Header>
-            <Modal.Body>
-                Olet poistamassa seuraavia kohteita:<br/>
-                {
-                    state.selectedItems.map((item, index: number) => {
-                        return (
-                            <React.Fragment key={`item-pending-deletion-${index}`}>
-                                <strong key={`item-pending-deletion-${index}`}>{item.title || item.fileName}</strong>
-                                <br/>
-                            </React.Fragment>  
-                        )
-                    })
-                }
+            <Modal.Body className={style.body}>
+                <span>Olet poistamassa seuraavia kohteita:</span>
+                <ul>
+                    {
+                        state.selectedItems.map((item, index: number) => {
+                            return (
+                                <li key={`item-pending-deletion-${index}`}>
+                                    <strong key={`item-pending-deletion-${index}`}>{item.title || item.fileName}</strong>
+                                </li>  
+                            )
+                        })
+                    }
+                </ul>
+                
                 Oletko Varma?
             </Modal.Body>
 

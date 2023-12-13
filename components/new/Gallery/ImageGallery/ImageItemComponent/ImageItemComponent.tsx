@@ -4,9 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import serverSetAsMainImage from 'kotilogi-app/actions/serverSetAsMainImage';
 import toast from 'react-hot-toast';
-import useGalleryContext from '../../../../GalleryContext';
-import ItemComponent, { useItemComponentContext } from '../ItemComponent/ItemComponent';
+import useGalleryContext from '../../GalleryBase/GalleryContext';
+import ItemComponent, { useItemComponentContext } from '../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent';
 import ItemDeleteModal from 'kotilogi-app/components/new/Gallery/Modals/ItemDeleteModal';
+import FileDeleteModal from '../../Modals/FileDeleteModal';
 
 function Content(props: {
     imageSrc: string,
@@ -72,7 +73,7 @@ export default function ImageItemComponent(props: {
     isMain: boolean,
 }){
     return (
-        <ItemComponent item={props.item} DeleteModal={ItemDeleteModal}>
+        <ItemComponent item={props.item} DeleteModal={FileDeleteModal}>
             <Content {...props}/>
         </ItemComponent>
     );

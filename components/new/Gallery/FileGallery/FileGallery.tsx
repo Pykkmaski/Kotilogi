@@ -3,9 +3,9 @@
 import GalleryBase from "../GalleryBase/GalleryBase";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
-import FileItemComponent from "../GalleryBase/Components/Body/Components/FileItemComponent/FileItemComponent";
+import FileItemComponent from "./FileItemComponent/FileItemComponent";
 import FileError from "../GalleryBase/Components/Error/FileError";
-import GlobalDeleteModal from "../Modals/GlobalDeleteModal";
+import GlobalDeleteModal from "../Modals/GlobalDeleteModal/GlobalDeleteModal";
 
 export default function FileGallery(props: {
     tableName: 'propertyFiles' | 'eventFiles',

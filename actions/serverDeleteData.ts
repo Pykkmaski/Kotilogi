@@ -13,36 +13,16 @@ const ErrorCode = {
     UNEXPECTED: 4,
 }
 
-/**
- * Deletes all file table entries refering to refId, and their associated files on the disk.
- * @param refId 
- */
-
-async function deleteFiles(refId: Kotilogi.IdType): Promise<number>{
-    const fileNames = await db('files').where({refId});
-    for(const fileName of fileNames){
-        await unlink(uploadPath + fileName);
-    }
-    await db('files').where({refId}).del();
-
-    return ErrorCode.SUCCESS;
-}
-
-/**
- * Deletes entries that may have files associated with them.
- * @param id The id of the item to be deleted.
- * @param tableName The name of the database table where the data is located.
- */
-async function handleDeletionWithFiles(id: Kotilogi.IdType, tableName: 'properties' | 'propertyEvents'): Promise<number>{
-    //Delete all files associated with the property.
+export async function deleteFiles(fileNames: string[]): Promise<number>{
     try{
-        await db(tableName).where({id}).del();
-        await deleteFiles(id);
-        return ErrorCode.SUCCESS;
+        for(const fileName of fileNames){
+            await unlink(uploadPath + fileName);
+        }
+        return 0;
     }
     catch(err){
         console.log(err.message);
-        return ErrorCode.UNEXPECTED;
+        return 1;
     }
 }
 

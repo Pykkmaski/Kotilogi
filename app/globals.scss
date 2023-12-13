@@ -143,4 +143,8 @@ textarea:focus, input:focus{
     outline: 2px solid $primary-color;
 }
 
+.flex-column{
+    flex-flow: column;
+}
+
 

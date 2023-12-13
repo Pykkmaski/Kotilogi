@@ -1,5 +1,5 @@
 import { ModalProps } from "kotilogi-app/components/Modals/Modal"
-import FileContainer from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Body/Components/ImageItemComponent/ImageItemComponent"
+import FileContainer from "kotilogi-app/components/new/Gallery/ImageGallery/ImageItemComponent/ImageItemComponent"
 import GalleryBase from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryBase"
 import AddFilesModal from "kotilogi-app/components/new/Gallery/Modals/AddFilesModal"
 

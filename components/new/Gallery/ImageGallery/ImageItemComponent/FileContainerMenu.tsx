@@ -1,5 +1,5 @@
 import Link from "next/link";
-import useGalleryContext from "../../../../GalleryContext";
+import useGalleryContext from "../../GalleryBase/GalleryContext";
 import { useState } from "react";
 import style from './style.module.scss';
 import DeleteModal from "./DeleteModal";

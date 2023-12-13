@@ -7,7 +7,7 @@ import Footer from "./Components/Footer/Footer";
 import ImageContainer from "./Components/ImageContainer/ImageContainer";
 import Body from "./Components/Body/Body";
 import style from './style.module.scss';
-import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal";
+import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal/GlobalDeleteModal";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import ItemComponent from "../ItemComponent/ItemComponent";

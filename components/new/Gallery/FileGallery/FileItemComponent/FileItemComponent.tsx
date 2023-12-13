@@ -2,10 +2,11 @@ import { StaticImageData } from "next/image";
 import Image from 'next/image';
 import style from './style.module.scss';
 import Link from "next/link";
-import useGalleryContext from "../../../../GalleryContext";
+import useGalleryContext from "../../GalleryBase/GalleryContext";
 import FileIcon from '@/assets/copy_filled.png';
-import ItemComponent, { useItemComponentContext } from "../ItemComponent/ItemComponent";
+import ItemComponent, { useItemComponentContext } from "../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
 import ItemDeleteModal from "kotilogi-app/components/new/Gallery/Modals/ItemDeleteModal";
+import FileDeleteModal from "../../Modals/FileDeleteModal";
 
 function Content(props: {
     destination: string,
@@ -56,7 +57,7 @@ export default function FileItemComponent(props: {
 }){
 
     return (
-        <ItemComponent {...props} DeleteModal={ItemDeleteModal}>
+        <ItemComponent {...props} DeleteModal={FileDeleteModal}>
             <Content {...props}/>
         </ItemComponent>
     );

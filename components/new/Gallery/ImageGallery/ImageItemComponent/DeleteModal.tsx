@@ -1,7 +1,7 @@
 
 
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import useGalleryContext from "../../../../GalleryContext";
+import useGalleryContext from "../../GalleryBase/GalleryContext";
 import { useState } from "react";
 import serverDeleteFilesByIds from "kotilogi-app/actions/serverDeleteFilesByIds";
 import toast from "react-hot-toast";

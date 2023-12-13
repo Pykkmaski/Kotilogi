@@ -1,6 +1,6 @@
 import { ModalProps } from "kotilogi-app/components/Modals/Modal"
-import FileContainer from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Body/Components/ImageItemComponent/ImageItemComponent"
-import FileItemComponent from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Body/Components/FileItemComponent/FileItemComponent"
+import FileContainer from "kotilogi-app/components/new/Gallery/ImageGallery/ImageItemComponent/ImageItemComponent"
+import FileItemComponent from "kotilogi-app/components/new/Gallery/FileGallery/FileItemComponent/FileItemComponent"
 import GalleryBase from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryBase"
 import AddFilesModal from "kotilogi-app/components/new/Gallery/Modals/AddFilesModal"
 import FileIcon from '@/assets/copy_filled.png';
