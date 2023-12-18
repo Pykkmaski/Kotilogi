@@ -9,13 +9,11 @@ import GeneralSection from './GeneralSection';
 import { useState } from 'react';
 import serverUpdateDataById from 'kotilogi-app/actions/serverUpdateDataById';
 import toast from 'react-hot-toast';
-import useData from 'kotilogi-app/hooks/useData';
 import InteriorSection from './InteriorSection';
 import BuildingSection from './BuildingSection';
 import Link from 'next/link';
 import ExteriorSection from './ExteriorSection';
 import HeatingSection from './HeatingSection';
-import NavBar from 'kotilogi-app/components/NavBar/NavBar';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import RoofSection from './RoofSection';
 
