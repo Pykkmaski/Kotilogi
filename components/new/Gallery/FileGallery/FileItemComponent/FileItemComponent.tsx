@@ -7,6 +7,7 @@ import FileIcon from '@/assets/copy_filled.png';
 import ItemComponent, { useItemComponentContext } from "../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
 import ItemDeleteModal from "kotilogi-app/components/new/Gallery/Modals/ItemDeleteModal";
 import FileDeleteModal from "../../Modals/FileDeleteModal";
+import { fileNameTimestampSeparator } from "kotilogi-app/constants";
 
 function Content(props: {
     destination: string,
@@ -25,6 +26,9 @@ function Content(props: {
         });
     }
 
+    //Only display the original name of the file, without the added timestamp.
+    const fileName: string = item.fileName.split(fileNameTimestampSeparator)[1];
+
     return (
         <div className={className}>
             <Link href={props.destination} target="_blank">
@@ -34,9 +38,10 @@ function Content(props: {
                     alt=""
                     src={FileIcon}
                 />
-                
-                <span>{item.fileName}</span>
+                {/*If the filename uses a different separator between the timestamp and the actual name of the file, use the unprocessed name.*/}
+                <span>{fileName || item.fileName}</span>
             </Link>
+
             <div>
                 <span className={style.deleteLink} onClick={() => setShowDeleteModal(true)}>Poista</span>
                 <input type="checkbox" checked={selected} onInput={selectItem}></input>

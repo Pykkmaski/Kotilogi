@@ -7,6 +7,7 @@ import db from 'kotilogi-app/dbconfig';
 import generateId from 'kotilogi-app/utils/generateId';
 import { serverAddData } from './serverAddData';
 import serverDeleteFilesByIds from './serverDeleteFilesByIds';
+import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
 
 type TargetIdType = 'property_id' | 'event_id';
 
@@ -61,7 +62,7 @@ export default async function upload(data: FormData[], tableName: 'propertyFiles
           const bytes = await file.arrayBuffer();
           const buffer = Buffer.from(bytes);
 
-          const fileName: string = Date.now() + '-' + file.name;
+          const fileName: string = Date.now() + fileNameTimestampSeparator + file.name;
           
           //Save the database entry for the file.
           const fileData = {

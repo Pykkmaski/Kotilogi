@@ -57,16 +57,15 @@ export default function AddFilesModal(props: ModalProps & {
             );
             
             await serverRevalidatePath(path);
+            toast.success(
+                `${numSuccessfulUploads}/${numFilesToUpload} Tiedostoa lähetetty onnistuneesti!`,
+            );
         }
         catch(err){
             console.log(err.message);
             toast.error(err.message);
         }
         finally{
-            toast.success(
-                `${numSuccessfulUploads}/${numFilesToUpload} Tiedostoa lähetetty onnistuneesti!`
-            );
-            
             setFiles([]);
             
             setLoading(false);

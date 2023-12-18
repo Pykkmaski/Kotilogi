@@ -1,13 +1,28 @@
-import { InputHTMLAttributes, useRef, useState } from 'react';
+import { InputHTMLAttributes, createContext, useContext, useRef, useState } from 'react';
 import style from './style.module.scss';
 import FileListComponent from './FileListComponent';
 import FileLogo from './FileLogo';
+
+type DropZoneValueType = {
+    files: File[],
+    triggerFileInput: () => void,
+    removeFile: (file: File) => void,
+}
+
+const DropZoneContext = createContext<DropZoneValueType | null>(null);
+
+export function useDropzoneContext(){
+    const context = useContext(DropZoneContext);
+    if(!context) throw new Error('DropZone context cannot be null!');
+    return context;
+}
 
 export default function FileDropZone(props: {
     name: string,
     accept: string,
     form?: string,
     onFileUploaded: (e) => void,
+    onError?: (e) => void,
 }){
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -30,8 +45,22 @@ export default function FileDropZone(props: {
         fileInputRef.current.click();
     }
 
+    const removeFile = (file: File) => {
+        const newFiles = [...files];
+        const indexOfFile = newFiles.indexOf(file);
+        if(indexOfFile === -1) return;
+
+        
+        newFiles.splice(indexOfFile, 1);
+        setFiles(newFiles);
+    }
+
     return (
-        <>
+        <DropZoneContext.Provider value={{
+            files,
+            triggerFileInput,
+            removeFile,
+        }}>
             <input 
                 name={props.name} 
                 type="file" 
@@ -46,11 +75,11 @@ export default function FileDropZone(props: {
 
             <div className={style.dropZoneArea}>
                 {
-                    files.length ? <FileListComponent files={files} triggerFileInput={triggerFileInput}/>
+                    files.length ? <FileListComponent/>
                     :
-                    <FileLogo onClick={triggerFileInput}/>
+                    <FileLogo/>
                 }
             </div>
-        </>
+        </DropZoneContext.Provider>
     );
 }

@@ -2,6 +2,8 @@ interface HasId{
     ID: Kotilogi.IdType,
 }
 
+export const fileNameTimestampSeparator = '--';
+
 export const MaxProperties = {
     REGULAR: 1,
     PRO: -1,
