@@ -1,4 +1,4 @@
-import NavBar from "kotilogi-app/components/NavBar/NavBar";
+import {NavBar} from "kotilogi-app/components/NavBar/NavBar";
 import NavSelector from "kotilogi-app/components/NavSelector/NavSelector";
 import SelectorLink from "kotilogi-app/components/NavSelector/Components/SelectorWindow/Components/SelectorLink/SelectorLink";
 import Page from "kotilogi-app/components/Page/Page";
@@ -24,7 +24,7 @@ export default async function PropertiesLayout({params, children}){
     
     const headerContent = (
         <>
-            <NavBar id={style.mainNavBar}>
+            <NavBar id={style.mainNavBar} >
                 <DesktopLinks/>
             </NavBar>
 

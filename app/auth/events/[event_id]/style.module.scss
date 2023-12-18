@@ -8,6 +8,8 @@
     display: flex;
     flex-flow: row;
     width: 100%;
+    height: 100%;
+    
     flex: 1;
     
     form{
@@ -42,11 +44,10 @@
 
     .galleryArea{
         flex: 1;
+
         nav{
             padding-left: $medium-gap;
             margin-bottom: $medium-gap;
         }
     }
-
-    
 }

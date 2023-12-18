@@ -1,10 +1,10 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import style from './style.module.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link, { LinkProps } from 'next/link';
 
-type Props = {
+type Props = React.PropsWithChildren & React.ComponentProps<'nav'> & {
     /**
      * The direction in which the links inside the navbar will be distributed.
      */
@@ -14,7 +14,6 @@ type Props = {
      * The name of the query inside the url which defines the selected-status of a link.
      */
     navSource: string,
-    className?: string,
     links: JSX.Element[],
 }
 
@@ -23,18 +22,25 @@ type Props = {
  * @param props 
  * @returns 
  */
-export const NavBar: React.FC<Props> = (props) => {
+export const NavBar: React.FC<Props> = (props: Props) => {
     
     const searchParams = useSearchParams();
     const currentNavSource = searchParams.get(props.navSource);
 
-    props.links.forEach(link => {
-        const linkHref = new URL(link.props.href);
-        const navParam = linkHref.searchParams.get(props.navSource);
-        if(navParam === currentNavSource){
-            link.props.className = style.selected;
-        }
-    });
+    useEffect(() => {
+       props.links.forEach(link => {
+            const linkHref = new URL(link.props.href);
+            const oldClassName = link.props.className.split(' ');
+
+            if(currentNavSource === linkHref.searchParams.get(props.navSource)){
+                oldClassName.push(style.selected);
+                link.props.className = oldClassName.join(' ');
+            }
+            else{
+                const newClassName = oldClassName.split(' ')
+            }
+       })
+    }, [searchParams])
 
     if(props.direction === 'horizontal'){
         return (
