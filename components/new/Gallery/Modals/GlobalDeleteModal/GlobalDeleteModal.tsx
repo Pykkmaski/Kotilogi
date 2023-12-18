@@ -23,16 +23,18 @@ export default function GlobalDeleteModal(props: ModalProps){
 
         for(const selectedItem of state.selectedItems){
             const error = await serverDeleteData(selectedItem.id, tableName);
+            const itemTitle = selectedItem.title || selectedItem.fileName;
+
             if(error !== 0){
                 const message = `
-                    Kohteen \"${selectedItem.title}\" poisto epäonnistui!
+                    Kohteen \"${itemTitle}\" poisto epäonnistui!
                 `;
 
                 toast.error(message);
             }
             else{
                 const message = `
-                    Kohteen \"${selectedItem.title}\" poisto onnistui!
+                    Kohteen \"${itemTitle}\" poisto onnistui!
                 `;
 
                 const path = (
