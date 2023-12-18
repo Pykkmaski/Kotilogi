@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { SetStateAction } from "react";
 import ContentSectionHeader from "./ContentSectionHeader";
 import ContentSectionBody from "./ContentSectionBody";

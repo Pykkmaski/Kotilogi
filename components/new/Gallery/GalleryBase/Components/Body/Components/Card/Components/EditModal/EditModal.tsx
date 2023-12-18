@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import useGalleryContext from "@/components/new/Gallery/GalleryBase/GalleryContext";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";

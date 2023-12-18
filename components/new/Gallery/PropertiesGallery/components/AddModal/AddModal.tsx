@@ -1,7 +1,7 @@
 'use client';
 
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import ObjectModalBase from "../../../Modals/ObjectModalBase";
 import Button from "kotilogi-app/components/Button/Button";

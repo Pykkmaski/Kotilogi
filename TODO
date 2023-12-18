@@ -12,3 +12,4 @@
 + The dates on charts do not display correctly.
 - Add indicator to indicate a picture is the main image.
 - Add the same modal as in other galleries to image and file galleries.
+- The card hover menu does not close when pressing the delete button on it.

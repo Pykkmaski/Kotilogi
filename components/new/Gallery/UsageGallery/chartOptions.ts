@@ -23,10 +23,10 @@ export const options: ApexOptions = {
     plotOptions:{
         bar: {
             dataLabels: {
-                position: 'top',
+                position: 'center',
                 orientation: 'vertical',
             },
-            borderRadius: 5
+            borderRadius: 5,
         }
     },
 
@@ -49,7 +49,7 @@ export const options: ApexOptions = {
         },
         labels: {
             style: {
-                colors: [textColor]
+                colors: ['#000']
             },
             formatter: (value) => `${value} €`,
         },

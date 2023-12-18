@@ -3,7 +3,7 @@
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import Button from "kotilogi-app/components/Button/Button";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
 import toast from "react-hot-toast";

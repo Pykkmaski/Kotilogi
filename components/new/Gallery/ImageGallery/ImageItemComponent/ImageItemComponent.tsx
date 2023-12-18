@@ -6,7 +6,6 @@ import serverSetAsMainImage from 'kotilogi-app/actions/serverSetAsMainImage';
 import toast from 'react-hot-toast';
 import useGalleryContext from '../../GalleryBase/GalleryContext';
 import ItemComponent, { useItemComponentContext } from '../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent';
-import ItemDeleteModal from 'kotilogi-app/components/new/Gallery/Modals/ItemDeleteModal';
 import FileDeleteModal from '../../Modals/FileDeleteModal';
 
 function Content(props: {
@@ -20,7 +19,6 @@ function Content(props: {
     const {setShowDeleteModal, item} = useItemComponentContext();
 
     const setMainImage = async (e) => {
-
         toast.loading('Asetetaan pääkuvaa...');
 
         const refType = (
@@ -32,6 +30,7 @@ function Content(props: {
         );
 
         const error = await serverSetAsMainImage(item.id, item.refId, refType);
+        
         if(error === 0){
             setIsMain(true);
             toast.success('Pääkuva vaihdettu onnistuneesti!');
@@ -60,15 +59,26 @@ function Content(props: {
         </div>
     );
 }
+
+/**
+ * A Component for respresenting image-content in galleries.
+ * @param props 
+ * @returns 
+ */
+
 export default function ImageItemComponent(props: {
+    /**
+     * The image data contained on the database.
+     */
     item: any,
+    
     /**
      * The source of the image.
      */
     imageSrc: string,
 
     /**
-     * Is this image the main image?
+     * Is this image the main image of the target this image belongs to?
      */
     isMain: boolean,
 }){

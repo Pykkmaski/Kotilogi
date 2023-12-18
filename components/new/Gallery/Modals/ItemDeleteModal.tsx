@@ -17,7 +17,7 @@ import { useItemComponentContext } from "../GalleryBase/Components/Body/Componen
 export default function ItemDeleteModal(props: ModalProps & {
     /**Function to call after a successful deletion, for ex. deletion of files from disk.*/
     callback?: () => Promise<void>
-}){
+} & React.PropsWithChildren){
     const {item} = useItemComponentContext();
     const {props: {tableName}} = useGalleryContext();
     const [loading, setLoading] = useState(false);
@@ -41,12 +41,20 @@ export default function ItemDeleteModal(props: ModalProps & {
         setLoading(false);
     }
 
-    return (
-        <Modal show={props.show} onHide={props.onHide} id={props.id}>
+    const body = (
+        props.children 
+        || 
+        <>
             <Modal.Header>Poista Kohde</Modal.Header>
             <Modal.Body>
                 <span>Haluatko varmasti poistaa kohteen <strong>{item.title || item.fileName}</strong>?</span>
             </Modal.Body>
+        </>
+    );
+
+    return (
+        <Modal show={props.show} onHide={props.onHide} id={props.id}>
+            {body}
             <Modal.Footer>
                 <Button
                     className="secondary"

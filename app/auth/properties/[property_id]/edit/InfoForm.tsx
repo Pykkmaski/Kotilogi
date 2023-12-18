@@ -1,6 +1,6 @@
 "use client";
 
-import Form from "kotilogi-app/components/Form"
+import Form from "kotilogi-app/components/Form/Form"
 import styles from './page.module.scss';
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";

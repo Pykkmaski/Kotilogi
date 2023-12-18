@@ -1,6 +1,6 @@
 'use client';
 
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { usePropertyContext } from "../../_util/PropertyContextProvider";
 import style from '../page.module.scss';
 import { buildingMaterials, buildingTypes, colors, primaryHeatingSystems, roofMaterials, roofTypes, secondaryHeatingSystems, yardOwnershipTypes } from "kotilogi-app/constants";

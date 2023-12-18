@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import style from './style.module.scss';
 import Page from "kotilogi-app/components/Page/Page";
 import Button from "kotilogi-app/components/Button/Button";

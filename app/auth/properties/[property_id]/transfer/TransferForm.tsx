@@ -1,7 +1,7 @@
 'use client';
 
 import Button from "kotilogi-app/components/Button/Button";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import style from './style.module.scss';
 import createPropertyTransferOrder from "kotilogi-app/utils/createPropertyTransferOrder";
 import { useParams } from "next/navigation";

@@ -2,19 +2,13 @@ import Image, { StaticImageData } from "next/image"
 import style from './style.module.scss';
 import Spinner from "../Spinner/Spinner";
 
-type Props = {
+export type ButtonProps = {
     mobileIconSrc?: StaticImageData | string,
     desktopText: string,
-    disabled?: boolean,
     loading?: boolean,
-    hidden?: boolean,
-    type?: 'button' |'submit',
-    className?: string,
-    onClick?: () => void,
-    form?: string,
-}
+} & React.ComponentProps<'button'>
 
-export default function Button(props: Props){
+export default function Button(props: ButtonProps){
 
     const desktopClassName: string = [style.desktopButton, props.className].join(' ');
     const mobileClassName: string = [style.mobileButton, props.className].join(' ');
@@ -30,7 +24,7 @@ export default function Button(props: Props){
         />
     ) : null;
 
-    const BaseButton = ({className, children}) => {
+    const BaseButton = ({children, className}) => {
         return (
             <button 
                 type={props.type || 'button'} 

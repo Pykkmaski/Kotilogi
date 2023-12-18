@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { buildingTypes, colors, energyClasses, yardOwnershipTypes } from "kotilogi-app/constants";
 
 export default function ExteriorSection({currentData, onChangeHandler}){

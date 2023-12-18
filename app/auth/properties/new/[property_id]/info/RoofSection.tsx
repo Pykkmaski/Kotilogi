@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { roofMaterials, roofTypes } from "kotilogi-app/constants";
 
 export default function RoofSection({currentData, onChangeHandler}){

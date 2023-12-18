@@ -6,6 +6,7 @@
     background-size: cover;
     background-position-x:right;
     display: flex;
+    flex-flow: column;
     align-items: center;
     justify-content: center;
     flex: 1;
@@ -15,6 +16,10 @@
             color: $primary-color;
             background: #0004;
             padding: 2px;
+        }
+
+        p{
+            color: $body-color;
         }
     }
 }

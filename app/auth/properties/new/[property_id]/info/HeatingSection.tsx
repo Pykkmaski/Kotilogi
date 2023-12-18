@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { buildingMaterials, buildingTypes, colors, energyClasses, primaryHeatingSystems, secondaryHeatingSystems } from "kotilogi-app/constants";
 
 export default function HeatingSection({currentData, onChangeHandler}){

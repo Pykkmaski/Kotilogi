@@ -1,5 +1,5 @@
 import Button from "kotilogi-app/components/Button/Button";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import React from "react";
 

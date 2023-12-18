@@ -2,7 +2,7 @@
 
 import { resetPassword, sendResetCode } from "kotilogi-app/actions/resetPassword";
 import { StatusCode } from "kotilogi-app/utils/statusCode";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { useEffect, useReducer, useState } from "react";
 import resetFormReducer, { State, emailKey } from "./resetFormReducer";
 import ResetFormProvider, { useResetFormProvider } from "./ResetFormContext";
@@ -10,6 +10,12 @@ import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorCode } from "kotilogi-app/constants";
 import Button from "kotilogi-app/components/Button/Button";
+import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
+import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
+
+function FormHeader(){
+    return <Form.Header>Nollaa Salasana</Form.Header>
+}
 
 function StepOne(){
     const router = useRouter();
@@ -57,28 +63,30 @@ function StepOne(){
 
     return (
         <Form onSubmit={onSubmitHandler}>
+            <FormHeader/>
+            <p>
+                Anna sähköpostiosoitteesi. Lähetämme antamaasi osoitteeseen linkin,<br/> jonka kautta pääset nollaamaan salasanasi.<br/>
+                Sähköpostin saapumiseen saattaa mennä muutama minuutti.
+            </p>
             <Form.Group>
                 <label>Anna Sähköpostiosoitteesi</label>
                 <input type="email" name="email" required></input>
             </Form.Group>
 
-            <Form.ButtonGroup>
-                <Button 
-                    type="button" 
-                    className="secondary" 
+            <Form.Group direction="horizontal">
+                <SecondaryButton 
                     onClick={() => router.replace('/login')}
                     desktopText='Peruuta'
                     disabled={state.isLoading}
                 />
 
-                <Button 
+                <PrimaryButton 
                     type="submit" 
-                    className="primary" 
                     disabled={state.isLoading}
                     loading={state.isLoading}
                     desktopText='Seuraava'
                 />
-            </Form.ButtonGroup>
+            </Form.Group>
             {
                 state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
                 :
@@ -136,6 +144,11 @@ function StepTwo(){
 
     return (
         <Form onSubmit={onSubmitHandler}>
+            <FormHeader/>
+            <p>
+                Luo uusi salasana tällä lomakkeella. <br/>
+                Salasana tulee vaihtaa 30 minuutin sisällä.
+            </p>
             <Form.Group>
                 <label>Anna Uusi Salasana</label>
                 <input type="password" name='password1' required minLength={8}></input>
@@ -147,10 +160,10 @@ function StepTwo(){
                 <input type="password" name="password2" required minLength={8}></input>
             </Form.Group>
 
-            <Form.ButtonGroup>
-                <button type="button" className="secondary" onClick={() => previous()} disabled={isLoading}>Takaisin</button>
-                <button type="submit" className="primary" disabled={isLoading}>Lähetä</button>
-            </Form.ButtonGroup>
+            <Form.Group direction="horizontal">
+                <SecondaryButton onClick={previous} disabled={isLoading} desktopText="Takaisin"/>
+                <PrimaryButton type="submit" disabled={isLoading} loading={isLoading} desktopText="Lähetä"/>
+            </Form.Group>
         </Form>
     );
 }

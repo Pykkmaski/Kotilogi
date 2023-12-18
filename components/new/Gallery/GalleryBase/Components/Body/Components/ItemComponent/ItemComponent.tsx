@@ -1,6 +1,7 @@
 'use client';
 
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import { StaticImageData } from "next/image";
 import { createContext, useContext, useState } from "react";
 
 type ContextValueType = {
@@ -16,10 +17,17 @@ export function useItemComponentContext(){
     return context;
 }
 
-export default function ItemComponent(props: React.PropsWithChildren & {
+type ItemComponentProps = React.PropsWithChildren & {
     item: any,
     DeleteModal?: React.FC<ModalProps>
-}){
+}
+
+/**
+ * A base wrapper component including functionality shared by all components representing gallery items.
+ * @param props 
+ * @returns 
+ */
+export default function ItemComponent(props: ItemComponentProps){
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     
     return (

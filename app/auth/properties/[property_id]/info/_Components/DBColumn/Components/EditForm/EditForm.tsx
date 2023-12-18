@@ -1,5 +1,5 @@
 
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import style from './style.module.scss';
 import FormContent from "./FormContent";
 

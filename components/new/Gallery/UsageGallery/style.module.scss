@@ -1,6 +1,6 @@
 @import '@/scss/Config';
 
-.item{
+.content{
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -9,7 +9,26 @@
     width: 100%;
     background: #DDD8;
 
+    div{
+        display: inherit;
+        gap: $medium-gap;
+    }
+
+    .controlButton{
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+
     span{
         color: $body-text-color;
+    }
+
+    .price{
+        font-weight: bold;
+        &::after{
+            content: '€';
+        }
     }
 }

@@ -1,4 +1,4 @@
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { buildingTypes, colors, energyClasses } from "kotilogi-app/constants";
 import Input from "./_components/Input/Input";
 

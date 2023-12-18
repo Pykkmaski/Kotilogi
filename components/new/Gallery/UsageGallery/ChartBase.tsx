@@ -52,9 +52,7 @@ export default function ChartBase(props: ChartBaseProps){
            }
         },
 
-        tooltip: {
-            theme: 'dark',
-        }
+        
     };
 
     return (

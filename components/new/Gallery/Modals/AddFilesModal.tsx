@@ -1,7 +1,7 @@
 import upload from "kotilogi-app/actions/upload";
 import Button from "kotilogi-app/components/Button/Button";
 import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -19,9 +19,8 @@ export default function AddFilesModal(props: ModalProps & {
     refId: Kotilogi.IdType,
 }){
     const [loading, setLoading] = useState(false);
-    const {dispatch, props: {tableName}} = useGalleryContext();
-
-    var files: File[] = [];
+    const {props: {tableName}} = useGalleryContext();
+    const [files, setFiles] = useState<File[]>([]);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -31,39 +30,44 @@ export default function AddFilesModal(props: ModalProps & {
         const numFilesToUpload = files.length;
 
         try{
+            /**
+             * The array of form data to send to the server.
+             */
+            const dataArray: FormData[] = [];
+
             for(const file of files){
                 const data = new FormData();
                 data.append('file', file);
                 data.append('refId', props.refId);
-                const res = await upload(data, tableName as 'propertyFiles' | 'eventFiles');
-                
-                if(res){
-                    numSuccessfulUploads++;
-                }
-                else{
-                    toast.error(
-                        `Tiedoston ${file.name} lataaminen epäonnistui!`
-                    );
-                }
+                dataArray.push(data);
             }
 
-            files = [];
+            const res = await upload(dataArray, tableName as 'propertyFiles' | 'eventFiles');
+                
+            if(!res){
+                throw new Error('Tiedostojen lähetys epäonnistui!');
+            }
+
+            numSuccessfulUploads = res.length;
+
+            const path = (
+                tableName === 'properties' ? `/auth/properties/new/[property_id]`
+                :
+                `/auth/events/[event_id]`
+            );
+            
+            await serverRevalidatePath(path);
         }
         catch(err){
             console.log(err.message);
+            toast.error(err.message);
         }
         finally{
             toast.success(
                 `${numSuccessfulUploads}/${numFilesToUpload} Tiedostoa lähetetty onnistuneesti!`
             );
             
-            const path = (
-                tableName === 'properties' ? `/auth/properties/new/[property_id]`
-                :
-                `/auth/events/[event_id]`
-            );
-
-            await serverRevalidatePath(path);
+            setFiles([]);
             
             setLoading(false);
             props.onHide();
@@ -84,7 +88,7 @@ export default function AddFilesModal(props: ModalProps & {
                         accept={props.fileType}
                         form={formId}
                         onFileUploaded={(newFiles: File[]) => {
-                            files = newFiles;
+                            setFiles(newFiles);
                         }}
                     />
                 </Form>
@@ -102,7 +106,7 @@ export default function AddFilesModal(props: ModalProps & {
                     className="primary"
                     desktopText="Lähetä"
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || files.length == 0}
                     loading={loading}
                     form={formId}
                 />

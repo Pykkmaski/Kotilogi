@@ -4,7 +4,7 @@ import Button from 'kotilogi-app/components/Button/Button';
 import { usePropertyContext } from '../_util/PropertyContextProvider';
 import style from './page.module.scss';
 import { useSearchParams } from 'next/navigation';
-import Form from 'kotilogi-app/components/Form';
+import Form from 'kotilogi-app/components/Form/Form';
 import GeneralSection from './GeneralSection';
 import { useState } from 'react';
 import serverUpdateDataById from 'kotilogi-app/actions/serverUpdateDataById';

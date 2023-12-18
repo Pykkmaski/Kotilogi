@@ -2,7 +2,7 @@
 
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import Button from "kotilogi-app/components/Button/Button";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
 import useGalleryContext from "../GalleryBase/GalleryContext";

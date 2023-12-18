@@ -3,7 +3,7 @@
 import Modal from 'kotilogi-app/components/Modals/Modal';
 import style from './style.module.scss';
 import { MouseEventHandler, useState } from 'react';
-import Form from 'kotilogi-app/components/Form';
+import Form from 'kotilogi-app/components/Form/Form';
 import Button from 'kotilogi-app/components/Button/Button';
 
 /**

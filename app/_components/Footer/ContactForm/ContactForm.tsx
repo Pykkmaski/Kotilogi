@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from 'react';
-import Form from 'kotilogi-app/components/Form';
+import Form from 'kotilogi-app/components/Form/Form';
 import axios from 'axios';
 import styles from './component.module.scss';
 import serverSendContactMessage from 'kotilogi-app/actions/serverSendContactMessage';
@@ -41,22 +41,22 @@ function ContactForm(props){
         <Form onSubmit={onSubmitHandler} className={styles.form}>
             <Form.Group>
                 <Form.Label>Nimesi</Form.Label>
-                <Form.Control type="text" name="name" id="contact-name-input"></Form.Control>
+                <input type="text" name="name" id="contact-name-input"/>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Sähköpostiosoitteesi</Form.Label>
-                <Form.Control type="email" name="email" required={true} id="contact-email-input"></Form.Control>
+                <input type="email" name="email" required={true} id="contact-email-input"/>
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Viesti</Form.Label>
-                <Form.Control type="textarea" name="message" maxLength={200} required={true} id="contact-message-input"></Form.Control>
+                <textarea name="message" maxLength={200} required={true} id="contact-message-input"/>
             </Form.Group>
 
-            <Form.ButtonGroup>
+            <Form.Group direction="horizontal">
                 <button type="submit" className={styles.submitButton} disabled={loading} id="contact-submit-button">Lähetä</button>
-            </Form.ButtonGroup>
+            </Form.Group>
 
             {
                 loading ? <Form.Spinner size="2rem"></Form.Spinner> : <></>

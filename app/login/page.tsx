@@ -2,12 +2,14 @@
 
 import Button from 'kotilogi-app/components/Button/Button';
 import styles from './page.module.scss';
-import Form from 'kotilogi-app/components/Form';
+import Form from 'kotilogi-app/components/Form/Form';
 import {signIn} from 'next-auth/react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState, useRef} from 'react';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
+import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
+import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 
 export default function LoginPage(){
     const router = useRouter();
@@ -68,23 +70,21 @@ export default function LoginPage(){
                     <input type="password" name="password" required className={error === 'invalid_password' ? 'error' : undefined}></input>
                 </Form.Group>
 
-                <Form.ButtonGroup>
-                    <Button 
+                <Form.Group direction="horizontal">
+                    <SecondaryButton 
                         desktopText='Peruuta' 
                         type="button" 
-                        className="secondary" 
                         disabled={loading} 
                         onClick={cancelHandler}
                     />
 
-                    <Button 
+                    <PrimaryButton 
                         desktopText='Kirjaudu'
                         type="submit"
-                        className="primary"
                         disabled={loading}
                         loading={loading}
                     />
-                </Form.ButtonGroup>
+                </Form.Group>
 
                 {
                     error &&

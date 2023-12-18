@@ -3,7 +3,7 @@
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import { useChartSelectorContext } from "../../../../../../ChartSelectorContext";
 import Modal from "kotilogi-app/components/Modals/Modal";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import Button from "kotilogi-app/components/Button/Button";
 import toast from "react-hot-toast";
 

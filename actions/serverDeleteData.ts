@@ -13,6 +13,11 @@ const ErrorCode = {
     UNEXPECTED: 4,
 }
 
+/**
+ * Deletes the files with the provided filenames from disk.
+ * @param fileNames 
+ * @returns 
+ */
 export async function deleteFiles(fileNames: string[]): Promise<number>{
     try{
         for(const fileName of fileNames){

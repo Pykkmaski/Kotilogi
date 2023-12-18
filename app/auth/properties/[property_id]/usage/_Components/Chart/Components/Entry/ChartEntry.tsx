@@ -2,7 +2,7 @@ import Modal from 'kotilogi-app/components/Modals/Modal';
 import { useChartSelectorContext } from '../../../ChartSelector/ChartSelectorContext';
 import style from './style.module.scss';
 import { useState } from "react";
-import Form from 'kotilogi-app/components/Form';
+import Form from 'kotilogi-app/components/Form/Form';
 import serverUpdateDataById from 'kotilogi-app/actions/serverUpdateDataById';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import toast from 'react-hot-toast';

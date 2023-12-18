@@ -1,6 +1,6 @@
 'use client';
 
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import Button from "kotilogi-app/components/Button/Button";
@@ -85,7 +85,7 @@ export default function AddModal(props: {show: boolean, onHide: () => void}){
             </Form.Group>
             <Form.Group>
                 <label>Kuvaus</label>
-                <textarea name="description" placeholder="Kirjoita kuvaus..." onChange={onChangeHandler}/>
+                <textarea name="description" placeholder="Kirjoita kuvaus..." onChange={onChangeHandler} spellCheck={false}/>
                 <Form.SubLabel>Anna tapahtumalle vaihtoehtoinen kuvaus.</Form.SubLabel>
             </Form.Group>
         </>

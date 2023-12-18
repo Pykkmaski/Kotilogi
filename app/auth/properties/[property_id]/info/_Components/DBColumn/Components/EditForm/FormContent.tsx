@@ -1,6 +1,6 @@
 'use client';
 
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import getInputElementByLabel from "../../Util/getInputElementByLabel";
 import { useRef, useState } from "react";
 import lang from "kotilogi-app/kotilogi.lang";

@@ -2,11 +2,9 @@ import Image from "next/image";
 import FileIcon from '@/assets/copy.png';
 import style from './style.module.scss';
 
-export default function FileLogo(props: {
-    hidden?: boolean,
-}){
+export default function FileLogo(props: React.ComponentProps<'div'>){
     return (
-        <div className={style.fileLogo} hidden={props.hidden}>
+        <div className={style.fileLogo} hidden={props.hidden} onClick={props.onClick}>
             <Image
                 src={FileIcon}
                 width={75}

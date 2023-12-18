@@ -3,6 +3,7 @@ import ImageIcon from '@/assets/image_filled.png';
 import FileIcon from '@/assets/copy_filled.png';
 import style from './style.module.scss';
 import { useEffect, useRef } from "react";
+import PrimaryButton from "../Button/PrimaryButton";
 
 function DeleteButton(){
     return (
@@ -57,6 +58,7 @@ function Item(props: {
 
 export default function FileListComponent(props: {
     files: File[],
+    triggerFileInput: () => void,
 }){
     return (
         <div className={style.fileList}>
@@ -67,6 +69,7 @@ export default function FileListComponent(props: {
                     )
                 })
             }
+            <PrimaryButton desktopText="Lisää Tiedosto" onClick={props.triggerFileInput}/>
         </div>
     )
 }

@@ -1,7 +1,7 @@
-@import './Animations';
-@import './Config';
+@import '@/scss/Animations';
+@import '@/scss/Config';
 
-form{
+.container{
     display: flex;
     flex-flow: column;
     min-width: 30rem;
@@ -21,7 +21,7 @@ form{
         gap: 1.5rem;
     }
 
-    .form-title{
+    .formTitle{
         font-size: 3rem;
         color: $primary-color;
         width: inherit;
@@ -29,28 +29,28 @@ form{
         justify-content: center;
     }
 
-    .form-links{
+    .formLinks{
         display: inherit;
         flex-flow: row;
         justify-content: center;
     }
 
-    .form-error, .form-success{
+    .formError, .formSuccess{
         display: inherit;
         justify-content: center;
         background: #0004;
         @include SlideUpAnimation;
     }
 
-    .form-error{
+    .formError{
         color: $danger-color;
     }
 
-    .form-success{
+    .formSuccess{
         color: $success-color !important;
     }
 
-    .form-spinner{
+    .formSpinner{
         display: flex;
         justify-content: center;
     }
@@ -64,11 +64,11 @@ form{
     
 }
 
-form.animated{
+.container.animated{
     @include SlideUpAnimation;
 }
 
-form .form-button-group{
+.container .form-button-group{
     display: flex;
     flex-flow: row;
     gap: 1rem;
@@ -78,10 +78,18 @@ form .form-button-group{
     }
 }
 
-.form-group{
+.formGroup{
     display: flex;
     width: 100%;
     gap: 0.25rem;
+
+    &.vertical{
+        flex-flow: column;
+    }
+
+    &.horizontal{
+        flex-flow: row;
+    }
 
     &.error{
         label{
@@ -93,23 +101,12 @@ form .form-button-group{
         }
     }
 
-    &.horizontal{
-        flex-flow: row;
-        button{
-            flex: 1;
-        }
-    }
-
-    &.vertical{
-        flex-flow: column;
-    }
-
     label{
         color: whitesmoke;
         font-size: 1rem;
     }
 
-    .sub-label{
+    .subLabel{
         color: $body-text-color;
         font-size: 0.75rem;
     }
@@ -127,6 +124,10 @@ form .form-button-group{
 
     textarea{
         color: gray;
+    }
+
+    button{
+        flex: 1;
     }
 }
 

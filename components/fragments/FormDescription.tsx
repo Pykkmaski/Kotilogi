@@ -1,4 +1,4 @@
-import Form from "../Form"
+import Form from "../Form/Form"
 
 export default function FormDescription(props: FormFragmentProps){
     return (

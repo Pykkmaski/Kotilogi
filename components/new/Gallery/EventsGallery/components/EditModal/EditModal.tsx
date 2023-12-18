@@ -1,6 +1,6 @@
 'use client';
 
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import useGalleryContext from "../../../GalleryBase/GalleryContext";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import Button from "kotilogi-app/components/Button/Button";

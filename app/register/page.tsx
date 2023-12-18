@@ -1,6 +1,6 @@
 "use client";
 
-import Form from 'kotilogi-app/components/Form';
+import Form from 'kotilogi-app/components/Form/Form';
 import styles from './page.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -10,7 +10,6 @@ import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import registerUser from 'kotilogi-app/actions/registerUser';
 import { ErrorCode, MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
 import { ProCard, RegularCard } from '../_components/Pricing/Pricing';
-
 
 export default function RegisterPage(){
 
@@ -110,7 +109,7 @@ export default function RegisterPage(){
                     <input type="checkbox" required={true}></input>
                 </div>
 
-                <Form.ButtonGroup>
+                <Form.Group direction="horizontal">
                     <Button
                         type="button"
                         desktopText='Peruuta'
@@ -126,7 +125,7 @@ export default function RegisterPage(){
                         disabled={loading}
                         loading={loading}
                     />
-                </Form.ButtonGroup>
+                </Form.Group>
 
                 {
                     error === ErrorCode.PASSWORD_MISMATCH ? <Form.Error>Salasanat eivät täsmää!</Form.Error>

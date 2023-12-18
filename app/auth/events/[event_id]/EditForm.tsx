@@ -2,7 +2,7 @@
 
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import Button from "kotilogi-app/components/Button/Button";
-import Form from "kotilogi-app/components/Form";
+import Form from "kotilogi-app/components/Form/Form";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -67,7 +67,7 @@ export default function EditForm(){
                 <input type="date" name="time" defaultValue={event.time} onChange={onChangeHandler}/>
             </Form.Group>
 
-            <Form.ButtonGroup>
+            <Form.Group direction="horizontal">
                 <Button
                     className="secondary"
                     desktopText="Takaisin Tapahtumiin"
@@ -91,7 +91,7 @@ export default function EditForm(){
                     loading={loading}
                     disabled={loading || !hasChanges}
                 />
-            </Form.ButtonGroup>
+            </Form.Group>
 
             <div className={style.eventInfo} title="Tapahtuman sisältävä talo">
                 <Image

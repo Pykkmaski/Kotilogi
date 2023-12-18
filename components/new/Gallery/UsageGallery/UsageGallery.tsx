@@ -1,19 +1,12 @@
 'use client';
 
+import Error from "../GalleryBase/Components/Error/Error";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import AddModal from "./AddModal";
 import Chart from "./Chart";
+import UsageItemComponent from "./UsageItemComponent";
 import style from './style.module.scss';
-
-function ItemComponent(props: {
-    item: any,
-}){
-    return (
-        <div className={style.item}>
-            <span>{props.item.price}€</span>
-        </div>
-    );
-}
+import BoltIcon from '@/assets/bolt.png';
 
 export default function UsageGallery(props: {
     propertyId: Kotilogi.IdType,
@@ -49,7 +42,11 @@ export default function UsageGallery(props: {
                 )
                 
             }}
-            ItemComponent={ItemComponent}
+            ItemComponent={UsageItemComponent}
+            errorComponent={
+                <Error title={"Ei Kulutustietoja"} message={""} icon={BoltIcon}
+                />
+            }
         >
             <Chart title={title} type={props.type}/>
         </GalleryBase>

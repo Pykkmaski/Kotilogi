@@ -25,6 +25,11 @@ export default function FileDropZone(props: {
         props.onFileUploaded(newFiles);
     }
 
+    const triggerFileInput = () => {
+        if(!fileInputRef.current) return;
+        fileInputRef.current.click();
+    }
+
     return (
         <>
             <input 
@@ -39,17 +44,13 @@ export default function FileDropZone(props: {
                 ref={fileInputRef}
             />
 
-            <div className={style.dropZoneArea} 
-                onClick={() => {
-                    if(!fileInputRef.current) return;
-                    fileInputRef.current.click()
-                }}
-            >
-                <FileListComponent files={files}/>
-                <FileLogo hidden={files.length > 0}/>
+            <div className={style.dropZoneArea}>
+                {
+                    files.length ? <FileListComponent files={files} triggerFileInput={triggerFileInput}/>
+                    :
+                    <FileLogo onClick={triggerFileInput}/>
+                }
             </div>
         </>
-        
-        
-    )
+    );
 }
