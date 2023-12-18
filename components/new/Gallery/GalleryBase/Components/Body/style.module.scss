@@ -3,6 +3,7 @@
 .galleryBodyGrid, .galleryBodyList{
     padding-left: $medium-gap;
     padding-bottom: $medium-gap;
+    flex: 1;
     
     &.empty{
         display: flex;

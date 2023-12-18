@@ -32,25 +32,31 @@ export default function AddModal(props: {show: boolean, onHide: () => void}){
 
         setLoading(true);
 
-        const addedEvent = await serverAddData(currentData, tableName);
+        try
+        {
+            const addedEvent = await serverAddData(currentData, tableName);
 
-       if(!addedEvent){
-            toast.error('Tapahtuman lisääminen epäonnistui!');
-       }
-       else{
-            //Upload the files.
+            if(!addedEvent) throw new Error('Tapahtuman lisääminen epäonnistui!');
+
+            //Upload the files. 
+            const dataArray: FormData[] = [];
             files.forEach(async file => {
                 const data = new FormData();
                 data.append('file', file);
                 data.append('refId', addedEvent.id);
-                const result = await upload(data, 'eventFiles');
-                if(!result) console.log('File upload failed!');
+                dataArray.push(data);
             });
+
+            const uploadedFiles = upload(dataArray, 'eventFiles');
+            if(!uploadedFiles) throw new Error('Tiedostojen lähetys epäonnistui!');
 
             await serverRevalidatePath('/auth/properties/new/[property_id]/events');
             toast.success('Tapahtuman lisääminen onnistui!');
-       }
-
+        }
+        catch(err){
+            toast.error(err.message);
+        }
+       
        setLoading(false);
        dispatch({
             type: 'toggle_add_modal',
