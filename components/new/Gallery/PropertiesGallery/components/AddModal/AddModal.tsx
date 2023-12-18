@@ -15,7 +15,7 @@ export default function AddModal(props: {
     onHide: () => void
 }){
     const [loading, setLoading] = useState(false);
-    const {props: {query, tableName}, dispatch, loadData} = useGalleryContext();
+    const {props: {query, tableName}, dispatch} = useGalleryContext();
     const [currentData, setCurrentData] = useState({refId: query.refId});
 
     var files: File[] = [];
@@ -34,31 +34,34 @@ export default function AddModal(props: {
 
         setLoading(true);
 
-        const addedEvent = await serverAddData(currentData, tableName);
+        try{
+            const addedProperty = await serverAddData(currentData, tableName);
 
-       if(!addedEvent){
-            toast.error('Talon lisääminen epäonnistui!');
-       }
-       else{
+            if(!addedProperty) throw new Error('Talon lisäys epäonnistui!');
+     
             //Upload the files.
+            const dataArray: FormData[] = [];
             files.forEach(async file => {
                 const data = new FormData();
                 data.append('file', file);
-                data.append('refId', addedEvent.id);
-                const result = await upload(data, 'propertyFiles');
-                if(!result) console.log('File upload failed!');
+                data.append('refId', addedProperty.id);
+                dataArray.push(data);
             });
-            
-            loadData();
-
-            toast.success('Talon lisääminen onnistui!');
-       }
-
-       setLoading(false);
-       dispatch({
+     
+             const uploadedFiles = await upload(dataArray, 'propertyFiles');
+             if(!uploadedFiles) throw new Error('Tiedostojen lataus epäonnistui!');
+     
+             toast.success('Talon lisääminen onnistui!');
+        }
+        catch(err){
+            toast.error(err.message);
+        }
+        
+        setLoading(false);
+        dispatch({
             type: 'toggle_add_modal',
             value: false,
-       });
+        });
     }
 
     const modalId = 'property-add-modal';
