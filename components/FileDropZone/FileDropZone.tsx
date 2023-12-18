@@ -5,6 +5,11 @@ import FileLogo from './FileLogo';
 
 type DropZoneValueType = {
     files: File[],
+
+    /**
+     * The types of files that are accepted by the dropzone.
+     */
+    accept: string,
     triggerFileInput: () => void,
     removeFile: (file: File) => void,
 }
@@ -58,6 +63,7 @@ export default function FileDropZone(props: {
     return (
         <DropZoneContext.Provider value={{
             files,
+            accept: props.accept,
             triggerFileInput,
             removeFile,
         }}>
