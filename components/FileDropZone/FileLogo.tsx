@@ -9,7 +9,7 @@ export default function FileLogo(props: React.ComponentProps<'div'>){
     const {triggerFileInput, accept} = useDropzoneContext();
 
     const icon = (
-        accept === 'image/jpeg' ? ImageIcon : accept === 'application/pdf' ? FileIcon : ''
+        accept === 'image/jpeg' ? ImageIcon : accept === 'application/pdf' ? FileIcon : FileIcon
     );
 
     return (

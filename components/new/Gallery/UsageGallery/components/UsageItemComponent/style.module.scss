@@ -1,5 +1,7 @@
 @import '@/scss/Config';
 
+$background-color: rgba($primary-color, 0.7);
+
 .content{
     display: flex;
     flex-flow: row;
@@ -7,7 +9,7 @@
     justify-content: space-between;
     padding: $medium-gap;
     width: 100%;
-    background: #DDD8;
+    background: $background-color;
 
     div{
         display: inherit;

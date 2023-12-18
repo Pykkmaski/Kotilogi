@@ -9,6 +9,7 @@ import Header from "./Components/Header/Header";
 import { GalleryContext } from "./GalleryContext";
 import getDataOffset from "./Util/getDataOffset";
 import { GalleryBase } from "./declerations";
+import PageIndicator from "./Components/PageIndicator/PageIndicator";
 
 export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
     const initialState: GalleryBase.State = {
@@ -133,6 +134,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
                 />
 
                 <Body/>
+                <PageIndicator/>
             </div>
         </GalleryContext.Provider>
     )

@@ -4,8 +4,7 @@ import Error from "../GalleryBase/Components/Error/Error";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import AddModal from "./AddModal";
 import Chart from "./Chart";
-import UsageItemComponent from "./UsageItemComponent";
-import style from './style.module.scss';
+import UsageItemComponent from "./components/UsageItemComponent/UsageItemComponent";
 import BoltIcon from '@/assets/bolt.png';
 
 export default function UsageGallery(props: {

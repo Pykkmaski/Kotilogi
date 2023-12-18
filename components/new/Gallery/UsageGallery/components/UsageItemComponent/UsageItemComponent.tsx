@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ItemComponent, { useItemComponentContext } from "../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
-import UsageDeleteModal from "./UsageDeleteModal";
+import ItemComponent, { useItemComponentContext } from "../../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
+import UsageDeleteModal from "../../UsageDeleteModal";
 import style from './style.module.scss';
 import BoltIcon from '@/assets/bolt.png';
 
