@@ -55,6 +55,7 @@ function Content(props: {
                 objectFit='contain'
                 alt=""
                 src={props.imageSrc}
+                quality={25}
             />
         </div>
     );

@@ -48,23 +48,39 @@ export default function ObjectModalWithFiles(props: ModalProps & {
         setLoading(true);
 
         try{
-            const addedEvent = await serverAddData(currentData, tableName);
+            const addedTarget = await serverAddData(currentData, tableName);
 
-            if(!addedEvent) throw new Error('Kohteen lisääminen epäonnistui!');
+            if(!addedTarget) throw new Error('Kohteen lisääminen epäonnistui!');
 
             //Upload the files. 
             const dataArray: FormData[] = [];
             files.forEach(async file => {
                 const data = new FormData();
                 data.append('file', file);
-                data.append('refId', addedEvent.id);
+                data.append('refId', addedTarget.id);
                 dataArray.push(data);
             });
 
-            const uploadedFiles = upload(dataArray, 'eventFiles');
-            if(!uploadedFiles) throw new Error('Tiedostojen lähetys epäonnistui!');
+            const fileTable = (
+                tableName === 'properties' ? 'propertyFiles'
+                :
+                tableName === 'propertyEvents' ? 'eventFiles'
+                :
+                tableName
+            );
 
-            await serverRevalidatePath('/auth/properties/new/[property_id]/events');
+            const uploadedFiles = upload(dataArray, fileTable as 'propertyFiles' | 'eventFiles');
+            if(!uploadedFiles) throw new Error('Tiedostojen lähetys epäonnistui!');
+            
+            const path = (
+                tableName === 'properties' ? '/auth/properties'
+                :
+                tableName === 'propertyEvents' ? '/auth/properties/new/[property_id]/events'
+                :
+                ''
+            );
+
+            await serverRevalidatePath(path);
             toast.success('Kohteen lisääminen onnistui!');
         }
         catch(err){
