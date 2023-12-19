@@ -17,7 +17,6 @@ export async function serverGetData(dbTableName: string, query: any, onlyOne: bo
 
 export async function serverGetDataOffset(dbTableName: Kotilogi.Table, query: any, offsetAmount: number, limit: number): Promise<object | null>{
     try{
-        console.log(query.mimeType);
         const data = await db(dbTableName).where(query).offset(offsetAmount).limit(limit);
         if(!data) return null;
         return data;

@@ -15,6 +15,9 @@ export async function GET(req: NextRequest, {params}){
         if(!tableName) throw new Error('Table name not present in query!');
 
         const data = await db(tableName).where({id: file_id}).select('fileName').first();
+
+        if(!data) throw new Error(`A file with id ${file_id} could not be found in table ${tableName}!`);
+        
         const filepath = uploadPath + data.fileName;
         const fileBuffer = readFileSync(filepath);
         return new NextResponse(fileBuffer, {

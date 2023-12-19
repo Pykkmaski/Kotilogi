@@ -134,7 +134,6 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
                 />
 
                 <Body/>
-                <PageIndicator/>
             </div>
         </GalleryContext.Provider>
     )

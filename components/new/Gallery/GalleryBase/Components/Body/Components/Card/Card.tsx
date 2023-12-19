@@ -49,7 +49,14 @@ export default function Card(props: Props){
         state.selectedItems.map(item => item.id).includes(props.item.id)
     );
 
-    const imageSrcTable = tableName === 'properties' ? 'propertyFiles' : tableName === 'propertyEvents' ? 'eventFiles' : null;
+    const imageSrcTable = (
+        tableName === 'properties' ? 'propertyFiles' 
+        : 
+        tableName === 'propertyEvents' ? 'eventFiles' 
+        : 
+        null
+    );
+
     const imageUrl = (
         'mainImageId' in props.item ? 
         `/api/files/${props.item.mainImageId}?tableName=${imageSrcTable}`

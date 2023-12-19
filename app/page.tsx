@@ -6,7 +6,6 @@ import React from 'react';
 import Carousel from 'kotilogi-app/components/Carousel/Carousel';
 import style from './page.module.scss';
 import Pricing from './_components/Pricing/Pricing';
-import Header from './_Header/Header';
 
 export default function Page(props){
     return (

@@ -1,84 +1,13 @@
 'use client';
 
 import Form from "kotilogi-app/components/Form/Form";
-import useGalleryContext from "../../../GalleryBase/GalleryContext";
-import { serverAddData } from "kotilogi-app/actions/serverAddData";
-import Button from "kotilogi-app/components/Button/Button";
-import { useEffect, useRef, useState } from "react";
-import ObjectModalBase from "../../../Modals/ObjectModalBase";
-import toast from "react-hot-toast";
-import upload from "kotilogi-app/actions/upload";
-import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
-import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
+import ObjectModalWithFiles, { useObjectModalWithFilesContext } from "../../../Modals/ObjectModalWithFiles";
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
-export default function AddModal(props: {show: boolean, onHide: () => void}){
-    const {props: {query, tableName}, dispatch}   = useGalleryContext();
-    const [loading, setLoading]                   = useState(false);
-    const [currentData, setCurrentData]           = useState({refId: query.refId});
+function FormContent(){
+    const {onChangeHandler} = useObjectModalWithFilesContext();
 
-    var files: File[] = []; //Filled by the file dropzone.
-
-    const onChangeHandler = (e) => {
-        setCurrentData(prev => {
-            return {
-                ...prev,
-                [e.target.name] : e.target.value,
-            }
-        });
-    }
-    
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-
-        setLoading(true);
-
-        try
-        {
-            const addedEvent = await serverAddData(currentData, tableName);
-
-            if(!addedEvent) throw new Error('Tapahtuman lisääminen epäonnistui!');
-
-            //Upload the files. 
-            const dataArray: FormData[] = [];
-            files.forEach(async file => {
-                const data = new FormData();
-                data.append('file', file);
-                data.append('refId', addedEvent.id);
-                dataArray.push(data);
-            });
-
-            const uploadedFiles = upload(dataArray, 'eventFiles');
-            if(!uploadedFiles) throw new Error('Tiedostojen lähetys epäonnistui!');
-
-            await serverRevalidatePath('/auth/properties/new/[property_id]/events');
-            toast.success('Tapahtuman lisääminen onnistui!');
-        }
-        catch(err){
-            toast.error(err.message);
-        }
-       
-       setLoading(false);
-       dispatch({
-            type: 'toggle_add_modal',
-            value: false,
-       });
-    }
-
-    const modalId = `event-add-modal`;
-    const formId = `form-${modalId}`;
-   
-    const fileDropZone = (
-        <FileDropZone
-            name="file"
-            form={formId}
-            accept="application/pdf,image/jpeg"
-            onFileUploaded={(newFiles: File[]) => {
-               files = newFiles; 
-            }}
-        />
-    );
-
-    const formContent = (
+    return (
         <>
             <Form.Group>
                 <label>Otsikko<span className="danger">*</span></label>
@@ -95,40 +24,15 @@ export default function AddModal(props: {show: boolean, onHide: () => void}){
                 <Form.SubLabel>Anna tapahtumalle vaihtoehtoinen kuvaus.</Form.SubLabel>
             </Form.Group>
         </>
-    );
+    )
+}
 
-    const footerContent = (
-        <>
-            <Button
-                className="secondary"
-                desktopText="Peruuta"
-                onClick={() => props.onHide()}
-                disabled={loading}
-            />
-
-            <Button
-                className="primary"
-                desktopText="Lähetä"
-                type="submit"
-                form={formId}
-                loading={loading}
-                disabled={loading}
-            />
-        </>
-    );
-
-
+export default function AddModal(props: ModalProps){
     return (
-        <ObjectModalBase 
+        <ObjectModalWithFiles
+            {...props}
             title="Lisää Tapahtuma"
-            show={props.show} 
-            onHide={props.onHide} 
-            id={modalId}
-            onSubmitHandler={onSubmitHandler}
-            bodyContent={fileDropZone}
-            formContent={formContent}
-            headerContent={<h1>Tiedostot</h1>}
-            footerContent={footerContent}
+            formContent={<FormContent/>}
         />
     );
 }

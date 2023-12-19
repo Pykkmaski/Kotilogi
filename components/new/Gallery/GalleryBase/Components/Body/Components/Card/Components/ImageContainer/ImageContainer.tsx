@@ -3,7 +3,6 @@ import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { useCardContext } from "../../CardContext";
 import style from './style.module.scss';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
-import useGalleryContext from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryContext";
 
 export type MenuProps = {
     showMenu: boolean,
@@ -17,9 +16,8 @@ type Props = {
 }
 
 export default function ImageContainer(props: Props){
-    const {menuOpen, setMenuOpen, props: {item, OverlayMenu, DeleteModal, titleContent}}  = useCardContext();
+    const {menuOpen, setMenuOpen, props: {OverlayMenu, titleContent}}       = useCardContext();
     const [imageLoading, setImageLoading]                                   = useState(true);
-    const {props: {tableName}}                                              = useGalleryContext();
 
     const imageOnLoadHandler = (e) => {
         setImageLoading(false);
