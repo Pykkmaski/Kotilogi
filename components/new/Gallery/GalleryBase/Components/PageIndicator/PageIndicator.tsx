@@ -1,23 +1,22 @@
+import { useRef } from "react";
 import useGalleryContext from "../../GalleryContext";
 import style from './style.module.scss';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function PageIndicator(){
     const {state, dispatch} = useGalleryContext();
-    const increase = () => dispatch({
-        type: 'set_page_number',
-        value: state.currentPage + 1,
-    });
+    const router = useRouter();
 
-    const decrease = () => dispatch({
-        type: 'set_page_number',
-        value: state.currentPage - 1,
-    });
+    const setPageNumber = async (e) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', e.target.value);
+        router.push(url.href,);
+    }
 
     return (
         <div className={style.pageIndicator}>
-            <div className={style.button} onClick={decrease}></div>
-            <span className={style.number}>{state.currentPage}</span>
-            <div className={style.button} onClick={increase}></div>
+            <span>Sivu: </span>
+            <input min="0" className={style.number} type="number" defaultValue={state.currentPage} onChange={setPageNumber}/>
         </div>
     )
 }

@@ -8,25 +8,18 @@ import generateId from 'kotilogi-app/utils/generateId';
 import { serverAddData } from './serverAddData';
 import serverDeleteFilesByIds from './serverDeleteFilesByIds';
 import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
+import { getRefTableName } from 'kotilogi-app/utils/getRefTableName';
 
 type TargetIdType = 'property_id' | 'event_id';
 
 async function setMainImage(tableName: Kotilogi.Table, refId: Kotilogi.IdType, imageId: Kotilogi.IdType){
   const images = await db(tableName).where({refId});
-  if(images.length == 1){
-    if(tableName === 'propertyImages'){
-      await db('properties').where({id: refId}).update({
-        mainImageId: imageId,
-      });
-    }
-    else if(tableName === 'eventImages'){
-      await db('propertyEvents').where({id: refId}).update({
-        mainImageId: imageId,
-      })
-    }
-  }
-}
 
+  /**The name of the table where the owner of the files is. */
+  const refTableName = getRefTableName(tableName);
+
+  const target = await db(refTableName).where({id: refId});
+}
 
 /**
  * Uploads files, saved their info into a database table.
@@ -84,6 +77,7 @@ export default async function upload(data: FormData[], tableName: 'propertyFiles
           successfullyInsertedFiles.push(result);
         }
 
+        
         return successfullyInsertedFiles;
     }
     catch(err){

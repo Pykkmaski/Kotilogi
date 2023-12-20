@@ -9,9 +9,13 @@ import Header from "./Components/Header/Header";
 import { GalleryContext } from "./GalleryContext";
 import getDataOffset from "./Util/getDataOffset";
 import { GalleryBase } from "./declerations";
-import PageIndicator from "./Components/PageIndicator/PageIndicator";
+import {useRouter, useSearchParams} from 'next/navigation';
 
 export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
+    const searchParams = useSearchParams();
+    const pageParam = searchParams.get('page');
+    const currentPage: number = pageParam ? parseInt(pageParam) : 0;
+
     const initialState: GalleryBase.State = {
         data: [],
         selectedItems: [],
@@ -22,12 +26,12 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         viewType: 'card',
         error: false,
         itemInFocus: null,
-        currentPage: 0,
+        currentPage,
         searchString: '',
     }
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
-
+    
     function reloadItem(id: Kotilogi.IdType){
         serverGetDataById(id, props.tableName)
         .then(data => {
@@ -42,13 +46,13 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         });
     }
 
-    function loadData(){
+    function fetchData(pageNumber: number){
         dispatch({
             type: 'toggle_loading',
             value: true,
         });
 
-        serverGetDataOffset(props.tableName, props.query, getDataOffset(state.currentPage, 10), 10)
+        serverGetDataOffset(props.tableName, props.query, getDataOffset(pageNumber, 10), 10)
         .then((data: any[]) => {
           if(!data){
             dispatch({
@@ -88,9 +92,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         })
     }
 
-    useEffect(() => {
-        loadData();
-    }, [state.currentPage, props.query]);
+    useEffect(() => fetchData(currentPage), [currentPage]);
 
     const contextValue: GalleryBase.ContextValue = {
         state,

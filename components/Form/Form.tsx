@@ -1,5 +1,4 @@
 import LoadingSpinner from "../Spinner/Spinner";
-import style from './style.module.scss';
 
 function Form(props: React.ComponentProps<'form'>){
     return (

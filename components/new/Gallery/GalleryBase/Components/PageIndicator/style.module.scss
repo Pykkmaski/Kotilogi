@@ -3,21 +3,18 @@
 $size: 1.25rem;
 
 .pageIndicator{
-    position: absolute;
     display: flex;
     flex-flow: row;
     align-items: center;
     gap: $medium-gap;
     bottom: $medium-gap;
-    left: 50%;
-    transform: translateX(-50%);
     user-select: none;
 }
 
 .number{
     font-size: $size;
     color: $body-text-color;
-    width: calc($medium-gap * 2);
+    width: 100px;
     text-align: center;
 }
 

@@ -13,6 +13,11 @@
     margin-bottom: 2rem;
 
     .titleContainer{
+        display: inherit;
+        gap: $medium-gap;
+        align-items: center;
+        justify-content: center;
+        
         h1{
             color: $primary-color;
         }

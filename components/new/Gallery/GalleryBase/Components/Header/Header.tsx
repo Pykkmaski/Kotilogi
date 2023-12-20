@@ -4,6 +4,7 @@ import style from './style.module.scss';
 import BinIcon from '@/assets/bin.png';
 import PlusIcon from '@/assets/plus.png';
 import AddButton from '../AddButton/AddButton';
+import PageIndicator from '../PageIndicator/PageIndicator';
 
 export default function Header(props: {
     title: string,
@@ -35,8 +36,9 @@ export default function Header(props: {
         <div className={style.galleryHeader}>
             <div className={style.titleContainer}>
                 <h2>{props.title}</h2>
+                <PageIndicator/>
             </div>
-            
+
             <div className={style.buttonsContainer}>    
                 {buttons}
             </div>

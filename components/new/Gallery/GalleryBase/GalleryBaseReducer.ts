@@ -76,7 +76,7 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
         case 'add_data': {
             return {
                 ...state,
-                data: [...state.data, action.value],
+                data: [...state.data, ...action.value],
             }
         }
 

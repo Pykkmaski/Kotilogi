@@ -1,6 +1,4 @@
 import style from './layout.module.scss';
-import HeaderSection from './_components/HeaderSection';
-import { serverGetData } from 'kotilogi-app/actions/serverGetData';
 import db from 'kotilogi-app/dbconfig';
 import PropertyContextProvider from './_util/PropertyContextProvider';
 import NavBar from './_components/NavBar';
@@ -26,7 +24,6 @@ export default async function Layout({children, params}){
                     </section>
                 </div>
             </div>
-            
         </PropertyContextProvider>
     )
 }
