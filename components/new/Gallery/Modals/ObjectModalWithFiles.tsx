@@ -88,10 +88,7 @@ export default function ObjectModalWithFiles(props: ModalProps & {
         }
        
        setLoading(false);
-       dispatch({
-            type: 'toggle_add_modal',
-            value: false,
-       });
+       props.onHide();
     }
 
     const modalId = `target-add-modal`;
