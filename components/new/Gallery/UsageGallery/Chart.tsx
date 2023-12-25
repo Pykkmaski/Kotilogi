@@ -1,8 +1,10 @@
+'use client';
+
 import useGalleryContext from "../GalleryBase/GalleryContext";
 import ChartBase from "./ChartBase";
 import { ChartProps } from "./ChartProps";
 
-export default function ElectricalUsageChart(props: {
+export default function Chart(props: {
     type: string,
     title: string,
 }){

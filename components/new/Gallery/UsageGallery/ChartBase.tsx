@@ -5,8 +5,9 @@ import dynamic from 'next/dynamic';
 import {options as chartOptions, textColor} from './chartOptions';
 import stringToDate from "kotilogi-app/utils/stringToDate";
 import locale from "kotilogi-app/locale.config";
+import Chart from 'react-apexcharts';
 
-const Chart = dynamic(() => import('react-apexcharts'));
+//const Chart = dynamic(() => import('react-apexcharts'));
 
 type ChartBaseProps = {
     options: ApexOptions,
@@ -15,6 +16,7 @@ type ChartBaseProps = {
 }
 
 export default function ChartBase(props: ChartBaseProps){
+    if(!window) return null;
 
     const categories: string[] = props.rawdata.map((item: Kotilogi.UsageType) => {
         return new Date(item.time).toLocaleDateString('fi-FI');
@@ -63,6 +65,7 @@ export default function ChartBase(props: ChartBaseProps){
             <Chart
                 type={'bar'}
                 height="500"
+                width="100%"
                 options={options}
                 series={props.series}
             /> 

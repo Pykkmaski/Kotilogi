@@ -96,7 +96,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     useEffect(() => fetchData(currentPage), [currentPage, props.query]);
 
     useEffect(() => {
-        if(state.searchString === '') fetchData(0);
+        if(state.searchString === '') return;
 
         dispatch({
             type: 'toggle_loading',

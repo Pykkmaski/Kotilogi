@@ -27,7 +27,6 @@ export default function AddModal(props: {
             ...currentData,
             [e.target.name] : e.target.value,
         });
-        console.log(currentData);
     }
 
     const onSubmitHandler = async (e) => {
