@@ -1,7 +1,7 @@
 'use client';
 
 import { CSSProperties } from "react";
-import Error from "../GalleryBase/Components/Error/Error";
+import ErrorComponent from "../GalleryBase/Components/Error/Error";
 import GalleryBase from "../GalleryBase/GalleryBase";
 import AddModal from "./AddModal";
 import Chart from "./Chart";
@@ -9,6 +9,21 @@ import UsageItemComponent from "./components/UsageItemComponent/UsageItemCompone
 import BoltIcon from '@/assets/bolt.png';
 import Body from "../GalleryBase/Components/Body/Body";
 import React from "react";
+import Header from "../GalleryBase/Components/Header/Header";
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import useGalleryContext from "../GalleryBase/GalleryContext";
+
+function UsageAddModal(props: ModalProps){
+    const {props: {query: {type}}} = useGalleryContext();
+    if(!type) throw new Error('Usage add modal cannot be rendered because usage type is undefined!');
+
+    return (
+        <AddModal 
+            {...props}
+            type={type}
+        />
+    );
+}
 
 function UsageGalleryBody({children}){
     const style: CSSProperties = {
@@ -21,7 +36,7 @@ function UsageGalleryBody({children}){
     const sideStyle: CSSProperties = {
         flex: 1,
     }
-    
+
     const [chart, data] = React.Children.toArray(children);
     
     return (
@@ -60,21 +75,13 @@ export default function UsageGallery(props: {
                 refId: props.propertyId,
                 type: props.type,
             }}
-            AddModal={(hocprops: {show: boolean, onHide: () => void}) => {
-                return (
-                    <AddModal 
-                        {...hocprops}
-                        type={props.type}
-                    />
-                )
-                
-            }}>
-
+           >
+            <Header title="Kulutustiedot" AddModal={UsageAddModal}/>
             <UsageGalleryBody>
                 <Chart title={title} type={props.type}/>
                 <Body 
                     itemComponent={UsageItemComponent} 
-                    errorComponent={<Error title={"Ei Kulutustietoja"} message={""} icon={BoltIcon}/>}
+                    errorComponent={<ErrorComponent title={"Ei Kulutustietoja"} message={""} icon={BoltIcon}/>}
                     displayStyle="vertical"/>
             </UsageGalleryBody>
             
