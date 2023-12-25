@@ -11,6 +11,7 @@ import ImageIcon from '@/assets/image.png';
 import ImageError from "../GalleryBase/Components/Error/ImageError";
 import Body from "../GalleryBase/Components/Body/Body";
 import useGalleryContext from "../GalleryBase/GalleryContext";
+import Header from "../GalleryBase/Components/Header/Header";
 
 export function getRefTableName(fileTableName: 'propertyFiles' | 'eventFiles'): 'properties' | 'propertyEvents'{
     return (
@@ -18,6 +19,20 @@ export function getRefTableName(fileTableName: 'propertyFiles' | 'eventFiles'): 
         :
         'propertyEvents'
     );
+}
+
+function AddModal(props: ModalProps){
+    const {props: {query: {refId}}} = useGalleryContext();
+
+    return (
+        <AddFilesModal
+            {...props}
+            title="Lisää Kuvia"
+            fileType="image/jpeg"
+            id={`add-images-modal-${refId}`}
+            refId={refId}
+        />
+    )
 }
 
 function ItemComponent(props: {
@@ -56,29 +71,15 @@ export default function ImageGallery(props: {
     return (
         <GalleryBase 
             {...props}
-
             title="Kuvat"
-
             contentType="image"
-
             query={{
                 refId: props.refId,
                 mimeType: 'image/jpeg',
-            }}
-
-            AddModal={(hocProps: ModalProps & {id: Kotilogi.IdType}) => {
-                return (
-                    <AddFilesModal
-                        {...hocProps}
-                        title="Lisää Kuvia"
-                        fileType="image/jpeg"
-                        id={`add-images-modal-${props.refId}`}
-                        refId={props.refId}
-                    />
-                )
             }}>
-
-            <Body 
+            
+            <Header title="Kuvat" AddModal={AddModal}/>
+            <Body   
                 displayStyle="horizontal" 
                 itemComponent={ItemComponent} 
                 errorComponent={
