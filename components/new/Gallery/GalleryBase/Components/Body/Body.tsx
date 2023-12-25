@@ -1,42 +1,38 @@
-import Loading from "kotilogi-app/components/Loading/Loading";
 import useGalleryContext from "../../GalleryContext";
-import style from './style.module.scss';
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
-import Error from "../Error/Error";
-
-function LoadingBody(){
-    return (
-        <div className={style.loadingBody}>
-            <Spinner size="2rem" />
-        </div>
-    );
-}
+import { CSSProperties } from "react";
 
 type BodyProps = {
-    
+    displayStyle: 'vertical' | 'horizontal',
+    itemComponent: React.FC<{item: any}>,
+    errorComponent: JSX.Element,
 }
 
-export default function Body(){
-    const {state, props: {ItemComponent, displayStyle, children, errorComponent}} = useGalleryContext();
-    const bodyClassName = displayStyle === 'list' ? style.galleryBodyList : style.galleryBodyGrid;
+export default function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props}: BodyProps){
+    const {state} = useGalleryContext();
+
+    const bodyStyle: CSSProperties = {
+        display: 'flex',
+        flexFlow: displayStyle === 'vertical' ? 'column' : 'row wrap',
+        gap: '1rem'
+    }
 
     return (
         state.error ? <h1>Tapahtui odottamaton virhe!</h1>
         :
-        state.isLoading ? <LoadingBody/>
+        state.isLoading ? <Spinner size='2rem'/>
         :
         state.data.length ? 
-        <>
-            {children}
-            <div className={bodyClassName} style={{gap: state.data.length ? '1rem' : 0}}>
-                {
-                    state.data.map((item, index: number) => {
-                        return <ItemComponent item={item} key={`gallery-item-${index}`}/>
-                    })
-                }
-            </div>
-        </>
+
+        <div style={bodyStyle}>
+            {
+                state.data.map((item, index: number) => {
+                    return <ItemComponent item={item} key={`gallery-item-${index}`}/>
+                })
+            }
+        </div>
+
         :
-        errorComponent
+        props.errorComponent
     );
 }

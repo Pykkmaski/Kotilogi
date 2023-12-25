@@ -58,26 +58,6 @@ declare namespace GalleryBase{
          */
 
         unsupported?: boolean,
-
-        /**
-         * The style to display the gallery in: Grid or List. 
-         * Ignored when the content type is set to file or image.
-         */
-
-        displayStyle?: 'grid' | 'list';
-
-        /**
-         * The element representing the individual data contained by the gallery.
-         */
-
-        ItemComponent: React.FC<{
-            item: any,
-        }>,
-
-        /**
-         * The component to display when there is no content.
-         */
-        errorComponent: JSX.Element,
     }
     
     declare type CardProps = {

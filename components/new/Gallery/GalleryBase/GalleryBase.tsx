@@ -157,7 +157,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
 
                 <Header title={props.title}/>
 
-                <Body/>
+                {props.children}
             </div>
         </GalleryContext.Provider>
     )
