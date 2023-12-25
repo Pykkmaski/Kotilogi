@@ -129,34 +129,6 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     return (
         <GalleryContext.Provider value={contextValue}>
             <div className={style.galleryContainer}>
-                {
-                    props.AddModal ? <props.AddModal 
-                        show={state.showAddModal} 
-                        onHide={() => dispatch({
-                            type: 'toggle_add_modal',
-                            value: false,
-                    })}
-                    />
-                    :
-                    null
-                }
-
-                {
-                    props.DeleteModal ? <props.DeleteModal
-                        id={`gallery-delete-modal-${props.tableName}`}
-                        show={state.showDeleteModal}
-                        onHide={() => dispatch({
-                            type: 'toggle_delete_modal',
-                            value: false,
-                        })}
-                    />
-                    :
-                    null
-
-                } 
-
-                <Header title={props.title}/>
-
                 {props.children}
             </div>
         </GalleryContext.Provider>

@@ -7,6 +7,7 @@ import Error from "../GalleryBase/Components/Error/Error";
 import HouseIcon from '@/assets/house.png';
 import Body from "../GalleryBase/Components/Body/Body";
 import { CSSProperties } from "react";
+import Header from "../GalleryBase/Components/Header/Header";
 
 function ItemComponent(props: {
     item: any
@@ -51,9 +52,9 @@ export default async function PropertiesGallery(props: {
             query={{
                 refId: props.ownerId,
             }}
-            title="Talot"
-            AddModal={AddModal}>
-
+            title="Talot">
+                
+            <Header title="Talot" AddModal={AddModal}/>
             <PropertiesGalleryBody/>
         </GalleryBase>
     );
