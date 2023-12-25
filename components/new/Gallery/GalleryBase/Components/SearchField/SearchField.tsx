@@ -17,7 +17,6 @@ export function SearchField(){
         const duration = 500;
 
         timeout.current = setTimeout(() => {
-            console.log('Dispatching search...');
             dispatch({
                 type: 'set_search',
                 value: search,

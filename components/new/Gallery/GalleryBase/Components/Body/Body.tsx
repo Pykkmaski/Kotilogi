@@ -12,6 +12,10 @@ function LoadingBody(){
     );
 }
 
+type BodyProps = {
+    
+}
+
 export default function Body(){
     const {state, props: {ItemComponent, displayStyle, children, errorComponent}} = useGalleryContext();
     const bodyClassName = displayStyle === 'list' ? style.galleryBodyList : style.galleryBodyGrid;

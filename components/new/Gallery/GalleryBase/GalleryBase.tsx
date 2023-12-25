@@ -129,7 +129,6 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     return (
         <GalleryContext.Provider value={contextValue}>
             <div className={style.galleryContainer}>
-                
                 {
                     props.AddModal ? <props.AddModal 
                         show={state.showAddModal} 
@@ -156,9 +155,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
 
                 } 
 
-                <Header
-                    title={props.title}
-                />
+                <Header title={props.title}/>
 
                 <Body/>
             </div>
