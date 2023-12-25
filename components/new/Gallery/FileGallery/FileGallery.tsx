@@ -6,6 +6,21 @@ import AddFilesModal from "../Modals/AddFilesModal";
 import FileItemComponent from "./FileItemComponent/FileItemComponent";
 import FileError from "../GalleryBase/Components/Error/FileError";
 import GlobalDeleteModal from "../Modals/GlobalDeleteModal/GlobalDeleteModal";
+import useGalleryContext from "../GalleryBase/GalleryContext";
+import Body from "../GalleryBase/Components/Body/Body";
+
+function ItemComponent(props: {
+    item: any
+}){
+    const {props: {tableName}} = useGalleryContext();
+
+    return (
+        <FileItemComponent
+            {...props}
+            destination={`/api/files/${props.item.id}?tableName=${tableName}`}
+        />
+    );
+}
 
 export default function FileGallery(props: {
     tableName: 'propertyFiles' | 'eventFiles',
@@ -16,7 +31,6 @@ export default function FileGallery(props: {
             {...props}
             title="Tiedostot"
             contentType="file"
-            displayStyle="list"
             query={{
                 refId: props.refId,
                 mimeType: 'application/pdf',
@@ -32,22 +46,13 @@ export default function FileGallery(props: {
                         refId={props.refId}
                     />
                 )
-            }}
+            }}  
 
-            ItemComponent={(hocProps) => {
-                return (
-                    <FileItemComponent
-                        {...hocProps}
-                        destination={`/api/files/${hocProps.item.id}?tableName=${props.tableName}`}
-                    />
-                );
-            }}
-
-            errorComponent={
+            DeleteModal={GlobalDeleteModal}>
+            
+            <Body displayStyle="vertical" itemComponent={ItemComponent} errorComponent={
                 <FileError message="Et ole vielä lisännyt tiedostoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."/>
-            }   
-
-            DeleteModal={GlobalDeleteModal}
-        />
+            }/>
+        </GalleryBase>
     )
 }
