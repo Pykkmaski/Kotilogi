@@ -1,6 +1,10 @@
 @import 'kotilogi-app/scss/Config';
 @import './_partials/gallery';
 
+:root{
+    --primary-color: #e3a149;
+}
+
 #main-header{
     transition: all 0.2s ease;
 }

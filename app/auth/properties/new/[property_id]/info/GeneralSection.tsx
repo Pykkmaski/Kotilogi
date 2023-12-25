@@ -7,8 +7,8 @@ import { Section } from "./Section";
 export default function GeneralSection({currentData, onChangeHandler}){
     return (
         <Section title="Yleistiedot">
-            <Input label="Osoite" name="title" defaultValue={currentData.title} onChange={onChangeHandler} type="text"/>
-            <Input label="Postinumero" name="zipCode" defaultValue={currentData.zipCode} onChange={onChangeHandler} type="text"/>
+            <Input label="Osoite" name="title" required={true} defaultValue={currentData.title} onChange={onChangeHandler} type="text"/>
+            <Input label="Postinumero" name="zipCode" required={true} defaultValue={currentData.zipCode} onChange={onChangeHandler} type="text"/>
             <Input label="Rakennusvuosi" name="buildYear" defaultValue={currentData.buildYear} onChange={onChangeHandler} type="number"/>
             <Select label="Rakennustyyppi" onChange={onChangeHandler} name="buildingType">
                 {
