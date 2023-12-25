@@ -1,9 +1,11 @@
 import { CSSProperties } from "react"
 
+const borderRadius = '10px';
+
 const containerStyle: CSSProperties = {
     display: 'flex',
     width: '100%',
-    borderRadius: '10px',
+    borderRadius,
     border: '1px solid #DDD',
 }
 
@@ -12,6 +14,8 @@ const inputStyle: CSSProperties = {
     borderBottom: 'none',
     paddingLeft: '0.5rem',
     backgroundColor: 'white',
+    borderTopRightRadius: borderRadius,
+    borderBottomRightRadius: borderRadius,
 }
 
 function Label(props: {
@@ -37,6 +41,11 @@ type InputProps = React.ComponentProps<'input'> & {
     label: string,
 }
 
+/**
+ * An input component containing within it a label.
+ * @param props 
+ * @returns 
+ */
 export function Input(props: InputProps){
     return (
         <div style={containerStyle}>
@@ -50,6 +59,11 @@ type SelectProps = React.ComponentProps<'select'> & {
     label: string,
 }
 
+/**
+ * A select component containing within it a label.
+ * @param props 
+ * @returns 
+ */
 export function Select(props: SelectProps){
     return (
         <div style={containerStyle}>
@@ -59,4 +73,28 @@ export function Select(props: SelectProps){
             </select>
         </div>
     );
+}
+
+type TextAreaProps = React.ComponentProps<'textarea'> & {
+    label: string,
+}
+
+export function Textarea(props: TextAreaProps){
+    const textareaStyle: CSSProperties = {
+        ...containerStyle,
+        flexFlow: 'column',
+    }
+
+    const textareaLabelStyle: CSSProperties = {
+        minWidth: '10%',
+        borderTopLeftRadius: '10px',
+        borderTopRightRadius: '10px',
+    }
+
+    return (
+        <div style={textareaStyle}>
+            <div style={textareaLabelStyle}>{props.label}</div>
+            <textarea {...props}/>
+        </div>
+    )
 }
