@@ -22,28 +22,12 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         selectedItems: [],
         showEditModal: false,
         isLoading: true,
-        viewType: 'card',
         error: false,
-        itemInFocus: null,
         currentPage,
         searchString: '',
     }
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
-    
-    function reloadItem(id: Kotilogi.IdType){
-        serverGetDataById(id, props.tableName)
-        .then(data => {
-            console.log('Got updated data')
-            dispatch({
-                type: 'update_item',
-                value: data,
-            });
-        })
-        .catch(err => {
-            console.log(err.message);
-        });
-    }
 
     function fetchData(pageNumber: number){
         dispatch({
@@ -121,7 +105,6 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         state,
         props,
         dispatch,
-        reloadItem,
     }
 
     return (

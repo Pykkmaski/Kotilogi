@@ -1,15 +1,1 @@
-#Problems. Check when fixed.
-- The file upload modal does not display the logo on chrome. (On render)
-- The price values on the columns in charts are white and cannot be seen.
-- Add warning when leaving an edited tab. Namely the info tab.
-- When adding a property or an event, change the file dropzone to only accept one image, that becomes the main image on upload.
-- Check the validity of zip codes.
-- Add update your plan-button to the properties gallery, if using a regular plan.
-- Add user dashboard button to the main header.
-- Add counter to show free users how long they have left of their subscription.
-- Add new user account email verification.
-- Add Gallery body scrolling to the right and left, with four events visible at a time.
-+ The dates on charts do not display correctly.
-- Add indicator to indicate a picture is the main image.
-- Add the same modal as in other galleries to image and file galleries.
-- The card hover menu does not close when pressing the delete button on it.
+- Emptying the search field in a gallery header should refetch all data.

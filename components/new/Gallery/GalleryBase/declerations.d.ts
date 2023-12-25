@@ -69,37 +69,26 @@ declare namespace GalleryBase{
         state: State,
         props: Props & {children?: React.ReactNode},
         dispatch: React.Dispatch,
-        reloadItem: (id: Kotilogi.IdType) => void,
     }
 
     declare type State = HasData & {
         selectedItems: any[],
-        itemInFocus: any,
         showEditModal: boolean,
         isLoading: boolean,
         currentPage: number,
-        viewType: 'card' | 'list',
         error: boolean,
         searchString: string,
     }
     
     declare type ActionType = 
-        'toggle_edit_modal' |
         'select_item' | 
         'add_data' | 
-        'delete_data' |
         'set_search' |
         'delete_items' |
         'toggle_loading' | 
         'toggle_error' |
         'set_data' | 
         'reset_selected' | 
-        'select_all' | 
-        'set_viewtype' |
-        'show_edit_modal' |
-        'hide_edit_modal' |
-        'edit_item' |
-        'update_item' |
         'set_page_number';
     
     declare type Action = {
