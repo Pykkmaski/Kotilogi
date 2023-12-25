@@ -1,12 +1,13 @@
 import Form from "kotilogi-app/components/Form/Form";
+import { Select } from "kotilogi-app/components/Input/Input";
 import { buildingMaterials, buildingTypes, colors, energyClasses, primaryHeatingSystems, secondaryHeatingSystems } from "kotilogi-app/constants";
+import { Section } from "./Section";
 
 export default function HeatingSection({currentData, onChangeHandler}){
     return (
-        <>
-            <Form.Group>
-                <label>Ensisijainen</label>
-                <select onChange={onChangeHandler} name="primaryHeatingSystem">
+        <Section title="Lämmitys">
+          
+                <Select label="Ensisijainen" onChange={onChangeHandler} name="primaryHeatingSystem">
                     {
                         primaryHeatingSystems.map((val, index: number) => {
                             return (
@@ -14,12 +15,9 @@ export default function HeatingSection({currentData, onChangeHandler}){
                             );
                         })
                     }
-                </select>
-            </Form.Group>
-
-            <Form.Group>
-                <label>Toissijainen</label>
-                <select onChange={onChangeHandler} name="secondaryHeatingSystem">
+                </Select>
+                
+                <Select label="Toissijainen" onChange={onChangeHandler} name="secondaryHeatingSystem">
                     {
                         secondaryHeatingSystems.map((val, index: number) => {
                             return (
@@ -27,8 +25,8 @@ export default function HeatingSection({currentData, onChangeHandler}){
                             );
                         })
                     }
-                </select>
-            </Form.Group>
-        </> 
+                </Select>
+  
+        </Section> 
     );
 }

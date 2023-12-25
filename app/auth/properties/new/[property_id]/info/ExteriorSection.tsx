@@ -1,17 +1,15 @@
 import Form from "kotilogi-app/components/Form/Form";
+import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { buildingTypes, colors, energyClasses, yardOwnershipTypes } from "kotilogi-app/constants";
+import { Section } from "./Section";
 
 export default function ExteriorSection({currentData, onChangeHandler}){
     return (
-        <>
-            <Form.Group>
-                <label>Pinta-ala m<sup>2</sup></label>
-                <input name="yardArea" defaultValue={currentData.yardArea} onChange={onChangeHandler}/>
-            </Form.Group>
-            
-            <Form.Group>
-                <label>Omistustyyppi</label>
-                <select name="yardOwnership" onChange={onChangeHandler}>
+        <Section title="Tontti">
+         
+                <Input label="Pinta-ala" name="yardArea" defaultValue={currentData.yardArea} onChange={onChangeHandler}/>
+     
+                <Select label="Omistus" name="yardOwnership" onChange={onChangeHandler}>
                     {
                         yardOwnershipTypes.map((val, index: number) => {
                             return (
@@ -19,8 +17,8 @@ export default function ExteriorSection({currentData, onChangeHandler}){
                             );
                         })
                     }
-                </select>
-            </Form.Group>
-        </> 
+                </Select>
+       
+        </Section> 
     );
 }

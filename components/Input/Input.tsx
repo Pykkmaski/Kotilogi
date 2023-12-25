@@ -8,7 +8,7 @@ const containerStyle: CSSProperties = {
 }
 
 const labelStyle: CSSProperties = {
-    width: '15%',
+    width: '20%',
     background: '#DDD',
     color: 'black',
     borderTopLeftRadius: '10px',

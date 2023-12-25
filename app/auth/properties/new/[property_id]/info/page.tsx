@@ -57,15 +57,6 @@ export default function InfoPage(){
     return (
        <section className={style.body}>
             <div className={style.header}>
-                <nav className="overhead">
-                    <Link href="?section=general">Yleistiedot</Link>
-                    <Link href="?section=building">Julkisivu</Link>
-                    <Link href="?section=exterior" hidden={currentData.buildingType === 'Kerrostalo'}>Tontti</Link>
-                    <Link href="?section=roof">Katto</Link>
-                    <Link href="?section=interior">Sisätilat</Link>
-                    <Link href="?section=heating">Lämmitys</Link>
-                </nav>
-
                 <Button
                     type="submit"
                     className="primary"
@@ -78,21 +69,18 @@ export default function InfoPage(){
             
 
             <Form onSubmit={onSubmitHandler} className={style.propertyForm} id={formId}>
+                <GeneralSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                <BuildingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                <InteriorSection currentData={currentData} onChangeHandler={onChangeHandler}/>
                 {
-                    section === 'general' ? <GeneralSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                    :
-                    section === 'interior' ? <InteriorSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                    :
-                    section === 'exterior' ? <ExteriorSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                    :
-                    section === 'building' ? <BuildingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                    :
-                    section === 'heating' ? <HeatingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                    :
-                    section === 'roof' ? <RoofSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                    currentData.buildingType !== 'Kerrostalo' ? 
+                    <ExteriorSection currentData={currentData} onChangeHandler={onChangeHandler}/>
                     :
                     null
                 }
+                
+                <HeatingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                <RoofSection currentData={currentData} onChangeHandler={onChangeHandler}/>
             </Form>
        </section> 
     );
