@@ -9,12 +9,43 @@ import AddFilesModal from "../Modals/AddFilesModal";
 import GalleryError from "../GalleryBase/Components/Error/Error";
 import ImageIcon from '@/assets/image.png';
 import ImageError from "../GalleryBase/Components/Error/ImageError";
+import Body from "../GalleryBase/Components/Body/Body";
+import useGalleryContext from "../GalleryBase/GalleryContext";
 
 export function getRefTableName(fileTableName: 'propertyFiles' | 'eventFiles'): 'properties' | 'propertyEvents'{
     return (
         fileTableName === 'propertyFiles' ? 'properties'
         :
         'propertyEvents'
+    );
+}
+
+function ItemComponent(props: {
+    refId: string,
+    item: any,
+}){
+    const {props: {tableName}} = useGalleryContext();
+    const [isMain, setIsMain] = useState(false);
+    useEffect(() => {
+        const refTableName = getRefTableName(tableName as 'propertyFiles' | 'eventFiles');
+        serverImageIsMainImage(props.item.id, props.refId, refTableName)
+        .then(result => {
+            if(!result){
+                throw new Error('Could not determine main status of image!');
+            }
+            else{
+                setIsMain(result);
+            }
+        })
+        .catch(err => console.log(err.message));
+    }, []);
+
+    return (
+        <ImageItemComponent
+            {...props}
+            imageSrc={`/api/files/${props.item.id}?tableName=${tableName}`}
+            isMain={isMain}
+        />
     );
 }
 
@@ -45,37 +76,14 @@ export default function ImageGallery(props: {
                         refId={props.refId}
                     />
                 )
-            }}
+            }}>
 
-            ItemComponent={(hocProps) => {
-                const [isMain, setIsMain] = useState(false);
-
-                useEffect(() => {
-                    const refTableName = getRefTableName(props.tableName);
-                    serverImageIsMainImage(hocProps.item.id, props.refId, refTableName)
-                    .then(result => {
-                        if(!result){
-                            throw new Error('Could not determine main status of image!');
-                        }
-                        else{
-                            setIsMain(result);
-                        }
-                    })
-                    .catch(err => console.log(err.message));
-                }, []);
-            
-                return (
-                    <ImageItemComponent
-                        {...hocProps}
-                        imageSrc={`/api/files/${hocProps.item.id}?tableName=${props.tableName}`}
-                        isMain={isMain}
-                    />
-                );
-            }}
-
-            errorComponent={
-                <ImageError message="Et ole vielä lisännyt kuvia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta"/>
-            }       
-        />
+            <Body 
+                displayStyle="horizontal" 
+                itemComponent={ItemComponent} 
+                errorComponent={
+                    <ImageError message="Et ole vielä lisännyt kuvia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta"/>
+                }/>
+        </GalleryBase>
     )
 }
