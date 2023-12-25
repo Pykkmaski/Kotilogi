@@ -10,6 +10,7 @@ import Error from '../GalleryBase/Components/Error/Error';
 import HistoryIcon from '@/assets/history.png';
 import style from './style.module.scss';
 import Body from '../GalleryBase/Components/Body/Body';
+import Header from '../GalleryBase/Components/Header/Header';
 
 function ItemComponent(props: {
     item: any
@@ -41,10 +42,9 @@ export default function EventsGallery(props: EventsGalleryProps){
             query={{
                 refId: props.propertyId
             }}
-            AddModal={AddModal}
-            DeleteModal={GlobalDeleteModal}
             key={'event-gallery'}>
                 
+            <Header title="Tapahtumat" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
             <Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
                     title="Ei Tapahtumia"
                     message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
