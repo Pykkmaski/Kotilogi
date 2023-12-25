@@ -1,1 +1,2 @@
 - Emptying the search field in a gallery header should refetch all data.
+- Fix the color on the labels of the login form.
