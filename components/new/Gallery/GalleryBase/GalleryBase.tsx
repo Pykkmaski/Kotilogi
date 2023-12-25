@@ -10,6 +10,7 @@ import { GalleryContext } from "./GalleryContext";
 import getDataOffset from "./Util/getDataOffset";
 import { GalleryBase } from "./declerations";
 import {useRouter, useSearchParams} from 'next/navigation';
+import { getDataBySubstring } from "kotilogi-app/actions/getDataBySubstring";
 
 export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
     const searchParams = useSearchParams();
@@ -93,6 +94,30 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     }
 
     useEffect(() => fetchData(currentPage), [currentPage]);
+
+    useEffect(() => {
+        if(state.searchString === '') fetchData(0);
+
+        dispatch({
+            type: 'toggle_loading',
+            value: true,
+        });
+
+        getDataBySubstring(props.tableName, state.searchString)
+        .then(data => {
+            dispatch({
+                type: 'set_data',
+                value: data,
+            })
+        })
+        .catch(err => console.log(err.message))
+        .finally(() => {
+            dispatch({
+                type: 'toggle_loading',
+                value: false,
+            });
+        });
+    }, [state.searchString]);    
 
     const contextValue: GalleryBase.ContextValue = {
         state,

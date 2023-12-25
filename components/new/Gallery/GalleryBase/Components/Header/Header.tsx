@@ -5,6 +5,7 @@ import BinIcon from '@/assets/bin.png';
 import PlusIcon from '@/assets/plus.png';
 import AddButton from '../AddButton/AddButton';
 import PageIndicator from '../PageIndicator/PageIndicator';
+import { SearchField } from '../SearchField/SearchField';
 
 export default function Header(props: {
     title: string,
@@ -36,10 +37,10 @@ export default function Header(props: {
         <div className={style.galleryHeader}>
             <div className={style.titleContainer}>
                 <h2>{props.title}</h2>
-                <PageIndicator/>
             </div>
 
-            <div className={style.buttonsContainer}>    
+            <div className={style.buttonsContainer}>
+                <SearchField/>    
                 {buttons}
             </div>
         </div>

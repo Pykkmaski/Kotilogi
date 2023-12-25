@@ -148,6 +148,13 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             }
         }
 
+        case 'set_search':{
+            return {
+                ...state,
+                searchString: action.value,
+            }
+        }
+
         
 
         default: return state;

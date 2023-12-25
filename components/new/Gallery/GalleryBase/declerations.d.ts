@@ -112,6 +112,7 @@ declare namespace GalleryBase{
         'select_item' | 
         'add_data' | 
         'delete_data' |
+        'set_search' |
         'delete_items' |
         'toggle_loading' | 
         'toggle_error' |
