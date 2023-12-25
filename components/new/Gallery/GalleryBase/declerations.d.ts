@@ -86,8 +86,6 @@ declare namespace GalleryBase{
     }
     
     declare type ActionType = 
-        'toggle_add_modal' | 
-        'toggle_delete_modal' |
         'toggle_edit_modal' |
         'select_item' | 
         'add_data' | 

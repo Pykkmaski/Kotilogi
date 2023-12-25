@@ -36,20 +36,6 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             }
         }
 
-        case 'toggle_add_modal': {
-            return {
-                ...state,
-                showAddModal: action.value,
-            }
-        }
-
-        case 'toggle_delete_modal':{
-            return {
-                ...state,
-                showDeleteModal: action.value,
-            }
-        }
-
         case 'toggle_edit_modal':{
             return {
                 ...state,
