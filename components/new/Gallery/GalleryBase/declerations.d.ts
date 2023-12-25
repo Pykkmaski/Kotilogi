@@ -75,9 +75,7 @@ declare namespace GalleryBase{
     declare type State = HasData & {
         selectedItems: any[],
         itemInFocus: any,
-        showAddModal: boolean,
         showEditModal: boolean,
-        showDeleteModal: boolean,
         isLoading: boolean,
         currentPage: number,
         viewType: 'card' | 'list',

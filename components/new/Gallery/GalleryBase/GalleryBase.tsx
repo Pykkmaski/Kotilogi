@@ -20,9 +20,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     const initialState: GalleryBase.State = {
         data: [],
         selectedItems: [],
-        showAddModal: false,
         showEditModal: false,
-        showDeleteModal: false,
         isLoading: true,
         viewType: 'card',
         error: false,
