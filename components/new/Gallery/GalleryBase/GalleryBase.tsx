@@ -2,7 +2,7 @@
 
 import { useEffect, useReducer} from "react";
 import GalleryBaseReducer from "./GalleryBaseReducer";
-import style from './gallery.module.scss';
+import style from './style.module.scss';
 import { serverGetDataById, serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import Body from "./Components/Body/Body";
 import Header from "./Components/Header/Header";
