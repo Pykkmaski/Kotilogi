@@ -11,6 +11,7 @@ import HistoryIcon from '@/assets/history.png';
 import style from './style.module.scss';
 import Body from '../GalleryBase/Components/Body/Body';
 import Header from '../GalleryBase/Components/Header/Header';
+import { SearchFilter } from '../GalleryBase/Components/SearchFilter/SearchFilter';
 
 function ItemComponent(props: {
     item: any
@@ -43,7 +44,7 @@ export default function EventsGallery(props: EventsGalleryProps){
                 refId: props.propertyId
             }}
             key={'event-gallery'}>
-                
+            
             <Header title="Tapahtumat" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
             <Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
                     title="Ei Tapahtumia"

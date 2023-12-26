@@ -2,6 +2,7 @@ import Gallery from "kotilogi-app/components/Experimental/Gallery/Gallery";
 import EventsGallery from "kotilogi-app/components/new/Gallery/EventsGallery/EventsGallery";
 import db from "kotilogi-app/dbconfig";
 import style from './style.module.scss';
+import { SearchFilter } from "kotilogi-app/components/new/Gallery/GalleryBase/Components/SearchFilter/SearchFilter";
 
 function ItemElement({item}){
     return (
@@ -15,6 +16,8 @@ export default async function EventsPage({params}){
     const eventData = await db('propertyEvents').where({refId: params.property_id});
 
     return(
-        <EventsGallery propertyId={params.property_id} propertyAddress=""/>
+        <>
+            <EventsGallery propertyId={params.property_id} propertyAddress=""/>
+        </>
     );
 }

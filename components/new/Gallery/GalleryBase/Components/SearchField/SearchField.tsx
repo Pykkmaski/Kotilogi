@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import useGalleryContext from "../../GalleryContext";
 
 export function SearchField(){
@@ -30,7 +30,16 @@ export function SearchField(){
         }
     }, [search])
 
+    const inputStyle: CSSProperties = {
+        borderRadius: '5px',
+    }
+
     return (
-        <input type="search" placeholder="Etsi..." onChange={onInputHandler} disabled={state.data.length === 0}/>
+        <input 
+            style={inputStyle} 
+            type="search" 
+            placeholder="Etsi..." 
+            onChange={onInputHandler} 
+            disabled={state.data.length === 0}/>
     );
 }

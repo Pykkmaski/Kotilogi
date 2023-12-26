@@ -3,8 +3,6 @@ import useGalleryContext from '../../GalleryContext';
 import style from './style.module.scss';
 import BinIcon from '@/assets/bin.png';
 import PlusIcon from '@/assets/plus.png';
-import AddButton from '../AddButton/AddButton';
-import PageIndicator from '../PageIndicator/PageIndicator';
 import { SearchField } from '../SearchField/SearchField';
 import { ModalProps } from 'kotilogi-app/components/Modals/Modal';
 import { useState } from 'react';
@@ -16,7 +14,7 @@ export default function Header(props: {
     /**The modal displayed when deleting multiple items at once. */
     DeleteModal?: React.FC<ModalProps>,
 }){
-    const {state, dispatch} = useGalleryContext();
+    const {state} = useGalleryContext();
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -25,8 +23,7 @@ export default function Header(props: {
     const buttons = (
         <>
             {
-                DeleteModal ? 
-                <Button
+                DeleteModal ? <Button
                     className="secondary"
                     desktopText="Poista"
                     disabled={state.selectedItems.length === 0}
@@ -35,8 +32,7 @@ export default function Header(props: {
             }
 
             {
-                AddModal ? 
-                <Button 
+                AddModal ? <Button 
                     className="primary" 
                     desktopText='Lisää Uusi' 
                     mobileIconSrc={PlusIcon}

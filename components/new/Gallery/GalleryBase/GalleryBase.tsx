@@ -30,11 +30,6 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
 
     function fetchData(pageNumber: number){
-        dispatch({
-            type: 'toggle_loading',
-            value: true,
-        });
-
         serverGetDataOffset(props.tableName, props.query, getDataOffset(pageNumber, 10), 10)
         .then((data: any[]) => {
           if(!data){
@@ -75,30 +70,32 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         })
     }
 
-    useEffect(() => fetchData(currentPage), [currentPage, props.query]);
-
     useEffect(() => {
-        if(state.searchString === '') return;
-
         dispatch({
             type: 'toggle_loading',
             value: true,
         });
 
-        getDataBySubstring(props.tableName, state.searchString)
-        .then(data => {
-            dispatch({
-                type: 'set_data',
-                value: data,
+        if(state.searchString === ''){
+            //Fetch everything when the string is empty.
+            fetchData(0);
+        }
+        else{
+            getDataBySubstring(props.tableName, state.searchString)
+            .then(data => {
+                dispatch({
+                    type: 'set_data',
+                    value: data,
+                })
             })
-        })
-        .catch(err => console.log(err.message))
-        .finally(() => {
-            dispatch({
-                type: 'toggle_loading',
-                value: false,
-            });
+            .catch(err => console.log(err.message));
+        }
+
+        dispatch({
+            type: 'toggle_loading',
+            value: false,
         });
+        
     }, [state.searchString]);    
 
     const contextValue: GalleryBase.ContextValue = {
