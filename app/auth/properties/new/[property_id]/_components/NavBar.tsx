@@ -15,10 +15,10 @@ export default function NavBar(){
     return (
         <nav className={style.sectionNav}>
             <IconLink imageSrc={InfoIcon} href='info?section=general'>Tiedot</IconLink>
-            <IconLink imageSrc={eventIcon} href="events?page=0">Tapahtumat</IconLink>
-            <IconLink imageSrc={usageIcon} href="usage?data=heat&page=0">Kulutustiedot</IconLink>
-            <IconLink imageSrc={imageIcon} href="images?page=0">Kuvat</IconLink>
-            <IconLink imageSrc={fileIcon} href="files?page=0">Tiedostot</IconLink>
+            <IconLink imageSrc={eventIcon} href="events">Tapahtumat</IconLink>
+            <IconLink imageSrc={usageIcon} href="usage?data=heat">Kulutustiedot</IconLink>
+            <IconLink imageSrc={imageIcon} href="images">Kuvat</IconLink>
+            <IconLink imageSrc={fileIcon} href="files">Tiedostot</IconLink>
             <IconLink imageSrc={UserIcon} href="transfer">Omistajuus</IconLink>
 
             <Link href={`/auth/properties/`}>Takaisin Taloihin</Link>

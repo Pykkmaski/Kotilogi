@@ -3,7 +3,7 @@
 .body{
     display: flex;
     flex-flow: column;
-    background: linear-gradient(to bottom, $body-color, darken($body-color, 7));
+    background: linear-gradient(to bottom, $body-color, darken($body-color, 10));
     min-height: 100vh;
     color: $text-color;
 }

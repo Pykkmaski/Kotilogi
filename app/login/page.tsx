@@ -10,6 +10,7 @@ import {useState, useRef} from 'react';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
+import { Input } from 'kotilogi-app/components/Input/Input';
 
 export default function LoginPage(){
     const router = useRouter();
@@ -51,23 +52,24 @@ export default function LoginPage(){
             <Form onSubmit={onSubmitHandler}>
                 <Form.Header>Kirjaudu Sisään</Form.Header>
                 <Form.Group>
-                    <label>Sähköpostiosoite</label>
-                    <input 
+                    <Input 
+                        label="Sähköpostiosoite"
                         name="email" 
                         type="email" 
                         required 
                         className={error === 'invalid_user' ? 'error' : undefined} 
                         defaultValue={getEmailField()}
-                        onChange={(e) => setEmailField(e.target.value)}></input>
+                        onChange={(e) => setEmailField(e.target.value)}></Input>
+
+                    
                 </Form.Group>
 
                 <Form.Group>
                     <div className={styles.passwordLabelContainer}>
-                        <label>Salasana</label>
                         <Link href="/login/reset">Unohditko salasanasi?</Link>
                     </div>
                    
-                    <input type="password" name="password" required className={error === 'invalid_password' ? 'error' : undefined}></input>
+                    <Input label="Salasana" type="password" name="password" required className={error === 'invalid_password' ? 'error' : undefined}/>
                 </Form.Group>
 
                 <Form.Group direction="horizontal">

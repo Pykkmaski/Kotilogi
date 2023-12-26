@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@stylexjs/stylex": "^0.3.0",
     "@vscode/sqlite3": "^5.1.6-vscode",
     "apexcharts": "^3.42.0",
     "axios": "^1.4.0",
@@ -35,6 +36,7 @@
     "swr": "^2.2.1"
   },
   "devDependencies": {
+    "@stylexjs/nextjs-plugin": "^0.3.0",
     "@types/bcrypt": "^5.0.0",
     "@types/formidable": "^3.4.2",
     "@types/jsonwebtoken": "^9.0.2",
@@ -47,7 +49,5 @@
     "sass": "^1.66.1",
     "typescript": "5.2.2"
   },
-  "eslintConfig": {
-   
-  }
+  "eslintConfig": {}
 }

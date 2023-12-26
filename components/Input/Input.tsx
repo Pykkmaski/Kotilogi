@@ -1,4 +1,5 @@
 import { CSSProperties } from "react"
+import * as stylex from '@stylexjs/stylex';
 
 const borderRadius = '10px';
 
@@ -11,8 +12,9 @@ const containerStyle: CSSProperties = {
 
 const inputStyle: CSSProperties = {
     flex: 1,
-    borderBottom: 'none',
+    border: 'none',
     paddingLeft: '0.5rem',
+    paddingRight: '0.5rem',
     backgroundColor: 'white',
     borderTopRightRadius: borderRadius,
     borderBottomRightRadius: borderRadius,
@@ -26,15 +28,16 @@ function Label(props: {
         minWidth: '20%',
         background: '#DDD',
         color: 'black',
+        border: 'none',
         borderTopLeftRadius: '10px',
         borderBottomLeftRadius: '10px',
         paddingLeft: '0.5rem',
         backgroundColor: 'var(--primary-color)',
     }
 
-    const requiredBadge = props.required ? <i style={{color: 'red'}}>*</i> : null;
+    const requiredBadge = props.required ? <i style={{color: 'white'}}>*</i> : null;
 
-    return <div style={labelStyle}>{props.text} {requiredBadge}</div>
+    return <div style={labelStyle}>{props.text}{requiredBadge}</div>
 }
 
 type InputProps = React.ComponentProps<'input'> & {
@@ -81,7 +84,7 @@ type TextAreaProps = React.ComponentProps<'textarea'> & {
 
 export function Textarea(props: TextAreaProps){
     const textareaStyle: CSSProperties = {
-        ...containerStyle,
+
         flexFlow: 'column',
     }
 

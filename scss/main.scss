@@ -35,8 +35,8 @@ input, select, option{
     color: gray;
 }
 
-input{
-    border-radius: 5px;
+input:active{
+    background: var(--input-in-focus-color);
 }
 
 textarea{
