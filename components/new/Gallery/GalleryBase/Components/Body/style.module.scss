@@ -24,12 +24,3 @@
 .loadingBody{
     flex: 1;
 }
-
-@media screen and (max-width: 1000px){
-    .galleryBody{
-        display: flex !important;
-        flex-flow: column;
-        align-items: center;
-    }
-   
-}
