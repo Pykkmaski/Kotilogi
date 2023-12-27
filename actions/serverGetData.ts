@@ -2,30 +2,17 @@
 
 import db from "kotilogi-app/dbconfig";
 
-export async function serverGetData(dbTableName: string, query: any, onlyOne: boolean = false): Promise<object | null>{
-    var data: object;
+export async function serverGetData(dbTableName: string, query: any, onlyOne: boolean = false){
     if(onlyOne){
-        data = await db(dbTableName).where(query).first();
-        if(!data) throw new Error('Data with query ' + query + ' not found!');
+        return db(dbTableName).where(query).first();
     }
     else{
-        data = await db(dbTableName).where(query);
+        return db(dbTableName).where(query);
     }
-
-    return data;
 }
 
-export async function serverGetDataOffset(dbTableName: Kotilogi.Table, query: any, offsetAmount: number, limit: number): Promise<object | null>{
-    try{
-        const data = await db(dbTableName).where(query).offset(offsetAmount).limit(limit);
-        if(!data) return null;
-        return data;
-    }
-    catch(err){
-        console.log(err.message);
-        return null;
-    }
-    
+export async function serverGetDataOffset(dbTableName: Kotilogi.Table, query: any, offsetAmount: number, limit: number){
+    return db(dbTableName).where(query).offset(offsetAmount).limit(limit);
 }
 
 export async function serverGetDataByRefId(refId: Kotilogi.IdType, dbTableName: Kotilogi.Table, onlyOne: boolean = false): Promise<object | object[] | null>{
