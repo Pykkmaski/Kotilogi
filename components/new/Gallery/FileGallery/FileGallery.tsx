@@ -48,8 +48,8 @@ export default function FileGallery(props: {
                 mimeType: 'application/pdf',
             }}>
                 
-            <Header title="Tiedostot" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
-            <Body displayStyle="vertical" itemComponent={ItemComponent} errorComponent={
+            <Gallery.Header title="Tiedostot" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
+            <Gallery.Body displayStyle="vertical" itemComponent={ItemComponent} errorComponent={
                 <FileError message="Et ole vielä lisännyt tiedostoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."/>
             }/>
         </Gallery>
