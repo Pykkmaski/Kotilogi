@@ -7,9 +7,7 @@ import AddModal from "./AddModal";
 import Chart from "./Chart";
 import UsageItemComponent from "./components/UsageItemComponent/UsageItemComponent";
 import BoltIcon from '@/assets/bolt.png';
-import Body from "../GalleryBase/Components/Body/Body";
 import React from "react";
-import Header from "../GalleryBase/Components/Header/Header";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
 
@@ -75,10 +73,10 @@ export default function UsageGallery(props: {
                 type: props.type,
             }}
            >
-            <Header title="Kulutustiedot" AddModal={UsageAddModal}/>
+            <Gallery.Header title="Kulutustiedot" AddModal={UsageAddModal}/>
             <UsageGalleryBody>
                 <Chart title={title} type={props.type}/>
-                <Body 
+                <Gallery.Body 
                     itemComponent={UsageItemComponent} 
                     errorComponent={<ErrorComponent title={"Ei Kulutustietoja"} message={""} icon={BoltIcon}/>}
                     displayStyle="vertical"/>
