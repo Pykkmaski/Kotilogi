@@ -43,3 +43,28 @@
         gap: 0.25rem;
     }
 }
+
+.galleryBodyGrid, .galleryBodyList{
+    padding-left: $medium-gap;
+    padding-bottom: $medium-gap;
+    flex: 1;
+}
+
+.galleryBodyGrid{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    justify-content: left;
+    max-height: 100%;
+    overflow-y: scroll;
+    flex: 1;
+}
+
+.galleryBodyList{
+    display: flex;
+    flex-flow: column;
+    gap: $small-gap;
+}
+
+.loadingBody{
+    flex: 1;
+}

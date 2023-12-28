@@ -44,8 +44,8 @@ export default function EventsGallery(props: EventsGalleryProps){
             }}
             key={'event-gallery'}>
             
-            <Header title="Tapahtumat" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
-            <Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
+            <Gallery.Header title="Tapahtumat" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
+            <Gallery.Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
                     title="Ei Tapahtumia"
                     message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
                     icon={HistoryIcon}/>}/>
