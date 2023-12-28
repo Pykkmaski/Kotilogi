@@ -4,7 +4,7 @@ import { createContext, useContext} from "react";
 import { ActionT } from "./Gallery.reducer";
 import style from './style.module.scss';
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import { useGallery } from "./Gallery.hooks";
+import { useGallery, GalleryStateType } from "./Gallery.hooks";
 
 type GalleryProps = React.PropsWithChildren & {
     /**
@@ -49,19 +49,6 @@ type GalleryProps = React.PropsWithChildren & {
      */
 
     unsupported?: boolean,
-}
-
-export type GalleryStateType = {
-    data: any[],
-    selectedItems: any[],
-    showEditModal: boolean,
-    isLoading: boolean,
-    currentPage: number,
-    error: boolean,
-    search: {
-        what: string,
-        column: string | null,
-    },
 }
 
 type GalleryContextValueType = {

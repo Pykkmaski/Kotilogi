@@ -1,6 +1,6 @@
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import { GalleryBase } from "./declerations";
-import { GalleryStateType } from "./Gallery";
+import { GalleryStateType } from "./Gallery.hooks";
 
 export type ActionTypeT = 
         'select_item' | 

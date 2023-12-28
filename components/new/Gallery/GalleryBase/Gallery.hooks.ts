@@ -1,10 +1,22 @@
 import { useSearchParams } from "next/navigation";
-import { GalleryStateType } from "./Gallery";
 import { useEffect, useReducer } from "react";
 import GalleryBaseReducer from "./Gallery.reducer";
 import { getDataBySearch } from "kotilogi-app/actions/getDataBySearch";
 import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import getDataOffset from "./Util/getDataOffset";
+
+export type GalleryStateType = {
+    data: any[],
+    selectedItems: any[],
+    showEditModal: boolean,
+    isLoading: boolean,
+    currentPage: number,
+    error: boolean,
+    search: {
+        what: string,
+        column: string | null,
+    },
+}
 
 export function useGallery(tableName: Kotilogi.Table, query: any){
     const searchParams = useSearchParams();
