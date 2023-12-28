@@ -2,7 +2,7 @@
 
 import db from "kotilogi-app/dbconfig";
 
-export async function receivePropertyOwnership(transferCode: string){
+export async function receivePropertyOwnership(transferCode: string, newOwner: string){
     return new Promise<void>(async (resolve, reject) => {
         try{
             const transferOrder = await db('propertyTransferOrders').where({verificationCode: transferCode}).first();
@@ -13,7 +13,7 @@ export async function receivePropertyOwnership(transferCode: string){
             if(!isExpired) throw new Error('The transfer order with provided code has expired!');
 
             await db('properties').where({id: transferOrder.propertyId}).update({
-                refId: transferOrder.toOwner,
+                refId: newOwner,
             });
 
             await db('propertyTransferOrders').where({id: transferOrder.id}).del();

@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-export function ReceivePropertyForm(){
+export function ReceivePropertyForm(props: {
+    newOwner: string,
+}){
 
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -18,7 +20,7 @@ export function ReceivePropertyForm(){
         e.preventDefault();
         setLoading(true);
 
-        receivePropertyOwnership(code)
+        receivePropertyOwnership(code, props.newOwner)
         .then(() => {
             router.push('/auth/properties');
             toast.success('Omistajuus vastaanotettu!');
@@ -34,6 +36,7 @@ export function ReceivePropertyForm(){
                 <Input
                     label="Varmenne"
                     name="transferCode"
+                    type="password"
                     placeholder="Kirjoita varmenne..."
                     onChange={(e) => setCode(e.target.value)}/>
 

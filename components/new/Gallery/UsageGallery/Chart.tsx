@@ -1,5 +1,6 @@
 'use client';
 
+import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { useGalleryContext } from "../GalleryBase/Gallery";
 import ChartBase from "./ChartBase";
 import { ChartProps } from "./ChartProps";
@@ -23,6 +24,8 @@ export default function Chart(props: {
     }
 
     return (
+        state.isLoading ? <Spinner size="2rem"/>
+        :
         <ChartBase
             options={options}
             series={[

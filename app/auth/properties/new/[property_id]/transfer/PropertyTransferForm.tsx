@@ -92,12 +92,14 @@ function TransferCodeField(props: {
     const transferCodeFieldStyle: CSSProperties = {
 
     }
-    
+
     return (
         <Input
             label="Varmenne"
             disabled={true}
-            value={props.code || undefined}/>
+            value={props.code || undefined}
+            type="password"
+            placeholder="Varmenne ilmestyy tähän..."/>
     )
 }
 
@@ -128,13 +130,19 @@ export function PropertyTransferForm(props: {
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        createPropertyTransferOrder(props.property.id, data.current.receiver!)
+        createPropertyTransferOrder(props.property.id)
         .then(code => {
             setCode(code);
             toast.success('Varmenne luotu onnistuneesti!');
         })
         .catch(err => toast.error(err.message))
         .finally(() => setLoading(false));
+    }
+
+    const copyToClipboard = async (e) => {
+        navigator.clipboard.writeText(code!)
+        .then(() => toast.success('Koodi kopioitu leikepöydälle!'))
+        .catch(err => toast.error(err.message))
     }
 
     const formStyle: CSSProperties = {
@@ -144,7 +152,7 @@ export function PropertyTransferForm(props: {
     return (
         <>
             <p>
-                Käytä tätä lomaketta luodaksesi varmenteen, jonka avulla määrittämäsi käyttäjä voi siirtää <br/>
+                Käytä tätä lomaketta luodaksesi varmenteen, jonka avulla toinen kotilogin käyttäjä voi vastaanottaa<br/>
                 talon <strong>{props.property.title}</strong> omistajuuden itselleen. Omistajuuden siirto on pysyvä, jos vastaanottaja käyttää koodin <br/>
                 puolen tunnin sisällä.
             </p>
@@ -153,12 +161,10 @@ export function PropertyTransferForm(props: {
                 <PropertyTransferFormContext.Provider value={{
                     updateData,
                 }}>
-
-                    <ReceiverEmailField/>
-                    <PasswordField/>
                     <TransferCodeField code={code}/>
-                    <Form.Group>
+                    <Form.Group direction="horizontal">
                         <PrimaryButton type="submit" desktopText="Luo Varmenne" loading={loading} disabled={loading}/>
+                        <PrimaryButton type="button" desktopText="Kopio koodi" disabled={!code} onClick={copyToClipboard}/>
                     </Form.Group>
 
                 </PropertyTransferFormContext.Provider>

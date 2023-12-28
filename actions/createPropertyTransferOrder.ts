@@ -16,13 +16,9 @@ function generateCode(){
     return numbers.join('');
 }
 
-export async function createPropertyTransferOrder(propertyId: Kotilogi.IdType, receiver: string){
+export async function createPropertyTransferOrder(propertyId: Kotilogi.IdType){
     return new Promise<string>(async (resolve, reject) => {
         try{
-            console.log(receiver);
-            const user = await db('users').where({email: receiver}).first();
-            if(!user) return reject(`User with email ${receiver} does not exist!`);
-
             const code = generateCode();
             const transferOrderExpiry = process.env.TRANSFER_ORDER_EXPIRY;
             if(!transferOrderExpiry) return reject('Server error: No transfer order expiry env variable present!');
@@ -32,7 +28,6 @@ export async function createPropertyTransferOrder(propertyId: Kotilogi.IdType, r
             await db('propertyTransferOrders').insert({
                 verificationCode: code,
                 propertyId,
-                toOwner: receiver,
                 expires,
             })
             .onConflict('propertyId')

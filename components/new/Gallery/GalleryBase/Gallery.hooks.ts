@@ -105,7 +105,7 @@ export function useGallery(tableName: Kotilogi.Table, query: any){
             value: false,
         });
         
-    }, [state.search.what]);   
+    }, [state.search.what, query]);   
     
     return {
         state,
