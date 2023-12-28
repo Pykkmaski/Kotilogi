@@ -10,7 +10,7 @@ import { GalleryContext } from "./GalleryContext";
 import getDataOffset from "./Util/getDataOffset";
 import { GalleryBase } from "./declerations";
 import {useRouter, useSearchParams} from 'next/navigation';
-import { getDataBySubstring } from "kotilogi-app/actions/getDataBySubstring";
+import { getDataBySearch } from "kotilogi-app/actions/getDataBySearch";
 
 export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
     const searchParams = useSearchParams();
@@ -24,7 +24,10 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
         isLoading: true,
         error: false,
         currentPage,
-        searchString: '',
+        search: {
+            what: '',
+            column: null,
+        },
     }
 
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
@@ -76,12 +79,12 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
             value: true,
         });
 
-        if(state.searchString === ''){
+        if(state.search.what === ''){
             //Fetch everything when the string is empty.
             fetchData(0);
         }
         else{
-            getDataBySubstring(props.tableName, state.searchString)
+            getDataBySearch(props.tableName, state.search)
             .then(data => {
                 dispatch({
                     type: 'set_data',
@@ -96,7 +99,7 @@ export default function GalleryBase(props: GalleryBase.Props & {children?: React
             value: false,
         });
         
-    }, [state.searchString]);    
+    }, [state.search.what]);    
 
     const contextValue: GalleryBase.ContextValue = {
         state,

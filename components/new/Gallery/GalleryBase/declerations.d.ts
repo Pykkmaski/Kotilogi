@@ -77,7 +77,10 @@ declare namespace GalleryBase{
         isLoading: boolean,
         currentPage: number,
         error: boolean,
-        searchString: string,
+        search: {
+            what: string,
+            column: string | null,
+        },
     }
     
     declare type ActionType = 
