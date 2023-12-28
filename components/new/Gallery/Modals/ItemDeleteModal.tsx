@@ -34,6 +34,7 @@ export default function ItemDeleteModal(props: ModalProps & {
             }
 
             await serverRevalidatePath('');
+            props.onHide();
         }
         else{
             toast.error('Poisto epäonnistui!');
