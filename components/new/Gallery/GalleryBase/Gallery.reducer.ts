@@ -106,8 +106,6 @@ export default function GalleryBaseReducer(state: GalleryStateType, action: Acti
             }
         }
 
-        
-
         default: return state;
     }
 }

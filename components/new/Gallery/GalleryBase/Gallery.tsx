@@ -1,15 +1,10 @@
 "use client";
 
-import { createContext, useContext, useEffect, useReducer} from "react";
-import GalleryBaseReducer, { ActionT } from "./Gallery.reducer";
+import { createContext, useContext} from "react";
+import { ActionT } from "./Gallery.reducer";
 import style from './style.module.scss';
-import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
-import Body from "./Components/Body/Body";
-import Header from "./Components/Header/Header";
-import getDataOffset from "./Util/getDataOffset";
-import {useSearchParams} from 'next/navigation';
-import { getDataBySearch } from "kotilogi-app/actions/getDataBySearch";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import { useGallery } from "./Gallery.hooks";
 
 type GalleryProps = React.PropsWithChildren & {
     /**
@@ -78,93 +73,7 @@ type GalleryContextValueType = {
 const GalleryContext = createContext<GalleryContextValueType | null>(null);
 
 export function Gallery(props: GalleryProps){
-    const searchParams = useSearchParams();
-    const pageParam = searchParams.get('page');
-    const currentPage: number = pageParam ? parseInt(pageParam) : 0;
-
-    const initialState: GalleryStateType = {
-        data: [],
-        selectedItems: [],
-        showEditModal: false,
-        isLoading: true,
-        error: false,
-        currentPage,
-        search: {
-            what: '',
-            column: null,
-        },
-    }
-
-    const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
-
-    function fetchData(pageNumber: number){
-        serverGetDataOffset(props.tableName, props.query, getDataOffset(pageNumber, 10), 10)
-        .then((data: any[]) => {
-          if(!data){
-            dispatch({
-                type: 'toggle_error',
-                value: true,
-            });
-          }
-          else{
-            //Sort the data by the time column, if one is present.
-            data = data.sort((a, b) => {
-                if('time' in a && 'time' in b){
-                    const ams = new Date(a.time).getTime();
-                    const bms = new Date(b.time).getTime();
-                    
-                    switch(props.tableName){
-                        case 'usage': return ams - bms;
-
-                        default: return bms - ams;
-                    }
-                }
-                else{
-                    return 0;
-                }
-            });
-
-            dispatch({
-                type: 'set_data',
-                value: data,
-            });
-          }
-        })
-        .finally(() => {
-            dispatch({
-                type: 'toggle_loading',
-                value: false,
-            });
-        })
-    }
-
-    useEffect(() => {
-        dispatch({
-            type: 'toggle_loading',
-            value: true,
-        });
-
-        if(state.search.what === ''){
-            //Fetch everything when the string is empty.
-            fetchData(0);
-        }
-        else{
-            getDataBySearch(props.tableName, state.search)
-            .then(data => {
-                dispatch({
-                    type: 'set_data',
-                    value: data,
-                })
-            })
-            .catch(err => console.log(err.message));
-        }
-
-        dispatch({
-            type: 'toggle_loading',
-            value: false,
-        });
-        
-    }, [state.search.what]);    
+    const {state, dispatch} = useGallery(props.tableName, props.query);
 
     const contextValue: GalleryContextValueType = {
         state,
