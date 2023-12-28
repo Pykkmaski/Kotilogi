@@ -1,12 +1,12 @@
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useCardContext } from "../GalleryBase/Components/Body/Components/Card/CardContext";
 import Button from "kotilogi-app/components/Button/Button";
-import useGalleryContext from "../GalleryBase/GalleryContext";
 import serverDeleteData from "kotilogi-app/actions/serverDeleteData";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useItemComponentContext } from "../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
+import { useGalleryContext } from "../GalleryBase/Gallery";
 
 /**
  * Modal to display when deleting an individual item from a gallery.
