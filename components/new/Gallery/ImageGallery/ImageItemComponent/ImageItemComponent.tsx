@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import serverSetAsMainImage from 'kotilogi-app/actions/serverSetAsMainImage';
 import toast from 'react-hot-toast';
-import useGalleryContext from '../../GalleryBase/GalleryContext';
 import ItemComponent, { useItemComponentContext } from '../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent';
 import FileDeleteModal from '../../Modals/FileDeleteModal';
+import { useGalleryContext } from '../../GalleryBase/Gallery';
 
 function Content(props: {
     imageSrc: string,

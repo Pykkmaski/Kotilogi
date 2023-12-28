@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useReducer} from "react";
 import GalleryBaseReducer, { ActionT } from "./Gallery.reducer";
 import style from './style.module.scss';
-import { serverGetDataById, serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
+import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import Body from "./Components/Body/Body";
 import Header from "./Components/Header/Header";
 import getDataOffset from "./Util/getDataOffset";
