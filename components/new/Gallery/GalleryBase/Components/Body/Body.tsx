@@ -1,6 +1,6 @@
-import useGalleryContext from "../../GalleryContext";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { CSSProperties } from "react";
+import { useGalleryContext } from "../../Gallery";
 
 type BodyProps = {
     displayStyle: 'vertical' | 'horizontal',

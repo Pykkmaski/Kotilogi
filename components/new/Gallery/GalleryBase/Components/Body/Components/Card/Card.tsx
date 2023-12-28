@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import useGalleryContext from "@/components/new/Gallery/GalleryBase/GalleryContext";
 import { CardContext, CardContextValue } from "./CardContext";
 import Footer from "./Components/Footer/Footer";
 import ImageContainer from "./Components/ImageContainer/ImageContainer";
@@ -11,6 +10,7 @@ import CustomDeleteModal from "kotilogi-app/components/new/Gallery/Modals/Global
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import ItemComponent from "../ItemComponent/ItemComponent";
+import { useGalleryContext } from "../../../../Gallery";
 
 export type OverlayMenuProps = {
     show: boolean,

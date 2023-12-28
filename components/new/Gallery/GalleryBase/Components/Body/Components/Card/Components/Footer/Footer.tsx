@@ -1,4 +1,4 @@
-import useGalleryContext from "kotilogi-app/components/new/Gallery/GalleryBase/GalleryContext";
+import { useGalleryContext } from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
 import { useCardContext } from "../../CardContext";
 import style from './style.module.scss';
 

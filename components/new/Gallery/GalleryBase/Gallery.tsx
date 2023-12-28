@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useEffect, useReducer} from "react";
+import { createContext, useContext, useEffect, useReducer} from "react";
 import GalleryBaseReducer, { ActionT } from "./Gallery.reducer";
 import style from './style.module.scss';
 import { serverGetDataById, serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
@@ -179,4 +179,10 @@ export function Gallery(props: GalleryProps){
             </div>
         </GalleryContext.Provider>
     )
+}
+
+export function useGalleryContext(){
+    const context = useContext(GalleryContext);
+    if(!context) throw new Error('Gallery context is null!');
+    return context;
 }

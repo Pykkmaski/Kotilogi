@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 import upload from "kotilogi-app/actions/upload";
 import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
-import useGalleryContext from "../GalleryBase/GalleryContext";
 import ObjectModalBase from "./ObjectModalBase";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import { useGalleryContext } from "../GalleryBase/Gallery";
 
 type ObjectModalWithFilesContextProps = {
     onChangeHandler: (e) => void,

@@ -1,11 +1,11 @@
 import Button from 'kotilogi-app/components/Button/Button';
-import useGalleryContext from '../../GalleryContext';
 import style from './style.module.scss';
 import BinIcon from '@/assets/bin.png';
 import PlusIcon from '@/assets/plus.png';
 import { SearchField } from '../SearchField/SearchField';
 import { ModalProps } from 'kotilogi-app/components/Modals/Modal';
 import { useState } from 'react';
+import { useGalleryContext } from '../../Gallery';
 
 export default function Header(props: {
     title: string,

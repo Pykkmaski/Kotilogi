@@ -1,7 +1,8 @@
 'use client';
 
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import useGalleryContext from "../../GalleryContext";
+import { useGalleryContext } from "../../Gallery";
+
 
 export function SearchField(){
 
