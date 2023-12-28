@@ -7,7 +7,6 @@ import Error from "../GalleryBase/Components/Error/Error";
 import HouseIcon from '@/assets/house.png';
 import Body from "../GalleryBase/Components/Body/Body";
 import { CSSProperties } from "react";
-import Header from "../GalleryBase/Components/Header/Header";
 
 function ItemComponent(props: {
     item: any
@@ -33,7 +32,7 @@ function PropertiesGalleryBody(){
             <p style={{fontSize: '1.1rem'}}>
                 Tässä Näet talosi. Jos tarvitset lisää taloja, päivitä pro-tiliin.
             </p>
-            <Body itemComponent={ItemComponent} displayStyle="horizontal" errorComponent={<Error
+            <Gallery.Body itemComponent={ItemComponent} displayStyle="horizontal" errorComponent={<Error
                 title="Ei Taloja"
                 message="Et ole vielä lisännyt taloja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
                 icon={HouseIcon}/>
@@ -53,7 +52,7 @@ export default async function PropertiesGallery(props: {
             }}
             title="Talot">
                 
-            <Header title="Talot" AddModal={AddModal}/>
+            <Gallery.Header title="Talot" AddModal={AddModal}/>
             <PropertiesGalleryBody/>
         </Gallery>
     );

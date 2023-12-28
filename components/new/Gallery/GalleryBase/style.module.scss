@@ -9,3 +9,37 @@
     z-index: 2;
     width: 100%;
 }
+
+.galleryHeader{
+    display: flex;
+    flex-flow: row;
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+    border-bottom: 1px solid #DDD;
+    padding-bottom: $medium-gap;
+    padding-left: $medium-gap;
+    margin-bottom: 2rem;
+
+    .titleContainer{
+        display: inherit;
+        gap: $medium-gap;
+        align-items: center;
+        justify-content: center;
+        
+        h1{
+            color: $primary-color;
+        }
+
+        small{
+            color: whitesmoke;
+        }
+    }
+
+    .buttonsContainer{
+        display: flex;
+        flex-flow: row;
+        gap: 0.25rem;
+    }
+}
