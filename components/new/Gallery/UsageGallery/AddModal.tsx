@@ -5,8 +5,8 @@ import Button from "kotilogi-app/components/Button/Button";
 import Form from "kotilogi-app/components/Form/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
-import useGalleryContext from "../GalleryBase/GalleryContext";
 import toast from "react-hot-toast";
+import { useGalleryContext } from "../GalleryBase/Gallery";
 
 export default function AddModal(props: {
     show: boolean,

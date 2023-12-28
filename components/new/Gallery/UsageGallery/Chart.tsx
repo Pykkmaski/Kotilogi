@@ -1,6 +1,6 @@
 'use client';
 
-import useGalleryContext from "../GalleryBase/GalleryContext";
+import { useGalleryContext } from "../GalleryBase/Gallery";
 import ChartBase from "./ChartBase";
 import { ChartProps } from "./ChartProps";
 

@@ -2,7 +2,7 @@
 
 import { CSSProperties } from "react";
 import ErrorComponent from "../GalleryBase/Components/Error/Error";
-import {Gallery} from "../GalleryBase/Gallery";
+import {Gallery, useGalleryContext} from "../GalleryBase/Gallery";
 import AddModal from "./AddModal";
 import Chart from "./Chart";
 import UsageItemComponent from "./components/UsageItemComponent/UsageItemComponent";
@@ -11,7 +11,7 @@ import Body from "../GalleryBase/Components/Body/Body";
 import React from "react";
 import Header from "../GalleryBase/Components/Header/Header";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import useGalleryContext from "../GalleryBase/GalleryContext";
+
 
 function UsageAddModal(props: ModalProps){
     const {props: {query: {type}}} = useGalleryContext();
