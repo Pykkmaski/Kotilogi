@@ -1,6 +1,6 @@
 'use client';
 
-import GalleryBase from 'kotilogi-app/components/new/Gallery/GalleryBase/GalleryBase';
+import GalleryBase from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import { useSearchParams } from 'next/navigation';
 import style from './style.module.scss';
 import Link from 'next/link';

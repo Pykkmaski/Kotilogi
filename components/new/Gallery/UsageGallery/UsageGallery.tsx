@@ -2,7 +2,7 @@
 
 import { CSSProperties } from "react";
 import ErrorComponent from "../GalleryBase/Components/Error/Error";
-import GalleryBase from "../GalleryBase/GalleryBase";
+import {Gallery} from "../GalleryBase/Gallery";
 import AddModal from "./AddModal";
 import Chart from "./Chart";
 import UsageItemComponent from "./components/UsageItemComponent/UsageItemComponent";
@@ -67,7 +67,7 @@ export default function UsageGallery(props: {
     );
 
     return (
-        <GalleryBase 
+        <Gallery 
             title={title}
             contentType="usage"
             tableName="usage"
@@ -85,6 +85,6 @@ export default function UsageGallery(props: {
                     displayStyle="vertical"/>
             </UsageGalleryBody>
             
-        </GalleryBase>
+        </Gallery>
     )
 }

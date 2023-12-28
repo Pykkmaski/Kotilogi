@@ -1,6 +1,6 @@
 'use client';
 
-import GalleryBase from '@/components/new/Gallery/GalleryBase/GalleryBase';
+import {Gallery} from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import AddModal from './components/AddModal/AddModal';
 import Card from '../GalleryBase/Components/Body/Components/Card/Card';
 import EventsMenu from './components/OverlayMenu/EventsMenu';
@@ -36,7 +36,7 @@ type EventsGalleryProps = {
 
 export default function EventsGallery(props: EventsGalleryProps){
     return (
-       <GalleryBase
+       <Gallery
             title="Tapahtumat"
             tableName="propertyEvents"
             contentType="object"
@@ -50,6 +50,6 @@ export default function EventsGallery(props: EventsGalleryProps){
                     title="Ei Tapahtumia"
                     message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
                     icon={HistoryIcon}/>}/>
-       </GalleryBase>
+       </Gallery>
     )
 }

@@ -1,6 +1,6 @@
 "use client";
 import AddModal from "./components/AddModal/AddModal";
-import GalleryBase from "../GalleryBase/GalleryBase";
+import {Gallery} from "../GalleryBase/Gallery";
 import Card from "../GalleryBase/Components/Body/Components/Card/Card";
 import PropertiesMenu from "./components/OverlayMenu/PropertiesMenu";
 import Error from "../GalleryBase/Components/Error/Error";
@@ -46,7 +46,7 @@ export default async function PropertiesGallery(props: {
     ownerId: string,
 }){ 
     return (
-        <GalleryBase
+        <Gallery
             tableName="properties"
             contentType="object"
             query={{
@@ -56,6 +56,6 @@ export default async function PropertiesGallery(props: {
                 
             <Header title="Talot" AddModal={AddModal}/>
             <PropertiesGalleryBody/>
-        </GalleryBase>
+        </Gallery>
     );
 }

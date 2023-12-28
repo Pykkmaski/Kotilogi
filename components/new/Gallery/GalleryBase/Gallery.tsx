@@ -12,7 +12,7 @@ import { GalleryBase } from "./declerations";
 import {useRouter, useSearchParams} from 'next/navigation';
 import { getDataBySearch } from "kotilogi-app/actions/getDataBySearch";
 
-export default function GalleryBase(props: GalleryBase.Props & {children?: React.ReactNode}){
+export function Gallery(props: GalleryBase.Props & {children?: React.ReactNode}){
     const searchParams = useSearchParams();
     const pageParam = searchParams.get('page');
     const currentPage: number = pageParam ? parseInt(pageParam) : 0;

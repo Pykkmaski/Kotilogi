@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ImageItemComponent from "./ImageItemComponent/ImageItemComponent";
-import GalleryBase from "../GalleryBase/GalleryBase";
+import {Gallery} from "../GalleryBase/Gallery";
 import serverImageIsMainImage from "kotilogi-app/actions/serverImageIsMainImage";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
@@ -69,7 +69,7 @@ export default function ImageGallery(props: {
     refId: Kotilogi.IdType,
 }){
     return (
-        <GalleryBase 
+        <Gallery 
             {...props}
             title="Kuvat"
             contentType="image"
@@ -85,6 +85,6 @@ export default function ImageGallery(props: {
                 errorComponent={
                     <ImageError message="Et ole vielä lisännyt kuvia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta"/>
                 }/>
-        </GalleryBase>
+        </Gallery>
     )
 }

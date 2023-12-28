@@ -1,6 +1,6 @@
 'use client';
 
-import GalleryBase from "../GalleryBase/GalleryBase";
+import {Gallery} from "../GalleryBase/Gallery";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
 import FileItemComponent from "./FileItemComponent/FileItemComponent";
@@ -41,7 +41,7 @@ export default function FileGallery(props: {
     refId: Kotilogi.IdType,
 }){
     return (
-        <GalleryBase 
+        <Gallery 
             {...props}
             title="Tiedostot"
             contentType="file"
@@ -54,6 +54,6 @@ export default function FileGallery(props: {
             <Body displayStyle="vertical" itemComponent={ItemComponent} errorComponent={
                 <FileError message="Et ole vielä lisännyt tiedostoja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."/>
             }/>
-        </GalleryBase>
+        </Gallery>
     )
 }
