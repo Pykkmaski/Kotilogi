@@ -39,7 +39,6 @@ export default function EventsGallery(props: EventsGalleryProps){
        <Gallery
             title="Tapahtumat"
             tableName="propertyEvents"
-            contentType="object"
             query={{
                 refId: props.propertyId
             }}

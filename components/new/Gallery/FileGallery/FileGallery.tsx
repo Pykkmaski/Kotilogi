@@ -44,7 +44,6 @@ export default function FileGallery(props: {
         <Gallery 
             {...props}
             title="Tiedostot"
-            contentType="file"
             query={{
                 refId: props.refId,
                 mimeType: 'application/pdf',

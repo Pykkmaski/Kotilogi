@@ -69,7 +69,6 @@ export default function UsageGallery(props: {
     return (
         <Gallery 
             title={title}
-            contentType="usage"
             tableName="usage"
             query={{
                 refId: props.propertyId,

@@ -48,7 +48,6 @@ export default async function PropertiesGallery(props: {
     return (
         <Gallery
             tableName="properties"
-            contentType="object"
             query={{
                 refId: props.ownerId,
             }}

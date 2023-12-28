@@ -72,7 +72,6 @@ export default function ImageGallery(props: {
         <Gallery 
             {...props}
             title="Kuvat"
-            contentType="image"
             query={{
                 refId: props.refId,
                 mimeType: 'image/jpeg',

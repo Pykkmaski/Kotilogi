@@ -1,7 +1,24 @@
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
 import { GalleryBase } from "./declerations";
+import { GalleryStateType } from "./Gallery";
 
-export default function GalleryBaseReducer(state: GalleryBase.State, action: GalleryBase.Action): GalleryBase.State{
+export type ActionTypeT = 
+        'select_item' | 
+        'add_data' | 
+        'set_search' |
+        'delete_items' |
+        'toggle_loading' | 
+        'toggle_error' |
+        'set_data' | 
+        'reset_selected' | 
+        'set_page_number';
+
+export type ActionT = {
+    type: ActionTypeT,
+    value: any,
+}
+
+export default function GalleryBaseReducer(state: GalleryStateType, action: ActionT): GalleryStateType{
     switch(action.type){
         case 'select_item':{
             const newSelectedItems = [...state.selectedItems];
@@ -22,13 +39,6 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             }
         }
 
-        case 'select_all':{
-            return {
-                ...state,
-                selectedItems: state.data.map(item => item.id) as string[],
-            }
-        }
-
         case 'reset_selected': {
             return {
                 ...state,
@@ -36,48 +46,10 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             }
         }
 
-        case 'toggle_edit_modal':{
-            return {
-                ...state,
-                showEditModal: action.value,
-            }
-        }
-
-        case 'update_item':{
-            const updatedData = [...state.data];
-            const indexOfItemToUpdate = updatedData.findIndex(item => item.id === action.value.id);
-
-            
-            if(indexOfItemToUpdate > -1){
-                updatedData[indexOfItemToUpdate] = action.value;
-                console.log('item updated.')
-            }
-
-            return {
-                ...state,
-                data: updatedData,
-            }
-        }
-
         case 'add_data': {
             return {
                 ...state,
                 data: [...state.data, action.value],
-            }
-        }
-
-        case 'delete_data': {
-            const oldData = [...state.data];
-            const indexOfDataToDelete = oldData.findIndex(item => item.id === action.value);
-            if(indexOfDataToDelete < 0) {
-                console.log('Cannot delete data, as the index of the item with id ' + action.value + ' does not exist!');
-                return state;
-            }
-
-            oldData.splice(indexOfDataToDelete, 1);
-            return {
-                ...state,
-                data: oldData,
             }
         }
 
@@ -120,13 +92,6 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
             return newState;
         }
 
-        case 'set_viewtype':{
-            return {
-                ...state,
-                viewType: action.value,
-            }
-        }
-
         case 'set_page_number':{
             return {
                 ...state,
@@ -137,7 +102,7 @@ export default function GalleryBaseReducer(state: GalleryBase.State, action: Gal
         case 'set_search':{
             return {
                 ...state,
-                searchString: action.value,
+                search: action.value,
             }
         }
 
