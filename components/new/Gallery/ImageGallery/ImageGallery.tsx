@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ImageItemComponent from "./ImageItemComponent/ImageItemComponent";
-import {Gallery} from "../GalleryBase/Gallery";
+import {Gallery, useGalleryContext} from "../GalleryBase/Gallery";
 import serverImageIsMainImage from "kotilogi-app/actions/serverImageIsMainImage";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
@@ -10,7 +10,6 @@ import GalleryError from "../GalleryBase/Components/Error/Error";
 import ImageIcon from '@/assets/image.png';
 import ImageError from "../GalleryBase/Components/Error/ImageError";
 import Body from "../GalleryBase/Components/Body/Body";
-import useGalleryContext from "../GalleryBase/GalleryContext";
 import Header from "../GalleryBase/Components/Header/Header";
 
 export function getRefTableName(fileTableName: 'propertyFiles' | 'eventFiles'): 'properties' | 'propertyEvents'{

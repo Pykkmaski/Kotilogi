@@ -5,8 +5,8 @@ import Form from "kotilogi-app/components/Form/Form";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useGalleryContext from "../GalleryBase/GalleryContext";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
+import { useGalleryContext } from "../GalleryBase/Gallery";
 
 export default function AddFilesModal(props: ModalProps & {
     title: string,

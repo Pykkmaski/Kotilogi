@@ -1,12 +1,11 @@
 'use client';
 
-import {Gallery} from "../GalleryBase/Gallery";
+import {Gallery, useGalleryContext} from "../GalleryBase/Gallery";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
 import FileItemComponent from "./FileItemComponent/FileItemComponent";
 import FileError from "../GalleryBase/Components/Error/FileError";
 import GlobalDeleteModal from "../Modals/GlobalDeleteModal/GlobalDeleteModal";
-import useGalleryContext from "../GalleryBase/GalleryContext";
 import Body from "../GalleryBase/Components/Body/Body";
 import Header from "../GalleryBase/Components/Header/Header";
 
