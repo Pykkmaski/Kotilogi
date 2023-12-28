@@ -5,7 +5,7 @@ import { useSearchField } from "./SearchField.hooks";
 
 
 export function SearchField(){
-    const {data, setWhat} = useSearchField();
+    const {setWhat} = useSearchField();
     const inputStyle: CSSProperties = {
         borderRadius: '5px',
     }

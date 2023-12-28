@@ -1,17 +1,16 @@
 import { serverAddData } from "kotilogi-app/actions/serverAddData";
-import { GalleryBase } from "./declerations";
 import { GalleryStateType } from "./Gallery.hooks";
 
 export type ActionTypeT = 
-        'select_item' | 
-        'add_data' | 
-        'set_search' |
-        'delete_items' |
-        'toggle_loading' | 
-        'toggle_error' |
-        'set_data' | 
-        'reset_selected' | 
-        'set_page_number';
+    'select_item' | 
+    'add_data' | 
+    'set_search' |
+    'delete_items' |
+    'toggle_loading' | 
+    'toggle_error' |
+    'set_data' | 
+    'reset_selected' | 
+    'set_page_number';
 
 export type ActionT = {
     type: ActionTypeT,
@@ -54,7 +53,7 @@ export default function GalleryBaseReducer(state: GalleryStateType, action: Acti
         }
 
         case 'delete_items':{
-           if(action.value.length !== undefined) throw new Error('Action value prop must be an array');
+           if(action.value.length === undefined) throw new Error('Action value prop must be an array');
 
             const oldData = [...state.data];
             for(const item of action.value){
@@ -84,7 +83,7 @@ export default function GalleryBaseReducer(state: GalleryStateType, action: Acti
         }
 
         case 'set_data': {
-            const newState: GalleryBase.State = {
+            const newState: GalleryStateType = {
                 ...state,
                 data: [...action.value]
             };
