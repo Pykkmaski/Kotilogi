@@ -7,8 +7,6 @@ import serverImageIsMainImage from "kotilogi-app/actions/serverImageIsMainImage"
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
 import ImageError from "../GalleryBase/Components/Error/ImageError";
-import Body from "../GalleryBase/Components/Body/Body";
-import Header from "../GalleryBase/Components/Header/Header";
 
 export function getRefTableName(fileTableName: 'propertyFiles' | 'eventFiles'): 'properties' | 'propertyEvents'{
     return (
@@ -38,7 +36,7 @@ function ItemComponent(props: {
 }){
     const {props: {tableName}} = useGalleryContext();
     const [isMain, setIsMain] = useState(false);
-    
+
     useEffect(() => {
         const refTableName = getRefTableName(tableName as 'propertyFiles' | 'eventFiles');
         serverImageIsMainImage(props.item.id, props.refId, refTableName)
@@ -75,8 +73,8 @@ export default function ImageGallery(props: {
                 mimeType: 'image/jpeg',
             }}>
             
-            <Header title="Kuvat" AddModal={AddModal}/>
-            <Body   
+            <Gallery.Header title="Kuvat" AddModal={AddModal}/>
+            <Gallery.Body   
                 displayStyle="horizontal" 
                 itemComponent={ItemComponent} 
                 errorComponent={
