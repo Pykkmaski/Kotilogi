@@ -40,7 +40,7 @@ function MenuBody(props){
 
     const loggedInLinks = [
         <Link href="/" key={'index-link'}>Etusivu</Link>,
-        <Link href="/auth/properties" key={'houses-link'}>Talot</Link>,
+        <Link href="/auth/properties" key={'houses-link'}>Tili</Link>,
         <Link href="/tos" key={'tos-link'}>Käyttöehdot</Link>,
         <Link href="#" onClick={() => signOut()} key={'signout-link'}>Kirjaudu Ulos</Link>
     ];

@@ -48,12 +48,9 @@ h1, h2{
    margin: 0;
 }
 
-h1{
+h1, h2, h3{
     color: $body-text-color;
-}
-
-h2, h3{
-    color: $body-text-color;
+    padding-bottom: 1rem;
 }
 
 a{

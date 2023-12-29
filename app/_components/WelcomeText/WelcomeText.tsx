@@ -2,15 +2,27 @@ import Link from 'next/link';
 import styles from './styles.module.scss';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 import { getServerSession } from 'next-auth';
-import MarginContainer from 'kotilogi-app/components/MarginContainer/MarginContainer';
+import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 
-async function WelcomeText(props){
-    const session = await getServerSession();
-
-    const linkButton = {
-        href: !session ? '/register' : '/auth/properties',
-        text: !session ? 'Luo Tili' : 'Siirry Taloihisi',
+type SessionT = {
+    user: {
+        email: string,
     }
+}
+
+function LinkButton(props: {
+    session: SessionT | null,
+}){
+    const href = !props.session ? '/register' : '/dashboard/properties';
+    const text = !props.session ? 'Luo Tili' : 'Siirry Taloihisi';
+
+    return (
+        <Link href={href} className={styles.registerLink}>{text}</Link>
+    );
+}
+
+async function WelcomeText(){
+    const session: SessionT | null = await getServerSession(options);
 
     return (
         <div className={styles.container}>
@@ -20,7 +32,7 @@ async function WelcomeText(props){
                 <p>
                     Korjaushistoria, kulutustiedot, kuvat matkan varrelta.<br/> Kaikki tallessa yhdessä paikassa.
                 </p>
-                <Link href={linkButton.href} className={styles.registerLink}>{linkButton.text}</Link>
+                <LinkButton session={session}/>
             </div>
         </div>
     );

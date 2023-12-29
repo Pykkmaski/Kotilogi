@@ -1,6 +1,5 @@
 "use client";
 
-import Button from 'kotilogi-app/components/Button/Button';
 import styles from './page.module.scss';
 import Form from 'kotilogi-app/components/Form/Form';
 import {signIn} from 'next-auth/react';
@@ -28,7 +27,7 @@ export default function LoginPage(){
         const credentials = {
             email: e.target.email.value,
             password: e.target.password.value,
-            callbackUrl: '/auth/properties',
+            callbackUrl: '/dashboard/overview',
         }
 
         signIn('credentials', credentials);
