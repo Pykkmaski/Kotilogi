@@ -145,13 +145,9 @@ export function PropertyTransferForm(props: {
         .catch(err => toast.error(err.message))
     }
 
-    const formStyle: CSSProperties = {
-        padding: '0 !important',
-    }
-
     return (
         <>
-            <p>
+            <p className={style.description}>
                 Käytä tätä lomaketta luodaksesi varmenteen, jonka avulla toinen kotilogin käyttäjä voi vastaanottaa<br/>
                 talon <strong>{props.property.title}</strong> omistajuuden itselleen. Omistajuuden siirto on pysyvä, jos vastaanottaja käyttää koodin <br/>
                 puolen tunnin sisällä.
@@ -169,8 +165,7 @@ export function PropertyTransferForm(props: {
 
                 </PropertyTransferFormContext.Provider>
             </Form>
-        </>
-        
+        </> 
     );
 }
 
