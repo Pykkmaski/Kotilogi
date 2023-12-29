@@ -1,7 +1,6 @@
 'use client';
 
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import { StaticImageData } from "next/image";
 import { createContext, useContext, useState } from "react";
 
 type ContextValueType = {

@@ -1,10 +1,10 @@
 import Form from "kotilogi-app/components/Form/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
-import useGalleryContext from "@/components/new/Gallery/GalleryBase/GalleryContext";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";
 import toast from "react-hot-toast";
 import Button from "kotilogi-app/components/Button/Button";
 import style from './style.module.scss';
+import { useGalleryContext } from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
 
 type Props = {
     item: Kotilogi.ItemType,
@@ -35,10 +35,6 @@ export default function EditModal(props: Props){
 
             const result = await serverUpdateDataById(updatedData, props.item.id as string, tableName);
             if(!result) throw new Error('Päivitys epäonnistui!');
-            dispatch({
-                type: 'update_item',
-                value: result,
-            });
             toast.success('Kohteen päivitys onnistui!');
 
         }

@@ -1,7 +1,7 @@
-import { useRef } from "react";
-import useGalleryContext from "../../GalleryContext";
+
+import { useGalleryContext } from '../../Gallery';
 import style from './style.module.scss';
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function PageIndicator(){
     const {state, dispatch} = useGalleryContext();
