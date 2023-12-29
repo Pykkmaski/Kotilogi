@@ -1,6 +1,6 @@
 @import 'kotilogi-app/scss/Config';
 @import 'kotilogi-app/scss/Animations';
-@import '../../_partials/padding';
+@import '@/scss/Padding';
 
 $background-color : rgb(255, 255, 255);
 $title-color : rgb(0, 0, 0);

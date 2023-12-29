@@ -68,7 +68,7 @@ function UserIcon(props: {
                 >
                     <nav>
                         <Link href="/">Etusivu</Link>
-                        <Link href="/auth/dashboard/overview">Tili</Link>
+                        <Link href="/dashboard/overview">Tili</Link>
                         <span className={style.logoutLink} onClick={async () => await signOut()}>Kirjaudu Ulos</span>
                     </nav>
                 </div>

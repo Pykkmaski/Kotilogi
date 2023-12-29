@@ -1,7 +1,7 @@
 @import 'kotilogi-app/scss/Config.scss';
 @import 'kotilogi-app/scss/Animations.scss';
-@import '../../_partials/padding';
-@import '../../_partials/shadow';
+@import '@/scss/Padding';
+@import '@/scss/Shadow';
 
 .container{
     display:flex;
