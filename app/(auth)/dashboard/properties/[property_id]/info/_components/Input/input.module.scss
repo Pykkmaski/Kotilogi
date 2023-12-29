@@ -1,0 +1,28 @@
+@import '@/scss/Config';
+
+$input-color: rgb(228, 228, 228);
+
+.input{
+    border-radius: 20px;
+    background: $input-color;
+    border: none;
+    text-justify: center;
+    padding: $medium-gap;
+    color: rgb(0, 0, 0);
+
+    &::placeholder{
+        color: rgb(58, 58, 58) !important;
+    }
+
+    &:focus{
+        outline: 2px solid $primary-color;
+    }
+}
+
+.block{
+    margin-bottom: $big-gap;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    gap: $medium-gap;
+}

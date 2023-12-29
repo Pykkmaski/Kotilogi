@@ -1,0 +1,15 @@
+@import '@/scss/Config';
+
+.header{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $medium-gap;
+    
+    nav{
+        display: flex;
+        flex-flow: row; 
+        gap: $medium-gap;
+    }
+}

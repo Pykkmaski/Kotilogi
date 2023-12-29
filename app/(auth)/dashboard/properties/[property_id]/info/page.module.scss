@@ -1,0 +1,73 @@
+@import '@/scss/Padding';
+@import 'kotilogi-app/scss/Config';
+
+.body{
+    flex: 1;
+}
+
+.header{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    margin-bottom: calc($medium-gap * 2);
+}
+
+.propertyForm{
+    padding: 0;
+
+    option{
+        padding: 0;
+        margin: 0;
+    }
+
+    input, select{
+        background: none;
+        border: none;
+        border-bottom: 1px solid $body-text-color;
+        border-radius: 0;
+    }
+
+    label{
+        color: $body-text-color;
+    }
+
+    sup{
+        color: $body-text-color;
+    }
+}
+
+.navBar{
+    display:flex;
+    flex-flow: row;
+    gap: $medium-gap;
+
+    a{
+        color: $body-text-color;
+        font-weight: 600;
+        transition: text-decoration 0.2s ease-in-out;
+        
+        &:focus{
+            background: #DDD;
+        }
+    }
+}
+
+.formRow{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: $medium-gap;
+    margin-bottom: calc($medium-gap * 2);
+
+    .form-group{
+        padding: 0;
+    }
+}
+
+.block{
+    margin-bottom: calc($medium-gap * 3);
+    h1, h2{
+        margin-bottom: $medium-gap;
+    }
+}
