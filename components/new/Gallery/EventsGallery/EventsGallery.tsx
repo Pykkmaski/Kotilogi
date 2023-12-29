@@ -9,9 +9,6 @@ import GlobalDeleteModal from '../Modals/GlobalDeleteModal/GlobalDeleteModal';
 import Error from '../GalleryBase/Components/Error/Error';
 import HistoryIcon from '@/assets/history.png';
 import style from './style.module.scss';
-import Body from '../GalleryBase/Components/Body/Body';
-import Header from '../GalleryBase/Components/Header/Header';
-import { SearchFilter } from '../GalleryBase/Components/SearchFilter/SearchFilter';
 
 function ItemComponent(props: {
     item: any

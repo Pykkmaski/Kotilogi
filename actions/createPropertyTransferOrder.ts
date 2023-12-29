@@ -4,9 +4,8 @@ import db from 'kotilogi-app/dbconfig';
 import bcrypt from 'bcrypt';
 require('dotenv').config();
 
-function generateCode(){
+function generateCode(codeLength: number){
     const numbers: number[] = [];
-    const codeLength = 10;
 
     for(var i = 0; i < codeLength; ++i){
         const n = crypto.randomInt(9);
@@ -19,7 +18,9 @@ function generateCode(){
 export async function createPropertyTransferOrder(propertyId: Kotilogi.IdType){
     return new Promise<string>(async (resolve, reject) => {
         try{
-            const code = generateCode();
+            const codeLength = process.env.TRANSFER_CODE_LENGTH ? parseInt(process.env.TRANSFER_CODE_LENGTH) : 10;
+
+            const code = generateCode(codeLength);
             const transferOrderExpiry = process.env.TRANSFER_ORDER_EXPIRY;
             if(!transferOrderExpiry) return reject('Server error: No transfer order expiry env variable present!');
 
