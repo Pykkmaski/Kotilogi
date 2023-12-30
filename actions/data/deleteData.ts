@@ -3,7 +3,7 @@
 import db from "kotilogi-app/dbconfig";
 import {unlink} from 'fs/promises';
 import { uploadPath } from "kotilogi-app/uploadsConfig";
-import upload from "../upload";
+import upload from "../file/upload";
 
 const ErrorCode = {
     SUCCESS: 0,

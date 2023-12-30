@@ -4,7 +4,7 @@ import { addData } from "kotilogi-app/actions/data/addData";
 import Button from "kotilogi-app/components/Button/Button";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import upload from "kotilogi-app/actions/upload";
+import upload from "kotilogi-app/actions/file/upload";
 import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import ObjectModalBase from "./ObjectModalBase";

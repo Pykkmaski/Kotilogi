@@ -1,4 +1,4 @@
-import upload from "kotilogi-app/actions/upload";
+import upload from "kotilogi-app/actions/file/upload";
 import Button from "kotilogi-app/components/Button/Button";
 import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
 import Form from "kotilogi-app/components/Form/Form";
