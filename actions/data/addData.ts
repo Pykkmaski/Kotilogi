@@ -38,6 +38,7 @@ const validateData = async (data: any, tableName: Kotilogi.Table) => {
     return true;
 }
 
+/**Adds data into the provided database table. */
 export async function addData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
 
     return new Promise<ParamType>(async (resolve, reject) => {

@@ -3,8 +3,8 @@
 import crypto from 'crypto';
 import db from 'kotilogi-app/dbconfig';
 import bcrypt from 'bcrypt';
-import serverSendHTMLEmail from 'kotilogi-app/actions/serverSendHTMLEmail';
-import serverSendEmail from 'kotilogi-app/actions/serverSendEmail';
+import serverSendHTMLEmail from 'kotilogi-app/actions/email/serverSendHTMLEmail';
+import serverSendEmail from 'kotilogi-app/actions/email/serverSendEmail';
 import { ErrorCode } from 'kotilogi-app/constants';
 import jwt from 'jsonwebtoken';
 
