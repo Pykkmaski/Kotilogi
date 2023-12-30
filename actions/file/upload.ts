@@ -1,7 +1,7 @@
 "use server";
 
 import { limit } from 'kotilogi-app/uploadsConfig';
-import { serverAddData } from '../data/addData';
+import { addData } from '../data/addData';
 import { uploadFile } from './uploadFile';
 
 /**
@@ -46,7 +46,7 @@ export default async function upload(data: FormData[], tableName: 'propertyFiles
                 description: d.get('description'),
               }
     
-              const result = await serverAddData(fileData, tableName);
+              const result = await addData(fileData, tableName);
               successfullyInsertedFiles.push({id: result.id, fileName: result.fileName});
             }
   
