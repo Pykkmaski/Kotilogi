@@ -21,21 +21,24 @@ async function validateData(data: any, tableName: Kotilogi.Table): Promise<boole
 }
 
 export async function serverAddData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
-    try{
-        const dataToSave: ParamType = {
-            ...data,
+
+    return new Promise<ParamType>(async (resolve, reject) => {
+        try{
+            const dataToSave: ParamType = {
+                ...data,
+            }
+    
+            const ok = await validateData(dataToSave, tableName);
+    
+            if(!ok) throw new Error('Adding of data was rejected!');
+    
+            const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
+    
+            resolve(insertedData[0]);
         }
-
-        const ok = await validateData(dataToSave, tableName);
-
-        if(!ok) throw new Error('Adding of data was rejected!');
-
-        const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
-
-        return insertedData[0];
-    }
-    catch(err){
-        console.log('Server add data: ' + err.message);
-        return null;
-    }
+        catch(err){
+            console.log('Server add data: ' + err.message);
+            reject(err);
+        }
+    });
 }

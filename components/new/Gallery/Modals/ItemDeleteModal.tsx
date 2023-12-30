@@ -24,22 +24,15 @@ export default function ItemDeleteModal(props: ModalProps & {
     
     const onDeleteHandler = async () => {
         setLoading(true);
-        const error = await serverDeleteData(item.id, tableName);
-        if(error === 0){
-            if(props.callback) {
-                props.callback();
-            }
-            else{
-                toast.success('Poisto onnistui!');
-            }
-
+        serverDeleteData(item.id, tableName)
+        .then(async () => {
+            toast.success('Poisto onnistui!');
             await serverRevalidatePath('');
-            props.onHide();
-        }
-        else{
-            toast.error('Poisto epäonnistui!');
-        }
-        setLoading(false);
+        })
+        .catch(err => console.log(toast.error(err.message)))
+        .finally(() => {
+            setLoading(false)
+        });
     }
 
     const body = (

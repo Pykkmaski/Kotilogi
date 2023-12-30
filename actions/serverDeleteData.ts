@@ -75,23 +75,29 @@ async function handleDeletion(id: Kotilogi.IdType, tableName: Kotilogi.Table): P
  * @param eventId 
  * @returns 
  */
-async function handleEventDeletion(eventId: Kotilogi.IdType): Promise<number>{
-    try{
-        //Delete the actual files on disk.
-        const fileNames = await db('eventFiles').where({refId: eventId}).pluck('fileName');
-        for(const fileName of fileNames){
-            await unlink(uploadPath + fileName);
-        }
+async function handleEventDeletion(eventId: Kotilogi.IdType){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            //Prevent deletion of the event if it has been consolidated.
+            const eventData = await db('propertyEvents').where({id: eventId}).first().select('consolidationTime');
+            if(Date.now() > parseInt(eventData.consolidationTime)) throw new Error('The event has been consolidated, and thus cannot be deleted!');
 
-        //Delete the event data.
-        await db('propertyEvents').where({id: eventId}).del();
-        
-        return ErrorCode.SUCCESS;
-    }
-    catch(err){
-        console.log(err.message);
-        return ErrorCode.UNEXPECTED;
-    }
+            /**The names of the files associated with this event */
+            const fileNames = await db('eventFiles').where({refId: eventId}).pluck('fileName');
+    
+            for(const fileName of fileNames){
+                await unlink(uploadPath + fileName);
+            }
+    
+            //Delete the event data. Deletes the file associated db entries as well due to CASCADE.
+            await db('propertyEvents').where({id: eventId}).del();
+            
+            resolve();
+        }
+        catch(err){
+            reject(err);
+        }
+    });
 }
 
 /**
@@ -121,17 +127,28 @@ async function handleFileDeletion(fileId: Kotilogi.IdType): Promise<number>{
  * @param tableName 
  */
 
-export default async function serverDeleteData(id: Kotilogi.IdType, tableName: Kotilogi.Table): Promise<number>{
-    switch(tableName){
-        case 'properties':      
-            return await handlePropertyDeletion(id);
+export default async function serverDeleteData(id: Kotilogi.IdType, tableName: Kotilogi.Table){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            switch(tableName){
+                case 'properties':      
+                    await handlePropertyDeletion(id);
+        
+                case 'propertyEvents':
+                    await handleEventDeletion(id);
+                    
+                case 'propertyFiles':
+                case 'eventFiles':
+                    await handleFileDeletion(id);
+        
+                default: await handleDeletion(id, tableName);
+            }
 
-        case 'propertyEvents':
-            return await handleEventDeletion(id);
-            
-        case 'files':
-            return await handleFileDeletion(id);
-
-        default: return await handleDeletion(id, tableName);
-    }
+            resolve();
+        }
+        catch(err){
+            console.log(err.message);
+            reject(err);
+        }
+    });
 }
