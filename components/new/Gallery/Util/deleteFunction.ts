@@ -1,4 +1,4 @@
-import serverDeleteData from "kotilogi-app/actions/serverDeleteData";
+import serverDeleteData from "kotilogi-app/actions/deleteData";
 
 type ObjectTypes = {id: Kotilogi.IdType}
 
