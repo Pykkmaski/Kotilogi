@@ -19,6 +19,5 @@ export async function uploadFile(file: File){
             console.log(err.message);
             reject(err);
         }
-        
     });
 }
