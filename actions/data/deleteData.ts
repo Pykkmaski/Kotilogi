@@ -127,7 +127,7 @@ async function handleFileDeletion(fileId: Kotilogi.IdType): Promise<number>{
  * @param tableName 
  */
 
-export default async function serverDeleteData(id: Kotilogi.IdType, tableName: Kotilogi.Table){
+export async function deleteData(id: Kotilogi.IdType, tableName: Kotilogi.Table){
     return new Promise<void>(async (resolve, reject) => {
         try{
             switch(tableName){
