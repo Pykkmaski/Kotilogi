@@ -1,6 +1,6 @@
 'use client';
 
-import { serverAddData } from "kotilogi-app/actions/serverAddData";
+import { addData } from "kotilogi-app/actions/serverAddData";
 import Button from "kotilogi-app/components/Button/Button";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -57,25 +57,19 @@ export default function ObjectModalWithFiles(props: ModalProps & {
 
         setLoading(true);
 
-        try{
-            const addedTarget = await serverAddData(currentData, tableName);
-
-            if(!addedTarget) throw new Error('Kohteen lisääminen epäonnistui!');
-
+        addData(currentData, tableName)
+        .then(async addedData => {
             //Upload the files. 
             const dataArray: FormData[] = [];
             files.forEach(async file => {
                 const data = new FormData();
                 data.append('file', file);
-                data.append('refId', addedTarget.id);
+                data.append('refId', addedData.id);
                 dataArray.push(data);
             });
 
-            
             const fileTable = getFileTableName(tableName);
-            const uploadedFiles = upload(dataArray, fileTable as 'propertyFiles' | 'eventFiles');
-            if(!uploadedFiles) throw new Error('Tiedostojen lähetys epäonnistui!');
-            
+            await upload(dataArray, fileTable as 'propertyFiles' | 'eventFiles');
             const path = (
                 tableName === 'properties' ? '/properties'
                 :
@@ -86,13 +80,12 @@ export default function ObjectModalWithFiles(props: ModalProps & {
 
             await serverRevalidatePath(path);
             toast.success('Kohteen lisääminen onnistui!');
-        }
-        catch(err){
-            toast.error(err.message);
-        }
-       
-       setLoading(false);
-       props.onHide();
+        })
+        .catch(err => toast.error(err.message))
+        .finally(() => {
+            setLoading(false);
+            props.onHide();
+        });
     }
 
     const modalId = `target-add-modal`;

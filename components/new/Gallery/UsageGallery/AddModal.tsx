@@ -1,6 +1,6 @@
 'use client';
 
-import { serverAddData } from "kotilogi-app/actions/serverAddData";
+import { addData } from "kotilogi-app/actions/serverAddData";
 import Button from "kotilogi-app/components/Button/Button";
 import Form from "kotilogi-app/components/Form/Form";
 import Modal from "kotilogi-app/components/Modals/Modal";
@@ -32,20 +32,17 @@ export default function AddModal(props: {
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const result = await serverAddData(currentData, tableName);
-        if(!result){
-            toast.error('Tiedon lisäys epäonnistui!');
-        }
-        else{
+        addData(currentData, tableName)
+        .then(res => {
             dispatch({
                 type: 'add_data',
-                value: result,
+                value: res,
             });
-
             toast.success('Tiedon lisäys onnistui!');
-        }
+        })
+        .catch(err => toast.error(err.message))
+        .finally(() => setLoading(false));
 
-        setLoading(false);
         props.onHide();
     }
     

@@ -38,7 +38,7 @@ async function validateData(data: any, tableName: Kotilogi.Table): Promise<boole
     return true;
 }
 
-export async function serverAddData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
+export async function addData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
 
     return new Promise<ParamType>(async (resolve, reject) => {
         try{
