@@ -1,6 +1,6 @@
 'use client';
 
-import { serverAddData } from "kotilogi-app/actions/addData";
+import { serverAddData } from "kotilogi-app/actions/data/addData";
 import { serverDeleteDataByIds } from "kotilogi-app/actions/serverDeleteDataByIds";
 import { serverGetData } from "kotilogi-app/actions/serverGetData";
 import serverUpdateDataById from "kotilogi-app/actions/serverUpdateDataById";

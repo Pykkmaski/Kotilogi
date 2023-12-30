@@ -2,7 +2,7 @@
 
 import db from "kotilogi-app/dbconfig";
 import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
-import { serverAddData } from "./addData";
+import { serverAddData } from "./data/addData";
 
 export const ErrorCode = {
     SUCCESS: 0,

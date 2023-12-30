@@ -1,4 +1,4 @@
-import serverDeleteData from "kotilogi-app/actions/deleteData";
+import serverDeleteData from "kotilogi-app/actions/data/deleteData";
 import Button from "kotilogi-app/components/Button/Button";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import React, { useState } from "react";

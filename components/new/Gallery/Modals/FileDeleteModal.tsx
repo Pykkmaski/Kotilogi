@@ -1,7 +1,7 @@
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import ItemDeleteModal from "./ItemDeleteModal";
 import { useItemComponentContext } from "../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
-import { deleteFiles } from "kotilogi-app/actions/deleteData";
+import { deleteFiles } from "kotilogi-app/actions/data/deleteData";
 import toast from "react-hot-toast";
 
 /**
