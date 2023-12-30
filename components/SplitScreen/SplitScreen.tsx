@@ -11,6 +11,7 @@ export function SplitScreen({leftWeight = 1, rightWeight = 1, ...props}: SplitSc
 
     const leftStyle: CSSProperties = {
         flex: leftWeight,
+        borderRight: '1px solid #DDD',
     }
 
     const rightStyle: CSSProperties = {

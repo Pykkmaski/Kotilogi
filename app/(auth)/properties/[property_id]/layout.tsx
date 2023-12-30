@@ -5,6 +5,7 @@ import NavBar from './_components/NavBar';
 import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/isUserTheOwnerOfProperty';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
+import { SplitScreen } from 'kotilogi-app/components/SplitScreen/SplitScreen';
 
 export default async function Layout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -26,12 +27,13 @@ export default async function Layout({children, params}){
                 <div className={style.layoutHeader}>
                     <h1>{property.title}</h1>
                 </div>
-                <div className={style.subCointainer}>
+                <SplitScreen rightWeight={7}>
                     <NavBar/>
-                    <section className={style.bodySection}>
+
+                    <div style={{paddingLeft: '1rem', paddingTop: '1rem'}}>
                         {children}
-                    </section>
-                </div>
+                    </div>
+                </SplitScreen>
             </div>
         </PropertyContextProvider>
     )
