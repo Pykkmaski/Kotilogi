@@ -11,6 +11,16 @@ import ObjectModalBase from "./ObjectModalBase";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useGalleryContext } from "../GalleryBase/Gallery";
 
+function getFileTableName(tableName: string){
+    return (
+        tableName === 'properties' ? 'propertyFiles'
+        :
+        tableName === 'propertyEvents' ? 'eventFiles'
+        :
+        tableName
+    );
+}
+
 type ObjectModalWithFilesContextProps = {
     onChangeHandler: (e) => void,
 }
@@ -61,21 +71,15 @@ export default function ObjectModalWithFiles(props: ModalProps & {
                 dataArray.push(data);
             });
 
-            const fileTable = (
-                tableName === 'properties' ? 'propertyFiles'
-                :
-                tableName === 'propertyEvents' ? 'eventFiles'
-                :
-                tableName
-            );
-
+            
+            const fileTable = getFileTableName(tableName);
             const uploadedFiles = upload(dataArray, fileTable as 'propertyFiles' | 'eventFiles');
             if(!uploadedFiles) throw new Error('Tiedostojen lähetys epäonnistui!');
             
             const path = (
-                tableName === 'properties' ? '/auth/properties'
+                tableName === 'properties' ? '/properties'
                 :
-                tableName === 'propertyEvents' ? '/auth/properties/new/[property_id]/events'
+                tableName === 'propertyEvents' ? '/properties/[property_id]/events'
                 :
                 ''
             );
