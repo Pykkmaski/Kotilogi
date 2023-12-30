@@ -5,15 +5,13 @@ import Card from "../GalleryBase/Components/Body/Components/Card/Card";
 import PropertiesMenu from "./components/OverlayMenu/PropertiesMenu";
 import Error from "../GalleryBase/Components/Error/Error";
 import HouseIcon from '@/assets/house.png';
-import Body from "../GalleryBase/Components/Body/Body";
 import { CSSProperties, useRef, useState } from "react";
-import Link from "next/link";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { Input, Select } from "kotilogi-app/components/Input/Input";
 import Form from "kotilogi-app/components/Form/Form";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-import { receivePropertyOwnership } from "kotilogi-app/actions/property/receiveOwnership";
+import { receiveOwnership } from "kotilogi-app/actions/property/receiveOwnership";
 import { useSession } from "next-auth/react";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import toast from "react-hot-toast";
@@ -101,7 +99,7 @@ function UseTransferCodeModal(props: ModalProps){
         if(session.status !== 'authenticated') return;
 
         try{
-            await receivePropertyOwnership(e.target.transferCode.value, session.data!.user?.email as string);
+            await receiveOwnership(e.target.transferCode.value, session.data!.user?.email as string);
             await serverRevalidatePath('/properties');
             toast.success('Talon omistajuus vastaanotettu onnistuneesti!');
         }

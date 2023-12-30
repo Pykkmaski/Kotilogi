@@ -1,4 +1,4 @@
-import serverDeleteData from "kotilogi-app/actions/data/deleteData";
+import {deleteData} from "kotilogi-app/actions/data/deleteData";
 import Button from "kotilogi-app/components/Button/Button";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import React, { useState } from "react";
@@ -21,34 +21,18 @@ export default function GlobalDeleteModal(props: ModalProps){
     const onDeleteHandler = async () => {
         setLoading(true);
 
-        for(const selectedItem of state.selectedItems){
-            const error = await serverDeleteData(selectedItem.id, tableName);
-            const itemTitle = selectedItem.title || selectedItem.fileName;
-
-            if(error !== 0){
-                const message = `
-                    Kohteen \"${itemTitle}\" poisto epäonnistui!
-                `;
-
-                toast.error(message);
+        try{
+            for(const selectedItem of state.selectedItems){
+                await deleteData(selectedItem.id, tableName);
             }
-            else{
-                const message = `
-                    Kohteen \"${itemTitle}\" poisto onnistui!
-                `;
 
-                const path = (
-                    tableName === 'propertyEvents' ? '/auth/properties/new/[property_id]/events'
-                    :
-                    tableName === 'properties' ? '/auth/properties'
-                    :
-                    ''
-                );
-
-                await serverRevalidatePath(path);
-                toast.success(message);
-            }
+            toast.success('Kohteiden poisto onnistui!');
+            await serverRevalidatePath('');
         }
+        catch(err){
+            toast.error(err.message);
+        }
+        
 
         dispatch({
             type: 'reset_selected',

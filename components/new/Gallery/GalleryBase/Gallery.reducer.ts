@@ -1,4 +1,3 @@
-import { serverAddData } from "kotilogi-app/actions/data/addData";
 import { GalleryStateType } from "./Gallery.hooks";
 
 export type ActionTypeT = 

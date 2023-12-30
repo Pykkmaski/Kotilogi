@@ -8,7 +8,6 @@ import { useGallery, GalleryStateType } from "./Gallery.hooks";
 import Button from "kotilogi-app/components/Button/Button";
 import BinIcon from '@/assets/bin.png';
 import PlusIcon from '@/assets/plus.png';
-import { SearchField } from "./Components/SearchField/SearchField";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 
 function Header(props: React.PropsWithChildren & {

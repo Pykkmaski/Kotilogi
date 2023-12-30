@@ -1,7 +1,7 @@
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useCardContext } from "../GalleryBase/Components/Body/Components/Card/CardContext";
 import Button from "kotilogi-app/components/Button/Button";
-import serverDeleteData from "kotilogi-app/actions/data/deleteData";
+import {deleteData} from "kotilogi-app/actions/data/deleteData";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import toast from "react-hot-toast";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export default function ItemDeleteModal(props: ModalProps & {
     
     const onDeleteHandler = async () => {
         setLoading(true);
-        serverDeleteData(item.id, tableName)
+        deleteData(item.id, tableName)
         .then(async () => {
             toast.success('Poisto onnistui!');
             await serverRevalidatePath('');

@@ -1,8 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useReducer } from "react";
 import GalleryBaseReducer from "./Gallery.reducer";
-import { getDataBySearch } from "kotilogi-app/actions/getDataBySearch";
-import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
+import { getDataBySearch, getDataWithOffset } from "kotilogi-app/actions/data/getData";
 import getDataOffset from "./Util/getDataOffset";
 import axios from 'axios';
 
@@ -40,7 +39,7 @@ export function useGallery(tableName: Kotilogi.Table, query: any){
     const [state, dispatch] = useReducer(GalleryBaseReducer, initialState);
 
     function fetchData(pageNumber: number){
-        serverGetDataOffset(tableName, query, getDataOffset(pageNumber, 10), 10)
+        getDataWithOffset(tableName, query, getDataOffset(pageNumber, 10), 10)
         .then((data: any[]) => {
           if(!data){
             dispatch({

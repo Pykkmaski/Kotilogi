@@ -1,6 +1,3 @@
-import Button from "kotilogi-app/components/Button/Button";
-import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import ItemDeleteModal from "../Modals/ItemDeleteModal";
 import { useItemComponentContext } from "../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";

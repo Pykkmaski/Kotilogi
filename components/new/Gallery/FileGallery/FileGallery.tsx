@@ -6,8 +6,6 @@ import AddFilesModal from "../Modals/AddFilesModal";
 import FileItemComponent from "./FileItemComponent/FileItemComponent";
 import FileError from "../GalleryBase/Components/Error/FileError";
 import GlobalDeleteModal from "../Modals/GlobalDeleteModal/GlobalDeleteModal";
-import Body from "../GalleryBase/Components/Body/Body";
-import Header from "../GalleryBase/Components/Header/Header";
 
 function AddModal(props: ModalProps){
     const {props: {query: {refId}}} = useGalleryContext();
