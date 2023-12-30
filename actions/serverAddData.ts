@@ -6,6 +6,24 @@ import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
 
 type ParamType = Kotilogi.PropertyType | Kotilogi.EventType;
 
+/**Runs pre-processing on the data, if it is entered into specific tables. 
+ * @returns A processed variant of the passed data.
+*/
+async function processData(data: any, tableName: Kotilogi.Table){
+    switch(tableName){
+        case 'propertyEvents':{
+            const consolidationDelay = process.env.EVENT_CONSOLIDATION_TIME;
+            const timeUntilConsolidated = consolidationDelay ? consolidationDelay : '0';
+
+            return {
+                ...data,
+                consolidationTime: Date.now() + timeUntilConsolidated,
+            }
+        }
+
+        default: return data;
+    }
+}
 /**
  * Runs checks based on what table data is being inserted into, and returns true if ok, false otherwise.
  * @param data 
@@ -24,12 +42,9 @@ export async function serverAddData(data: any, tableName: Kotilogi.Table): Promi
 
     return new Promise<ParamType>(async (resolve, reject) => {
         try{
-            const dataToSave: ParamType = {
-                ...data,
-            }
-    
+            const dataToSave: ParamType = await processData({...data}, tableName);
             const ok = await validateData(dataToSave, tableName);
-    
+            
             if(!ok) throw new Error('Adding of data was rejected!');
     
             const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
