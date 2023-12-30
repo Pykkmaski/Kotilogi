@@ -27,7 +27,7 @@ export async function GET(req: Request){
 
 export async function POST(req: Request){
     try{
-        const {data} = await req.json();
+        const {data, files} = await req.json();
         await db(propertiesTableName).insert(data);
         return new NextResponse(null, {
             status: 200,

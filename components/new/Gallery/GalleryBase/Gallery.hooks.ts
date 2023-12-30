@@ -4,6 +4,7 @@ import GalleryBaseReducer from "./Gallery.reducer";
 import { getDataBySearch } from "kotilogi-app/actions/getDataBySearch";
 import { serverGetDataOffset } from "kotilogi-app/actions/serverGetData";
 import getDataOffset from "./Util/getDataOffset";
+import axios from 'axios';
 
 export type GalleryStateType = {
     data: any[],
