@@ -10,7 +10,7 @@ import { uploadFile } from './uploadFile';
  * @param tableName The name of the file data containing table.
  * @returns An array containing the newly inserted database entries of the files, or null in case of an error.
  */
-export default async function upload(data: FormData[], tableName: 'propertyFiles' | 'eventFiles'): Promise<Array<{id: Kotilogi.IdType, fileName: string}> | null>{
+export async function upload(data: FormData[], tableName: 'propertyFiles' | 'eventFiles'): Promise<Array<{id: Kotilogi.IdType, fileName: string}> | null>{
 
     return new Promise<Array<{id: Kotilogi.IdType, fileName: string}>>(async (resolve, reject) => {
         try{

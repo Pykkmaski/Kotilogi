@@ -13,7 +13,7 @@ const ErrorCode = {
  * @param refId The id of the object this image belongs to
  * @param refType The type of the ref object. Either property or event.
  */
-export default async function setMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdType, tableName: 'properties' | 'propertyEvents'){
+export async function setMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdType, tableName: 'properties' | 'propertyEvents'){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await db(tableName).where({id: refId}).update({mainImageId: imageId});

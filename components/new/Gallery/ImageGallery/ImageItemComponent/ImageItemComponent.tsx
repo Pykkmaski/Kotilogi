@@ -2,42 +2,34 @@ import style from './style.module.scss';
 import { useState } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
-import serverSetAsMainImage from 'kotilogi-app/actions/file/setMainImage';
+import {setMainImage as serverSetMainImage} from 'kotilogi-app/actions/file/setMainImage';
 import toast from 'react-hot-toast';
 import ItemComponent, { useItemComponentContext } from '../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent';
 import FileDeleteModal from '../../Modals/FileDeleteModal';
 import { useGalleryContext } from '../../GalleryBase/Gallery';
 
+const getRefTableName = (fileTableName: 'propertyFiles' | 'eventFiles') => {
+    return fileTableName === 'propertyFiles' ? 'properties' : 'propertyEvents';
+}
+
 function Content(props: {
     imageSrc: string,
-    isMain: boolean,
-
+    isMain: boolean
 }){
     const [showMenu, setShowMenu] = useState(false);
-    const [isMain, setIsMain] = useState(props.isMain);
     const {props: {tableName}} = useGalleryContext();
     const {setShowDeleteModal, item} = useItemComponentContext();
+    const [isMain, setIsMain] = useState(props.isMain);
 
     const setMainImage = async (e) => {
         toast.loading('Asetetaan pääkuvaa...');
 
-        const refType = (
-            tableName.includes('property') ? 'property'
-            :
-            tableName.includes('event') ? 'event'
-            :
-            null
-        );
-
-        const error = await serverSetAsMainImage(item.id, item.refId, refType);
-        
-        if(error === 0){
+        const refTableName = getRefTableName(tableName as 'propertyFiles' | 'eventFiles');
+        serverSetMainImage(item.id, item.refId, refTableName)
+        .then(res => {
             setIsMain(true);
-            toast.success('Pääkuva vaihdettu onnistuneesti!');
-        }
-        else{
-            toast.error('Pääkuvan vaihto epäonnistui!');
-        }
+        })
+        .catch(err => toast.error('Pääkuvan asetus epäonnistui!'));
     }
 
     const className = isMain ? `${style.item} ${style.main}` : style.item;

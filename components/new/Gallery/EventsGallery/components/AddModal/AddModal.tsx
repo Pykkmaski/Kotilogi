@@ -3,6 +3,8 @@
 import Form from "kotilogi-app/components/Form/Form";
 import ObjectModalWithFiles, { useObjectModalWithFilesContext } from "../../../Modals/ObjectModalWithFiles";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import { addPropertyEvent } from "kotilogi-app/actions/propertyEvent/addPropertyEvent";
+import { useRef } from "react";
 
 function FormContent(){
     const {onChangeHandler} = useObjectModalWithFilesContext();
@@ -28,11 +30,11 @@ function FormContent(){
 }
 
 export default function AddModal(props: ModalProps){
+
     return (
         <ObjectModalWithFiles
             {...props}
             title="Lisää Tapahtuma"
-            formContent={<FormContent/>}
-        />
+            formContent={<FormContent/>}/>
     );
 }

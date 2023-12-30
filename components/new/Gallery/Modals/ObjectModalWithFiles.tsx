@@ -4,7 +4,7 @@ import { addData } from "kotilogi-app/actions/data/addData";
 import Button from "kotilogi-app/components/Button/Button";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import upload from "kotilogi-app/actions/file/upload";
+import {upload} from "kotilogi-app/actions/file/upload";
 import FileDropZone from "kotilogi-app/components/FileDropZone/FileDropZone";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import ObjectModalBase from "./ObjectModalBase";
@@ -61,6 +61,7 @@ export default function ObjectModalWithFiles(props: ModalProps & {
         .then(async addedData => {
             //Upload the files. 
             const dataArray: FormData[] = [];
+
             files.forEach(async file => {
                 const data = new FormData();
                 data.append('file', file);
@@ -73,7 +74,7 @@ export default function ObjectModalWithFiles(props: ModalProps & {
             const path = (
                 tableName === 'properties' ? '/properties'
                 :
-                tableName === 'propertyEvents' ? '/properties/[property_id]/events'
+                tableName === 'propertyEvents' ? '/events/[event_id]'
                 :
                 ''
             );

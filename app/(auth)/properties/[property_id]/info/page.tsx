@@ -7,11 +7,10 @@ import { useSearchParams } from 'next/navigation';
 import Form from 'kotilogi-app/components/Form/Form';
 import GeneralSection from './GeneralSection';
 import { useState } from 'react';
-import serverUpdateDataById from 'kotilogi-app/actions/serverUpdateDataById';
+import {updateDataById} from 'kotilogi-app/actions/data/updateData';
 import toast from 'react-hot-toast';
 import InteriorSection from './InteriorSection';
 import BuildingSection from './BuildingSection';
-import Link from 'next/link';
 import ExteriorSection from './ExteriorSection';
 import HeatingSection from './HeatingSection';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
@@ -19,7 +18,6 @@ import RoofSection from './RoofSection';
 
 export default function InfoPage(){
     const params = useSearchParams();
-    const section = params.get('section');
     const {property} = usePropertyContext();
     const [currentData, setCurrentData] = useState({...property});
     const [loading, setLoading] = useState(false);
@@ -28,17 +26,14 @@ export default function InfoPage(){
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const result = await serverUpdateDataById(currentData, property.id, 'properties');
-        if(!result){
-            toast.error('Tietojen päivitys epäonnistui!');
-        }
-        else{
+        updateDataById(currentData, property.id, 'properties')
+        .then(async res => {
             toast.success('Tietojen päivitys onnistui!');
             setIsEdited(false);
-            await serverRevalidatePath('/auth/properties/new/[property_id]');
-        }
-
-        setLoading(false);
+            await serverRevalidatePath('/properties/[property_id]');
+        })
+        .catch(err => toast.error(err.message))
+        .finally(() => setLoading(false));
     }
 
     const onChangeHandler = (e) => {

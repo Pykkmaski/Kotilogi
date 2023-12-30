@@ -33,7 +33,6 @@ function Label(props: {
         borderBottomLeftRadius: '10px',
         paddingLeft: '0.5rem',
         backgroundColor: 'var(--primary-color)',
-        fontWeight: '600',
     }
 
     const requiredBadge = props.required ? <i style={{color: 'red'}}>*</i> : null;

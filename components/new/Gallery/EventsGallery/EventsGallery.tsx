@@ -46,9 +46,9 @@ export default function EventsGallery(props: EventsGalleryProps){
                 <SearchField/>
             </Gallery.Header>
             <Gallery.Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
-                    title="Ei Tapahtumia"
-                    message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
-                    icon={HistoryIcon}/>}/>
+                title="Ei Tapahtumia"
+                message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
+                icon={HistoryIcon}/>}/>
        </Gallery>
     )
 }
