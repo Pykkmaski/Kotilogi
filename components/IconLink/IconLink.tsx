@@ -2,12 +2,9 @@ import Image, { StaticImageData } from "next/image"
 import Link from "next/link"
 import style from './style.module.scss';
 
-export default function IconLink(props: {
+export default function IconLink(props: React.ComponentProps<'a'> & {
     imageSrc: string | StaticImageData,
     href: string,
-    target?: string,
-} & {
-    children: React.ReactNode,
 }){
     return (
         <Link href={props.href} target={props.target} className={style.container}>

@@ -11,7 +11,7 @@ import PlusIcon from '@/assets/plus.png';
 import { SearchField } from "./Components/SearchField/SearchField";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 
-function Header(props: {
+function Header(props: React.PropsWithChildren & {
     title: string,
     AddModal?: React.FC<ModalProps>,
 
@@ -57,7 +57,7 @@ function Header(props: {
                 </div>
 
                 <div className={style.buttonsContainer}>
-                    <SearchField/>    
+                    {props.children}   
                     {buttons}
                 </div>
             </div>

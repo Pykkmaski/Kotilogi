@@ -15,7 +15,7 @@ export default function PropertiesMenu(props: OverlayMenuProps){
             <Button
                 className="primary"
                 desktopText="Avaa"
-                onClick={() => router.push(`/properties/new/${item.id}/info?section=general`)}
+                onClick={() => router.push(`/properties/${item.id}/info?section=general`)}
             />
         </HoverOverlay>
     );

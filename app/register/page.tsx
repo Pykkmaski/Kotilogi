@@ -4,12 +4,10 @@ import Form from 'kotilogi-app/components/Form/Form';
 import styles from './page.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import Button from 'kotilogi-app/components/Button/Button';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import registerUser from 'kotilogi-app/actions/registerUser';
 import { ErrorCode, MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
-import { ProCard, RegularCard } from '../_components/Pricing/Pricing';
 
 export default function RegisterPage(){
 

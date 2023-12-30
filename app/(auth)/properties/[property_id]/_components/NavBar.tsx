@@ -19,9 +19,8 @@ export default function NavBar(){
             <IconLink imageSrc={usageIcon} href="usage?data=heat">Kulutustiedot</IconLink>
             <IconLink imageSrc={imageIcon} href="images">Kuvat</IconLink>
             <IconLink imageSrc={fileIcon} href="files">Tiedostot</IconLink>
-            <IconLink imageSrc={UserIcon} href="transfer">Omistajuus</IconLink>
 
-            <Link href={`/auth/properties/`}>Takaisin Taloihin</Link>
+            <Link href={`/properties/`}>Takaisin Taloihin</Link>
         </nav>
     );
 }

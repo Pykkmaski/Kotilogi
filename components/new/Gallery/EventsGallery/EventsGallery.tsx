@@ -9,6 +9,7 @@ import GlobalDeleteModal from '../Modals/GlobalDeleteModal/GlobalDeleteModal';
 import Error from '../GalleryBase/Components/Error/Error';
 import HistoryIcon from '@/assets/history.png';
 import style from './style.module.scss';
+import { SearchField } from '../GalleryBase/Components/SearchField/SearchField';
 
 function ItemComponent(props: {
     item: any
@@ -41,7 +42,9 @@ export default function EventsGallery(props: EventsGalleryProps){
             }}
             key={'event-gallery'}>
             
-            <Gallery.Header title="Tapahtumat" AddModal={AddModal} DeleteModal={GlobalDeleteModal}/>
+            <Gallery.Header title="Tapahtumat" AddModal={AddModal} DeleteModal={GlobalDeleteModal}>
+                <SearchField/>
+            </Gallery.Header>
             <Gallery.Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
                     title="Ei Tapahtumia"
                     message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."

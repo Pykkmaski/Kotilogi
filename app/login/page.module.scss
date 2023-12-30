@@ -2,9 +2,6 @@
 
 .container{
     position: relative;
-    background-image: url('/img/Login/login-bg.jpg');
-    background-size: cover;
-    background-position-x:right;
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -30,7 +27,7 @@
 }
 
 .gradient{
-    background: linear-gradient(to right, black, #0004);
+    background: linear-gradient(to right, black, $body-color);
     width: 100%;
     height: 100%;
     position: absolute;

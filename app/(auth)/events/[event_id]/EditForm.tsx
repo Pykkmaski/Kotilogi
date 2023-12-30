@@ -77,7 +77,7 @@ export default function EditForm(){
                             if(!res) return;
                         } 
 
-                        router.push(`/auth/properties/new/${event.refId}/events`);
+                        router.push(`/properties/${event.refId}/events`);
                        
                     }}
                     disabled={loading}

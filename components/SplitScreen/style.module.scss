@@ -1,0 +1,8 @@
+@import 'kotilogi-app/scss/Config';
+@import '@/scss/Padding';
+
+.container{
+    display: flex;
+    flex-flow: row;
+    flex: 1;
+}

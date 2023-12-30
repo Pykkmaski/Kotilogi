@@ -1,4 +1,5 @@
 import React, { CSSProperties } from "react"
+import style from './style.module.scss';
 
 type SplitScreenProps = React.PropsWithChildren & {
     leftWeight?: number,
@@ -7,11 +8,6 @@ type SplitScreenProps = React.PropsWithChildren & {
 
 export function SplitScreen({leftWeight = 1, rightWeight = 1, ...props}: SplitScreenProps){
     const [left, right] = React.Children.toArray(props.children);
-
-    const splitScreenStyle: CSSProperties = {
-        display: 'flex',
-        width: '100%',
-    }
 
     const leftStyle: CSSProperties = {
         flex: leftWeight,
@@ -22,7 +18,7 @@ export function SplitScreen({leftWeight = 1, rightWeight = 1, ...props}: SplitSc
     }
 
     return (
-        <div style={splitScreenStyle}>
+        <div className={style.container}>
             <div style={leftStyle}>
                 {left}
             </div>

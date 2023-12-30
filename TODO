@@ -1,2 +1,3 @@
-- Emptying the search field in a gallery header should refetch all data.
++ Emptying the search field in a gallery header should refetch all data.
 - Fix the color on the labels of the login form.
+- Add receiving a property via transfer code to the add modal of properties.

@@ -11,7 +11,7 @@ type SessionType = {
 
 export default async function PropertiesPage({searchParams}){
     const session: SessionType = await getServerSession(options);
-    if(!session) throw new Error('Failed to load dashboard!');
+    if(!session) throw new Error('Failed to fetch logged in user!');
 
     return (
         <main className={style.page}>

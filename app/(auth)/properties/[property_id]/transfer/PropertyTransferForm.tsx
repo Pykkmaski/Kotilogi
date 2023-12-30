@@ -148,8 +148,8 @@ export function PropertyTransferForm(props: {
     return (
         <>
             <p className={style.description}>
-                Käytä tätä lomaketta luodaksesi varmenteen, jonka avulla toinen kotilogin käyttäjä voi vastaanottaa<br/>
-                talon <strong>{props.property.title}</strong> omistajuuden itselleen. Omistajuuden siirto on pysyvä, jos vastaanottaja käyttää koodin <br/>
+                Käytä tätä lomaketta luodaksesi varmenteen, jonka avulla toinen kotilogin käyttäjä voi vastaanottaa
+                talon <strong>{props.property.title}</strong> omistajuuden itselleen.<br/> Omistajuuden siirto on pysyvä, jos vastaanottaja käyttää koodin <br/>
                 puolen tunnin sisällä.
             </p>
 

@@ -27,7 +27,7 @@ export default function LoginPage(){
         const credentials = {
             email: e.target.email.value,
             password: e.target.password.value,
-            callbackUrl: '/dashboard/overview',
+            callbackUrl: '/properties',
         }
 
         signIn('credentials', credentials);
@@ -51,24 +51,28 @@ export default function LoginPage(){
             <Form onSubmit={onSubmitHandler}>
                 <Form.Header>Kirjaudu Sisään</Form.Header>
                 <Form.Group>
-                    <Input 
-                        label="Sähköpostiosoite"
-                        name="email" 
+                    <label>Sähköpostiosoite</label>
+                    <input 
                         type="email" 
-                        required 
-                        className={error === 'invalid_user' ? 'error' : undefined} 
+                        name="email" 
+                        required={true} 
+                        placeholder="Kirjoita sähköpostiosoitteesi..."
                         defaultValue={getEmailField()}
-                        onChange={(e) => setEmailField(e.target.value)}></Input>
-
-                    
+                        onChange={(e) => setEmailField(e.target.value)}/>
                 </Form.Group>
 
                 <Form.Group>
                     <div className={styles.passwordLabelContainer}>
+                        <label>Salasana</label>
                         <Link href="/login/reset">Unohditko salasanasi?</Link>
                     </div>
-                   
-                    <Input label="Salasana" type="password" name="password" required className={error === 'invalid_password' ? 'error' : undefined}/>
+
+                    <input 
+                        type="password" 
+                        name="password" 
+                        placeholder="Kirjoita salasanasi..."
+                        required 
+                        className={error === 'invalid_password' ? 'error' : undefined}/>
                 </Form.Group>
 
                 <Form.Group direction="horizontal">

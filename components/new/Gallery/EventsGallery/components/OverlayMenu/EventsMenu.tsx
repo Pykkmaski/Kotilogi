@@ -14,7 +14,7 @@ export default function EventsMenu(props: OverlayMenuProps){
                 className="primary"
                 desktopText="Avaa"
                 onClick={() => {
-                    router.push(`/auth/events/${item.id}?data=images`);
+                    router.push(`/events/${item.id}?data=images`);
                 }}
             />
         </HoverOverlay>

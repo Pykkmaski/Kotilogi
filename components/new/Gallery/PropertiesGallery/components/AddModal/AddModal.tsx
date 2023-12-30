@@ -3,6 +3,7 @@
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import ObjectModalWithFiles, { useObjectModalWithFilesContext } from "../../../Modals/ObjectModalWithFiles";
 import Form from "kotilogi-app/components/Form/Form";
+import Link from "next/link";
 
 function FormContent(){
     const {onChangeHandler} = useObjectModalWithFilesContext();

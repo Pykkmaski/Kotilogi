@@ -23,29 +23,6 @@ export function Logo(){
     );
 }
 
-function UserModal(props: ModalProps){
-    return (
-        <Modal show={props.show} onHide={props.onHide} id={props.id} className={style.userModal}>
-            <Modal.Header>Käyttäjätili</Modal.Header>
-
-            <Modal.Body className={style.userModalBody}>
-                <nav className={style.bodyNav}>
-                    <span>Asetukset</span>
-                    <span onClick={async () => await signOut()}>Kirjaudu Ulos</span>
-                </nav>
-            </Modal.Body>
-
-            <Modal.Footer>
-                <Button
-                    className="secondary"
-                    onClick={props.onHide}
-                    desktopText='Poistu'
-                />
-            </Modal.Footer>
-        </Modal>
-    )
-}
-
 function UserIcon(props: {
     email?: string | null, 
 }){
@@ -68,7 +45,7 @@ function UserIcon(props: {
                 >
                     <nav>
                         <Link href="/">Etusivu</Link>
-                        <Link href="/dashboard/overview">Tili</Link>
+                        <Link href="/properties">Talot</Link>
                         <span className={style.logoutLink} onClick={async () => await signOut()}>Kirjaudu Ulos</span>
                     </nav>
                 </div>
