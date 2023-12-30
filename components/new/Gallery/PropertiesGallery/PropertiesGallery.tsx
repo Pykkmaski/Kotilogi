@@ -13,7 +13,7 @@ import { Input, Select } from "kotilogi-app/components/Input/Input";
 import Form from "kotilogi-app/components/Form/Form";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-import { receivePropertyOwnership } from "kotilogi-app/actions/receivePropertyOwnership";
+import { receivePropertyOwnership } from "kotilogi-app/actions/property/receiveOwnership";
 import { useSession } from "next-auth/react";
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import toast from "react-hot-toast";

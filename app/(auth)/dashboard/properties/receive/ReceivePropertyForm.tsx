@@ -1,6 +1,6 @@
 'use client';
 
-import {receivePropertyOwnership } from "kotilogi-app/actions/receivePropertyOwnership";
+import {receivePropertyOwnership } from "kotilogi-app/actions/property/receiveOwnership";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import Form from "kotilogi-app/components/Form/Form";
 import { Input } from "kotilogi-app/components/Input/Input";

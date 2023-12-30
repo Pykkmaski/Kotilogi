@@ -1,6 +1,6 @@
 'use client';
 
-import { createPropertyTransferOrder } from "kotilogi-app/actions/createPropertyTransferOrder";
+import { createPropertyTransferOrder } from "kotilogi-app/actions/property/createTransferOrder";
 import { serverGetData } from "kotilogi-app/actions/serverGetData";
 import Button from "kotilogi-app/components/Button/Button";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";

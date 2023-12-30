@@ -2,7 +2,7 @@ import style from './style.module.scss';
 import { useState } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
-import serverSetAsMainImage from 'kotilogi-app/actions/serverSetAsMainImage';
+import serverSetAsMainImage from 'kotilogi-app/actions/file/setMainImage';
 import toast from 'react-hot-toast';
 import ItemComponent, { useItemComponentContext } from '../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent';
 import FileDeleteModal from '../../Modals/FileDeleteModal';

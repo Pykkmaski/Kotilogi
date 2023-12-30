@@ -2,7 +2,7 @@
 
 import db from "kotilogi-app/dbconfig";
 
-export async function receivePropertyOwnership(transferCode: string, newOwner: string){
+export async function receiveOwnership(transferCode: string, newOwner: string){
     return new Promise<void>(async (resolve, reject) => {
         try{
             const transferOrder = await db('propertyTransferOrders').where({verificationCode: transferCode}).first();

@@ -2,7 +2,7 @@ import style from './layout.module.scss';
 import db from 'kotilogi-app/dbconfig';
 import PropertyContextProvider from './_util/PropertyContextProvider';
 import NavBar from './_components/NavBar';
-import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/isUserTheOwnerOfProperty';
+import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/property/isUserTheOwnerOfProperty';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { SplitScreen } from 'kotilogi-app/components/SplitScreen/SplitScreen';

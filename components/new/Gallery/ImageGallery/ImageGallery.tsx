@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ImageItemComponent from "./ImageItemComponent/ImageItemComponent";
 import {Gallery, useGalleryContext} from "../GalleryBase/Gallery";
-import serverImageIsMainImage from "kotilogi-app/actions/serverImageIsMainImage";
+import {isMainImage} from "kotilogi-app/actions/file/isMainImage";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import AddFilesModal from "../Modals/AddFilesModal";
 import ImageError from "../GalleryBase/Components/Error/ImageError";
@@ -39,14 +39,9 @@ function ItemComponent(props: {
 
     useEffect(() => {
         const refTableName = getRefTableName(tableName as 'propertyFiles' | 'eventFiles');
-        serverImageIsMainImage(props.item.id, props.refId, refTableName)
+        isMainImage(props.item.id, props.refId, refTableName)
         .then(result => {
-            if(!result){
-                throw new Error('Could not determine main status of image!');
-            }
-            else{
-                setIsMain(result);
-            }
+            setIsMain(result);
         })
         .catch(err => console.log(err.message));
     }, []);
