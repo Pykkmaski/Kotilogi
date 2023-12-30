@@ -1,8 +1,8 @@
 "use server";
 
 import { ErrorCode } from "kotilogi-app/constants";
-import sendEmail from "./sendEmail";
-import sendHTMLEmail from "./sendHTMLEmail";
+import {sendEmail} from "./sendEmail";
+import {sendHTMLEmail} from "./sendHTMLEmail";
 
 type MessageDataType = {
     email: string,
@@ -63,7 +63,7 @@ function createMessageHTML(from: string, message: string): string{
 
 }
 
-export default async function sendContactMessage(data: MessageDataType): Promise<boolean>{
+export async function sendContactMessage(data: MessageDataType): Promise<boolean>{
     try{
         const to = process.env.SERVICE_CONTACT_EMAILS as string;
 

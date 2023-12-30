@@ -13,7 +13,7 @@ import nodemailer from 'nodemailer';
  * @returns {Promise<Kotilogi.Error>} A promise resolving to a custom Error-object containing a message and an error code.
  */
 
-export default async function sendHTMLEmail(subject: string, from: string, to: string | string [], content: string): Promise<Kotilogi.Error>{
+export async function sendHTMLEmail(subject: string, from: string, to: string | string [], content: string): Promise<Kotilogi.Error>{
     return new Promise((resolve, reject) => {
         const transport = nodemailer.createTransport(transportOptions);
         var error = {
