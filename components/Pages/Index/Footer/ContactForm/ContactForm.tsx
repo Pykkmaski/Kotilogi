@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import Form from 'kotilogi-app/components/Form/Form';
 import axios from 'axios';
 import styles from './component.module.scss';
-import serverSendContactMessage from 'kotilogi-app/actions/email/serverSendContactMessage';
+import serverSendContactMessage from 'kotilogi-app/actions/email/sendContactMessage';
 
 function ContactForm(props){
     const [loading, setLoading] = useState(false);
