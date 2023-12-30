@@ -1,7 +1,7 @@
 "use server";
 
 import { limit } from 'kotilogi-app/uploadsConfig';
-import { serverAddData } from './serverAddData';
+import { serverAddData } from './addData';
 import { uploadFile } from './uploadFile';
 
 /**

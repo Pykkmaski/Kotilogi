@@ -1,6 +1,6 @@
 'use client';
 
-import { addData } from "kotilogi-app/actions/serverAddData";
+import { addData } from "kotilogi-app/actions/addData";
 import Button from "kotilogi-app/components/Button/Button";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";

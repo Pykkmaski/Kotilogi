@@ -1,15 +1,14 @@
 "use server"
 
 import db from "kotilogi-app/dbconfig";
-import generateId from "kotilogi-app/utils/generateId";
 import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
 
 type ParamType = Kotilogi.PropertyType | Kotilogi.EventType;
 
 /**Runs pre-processing on the data, if it is entered into specific tables. 
- * @returns A processed variant of the passed data.
-*/
-async function processData(data: any, tableName: Kotilogi.Table){
+     * @returns A processed variant of the passed data.
+    */
+const processData = async (data: any, tableName: Kotilogi.Table) => {
     switch(tableName){
         case 'propertyEvents':{
             const consolidationDelay = process.env.EVENT_CONSOLIDATION_TIME;
@@ -24,13 +23,14 @@ async function processData(data: any, tableName: Kotilogi.Table){
         default: return data;
     }
 }
+
 /**
  * Runs checks based on what table data is being inserted into, and returns true if ok, false otherwise.
  * @param data 
  * @param tableName 
  */
 
-async function validateData(data: any, tableName: Kotilogi.Table): Promise<boolean>{
+const validateData = async (data: any, tableName: Kotilogi.Table) => {
     if(tableName === 'properties'){
         return await isAllowedToAddProperty(data.refId);
     }
