@@ -139,12 +139,17 @@ export async function sendResetCode(email: string): Promise<Kotilogi.Error>{
     `;
 
     try{
-        return await sendHTMLEmail(
+        await sendHTMLEmail(
             'Salasanan nollaus', 
             process.env.SERVICE_EMAIL_ADDRESS || 'Kotilogi', 
             email, 
             htmlContent
         );
+
+        return {
+            message: null,
+            code: ErrorCode.SUCCESS,
+        }
     }
     catch(err){
         return {
