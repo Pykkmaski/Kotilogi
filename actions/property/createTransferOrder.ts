@@ -39,5 +39,5 @@ export async function createTransferOrder(propertyId: Kotilogi.IdType){
         catch(err){
             reject(err);
         }
-    })
+    });
 }
