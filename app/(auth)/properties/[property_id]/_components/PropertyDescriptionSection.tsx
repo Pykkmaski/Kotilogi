@@ -4,7 +4,6 @@ import style from '../layout.module.scss';
 import { useState } from "react";
 import EditDescriptionModal from "./EditDescriptionModal";
 import BackgroundImage from './BackgroundImage';
-import useData from 'kotilogi-app/hooks/useData';
 import { usePropertyContext } from '../_util/PropertyContextProvider';
 
 export default function PropertyDescriptionSection({propertyId}: {propertyId: Kotilogi.IdType}){

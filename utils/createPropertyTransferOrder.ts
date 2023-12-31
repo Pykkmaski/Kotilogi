@@ -2,11 +2,8 @@
 
 import crypto from 'crypto';
 import db from 'kotilogi-app/dbconfig';
-import bcrypt from 'bcrypt';
-import serverSendHTMLEmail from 'kotilogi-app/actions/email/sendHTMLEmail';
-import serverSendEmail from 'kotilogi-app/actions/email/sendEmail';
 import { ErrorCode } from 'kotilogi-app/constants';
-import jwt from 'jsonwebtoken';
+import { sendEmail } from 'kotilogi-app/actions/email/sendEmail';
 
 /**
  * Creates an order to transfer the ownership of a property to another user and sends the verification code to the recipient.
@@ -33,7 +30,7 @@ export default async function createPropertyTransferOrder(propertyId: Kotilogi.I
             ${order.verificationCode}
         `;
 
-        const error = await serverSendEmail('Talon omistajuuden vastaanoton varmenne', process.env.SERVICE_EMAIL_ADDRESS as string, toOwner, message);
+        const error = await sendEmail('Talon omistajuuden vastaanoton varmenne', process.env.SERVICE_EMAIL_ADDRESS as string, toOwner, message);
         if(error.code !== ErrorCode.SUCCESS) throw new Error('Failed to create property! Unable to send verification code to recipient!');
 
         await db('propertyTransferOrders').insert(order);
