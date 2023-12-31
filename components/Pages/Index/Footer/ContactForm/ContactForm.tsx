@@ -25,7 +25,7 @@ function ContactForm(props){
         }
 
         sendContactMessage(messageData)
-        .then(res => {
+        .then(() => {
             if(formRef.current){
                 formRef.current.reset();
                 console.log('Form reset');

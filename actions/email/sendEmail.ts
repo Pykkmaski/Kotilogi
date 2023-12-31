@@ -12,9 +12,9 @@ import nodemailer from 'nodemailer';
  * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a message and an error code.
  */
 
-export async function sendEmail(subject: string, from: string, to: string | string[], message: string): Promise<Kotilogi.Error>{
+export async function sendEmail(subject: string, from: string, to: string | string[], message: string){
     const transport = nodemailer.createTransport(transportOptions);
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         transport.sendMail({
             subject,
             from,
@@ -22,16 +22,10 @@ export async function sendEmail(subject: string, from: string, to: string | stri
             text: message,
         }, (err, info) => {
             if(err){
-                reject({
-                    message: 'Failed to send mail!',
-                    code: ErrorCode.UNEXPECTED,
-                });
+                reject(err);
             }
             else{
-                resolve({
-                    message: null,
-                    code: ErrorCode.SUCCESS
-                });
+                resolve();
             }
         });
     });

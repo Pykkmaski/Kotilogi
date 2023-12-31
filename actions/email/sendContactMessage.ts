@@ -1,8 +1,6 @@
 "use server";
 
-import { ErrorCode } from "kotilogi-app/constants";
 import {sendEmail} from "./sendEmail";
-import {sendHTMLEmail} from "./sendHTMLEmail";
 
 type MessageDataType = {
     email: string,
@@ -63,17 +61,16 @@ function createMessageHTML(from: string, message: string): string{
 
 }
 
-export async function sendContactMessage(data: MessageDataType): Promise<boolean>{
-    try{
-        const to = process.env.SERVICE_CONTACT_EMAILS as string;
-
-        const error = await sendEmail('Kotilogin Yhteydenotto', data.email, to.split(','), data.message);
-        if(error.code !== ErrorCode.SUCCESS) throw new Error('Failed to send contact message!');
-
-        return true;
-    }
-    catch(err){
-        console.log(err.message);
-        return false;
-    }
+export async function sendContactMessage(data: MessageDataType){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            const to = process.env.SERVICE_CONTACT_EMAILS as string;
+            await sendEmail('Kotilogin Yhteydenotto', data.email, to.split(','), data.message);
+            resolve();
+        }
+        catch(err){
+            console.log(err.message);
+            reject(err.message);
+        }
+    })
 }

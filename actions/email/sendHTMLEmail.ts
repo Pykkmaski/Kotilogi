@@ -1,6 +1,5 @@
 'use server';
 
-import { ErrorCode } from "kotilogi-app/constants";
 import { transportOptions } from "kotilogi-app/nodemailer.config";
 import nodemailer from 'nodemailer';
 
@@ -13,13 +12,9 @@ import nodemailer from 'nodemailer';
  * @returns {Promise<Kotilogi.Error>} A promise resolving to a custom Error-object containing a message and an error code.
  */
 
-export async function sendHTMLEmail(subject: string, from: string, to: string | string [], content: string): Promise<Kotilogi.Error>{
-    return new Promise((resolve, reject) => {
+export async function sendHTMLEmail(subject: string, from: string, to: string | string [], content: string){
+    return new Promise<void>((resolve, reject) => {
         const transport = nodemailer.createTransport(transportOptions);
-        var error = {
-            message: null,
-            code: ErrorCode.SUCCESS,
-        };
         
         transport.sendMail({
             subject,
@@ -29,11 +24,10 @@ export async function sendHTMLEmail(subject: string, from: string, to: string | 
         }, (err, info) => {
             if(err){
                 console.log(err);
-                error.code = ErrorCode.UNEXPECTED;
-                reject(error);
+                reject(err);
             }
             else{
-                resolve(error);
+                resolve();
             }
         });
     })  
