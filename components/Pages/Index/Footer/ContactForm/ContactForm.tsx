@@ -4,12 +4,14 @@ import { useRef, useState } from 'react';
 import Form from 'kotilogi-app/components/Form/Form';
 import axios from 'axios';
 import styles from './component.module.scss';
-import serverSendContactMessage from 'kotilogi-app/actions/email/sendContactMessage';
+import {sendContactMessage} from 'kotilogi-app/actions/email/sendContactMessage';
+import toast from 'react-hot-toast';
 
 function ContactForm(props){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(-1);
-    
+    const formRef = useRef<HTMLFormElement | null>(null);
+
     const messageLength = useRef(0);
 
     async function onSubmitHandler(e){
@@ -22,36 +24,34 @@ function ContactForm(props){
             email: e.target.email.value,
         }
 
-        const result = await serverSendContactMessage(messageData);
-        if(!result){
-            console.log('Could not send contact message!');
-            setError(500);
-        }
-        else{
+        sendContactMessage(messageData)
+        .then(res => {
+            if(formRef.current){
+                formRef.current.reset();
+                console.log('Form reset');
+            }
+            
             setError(0); 
-            e.target.name.value = null;
-            e.target.message.value = null;
-            e.target.email.value = null;
-        }
-
-        setLoading(false);
+        })
+        .catch(err => toast.error(err.message))
+        .finally(() => setLoading(false));
     }
 
     return (
-        <Form onSubmit={onSubmitHandler} className={styles.form}>
+        <form onSubmit={onSubmitHandler} className={styles.form} ref={formRef}>
             <Form.Group>
-                <Form.Label>Nimesi</Form.Label>
-                <input type="text" name="name" id="contact-name-input"/>
+                <label>Nimesi</label>
+                <input type="text" name="name" id="contact-name-input" placeholder="Kirjoita nimesi..."/>
             </Form.Group>
 
             <Form.Group>
-                <Form.Label>Sähköpostiosoitteesi</Form.Label>
-                <input type="email" name="email" required={true} id="contact-email-input"/>
+                <label>Sähköpostiosoitteesi<span className="danger">*</span></label>
+                <input type="email" name="email" required={true} id="contact-email-input" placeholder="Kirjoita sähköpostiosoitteesi..."/>
             </Form.Group>
 
             <Form.Group>
-                <Form.Label>Viesti</Form.Label>
-                <textarea name="message" maxLength={200} required={true} id="contact-message-input"/>
+                <label>Viesti<span className="danger">*</span></label>
+                <textarea name="message" maxLength={200} required={true} id="contact-message-input" placeholder="Kirjoita viestisi..."/>
             </Form.Group>
 
             <Form.Group direction="horizontal">
@@ -69,7 +69,7 @@ function ContactForm(props){
                 :
                 <></>
             }
-        </Form>
+        </form>
     )
 }
 

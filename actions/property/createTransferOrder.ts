@@ -15,7 +15,7 @@ function generateCode(codeLength: number){
     return numbers.join('');
 }
 
-export function createTransferOrder(propertyId: Kotilogi.IdType){
+export async function createTransferOrder(propertyId: Kotilogi.IdType){
     return new Promise<string>(async (resolve, reject) => {
         try{
             const codeLength = process.env.TRANSFER_CODE_LENGTH ? parseInt(process.env.TRANSFER_CODE_LENGTH) : 10;

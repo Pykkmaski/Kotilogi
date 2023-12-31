@@ -1,6 +1,6 @@
 'use client';
 
-import {receivePropertyOwnership } from "kotilogi-app/actions/property/receiveOwnership";
+import {receiveOwnership } from "kotilogi-app/actions/property/receiveOwnership";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import Form from "kotilogi-app/components/Form/Form";
 import { Input } from "kotilogi-app/components/Input/Input";
@@ -20,7 +20,7 @@ export function ReceivePropertyForm(props: {
         e.preventDefault();
         setLoading(true);
 
-        receivePropertyOwnership(code, props.newOwner)
+        receiveOwnership(code, props.newOwner)
         .then(() => {
             router.push('/auth/properties');
             toast.success('Omistajuus vastaanotettu!');

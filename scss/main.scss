@@ -35,10 +35,6 @@ input, select, option{
     color: gray;
 }
 
-input:active{
-    background: var(--input-in-focus-color);
-}
-
 textarea{
     min-height: 100px;
     resize: none;

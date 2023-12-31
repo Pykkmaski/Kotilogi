@@ -1,4 +1,4 @@
-import { testAction } from "kotilogi-app/actions/testAction";
+
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import Form from "kotilogi-app/components/Form/Form";
 import db from "kotilogi-app/dbconfig"

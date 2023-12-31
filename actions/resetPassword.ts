@@ -6,7 +6,7 @@ import db from 'kotilogi-app/dbconfig';
 import { StatusCode } from 'kotilogi-app/utils/statusCode';
 import jwt from 'jsonwebtoken';
 import domainName from 'kotilogi-app/domain.config';
-import serverSendHTMLEmail from './email/sendHTMLEmail';
+import {sendHTMLEmail} from './email/sendHTMLEmail';
 import { ErrorCode } from 'kotilogi-app/constants';
 
 /**
@@ -139,7 +139,7 @@ export async function sendResetCode(email: string): Promise<Kotilogi.Error>{
     `;
 
     try{
-        return await serverSendHTMLEmail(
+        return await sendHTMLEmail(
             'Salasanan nollaus', 
             process.env.SERVICE_EMAIL_ADDRESS || 'Kotilogi', 
             email, 

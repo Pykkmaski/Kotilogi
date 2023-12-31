@@ -1,6 +1,6 @@
 'use client';
 
-import { serverGetData } from "kotilogi-app/actions/serverGetData";
+import { getData } from "kotilogi-app/actions/data/getData";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import Form from "kotilogi-app/components/Form/Form";
 import { Input } from "kotilogi-app/components/Input/Input";
@@ -15,7 +15,7 @@ function useSettingsForm(email: string){
     const data = useRef<DataT>({email: email});
 
     useEffect(() => {
-        serverGetData('users', {email}, true)
+        getData('users', {email}, true)
         .then(res => {
             if(res) data.current = res;
         })

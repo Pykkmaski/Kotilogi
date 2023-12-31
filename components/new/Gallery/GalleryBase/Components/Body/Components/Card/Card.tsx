@@ -36,6 +36,7 @@ export type Props = {
      * Adds a delete button to overlay menus.
      */
     DeleteModal?: React.FC<ModalProps>,
+    highlighted?: boolean,
 }
 
 export default function Card(props: Props){
@@ -77,7 +78,9 @@ export default function Card(props: Props){
         setShowEditModal,
     }
 
-    const containerClassName = isSelected ? `${style.cardContainer} ${style.selected}` : style.cardContainer;
+    const containerClassName = (
+        isSelected ? `${style.cardContainer} ${style.selected}` : style.cardContainer
+    )
 
     return (
         <CardContext.Provider value={contextValue}>
@@ -94,6 +97,7 @@ export default function Card(props: Props){
 
             <ItemComponent item={props.item}>
                 <div className={containerClassName}>
+                    <div className={style.highlightedIndicator} hidden={!props.highlighted}/>
                     {
                         props.item.loading ? <Spinner size="2rem"/>
                         :

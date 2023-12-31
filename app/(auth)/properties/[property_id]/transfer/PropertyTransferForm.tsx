@@ -1,7 +1,7 @@
 'use client';
 
-import { createPropertyTransferOrder } from "kotilogi-app/actions/property/createTransferOrder";
-import { serverGetData } from "kotilogi-app/actions/serverGetData";
+import { createTransferOrder } from "kotilogi-app/actions/property/createTransferOrder";
+import { getData } from "kotilogi-app/actions/data/getData";
 import Button from "kotilogi-app/components/Button/Button";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import Form from "kotilogi-app/components/Form/Form";
@@ -26,7 +26,7 @@ function useCheckValueIsValid<ValueT>(tableName: string, column: string){
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            serverGetData(tableName, {
+            getData(tableName, {
                 [column] : value,
             } , true)
             .then(data => {
@@ -130,7 +130,7 @@ export function PropertyTransferForm(props: {
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        createPropertyTransferOrder(props.property.id)
+        createTransferOrder(props.property.id)
         .then(code => {
             setCode(code);
             toast.success('Varmenne luotu onnistuneesti!');

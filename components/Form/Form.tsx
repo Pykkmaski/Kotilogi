@@ -1,10 +1,10 @@
 import LoadingSpinner from "../Spinner/Spinner";
 
-function Form(props: React.ComponentProps<'form'>){
+function Form({children, ...props}: React.ComponentProps<'form'>){
     return (
-        <form className={props.className} onSubmit={props.onSubmit} id={props.id} >
+        <form {...props} >
             {
-                props.children
+                children
             }
         </form>
     )

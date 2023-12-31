@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'kotilogi-app/components/Button/Button';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
-import registerUser from 'kotilogi-app/actions/registerUser';
+import {registerUser} from 'kotilogi-app/actions/registerUser';
 import { ErrorCode, MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
 
 export default function RegisterPage(){
@@ -39,10 +39,11 @@ export default function RegisterPage(){
                 plan,
             }
 
-            const error = await registerUser(credentials);
-            if(error.code !== ErrorCode.SUCCESS) throw error;
-
-            setError(ErrorCode.SUCCESS);
+            registerUser(credentials)
+            .then(res => {
+                setError(0);
+            })
+            .catch(err => setError(1));
 
             //Automatically reroute to the login page after succesfull registration.
             const loginTransitionTime = 3000;
@@ -126,11 +127,9 @@ export default function RegisterPage(){
                 </Form.Group>
 
                 {
-                    error === ErrorCode.PASSWORD_MISMATCH ? <Form.Error>Salasanat eivät täsmää!</Form.Error>
+                    error === 1 ? <Form.Error>Kirjautuminen epäonnistui! Tarkista antamasi tiedot.</Form.Error>
                     :
-                    error === ErrorCode.INVALID_USER ? <Form.Error>Tili annetulla sähköpostisoitteella on käytössä!</Form.Error>
-                    :
-                    error === ErrorCode.SUCCESS ? <Form.Success>Tili luotu onnistuneesti! Sinut uudelleenohjataan kirjautumaan...</Form.Success>
+                    error === 0 ? <Form.Success>Tili luotu onnistuneesti! Sinut uudelleenohjataan kirjautumaan...</Form.Success>
                     :
                     <></>
                 }

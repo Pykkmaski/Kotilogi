@@ -24,7 +24,7 @@ function ItemComponent(props: {
             <br/>
         </>
         }
-    />
+        highlighted={parseInt(props.item.consolidationTime) > Date.now()}/>
 }
 
 type EventsGalleryProps = {
