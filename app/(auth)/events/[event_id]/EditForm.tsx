@@ -10,6 +10,7 @@ import style from './style.module.scss';
 import Image from "next/image";
 import HouseIcon from '@/assets/house.png';
 import { useEventContext } from "./EventContext";
+import { Heading } from "kotilogi-app/components/Heading/Heading";
 
 export default function EditForm(){
 
@@ -51,7 +52,7 @@ export default function EditForm(){
 
     return (
         <Form id={formId} onSubmit={onSubmitHandler}>
-            <h2>Muokkaa Tapahtumaa</h2>
+            <Heading>Muokkaa Tapahtumaa</Heading>
             <Form.Group>
                 <label>Otsikko<span className="danger">*</span></label>
                 <input name="title" required={true} defaultValue={event.title} placeholder="Kirjoita tapahtumalle otsikko..." onChange={onChangeHandler}></input>

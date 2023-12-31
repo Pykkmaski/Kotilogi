@@ -14,11 +14,11 @@ export default async function EventPage({params}){
     if(!property) throw new Error('Failed to load ref property for event ' + params.event_id + '!');
 
     return (
-        <section className={style.page}>
+        <main className={style.page}>
             <EventContextProvider contextValue={{event, property}}>
                 <EditForm/>
                 <GalleryArea/>
             </EventContextProvider>
-        </section>
+        </main>
     )
 }

@@ -50,7 +50,7 @@ export default function InfoPage(){
     const formId = 'property-info-form';
 
     return (
-       <section className={style.body}>
+       <main className={style.body}>
             <div className={style.header}>
                 <Button
                     type="submit"
@@ -77,6 +77,6 @@ export default function InfoPage(){
                 <HeatingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
                 <RoofSection currentData={currentData} onChangeHandler={onChangeHandler}/>
             </Form>
-       </section> 
+       </main> 
     );
 }

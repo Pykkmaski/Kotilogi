@@ -1,6 +1,7 @@
 import { StaticImageData } from 'next/image';
 import styles from './error.module.scss';
 import Image from 'next/image';
+import { Heading } from 'kotilogi-app/components/Heading/Heading';
 
 export default function Error(props: {
     title: string,
@@ -17,7 +18,7 @@ export default function Error(props: {
                 height={70} 
                 alt="Error Image"
             />
-            <h2 className={styles.errorTitle}>{props.title}</h2>
+            <Heading className={styles.errorTitle}>{props.title}</Heading>
             <p  className={styles.errorMessage}>
                 {props.message}
             </p>

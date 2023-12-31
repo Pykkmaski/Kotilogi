@@ -5,8 +5,8 @@ import { getServerSession } from "next-auth";
 export default async function Page(){
     
     return (
-        <>
-            <h2>Yleisnäkymä</h2>
-        </>
+        <main>
+            <h2>Tilin Yleisnäkymä</h2>
+        </main>
     );
 }

@@ -25,7 +25,7 @@ export default async function Layout({children, params}){
         <PropertyContextProvider value={contextValue}>
             <div className={style.propertyLayout}>
                 <div className={style.layoutHeader}>
-                    <h1>{property.title}</h1>
+                    <h3>{property.title}</h3>
                 </div>
                 <SplitScreen rightWeight={7}>
                     <NavBar/>

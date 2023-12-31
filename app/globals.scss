@@ -15,9 +15,13 @@ img{
 }
 
 main{
-    z-index: 0;
-    padding: 0 0.5rem 0 0.5rem;
-    height: 100%;
+    flex: 1;
+    margin: 0;
+    padding-bottom: 1em;
+}
+
+input, textarea{
+    border-radius: 5px;
 }
 
 button{

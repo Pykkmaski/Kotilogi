@@ -9,6 +9,7 @@ import Button from "kotilogi-app/components/Button/Button";
 import BinIcon from '@/assets/bin.png';
 import PlusIcon from '@/assets/plus.png';
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
+import { Heading } from "kotilogi-app/components/Heading/Heading";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -52,7 +53,7 @@ function Header(props: React.PropsWithChildren & {
             {props.DeleteModal}
             <div className={style.galleryHeader}>
                 <div className={style.titleContainer}>
-                    <h2>{props.title}</h2>
+                    <Heading>{props.title}</Heading>
                 </div>
 
                 <div className={style.buttonsContainer}>

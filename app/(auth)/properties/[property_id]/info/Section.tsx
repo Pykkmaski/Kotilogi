@@ -1,3 +1,4 @@
+import { Heading } from "kotilogi-app/components/Heading/Heading";
 import { CSSProperties } from "react"
 
 type SectionProps = React.PropsWithChildren & {
@@ -12,7 +13,7 @@ export function Section(props: SectionProps){
 
     return (
         <div style={sectionStyle}>
-            <h2>{props.title}</h2>
+            <Heading style={{margin: 0}}>{props.title}</Heading>
             {props.children}
         </div>
     );

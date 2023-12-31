@@ -7,7 +7,7 @@ import Footer from 'kotilogi-app/components/Pages/Index/Footer/Footer';
 
 export default function Page(props){
     return (
-        <>
+        <main>
             <WelcomeText/>
             <section className={style.description}>
                 <div className={style.gradient}/>
@@ -17,6 +17,6 @@ export default function Page(props){
             <Pricing/>
            
             <Footer/>
-        </>
+        </main>
     )
 }

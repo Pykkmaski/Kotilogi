@@ -8,10 +8,10 @@ export default async function Page(){
     if(!session) throw new Error('Failed to fetch logged in user!');
 
     return (
-        <>
+        <main>
             <h2>Tilin asetukset</h2>
             <SettingsForm email={session.user.email} />
             <Link href="">Päivitä Tili</Link>
-        </>
+        </main>
     )
 }
