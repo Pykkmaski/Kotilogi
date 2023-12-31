@@ -3,6 +3,9 @@ import PropertyFilesGallery from "kotilogi-app/components/new/Gallery/PropertyFi
 
 export default function FilesPage({params}){
     return(
-        <PropertyFilesGallery propertyId={params.property_id}/>
+        <main>
+            <PropertyFilesGallery propertyId={params.property_id}/>
+        </main>
+        
     );
 }

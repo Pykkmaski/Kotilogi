@@ -2,6 +2,8 @@ import PropertyImagesGallery from "kotilogi-app/components/new/Gallery/PropertyI
 
 export default function EventsPage({params}){
     return(
-        <PropertyImagesGallery propertyId={params.property_id}/>
+        <main>
+            <PropertyImagesGallery propertyId={params.property_id}/>
+        </main> 
     );
 }

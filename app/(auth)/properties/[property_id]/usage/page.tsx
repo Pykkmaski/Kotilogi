@@ -13,7 +13,7 @@ export default async function UsagePage({params}){
     const section = searchParams.get('data');
 
     return (
-        <>
+        <main>
             <div className={style.header}>
                 <nav className="overhead">
                     <Link href="?data=heat">Lämmitys</Link>
@@ -22,6 +22,6 @@ export default async function UsagePage({params}){
                 </nav>
             </div>
             <UsageGallery type={section as any} propertyId={params.property_id}/>
-        </>
+        </main>
     );
 }
