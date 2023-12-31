@@ -1,7 +1,6 @@
 'use server';
 import crypto from 'crypto';
 import db from 'kotilogi-app/dbconfig';
-import bcrypt from 'bcrypt';
 require('dotenv').config();
 
 function generateCode(codeLength: number){

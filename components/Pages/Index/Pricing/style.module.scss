@@ -31,7 +31,6 @@
 .pricingContainer{
     display: flex;
     flex-flow: column;
-    justify-content: center;
 
     position: relative;
     gap: 1rem;
@@ -39,6 +38,7 @@
 
     padding-top: 2em;
     padding-bottom: 2em;
+    min-height: 600px;
 
     .containerBody{
         display: flex;
@@ -46,7 +46,7 @@
         gap: 2rem;
         width: 100%;
         z-index: 3;
-        min-height: 500px;
+        flex: 1;
 
         .textContainer{
             width: 50%;
