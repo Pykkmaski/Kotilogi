@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/ItemCard.js"  ],
+, "components/ItemCard.js", "app/api/auth/[...nextauth]/options.js"  ],
   "exclude": [
     "node_modules",
     "src"

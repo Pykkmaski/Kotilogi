@@ -10,6 +10,7 @@ import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
+import { LoginError } from 'kotilogi-app/utils/error';
 
 export default function LoginPage(){
     const router = useRouter();
@@ -17,7 +18,7 @@ export default function LoginPage(){
     const [loading, setLoading] = useState(false);
 
     const formEmail = 'kl-login-form-email';
-    const error = params?.get('error');
+    const error = params?.get('error') as LoginError;
     const email = params?.get('email');
     
     const onSubmitHandler = async (e) => {
@@ -72,7 +73,7 @@ export default function LoginPage(){
                         name="password" 
                         placeholder="Kirjoita salasanasi..."
                         required 
-                        className={error === 'invalid_password' ? 'error' : undefined}/>
+                        className={error === 'password_mismatch' ? 'error' : undefined}/>
                 </Form.Group>
 
                 <Form.Group direction="horizontal">
@@ -95,9 +96,9 @@ export default function LoginPage(){
                     error &&
                     error === 'invalid_user' ? <Form.Error>Tiliä annetulla käyttäjätunnuksella ei ole!</Form.Error>
                     :
-                    error === 'invalid_password' ? <Form.Error>Annettu salasana on väärä!</Form.Error>
+                    error === 'password_mismatch' ? <Form.Error>Annettu salasana on väärä!</Form.Error>
                     :
-                    error === 'undefined' ? <Form.Error>Tuntematon Virhe!</Form.Error>
+                    error === 'unexpected' ? <Form.Error>Tuntematon Virhe!</Form.Error>
                     :
                     <></>
                 }

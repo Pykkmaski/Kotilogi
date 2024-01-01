@@ -27,7 +27,7 @@ export const options = {
                 if(!user) throw new Error('invalid_user');
 
                 const isPasswordCorrect = await bcrypt.compare(password, user.password);
-                if(!isPasswordCorrect) throw new Error('invalid_password');
+                if(!isPasswordCorrect) throw new Error('password_mismatch');
                 return user;
             }
         })
