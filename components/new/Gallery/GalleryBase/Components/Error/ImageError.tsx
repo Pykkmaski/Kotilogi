@@ -1,5 +1,4 @@
 import Error from "./Error";
-import ImageIcon from '@/assets/image.png';
 
 export default function ImageError(props: {
     message: string,
@@ -8,7 +7,7 @@ export default function ImageError(props: {
         <Error
             {...props}
             title="Ei Kuvia"
-            icon={ImageIcon}
+            icon={'/icons/image.png'}
         />
     );
 }

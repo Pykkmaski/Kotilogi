@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import style from './style.module.scss';
 import Link from "next/link";
-import FileIcon from '@/assets/copy_filled.png';
 import ItemComponent, { useItemComponentContext } from "../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
 import FileDeleteModal from "../../Modals/FileDeleteModal";
 import { fileNameTimestampSeparator } from "kotilogi-app/constants";
@@ -34,7 +33,7 @@ function Content(props: {
                     width={50}
                     height={50}
                     alt=""
-                    src={FileIcon}
+                    src={'/icons/file_filled.png'}
                 />
                 {/*If the filename uses a different separator between the timestamp and the actual name of the file, use the unprocessed name.*/}
                 <span>{fileName || item.fileName}</span>

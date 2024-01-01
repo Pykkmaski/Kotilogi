@@ -2,7 +2,6 @@ import Image from "next/image";
 import ItemComponent, { useItemComponentContext } from "../../../GalleryBase/Components/Body/Components/ItemComponent/ItemComponent";
 import UsageDeleteModal from "../../UsageDeleteModal";
 import style from './style.module.scss';
-import BoltIcon from '@/assets/bolt.png';
 
 function Content(){
     const {item, setShowDeleteModal} = useItemComponentContext() as {
@@ -17,7 +16,7 @@ function Content(){
         <div className={style.content}>
             <div>
                 <Image
-                    src={BoltIcon}
+                    src={'/icons/bolt.png'}
                     alt=""
                     width={25}
                     height={25}

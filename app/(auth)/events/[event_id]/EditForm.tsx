@@ -98,7 +98,7 @@ export default function EditForm(){
                 <Image
                     width={25}
                     height={25}
-                    src={HouseIcon}
+                    src={'/icons/house.png'}
                     alt=""
                     className={style.icon}
                 />
