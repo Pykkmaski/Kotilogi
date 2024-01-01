@@ -6,7 +6,6 @@ import {Gallery, useGalleryContext} from "../GalleryBase/Gallery";
 import AddModal from "./AddModal";
 import Chart from "./Chart";
 import UsageItemComponent from "./components/UsageItemComponent/UsageItemComponent";
-import BoltIcon from '@/assets/bolt.png';
 import React from "react";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 
@@ -78,7 +77,7 @@ export default function UsageGallery(props: {
                 <Chart title={title} type={props.type}/>
                 <Gallery.Body 
                     itemComponent={UsageItemComponent} 
-                    errorComponent={<ErrorComponent title={"Ei Kulutustietoja"} message={""} icon={BoltIcon}/>}
+                    errorComponent={<ErrorComponent title={"Ei Kulutustietoja"} message={""} icon={'/icons/bolt.png'}/>}
                     displayStyle="vertical"/>
             </UsageGalleryBody>
             

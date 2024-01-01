@@ -48,7 +48,7 @@ export default function EventsGallery(props: EventsGalleryProps){
             <Gallery.Body itemComponent={ItemComponent} displayStyle='horizontal' errorComponent={<Error
                 title="Ei Tapahtumia"
                 message="Et ole vielä lisännyt tapahtumia. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
-                icon={HistoryIcon}/>}/>
+                icon={'/icons/history.png'}/>}/>
        </Gallery>
     )
 }

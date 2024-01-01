@@ -31,7 +31,7 @@ function Item(props: {
                     props.file.type === 'image/jpeg' ? 
                     <>
                         <Image
-                            src={ImageIcon}
+                            src={'/icons/image.png'}
                             width={imageSize}
                             height={imageSize}
                             alt=""
@@ -42,7 +42,7 @@ function Item(props: {
                     :
                     <>
                         <Image
-                            src={FileIcon}
+                            src={'icons/copy.png'}
                             width={imageSize}
                             height={imageSize}
                             alt=""

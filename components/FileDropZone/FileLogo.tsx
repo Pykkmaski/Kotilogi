@@ -1,7 +1,4 @@
 import Image from "next/image";
-import FileIcon from '@/assets/copy.png';
-import ImageIcon from '@/assets/image.png';
-
 import style from './style.module.scss';
 import { useDropzoneContext } from "./FileDropZone";
 
@@ -9,7 +6,7 @@ export default function FileLogo(props: React.ComponentProps<'div'>){
     const {triggerFileInput, accept} = useDropzoneContext();
 
     const icon = (
-        accept === 'image/jpeg' ? ImageIcon : accept === 'application/pdf' ? FileIcon : FileIcon
+        accept === 'image/jpeg' ? '/icons/image.png' : accept === 'application/pdf' ? '/icons/copy.png' : '/icons/copy.png'
     );
 
     return (

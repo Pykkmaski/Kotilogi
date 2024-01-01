@@ -3,7 +3,7 @@ import style from './style.module.scss';
 import Spinner from "../Spinner/Spinner";
 
 export type ButtonProps = {
-    mobileIconSrc?: StaticImageData | string,
+    mobileIconSrc?: string,
     desktopText: string,
     loading?: boolean,
 } & React.ComponentProps<'button'>

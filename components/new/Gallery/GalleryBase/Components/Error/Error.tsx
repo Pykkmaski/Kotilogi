@@ -6,7 +6,7 @@ import { Heading } from 'kotilogi-app/components/Heading/Heading';
 export default function Error(props: {
     title: string,
     message: string,
-    icon: string | StaticImageData,
+    icon: string,
 }){
 
     return (

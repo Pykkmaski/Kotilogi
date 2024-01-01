@@ -3,12 +3,12 @@ import Link from "next/link"
 import style from './style.module.scss';
 
 export default function IconLink(props: React.ComponentProps<'a'> & {
-    imageSrc: string | StaticImageData,
+    imageSrc: string,
     href: string,
 }){
     return (
         <Link href={props.href} target={props.target} className={style.container}>
-            <Image
+            <img
                 src={props.imageSrc}
                 alt="Link Icon"
                 width={15}

@@ -6,8 +6,6 @@ import style from './style.module.scss';
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useGallery, GalleryStateType } from "./Gallery.hooks";
 import Button from "kotilogi-app/components/Button/Button";
-import BinIcon from '@/assets/bin.png';
-import PlusIcon from '@/assets/plus.png';
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { Heading } from "kotilogi-app/components/Heading/Heading";
 
@@ -31,7 +29,7 @@ function Header(props: React.PropsWithChildren & {
                     className="secondary"
                     desktopText="Poista"
                     disabled={state.selectedItems.length === 0}
-                    mobileIconSrc={BinIcon}
+                    mobileIconSrc={'/icons/bin.png'}
                     onClick={() => setShowDeleteModal(true)}/> : null
             }
 
@@ -39,7 +37,7 @@ function Header(props: React.PropsWithChildren & {
                 AddModal ? <Button 
                     className="primary" 
                     desktopText='Lisää Uusi' 
-                    mobileIconSrc={PlusIcon}
+                    mobileIconSrc={'/icons/plus.png'}
                     onClick={() => setShowAddModal(true)}/> : null
             }
         </>

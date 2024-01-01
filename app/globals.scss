@@ -50,7 +50,7 @@ button{
         gap: 0.5rem;
         
         &::before{
-            content: url('../assets/plus.png');
+            content: '';
             filter: invert(1);
             transform: translateY(4px);
         }

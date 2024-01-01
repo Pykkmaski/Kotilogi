@@ -83,7 +83,7 @@ function PropertiesGalleryBody(){
                 <Gallery.Body itemComponent={ItemComponent} displayStyle="horizontal" errorComponent={<Error
                     title="Ei Taloja"
                     message="Et ole vielä lisännyt taloja. Aloita painamalla yläreunassa olevaa Lisää Uusi-painiketta."
-                    icon={HouseIcon}/>
+                    icon={'/icons/house.png'}/>
                 }/>
             </div>
         </> 
