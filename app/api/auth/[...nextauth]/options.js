@@ -1,6 +1,5 @@
 import db from 'kotilogi-app/dbconfig';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
 
 import bcrypt from 'bcrypt';
 
@@ -12,7 +11,6 @@ export const options = {
     
     pages: {
         signIn: '/login',
-        error: '/login',
     },
 
     providers : [

@@ -16,11 +16,10 @@ export default function LoginPage(){
     const router = useRouter();
     const params = useSearchParams();
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<LoginError>('none')
 
     const formEmail = 'kl-login-form-email';
-    const error = params?.get('error') as LoginError;
-    const email = params?.get('email');
-    
+
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -28,10 +27,23 @@ export default function LoginPage(){
         const credentials = {
             email: e.target.email.value,
             password: e.target.password.value,
-            callbackUrl: '/properties',
+            redirect: false,
         }
 
-        signIn('credentials', credentials);
+        signIn('credentials', credentials)
+        .then(res => {
+            if(res && res.error){
+                setError(res.error as LoginError);
+            }
+            else{
+                setError('success');
+                router.push('/properties');
+            }
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+        .finally(() => setLoading(false));
 
     }
 
