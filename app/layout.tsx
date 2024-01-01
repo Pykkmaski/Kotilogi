@@ -6,8 +6,7 @@ import styles from './layout.module.scss';
 import Header from './_Header/Header';
 import Notice from 'kotilogi-app/components/Notice';
 import {Toaster} from 'react-hot-toast';
-import { SessionProvider } from 'next-auth/react';
-
+import {AuthProvider} from '@/contexts/AuthProvider';
 export const metadata = {
   title: 'Kotilogi',
   description: 'Talosi huoltokirja',
@@ -21,7 +20,7 @@ export default async function RootLayout({ children }) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
       </head>
 
-      <SessionProvider>
+      <AuthProvider>
         <body className={styles.body}>
               <Header/>
               {children}
@@ -34,7 +33,7 @@ export default async function RootLayout({ children }) {
                 }
               }}/>
         </body>
-      </SessionProvider>
+      </AuthProvider>
     </html>
   )
 }
