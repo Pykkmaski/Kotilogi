@@ -8,14 +8,14 @@ import Button from 'kotilogi-app/components/Button/Button';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import {registerUser} from 'kotilogi-app/actions/registerUser';
 import { ErrorCode, MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
+import { RegisterError } from 'kotilogi-app/utils/error';
 
 export default function RegisterPage(){
-
     const rerouteTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
     const router = useRouter();
     const params = useSearchParams();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(-1);
+    const [error, setError] = useState<RegisterError>('none');
 
     const plan = params.get('plan') || 'regular';
 
@@ -24,15 +24,13 @@ export default function RegisterPage(){
 
         const {password1, password2} = e.target;
 
-        try{
-            setLoading(true);
-            setError(-1);
+        setLoading(true);
+        setError('none');
 
-            if(password1.value !== password2.value) throw {
-                message: null,
-                code: ErrorCode.PASSWORD_MISMATCH,
-            }
-
+        if(password1.value !== password2.value) {
+            setError('password_mismatch');
+        }
+        else{
             const credentials = {
                 email: e.target.email.value,
                 password: password1.value,
@@ -41,19 +39,15 @@ export default function RegisterPage(){
 
             registerUser(credentials)
             .then(res => {
-                setError(0);
+                setError('success');
+                //Automatically reroute to the login page after succesfull registration.
+                const loginTransitionTime = 3000;
+                rerouteTimeout.current = setTimeout(() => router.replace('/login'), loginTransitionTime);
             })
-            .catch(err => setError(1));
-
-            //Automatically reroute to the login page after succesfull registration.
-            const loginTransitionTime = 3000;
-            rerouteTimeout.current = setTimeout(() => router.replace('/login'), loginTransitionTime);
-        }
-        catch(err){
-            setError(err.code);
-        }
-        finally{
-            setLoading(false);
+            .catch(err => {
+                setError(err);
+            })
+            .finally(() => setLoading(false));
         }
     }
 
@@ -83,7 +77,8 @@ export default function RegisterPage(){
                         name="email" 
                         type="email" 
                         required={true} 
-                        className={error === ErrorCode.INVALID_USER ? 'error' : undefined}
+                        placeholder="Kirjoita sähköpostiosoitteesi..."
+                        className={error === 'user_exists' ? 'error' : undefined}
                         defaultValue={getEmailField()}
                         onChange={(e) => setEmailField(e.target.value)}
                         ></input>
@@ -91,13 +86,23 @@ export default function RegisterPage(){
 
                 <Form.Group>
                     <Form.Label>Salasana</Form.Label>
-                    <input name="password1" type="password" required={true} className={error === ErrorCode.PASSWORD_MISMATCH ? 'error' : undefined} minLength={MIN_PASSWORD_LENGTH}></input>
+                    <input 
+                        name="password1" 
+                        type="password" 
+                        required={true} 
+                        className={error === 'password_mismatch' ? 'error' : undefined} 
+                        placeholder="Kirjoita salasana..."
+                        minLength={MIN_PASSWORD_LENGTH}></input>
                     <Form.SubLabel>Salasanan tulee olla vähintään {MIN_PASSWORD_LENGTH} merkkiä pitkä.</Form.SubLabel>
                 </Form.Group>
 
                 <Form.Group>
                     <label>Anna Salasana Uudelleen</label>
-                    <input type="password" name="password2" className={error === ErrorCode.PASSWORD_MISMATCH ? 'error' : undefined}></input>
+                    <input 
+                        type="password" 
+                        name="password2" 
+                        className={error === 'password_mismatch' ? error : undefined}
+                        placeholder="Kirjoita salasana vielä uudelleen..."/>
                 </Form.Group>
 
                 <div className={styles.agreementContainer}>
@@ -127,9 +132,11 @@ export default function RegisterPage(){
                 </Form.Group>
 
                 {
-                    error === 1 ? <Form.Error>Kirjautuminen epäonnistui! Tarkista antamasi tiedot.</Form.Error>
+                    error === 'password_mismatch' ? <Form.Error>Antamasi salasana on väärä!</Form.Error>
                     :
-                    error === 0 ? <Form.Success>Tili luotu onnistuneesti! Sinut uudelleenohjataan kirjautumaan...</Form.Success>
+                    error === 'user_exists' ? <Form.Error>Tili antamallesi sähköpostiosoitteelle on jo olemassa!</Form.Error>
+                    :
+                    error === 'success' ? <Form.Success>Tili luotu onnistuneesti! Sinut uudelleenohjataan kirjautumaan...</Form.Success>
                     :
                     <></>
                 }

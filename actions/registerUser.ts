@@ -2,6 +2,7 @@
 
 import bcrypt from 'bcrypt';
 import db from 'kotilogi-app/dbconfig';
+import { RegisterError } from 'kotilogi-app/utils/error';
 
 /**
  * Adds a new user to the database.
@@ -22,8 +23,12 @@ export async function registerUser(credentials: {email: string, password: string
             resolve();
         }
         catch(err){
-            console.log(err.message);
-            reject(err.message);
+            if(err.message.includes('UNIQUE')){
+                reject('user_exists');
+            }
+            else{
+                reject('unexpected');
+            }
         }
     });
 }

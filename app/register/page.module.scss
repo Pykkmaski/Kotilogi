@@ -21,7 +21,7 @@ input.error{
     flex-flow: row;
     justify-content: space-between;
 
-    color: white;
+    color: $body-color;
 
     a{
         color: $primary-color;
@@ -33,4 +33,8 @@ input.error{
             background: $primary-color;
         }
     }
+}
+
+.tosAgreementText{
+    color: $body-color;
 }
