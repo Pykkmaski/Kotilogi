@@ -1,6 +1,7 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
+import { revalidatePath } from "next/cache";
 
 function addConsolidationTime(eventData: any){
     const consolidationEnvVar = process.env.EVENT_CONSOLIDATION_TIME;
@@ -13,11 +14,12 @@ function addConsolidationTime(eventData: any){
 }
 
 export async function addPropertyEvent(eventData: any){
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<object>(async (resolve, reject) => {
         try{
             const processedData = addConsolidationTime(eventData);
-            await db('propertyEvents').insert(processedData);
-            resolve();
+            const newEventData = await db('propertyEvents').insert(processedData, '*');
+            revalidatePath('/properties/[property_id]/events');
+            resolve(newEventData[0]);
         }
         catch(err){
             console.log(err.message);

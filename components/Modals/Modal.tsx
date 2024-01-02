@@ -12,14 +12,14 @@ function CloseButton(props){
     );
 }
 
-export type ModalProps = {
+export type ModalProps = React.PropsWithChildren & {
     id: string,
     className?: string,
     show: boolean,
     onHide: () => void,
 }
 
-function Modal(props: ModalProps & {children: React.ReactNode}){
+function Modal(props: ModalProps){
     const {show, onHide} = props;
 
     useEffect(() => {

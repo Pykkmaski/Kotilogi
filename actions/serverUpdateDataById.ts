@@ -20,15 +20,6 @@ async function setMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdType, db
   * 
   * */
 
-export default async function serverUpdateDataById(newData: object, id: Kotilogi.IdType, dbTableName: string): Promise<object | null>{
-   
-    try{
-        console.log(newData);
-        const updatedData: object = await db(dbTableName).where({id}).update(newData, '*');
-        return updatedData[0];
-    }
-    catch(err){
-        console.log(err.message);
-        return null;
-    }
+export default async function serverUpdateDataById(newData: object, id: Kotilogi.IdType, dbTableName: string){
+    return db(dbTableName).where({id}).update(newData, '*');
 }

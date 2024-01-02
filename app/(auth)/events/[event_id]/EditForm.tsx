@@ -8,46 +8,31 @@ import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import style from './style.module.scss';
 import Image from "next/image";
-import HouseIcon from '@/assets/house.png';
 import { useEventContext } from "./EventContext";
 import { Heading } from "kotilogi-app/components/Heading/Heading";
+import { useChangeInput } from "kotilogi-app/hooks/useChangeInput";
+import { updatePropertyEvent } from "kotilogi-app/actions/propertyEvent/updatePropertyEvent";
 
 export default function EditForm(){
 
     const {event, property} = useEventContext();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [hasChanges, setHasChanges] = useState(false);
-    const data = useRef(event);
+    const {data, isEdited, resetIsEdited, onChange: onChangeHandler} = useChangeInput({...event});
 
     const formId = `event-edit-form-${event.id}`;
-
-    const onChangeHandler = (e) => {
-        if(!hasChanges){
-            setHasChanges(true);
-        }
-
-        data.current = {
-            ...data.current,
-            [e.target.name]: e.target.value,
-        }
-    }
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const updatedData = await serverUpdateDataById(data.current, data.current.id, 'propertyEvents');
-        if(!updatedData){
-            toast.error('Tapahtuman päivitys epäonnistui!');
-        }
-        else{
+        updatePropertyEvent(data)
+        .then(updatedData => {
             toast.success('Tapahtuman päivitys onnistui!');
-            setHasChanges(false);
-        }
-
-        setLoading(false);
-        
+            resetIsEdited();
+        })
+        .catch(err => toast.error('Tapahtuman päivitys epäonnistui!'))
+        .finally(() => setLoading(false));
     }
 
     return (
@@ -73,7 +58,7 @@ export default function EditForm(){
                     className="secondary"
                     desktopText="Takaisin Tapahtumiin"
                     onClick={() => {
-                        if(hasChanges){
+                        if(isEdited){
                             const res = confirm('Tapahtumalla on tallentamattomia muutoksia. Haluatko jaktaa tallentamatta?');
                             if(!res) return;
                         } 
@@ -90,7 +75,7 @@ export default function EditForm(){
                     type="submit"
                     form={formId}
                     loading={loading}
-                    disabled={loading || !hasChanges}
+                    disabled={loading || !isEdited}
                 />
             </Form.Group>
 

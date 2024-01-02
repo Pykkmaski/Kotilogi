@@ -3,6 +3,7 @@
 import db from "kotilogi-app/dbconfig";
 import {unlink} from 'fs/promises';
 import { uploadPath } from "kotilogi-app/uploadsConfig";
+import { revalidatePath } from "next/cache";
 
 const ErrorCode = {
     SUCCESS: 0,
@@ -43,6 +44,7 @@ async function handlePropertyDeletion(propertyId: Kotilogi.IdType): Promise<numb
         }
 
         await db('properties').where({id: propertyId}).del();
+        revalidatePath('/properties');
         return ErrorCode.SUCCESS;
     }
     catch(err){
@@ -79,7 +81,7 @@ async function handleEventDeletion(eventId: Kotilogi.IdType){
         try{
             //Prevent deletion of the event if it has been consolidated.
             const eventData = await db('propertyEvents').where({id: eventId}).first().select('consolidationTime');
-            if(Date.now() > parseInt(eventData.consolidationTime)) throw new Error('The event has been consolidated, and thus cannot be deleted!');
+            if(Date.now() > parseInt(eventData.consolidationTime)) throw new Error('Tapahtuma on liian vanha poistettavaksi!');
 
             /**The names of the files associated with this event */
             const fileNames = await db('eventFiles').where({refId: eventId}).pluck('fileName');
@@ -90,7 +92,7 @@ async function handleEventDeletion(eventId: Kotilogi.IdType){
     
             //Delete the event data. Deletes the file associated db entries as well due to CASCADE.
             await db('propertyEvents').where({id: eventId}).del();
-            
+            revalidatePath('/properties/[property_id]/events');
             resolve();
         }
         catch(err){

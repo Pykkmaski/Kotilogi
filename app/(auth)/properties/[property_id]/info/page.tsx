@@ -15,36 +15,26 @@ import ExteriorSection from './ExteriorSection';
 import HeatingSection from './HeatingSection';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import RoofSection from './RoofSection';
+import { useChangeInput } from 'kotilogi-app/hooks/useChangeInput';
 
 export default function InfoPage(){
     const params = useSearchParams();
     const {property} = usePropertyContext();
-    const [currentData, setCurrentData] = useState({...property});
+    const {data, onChange, isEdited, resetIsEdited} = useChangeInput({...property});
+
     const [loading, setLoading] = useState(false);
-    const [isEdited, setIsEdited] = useState(false);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
-        updateDataById(currentData, property.id, 'properties')
+        updateDataById(data, property.id, 'properties')
         .then(async res => {
             toast.success('Tietojen päivitys onnistui!');
-            setIsEdited(false);
+            resetIsEdited();
             await serverRevalidatePath('/properties/[property_id]');
         })
         .catch(err => toast.error(err.message))
         .finally(() => setLoading(false));
-    }
-
-    const onChangeHandler = (e) => {
-        setCurrentData(prev => {
-            return {
-                ...prev,
-                [e.target.name] : e.target.value,
-            }
-        });
-
-        setIsEdited(true);
     }
 
     const formId = 'property-info-form';
@@ -64,18 +54,18 @@ export default function InfoPage(){
             
 
             <Form onSubmit={onSubmitHandler} className={style.propertyForm} id={formId}>
-                <GeneralSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                <BuildingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                <InteriorSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                <GeneralSection currentData={data} onChangeHandler={onChange}/>
+                <BuildingSection currentData={data} onChangeHandler={onChange}/>
+                <InteriorSection currentData={data} onChangeHandler={onChange}/>
                 {
-                    currentData.buildingType !== 'Kerrostalo' ? 
-                    <ExteriorSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                    data.buildingType !== 'Kerrostalo' ? 
+                    <ExteriorSection currentData={data} onChangeHandler={onChange}/>
                     :
                     null
                 }
                 
-                <HeatingSection currentData={currentData} onChangeHandler={onChangeHandler}/>
-                <RoofSection currentData={currentData} onChangeHandler={onChangeHandler}/>
+                <HeatingSection currentData={data} onChangeHandler={onChange}/>
+                <RoofSection currentData={data} onChangeHandler={onChange}/>
             </Form>
        </main> 
     );

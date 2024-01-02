@@ -27,11 +27,11 @@ export default function ItemDeleteModal(props: ModalProps & {
         deleteData(item.id, tableName)
         .then(async () => {
             toast.success('Poisto onnistui!');
-            await serverRevalidatePath('');
         })
         .catch(err => console.log(toast.error(err.message)))
         .finally(() => {
-            setLoading(false)
+            setLoading(false);
+            props.onHide();
         });
     }
 
