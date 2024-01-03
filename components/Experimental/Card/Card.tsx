@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import style from './style.module.scss';
+import React from 'react';
 
 type CardProps = {
     title: string,
@@ -15,19 +16,32 @@ export function Card(props: CardProps){
     )
 }
 
-/**Responsible for rendering the card image, title and the gradient in front of the image. */
+/**Renders a gradient from bottom to top */
+function CardGradient(){
+    return (
+        <div className={style.imageGradient}/>
+    );
+}
+
+/**Responsible for rendering the card image, title and the gradient in front of the image. 
+ * 
+*/
 function CardHeaderContainer({children}: React.PropsWithChildren){
+
+    const [image, title] = React.Children.toArray(children);
     return (
         <div className={style.headerContainer}>
-            {children}
+            <CardGradient/>
+            {image}
+            {title}
         </div>
-    )
+    );
 }
 
 function CardImage({imageSrc}: {imageSrc: string}){
     return (
         <div className={style.image}>
-            <Image src={imageSrc} fill={true} alt="Card image"/>
+            <Image src={imageSrc} fill={true} alt="Card image" objectFit='contain'/>
         </div>
     );
 }

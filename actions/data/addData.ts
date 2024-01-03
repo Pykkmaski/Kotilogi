@@ -46,7 +46,7 @@ export async function addData(data: any, tableName: Kotilogi.Table): Promise<Par
             const dataToSave: ParamType = await processData({...data}, tableName);
             const ok = await validateData(dataToSave, tableName);
             
-            if(!ok) throw new Error('Adding of data was rejected!');
+            if(!ok) throw new Error(`Adding of data into table ${tableName} was rejected!`);
     
             const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
     
