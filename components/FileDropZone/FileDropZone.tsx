@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, createContext, useContext, useRef, useState } from 'react';
+import { InputHTMLAttributes, Ref, createContext, forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react';
 import style from './style.module.scss';
 import FileListComponent from './FileListComponent';
 import FileLogo from './FileLogo';
@@ -22,13 +22,13 @@ export function useDropzoneContext(){
     return context;
 }
 
-export default function FileDropZone(props: {
+function FileDropZone(props: {
     name: string,
     accept: string,
     form?: string,
     onFileUploaded: (e) => void,
     onError?: (e) => void,
-}){
+}, ref: Ref<any>){
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     
@@ -60,6 +60,10 @@ export default function FileDropZone(props: {
         setFiles(newFiles);
     }
 
+    useImperativeHandle(ref, () => ({
+        files,
+    }));
+
     return (
         <DropZoneContext.Provider value={{
             files,
@@ -89,3 +93,5 @@ export default function FileDropZone(props: {
         </DropZoneContext.Provider>
     );
 }
+
+export default forwardRef(FileDropZone);

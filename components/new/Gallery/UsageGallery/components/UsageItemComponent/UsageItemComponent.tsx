@@ -8,8 +8,11 @@ function Content(){
         item: {
             id: Kotilogi.IdType, 
             price: number, 
-            time: string}, 
-            setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+            time: string,
+            type: 'heat' | 'water' | 'electric',
+        }, 
+            setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>,
+            
     };
 
     return (

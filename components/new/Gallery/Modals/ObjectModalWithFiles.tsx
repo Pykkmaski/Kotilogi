@@ -40,7 +40,7 @@ export default function ObjectModalWithFiles(props: ModalProps & {
     const {props: {query, tableName}, dispatch}   = useGalleryContext();
     const [loading, setLoading]                   = useState(false);
     const [currentData, setCurrentData]           = useState({refId: query.refId});
-
+    const dropZoneRef                             = useRef<any>(null);
     var files: File[] = []; //Filled by the file dropzone.
 
     const onChangeHandler = (e) => {
@@ -62,7 +62,7 @@ export default function ObjectModalWithFiles(props: ModalProps & {
             //Upload the files. 
             const dataArray: FormData[] = [];
 
-            files.forEach(async file => {
+            dropZoneRef.current?.files.forEach(async file => {
                 const data = new FormData();
                 data.append('file', file);
                 data.append('refId', addedData.id);
@@ -100,6 +100,7 @@ export default function ObjectModalWithFiles(props: ModalProps & {
             onFileUploaded={(newFiles: File[]) => {
                files = newFiles; 
             }}
+            ref={dropZoneRef}
         />
     );
 

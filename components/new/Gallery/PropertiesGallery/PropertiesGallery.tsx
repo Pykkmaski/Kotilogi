@@ -17,6 +17,7 @@ import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import toast from "react-hot-toast";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import { SearchField } from "../GalleryBase/Components/SearchField/SearchField";
+import { AddPropertyModal } from "../Modals/experimental/AddPropertyModal";
 
 function SecondaryHeader(props: React.PropsWithChildren){
     const style: CSSProperties = {

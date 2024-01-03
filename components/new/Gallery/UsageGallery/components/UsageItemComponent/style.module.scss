@@ -2,6 +2,18 @@
 
 $background-color: rgba($primary-color, 0.7);
 
+@keyframes SlideIn{
+    0%{
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
 .content{
     display: flex;
     flex-flow: row;
@@ -10,7 +22,9 @@ $background-color: rgba($primary-color, 0.7);
     padding: $medium-gap;
     width: 100%;
     background: $background-color;
-
+    animation-name: SlideIn;
+    animation-duration: 0.2s;
+    
     div{
         display: inherit;
         gap: $medium-gap;

@@ -41,13 +41,6 @@ export function useGallery(tableName: Kotilogi.Table, query: any){
     function fetchData(pageNumber: number){
         getDataWithOffset(tableName, query, getDataOffset(pageNumber, 10), 10)
         .then((data: any[]) => {
-          if(!data){
-            dispatch({
-                type: 'toggle_error',
-                value: true,
-            });
-          }
-          else{
             //Sort the data by the time column, if one is present.
             data = data.sort((a, b) => {
                 if('time' in a && 'time' in b){
@@ -69,14 +62,13 @@ export function useGallery(tableName: Kotilogi.Table, query: any){
                 type: 'set_data',
                 value: data,
             });
-          }
         })
         .finally(() => {
             dispatch({
                 type: 'toggle_loading',
                 value: false,
             });
-        })
+        });
     }
 
     useEffect(() => {

@@ -80,9 +80,9 @@ export default function Body({displayStyle = 'vertical', itemComponent: ItemComp
     }
 
     return (
-        state.error ? <h1>Tapahtui odottamaton virhe!</h1>
-        :
         state.isLoading ? <Spinner size='2rem'/>
+        :
+        state.error ? <Heading>Tapahtui odottamaton virhe!</Heading>
         :
         state.data.length ? 
 
@@ -93,7 +93,6 @@ export default function Body({displayStyle = 'vertical', itemComponent: ItemComp
                 })
             }
         </div>
-
         :
         props.errorComponent
     );

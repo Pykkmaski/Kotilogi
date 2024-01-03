@@ -14,16 +14,16 @@ function addConsolidationTime(eventData: any){
 }
 
 export async function addPropertyEvent(eventData: any){
-    return new Promise<object>(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         try{
             const processedData = addConsolidationTime(eventData);
             const newEventData = await db('propertyEvents').insert(processedData, '*');
             revalidatePath('/properties/[property_id]/events');
-            resolve(newEventData[0]);
+            resolve();
         }
         catch(err){
             console.log(err.message);
-            reject(err.message);
+            reject(err);
         }
     });
 }

@@ -1,6 +1,4 @@
 import Image from "next/image"
-import ImageIcon from '@/assets/image_filled.png';
-import FileIcon from '@/assets/copy_filled.png';
 import style from './style.module.scss';
 import { useEffect, useRef } from "react";
 import PrimaryButton from "../Button/PrimaryButton";
@@ -42,7 +40,7 @@ function Item(props: {
                     :
                     <>
                         <Image
-                            src={'icons/copy.png'}
+                            src={'/icons/copy.png'}
                             width={imageSize}
                             height={imageSize}
                             alt=""

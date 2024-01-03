@@ -9,12 +9,18 @@ type SplitScreenProps = React.PropsWithChildren & {
 export function SplitScreen({leftWeight = 1, rightWeight = 1, ...props}: SplitScreenProps){
     const [left, right] = React.Children.toArray(props.children);
 
+    const sharedSideStyle: CSSProperties = {
+        padding: '0rem',
+    }
+
     const leftStyle: CSSProperties = {
+        ...sharedSideStyle,
         flex: leftWeight,
         borderRight: '1px solid #DDD',
     }
 
     const rightStyle: CSSProperties = {
+        ...sharedSideStyle,
         flex: rightWeight,
     }
 

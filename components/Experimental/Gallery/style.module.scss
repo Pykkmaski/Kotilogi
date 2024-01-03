@@ -1,34 +1,3 @@
-@import '@/scss/Config';
-
 .container{
     display: flex;
-    flex-flow: column;
-
-    .header{
-        display: flex;
-        width: 100%;
-        border-bottom: 1px solid #DDD;
-        padding-bottom: $medium-gap;    
-        justify-content: space-between;
-
-        h1{
-            margin: 0;
-        }
-    }
-
-    .body{
-        width: 100%;
-        display: flex;
-        flex-flow: column;
-        gap: $medium-gap;
-    }
-}
-
-.item{
-    display: flex;
-    flex-flow: row;
-    width: 100%;
-    height: 70px;
-    background: #DDD;
-    padding: $medium-gap;
 }

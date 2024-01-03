@@ -33,7 +33,7 @@ function Content(props: {
                     width={50}
                     height={50}
                     alt=""
-                    src={'/icons/file_filled.png'}
+                    src={'/icons/copy_filled.png'}
                 />
                 {/*If the filename uses a different separator between the timestamp and the actual name of the file, use the unprocessed name.*/}
                 <span>{fileName || item.fileName}</span>
