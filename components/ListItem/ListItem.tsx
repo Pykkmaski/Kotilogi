@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import style from './style.module.scss';
 import React from 'react';
 import Link from 'next/link';
@@ -13,6 +13,7 @@ import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePr
 
 type ListItemProps<T extends {id: string}> = React.PropsWithChildren & {
     item: T,
+    selected?: boolean,
 }
 
 type ListItemContextProps = {
@@ -22,9 +23,8 @@ type ListItemContextProps = {
 export const ListItemContext = createContext<ListItemContextProps | null>(null);
 
 export function ListItem<T extends {id: string}>({children, ...props}: ListItemProps<T>){
-    const {state, dispatch} = usePageWithDataContext();
-    const selected = state.selectedItems.includes(props.item);
-    const className = selected ? `${style.container} ${style.selected}` : style.container;
+    const classes = props.selected ? [style.container, style.selected] : [style.container];
+    const className = classes.join(' ');
 
     return (
         <div className={className}>
@@ -56,7 +56,7 @@ export function PropertyListItem(props: ListItemProps<PropertyType>){
     }
     
     return (
-        <ListItem<PropertyType> item={props.item}>
+        <ListItem<PropertyType> {...props}>
             <InfoContainer href={`/properties/${props.item.id}/info`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'/>
                 <small>{props.item.buildingType}</small>
@@ -104,7 +104,7 @@ export function EventListItem(props: ListItemProps<EventType>){
     );
 
     return (
-        <ListItem<EventType> item={props.item}>
+        <ListItem<EventType> {...props}>
             <HighlightBadge/>
             <InfoContainer href={`/events/${props.item.id}`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/history.png'/>
@@ -125,10 +125,10 @@ type FileType = {
     id: string,
 }
 
-export function FileListItem(props: ListItemProps<FileType>){
+export function PropertyFileListItem(props: ListItemProps<FileType>){
     return (
-        <ListItem<FileType> item={props.item}>
-            <InfoContainer href={`/files/${props.item.id}/`}>
+        <ListItem<FileType> {...props}>
+            <InfoContainer href={`/files/${props.item.id}?tableName=properties`}>
                 <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
             </InfoContainer>
 

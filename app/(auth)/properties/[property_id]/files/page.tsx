@@ -1,6 +1,6 @@
 import { Gallery } from "kotilogi-app/components/Experimental/Gallery/Gallery";
 import { Header } from "kotilogi-app/components/Header/Header";
-import { FileListItem } from "kotilogi-app/components/ListItem/ListItem";
+import { FileListItem, PropertyFileListItem } from "kotilogi-app/components/ListItem/ListItem";
 import db from "kotilogi-app/dbconfig";
 
 async function getFiles(propertyId){
@@ -16,7 +16,7 @@ export default async function FilesPage({params}){
                 <h3>Tiedostot</h3>
             </Header>
 
-            <Gallery data={files} itemComponent={FileListItem}/>
+            <Gallery data={files} itemComponent={PropertyFileListItem}/>
         </main>
     );
 }
