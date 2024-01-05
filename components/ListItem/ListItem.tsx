@@ -8,7 +8,7 @@ import { usePageWithDataContext } from '../PageWithData/PageWithData';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { CheckBox, ControlsContainer, DeleteButton, InfoContainer, TitleContainer } from './ListItem.components';
 import { deleteData } from 'kotilogi-app/actions/data/deleteData';
-import toast from 'react-hot-toast';
+import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
 
 type ListItemProps<T extends {id: string}> = React.PropsWithChildren & {
@@ -114,6 +114,27 @@ export function EventListItem(props: ListItemProps<EventType>){
             <ControlsContainer>
                 <CheckBox/>
                 <DeleteButton onClick={deleteEvent} hidden={Date.now() >= parseInt(props.item.consolidationTime)}/>
+            </ControlsContainer>
+        </ListItem>
+    );
+}
+
+type FileType = {
+    fileName: string,
+    refId: string,
+    id: string,
+}
+
+export function FileListItem(props: ListItemProps<FileType>){
+    return (
+        <ListItem<FileType> item={props.item}>
+            <InfoContainer href={`/files/${props.item.id}/`}>
+                <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
+            </InfoContainer>
+
+            <ControlsContainer>
+                <CheckBox/>
+                <DeleteButton onClick={() => {}}/>
             </ControlsContainer>
         </ListItem>
     );

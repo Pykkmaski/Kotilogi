@@ -17,32 +17,8 @@ import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import { deletePropertyEvent } from "kotilogi-app/actions/propertyEvent/deletePropertyEvent";
 import { usePageWithData } from "kotilogi-app/components/PageWithData/PageWithData.hooks";
 import { ViewSelector } from "kotilogi-app/components/ViewSelector/ViewSelector";
-import { usePathname, useRouter } from "next/navigation";
+import { SearchBar } from "kotilogi-app/components/SearchBar/SearchBar";
 
-function SearchBar(){
-    //const {dispatch} = usePageWithDataContext();
-    const router = useRouter();
-    const route = usePathname();
-    const {data, onChange} = useChangeInput({query: ''});
-
-    const updateSearch = (e) => {
-        //const newUrl = new URL(route);
-        //newUrl.searchParams.set('q', e.target.value);
-        
-    }
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            router.replace(route + `?q=${data.query}`);
-        }, 450);
-
-        return () => clearTimeout(timeout);
-    }, [data.query]);
-
-    return (
-        <input type="search" name="query" placeholder="Etsi..." onInput={onChange}/>
-    );
-}
 
 function AddModal(props: ModalProps){
     const {property} = usePropertyContext();
@@ -61,7 +37,7 @@ function AddModal(props: ModalProps){
         <Modal {...props}>
             <Modal.Header>Lisää Tapahtuma</Modal.Header>
             <Modal.Body>
-                <Form id={formId} onSubmit={addEvent}>
+                <form id={formId} onSubmit={addEvent}>
                     <Form.Group>
                         <label>Otsikko</label>
                         <input name="title" onChange={onChange} required={true} placeholder="Kirjoita tapahtumalle otsikko..."/>
@@ -76,7 +52,7 @@ function AddModal(props: ModalProps){
                         <label>Päivämäärä</label>
                         <input name="time" type="date" onChange={onChange}/>
                     </Form.Group>
-                </Form>
+                </form>
                 
             </Modal.Body>
             <Modal.Footer>

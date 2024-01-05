@@ -1,11 +1,22 @@
-import GalleryBase from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
-import PropertyFilesGallery from "kotilogi-app/components/new/Gallery/PropertyFilesGallery/PropertyFilesGallery";
+import { Gallery } from "kotilogi-app/components/Experimental/Gallery/Gallery";
+import { Header } from "kotilogi-app/components/Header/Header";
+import { FileListItem } from "kotilogi-app/components/ListItem/ListItem";
+import db from "kotilogi-app/dbconfig";
 
-export default function FilesPage({params}){
+async function getFiles(propertyId){
+    const files = await db('propertyFiles').where({refId: propertyId, mimeType: 'application/pdf'});
+    return files;
+}
+export default async function FilesPage({params}){
+    const files = await getFiles(params.property_id);
+
     return(
-        <main>
-            <PropertyFilesGallery propertyId={params.property_id}/>
+        <main>  
+            <Header>
+                <h3>Tiedostot</h3>
+            </Header>
+
+            <Gallery data={files} itemComponent={FileListItem}/>
         </main>
-        
     );
 }
