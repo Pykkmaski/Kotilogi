@@ -9,7 +9,7 @@ import { deleteFiles } from "../file/deleteFiles";
 export async function deleteProperty(propertyId: Kotilogi.IdType){
     return new Promise<void>(async (resolve, reject) => {
         try{
-            await deleteFiles(propertyId, 'propertyFiles');
+            await deleteFiles('propertyFiles', propertyId);
             await db('properties').where({id: propertyId}).del();
             revalidatePath('/properties');
             resolve();

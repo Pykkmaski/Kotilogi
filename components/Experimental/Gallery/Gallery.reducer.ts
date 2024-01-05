@@ -1,13 +1,13 @@
-export type StateType = {
-    selectedItems: any[],
+export type StateType<DataT> = {
+    selectedItems: DataT[],
 }
 
-export type ActionType = {
+export type ActionType<DataT> = {
     type: 'select_item',
-    value: any,
+    value: DataT,
 }
 
-export function reducer(state: StateType, action: ActionType){
+export function reducer<DataT extends Kotilogi.IdType>(state: StateType<DataT>, action: ActionType<DataT>){
     switch(action.type){
         case 'select_item':{
             const newSelectedItems = [...state.selectedItems];
