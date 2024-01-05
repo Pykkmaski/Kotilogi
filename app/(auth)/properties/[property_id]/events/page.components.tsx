@@ -18,6 +18,7 @@ import { deletePropertyEvent } from "kotilogi-app/actions/propertyEvent/deletePr
 import { usePageWithData } from "kotilogi-app/components/PageWithData/PageWithData.hooks";
 import { ViewSelector } from "kotilogi-app/components/ViewSelector/ViewSelector";
 import { SearchBar } from "kotilogi-app/components/SearchBar/SearchBar";
+import GlobalDeleteModal from "kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal/GlobalDeleteModal";
 
 
 function AddModal(props: ModalProps){
@@ -67,7 +68,7 @@ function AddModal(props: ModalProps){
 function HeaderControls(){
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const {state: {selectedItems}} = usePageWithDataContext();
+    const {state: {selectedItems}} = usePageWithDataContext() as {state: {selectedItems: Kotilogi.EventType[]}};
 
     const deleteSelectedEvents = () => {
         const eventNames = selectedItems.map(item => item.title);
@@ -82,7 +83,6 @@ function HeaderControls(){
 
     return (
         <>
-            <AddModal show={showAddModal} onHide={() =>setShowAddModal(false)} id="add-event-modal"/>
             <Group direction="horizontal">
                 <ViewSelector/>
                 <SearchBar/>
@@ -104,13 +104,13 @@ export function Header(){
 }
 
 /**The main content rendering component of the page. */
-export function Content(props: {data: any[]}){
-    const {state, dispatch} = usePageWithData(props.data);
+export function Content(props: {data: Kotilogi.EventType[]}){
+    const {state, dispatch} = usePageWithData<Kotilogi.EventType>(props.data);
 
     return (
         <PageWithDataContext.Provider value={{state, dispatch}}>
             <Header/>
-            <Gallery data={state.displayedItems} itemComponent={EventListItem}/>
+            <Gallery<Kotilogi.EventType> data={state.displayedItems} itemComponent={EventListItem}/>
         </PageWithDataContext.Provider>
     );
 }

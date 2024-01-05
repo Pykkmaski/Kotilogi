@@ -10,7 +10,7 @@ export function usePageWithData<DataT extends Kotilogi.ItemType>(data: DataT[]){
         displayedItems: data,
     }
 
-    const [state, dispatch] = useReducer(reducer, initialValue);
+    const [state, dispatch] = useReducer(reducer<DataT>, initialValue);
     
     return {state, dispatch} as const;
 }
