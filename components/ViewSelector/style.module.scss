@@ -1,0 +1,41 @@
+@import '@/scss/Config';
+
+$item-width: 25px;
+
+.container{
+    display: flex;
+    flex-flow: row;
+    border-radius: 5px;
+    border: 1px solid #DDD;
+    height: 100%;
+}
+
+.baseButton{
+    display: flex;
+    flex-flow: column;
+    gap: 3px;
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.baseButton .selected{
+    background: lighten($primary-color, 35);
+}
+
+.listViewButton .line, .cardViewButton .rect{
+    background: #DDD;
+}
+
+.listViewButton .line{
+    width: 25px;
+    height: 5px;
+}
+
+.cardViewButton .rect{
+    width: 25px;
+    height: 21px;
+    border-radius: 2px;
+}
+
+

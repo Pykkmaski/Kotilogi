@@ -1,9 +1,11 @@
 @import '@/scss/Config';
 
+$body-background-color: linear-gradient(to bottom, white, #f0f0f0);
+
 .body{
     display: flex;
     flex-flow: column;
-    background: linear-gradient(to bottom, $body-color, darken($body-color, 10));
+    background: $body-background-color;
     min-height: 100vh;
     color: $text-color;
 }

@@ -1,7 +1,6 @@
 "use server"
 
 import db from "kotilogi-app/dbconfig";
-import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
 
 type ParamType = Kotilogi.PropertyType | Kotilogi.EventType;
 
@@ -31,10 +30,6 @@ const processData = async (data: any, tableName: Kotilogi.Table) => {
  */
 
 const validateData = async (data: any, tableName: Kotilogi.Table) => {
-    if(tableName === 'properties'){
-        return await isAllowedToAddProperty(data.refId);
-    }
-
     return true;
 }
 

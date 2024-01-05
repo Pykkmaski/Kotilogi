@@ -1,11 +1,14 @@
 import style from './layout.module.scss';
 import db from 'kotilogi-app/dbconfig';
 import PropertyContextProvider from './_util/PropertyContextProvider';
-import NavBar from './_components/NavBar';
 import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/property/isUserTheOwnerOfProperty';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { SplitScreen } from 'kotilogi-app/components/SplitScreen/SplitScreen';
+import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
+import IconLink from 'kotilogi-app/components/IconLink/IconLink';
+import Link from 'next/link';
+import { Header } from 'kotilogi-app/components/Header/Header';
 
 export default async function Layout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -24,15 +27,20 @@ export default async function Layout({children, params}){
     return (
         <PropertyContextProvider value={contextValue}>
             <div className={style.propertyLayout}>
-                <div className={style.layoutHeader}>
+                <Header>
                     <h3>{property.title}</h3>
-                </div>
-                <SplitScreen rightWeight={7}>
-                    <NavBar/>
+                </Header>
+                <SplitScreen rightWeight={7} gap="1rem">
+                    <NavBar>
+                        <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                        <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                        <IconLink imageSrc={'/icons/bolt.png'} href="usage?data=heat">Kulutustiedot</IconLink>
+                        <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                        <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
 
-                    <div style={{paddingLeft: '1rem', paddingTop: '1rem'}}>
-                        {children}
-                    </div>
+                        <Link href={`/dashboard/properties/`}>Takaisin Taloihin</Link>
+                    </NavBar>
+                    {children}
                 </SplitScreen>
             </div>
         </PropertyContextProvider>

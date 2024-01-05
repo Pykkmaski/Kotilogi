@@ -37,7 +37,7 @@ export default function LoginPage(){
             }
             else{
                 setError('success');
-                router.push('/properties');
+                router.push('/dashboard/properties');
             }
         })
         .catch(err => {

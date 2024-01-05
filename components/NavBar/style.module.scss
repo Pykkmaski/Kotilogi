@@ -1,36 +1,20 @@
-@import 'kotilogi-app/scss/Config';
+@import '@/scss/Config';
 
-@mixin DefaultAttributes{
+.navbar{
     display: flex;
-    gap: $medium-gap;
-    z-index: 1;
-}
-
-.containerHorizontal{
-    @include DefaultAttributes;
-
-    flex-flow: row;
-    width: 100%;
-    
-    a{
-        color: $body-text-color;
-        font-weight: 500;
-        border-radius: 5px;
-
-        &.activated{
-            text-decoration: underline;
-        }
-    }
-}
-
-.containerVertical{
-    @include DefaultAttributes;
     flex-flow: column;
-    height: 100%;
+    flex: 1;
 }
 
-@media screen and (max-width: 1000px){
-    .navBarContainer{
-       display: none;
-    }
+.navbar a{
+    padding: 0.5rem 0rem 0.5rem 1rem;
+}
+
+.navbar a:hover{
+    color: black;
+}
+
+.navbar .selected{
+    color: black;
+    background: lighten($primary-color, 35);
 }

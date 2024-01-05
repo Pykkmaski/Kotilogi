@@ -7,7 +7,7 @@
     height: 100%;
     flex: 1;
     width: 100%;
-    margin: 0;
+    margin-top: 2rem;
     @include Padding;
 }
 
@@ -67,8 +67,10 @@
 }
 
 .layoutHeader{
-    padding: $medium-gap 0 $medium-gap 0;
-    border-bottom: 1px solid #DDD;
+    display: flex;
+    flex-flow: row; 
+    justify-content: space-between;
+    align-items: center;
 }
 
 .subCointainer{

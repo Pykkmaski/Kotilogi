@@ -2,6 +2,7 @@
 
 import {useEffect, useRef} from 'react';
 import useSubComponents from 'kotilogi-app/hooks/useSubComponents';
+import { Heading } from '../Heading/Heading';
 
 function CloseButton(props){
     return (
@@ -38,14 +39,17 @@ function Modal(props: ModalProps){
     const className = props.className ? `component-modal ${props.className} animated` : 'component-modal animated';
 
     return (
+        props.show ? 
         <dialog className={className} key={props.id} id={props.id}>
             <CloseButton onHide={onHide}/>
            {props.children}
         </dialog>
+        :
+        null
     );
 }
 
-const Header = (props) => <div className="modal-header">{props.children}</div>
+const Header = (props) => <div className="modal-header"><Heading>{props.children}</Heading></div>
 Modal.Header = Header;
 
 const Title = (props) => <div className="modal-title">{props.children}</div>

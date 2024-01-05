@@ -4,9 +4,10 @@ import style from './style.module.scss';
 type SplitScreenProps = React.PropsWithChildren & {
     leftWeight?: number,
     rightWeight?: number,
+    gap?: string,
 }
 
-export function SplitScreen({leftWeight = 1, rightWeight = 1, ...props}: SplitScreenProps){
+export function SplitScreen({leftWeight = 1, rightWeight = 1, gap = '0px', ...props}: SplitScreenProps){
     const [left, right] = React.Children.toArray(props.children);
 
     const sharedSideStyle: CSSProperties = {
@@ -25,7 +26,7 @@ export function SplitScreen({leftWeight = 1, rightWeight = 1, ...props}: SplitSc
     }
 
     return (
-        <div className={style.container}>
+        <div className={style.container} style={{gap}}>
             <div style={leftStyle}>
                 {left}
             </div>

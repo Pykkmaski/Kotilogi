@@ -1,9 +1,35 @@
-import EventsGallery from "kotilogi-app/components/new/Gallery/EventsGallery/EventsGallery";
+import db from "kotilogi-app/dbconfig";
+import { Content, Header } from "./page.components";
+import { PageWithDataWrapper } from "kotilogi-app/components/PageWithData/PageWithData";
+import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
+import { Gallery } from "kotilogi-app/components/Experimental/Gallery/Gallery";
 
-export default async function EventsPage({params}){
+async function getEvents(propertyId, q: string | undefined){
+    const events = await db('propertyEvents').where({refId: propertyId}) as {title: string, description: string}[];
+
+    if(!q) return events;
+
+    const lowerCaseQuery = q.toLowerCase();
+
+    const displayedEvents = q ? events.filter(event => (
+        event.title.toLowerCase().includes(lowerCaseQuery)
+        ||
+        event.description.toLowerCase().includes(lowerCaseQuery)
+    )) : events;
+    
+    return displayedEvents;
+}
+
+export default async function EventsPage({params, searchParams}){
+    
+    const events = await getEvents(params.property_id, searchParams.q);
+
     return (
         <main>
-            <EventsGallery propertyId={params.property_id} propertyAddress=""/>
+            <PageWithDataWrapper data={events}>
+                <Header/>
+                <Gallery data={events} itemComponent={EventListItem}/>
+            </PageWithDataWrapper>
         </main>
     );
 }

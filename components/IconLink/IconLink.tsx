@@ -1,13 +1,57 @@
-import Image, { StaticImageData } from "next/image"
+'use client';
+
 import Link from "next/link"
 import style from './style.module.scss';
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
+function SelectedBackground(){
+    return (
+        <div className={style.selectedBackground}/>
+    );
+}
+
+function SelectedIndicator(){
+    return (
+        <div className={style.selectedIndicator}/>
+    );
+}
 
 export default function IconLink(props: React.ComponentProps<'a'> & {
     imageSrc: string,
     href: string,
 }){
+    const pathName = usePathname().split('/').at(-1);
+    const ref = useRef<HTMLAnchorElement | null>(null);
+    const [isSelected, setIsSelected] = useState(false);
+
+    useEffect(() => {
+        if(!ref.current) return;
+
+        const url = new URL(ref.current.href);
+        if(url.pathname.split('/').at(-1) === pathName){
+            setIsSelected(true);
+        }
+        else{
+            setIsSelected(false);
+        }
+    }, [pathName]);
+
+    const className = isSelected ? `${style.container} ${style.selected}` : style.container;
+
+
     return (
-        <Link href={props.href} target={props.target} className={style.container}>
+        <Link href={props.href} target={props.target} className={className.toString()} ref={ref}>
+            {
+                isSelected ? (
+                    <>
+                        <SelectedIndicator/>
+                        <SelectedBackground/>
+                    </>
+                    
+                 ) : null
+            }
+            
             <img
                 src={props.imageSrc}
                 alt="Link Icon"

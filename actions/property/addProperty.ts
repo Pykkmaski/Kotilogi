@@ -1,17 +1,62 @@
 'use server';
 
+import { MaxProperties } from "kotilogi-app/constants";
 import db from "kotilogi-app/dbconfig";
-import isAllowedToAddProperty from "kotilogi-app/utils/isAllowedToAddProperty";
 import { revalidatePath } from "next/cache";
 
+/**
+ * Returns the number of properties a user is allowed to add based on their account type.
+ * @param {string} id The id of the account.
+ * @returns {Promise<number>} Resolves to the number of properties allowed. Negative numbers are interpreted as infinite. 0 if the account with the provided id is not found.
+ */
+
+async function getMaxPropertiesByAccountId(id: Kotilogi.IdType): Promise<number>{
+    const {plan} = await db('users').where({email: id}).select('plan').first();
+    if(!plan) return 0;
+
+    switch(plan){
+        case 'regular':
+            return MaxProperties.REGULAR;
+
+        case 'pro':
+            return MaxProperties.PRO;
+
+        default: return 0;
+    }
+}
+
+/**
+ * Runs checks to make sure a user is allowed to add more properties.
+ * @param email The email of the user.
+ */
+
+async function isAllowedToAddProperty(email: string): Promise<boolean>{
+    try{
+        //Get the number of properties the user has already saved.
+        const [properties] = await db('properties').where({refId: email}).count('*', {as: 'count'});
+
+        //Get the number of properties the user is allowed to have.
+        const maxPropertiesAllowed = await getMaxPropertiesByAccountId(email);
+
+        //Throw an error if the number allowed is 0.
+        if(maxPropertiesAllowed == 0) throw new Error('Cannot verify if adding a property is allowed because user with email ' + email + ' not found!');
+
+        return maxPropertiesAllowed < 0 || properties.count < maxPropertiesAllowed;
+    }
+    catch(err){
+        console.log(err.message);
+        return false;
+    }
+}
+
 export async function addProperty(propertyData: any){
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<{id: string}>(async (resolve, reject) => {
         try{
             const ok = await isAllowedToAddProperty(propertyData.refId);
             if(!ok) return reject('not_allowed');
-            await db('properties').insert(propertyData);
+            const [property] = await db('properties').insert(propertyData, '*');
             revalidatePath('/properties');
-            resolve();
+            resolve(property);
         }
         catch(err){
             console.log(err.message);

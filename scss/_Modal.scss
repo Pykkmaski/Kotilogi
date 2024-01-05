@@ -6,7 +6,7 @@
 
     border-radius: 5px;
     min-width: 25%;
-    border: 1px solid $body-text-color;
+    border: 1px solid #DDD;
     padding: 0;
     position: absolute;
     color: $secondary-color;
@@ -106,14 +106,14 @@
 
     .modal-header{
         justify-content: space-between;
-        border-bottom: 1px solid $body-text-color;
+        border-bottom: 1px solid #DDD;
         font-size: 2rem;
         color: $body-text-color;
     }
 
     .modal-footer{
         justify-content: right;
-        border-top: 1px solid $body-text-color;
+        border-top: 1px solid #DDD;
 
         button{
             min-width: 100px;

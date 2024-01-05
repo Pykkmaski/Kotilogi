@@ -1,0 +1,156 @@
+@import 'kotilogi-app/scss/Config';
+@import '@/scss/Padding';
+@import '@/scss/Animations';
+
+.page{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+}
+
+.pageHeader{
+    z-index: 4;
+    width: 100%;
+    margin-top: calc($medium-gap * 2);
+    margin-bottom: $medium-gap;
+
+    h1, small{
+        color: $body-text-color;
+    }
+}
+
+.bgImage{
+    background: url('/img/Properties/default-bg.jpg');
+    background-size: cover;
+    filter: grayscale(1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.gradient{
+    background: linear-gradient(to right, $body-color, $body-color, #0000);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.headerButtons{
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+    top: 2rem;
+}
+
+.item{
+    width: 100%;
+    border: 1px solid #DDD;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 5px;
+    @include SlideUpAnimation;
+    cursor: pointer;
+}
+
+.item.selected{
+    background: lighten($primary-color, 35);
+}
+
+.item .informationContainer{
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+}
+
+.item .controlsContainer{
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem;
+}
+
+.item .controlsContainer input[type=checkbox]{
+    width: 1em;
+    height: 1em;
+    aspect-ratio: 1/1;
+}
+
+.item:hover{
+    background: lighten($primary-color, 35);
+}
+
+.item .titleContainer{
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+}
+
+.item h4{
+    color: $body-text-color;
+    margin: 0;
+}
+
+.item .icon{
+    width: 1em;
+    aspect-ratio: 1/1;
+}
+
+.item small{
+    color: $body-text-color;
+}
+
+.item a{
+    flex: 1;
+}
+
+.item a:hover{
+    text-decoration: none;
+}
+
+.controls{
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.addButton, .deleteButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 50px;
+    border: 1px dashed #DDD;
+    border-radius: 5px;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.addButton img, .deleteButton img{
+    width: 25px;
+    aspect-ratio: 1/1;
+}
+
+.deleteButton{
+    animation-name: SlideUpAnimation;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+}
+

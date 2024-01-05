@@ -1,0 +1,79 @@
+@import '@/scss/Config';
+@import '@/scss/Animations';
+
+.container{
+    position: relative;
+    width: 100%;
+    border: 1px solid #DDD;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 5px;
+    @include SlideUpAnimation;
+    cursor: pointer;
+    background: white;
+
+    transition: box-shadow 0.2s ease-in;
+    
+}
+
+.container.selected, .container:hover{
+    box-shadow: 2px 2px 2px 2px #0002;
+}
+
+.container.selected{
+    background: lighten($primary-color, 35);
+    border-color: $primary-color;
+}
+
+.container .informationContainer{
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+}
+
+.container .controlsContainer{
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem;
+}
+
+.container .controlsContainer input[type=checkbox]{
+    width: 1em;
+    height: 1em;
+    aspect-ratio: 1/1;
+}
+
+.container:hover{
+    background: lighten($primary-color, 35);
+}
+
+.container .titleContainer{
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+}
+
+.container h4{
+    color: $body-text-color;
+    margin: 0;
+}
+
+.container .icon{
+    width: 1em;
+    aspect-ratio: 1/1;
+}
+
+.container small{
+    color: $body-text-color;
+}
+
+.container a{
+    flex: 1;
+}
+
+.container a:hover{
+    text-decoration: none;
+}

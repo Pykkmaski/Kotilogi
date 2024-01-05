@@ -16,6 +16,7 @@ import HeatingSection from './HeatingSection';
 import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import RoofSection from './RoofSection';
 import { useChangeInput } from 'kotilogi-app/hooks/useChangeInput';
+import { Header } from '@/components/Header/Header';
 
 export default function InfoPage(){
     const params = useSearchParams();
@@ -41,7 +42,8 @@ export default function InfoPage(){
 
     return (
        <main className={style.body}>
-            <div className={style.header}>
+            <Header>
+                <h3>Tiedot</h3>
                 <Button
                     type="submit"
                     className="primary"
@@ -50,7 +52,7 @@ export default function InfoPage(){
                     disabled={!isEdited || loading}
                     loading={loading}
                 />
-            </div>
+            </Header>
             
 
             <Form onSubmit={onSubmitHandler} className={style.propertyForm} id={formId}>
