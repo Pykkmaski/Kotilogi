@@ -3,8 +3,8 @@
 import { useReducer } from "react";
 import { StateType, reducer } from "./PageWithData.reducer";
 
-export function usePageWithData(data: any[]){
-    const initialValue: StateType = {
+export function usePageWithData<DataT extends Kotilogi.ItemType>(data: DataT[]){
+    const initialValue: StateType<DataT> = {
         items: data,
         selectedItems: [],
         displayedItems: data,

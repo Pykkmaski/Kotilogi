@@ -11,7 +11,7 @@ import { deleteData } from 'kotilogi-app/actions/data/deleteData';
 import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
 
-type ListItemProps<T extends {id: string}> = React.PropsWithChildren & {
+type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
     selected?: boolean,
 }
@@ -22,7 +22,7 @@ type ListItemContextProps = {
 
 export const ListItemContext = createContext<ListItemContextProps | null>(null);
 
-export function ListItem<T extends {id: string}>({children, ...props}: ListItemProps<T>){
+export function ListItem<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
     const classes = props.selected ? [style.container, style.selected] : [style.container];
     const className = classes.join(' ');
 
@@ -37,14 +37,7 @@ export function ListItem<T extends {id: string}>({children, ...props}: ListItemP
     );
 }
 
-type PropertyType = {
-    id: string,
-    title: string,
-    description: string,
-    buildingType: string,
-}
-
-export function PropertyListItem(props: ListItemProps<PropertyType>){
+export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
     const deleteItem = () => {
         const response = confirm('Olet poistamassa taloa ' + props.item.title + '. Oletko varma?');
         if(!response) return;
@@ -56,7 +49,7 @@ export function PropertyListItem(props: ListItemProps<PropertyType>){
     }
     
     return (
-        <ListItem<PropertyType> {...props}>
+        <ListItem<Kotilogi.PropertyType> {...props}>
             <InfoContainer href={`/properties/${props.item.id}/info`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'/>
                 <small>{props.item.buildingType}</small>
@@ -70,15 +63,7 @@ export function PropertyListItem(props: ListItemProps<PropertyType>){
     );
 }
 
-type EventType = {
-    time: string | null,
-    title: string,
-    id: string,
-    description: string,
-    consolidationTime: string,
-}
-
-export function EventListItem(props: ListItemProps<EventType>){
+export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
     const date = props.item.time ? new Date(props.item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää.';
 
     const deleteEvent = () => {
@@ -104,7 +89,7 @@ export function EventListItem(props: ListItemProps<EventType>){
     );
 
     return (
-        <ListItem<EventType> {...props}>
+        <ListItem<Kotilogi.EventType> {...props}>
             <HighlightBadge/>
             <InfoContainer href={`/events/${props.item.id}`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/history.png'/>
@@ -119,16 +104,25 @@ export function EventListItem(props: ListItemProps<EventType>){
     );
 }
 
-type FileType = {
-    fileName: string,
-    refId: string,
-    id: string,
+export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
+    return (
+        <ListItem<Kotilogi.FileType> {...props}>
+            <InfoContainer href={`/files/${props.item.id}?tableName=propertyFiles`}>
+                <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
+            </InfoContainer>
+
+            <ControlsContainer>
+                <CheckBox/>
+                <DeleteButton onClick={() => {}}/>
+            </ControlsContainer>
+        </ListItem>
+    );
 }
 
-export function PropertyFileListItem(props: ListItemProps<FileType>){
+export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
-        <ListItem<FileType> {...props}>
-            <InfoContainer href={`/files/${props.item.id}?tableName=properties`}>
+        <ListItem<Kotilogi.FileType> {...props}>
+            <InfoContainer href={`/files/${props.item.id}?tableName=eventFiles`}>
                 <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
             </InfoContainer>
 

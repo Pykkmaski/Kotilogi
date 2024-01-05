@@ -33,7 +33,7 @@ export function InfoContainer({children, ...props}: InfoContainerProps){
 
 export function CheckBox(){
     const {dispatch} = usePageWithDataContext();
-    const {item} = useListItemContext() as {item : any};
+    const {item} = useListItemContext();
     
     return (
         <input type="checkbox" onChange={() => dispatch({

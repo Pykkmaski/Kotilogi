@@ -52,9 +52,9 @@ namespace Kotilogi{
         mainImageId: IdType,
     }
     
-    type ItemType = HasTitle & HasDescription & HasId & HasTimeStamp;
+    type ItemType = HasTitle & HasDescription & HasId & HasTimeStamp & HasRefId;
 
-    type PropertyType = HasId & HasDescription & HasMainImageId & HasDate & HasRefId & {
+    type PropertyType = ItemType & {
         roomCount?: number,
         floorCount?: number,
         wcCount?: number,  
@@ -76,15 +76,14 @@ namespace Kotilogi{
         otherArea?: number,
     }
 
-    type EventType = HasId & HasTitle & HasDescription & HasDate & HasRefId & HasMainImageId & HasTimeStamps;
-
-    type BaseFileType = HasId & HasTitle & HasDescription & HasMimeType & HasDate & {
-        fileName: string,
+    type EventType = ItemType & HasDate & HasRefId & HasMainImageId & {
+        consolidationTime: string,
     }
 
-    type PropertyFileType = BaseFileType & HasRefId;
-
-    type EventFileType = BaseFileType & HasRefId;
+    type FileType = ItemType & {
+        fileName: string,
+        mimeType: 'image/jpeg' | 'application/pdf',
+    }
 
     type UserType = HasId & {
         email: string,

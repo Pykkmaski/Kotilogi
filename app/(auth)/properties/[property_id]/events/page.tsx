@@ -4,8 +4,8 @@ import { PageWithDataWrapper } from "kotilogi-app/components/PageWithData/PageWi
 import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import { Gallery } from "kotilogi-app/components/Experimental/Gallery/Gallery";
 
-async function getEvents(propertyId, q: string | undefined){
-    const events = await db('propertyEvents').where({refId: propertyId}) as {title: string, description: string}[];
+async function getEvents(propertyId: string, q: string | undefined){
+    const events = await db('propertyEvents').where({refId: propertyId}) as Kotilogi.EventType[];
 
     if(!q) return events;
 
@@ -28,7 +28,7 @@ export default async function EventsPage({params, searchParams}){
         <main>
             <PageWithDataWrapper data={events}>
                 <Header/>
-                <Gallery data={events} itemComponent={EventListItem}/>
+                <Gallery<Kotilogi.EventType> data={events} itemComponent={EventListItem}/>
             </PageWithDataWrapper>
         </main>
     );

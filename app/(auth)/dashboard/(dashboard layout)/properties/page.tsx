@@ -17,7 +17,7 @@ export default async function PropertiesPage({searchParams}){
     const session = await getServerSession(options) as {user: {email: string}};
     if(!session) throw new Error('Pääsy evätty!');
 
-    const properties = await db('properties').where({refId: session.user.email});
+    const properties = await db('properties').where({refId: session.user.email}) as Kotilogi.PropertyType[];
     
     return (
         <main className={style.page}>

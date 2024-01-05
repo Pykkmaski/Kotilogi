@@ -1,38 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import style from './style.module.scss';
 import { useGallery } from './Gallery.hooks';
 import { usePageWithDataContext } from 'kotilogi-app/components/PageWithData/PageWithData';
 
-type GalleryProps = {
-    data: {id: string}[] | null,
+type GalleryProps<DataT> = {
+    data: DataT[] | null,
     itemComponent: React.FC<{
-        item: any,
+        item: DataT,
         selected?: boolean,
-    }>,
+    } & {key: React.Key}>,
     display?: 'list' | 'card',
 }
 
 /**Responsible for receiving an array of data as props and then rendering them.
 */
-export function Gallery({display = 'list', itemComponent: ItemComponent, ...props}: GalleryProps){
+export function Gallery<DataT extends Kotilogi.ItemType>({display = 'list', itemComponent: ItemComponent, ...props}: GalleryProps<DataT>){
     const {state: {selectedItems}} = usePageWithDataContext();
 
     if(props.data === null) return null;
     
-    useEffect(() => {
-        console.log('Rendering gallery');
-    }, [selectedItems]);
     return (
         <div className={style.container} style={{
             flexFlow: display === 'list' ? 'column' : 'row',
         }}>
             {
                 props.data.map(item => {
-                    const selected = selectedItems.includes(item as any);
-                    
-                    return <ItemComponent 
+                    const selected = selectedItems.includes(item);
+    
+                    return <ItemComponent
                         item={item} 
                         key={item.id}
                         selected={selected}

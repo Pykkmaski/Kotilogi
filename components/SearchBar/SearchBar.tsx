@@ -10,12 +10,6 @@ export function SearchBar(){
     const route = usePathname();
     const {data, onChange} = useChangeInput({query: ''});
 
-    const updateSearch = (e) => {
-        //const newUrl = new URL(route);
-        //newUrl.searchParams.set('q', e.target.value);
-        
-    }
-
     useEffect(() => {
         const timeout = setTimeout(() => {
             router.replace(route + `?q=${data.query}`);
