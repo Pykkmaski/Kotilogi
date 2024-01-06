@@ -129,10 +129,8 @@ function AddModal({children, ...props}: AddModalProps){
  * Responsible for functinality related to adding and deleting of properties, selected inside the Gallery-component rendered by the parent page.
 */
 export function HeaderButtons(){
-    const session = useSession();
     const [showAddModal, setShowAddModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const {state} = usePageWithDataContext();
+    const {state} = usePageWithDataContext() as {state: {selectedItems: Kotilogi.PropertyType[]}};
 
     const deleteSelecedProperties = async () => {
         const addresses = state.selectedItems.map(prop => prop.title);
@@ -144,9 +142,8 @@ export function HeaderButtons(){
             await deleteProperty(item.id)
             .catch(err => toast.error('Talon ' + item.title + ' poisto epäonnistui!'));
         }
-
-        
     }
+    
     return (
         <>
             <AddModal show={showAddModal} onHide={() => setShowAddModal(false)} id="add-property-modal"/>
@@ -171,45 +168,6 @@ export function Header(){
         <div className={style.header}>
             <h3>Talot</h3>
             <HeaderButtons/>
-        </div>
-    );
-}
-
-type ItemComponentProps = {
-    item: any,
-}
-
-export function ItemComponent(props: ItemComponentProps){
-    const {state, dispatch} = usePageWithDataContext();
-    const selected = state.selectedItems.includes(props.item);
-    const className = selected ? `${style.item} ${style.selected}` : style.item;
-
-    const deleteItem = () => {
-        const response = confirm('Olet poistamassa taloa ' + props.item.title + '. Oletko varma?');
-        if(!response) return;
-
-        deleteProperty(props.item.id)
-        .catch(err => console.log(err.message));
-    }
-    
-    return (
-        <div className={className}>
-            <Link href={`/properties/${props.item.id}/info`} className={style.informationContainer}>
-                <div className={style.titleContainer}>
-                    <img src="/icons/house.png" className={style.icon}/>
-                    <h4>{props.item.title}</h4>   
-                </div>
-                
-                <small>{props.item.buildingType}</small>
-            </Link>
-            
-            <div className={style.controlsContainer}>
-                <input type="checkbox" onChange={() => dispatch({
-                    type: 'select_item',
-                    value: props.item,
-                })}/>
-                <img src="/icons/bin.png" className={style.icon} onClick={deleteItem} style={{cursor: 'pointer'}}/>
-            </div>
         </div>
     );
 }

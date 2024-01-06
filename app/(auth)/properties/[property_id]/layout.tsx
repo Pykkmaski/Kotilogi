@@ -1,4 +1,3 @@
-import style from './layout.module.scss';
 import db from 'kotilogi-app/dbconfig';
 import PropertyContextProvider from './_util/PropertyContextProvider';
 import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/property/isUserTheOwnerOfProperty';
@@ -9,8 +8,9 @@ import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
 import IconLink from 'kotilogi-app/components/IconLink/IconLink';
 import Link from 'next/link';
 import { Header } from 'kotilogi-app/components/Header/Header';
+import { Layout } from 'kotilogi-app/components/Layout/Layout';
 
-export default async function Layout({children, params}){
+export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
     if(!property) throw new Error('Failed to load property!');
 
@@ -26,7 +26,7 @@ export default async function Layout({children, params}){
 
     return (
         <PropertyContextProvider value={contextValue}>
-            <div className={style.propertyLayout}>
+           <Layout>
                 <Header>
                     <h3>{property.title}</h3>
                 </Header>
@@ -42,7 +42,7 @@ export default async function Layout({children, params}){
                     </NavBar>
                     {children}
                 </SplitScreen>
-            </div>
+           </Layout>
         </PropertyContextProvider>
-    )
+    );
 }

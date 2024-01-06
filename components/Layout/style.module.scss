@@ -1,20 +1,11 @@
 @import '@/scss/Padding';
 @import '@/scss/Config';
 
-.layout{
+.container{
     display: flex;
     flex-flow: column;
     @include Padding;
     flex: 1;
     position: relative;
     margin-top: 2rem;
-}
-
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 2rem;
-    margin-top: 1rem;
 }

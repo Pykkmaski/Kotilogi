@@ -95,9 +95,11 @@ function HeaderControls(){
 }
 
 export function Header(){
+    const {state: {items: events}} = usePageWithDataContext() as {state: {items: Kotilogi.EventType[] | null}};
+
     return (
         <HeaderComponent>
-            <h3>Tapahtumat</h3>
+            <h3>Tapahtumat ({events?.length})</h3>
             <HeaderControls/>
         </HeaderComponent>
     )
