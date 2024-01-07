@@ -1,7 +1,7 @@
 'use client';
 
 import { useChangeInput } from "kotilogi-app/hooks/useChangeInput"
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React from "react";
 import { Group } from "../Group/Group";
 import SecondaryButton from "../Button/SecondaryButton";
 import PrimaryButton from "../Button/PrimaryButton";
@@ -11,10 +11,10 @@ import { useSingleInputForm } from "./SingleInputForm.hooks";
 
 type ControlsProps = {
     editing: boolean,
-    setEditing: React.Dispatch<React.SetStateAction<boolean>>,
     status: 'loading' | 'idle' | 'error' | 'success',
-    onSubmit?: () => Promise<void>,
+    onSubmit?: () => void,
     cancelEdit: () => void,
+    edit: () => void,
 }
 
 function Controls(props: ControlsProps){
@@ -38,7 +38,10 @@ function Controls(props: ControlsProps){
                         disabled={loading}/>
                 </Group>
                 :
-                <PrimaryButton desktopText="Muokkaa" type="button" onClick={() => props.setEditing(true)}/>
+                <PrimaryButton 
+                    desktopText="Muokkaa" 
+                    type="button" 
+                    onClick={() => props.edit()}/>
             }
         </div>
     );
@@ -46,35 +49,31 @@ function Controls(props: ControlsProps){
 
 export type SingleInputFormProps = {
     inputElement: JSX.Element,
-    onSubmit?: (value: object) => Promise<object>,
+    submitMethod: (value: object) => Promise<object>,
 }
 
 /**A wrapper for inputs adding buttons to the bottom of it to submit the value of the input.*/
 export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
     const {
         renderedInput,
-        cancelEdit,
-        onSubmit,
-        setEditing,
         editing,
         status,
-    } = useSingleInputForm({inputElement, ...props});
+        onSubmit,
+        cancelEdit,
+        edit,
+    } = useSingleInputForm(inputElement, inputElement.props.defaultValue);
 
     return (
         <Group direction="vertical" gap="1rem">
             {renderedInput} 
-            {
-                props.onSubmit 
-                ? 
-                <Controls 
-                    editing={editing} 
-                    setEditing={setEditing} 
-                    onSubmit={onSubmit} 
-                    status={status}
-                    cancelEdit={cancelEdit}/>
-                :
-                null
-            }
+            <Controls 
+                editing={editing} 
+                edit={edit}
+                onSubmit={() => {
+                    onSubmit(props.submitMethod)
+                }} 
+                status={status}
+                cancelEdit={cancelEdit}/>
         </Group>
     )
 }

@@ -11,7 +11,7 @@ export default function ExteriorSection({currentData, onChangeHandler}){
     return (
         <EditCard title="Tontti">
             <SingleInputForm
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Input 
                         label="Pinta-ala" 
@@ -20,7 +20,7 @@ export default function ExteriorSection({currentData, onChangeHandler}){
                 }/>
                 
             <SingleInputForm
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Omistus" 

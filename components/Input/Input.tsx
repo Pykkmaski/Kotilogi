@@ -73,7 +73,10 @@ export function Input({label, description, ...props}: InputProps){
     );
 }
 
-type SelectProps = React.ComponentProps<'select'> & InputProps;
+type SelectProps = React.ComponentProps<'select'> & {
+    label: string,
+    description?: string,
+}
 
 /**
  * A select component containing within it a label.

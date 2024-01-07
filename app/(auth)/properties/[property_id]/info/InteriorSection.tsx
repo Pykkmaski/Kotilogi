@@ -12,15 +12,15 @@ export default function InteriorSection({currentData, onChangeHandler}){
     return (
         <EditCard title="Sisätilat">
             <SingleInputForm 
-            onSubmit={onUpdate}
-            inputElement={<Input 
-        label="Pinta-ala" 
-        description="Talon sisätilojen pinta-ala neliömetreissä."
-        name="livingArea" defaultValue={currentData.livingArea} onChange={onChangeHandler} />}
+                submitMethod={onUpdate}
+                inputElement={<Input 
+                label="Pinta-ala" 
+                description="Talon sisätilojen pinta-ala neliömetreissä."
+                name="livingArea" defaultValue={currentData.livingArea} onChange={onChangeHandler} />}
 />
 
 <SingleInputForm 
-onSubmit={onUpdate}
+submitMethod={onUpdate}
 inputElement={<Input 
         label={currentData.buildingType === 'Kerrostalo' ? 'Kerrosnumero' : 'Kerrosten Lukumäärä'} 
         description={
@@ -32,7 +32,7 @@ inputElement={<Input
 />
 
 <SingleInputForm 
-onSubmit={onUpdate}
+submitMethod={onUpdate}
 inputElement={<Input 
         label="Huoneiden lukumäärä" 
         description="Montako huonetta asunnossa on?"
@@ -40,7 +40,7 @@ inputElement={<Input
 />
 
 <SingleInputForm 
-onSubmit={onUpdate}
+submitMethod={onUpdate}
 inputElement={<Input 
         label="Vessojen lukumäärä" 
         description="Montako vessaa asunnossa on?"

@@ -11,7 +11,7 @@ export default function BuildingSection({currentData, onChangeHandler}){
     return (
         <EditCard title="Julkisivu">
             <SingleInputForm 
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Rakennusmateriaali" 
@@ -28,7 +28,7 @@ export default function BuildingSection({currentData, onChangeHandler}){
                 }/>
             
             <SingleInputForm
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Väri" 

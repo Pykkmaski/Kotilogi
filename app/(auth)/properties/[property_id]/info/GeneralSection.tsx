@@ -13,9 +13,8 @@ export default function GeneralSection({currentData, onChangeHandler}){
     
     return (
         <EditCard title="Yleistiedot">
-
             <SingleInputForm 
-                onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Input 
                         label="Osoite" 
@@ -25,7 +24,7 @@ export default function GeneralSection({currentData, onChangeHandler}){
                 }/>
         
             <SingleInputForm 
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                 <Input 
                     label="Postinumero" 
@@ -37,7 +36,7 @@ export default function GeneralSection({currentData, onChangeHandler}){
             
             
             <SingleInputForm 
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Input 
                         label="Rakennusvuosi" 
@@ -46,7 +45,7 @@ export default function GeneralSection({currentData, onChangeHandler}){
                 }/>
             
             <SingleInputForm
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Rakennustyyppi" 
@@ -64,7 +63,7 @@ export default function GeneralSection({currentData, onChangeHandler}){
             
 
             <SingleInputForm
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Energialuokka" 
@@ -81,7 +80,7 @@ export default function GeneralSection({currentData, onChangeHandler}){
                 }/>
             
             <SingleInputForm 
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Autotalli" 

@@ -13,7 +13,7 @@ export default function RoofSection({currentData, onChangeHandler}){
     return (
         <EditCard title="Katto">
             <SingleInputForm 
-                onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                 <Select 
                     label="Kattotyyppi"
@@ -28,7 +28,7 @@ export default function RoofSection({currentData, onChangeHandler}){
             }/>
 
             <SingleInputForm 
-                onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                 <Select 
                     label="Katon materiaali" 

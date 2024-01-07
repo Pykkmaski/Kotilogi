@@ -11,7 +11,7 @@ export default function HeatingSection({currentData, onChangeHandler}){
     return (
         <EditCard title="Lämmitys">
             <SingleInputForm 
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Ensisijainen" 
@@ -28,7 +28,7 @@ export default function HeatingSection({currentData, onChangeHandler}){
                 }/>
                 
             <SingleInputForm
-            onSubmit={onUpdate}
+                submitMethod={onUpdate}
                 inputElement={
                     <Select 
                         label="Toissijainen" 
