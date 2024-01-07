@@ -13,6 +13,7 @@ type ControlsProps = {
     setEditing: React.Dispatch<React.SetStateAction<boolean>>,
     status: 'loading' | 'idle' | 'error' | 'success',
     onSubmit?: () => Promise<void>,
+    cancelEdit: () => void,
 }
 
 function Controls(props: ControlsProps){
@@ -23,7 +24,7 @@ function Controls(props: ControlsProps){
             {
                 props.editing ? 
                 <Group direction="horizontal">
-                    <SecondaryButton desktopText="Peruuta" onClick={() => props.setEditing(false)}/>
+                    <SecondaryButton desktopText="Peruuta" onClick={props.cancelEdit}/>
                     <PrimaryButton 
                         desktopText="Tallenna" 
                         type="button" 
@@ -46,20 +47,23 @@ type SingleInputFormProps = React.ComponentProps<'form'> & {
 /**A wrapper for inputs adding buttons to the bottom of it to submit the value of the input.*/
 export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
     const inputName = inputElement.props.name;
-    const inputDefaultValue = inputElement.props.defaultValue;
+    const inputDefaultValue = useRef<string | number>(inputElement.props.defaultValue);
 
     const [status, setStatus] = useState<'loading' | 'error' | 'success' | 'idle'>('idle');
     const [editing, setEditing] = useState(false);
-    const inputValue = useRef<object>({
-        [inputName] : inputDefaultValue,
-    });
 
-    const renderedInput = React.cloneElement(inputElement, {
-        ...inputElement.props, 
-        disabled: !editing,
-        onChange: (e) => inputValue.current = {
-            [inputName] : e.target.value,
-        }
+    const [renderedInput, setRenderedInput] = useState(
+        React.cloneElement<HTMLInputElement>(inputElement, {
+            ...inputElement.props, 
+            disabled: !editing,
+            onChange: (e) => inputValue.current = {
+                [inputName] : e.target.value,
+            },
+        })
+    );
+
+    const inputValue = useRef<object>({
+        [inputName] : inputDefaultValue.current,
     });
 
     const onSubmit = async () => {
@@ -67,17 +71,40 @@ export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
         const value = inputValue.current;
 
         setStatus('loading');
-        
+
         props.onSubmit(value)
         .then(() => {
             setEditing(false);
             setStatus('success');
+            inputDefaultValue.current = value[inputName];
         })
         .catch(err => {
             setStatus('error');
             console.log(err.message);
         });
     }
+
+    const cancelEdit = () => {
+        //This function should return the input to its default value.
+        setRenderedInput(
+            React.cloneElement(renderedInput, {
+                ...renderedInput.props,
+                value: inputDefaultValue.current as any,
+            }));
+
+        setEditing(false);
+    }
+
+    useEffect(() => {
+        const newProps = {
+            ...renderedInput.props,
+            disabled: !editing,
+            value: undefined,
+        }
+
+        setRenderedInput(
+            React.cloneElement(renderedInput, newProps));
+    }, [editing]);
 
     return (
         <Group direction="vertical" gap="1rem">
@@ -89,7 +116,8 @@ export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
                     editing={editing} 
                     setEditing={setEditing} 
                     onSubmit={onSubmit} 
-                    status={status}/>
+                    status={status}
+                    cancelEdit={cancelEdit}/>
                 :
                 null
             }

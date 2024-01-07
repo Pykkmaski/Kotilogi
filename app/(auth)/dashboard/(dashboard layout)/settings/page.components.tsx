@@ -15,18 +15,16 @@ export function Header(){
     );
 }
 
+
 export function EmailSettingsForm({email}){
-
-    const [loading, setLoading] = useState(false);
-    const {data, onChange, isEdited, resetIsEdited} = useChangeInput({email});
-
+    
     const onSubmit = (newData) => {
-       return updateUser(email, newData);
+        return updateUser(email, newData);
     }
 
     return (
         <SingleInputForm 
-            id="edit-email-form" 
+            onSubmit={onSubmit}
             inputElement={
                 <Input
                     name="email"
@@ -40,7 +38,7 @@ export function EmailSettingsForm({email}){
 export function PasswordSettingsForm({email}){
     return (
         <SingleInputForm 
-            id="acc-password-form"
+        
             inputElement={
                 <Input
                 name="password"
