@@ -24,7 +24,11 @@ function Controls(props: ControlsProps){
             {
                 props.editing ? 
                 <Group direction="horizontal">
-                    <SecondaryButton desktopText="Peruuta" onClick={props.cancelEdit}/>
+                    <SecondaryButton 
+                        desktopText="Peruuta" 
+                        onClick={props.cancelEdit}
+                        hidden={loading}/>
+
                     <PrimaryButton 
                         desktopText="Tallenna" 
                         type="button" 
@@ -53,12 +57,13 @@ export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
     const [editing, setEditing] = useState(false);
 
     const [renderedInput, setRenderedInput] = useState(
-        React.cloneElement<HTMLInputElement>(inputElement, {
+        React.cloneElement<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(inputElement, {
             ...inputElement.props, 
             disabled: !editing,
             onChange: (e) => inputValue.current = {
                 [inputName] : e.target.value,
             },
+            autocomplete: 'off',
         })
     );
 
