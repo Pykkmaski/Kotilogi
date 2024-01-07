@@ -4,6 +4,8 @@ import Form from "kotilogi-app/components/Form/Form";
 import { useChangeInput } from "kotilogi-app/hooks/useChangeInput";
 import { useState } from "react";
 import style from './page.module.scss';
+import { Input } from "kotilogi-app/components/Input/Input";
+import { SingleInputForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 export function Header(){
     return (
@@ -13,62 +15,37 @@ export function Header(){
     );
 }
 
-function FormButtonContainer({children}){
-    return (
-        <div style={{
-            display: 'flex',
-            flexFlow: 'row',
-            justifyContent: 'flex-end',
-        }}>
-            {children}
-        </div>  
-    );
-}
-
-function FormContentWrapper({children}){
-    return (
-        <div className={style.formContentWrapper}>
-            {children}
-        </div>
-    );
-}
-
 export function EmailSettingsForm({email}){
 
     const [loading, setLoading] = useState(false);
     const {data, onChange, isEdited, resetIsEdited} = useChangeInput({email});
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        setLoading(true);
-
-        updateUser(email, data)
-        .catch(err => console.log(err.message))
-        .finally(() => {
-            setLoading(false);
-            resetIsEdited();
-        });
+    const onSubmit = (newData) => {
+       return updateUser(email, newData);
     }
 
     return (
-        <form onSubmit={onSubmit} className={style.form}>
-            <FormContentWrapper>
-                <Form.Group>
-                    <label>Sähköposti</label>
-                    <input required={true} type="email" name="email" placeholder="Kirjoita sähköpostiosoitteesi..." defaultValue={email} onChange={onChange}/>
-                </Form.Group>
-            </FormContentWrapper>
-        </form>
+        <SingleInputForm 
+            id="edit-email-form" 
+            inputElement={
+                <Input
+                    name="email"
+                    label="Sähköpostiosoite"
+                    description="Päivitä sähköpostiosoitteesi."
+                    defaultValue={email}/>
+            }/>
     );
 }
 
-export function PasswordSettingsForm(){
+export function PasswordSettingsForm({email}){
     return (
-        <FormContentWrapper>
-            <Form.Group>
-                <label>Anna Uusi Salasana</label>
-                <input type="password" name="password1" placeholder="Kirjoita uusi salasana..."/>
-            </Form.Group>
-        </FormContentWrapper>
+        <SingleInputForm 
+            id="acc-password-form"
+            inputElement={
+                <Input
+                name="password"
+                label="Salasana"
+                description="Päivitä Salasanasi."/>
+            }/>
     );
 }

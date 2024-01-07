@@ -1,8 +1,18 @@
 import style from './style.module.scss';
 
-export function Header({children}: React.PropsWithChildren){
+type HeaderProps = React.PropsWithChildren & {
+    border?: boolean,
+}
+
+export function Header({children, border}: HeaderProps){
+    const containerStyle = {
+        ...style,
+        borderBottom: border ? '1px solid #DDD' : 'none',
+        paddingBottom: border ? '1rem' : 'none',
+    }
+
     return (
-        <div className={style.container}>
+        <div style={containerStyle} className={style.container}>
             {children}
         </div>
     );

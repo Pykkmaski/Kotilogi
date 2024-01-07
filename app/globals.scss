@@ -82,9 +82,11 @@ button.primary{
 }
 
 button.secondary{
-    background: darken($secondary-color, 5);
-    &:active{
-        background: darken($secondary-color, $button-hover-lighten-amount);
+    background: none;
+    color: black;
+
+    &:active, &:hover{
+        background: #DDD;
     }
 }
 

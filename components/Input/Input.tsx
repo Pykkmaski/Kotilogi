@@ -1,66 +1,79 @@
-import { CSSProperties } from "react"
+import { CSSProperties, forwardRef, useImperativeHandle, useRef, useState } from "react"
 import * as stylex from '@stylexjs/stylex';
+import { Group } from "../Group/Group";
+import style from './style.module.scss';
+import SecondaryButton from "../Button/SecondaryButton";
+import PrimaryButton from "../Button/PrimaryButton";
 
 const borderRadius = '10px';
 
 const containerStyle: CSSProperties = {
-    display: 'flex',
+    display: 'grid',
     width: '100%',
-    borderRadius,
-    border: '1px solid #DDD',
+    gridTemplateColumns: '1fr 3fr',
+    height: '3rem',
+    gap: '1rem',
 }
 
 const inputStyle: CSSProperties = {
     flex: 1,
-    border: 'none',
     paddingLeft: '0.5rem',
     paddingRight: '0.5rem',
-    backgroundColor: 'white',
-    borderTopRightRadius: borderRadius,
-    borderBottomRightRadius: borderRadius,
+    borderRadius,
 }
 
 function Label(props: {
     text: string,
+    description?: string,
     required?: boolean,
 }){
-    const labelStyle: CSSProperties = {
-        minWidth: '20%',
-        background: '#DDD',
-        color: 'black',
-        border: 'none',
-        borderTopLeftRadius: '10px',
-        borderBottomLeftRadius: '10px',
-        paddingLeft: '0.5rem',
-        backgroundColor: 'var(--primary-color)',
-    }
 
-    const requiredBadge = props.required ? <i style={{color: 'red'}}>*</i> : null;
+    const requiredBadge = props.required ? <span className={style.required}>Pakollinen</span> : null;
 
-    return <div style={labelStyle}>{props.text}{requiredBadge}</div>
+    return (
+        <Group direction="vertical" gap="0rem">
+            <span style={{
+                fontSize: '1.1rem',
+                color: 'black',
+            }}>{props.text} {requiredBadge}</span>
+
+            <span style={{
+                fontSize: '1rem',
+                color: '#999',
+            }}>{props.description}</span>
+        </Group>
+    );
 }
 
-type InputProps = React.ComponentProps<'input'> & {
+export type InputProps = React.ComponentProps<'input'> & {
     label: string,
+    description?: string,
+    ref?: any,
 }
 
 /**
- * An input component containing within it a label.
+ * An input component responsible for handling the submission of singular values to the server.
  * @param props 
  * @returns 
  */
-export function Input(props: InputProps){
+export function Input({label, description, ...props}: InputProps){
     return (
         <div style={containerStyle}>
-            <Label text={props.label} required={props.required}/>
-            <input style={inputStyle} {...props}/>
+            <Label 
+                text={label} 
+                required={props.required} 
+                description={description}/>
+
+            <input 
+                {...props}
+                style={inputStyle}
+                className={style.input}
+                ref={props.ref}/>
         </div>
-    )
+    );
 }
 
-type SelectProps = React.ComponentProps<'select'> & {
-    label: string,
-}
+type SelectProps = React.ComponentProps<'select'> & InputProps;
 
 /**
  * A select component containing within it a label.
@@ -70,8 +83,12 @@ type SelectProps = React.ComponentProps<'select'> & {
 export function Select(props: SelectProps){
     return (
         <div style={containerStyle}>
-            <Label text={props.label} required={props.required}/>
-            <select style={inputStyle} {...props}>
+            <Label 
+                text={props.label} 
+                description={props.description}
+                required={props.required}/>
+                
+            <select style={inputStyle} {...props} className={style.input}>
                 {props.children}
             </select>
         </div>
@@ -80,24 +97,23 @@ export function Select(props: SelectProps){
 
 type TextAreaProps = React.ComponentProps<'textarea'> & {
     label: string,
+    description?: string,
+    required?: boolean,
 }
 
 export function Textarea(props: TextAreaProps){
     const textareaStyle: CSSProperties = {
-
         flexFlow: 'column',
     }
 
     const textareaLabelStyle: CSSProperties = {
-        minWidth: '10%',
-        borderTopLeftRadius: '10px',
-        borderTopRightRadius: '10px',
+        ...inputStyle,
     }
 
     return (
-        <div style={textareaStyle}>
-            <div style={textareaLabelStyle}>{props.label}</div>
-            <textarea {...props}/>
+        <div style={containerStyle}>
+            <Label text={props.label} {...props}/>
+            <textarea {...props} style={textareaStyle} className={style.input}/>
         </div>
     )
 }

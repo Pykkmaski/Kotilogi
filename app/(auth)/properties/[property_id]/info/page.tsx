@@ -6,7 +6,7 @@ import style from './page.module.scss';
 import { useSearchParams } from 'next/navigation';
 import Form from 'kotilogi-app/components/Form/Form';
 import GeneralSection from './GeneralSection';
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import {updateDataById} from 'kotilogi-app/actions/data/updateData';
 import toast from 'react-hot-toast';
 import InteriorSection from './InteriorSection';
@@ -17,6 +17,19 @@ import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
 import RoofSection from './RoofSection';
 import { useChangeInput } from 'kotilogi-app/hooks/useChangeInput';
 import { Header } from '@/components/Header/Header';
+import { Group } from 'kotilogi-app/components/Group/Group';
+
+type InfoPageContextProps = {
+    onUpdate: (data: object) => Promise<object>
+}
+
+const InfoPageContext = createContext<InfoPageContextProps | null>(null);
+
+export function useInfoPageContext(){
+    const context = useContext(InfoPageContext);
+    if(!context) throw new Error('useInfoPageContext must be used within the scope of the InfoPageContext!');
+    return context;
+}
 
 export default function InfoPage(){
     const params = useSearchParams();
@@ -25,17 +38,8 @@ export default function InfoPage(){
 
     const [loading, setLoading] = useState(false);
 
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        updateDataById(data, property.id, 'properties')
-        .then(async res => {
-            toast.success('Tietojen päivitys onnistui!');
-            resetIsEdited();
-            await serverRevalidatePath('/properties/[property_id]');
-        })
-        .catch(err => toast.error(err.message))
-        .finally(() => setLoading(false));
+    const onUpdate = async (data: object) => {
+        return updateDataById(data, property.id, 'properties');
     }
 
     const formId = 'property-info-form';
@@ -44,31 +48,25 @@ export default function InfoPage(){
        <main className={style.body}>
             <Header>
                 <h3>Tiedot</h3>
-                <Button
-                    type="submit"
-                    className="primary"
-                    form={formId}
-                    desktopText='Tallenna Muutokset'
-                    disabled={!isEdited || loading}
-                    loading={loading}
-                />
             </Header>
             
-
-            <Form onSubmit={onSubmitHandler} className={style.propertyForm} id={formId}>
-                <GeneralSection currentData={data} onChangeHandler={onChange}/>
-                <BuildingSection currentData={data} onChangeHandler={onChange}/>
-                <InteriorSection currentData={data} onChangeHandler={onChange}/>
-                {
-                    data.buildingType !== 'Kerrostalo' ? 
-                    <ExteriorSection currentData={data} onChangeHandler={onChange}/>
-                    :
-                    null
-                }
-                
-                <HeatingSection currentData={data} onChangeHandler={onChange}/>
-                <RoofSection currentData={data} onChangeHandler={onChange}/>
-            </Form>
+            <Group direction="vertical" gap="1rem">
+                <InfoPageContext.Provider value={{onUpdate}}>
+                    <GeneralSection currentData={data} onChangeHandler={onChange}/>
+                    <BuildingSection currentData={data} onChangeHandler={onChange}/>
+                    <InteriorSection currentData={data} onChangeHandler={onChange}/>
+                    {
+                        data.buildingType !== 'Kerrostalo' ? 
+                        <ExteriorSection currentData={data} onChangeHandler={onChange}/>
+                        :
+                        null
+                    }
+                    
+                    <HeatingSection currentData={data} onChangeHandler={onChange}/>
+                    <RoofSection currentData={data} onChangeHandler={onChange}/>
+                </InfoPageContext.Provider>
+            </Group>
+            
        </main> 
     );
 }

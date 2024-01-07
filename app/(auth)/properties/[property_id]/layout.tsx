@@ -9,6 +9,8 @@ import IconLink from 'kotilogi-app/components/IconLink/IconLink';
 import Link from 'next/link';
 import { Header } from 'kotilogi-app/components/Header/Header';
 import { Layout } from 'kotilogi-app/components/Layout/Layout';
+import { Group } from 'kotilogi-app/components/Group/Group';
+import { SecondaryHeading } from 'kotilogi-app/components/Heading/Heading';
 
 export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -28,7 +30,11 @@ export default async function PropertyDetailsLayout({children, params}){
         <PropertyContextProvider value={contextValue}>
            <Layout>
                 <Header>
-                    <h3>{property.title}</h3>
+                    <Group direction="vertical" gap="0">
+                        <SecondaryHeading>Talo</SecondaryHeading>
+                        <h3>{property.title}</h3>
+                    </Group>
+                    
                 </Header>
                 <SplitScreen rightWeight={7} gap="1rem">
                     <NavBar>

@@ -1,4 +1,6 @@
+import { Group } from "kotilogi-app/components/Group/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
+import { SecondaryHeading } from "kotilogi-app/components/Heading/Heading";
 import IconLink from "kotilogi-app/components/IconLink/IconLink";
 import { Layout } from "kotilogi-app/components/Layout/Layout";
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
@@ -13,8 +15,13 @@ export default async function EventLayout({children, params}){
     return (
         <Layout>
             <Header>
-                <h3>{event.title}</h3>
+                <Group direction="vertical" gap="0">
+                    <SecondaryHeading>Tapahtuma</SecondaryHeading>
+                    <h3>{event.title}</h3>
+                </Group>
+                
             </Header>
+
             <SplitScreen leftWeight={9}>
                 <NavBar>
                     <IconLink href={`/info`} imageSrc="/icons/info.png">Tiedot</IconLink>

@@ -13,7 +13,7 @@ type SessionT = {
 function LinkButton(props: {
     session: SessionT | null,
 }){
-    const href = !props.session ? '/register' : '/properties';
+    const href = !props.session ? '/register' : '/dashboard/properties';
     const text = !props.session ? 'Luo Tili' : 'Siirry Taloihisi';
 
     return (

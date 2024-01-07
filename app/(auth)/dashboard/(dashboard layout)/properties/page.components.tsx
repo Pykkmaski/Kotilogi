@@ -7,7 +7,7 @@ import { deleteData } from 'kotilogi-app/actions/data/deleteData';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
-import { Input } from 'kotilogi-app/components/Input/Input';
+import { Input, Select, Textarea } from 'kotilogi-app/components/Input/Input';
 import Form from 'kotilogi-app/components/Form/Form';
 import { Label } from 'kotilogi-app/components/Label/Label';
 import { useChangeInput } from 'kotilogi-app/hooks/useChangeInput';
@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { ActionType, StateType } from './page.reducer';
 import { usePageWithDataContext } from 'kotilogi-app/components/PageWithData/PageWithData';
 import toast from 'react-hot-toast';
+import { Group } from 'kotilogi-app/components/Group/Group';
 
 type PropertyPageContextProps = React.PropsWithChildren & {
     ownerId: string,
@@ -77,34 +78,47 @@ function AddModal({children, ...props}: AddModalProps){
 
             <Modal.Body>
                 <form id={formId} onSubmit={onSubmit} ref={formRef}>
-                    <Form.Group>
-                        <Label required={true}>Postinumero</Label>
-                        <input name="zipCode" required={true} placeholder="Kirjoita talon postinumero..." onChange={onChange}/>
-                        <Form.SubLabel>Postinumeron tulee olla pätevä Suomen postinumero.</Form.SubLabel>
-                    </Form.Group>
+                    <Group direction="vertical" gap="2rem">
+                    <Input
+                        autoComplete='off'
+                        name="zipCode"
+                        required={true}
+                        label="Postinumero"
+                        maxLength={5}
+                        minLength={5}
+                        description="Talon viisinumeroinen postinumero."
+                        placeholder="Kirjoita postinumero tähän..."
+                        onChange={onChange}/>
 
-                    <Form.Group>
-                        <Label required={true}>Osoite</Label>
-                        <input name="title" required={true} placeholder="Kirjoita talon osoite..." onChange={onChange}/>
-                    </Form.Group>
+                    <Input 
+                        autoComplete='off'
+                        name="title"
+                        required={true}
+                        label="Osoite"
+                        description="Talon katuosoite."
+                        placeholder="Kirjoita talon osoite tähän..."
+                        onChange={onChange}/>
 
-                    <Form.Group>
-                        <Label required={true}>Tyyppi</Label>
-                        <select onChange={onChange} name="buildingType">
-                            {
-                                buildingTypes.map(buildingType => <option value={buildingType}>{buildingType}</option>)
-                            }
-                        </select>
-                    </Form.Group>
-                    <Form.Group>
-                        <Label required={false}>Kuvaus</Label>
-                        <textarea 
-                            name="description" 
-                            required={false} 
-                            spellCheck={false}
-                            placeholder="Kirjoita talon kuvaus..." 
-                            onChange={onChange} />
-                    </Form.Group>
+                    <Select
+                        name="buildingType"
+                        label="Tyyppi"
+                        description="Talon tyyppi."
+                        required={true}
+                        onChange={onChange}
+                    >
+                        {
+                            buildingTypes.map(buildingType => <option value={buildingType}>{buildingType}</option>)
+                        }
+                    </Select>
+                    
+                    <Textarea
+                        name="description"
+                        label="Kuvaus"
+                        description="Vapaaehtoinen talon kuvaus."
+                        onChange={onChange}
+                        placeholder="Kirjoita kuvaus tähän..."/>
+                    </Group>
+                    
                 </form>
             </Modal.Body>
 
