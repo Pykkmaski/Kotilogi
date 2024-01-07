@@ -7,6 +7,7 @@ import SecondaryButton from "../Button/SecondaryButton";
 import PrimaryButton from "../Button/PrimaryButton";
 import style from './style.module.scss';
 import { InputProps } from "../Input/Input";
+import { useSingleInputForm } from "./SingleInputForm.hooks";
 
 type ControlsProps = {
     editing: boolean,
@@ -43,73 +44,21 @@ function Controls(props: ControlsProps){
     );
 }
 
-type SingleInputFormProps = React.ComponentProps<'form'> & {
+export type SingleInputFormProps = {
     inputElement: JSX.Element,
     onSubmit?: (value: object) => Promise<object>,
 }
 
 /**A wrapper for inputs adding buttons to the bottom of it to submit the value of the input.*/
 export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
-    const inputName = inputElement.props.name;
-    const inputDefaultValue = useRef<string | number>(inputElement.props.defaultValue);
-
-    const [status, setStatus] = useState<'loading' | 'error' | 'success' | 'idle'>('idle');
-    const [editing, setEditing] = useState(false);
-
-    const [renderedInput, setRenderedInput] = useState(
-        React.cloneElement<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(inputElement, {
-            ...inputElement.props, 
-            disabled: !editing,
-            onChange: (e) => inputValue.current = {
-                [inputName] : e.target.value,
-            },
-            autocomplete: 'off',
-        })
-    );
-
-    const inputValue = useRef<object>({
-        [inputName] : inputDefaultValue.current,
-    });
-
-    const onSubmit = async () => {
-        if(!props.onSubmit) return;
-        const value = inputValue.current;
-
-        setStatus('loading');
-
-        props.onSubmit(value)
-        .then(() => {
-            setEditing(false);
-            setStatus('success');
-            inputDefaultValue.current = value[inputName];
-        })
-        .catch(err => {
-            setStatus('error');
-            console.log(err.message);
-        });
-    }
-
-    const cancelEdit = () => {
-        //This function should return the input to its default value.
-        setRenderedInput(
-            React.cloneElement(renderedInput, {
-                ...renderedInput.props,
-                value: inputDefaultValue.current as any,
-            }));
-
-        setEditing(false);
-    }
-
-    useEffect(() => {
-        const newProps = {
-            ...renderedInput.props,
-            disabled: !editing,
-            value: undefined,
-        }
-
-        setRenderedInput(
-            React.cloneElement(renderedInput, newProps));
-    }, [editing]);
+    const {
+        renderedInput,
+        cancelEdit,
+        onSubmit,
+        setEditing,
+        editing,
+        status,
+    } = useSingleInputForm({inputElement, ...props});
 
     return (
         <Group direction="vertical" gap="1rem">
@@ -126,7 +75,6 @@ export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
                 :
                 null
             }
-            
         </Group>
     )
 }
