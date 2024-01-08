@@ -1,13 +1,13 @@
 'use client';
 
 import { useChangeInput } from "kotilogi-app/hooks/useChangeInput"
-import React from "react";
+import React, { useState } from "react";
 import { Group } from "../Group/Group";
 import SecondaryButton from "../Button/SecondaryButton";
 import PrimaryButton from "../Button/PrimaryButton";
 import style from './style.module.scss';
 import { InputProps } from "../Input/Input";
-import { useSingleInputForm } from "./SingleInputForm.hooks";
+import { useInputComponent, useSingleInputForm } from "./SingleInputForm.hooks";
 
 type ControlsProps = {
     editing: boolean,
@@ -48,24 +48,36 @@ function Controls(props: ControlsProps){
 }
 
 export type SingleInputFormProps = {
-    inputElement: JSX.Element,
     submitMethod: (value: object) => Promise<object>,
+    inputComponent: React.FC<React.ComponentProps<'input'>>,
+    initialInputProps: InputProps,
 }
 
 /**A wrapper for inputs adding buttons to the bottom of it to submit the value of the input.*/
-export function SingleInputForm({inputElement, ...props}: SingleInputFormProps){
+export function SingleInputForm({inputComponent: InputComponent, ...props}: SingleInputFormProps){
+
+    const [value, setValue] = useState<string | undefined>(undefined);
+    
     const {
-        renderedInput,
         editing,
         status,
-        onSubmit,
-        cancelEdit,
         edit,
-    } = useSingleInputForm(inputElement, inputElement.props.defaultValue);
+        cancelEdit,
+        onSubmit,
+        cancelFallbackValue,
+        inputValue,
+    } = useSingleInputForm(props.initialInputProps);
 
     return (
         <Group direction="vertical" gap="1rem">
-            {renderedInput} 
+            <InputComponent 
+                {...props.initialInputProps} 
+                disabled={!editing} 
+                defaultValue={cancelFallbackValue.current}
+                value={
+                    editing ? undefined : cancelFallbackValue.current}
+                onChange={(e) => inputValue.current = e.target.value}/>
+
             <Controls 
                 editing={editing} 
                 edit={edit}
