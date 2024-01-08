@@ -81,7 +81,7 @@ export function useSingleInputForm<PropsT extends InputProps | SelectProps>(init
             [initialInputProps.name!] : inputValue.current,
         }
 
-        console.log(dataToSubmit);
+        setStatus('loading');
         method(dataToSubmit)
         .then(() => {
             cancelFallbackValue.current = inputValue.current;

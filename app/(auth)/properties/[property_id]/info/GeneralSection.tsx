@@ -26,7 +26,7 @@ export default function GeneralSection({propertyData, updateProperty}){
                 inputComponent={Input}
                 initialInputProps={{
                     label: 'Postinumero',
-                    description: 'Talon Kuusinumeroinen postinumero.',
+                    description: 'Talon viisinumeroinen postinumero.',
                     autoComplete: 'off',
                     required: true,
                     defaultValue: propertyData.zipCode,
