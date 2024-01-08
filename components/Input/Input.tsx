@@ -73,7 +73,7 @@ export function Input({label, description, ...props}: InputProps){
     );
 }
 
-type SelectProps = React.ComponentProps<'select'> & {
+export type SelectProps = React.ComponentProps<'select'> & {
     label: string,
     description?: string,
 }
@@ -97,6 +97,14 @@ export function Select(props: SelectProps){
         </div>
     );
 }
+
+function Option({children, ...props}: React.ComponentProps<'option'>){
+    return (
+        <option {...props}>{children}</option>
+    );
+}
+
+Select.Option = Option;
 
 type TextAreaProps = React.ComponentProps<'textarea'> & {
     label: string,

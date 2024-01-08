@@ -3,7 +3,7 @@ import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { yardOwnershipTypes } from "kotilogi-app/constants";
 import { Section } from "./Section";
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
-import { SingleInputForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
+import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 import { useInfoPageContext } from "./page";
 
 export default function ExteriorSection({currentData, onChangeHandler}){
@@ -12,28 +12,32 @@ export default function ExteriorSection({currentData, onChangeHandler}){
         <EditCard title="Tontti">
             <SingleInputForm
                 submitMethod={onUpdate}
-                inputElement={
-                    <Input 
-                        label="Pinta-ala" 
-                        description="Tontin pinta-ala neliömetreissä."
-                        name="yardArea" defaultValue={currentData.yardArea} onChange={onChangeHandler}/>
-                }/>
+                inputComponent={Input}
+                initialInputProps={{
+                    label: 'Pinta-ala',
+                    description: 'Tontin pinta-ala neliömetreissä.',
+                    name: 'yardArea',
+                    defaultValue: currentData.yardArea,
+                    onChange: onChangeHandler
+                }}
+            />
                 
-            <SingleInputForm
+            <SingleSelectForm
                 submitMethod={onUpdate}
-                inputElement={
-                    <Select 
-                        label="Omistus" 
-                        description="Tontin omistajuuden tyyppi."
-                        name="yardOwnership" onChange={onChangeHandler}>
-                        {
-                            yardOwnershipTypes.map((val, index: number) => {
-                                return (
-                                    <option value={val} selected={val === currentData.yardOwnership} key={`yardOwnership-option-${index}`}>{val}</option>
-                                );
-                            })
+                inputComponent={Select}
+                childComponent={Select.Option}
+                initialInputProps={{
+                    label: 'Tontin Omistajuus',
+                    description: 'Tontin omistajuuden tyyppi.',
+                    name: 'yardOwnership',
+                    defaultValue: currentData.yardOwnership,
+                }}
+                childProps={yardOwnershipTypes.map(type => {
+                        return {
+                            value: type,
+                            children: type,
                         }
-                    </Select>
+                    })
                 }/>
         </EditCard> 
     );

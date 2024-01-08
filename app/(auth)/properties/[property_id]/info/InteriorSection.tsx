@@ -13,39 +13,57 @@ export default function InteriorSection({currentData, onChangeHandler}){
         <EditCard title="Sisätilat">
             <SingleInputForm 
                 submitMethod={onUpdate}
-                inputElement={<Input 
-                label="Pinta-ala" 
-                description="Talon sisätilojen pinta-ala neliömetreissä."
-                name="livingArea" defaultValue={currentData.livingArea} onChange={onChangeHandler} />}
-/>
+                inputComponent={Input}
+                initialInputProps={{
+                    label: 'Pinta-ala',
+                    description: 'Talon sisätilojen pinta-ala neliömetreissä.',
+                    name: 'livingArea',
+                    defaultValue: currentData.livingArea,
+                    onChange: onChangeHandler,
+                    type: 'number',
+                }}
+            />
 
-<SingleInputForm 
-submitMethod={onUpdate}
-inputElement={<Input 
-        label={currentData.buildingType === 'Kerrostalo' ? 'Kerrosnumero' : 'Kerrosten Lukumäärä'} 
-        description={
-            currentData.buildingType === 'Kerrostalo' ? 
-            'Missä kerroksessa asunto sijaitsee?' :
-            'Montako kerrosta talossa on?'
-        }
-        name="floorCount" defaultValue={currentData.floorCount} onChange={onChangeHandler} />}
-/>
+            <SingleInputForm 
+                submitMethod={onUpdate}
+                inputComponent={Input}
+                initialInputProps={{
+                    label: currentData.buildingType === 'Kerrostalo' ? 'Kerrosnumero' : 'Kerrosten Lukumäärä',
+                    description: currentData.buildingType === 'Kerrostalo' ? 
+                    'Missä kerroksessa asunto sijaitsee?' :
+                    'Montako kerrosta talossa on?',
+                    name: 'floorCount',
+                    defaultValue: currentData.floorCount,
+                    onChange: onChangeHandler,
+                    type: 'number'
+                }}
+            />
 
-<SingleInputForm 
-submitMethod={onUpdate}
-inputElement={<Input 
-        label="Huoneiden lukumäärä" 
-        description="Montako huonetta asunnossa on?"
-        type="number" name="roomCount" defaultValue={currentData.roomCount} onChange={onChangeHandler} />}
-/>
+            <SingleInputForm 
+                submitMethod={onUpdate}
+                inputComponent={Input}
+                initialInputProps={{
+                    label: 'Huoneiden Määrä',
+                    description: 'Montako huonetta asunnossa on?',
+                    name: 'roomCount',
+                    defaultValue: currentData.roomCount,
+                    onChange: onChangeHandler,
+                    type: "number",
+                }}
+            />
 
-<SingleInputForm 
-submitMethod={onUpdate}
-inputElement={<Input 
-        label="Vessojen lukumäärä" 
-        description="Montako vessaa asunnossa on?"
-        type="number" name="wcCount" defaultValue={currentData.wcCount} onChange={onChangeHandler} />}
-/>
+            <SingleInputForm 
+                submitMethod={onUpdate}
+                inputComponent={Input}
+                initialInputProps={{
+                    name: 'wcCount',
+                    label: 'Vessojen Lukumäärä',
+                    description: 'Montako vessaa asunnossa on?',
+                    type: 'number',
+                    defaultValue: currentData.wcCount,
+                    onChange: onChangeHandler,
+                }}
+            />
 
         </EditCard> 
     );

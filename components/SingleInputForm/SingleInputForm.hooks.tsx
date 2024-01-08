@@ -2,13 +2,13 @@
 
 import React, { useEffect } from "react";
 import { useRef, useState } from "react";
-import { InputProps } from "../Input/Input";
+import { InputProps, SelectProps } from "../Input/Input";
 
 type StatusType = 'idle' | 'success' | 'error' | 'loading';
 
-export function useInputComponent(
-    InputComponent: React.FC<InputProps>, 
-    initialInputProps: InputProps){
+export function useInputComponent<PropsT extends InputProps | SelectProps>(
+    InputComponent: React.FC<PropsT>, 
+    initialInputProps: PropsT){
 
     const [renderedElement, setRenderedElement] = useState(
         <InputComponent {...initialInputProps}/>
@@ -17,7 +17,7 @@ export function useInputComponent(
     return [renderedElement, setRenderedElement] as const;
 }
 
-function useSharedState(initialInputProps: InputProps){
+function useSharedState<PropsT extends InputProps | SelectProps>(initialInputProps: PropsT){
     const [status, setStatus] = useState<StatusType>('idle');
 
     /**The value the input is reset to if canceling an edit*/
@@ -61,13 +61,13 @@ function useEdit(){
     }
 }
 
-export function useSingleInputForm(initialInputProps: InputProps){
+export function useSingleInputForm<PropsT extends InputProps | SelectProps>(initialInputProps: PropsT){
     const {
         status, 
         setStatus, 
         cancelFallbackValue,
         inputValue,
-    } = useSharedState(initialInputProps);
+    } = useSharedState<PropsT>(initialInputProps);
 
     const {editing, setEditing, edit, cancelEdit} = useEdit();
      
@@ -100,28 +100,6 @@ export function useSingleInputForm(initialInputProps: InputProps){
         edit,
         cancelEdit,
         onSubmit,
-        cancelFallbackValue,
-        inputValue,
-    }
-}
-
-export function useSingleSelectForm(initialInputProps: InputProps){
-    const {
-        status,
-        setStatus,
-        cancelFallbackValue,
-        inputValue,
-    } = useSharedState(initialInputProps);
-
-    const {editing, edit, cancelEdit} = useEdit();
-
-    return {
-        editing,
-        edit,
-        cancelEdit,
-
-        status,
-        setStatus,
         cancelFallbackValue,
         inputValue,
     }

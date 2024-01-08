@@ -53,6 +53,10 @@ export default function InfoPage(){
             <Group direction="vertical" gap="1rem">
                 <InfoPageContext.Provider value={{onUpdate}}>
                     <GeneralSection currentData={data} onChangeHandler={onChange}/>
+                    <ExteriorSection currentData={data} onChangeHandler={onChange}/>
+                    <BuildingSection currentData={data} onChangeHandler={onChange}/>
+                    <InteriorSection currentData={data} onChangeHandler={onChange}/>
+                    <RoofSection currentData={data} onChangeHandler={onChange}/>
                 </InfoPageContext.Provider>
             </Group>
             
