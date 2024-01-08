@@ -2,11 +2,11 @@
 
 import React, { useEffect } from "react";
 import { useRef, useState } from "react";
-import { InputProps, SelectProps } from "../Input/Input";
+import { InputProps, SelectProps, TextAreaProps } from "../Input/Input";
 
 type StatusType = 'idle' | 'success' | 'error' | 'loading';
 
-export function useInputComponent<PropsT extends InputProps | SelectProps>(
+export function useInputComponent<PropsT extends InputProps | SelectProps | TextAreaProps>(
     InputComponent: React.FC<PropsT>, 
     initialInputProps: PropsT){
 
@@ -17,7 +17,7 @@ export function useInputComponent<PropsT extends InputProps | SelectProps>(
     return [renderedElement, setRenderedElement] as const;
 }
 
-function useSharedState<PropsT extends InputProps | SelectProps>(initialInputProps: PropsT){
+function useSharedState<PropsT extends InputProps | SelectProps | TextAreaProps>(initialInputProps: PropsT){
     const [status, setStatus] = useState<StatusType>('idle');
 
     /**The value the input is reset to if canceling an edit*/
@@ -61,7 +61,7 @@ function useEdit(){
     }
 }
 
-export function useSingleInputForm<PropsT extends InputProps | SelectProps>(initialInputProps: PropsT){
+export function useSingleInputForm<PropsT extends InputProps | SelectProps | TextAreaProps>(initialInputProps: PropsT){
     const {
         status, 
         setStatus, 

@@ -27,10 +27,9 @@ export async function deletePropertyEvent(eventId: Kotilogi.IdType){
             const event = await db('propertyEvents').where({id: eventId}).first();
             if(!event) throw new Error(`An event with id of ${eventId} does not exist, and cannot be deleted!`);
 
-            /*
+            
             const code = verifyEventDeletion(event);
             if(code !== 'success') throw new Error(code);
-            */
            
             await deleteFiles('eventFiles', eventId);
             await db('propertyEvents').where({id: eventId}).del();

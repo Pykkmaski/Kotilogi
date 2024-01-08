@@ -56,8 +56,13 @@
     align-items: baseline;
 }
 
-.container h4{
+.title{
     color: $body-text-color;
+}
+
+.container .title{
+    font-size: 1.2rem;
+    
     margin: 0;
 }
 
@@ -66,14 +71,19 @@
     aspect-ratio: 1/1;
 }
 
-.container small{
-    color: $body-text-color;
-}
-
 .container a{
     flex: 1;
 }
 
 .container a:hover{
     text-decoration: none;
+}
+
+.container .description{
+    font-size: 1rem;
+    color: #888;
+}
+
+.container small{
+    color: #888;
 }

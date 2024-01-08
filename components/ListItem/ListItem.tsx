@@ -6,7 +6,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePageWithDataContext } from '../PageWithData/PageWithData';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
-import { CheckBox, ControlsContainer, DeleteButton, InfoContainer, TitleContainer } from './ListItem.components';
+import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, InfoContainer, TitleContainer } from './ListItem.components';
 import { deleteData } from 'kotilogi-app/actions/data/deleteData';
 import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
@@ -52,6 +52,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
         <ListItem<Kotilogi.PropertyType> {...props}>
             <InfoContainer href={`/properties/${props.item.id}/info`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'/>
+                <DescriptionContainer text={props.item.description}/>
                 <small>{props.item.buildingType}</small>
             </InfoContainer>
 
@@ -93,6 +94,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
             <HighlightBadge/>
             <InfoContainer href={`/events/${props.item.id}`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/history.png'/>
+                <DescriptionContainer text={props.item.description}/>
                 <small>{date}</small>
             </InfoContainer>
 

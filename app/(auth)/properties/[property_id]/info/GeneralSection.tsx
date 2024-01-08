@@ -1,6 +1,6 @@
 'use client';
 
-import { Input, Select } from "kotilogi-app/components/Input/Input";
+import { Input, Select, Textarea } from "kotilogi-app/components/Input/Input";
 import { buildingTypes, energyClasses } from "kotilogi-app/constants";
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
 import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
@@ -101,6 +101,20 @@ export default function GeneralSection({propertyData, updateProperty}){
                         children: 'Ei',
                     }
                 ]}/>
+
+            <SingleInputForm
+                submitMethod={updateProperty}
+                inputComponent={Textarea}
+                initialInputProps={{
+                    name: 'description',
+                    label: 'Kuvaus',
+                    description: 'Talon lyhyt kuvaus.',
+                    defaultValue: propertyData.description,
+                    spellCheck: false,
+                    autoComplete: 'false',
+                    maxLength: 256,
+                }}/>
+
         </EditCard> 
     );
 }

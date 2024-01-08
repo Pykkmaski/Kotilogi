@@ -1,4 +1,4 @@
-import { CSSProperties, forwardRef, useImperativeHandle, useRef, useState } from "react"
+import { CSSProperties, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import * as stylex from '@stylexjs/stylex';
 import { Group } from "../Group/Group";
 import style from './style.module.scss';
@@ -11,7 +11,7 @@ const containerStyle: CSSProperties = {
     display: 'grid',
     width: '100%',
     gridTemplateColumns: '1fr 3fr',
-    height: '3rem',
+    minHeight: '3rem',
     gap: '1rem',
 }
 
@@ -106,13 +106,23 @@ function Option({children, ...props}: React.ComponentProps<'option'>){
 
 Select.Option = Option;
 
-type TextAreaProps = React.ComponentProps<'textarea'> & {
+function TextareaCharacterCounter({currentLength, max}: {currentLength: number | undefined, max: number | undefined}){
+    return (
+        <Group direction="horizontal" gap="1rem">
+            <span>{currentLength} / {max}</span>
+        </Group>
+    )
+}
+
+export type TextAreaProps = React.ComponentProps<'textarea'> & {
     label: string,
     description?: string,
-    required?: boolean,
 }
 
 export function Textarea(props: TextAreaProps){
+    const ref = useRef<HTMLTextAreaElement | null>(null);
+    const [length, setLength] = useState<number | undefined>(undefined);
+
     const textareaStyle: CSSProperties = {
         flexFlow: 'column',
     }
@@ -121,10 +131,17 @@ export function Textarea(props: TextAreaProps){
         ...inputStyle,
     }
 
+    useEffect(() => setLength(ref.current?.value.length), []);
     return (
         <div style={containerStyle}>
             <Label text={props.label} {...props}/>
-            <textarea {...props} style={textareaStyle} className={style.input}/>
+            <Group direction="vertical" gap="0.5rem">
+                <textarea {...props} style={textareaStyle} className={style.input} ref={ref} onChange={(e) => {
+                    props.onChange && props.onChange(e);
+                    setLength(ref.current?.value.length);
+                }}/>
+                
+            </Group>
         </div>
     )
 }

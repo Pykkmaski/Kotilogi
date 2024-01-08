@@ -66,7 +66,6 @@ function AddModal({children, ...props}: AddModalProps){
         .finally(() => {
             setLoading(false);
             props.onHide();
-            formRef.current?.reset();
         });
     }
 
@@ -125,7 +124,10 @@ function AddModal({children, ...props}: AddModalProps){
             <Modal.Footer>
                 <SecondaryButton 
                     desktopText='Peruuta' 
-                    onClick={props.onHide}
+                    onClick={() => {
+                        props.onHide();
+                        formRef.current?.reset();
+                    }}
                     disabled={loading}/>
 
                 <PrimaryButton 

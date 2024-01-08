@@ -5,7 +5,7 @@ import {Header as HeaderComponent} from '@/components/Header/Header';
 import { Group } from "kotilogi-app/components/Group/Group";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useChangeInput } from "kotilogi-app/hooks/useChangeInput";
 import { usePropertyContext } from "../_util/PropertyContextProvider";
@@ -19,11 +19,13 @@ import { usePageWithData } from "kotilogi-app/components/PageWithData/PageWithDa
 import { ViewSelector } from "kotilogi-app/components/ViewSelector/ViewSelector";
 import { SearchBar } from "kotilogi-app/components/SearchBar/SearchBar";
 import GlobalDeleteModal from "kotilogi-app/components/new/Gallery/Modals/GlobalDeleteModal/GlobalDeleteModal";
+import { Input, Textarea } from "kotilogi-app/components/Input/Input";
 
 
 function AddModal(props: ModalProps){
     const {property} = usePropertyContext();
     const {data, onChange} = useChangeInput({refId: property.id});
+    const formRef = useRef<HTMLFormElement | null>(null);
 
     const addEvent = (e) => {
         e.preventDefault();
@@ -39,25 +41,38 @@ function AddModal(props: ModalProps){
             <Modal.Header>Lisää Tapahtuma</Modal.Header>
             <Modal.Body>
                 <form id={formId} onSubmit={addEvent}>
-                    <Form.Group>
-                        <label>Otsikko</label>
-                        <input name="title" onChange={onChange} required={true} placeholder="Kirjoita tapahtumalle otsikko..."/>
-                    </Form.Group>
+                    <Input 
+                        name="title" 
+                        label="Otsikko" 
+                        description="Tapahtuman otsikko" 
+                        placeholder="Kirjoita otsikko..." 
+                        autoComplete="off"
+                        required={true} 
+                        onChange={onChange}/>
 
-                    <Form.Group>
-                        <label>Kuvaus</label>
-                        <textarea name="description" onChange={onChange} placeholder="Kirjoita tapahtumalle kuvaus..."/>
-                    </Form.Group>
+                    <Textarea 
+                        name="description" 
+                        label="Kuvaus" 
+                        description="Tapahtuman lyhyt kuvaus." 
+                        placeholder="Kirjoita kuvaus..."
+                        spellCheck={false}
+                        onChange={onChange}/>
 
-                    <Form.Group>
-                        <label>Päivämäärä</label>
-                        <input name="time" type="date" onChange={onChange}/>
-                    </Form.Group>
+                    <Input 
+                        type="date" 
+                        name="time" 
+                        label="Päivämäärä" 
+                        description="Tapahtuman päivämäärä." 
+                        placeholder="Kirjoita päivämäärä..."
+                        onChange={onChange}/>
                 </form>
                 
             </Modal.Body>
             <Modal.Footer>
-                <SecondaryButton desktopText="Peruuta" onClick={props.onHide}/>
+                <SecondaryButton desktopText="Peruuta" onClick={() => {
+                    props.onHide();
+                    formRef.current?.reset();
+                }}/>
                 <PrimaryButton desktopText="Lähetä" type="submit" form={formId}/>
             </Modal.Footer>
         </Modal>
@@ -83,6 +98,7 @@ function HeaderControls(){
 
     return (
         <>
+            <AddModal show={showAddModal} onHide={() => setShowAddModal(false)} id="event-add-modal"/>
             <Group direction="horizontal">
                 <ViewSelector/>
                 <SearchBar/>

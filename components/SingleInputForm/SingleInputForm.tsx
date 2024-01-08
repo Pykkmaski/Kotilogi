@@ -6,7 +6,7 @@ import { Group } from "../Group/Group";
 import SecondaryButton from "../Button/SecondaryButton";
 import PrimaryButton from "../Button/PrimaryButton";
 import style from './style.module.scss';
-import { InputProps, SelectProps } from "../Input/Input";
+import { InputProps, SelectProps, TextAreaProps } from "../Input/Input";
 import { useInputComponent, useSingleInputForm } from "./SingleInputForm.hooks";
 
 type ControlsProps = {
@@ -49,8 +49,8 @@ function Controls(props: ControlsProps){
 
 export type SingleInputFormProps = {
     submitMethod: (value: object) => Promise<object>,
-    inputComponent: React.FC<React.ComponentProps<'input'>>,
-    initialInputProps: InputProps,
+    inputComponent: React.FC<InputProps | TextAreaProps>,
+    initialInputProps: InputProps | TextAreaProps,
 }
 
 /**A wrapper for inputs adding buttons to the bottom of it to submit the value of the input.*/

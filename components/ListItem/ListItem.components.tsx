@@ -12,9 +12,19 @@ export function TitleContainer(props: TitleContainerProps){
     return (
         <div className={style.titleContainer}>
             <img src={props.iconSrc} className={style.icon}/>
-            <h4>{props.titleText}</h4>   
+            <span className={style.title}>{props.titleText}</span>   
         </div>
     )
+}
+
+type DescriptionContainerProps = {
+    text: string,
+}
+
+export function DescriptionContainer(props: DescriptionContainerProps){
+    return (
+        <div className={style.description}>{props.text}</div>
+    );
 }
 
 type InfoContainerProps = React.PropsWithChildren & {
