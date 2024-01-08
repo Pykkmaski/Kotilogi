@@ -15,6 +15,8 @@ export default function ExteriorSection({propertyData, updateProperty}){
                     description: 'Tontin pinta-ala neliömetreissä.',
                     name: 'yardArea',
                     defaultValue: propertyData.yardArea,
+                    min: 0,
+                    step: '0.01',
                 }}
             />
                 

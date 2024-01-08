@@ -14,6 +14,8 @@ export default function InteriorSection({propertyData, updateProperty}){
                     name: 'livingArea',
                     defaultValue: propertyData.livingArea,
                     type: 'number',
+                    min: 0,
+                    step: '0.01',
                 }}
             />
 
@@ -27,7 +29,8 @@ export default function InteriorSection({propertyData, updateProperty}){
                     'Montako kerrosta talossa on?',
                     name: 'floorCount',
                     defaultValue: propertyData.floorCount,
-                    type: 'number'
+                    type: 'number',
+                    min: 1,
                 }}
             />
 
@@ -40,6 +43,7 @@ export default function InteriorSection({propertyData, updateProperty}){
                     name: 'roomCount',
                     defaultValue: propertyData.roomCount,
                     type: "number",
+                    min: 1,
                 }}
             />
 
@@ -52,6 +56,7 @@ export default function InteriorSection({propertyData, updateProperty}){
                     description: 'Montako vessaa asunnossa on?',
                     type: 'number',
                     defaultValue: propertyData.wcCount,
+                    min: 1,
                 }}
             />
 

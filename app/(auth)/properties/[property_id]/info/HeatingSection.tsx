@@ -1,25 +1,21 @@
-import Form from "kotilogi-app/components/Form/Form";
 import { Select } from "kotilogi-app/components/Input/Input";
-import { buildingMaterials, buildingTypes, colors, energyClasses, primaryHeatingSystems, secondaryHeatingSystems } from "kotilogi-app/constants";
-import { Section } from "./Section";
+import { primaryHeatingSystems, secondaryHeatingSystems } from "kotilogi-app/constants";
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
-import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
-import { useInfoPageContext } from "./page";
+import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
-export default function HeatingSection({currentData, onChangeHandler}){
-    const {onUpdate} = useInfoPageContext();
+export default function HeatingSection({propertyData, updateProperty}){
+
     return (
         <EditCard title="Lämmitys">
             <SingleSelectForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: 'Ensisijainen',
                     description: 'Ensisijainen lämmitysmenetelmä.',
                     name: 'primaryHeatingSystem',
-                    onChange: onChangeHandler,
-                    defaultValue: currentData.primaryHeatingSystem,
+                    defaultValue: propertyData.primaryHeatingSystem,
                 }}
                 childProps={primaryHeatingSystems.map(type => {
                         return {
@@ -30,15 +26,14 @@ export default function HeatingSection({currentData, onChangeHandler}){
                 }/>
                 
             <SingleSelectForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: 'Toissijainen',
                     description: 'Toissijainen lämmitysmenetelmä.',
                     name: 'secondaryHeatingSystem',
-                    onChange: onChangeHandler,
-                    defaultValue: currentData.secondaryHeatingSystem,
+                    defaultValue: propertyData.secondaryHeatingSystem,
                 }}
                 childProps={secondaryHeatingSystems.map(type => {
                         return {
