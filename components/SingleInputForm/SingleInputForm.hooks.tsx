@@ -5,16 +5,9 @@ import { useRef, useState } from "react";
 
 type StatusType = 'idle' | 'success' | 'error' | 'loading';
 
-function useSharedState(){
+function useSharedState(inputElement: JSX.Element, initialCancelFallbackValue: string){
     const [status, setStatus] = useState<StatusType>('idle');
     const [editing, setEditing] = useState(false);
-
-    return {status, setStatus, editing, setEditing};
-}
-
-export function useSingleInputForm(inputElement: JSX.Element, initialCancelFallbackValue: string){
-
-    const {status, setStatus, editing, setEditing} = useSharedState();
 
     /**The value the input is reset to if canceling an edit*/
     const cancelFallbackValue = useRef(initialCancelFallbackValue);
@@ -22,6 +15,29 @@ export function useSingleInputForm(inputElement: JSX.Element, initialCancelFallb
     /**A ref to the current value of the input. Changes when the input is changed. */
     const inputValue = useRef(inputElement.props.defaultValue);
 
+
+    return {
+        status, 
+        setStatus, 
+        editing, 
+        setEditing,
+        cancelFallbackValue,
+        inputValue,
+    };
+}
+
+export function useSingleInputForm(inputElement: JSX.Element, initialCancelFallbackValue: string){
+
+    const {
+        status, 
+        setStatus, 
+        editing, 
+        setEditing,
+        cancelFallbackValue,
+        inputValue,
+    } = useSharedState(inputElement, initialCancelFallbackValue);
+
+    
     /**The input element to be rendered. */
     const [renderedInput, setRenderedInput] = useState(() => 
         React.cloneElement<HTMLInputElement>(inputElement, {
