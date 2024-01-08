@@ -3,16 +3,8 @@
     background: white;
 }
 
-.input:user-invalid{
-    background: rgba(red, 0.1);
-}
-
-.input:user-valid{
-    background: rgba(lime, 0.1);
-}
-
 .input:disabled{
-    background-color: #DDD;
+    background-color: #EEE;
 }
 
 .required{

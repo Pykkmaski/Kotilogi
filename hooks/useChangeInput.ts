@@ -23,8 +23,6 @@ export function useChangeInput(initialData: any){
         setIsEdited(false);
     }
 
-    useEffect(() => console.log(data), [data]);
-
     return {
         data,
         onChange,

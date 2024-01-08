@@ -1,19 +1,16 @@
-import Form from "kotilogi-app/components/Form/Form";
+'use client';
+
 import { Input, Select } from "kotilogi-app/components/Input/Input";
-import { buildingTypes, colors, energyClasses } from "kotilogi-app/constants";
-import { Section } from "./Section";
+import { buildingTypes, energyClasses } from "kotilogi-app/constants";
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
 import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
-import { useInfoPageContext } from "./page";
 
-export default function GeneralSection({currentData, onChangeHandler}){
+export default function GeneralSection({propertyData, updateProperty}){
 
-    const {onUpdate} = useInfoPageContext();
-    
     return (
         <EditCard title="Yleistiedot">
             <SingleInputForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Input}
                 initialInputProps={{
                     label: "Osoite",
@@ -21,44 +18,40 @@ export default function GeneralSection({currentData, onChangeHandler}){
                     autoComplete: "off",
                     name: "title",
                     required: true,
-                    defaultValue: currentData.title,
-                    onChange: onChangeHandler,
+                    defaultValue: propertyData.title,
                 }}/>
 
             <SingleInputForm
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Input}
                 initialInputProps={{
                     label: 'Postinumero',
                     description: 'Talon Kuusinumeroinen postinumero.',
                     autoComplete: 'off',
                     required: true,
-                    defaultValue: currentData.zipCode,
-                    onChange: onChangeHandler,
+                    defaultValue: propertyData.zipCode,
                 }}/>
 
             <SingleInputForm
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Input}
                 initialInputProps={{
                     label: 'Rakennusvuosi',
                     description: 'Talon valmistumisvuosi.',
                     autoComplete: 'off',
                     required: false,
-                    defaultValue: currentData.buildYear,
-                    onChange: onChangeHandler,
+                    defaultValue: propertyData.buildYear,
                 }}/>
 
             <SingleSelectForm
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: 'Talotyyppi',
                     description: 'Talon tyyppi.',
                     name: 'buildingType',
-                    onChange: onChangeHandler,
-                    defaultValue: currentData.buildingType,
+                    defaultValue: propertyData.buildingType,
                 }}
                 childProps={[
                     ...buildingTypes.map(type => {
@@ -70,15 +63,14 @@ export default function GeneralSection({currentData, onChangeHandler}){
                 ]}/>
 
             <SingleSelectForm
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: 'Energialuokka',
                     description: 'Talon energialuokitus.',
                     name: 'energyClass',
-                    onChange: onChangeHandler,
-                    defaultValue: currentData.energyClass,
+                    defaultValue: propertyData.energyClass,
                 }}
                 childProps={[
                     ...energyClasses.map(type => {
@@ -90,15 +82,14 @@ export default function GeneralSection({currentData, onChangeHandler}){
                 ]}/>
 
             <SingleSelectForm
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: 'Autotalli',
                     description: 'Onko talolla autotallia?',
                     name: 'hasGarage',
-                    onChange: onChangeHandler,
-                    defaultValue: currentData.hasGarage,
+                    defaultValue: propertyData.hasGarage,
                 }}
                 childProps={[
                     {

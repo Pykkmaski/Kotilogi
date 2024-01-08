@@ -1,25 +1,21 @@
-import Form from "kotilogi-app/components/Form/Form";
 import { Select } from "kotilogi-app/components/Input/Input";
-import { buildingMaterials, buildingTypes, colors, energyClasses } from "kotilogi-app/constants";
-import { Section } from "./Section";
+import { buildingMaterials, colors } from "kotilogi-app/constants";
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
-import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
-import { useInfoPageContext } from "./page";
+import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
-export default function BuildingSection({currentData, onChangeHandler}){
-    const {onUpdate} = useInfoPageContext();
+export default function BuildingSection({propertyData, updateProperty}){
+    
     return (
         <EditCard title="Julkisivu">
             <SingleSelectForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: "Rakennusmateriaali" ,
                     description: "Talon julkisivun rakennusmateriaali.",
-                    onChange: onChangeHandler,
                     name:"buildingMaterial",
-                    defaultValue: currentData.buildingMaterial,
+                    defaultValue: propertyData.buildingMaterial,
                 }}
                 childProps={buildingMaterials.map(type => {
                     return {
@@ -29,15 +25,14 @@ export default function BuildingSection({currentData, onChangeHandler}){
                 })}/>
             
             <SingleSelectForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 initialInputProps={{
                     label: "Väri" ,
                     description: "Talon suuntaa antava väri.",
-                    onChange: onChangeHandler,
                     name:"color",
-                    defaultValue: currentData.color,
+                    defaultValue: propertyData.color,
                 }}
                 childProps={colors.map(type => {
                     return {

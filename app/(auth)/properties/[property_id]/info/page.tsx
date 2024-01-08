@@ -1,48 +1,14 @@
-'use client';
+'use server';
 
-import Button from 'kotilogi-app/components/Button/Button';
-import { usePropertyContext } from '../_util/PropertyContextProvider';
 import style from './page.module.scss';
-import { useSearchParams } from 'next/navigation';
-import Form from 'kotilogi-app/components/Form/Form';
-import GeneralSection from './GeneralSection';
-import { createContext, useContext, useState } from 'react';
-import {updateDataById} from 'kotilogi-app/actions/data/updateData';
-import toast from 'react-hot-toast';
-import InteriorSection from './InteriorSection';
-import BuildingSection from './BuildingSection';
-import ExteriorSection from './ExteriorSection';
-import HeatingSection from './HeatingSection';
-import serverRevalidatePath from 'kotilogi-app/actions/serverRevalidatePath';
-import RoofSection from './RoofSection';
-import { useChangeInput } from 'kotilogi-app/hooks/useChangeInput';
 import { Header } from '@/components/Header/Header';
 import { Group } from 'kotilogi-app/components/Group/Group';
+import db from 'kotilogi-app/dbconfig';
+import { Content } from './Content';
 
-type InfoPageContextProps = {
-    onUpdate: (data: object) => Promise<object>
-}
-
-const InfoPageContext = createContext<InfoPageContextProps | null>(null);
-
-export function useInfoPageContext(){
-    const context = useContext(InfoPageContext);
-    if(!context) throw new Error('useInfoPageContext must be used within the scope of the InfoPageContext!');
-    return context;
-}
-
-export default function InfoPage(){
-    const params = useSearchParams();
-    const {property} = usePropertyContext();
-    const {data, onChange, isEdited, resetIsEdited} = useChangeInput({...property});
-
-    const [loading, setLoading] = useState(false);
-
-    const onUpdate = async (data: object) => {
-        return updateDataById(data, property.id, 'properties');
-    }
-
-    const formId = 'property-info-form';
+export default async function InfoPage({params}){
+    const property = await db('properties').where({id: params.property_id}).first();
+    if(!property) throw new Error('Talon lataaminen epäonnistui!');
 
     return (
        <main className={style.body}>
@@ -51,15 +17,8 @@ export default function InfoPage(){
             </Header>
             
             <Group direction="vertical" gap="1rem">
-                <InfoPageContext.Provider value={{onUpdate}}>
-                    <GeneralSection currentData={data} onChangeHandler={onChange}/>
-                    <ExteriorSection currentData={data} onChangeHandler={onChange}/>
-                    <BuildingSection currentData={data} onChangeHandler={onChange}/>
-                    <InteriorSection currentData={data} onChangeHandler={onChange}/>
-                    <RoofSection currentData={data} onChangeHandler={onChange}/>
-                </InfoPageContext.Provider>
+                <Content propertyData={property}/>
             </Group>
-            
        </main> 
     );
 }

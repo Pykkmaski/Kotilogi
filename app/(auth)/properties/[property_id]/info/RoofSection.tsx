@@ -1,19 +1,13 @@
-import Form from "kotilogi-app/components/Form/Form";
 import { Select } from "kotilogi-app/components/Input/Input";
 import { roofMaterials, roofTypes } from "kotilogi-app/constants";
-import { Section } from "./Section";
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
-import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
-import { useInfoPageContext } from "./page";
+import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
-export default function RoofSection({currentData, onChangeHandler}){
-
-    const {onUpdate} = useInfoPageContext();
-
+export default function RoofSection({propertyData, updateProperty}){
     return (
         <EditCard title="Katto">
             <SingleSelectForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 childProps={roofTypes.map(type => {
@@ -26,12 +20,11 @@ export default function RoofSection({currentData, onChangeHandler}){
                     label: 'Kattotyyppi',
                     description: 'Katon tyyppi.',
                     name: 'roofType',
-                    defaultValue: currentData.roofType,
-                    onChange: onChangeHandler,
+                    defaultValue: propertyData.roofType,
                 }}/>
 
             <SingleSelectForm 
-                submitMethod={onUpdate}
+                submitMethod={updateProperty}
                 inputComponent={Select}
                 childComponent={Select.Option}
                 childProps={roofMaterials.map(type => {
@@ -44,8 +37,7 @@ export default function RoofSection({currentData, onChangeHandler}){
                     label: 'Kattomateriaali',
                     description: 'Katon materiaali.',
                     name: 'roofMaterial',
-                    defaultValue: currentData.roofMaterial,
-                    onChange: onChangeHandler,
+                    defaultValue: propertyData.roofMaterial,
                 }}/>
         </EditCard>  
     );

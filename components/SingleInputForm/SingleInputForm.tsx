@@ -107,14 +107,15 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
         
     } = useSingleInputForm<SelectProps>(props.initialInputProps);
 
-    console.log(cancelFallbackValue.current);
-
     return (
         <Group direction="vertical" gap="1rem">
             <InputComponent 
                 {...props.initialInputProps} 
                 disabled={!editing} 
-                onChange={(e) => inputValue.current = e.target.value}
+                onChange={(e) => {
+                    inputValue.current = e.target.value;
+                    //props.initialInputProps.onChange && props.initialInputProps.onChange(e);
+                }}
             >
                 {/**Render all children when editing and just the defaultValue if not*/}
                 {
