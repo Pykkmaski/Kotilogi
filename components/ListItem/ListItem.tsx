@@ -79,13 +79,13 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 
     const HighlightBadge = () => (
         <div style={{
-            width: '50px',
-            height: '50px',
+            width: '25px',
+            height: '25px',
             borderRadius: '50%',
             backgroundColor: 'orange',
             position: 'absolute',
-            top: 0,
-            right: 0,
+            top: '-5px',
+            right: '-5px',
         }} hidden={parseInt(props.item.consolidationTime) <= Date.now()}/>
     );
 

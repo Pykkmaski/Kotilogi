@@ -1,16 +1,17 @@
-'use client';
-
 import { SplitScreen } from "kotilogi-app/components/SplitScreen/SplitScreen";
-import style from './layout.module.scss';
-import { useState } from "react";
-import Link from "next/link";
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
-import { HeaderButtons } from "./properties/page.components";
 import IconLink from "kotilogi-app/components/IconLink/IconLink";
 import { Header } from "kotilogi-app/components/Header/Header";
 import { Layout } from "kotilogi-app/components/Layout/Layout";
+import { getServerSession } from "next-auth";
+import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
+import { DashboardContextProvider } from "./DashboardContextProvider";
 
-export default function DashboardLayout({children}){
+export default async function DashboardLayout({children}){
+
+    const session = await getServerSession(options) as {user: {email: string}};
+    if(!session) throw new Error('Käyttäjän lataaminen epäonnistui!');
+
     return (
         <Layout>
             <Header>
@@ -21,7 +22,10 @@ export default function DashboardLayout({children}){
                     <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
                     <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
                 </NavBar>
-                {children}
+
+                <DashboardContextProvider user={session.user}>
+                    {children}
+                </DashboardContextProvider>
             </SplitScreen>
         </Layout>
     );

@@ -19,6 +19,9 @@ import { ActionType, StateType } from './page.reducer';
 import { usePageWithDataContext } from 'kotilogi-app/components/PageWithData/PageWithData';
 import toast from 'react-hot-toast';
 import { Group } from 'kotilogi-app/components/Group/Group';
+import { ControlsWithAddAndDelete } from 'kotilogi-app/components/HeaderControls/ControlsWithAddAndDelete';
+import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
+import { useDashboardContext } from '../DashboardContextProvider';
 
 type PropertyPageContextProps = React.PropsWithChildren & {
     ownerId: string,
@@ -180,11 +183,19 @@ export function HeaderButtons(){
 }
 
 export function Header(){
+    const {state} = usePageWithDataContext();
+    const {user} = useDashboardContext();
+
     return (
-        <div className={style.header}>
-            <h3>Talot</h3>
-            <HeaderButtons/>
-        </div>
+        <>
+            <div className={style.header}>
+                <h3>Talot</h3>
+                <ControlsWithAddAndDelete
+                    id="property-controls"
+                    AddModalComponent={(props) => <AddPropertyModal {...props} ownerId={user.email}/>}
+                    deleteDisabled={!state.selectedItems.length}/>
+            </div>
+        </>
     );
 }
 

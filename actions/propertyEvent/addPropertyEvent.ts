@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 function addConsolidationTime(eventData: any){
     const consolidationEnvVar = process.env.EVENT_CONSOLIDATION_TIME;
-    const consolidationTime = consolidationEnvVar || '';
+    const consolidationTime = consolidationEnvVar || '0';
 
     return {
         ...eventData,
@@ -13,13 +13,13 @@ function addConsolidationTime(eventData: any){
     }
 }
 
-export async function addPropertyEvent(eventData: any){
-    return new Promise<void>(async (resolve, reject) => {
+export async function addPropertyEvent(eventData: Kotilogi.EventType){
+    return new Promise<Kotilogi.EventType>(async (resolve, reject) => {
         try{
             const processedData = addConsolidationTime(eventData);
-            const newEventData = await db('propertyEvents').insert(processedData, '*');
+            const newEventData = await db('propertyEvents').insert(processedData, '*') as Kotilogi.EventType;
             revalidatePath('/properties/[property_id]/events');
-            resolve();
+            resolve(newEventData);
         }
         catch(err){
             console.log(err.message);
