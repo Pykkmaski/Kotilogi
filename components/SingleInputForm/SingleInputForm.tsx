@@ -73,7 +73,8 @@ export function SingleInputForm({inputComponent: InputComponent, ...props}: Sing
                 defaultValue={cancelFallbackValue.current}
                 value={
                     editing ? undefined : cancelFallbackValue.current}
-                onChange={(e) => inputValue.current = e.target.value}/>
+                onChange={(e) => inputValue.current = e.target.value}
+                title={!editing ? 'Paina Muokkaa-nappia muokataksesi.' : undefined}/>
 
             <Controls 
                 editing={editing} 
@@ -134,7 +135,7 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
                     :
                     props.childProps.map(childProps => {
                         if(childProps.value === cancelFallbackValue.current){
-                            return <ChildComponent {...childProps} />
+                            return <ChildComponent {...childProps} >{childProps.children}</ChildComponent>
                         }
                     })
                 }

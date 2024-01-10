@@ -43,7 +43,6 @@ export function PasswordSettingsForm({email, updateUser}){
                 label: 'Salasana',
                 description: 'Päivitä salasanasi.',
                 type: 'password',
-                defaultValue: 'Uusi salasana',
                 placeholder: 'Kirjoita uusi salasana...',
             }}/>
     );

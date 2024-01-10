@@ -11,7 +11,7 @@ import { deleteData } from 'kotilogi-app/actions/data/deleteData';
 import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
 
-type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
+export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
     selected?: boolean,
 }
@@ -86,7 +86,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
             position: 'absolute',
             top: '-5px',
             right: '-5px',
-        }} hidden={parseInt(props.item.consolidationTime) <= Date.now()}/>
+        }} title="Tämä tapahtuma on poistettavissa. Varmista että tapahtuman tiedot ovat oikein ennenkuin tapahtuma vakiinutetaan!" hidden={parseInt(props.item.consolidationTime) <= Date.now()}/>
     );
 
     return (
@@ -109,7 +109,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <ListItem<Kotilogi.FileType> {...props}>
-            <InfoContainer href={`/files/${props.item.id}?tableName=propertyFiles`}>
+            <InfoContainer href={`/api/files/${props.item.id}?tableName=propertyFiles`}>
                 <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
             </InfoContainer>
 

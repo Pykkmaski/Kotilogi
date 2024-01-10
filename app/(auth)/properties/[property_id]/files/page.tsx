@@ -17,7 +17,7 @@ export default async function FilesPage({params}){
                 <Header>
                     <h3>Tiedostot</h3>
                 </Header>
-                <Gallery data={files} itemComponent={PropertyFileListItem}/>
+                <Gallery display="list" data={files} itemComponent={PropertyFileListItem}/>
             </PageWithDataWrapper>
         </main>
     );

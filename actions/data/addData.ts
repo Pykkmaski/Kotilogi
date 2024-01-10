@@ -34,16 +34,16 @@ const validateData = async (data: any, tableName: Kotilogi.Table) => {
 }
 
 /**Adds data into the provided database table. */
-export async function addData(data: any, tableName: Kotilogi.Table): Promise<ParamType | null>{
+export async function addData<T extends Kotilogi.ItemType>(data: any, tableName: Kotilogi.Table){
 
-    return new Promise<ParamType>(async (resolve, reject) => {
+    return new Promise<T>(async (resolve, reject) => {
         try{
-            const dataToSave: ParamType = await processData({...data}, tableName);
+            const dataToSave: T = await processData({...data}, tableName);
             const ok = await validateData(dataToSave, tableName);
             
             if(!ok) throw new Error(`Adding of data into table ${tableName} was rejected!`);
     
-            const insertedData: ParamType[] = await db(tableName).insert(dataToSave, '*');
+            const insertedData: T[] = await db(tableName).insert(dataToSave, '*');
     
             resolve(insertedData[0]);
         }

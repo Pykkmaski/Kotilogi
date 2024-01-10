@@ -25,6 +25,7 @@ export default function GeneralSection({propertyData, updateProperty}){
                 submitMethod={updateProperty}
                 inputComponent={Input}
                 initialInputProps={{
+                    name: 'zipCode',
                     label: 'Postinumero',
                     description: 'Talon viisinumeroinen postinumero.',
                     autoComplete: 'off',
@@ -36,6 +37,7 @@ export default function GeneralSection({propertyData, updateProperty}){
                 submitMethod={updateProperty}
                 inputComponent={Input}
                 initialInputProps={{
+                    name: 'buildYear',
                     label: 'Rakennusvuosi',
                     description: 'Talon valmistumisvuosi.',
                     autoComplete: 'off',
@@ -72,14 +74,13 @@ export default function GeneralSection({propertyData, updateProperty}){
                     name: 'energyClass',
                     defaultValue: propertyData.energyClass,
                 }}
-                childProps={[
-                    ...energyClasses.map(type => {
+                childProps={energyClasses.map(type => {
                         return {
                             value: type,
                             children: type
                         }
                     })
-                ]}/>
+                }/>
 
             <SingleSelectForm
                 submitMethod={updateProperty}
@@ -93,11 +94,11 @@ export default function GeneralSection({propertyData, updateProperty}){
                 }}
                 childProps={[
                     {
-                        value: 1,
+                        value: 'Kyllä',
                         children: 'Kyllä',
                     },
                     {
-                        value: 0,
+                        value: 'Ei',
                         children: 'Ei',
                     }
                 ]}/>

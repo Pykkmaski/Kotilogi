@@ -10,7 +10,7 @@ import { uploadFile } from './uploadFile';
  * @param tableName The name of the file data containing table.
  * @returns An array containing the newly inserted database entries of the files, or null in case of an error.
  */
-export async function upload(data: FormData[], tableName: 'propertyFiles' | 'eventFiles'): Promise<Array<{id: Kotilogi.IdType, fileName: string}> | null>{
+export async function upload(data: FormData[], refId: Kotilogi.IdType, tableName: 'propertyFiles' | 'eventFiles'): Promise<Array<{id: Kotilogi.IdType, fileName: string}> | null>{
 
     return new Promise<Array<{id: Kotilogi.IdType, fileName: string}>>(async (resolve, reject) => {
         try{
@@ -42,11 +42,11 @@ export async function upload(data: FormData[], tableName: 'propertyFiles' | 'eve
               const fileData = {
                 fileName,
                 mimeType: fileType,
-                refId: d.get('refId'),
+                refId,
                 description: d.get('description'),
               }
     
-              const result = await addData(fileData, tableName);
+              const result = await addData<Kotilogi.FileType>(fileData, tableName);
               successfullyInsertedFiles.push({id: result.id, fileName: result.fileName});
             }
   

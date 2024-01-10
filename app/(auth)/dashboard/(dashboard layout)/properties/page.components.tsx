@@ -22,6 +22,7 @@ import { Group } from 'kotilogi-app/components/Group/Group';
 import { ControlsWithAddAndDelete } from 'kotilogi-app/components/HeaderControls/ControlsWithAddAndDelete';
 import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
 import { useDashboardContext } from '../DashboardContextProvider';
+import {Header as HeaderComponent} from '@/components/Header/Header';
 
 type PropertyPageContextProps = React.PropsWithChildren & {
     ownerId: string,
@@ -147,7 +148,7 @@ function AddModal({children, ...props}: AddModalProps){
 /**Displays a header title, a delete- and an add-button, and contains modals displayed when they are pressed. 
  * Responsible for functinality related to adding and deleting of properties, selected inside the Gallery-component rendered by the parent page.
 */
-export function HeaderButtons(){
+function HeaderButtons(){
     const [showAddModal, setShowAddModal] = useState(false);
     const {state} = usePageWithDataContext() as {state: {selectedItems: Kotilogi.PropertyType[]}};
 
@@ -188,13 +189,14 @@ export function Header(){
 
     return (
         <>
-            <div className={style.header}>
+            <HeaderComponent>
                 <h3>Talot</h3>
                 <ControlsWithAddAndDelete
                     id="property-controls"
                     AddModalComponent={(props) => <AddPropertyModal {...props} ownerId={user.email}/>}
                     deleteDisabled={!state.selectedItems.length}/>
-            </div>
+            </HeaderComponent>
+                
         </>
     );
 }

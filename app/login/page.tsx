@@ -11,6 +11,8 @@ import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
 import { LoginError } from 'kotilogi-app/utils/error';
+import { EditCard } from 'kotilogi-app/components/EditCard/EditCard';
+import { Group } from 'kotilogi-app/components/Group/Group';
 
 export default function LoginPage(){
     const router = useRouter();
@@ -60,61 +62,56 @@ export default function LoginPage(){
 
     return (
         <div className={styles.container}>
-            <Gradient direction='bottom'/>
-            <Form onSubmit={onSubmitHandler}>
-                <Form.Header>Kirjaudu Sisään</Form.Header>
-                <Form.Group>
-                    <label>Sähköpostiosoite</label>
-                    <input 
+            
+            <EditCard title="Kirjaudu Sisään">
+                <form onSubmit={onSubmitHandler}>
+                    <Input 
+                        label="Sähköpostiosoite"
+                        description='Sähköpostiosoite jolle tili on rekisteröity.'
                         type="email" 
                         name="email" 
                         required={true} 
                         placeholder="Kirjoita sähköpostiosoitteesi..."
                         defaultValue={getEmailField()}
                         onChange={(e) => setEmailField(e.target.value)}/>
-                </Form.Group>
 
-                <Form.Group>
-                    <div className={styles.passwordLabelContainer}>
-                        <label>Salasana</label>
-                        <Link href="/login/reset">Unohditko salasanasi?</Link>
-                    </div>
-
-                    <input 
+                    <Input 
+                        label="Salasana"
+                        description='Tilin salasana.'
                         type="password" 
                         name="password" 
                         placeholder="Kirjoita salasanasi..."
                         required 
                         className={error === 'password_mismatch' ? 'error' : undefined}/>
-                </Form.Group>
 
-                <Form.Group direction="horizontal">
-                    <SecondaryButton 
-                        desktopText='Peruuta' 
-                        type="button" 
-                        disabled={loading} 
-                        onClick={cancelHandler}
-                    />
+                    <Group direction="horizontal" justifyContent="flex-end">
+                        <SecondaryButton 
+                            desktopText='Peruuta' 
+                            type="button" 
+                            disabled={loading} 
+                            onClick={cancelHandler}
+                        />
 
-                    <PrimaryButton 
-                        desktopText='Kirjaudu'
-                        type="submit"
-                        disabled={loading}
-                        loading={loading}
-                    />
-                </Form.Group>
-
-                {
-                    error &&
-                    error === 'invalid_user' ? <Form.Error>Tiliä annetulla käyttäjätunnuksella ei ole!</Form.Error>
-                    :
-                    error === 'password_mismatch' ? <Form.Error>Annettu salasana on väärä!</Form.Error>
-                    :
-                    error === 'unexpected' ? <Form.Error>Tuntematon Virhe!</Form.Error>
-                    :
-                    <></>
-                }
-            </Form>
+                        <PrimaryButton 
+                            desktopText='Kirjaudu'
+                            type="submit"
+                            disabled={loading}
+                            loading={loading}
+                        />
+                    </Group>
+                    
+                    {
+                        error &&
+                        error === 'invalid_user' ? <Form.Error>Tiliä annetulla käyttäjätunnuksella ei ole!</Form.Error>
+                        :
+                        error === 'password_mismatch' ? <Form.Error>Annettu salasana on väärä!</Form.Error>
+                        :
+                        error === 'unexpected' ? <Form.Error>Tuntematon Virhe!</Form.Error>
+                        :
+                        <></>
+                    }
+                </form>
+            </EditCard>
         </div>
     )
 }

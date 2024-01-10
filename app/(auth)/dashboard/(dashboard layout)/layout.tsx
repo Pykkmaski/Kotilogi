@@ -6,6 +6,8 @@ import { Layout } from "kotilogi-app/components/Layout/Layout";
 import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import { DashboardContextProvider } from "./DashboardContextProvider";
+import { SecondaryHeading } from "kotilogi-app/components/Heading/Heading";
+import { Group } from "kotilogi-app/components/Group/Group";
 
 export default async function DashboardLayout({children}){
 
@@ -15,7 +17,11 @@ export default async function DashboardLayout({children}){
     return (
         <Layout>
             <Header>
-                <h3>Hallintapaneeli</h3>
+                <Group direction="vertical" gap="0">
+                    <SecondaryHeading>{session.user.email}</SecondaryHeading>
+                    <h3>Hallintapaneeli</h3>
+                </Group>
+                
             </Header>
             <SplitScreen rightWeight={9} gap="1rem">
                 <NavBar>

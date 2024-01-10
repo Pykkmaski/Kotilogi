@@ -2,6 +2,7 @@
 
 import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
+import { upload } from "../file/upload";
 
 function addConsolidationTime(eventData: any){
     const consolidationEnvVar = process.env.EVENT_CONSOLIDATION_TIME;
@@ -13,11 +14,16 @@ function addConsolidationTime(eventData: any){
     }
 }
 
-export async function addPropertyEvent(eventData: Kotilogi.EventType){
+export async function addPropertyEvent(eventData: Kotilogi.EventType, files?: FormData[]){
     return new Promise<Kotilogi.EventType>(async (resolve, reject) => {
         try{
             const processedData = addConsolidationTime(eventData);
             const newEventData = await db('propertyEvents').insert(processedData, '*') as Kotilogi.EventType;
+
+            if(files){
+                await upload(files, newEventData.id, 'eventFiles');
+            }
+
             revalidatePath('/properties/[property_id]/events');
             resolve(newEventData);
         }
