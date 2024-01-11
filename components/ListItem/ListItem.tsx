@@ -6,7 +6,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePageWithDataContext } from '../PageWithData/PageWithData';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
-import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, InfoContainer, TitleContainer } from './ListItem.components';
+import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer, TitleContainer } from './ListItem.components';
 import { deleteData } from 'kotilogi-app/actions/data/deleteData';
 import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
@@ -89,18 +89,20 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
         }} title="Tämä tapahtuma on poistettavissa. Varmista että tapahtuman tiedot ovat oikein ennenkuin tapahtuma vakiinutetaan!" hidden={parseInt(props.item.consolidationTime) <= Date.now()}/>
     );
 
+    const isConsolidated = Date.now() >= parseInt(props.item.consolidationTime);
+
     return (
         <ListItem<Kotilogi.EventType> {...props}>
             <HighlightBadge/>
             <InfoContainer href={`/events/${props.item.id}`}>
-                <TitleContainer titleText={props.item.title} iconSrc='/icons/history.png'/>
+                <EventTitleContainer titleText={props.item.title} iconSrc='/icons/history.png' isConsolidated={isConsolidated}/>
                 <DescriptionContainer text={props.item.description}/>
                 <small>{date}</small>
             </InfoContainer>
 
             <ControlsContainer>
                 <CheckBox/>
-                <DeleteButton onClick={deleteEvent} hidden={Date.now() >= parseInt(props.item.consolidationTime)}/>
+                { !isConsolidated ? <DeleteButton onClick={deleteEvent} hidden={isConsolidated}/> : null} 
             </ControlsContainer>
         </ListItem>
     );

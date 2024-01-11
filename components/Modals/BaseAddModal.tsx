@@ -3,6 +3,8 @@ import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
+import { Group } from "../Group/Group";
+import Form from "../Form/Form";
 
 type BaseAddModalProps = ModalProps & {
     refId: Kotilogi.IdType,
@@ -49,19 +51,24 @@ export function BaseAddModal({children, refId, submitMethod, ...props}: BaseAddM
             </Modal.Body>
 
             <Modal.Footer>
-                <SecondaryButton
-                    desktopText="Peruuta"
-                    onClick={() => {
-                        closeModal();
-                    }}
-                    disabled={loading}/>
+                <Group direction="horizontal" justifyContent="space-between">
+                    {status === 'error' ? <Form.Error>Tapahtui odottamaton virhe!</Form.Error> : null}
+                    <Group direction="horizontal">
+                        <SecondaryButton
+                            desktopText="Peruuta"
+                            onClick={() => {
+                                closeModal();
+                            }}
+                            disabled={loading}/>
 
-                <PrimaryButton
-                    desktopText="Lähetä"
-                    type="submit"
-                    loading={loading}
-                    disabled={loading}
-                    form={formId}/>
+                        <PrimaryButton
+                            desktopText="Lähetä"
+                            type="submit"
+                            loading={loading}
+                            disabled={loading}
+                            form={formId}/>
+                    </Group>
+                </Group>
             </Modal.Footer>
         </Modal>
     );

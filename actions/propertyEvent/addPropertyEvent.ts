@@ -15,21 +15,30 @@ function addConsolidationTime(eventData: Kotilogi.EventType){
 }
 
 export async function addPropertyEvent(eventData: Kotilogi.EventType, files?: FormData[]){
+    var addedEvent: Kotilogi.EventType | null = null;
+
     return new Promise<Kotilogi.EventType>(async (resolve, reject) => {
         try{
             const processedData = addConsolidationTime(eventData);
-            const newEventData = await db('propertyEvents').insert(processedData, '*') as Kotilogi.EventType;
+            [addedEvent] = await db('propertyEvents').insert(processedData, '*') as [Kotilogi.EventType];
+            console.log(addedEvent);
 
             if(files){
-                console.log(newEventData.id);
-                await upload(files, newEventData.id, 'eventFiles');
+                console.log(addedEvent.id);
+                await upload(files, addedEvent.id, 'eventFiles');
             }
 
             revalidatePath('/properties/[property_id]/events');
-            resolve(newEventData);
+            resolve(addedEvent);
         }
         catch(err){
             console.log(err.message);
+
+            if(addedEvent){
+                //Clean up the event if it was added.
+                await db('propertyEvents').where({id: addedEvent.id}).del();
+            }
+
             reject(err);
         }
     });

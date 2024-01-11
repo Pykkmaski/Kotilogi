@@ -2,6 +2,7 @@ import Link from "next/link"
 import { usePageWithDataContext } from "../PageWithData/PageWithData"
 import style from './style.module.scss';
 import { useListItemContext } from "./ListItem.hooks";
+import { Group } from "../Group/Group";
 
 type TitleContainerProps = {
     titleText: string,
@@ -15,6 +16,19 @@ export function TitleContainer(props: TitleContainerProps){
             <span className={style.title}>{props.titleText}</span>   
         </div>
     )
+}
+
+type EventTitleContainerProps = TitleContainerProps & {
+    isConsolidated: boolean,
+}
+
+export function EventTitleContainer({isConsolidated, ...props}: EventTitleContainerProps){
+    return (
+        <Group direction="horizontal" alignItems="baseline">
+            <TitleContainer {...props}/>
+            {!isConsolidated ? <div className={style.notConsolidatedTitle} title="Tapahtumaa ei ole vakiinnutettu ja on poistettavissa.">Vakiinnuttamaton</div> : null }
+        </Group>
+    );
 }
 
 type DescriptionContainerProps = {
