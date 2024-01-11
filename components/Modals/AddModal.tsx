@@ -7,6 +7,9 @@ import { buildingTypes } from "kotilogi-app/constants";
 import { addPropertyEvent } from "kotilogi-app/actions/propertyEvent/addPropertyEvent";
 import { useInputFiles, useInputData } from "./BaseAddModal.hooks";
 import { BaseAddModal } from "./BaseAddModal";
+import { upload } from "kotilogi-app/actions/file/upload";
+import { addPropertyFiles } from "kotilogi-app/actions/property/addPropertyFiles";
+import { addPropertyEventFiles } from "kotilogi-app/actions/propertyEvent/addPropertyEventFiles";
 
 
 type AddPropertyModalProps = ModalProps & {
@@ -80,7 +83,7 @@ export function AddEventModal({propertyId, ...props}: AddEventModalProps){
     const onSubmit = (e) => addPropertyEvent(data, files);
 
     return (    
-        <BaseAddModal {...props} refId={propertyId} submitMethod={onSubmit} title={'Lisää Talo'}>
+        <BaseAddModal {...props} refId={propertyId} submitMethod={onSubmit} title={'Lisää Tapahtuma'}>
             <Input
                 name="title"
                 label="Otsikko"
@@ -114,4 +117,72 @@ export function AddEventModal({propertyId, ...props}: AddEventModalProps){
                 onInput={updateFiles}/>
         </BaseAddModal>
     );
+}
+
+type AddFilesModalProps = ModalProps & {
+    title: string,
+    refId: string,
+    tableName: string,
+    inputDescription: string,
+    submitMethod: (data: FormData[], refId: string) => Promise<void>,
+}
+
+function AddFilesModal({children, submitMethod, title, refId, tableName, ...props}: AddFilesModalProps){
+
+    const {files, updateFiles} = useInputFiles();
+
+    const onSubmit = (e) => submitMethod(files, refId);
+
+    return (
+        <BaseAddModal title={title} {...props} submitMethod={onSubmit} refId={refId}>
+            <Input
+                name="file"
+                type="file"
+                accept="application/pdf"
+                label="Tiedostot"
+                description={props.inputDescription}
+                onInput={updateFiles}
+            />
+        </BaseAddModal>
+    );
+}
+
+type AddPropertyFilesModalProps = ModalProps & {
+    propertyId: Kotilogi.IdType,
+}
+
+export function AddPropertyFilesModal({propertyId, ...props}: AddPropertyFilesModalProps){
+    return (
+        <AddFilesModal 
+            {...props}
+            id="add-property-files-modal" 
+            refId={propertyId} 
+            title="Lisää Tiedostoja" 
+            inputDescription="Lisää taloon liittyviä pdf-tiedostoja."
+            submitMethod={addPropertyFiles}
+            tableName="propertyFiles"
+            >
+            
+        </AddFilesModal>
+    )
+}
+
+type AddEventFilesModalProps = ModalProps & {
+    eventId: Kotilogi.IdType,
+}
+
+export function AddEventFilesModal({eventId, ...props}: AddEventFilesModalProps){
+    return (
+        <AddFilesModal 
+            {...props}
+            id="add-property-files-modal" 
+            refId={eventId} 
+            title="Lisää Tiedostoja" 
+            inputDescription="Lisää tapahtumaan liittyviä pdf-tiedostoja."
+            submitMethod={addPropertyEventFiles}
+            tableName="eventFiles"
+            >
+            
+        </AddFilesModal>
+    )
 }

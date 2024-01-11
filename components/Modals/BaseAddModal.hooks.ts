@@ -8,41 +8,6 @@ export function useStatus(initialState: StatusType){
     return [status, setStatus] as const;
 }
 
-export function useAddModal(
-    refId: Kotilogi.IdType, 
-    submitFunction: (data: FormData) => Promise<object>, 
-    onHide: () => void){
-        
-    const [status, setStatus] = useState<StatusType>('idle');
-    const {data, onChange} = useChangeInput({refId});
-    const formRef = useRef<HTMLFormElement | null>(null);
-    
-    const action = (formData: FormData) => {
-        formData.append('refId', refId);
-
-        submitFunction(formData)
-        .then(res => {
-            setStatus('success');
-            
-        })
-        .catch(err => setStatus('error'))
-        .finally(() => closeModal());
-    }
-
-    const closeModal = () => {
-        formRef.current?.reset();
-        onHide();
-    }
-
-    return {
-        status,
-        onChange,
-        action,
-        formRef,
-        closeModal,
-    }
-}
-
 /**Hook to contain uploaded files before they are submitted.
  * @param defaultData The default data to be inserted alongside every file.
  * @returns The files and a function to update them.
@@ -61,7 +26,7 @@ export function useInputFiles(){
         }
         setFiles(newFiles);
     }
-    
+
     return {files, updateFiles};
 }
 

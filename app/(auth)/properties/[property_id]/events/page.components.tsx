@@ -48,8 +48,10 @@ function HeaderControls(){
             <Group direction="horizontal">
                 <ViewSelector/>
                 <SearchBar/>
-                <SecondaryButton desktopText="Poista" mobileIconSrc="/icons/bin.png" disabled={!selectedItems.length} onClick={deleteSelectedEvents}/>
-                <PrimaryButton desktopText="Lisää Uusi" mobileIconSrc="/icons/plus.png" onClick={() => setShowAddModal(true)}/>
+                <ControlsWithAddAndDelete
+                    id="property-event-controls"
+                    AddModalComponent={(props) => <AddEventModal {...props} propertyId={property.id}/>}
+                    deleteDisabled={!selectedItems.length}/>
             </Group>
         </>
     );

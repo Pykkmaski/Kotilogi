@@ -23,18 +23,17 @@ export function ControlsWithAddAndDelete({AddModalComponent, ...props}: Controls
                 onHide={() => setShowAddModal(false)} 
                 id={`${props.id}-add-modal`}/>
 
-            <Group direction="horizontal" gap="1rem">
-                <SecondaryButton 
-                    desktopText="Poista" 
-                    disabled={props.deleteDisabled}
-                    mobileIconSrc='/icons/bin.png'
-                    onClick={() => setShowDeleteModal(true)}/>
+           
+            <SecondaryButton 
+                desktopText="Poista" 
+                disabled={props.deleteDisabled}
+                mobileIconSrc='/icons/bin.png'
+                onClick={() => setShowDeleteModal(true)}/>
 
-                <PrimaryButton 
-                    desktopText="Lisää Uusi" 
-                    mobileIconSrc="/icons/plus.png" 
-                    onClick={() => setShowAddModal(true)}/>
-            </Group>
+            <PrimaryButton 
+                desktopText="Lisää Uusi" 
+                mobileIconSrc="/icons/plus.png" 
+                onClick={() => setShowAddModal(true)}/>
         </>
     )
 }

@@ -44,145 +44,6 @@ function usePropertyPageContext(){
     return context;
 }
 
-type AddModalProps = ModalProps;
-
-/**A modal displayed when clicking on the add-new-button in the header of the page. */
-function AddModal({children, ...props}: AddModalProps){
-    const {state, dispatch} = usePageWithDataContext();
-    const {ownerId} = usePropertyPageContext();
-
-    const {data, onChange} = useChangeInput({refId: ownerId});
-    const [loading, setLoading] = useState(false);
-    const formRef = useRef<HTMLFormElement | null>(null);
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        setLoading(true);
-
-        addProperty(data)
-        .then((property: any) => {
-            dispatch({
-                type: 'set_items',
-                value: state.items ? [...state.items, property] : [property],
-            })
-        })
-        .catch(err => console.log(err.message))
-        .finally(() => {
-            setLoading(false);
-            props.onHide();
-        });
-    }
-
-    const formId = 'add-property-form';
-
-    return (
-        <Modal {...props}>
-            <Modal.Header>Lisää Uusi Talo</Modal.Header>
-
-            <Modal.Body>
-                <form id={formId} onSubmit={onSubmit} ref={formRef}>
-                    <Group direction="vertical" gap="2rem">
-                    <Input
-                        autoComplete='off'
-                        name="zipCode"
-                        required={true}
-                        label="Postinumero"
-                        maxLength={5}
-                        minLength={5}
-                        description="Talon viisinumeroinen postinumero."
-                        placeholder="Kirjoita postinumero tähän..."
-                        onChange={onChange}/>
-
-                    <Input 
-                        autoComplete='off'
-                        name="title"
-                        required={true}
-                        label="Osoite"
-                        description="Talon katuosoite."
-                        placeholder="Kirjoita talon osoite tähän..."
-                        onChange={onChange}/>
-
-                    <Select
-                        name="buildingType"
-                        label="Tyyppi"
-                        description="Talon tyyppi."
-                        required={true}
-                        onChange={onChange}
-                    >
-                        {
-                            buildingTypes.map(buildingType => <option value={buildingType}>{buildingType}</option>)
-                        }
-                    </Select>
-                    
-                    <Textarea
-                        name="description"
-                        label="Kuvaus"
-                        description="Vapaaehtoinen talon kuvaus."
-                        onChange={onChange}
-                        placeholder="Kirjoita kuvaus tähän..."/>
-                    </Group>
-                    
-                </form>
-            </Modal.Body>
-
-            <Modal.Footer>
-                <SecondaryButton 
-                    desktopText='Peruuta' 
-                    onClick={() => {
-                        props.onHide();
-                        formRef.current?.reset();
-                    }}
-                    disabled={loading}/>
-
-                <PrimaryButton 
-                    desktopText='Lähetä' 
-                    type="submit" 
-                    form={formId}
-                    disabled={loading}
-                    loading={loading}/>
-            </Modal.Footer>
-        </Modal>
-    )
-}
-
-/**Displays a header title, a delete- and an add-button, and contains modals displayed when they are pressed. 
- * Responsible for functinality related to adding and deleting of properties, selected inside the Gallery-component rendered by the parent page.
-*/
-function HeaderButtons(){
-    const [showAddModal, setShowAddModal] = useState(false);
-    const {state} = usePageWithDataContext() as {state: {selectedItems: Kotilogi.PropertyType[]}};
-
-    const deleteSelecedProperties = async () => {
-        const addresses = state.selectedItems.map(prop => prop.title);
-        const response = confirm('Olet poistamassa kohteita ' + addresses + '. Oletko varma?');
-        if(!response) return;
-
-        for(const item of state.selectedItems){
-            //Note: this method does not yet delete the actual files from disk.
-            await deleteProperty(item.id)
-            .catch(err => toast.error('Talon ' + item.title + ' poisto epäonnistui!'));
-        }
-    }
-    
-    return (
-        <>
-            <AddModal show={showAddModal} onHide={() => setShowAddModal(false)} id="add-property-modal"/>
-
-            <div className={style.headerButtons}>
-                <SecondaryButton 
-                    desktopText="Poista" 
-                    disabled={state.selectedItems.length == 0}
-                    mobileIconSrc='/icons/bin.png'
-                    onClick={deleteSelecedProperties}/>
-                <PrimaryButton 
-                    desktopText="Lisää Uusi" 
-                    mobileIconSrc="/icons/plus.png" 
-                    onClick={() => setShowAddModal(true)}/>
-            </div>
-        </>
-    )
-}
-
 export function Header(){
     const {state} = usePageWithDataContext();
     const {user} = useDashboardContext();
@@ -191,10 +52,13 @@ export function Header(){
         <>
             <HeaderComponent>
                 <h3>Talot</h3>
-                <ControlsWithAddAndDelete
-                    id="property-controls"
-                    AddModalComponent={(props) => <AddPropertyModal {...props} ownerId={user.email}/>}
-                    deleteDisabled={!state.selectedItems.length}/>
+                <Group direction="horizontal" gap="0.5rem">
+                    <ControlsWithAddAndDelete
+                        id="property-controls"
+                        AddModalComponent={(props) => <AddPropertyModal {...props} ownerId={user.email}/>}
+                        deleteDisabled={!state.selectedItems.length}/>
+                </Group>
+                
             </HeaderComponent>
                 
         </>
@@ -219,20 +83,6 @@ function DeleteButton(){
         </div>
         :
         null
-    );
-}
-
-export function Controls(){
-    const [showAddModal, setShowAddModal] = useState(false);
-
-    return (
-        <>
-            <AddModal show={showAddModal} onHide={() => setShowAddModal(false)} id="add-property-modal"/>
-            <div className={style.controls}>
-                <AddButton onClick={() => setShowAddModal(true)}/>
-                <DeleteButton/>
-            </div>
-        </>
     );
 }
 
