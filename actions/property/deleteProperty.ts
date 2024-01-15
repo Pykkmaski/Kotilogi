@@ -1,16 +1,12 @@
 'use server';
 
-import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
-import {unlink} from 'fs/promises';
-import { uploadPath } from "kotilogi-app/uploadsConfig";
-import { deleteFiles } from "../file/deleteFiles";
+import { deleteData } from "../data/deleteData";
 
 export async function deleteProperty(propertyId: Kotilogi.IdType){
     return new Promise<void>(async (resolve, reject) => {
         try{
-            await deleteFiles('propertyFiles', propertyId);
-            await db('properties').where({id: propertyId}).del();
+            await deleteData('properties', propertyId);
             revalidatePath('/properties');
             resolve();
         }

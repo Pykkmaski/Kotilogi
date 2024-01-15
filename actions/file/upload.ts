@@ -3,6 +3,7 @@
 import { limit } from 'kotilogi-app/uploadsConfig';
 import { addData } from '../data/addData';
 import { uploadFile } from './uploadFile';
+import stringToDate from 'kotilogi-app/utils/stringToDate';
 
 /**
  * Uploads files, and saves their info into a database table.
@@ -40,14 +41,13 @@ export async function upload(data: FormData[], refId: Kotilogi.IdType, tableName
               
               //Save the database entry for the file.
               const fileData = {
+                title: fileName,
                 fileName,
                 mimeType: fileType,
                 refId,
-                description: d.get('description'),
               }
               
-              console.log(refId);
-              const result = await addData<Kotilogi.FileType>(fileData, tableName);
+              const result = await addData<Kotilogi.FileType>(tableName, fileData as any,);
               successfullyInsertedFiles.push({id: result.id, fileName: result.fileName});
             }
   

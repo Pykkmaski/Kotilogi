@@ -48,9 +48,10 @@ function Controls(props: ControlsProps){
 }
 
 export type SingleInputFormProps = {
-    submitMethod: (value: object) => Promise<object>,
+    submitMethod: (value: object) => Promise<object | void>,
     inputComponent: React.FC<InputProps | TextAreaProps>,
     initialInputProps: InputProps | TextAreaProps,
+    editingDisabled?: boolean,
 }
 
 /**A wrapper for inputs adding buttons to the bottom of it to submit the value of the input.*/
@@ -74,16 +75,22 @@ export function SingleInputForm({inputComponent: InputComponent, ...props}: Sing
                 value={
                     editing ? undefined : cancelFallbackValue.current}
                 onChange={(e) => inputValue.current = e.target.value}
-                title={!editing ? 'Paina Muokkaa-nappia muokataksesi.' : undefined}/>
+                title={!editing && !props.editingDisabled ? 'Paina Muokkaa-nappia muokataksesi.' : undefined}/>
 
-            <Controls 
-                editing={editing} 
-                edit={edit}
-                onSubmit={() => {
-                    onSubmit(props.submitMethod)
-                }} 
-                status={status}
-                cancelEdit={cancelEdit}/>
+            {
+                !props.editingDisabled ? 
+                <Controls 
+                    editing={editing} 
+                    edit={edit}
+                    onSubmit={() => {
+                        onSubmit(props.submitMethod)
+                    }} 
+                    status={status}
+                    cancelEdit={cancelEdit}/>
+                :
+                null
+            }
+            
         </Group>
     )
 }
@@ -94,6 +101,7 @@ export type SingleSelectFormProps = {
     childProps: React.ComponentProps<'option'>[],
     initialInputProps: SelectProps,
     submitMethod: (value: object) => Promise<object>,
+    editingDisabled?: boolean,
 }
 
 export function SingleSelectForm({inputComponent: InputComponent, childComponent: ChildComponent, ...props}: SingleSelectFormProps){
@@ -141,15 +149,20 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
                 }
           
             </InputComponent>
-
-            <Controls 
-                editing={editing} 
-                edit={edit}
-                onSubmit={() => {
-                    onSubmit(props.submitMethod)
-                }} 
-                status={status}
-                cancelEdit={cancelEdit}/>
+            {
+                !props.editingDisabled ? 
+                <Controls 
+                    editing={editing} 
+                    edit={edit}
+                    onSubmit={() => {
+                        onSubmit(props.submitMethod)
+                    }} 
+                    status={status}
+                    cancelEdit={cancelEdit}/>
+                :
+                null
+            }
+            
         </Group>
     )
 }

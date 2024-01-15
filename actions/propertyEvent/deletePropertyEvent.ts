@@ -4,6 +4,7 @@ import db from "kotilogi-app/dbconfig";
 import { deleteFiles } from "../file/deleteFiles";
 import { revalidatePath } from "next/cache";
 import { PropertyEventError } from "kotilogi-app/utils/error";
+import { deleteData } from "../data/deleteData";
 
 /**Checks if an event passes all requirements for deletion and returns and error code.
  * Refer to PropertyEventError for details on the returned codes.
@@ -27,12 +28,10 @@ export async function deletePropertyEvent(eventId: Kotilogi.IdType){
             const event = await db('propertyEvents').where({id: eventId}).first();
             if(!event) throw new Error(`An event with id of ${eventId} does not exist, and cannot be deleted!`);
 
-            
             const code = verifyEventDeletion(event);
             if(code !== 'success') throw new Error(code);
-           
-            await deleteFiles('eventFiles', eventId);
-            await db('propertyEvents').where({id: eventId}).del();
+            
+            await deleteData('propertyEvents', eventId);
             revalidatePath('/properties/[property_id]/events');
             resolve();
         }

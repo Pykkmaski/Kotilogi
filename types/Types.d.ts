@@ -10,8 +10,8 @@ namespace Kotilogi{
     }
 
     type HasTimeStamp = {
-        createdAt: string,
-        updatedAt: string,
+        createdAt?: string,
+        updatedAt?: string,
     }
 
     type HasMainImageFilename = {
@@ -40,7 +40,7 @@ namespace Kotilogi{
     type Plans = 'regular' | 'pro';
     
     declare type HasMimeType = {
-        mimeType: MimeType,
+        mimeType?: MimeType,
     }
 
     type UsageType = HasId & HasRefId & HasDate & HasTimeStamp & {
@@ -49,7 +49,7 @@ namespace Kotilogi{
     }
 
     type HasMainImageId = {
-        mainImageId: IdType,
+        mainImageId?: IdType,
     }
     
     type ItemType = HasTitle & HasDescription & HasId & HasTimeStamp & HasRefId;

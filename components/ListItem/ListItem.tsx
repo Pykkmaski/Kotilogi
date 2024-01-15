@@ -7,9 +7,10 @@ import Link from 'next/link';
 import { usePageWithDataContext } from '../PageWithData/PageWithData';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer, TitleContainer } from './ListItem.components';
-import { deleteData } from 'kotilogi-app/actions/data/deleteData';
+import { deleteData } from 'kotilogi-app/actions/data/deleteData.old';
 import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
+import { useListItemContext } from './ListItem.hooks';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
@@ -18,22 +19,32 @@ export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren
 
 type ListItemContextProps = {
     item: unknown,
+    selected?: boolean,
 }
 
 export const ListItemContext = createContext<ListItemContextProps | null>(null);
 
-export function ListItem<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
+export function ListItemProvider<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
+    return (
+        <ListItemContext.Provider value={{
+            item: props.item,
+            selected: props.selected,
+        }}>
+            {children}
+        </ListItemContext.Provider>
+    );
+}
+
+function ListItem<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
     const classes = props.selected ? [style.container, style.selected] : [style.container];
     const className = classes.join(' ');
 
     return (
-        <div className={className}>
-            <ListItemContext.Provider value={{
-                item: props.item,
-            }}>
+        <ListItemProvider item={props.item} selected={props.selected}>
+            <div className={className}>
                 {children}
-            </ListItemContext.Provider>
-        </div>
+            </div>
+        </ListItemProvider>
     );
 }
 
@@ -93,17 +104,22 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 
     return (
         <ListItem<Kotilogi.EventType> {...props}>
-            <HighlightBadge/>
-            <InfoContainer href={`/events/${props.item.id}`}>
+            <InfoContainer href={`/events/${props.item.id}/info`}>
                 <EventTitleContainer titleText={props.item.title} iconSrc='/icons/history.png' isConsolidated={isConsolidated}/>
                 <DescriptionContainer text={props.item.description}/>
                 <small>{date}</small>
             </InfoContainer>
-
-            <ControlsContainer>
-                <CheckBox/>
-                { !isConsolidated ? <DeleteButton onClick={deleteEvent} hidden={isConsolidated}/> : null} 
-            </ControlsContainer>
+            
+            {
+                !isConsolidated ? 
+                <ControlsContainer>
+                    <CheckBox/>
+                    <DeleteButton onClick={deleteEvent} hidden={isConsolidated}/>
+                </ControlsContainer>
+                :
+                null
+            }
+            
         </ListItem>
     );
 }
@@ -135,5 +151,33 @@ export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
                 <DeleteButton onClick={() => {}}/>
             </ControlsContainer>
         </ListItem>
+    );
+}
+
+type ImageListItemProps = ListItemProps<Kotilogi.FileType> & {
+    imageSrc: string,
+}
+
+export function ImageListItem({imageSrc, ...props}: ImageListItemProps){
+    return (
+        <ListItemProvider {...props}>
+            <div className={style.imageItemContainer}>
+                <img src={imageSrc} className={style.image}/>
+            </div>
+        </ListItemProvider>
+    );
+}
+
+export function PropertyImageListItem(props: ListItemProps<Kotilogi.FileType>){
+    return (
+        <ImageListItem {...props} imageSrc={`/api/files/${props.item.id}?tableName=propertyFiles`}/>
+    );
+}
+
+export function EventImageItem(props: ListItemProps<Kotilogi.FileType>){
+    return (
+        <div className={style.imageItemContainer}>
+            <img src={`/api/files/${props.item.id}?tablename=eventFiles`} className={style.image}/>
+        </div>  
     );
 }

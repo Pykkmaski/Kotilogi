@@ -23,13 +23,14 @@ import { Input, Textarea } from "kotilogi-app/components/Input/Input";
 import { ControlsWithAddAndDelete } from "kotilogi-app/components/HeaderControls/ControlsWithAddAndDelete";
 import { AddEventModal, AddPropertyModal } from "kotilogi-app/components/Modals/AddModal";
 import { useDashboardContext } from "kotilogi-app/app/(auth)/dashboard/(dashboard layout)/DashboardContextProvider";
+import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
+import { StateType } from "kotilogi-app/components/Experimental/Gallery/Gallery.reducer";
+import { Heading } from "kotilogi-app/components/Heading/Heading";
 
 /**Responsible for rendering the controls and modals related to deleting and adding events.*/
 function HeaderControls(){
     const {property} = usePropertyContext();
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const {state: {selectedItems}} = usePageWithDataContext() as {state: {selectedItems: Kotilogi.EventType[]}};
+    const {state: {selectedItems}, dispatch} = usePageWithDataContext() as any;
 
     const deleteSelectedEvents = () => {
         const eventNames = selectedItems.map(item => item.title);
@@ -44,13 +45,40 @@ function HeaderControls(){
 
     return (
         <>
-            <AddEventModal propertyId={property.id} show={showAddModal} onHide={() => setShowAddModal(false)} id="event-add-modal"/>
             <Group direction="horizontal">
                 <ViewSelector/>
                 <SearchBar/>
                 <ControlsWithAddAndDelete
                     id="property-event-controls"
-                    AddModalComponent={(props) => <AddEventModal {...props} propertyId={property.id}/>}
+                    AddModalComponent={(props) => <AddEventModal {...props} refId={property.id}/>}
+                    DeleteModalComponent={
+                        (props) => <DeleteModal {...props} targetsToDelete={selectedItems} deleteMethod={
+                            () => {
+                                return new Promise<void>(async (resolve, reject) => {
+                                    try{
+                                        for(const target of selectedItems as Kotilogi.EventType[]){
+                                            await deletePropertyEvent(target.id);
+                                        }
+
+                                        dispatch({
+                                            type: 'reset_selected',
+                                            value: null,
+                                        });
+
+                                        resolve();
+                                    }
+                                    catch(err){
+                                        reject(err);
+                                    }
+                                })
+                            }
+                        } resetSelectedTargets={() => {
+                            dispatch({
+                                type: 'reset_selected',
+                                value: null,
+                            });
+                        }}/>
+                    }   
                     deleteDisabled={!selectedItems.length}/>
             </Group>
         </>
@@ -62,7 +90,7 @@ export function Header(){
  
     return (
         <HeaderComponent>
-            <h3>Tapahtumat ({events?.length})</h3>
+            <Heading>Tapahtumat</Heading>
             <HeaderControls/>
         </HeaderComponent>
     )

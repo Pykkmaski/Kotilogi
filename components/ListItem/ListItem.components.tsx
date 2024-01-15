@@ -26,9 +26,9 @@ export function EventTitleContainer({isConsolidated, ...props}: EventTitleContai
     return (
         <Group direction="horizontal" alignItems="baseline">
             {
-                isConsolidated ? <img src="/icons/padlock.png" className={style.icon} title="Tapahtuma on vakiinnutettu, eikä sitä voi poistaa."/> 
+                isConsolidated ? <img src="/icons/padlock.png" className={style.icon} title="Tapahtuma on vakiinnutettu, eikä sitä voi muokata."/> 
                 : 
-                <img src="/icons/padlock-open.png" className={style.icon} title="Tapahtumaa ei ole vielä vakiinnutettu ja on muokattavissa."/>
+                null
             }
             <TitleContainer {...props}/>
             {!isConsolidated ? <div className={style.notConsolidatedTitle} title="Tapahtumaa ei ole vakiinnutettu ja on poistettavissa.">Vakiinnuttamaton</div> : null }

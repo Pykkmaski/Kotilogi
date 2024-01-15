@@ -1,7 +1,7 @@
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useCardContext } from "../GalleryBase/Components/Body/Components/Card/CardContext";
 import Button from "kotilogi-app/components/Button/Button";
-import {deleteData} from "kotilogi-app/actions/data/deleteData";
+import {deleteData} from "kotilogi-app/actions/data/deleteData.old";
 import serverRevalidatePath from "kotilogi-app/actions/serverRevalidatePath";
 import toast from "react-hot-toast";
 import { useState } from "react";

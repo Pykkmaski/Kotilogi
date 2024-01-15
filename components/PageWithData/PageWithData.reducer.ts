@@ -13,6 +13,9 @@ export type ActionType<DataT> = {
 } | {
     type: 'set_query',
     value: string,
+} | {
+    type: 'reset_selected',
+    value: null,
 }
 
 export function reducer<DataT extends Kotilogi.ItemType>(state: StateType<DataT>, action: ActionType<DataT>): StateType<DataT>{
@@ -31,6 +34,13 @@ export function reducer<DataT extends Kotilogi.ItemType>(state: StateType<DataT>
             return {
                 ...state,
                 selectedItems: newSelectedItems,
+            }
+        }
+
+        case 'reset_selected':{
+            return {
+                ...state,
+                selectedItems: [],
             }
         }
 

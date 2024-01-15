@@ -1,9 +1,11 @@
 'use client';
 
-import { Key, useEffect, useState } from 'react';
+import { Key, createContext, useEffect, useState } from 'react';
 import style from './style.module.scss';
 import { useGallery } from './Gallery.hooks';
 import { usePageWithDataContext } from 'kotilogi-app/components/PageWithData/PageWithData';
+import { Group } from 'kotilogi-app/components/Group/Group';
+import { ButtonProps } from 'kotilogi-app/components/Button/Button';
 
 type GalleryProps<DataT> = {
     data: DataT[] | null,

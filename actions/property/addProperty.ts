@@ -5,6 +5,7 @@ import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
 import { formDataToObject } from "../util/formDataToObject";
 import { upload } from "../file/upload";
+import { addData } from "../data/addData";
 
 /**
  * Returns the number of properties a user is allowed to add based on their account type.
@@ -12,7 +13,7 @@ import { upload } from "../file/upload";
  * @returns {Promise<number>} Resolves to the number of properties allowed. Negative numbers are interpreted as infinite. 0 if the account with the provided id is not found.
  */
 
-async function getMaxPropertiesByAccountId(id: Kotilogi.IdType): Promise<number>{
+export async function getMaxPropertiesByAccountId(id: Kotilogi.IdType): Promise<number>{
     const {plan} = await db('users').where({email: id}).select('plan').first();
     if(!plan) return 0;
 
@@ -32,7 +33,7 @@ async function getMaxPropertiesByAccountId(id: Kotilogi.IdType): Promise<number>
  * @param email The email of the user.
  */
 
-async function isAllowedToAddProperty(email: string): Promise<boolean>{
+export async function isAllowedToAddProperty(email: string): Promise<boolean>{
     try{
         //Get the number of properties the user has already saved.
         const [properties] = await db('properties').where({refId: email}).count('*', {as: 'count'});
@@ -52,20 +53,13 @@ async function isAllowedToAddProperty(email: string): Promise<boolean>{
 }
 
 export async function addProperty(data: Kotilogi.PropertyType, files?: FormData[]){
-    return new Promise<{id: string}>(async (resolve, reject) => {
+    return new Promise<object>(async (resolve, reject) => {
         try{
             const ok = await isAllowedToAddProperty(data.refId);
             if(!ok) return reject('not_allowed');
 
-            const [property] = await db('properties').insert(data, '*');
-
-            if(files){
-                
-                await upload(files, property.id, 'propertyFiles');
-            }
-
+            const property = await addData<Kotilogi.PropertyType>('properties', data, files);
             revalidatePath('/properties');
-
             resolve(property);
         }
         catch(err){

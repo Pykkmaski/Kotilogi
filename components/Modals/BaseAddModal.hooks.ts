@@ -45,3 +45,14 @@ export function useInputData(initialData){
 
     return {data, updateData};
 }
+
+export function useAddModal(refId, submitMethod: (data: object, files?: FormData[]) => Promise<object>){
+    const {data, updateData} = useInputData({refId});
+    const {files, updateFiles} = useInputFiles();
+
+    const onSubmit = (e) => {
+        return submitMethod(data, files);
+    }
+
+    return {updateData, updateFiles, onSubmit}
+}

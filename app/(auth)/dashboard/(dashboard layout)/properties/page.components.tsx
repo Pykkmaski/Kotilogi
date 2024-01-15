@@ -3,7 +3,7 @@
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import style from './page.module.scss';
 import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
-import { deleteData } from 'kotilogi-app/actions/data/deleteData';
+import { deleteData } from 'kotilogi-app/actions/data/deleteData.old';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
@@ -20,9 +20,12 @@ import { usePageWithDataContext } from 'kotilogi-app/components/PageWithData/Pag
 import toast from 'react-hot-toast';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import { ControlsWithAddAndDelete } from 'kotilogi-app/components/HeaderControls/ControlsWithAddAndDelete';
-import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
 import { useDashboardContext } from '../DashboardContextProvider';
 import {Header as HeaderComponent} from '@/components/Header/Header';
+import { DeleteModal } from 'kotilogi-app/components/Modals/DeleteModal';
+import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
+import { DataProvider } from 'kotilogi-app/components/Experimental/DataProvider/DataProvider';
+import { PropertyListItem } from 'kotilogi-app/components/ListItem/ListItem';
 
 type PropertyPageContextProps = React.PropsWithChildren & {
     ownerId: string,
@@ -38,15 +41,13 @@ export function PropertyPageContextProvider({children, ...props}: PropertyPageCo
     );
 }
 
-function usePropertyPageContext(){
-    const context = useContext(PropertyPageContext);
-    if(!context) throw new Error('usePropertyPageContext must be used within the scope of a PropertyGalleryContext!');
-    return context;
-}
-
 export function Header(){
-    const {state} = usePageWithDataContext();
+    const {state, dispatch} = usePageWithDataContext();
     const {user} = useDashboardContext();
+
+    const AddModalComponent = (props: ModalProps) => (
+        <AddPropertyModal refId={user.email} {...props}/>
+    );
 
     return (
         <>
@@ -55,42 +56,44 @@ export function Header(){
                 <Group direction="horizontal" gap="0.5rem">
                     <ControlsWithAddAndDelete
                         id="property-controls"
-                        AddModalComponent={(props) => <AddPropertyModal {...props} ownerId={user.email}/>}
+                        AddModalComponent={AddModalComponent}
+
+                        DeleteModalComponent={(props) => <DeleteModal<Kotilogi.PropertyType> 
+                            {...props} 
+                            targetsToDelete={state.selectedItems as Kotilogi.PropertyType[]}
+                            deleteMethod={() => {
+                                return new Promise<void>(async (resolve, reject) => {
+                                    try{
+                                        for(const prop of state.selectedItems as Kotilogi.PropertyType[]){
+                                            await deleteProperty(prop.id);
+                                        }
+                                        resolve();
+                                    }
+                                    catch(err){
+                                        reject(err);
+                                    }
+                                });
+                            }}
+                            resetSelectedTargets={() => {
+                                dispatch({
+                                    type: 'reset_selected',
+                                    value: null,
+                                });
+                            }}
+                            />}
                         deleteDisabled={!state.selectedItems.length}/>
                 </Group>
-                
             </HeaderComponent>
-                
         </>
     );
 }
 
-function AddButton(props: React.ComponentProps<'div'>){
+export function Content({properties}){
     return (
-        <div className={style.addButton} {...props}>
-            <img src="/icons/plus.png"/>
-        </div>
+        <main>
+            <DataProvider initialData={properties}>
+                <DataProvider.List display="list" itemComponent={PropertyListItem}/>
+            </DataProvider>
+        </main>
     );
-}
-
-function DeleteButton(){
-    const {state: {selectedItems}} = usePageWithDataContext();
-
-    return (
-        selectedItems.length ? 
-        <div className={style.deleteButton}>
-            <img src="/icons/bin.png"/>
-        </div>
-        :
-        null
-    );
-}
-
-export function NavBar(){
-    return (
-        <nav className={style.navbar}>
-            <Link href="/properties">Talot</Link>
-            <Link href="/settings">Asetukset</Link>
-        </nav>
-    )
 }

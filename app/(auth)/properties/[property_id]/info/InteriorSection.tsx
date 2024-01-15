@@ -39,7 +39,7 @@ export default function InteriorSection({propertyData, updateProperty}){
                 inputComponent={Input}
                 initialInputProps={{
                     label: 'Huoneiden Määrä',
-                    description: 'Montako huonetta asunnossa on?',
+                    description: 'Kuinka monta huonetta asunnossa on?',
                     name: 'roomCount',
                     defaultValue: propertyData.roomCount,
                     type: "number",
@@ -53,7 +53,7 @@ export default function InteriorSection({propertyData, updateProperty}){
                 initialInputProps={{
                     name: 'wcCount',
                     label: 'Vessojen Lukumäärä',
-                    description: 'Montako vessaa asunnossa on?',
+                    description: 'Kuinka monta vessaa asunnossa on?',
                     type: 'number',
                     defaultValue: propertyData.wcCount,
                     min: 1,

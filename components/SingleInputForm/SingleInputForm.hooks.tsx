@@ -76,7 +76,7 @@ export function useSingleInputForm<PropsT extends InputProps | SelectProps | Tex
      * Method to call when submitting the input data. Calls the passed method within.
      * @param method The actual implementation used for submitting.
      */
-    const onSubmit = (method: (data: object) => Promise<object>) => {
+    const onSubmit = (method: (data: object) => Promise<object | void>) => {
         const dataToSubmit = {
             [initialInputProps.name!] : inputValue.current,
         }

@@ -16,9 +16,9 @@ import { ErrorCode } from 'kotilogi-app/constants';
  * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a message and an error code.
  */
 
-export async function resetPassword(verificationCode: string, newPassword: string): Promise<Kotilogi.Error>{
+export async function resetPassword(verificationToken: string, newPassword: string): Promise<Kotilogi.Error>{
     try{
-        const decoded: any = await verifyToken(verificationCode);
+        const decoded: any = await verifyToken(verificationToken);
         if(decoded === null) throw new Error('Invalid token');
 
         const currentTime = new Date().getTime();

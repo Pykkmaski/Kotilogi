@@ -41,7 +41,7 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
 
 
     return (
-        <Link href={props.href} target={props.target} className={className.toString()} ref={ref}>
+        <Link {...props} className={className.toString()} ref={ref}>
             {
                 isSelected ? (
                     <>

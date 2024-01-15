@@ -1,19 +1,20 @@
 import React, { useRef } from "react";
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
-import { useStatus } from "./BaseAddModal.hooks";
+import { useInputData, useInputFiles, useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
 import { Group } from "../Group/Group";
 import Form from "../Form/Form";
+import { Input } from "../Input/Input";
 
 type BaseAddModalProps = ModalProps & {
-    refId: Kotilogi.IdType,
     submitMethod: (e) => Promise<any>,
     onHide: () => void,
     title: string,
 }
 
-export function BaseAddModal({children, refId, submitMethod, ...props}: BaseAddModalProps){
+/**A modal component for accepting input of data, to be sent to the server. Contains a form, which accepts the passed children.*/
+export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalProps){
     const formRef = useRef<HTMLFormElement | null>(null);
     const [status, setStatus] = useStatus('idle');
 

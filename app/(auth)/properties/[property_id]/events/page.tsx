@@ -3,9 +3,12 @@ import { Content, Header } from "./page.components";
 import { PageWithDataWrapper } from "kotilogi-app/components/PageWithData/PageWithData";
 import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import { Gallery } from "kotilogi-app/components/Experimental/Gallery/Gallery";
+import { DataPage } from "kotilogi-app/components/Pages/DataPage/DataPage";
 
-async function getEvents(propertyId: string, q: string | undefined){
-    const events = await db('propertyEvents').where({refId: propertyId}) as Kotilogi.EventType[];
+const eventsPerPage = 10;
+
+async function getEvents(propertyId: string, q: string | undefined, page?: number){
+    var events: Kotilogi.EventType[] = await db('propertyEvents').where({refId: propertyId});
 
     if(!q) return events;
 
@@ -14,7 +17,7 @@ async function getEvents(propertyId: string, q: string | undefined){
     const displayedEvents = q ? events.filter(event => (
         event.title.toLowerCase().includes(lowerCaseQuery)
         ||
-        event.description.toLowerCase().includes(lowerCaseQuery)
+        event.description?.toLowerCase().includes(lowerCaseQuery)
     )) : events;
     
     return displayedEvents;
@@ -22,14 +25,12 @@ async function getEvents(propertyId: string, q: string | undefined){
 
 export default async function EventsPage({params, searchParams}){
     
-    const events = await getEvents(params.property_id, searchParams.q);
+    const events = await getEvents(params.property_id, searchParams.q, searchParams.page);
 
     return (
-        <main>
-            <PageWithDataWrapper data={events}>
-                <Header/>
-                <Gallery<Kotilogi.EventType> data={events} itemComponent={EventListItem}/>
-            </PageWithDataWrapper>
-        </main>
+        <DataPage<Kotilogi.EventType> data={events}>
+            <Header/>
+            <Gallery<Kotilogi.EventType> data={events} itemComponent={EventListItem}/>
+        </DataPage>
     );
 }

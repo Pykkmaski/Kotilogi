@@ -11,7 +11,6 @@ export default async function EventLayout({children, params}){
     const event = await db('propertyEvents').where({id: params.event_id}).first();
     if(!event) throw new Error('Tapahtuman lataus epäonnistui!');
 
-
     return (
         <Layout>
             <Header>
@@ -22,12 +21,13 @@ export default async function EventLayout({children, params}){
                 
             </Header>
 
-            <SplitScreen leftWeight={9}>
+            <SplitScreen rightWeight={7} gap="1rem">
                 <NavBar>
-                    <IconLink href={`/info`} imageSrc="/icons/info.png">Tiedot</IconLink>
-                    <IconLink href={'/images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
-                    <IconLink href={'/files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
+                    <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
+                    <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
+                    <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
                 </NavBar>
+                {children}
             </SplitScreen>
         </Layout>
     )

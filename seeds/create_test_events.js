@@ -6,7 +6,7 @@
 const refId = '10ee90c1-3c2b-4835-8f59-22c8213cbe4b';
 
 exports.seed = async function(knex) {
-  for(i = 0; i < 50; ++i){
+  for(i = 0; i < 100; ++i){
     const event = {
       refId,
       title: `Testitapahtuma ${i + 1}`,

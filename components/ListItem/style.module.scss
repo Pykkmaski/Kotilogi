@@ -91,3 +91,11 @@
 .notConsolidatedTitle{
     color: $primary-color;
 }
+
+.imageItemContainer{
+    aspect-ratio: 1/1;
+    width: 18rem;
+    object-fit: contain;
+    border-radius: 5px;
+    border: 1px solid #DDD;
+}

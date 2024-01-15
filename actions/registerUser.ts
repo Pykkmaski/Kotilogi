@@ -23,7 +23,6 @@ export async function registerUser(credentials: {email: string, password: string
             resolve();
         }
         catch(err){
-            console.log(err.message);
             reject(err);
         }
     });

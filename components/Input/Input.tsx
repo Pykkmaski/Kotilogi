@@ -1,3 +1,5 @@
+'use client';
+
 import { CSSProperties, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import * as stylex from '@stylexjs/stylex';
 import { Group } from "../Group/Group";
