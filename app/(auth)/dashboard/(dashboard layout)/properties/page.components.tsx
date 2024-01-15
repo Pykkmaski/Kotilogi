@@ -26,6 +26,8 @@ import { DeleteModal } from 'kotilogi-app/components/Modals/DeleteModal';
 import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
 import { DataProvider } from 'kotilogi-app/components/Experimental/DataProvider/DataProvider';
 import { PropertyListItem } from 'kotilogi-app/components/ListItem/ListItem';
+import { Gallery, useGalleryContext } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
+import Error from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error';
 
 type PropertyPageContextProps = React.PropsWithChildren & {
     ownerId: string,
@@ -88,12 +90,20 @@ export function Header(){
     );
 }
 
-export function Content({properties}){
+export function Content({properties, user}){
     return (
         <main>
-            <DataProvider initialData={properties}>
-                <DataProvider.List display="list" itemComponent={PropertyListItem}/>
-            </DataProvider>
+            <Gallery<Kotilogi.PropertyType> data={properties}>
+                <Gallery.Header 
+                    title="Talot" 
+                    AddModal={(props) => <AddPropertyModal refId={user.email} {...props}/>}
+                    DeleteModal={(props: ModalProps) => {
+                        return <Gallery.DeleteModal {...props} deleteMethod={(id: string) => deleteProperty(id)}/>
+                    }}/>
+                <Gallery.Body displayStyle='vertical' itemComponent={PropertyListItem} errorElement={
+                    <Error title="Ei Taloja" message="Et ole vielä lisännyt taloja." icon="/icons/house.png"/>
+                }/>
+            </Gallery>
         </main>
     );
 }

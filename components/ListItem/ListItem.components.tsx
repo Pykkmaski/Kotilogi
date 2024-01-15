@@ -3,6 +3,7 @@ import { usePageWithDataContext } from "../PageWithData/PageWithData"
 import style from './style.module.scss';
 import { useListItemContext } from "./ListItem.hooks";
 import { Group } from "../Group/Group";
+import { useGalleryContext } from "../new/Gallery/GalleryBase/Gallery";
 
 type TitleContainerProps = {
     titleText: string,
@@ -61,13 +62,13 @@ export function InfoContainer({children, ...props}: InfoContainerProps){
 }
 
 export function CheckBox(){
-    const {dispatch} = usePageWithDataContext();
+    const {dispatch} = useGalleryContext();
     const {item} = useListItemContext();
     
     return (
         <input type="checkbox" onChange={() => dispatch({
             type: 'select_item',
-            value: item,
+            value: item as Kotilogi.ItemType,
         })}/>
     )
 }

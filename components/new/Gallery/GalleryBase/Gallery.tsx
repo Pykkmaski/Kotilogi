@@ -1,13 +1,15 @@
 "use client";
 
 import { CSSProperties, createContext, useContext, useState} from "react";
-import { ActionT } from "./Gallery.reducer";
+import { ActionType } from "./Gallery.reducer";
 import style from './style.module.scss';
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import { useGallery, GalleryStateType } from "./Gallery.hooks";
+import { useGallery, StateType } from "./Gallery.hooks";
 import Button from "kotilogi-app/components/Button/Button";
-import Spinner from "kotilogi-app/components/Spinner/Spinner";
 import { Heading } from "kotilogi-app/components/Heading/Heading";
+import { Group } from "kotilogi-app/components/Group/Group";
+import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
+import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -47,27 +49,26 @@ function Header(props: React.PropsWithChildren & {
         <>
             {AddModal ? <AddModal id="gallery-add-modal" show={showAddModal} onHide={() => setShowAddModal(false)}/> : null}
             {DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null}
-            
-            {props.DeleteModal}
-            <div className={style.galleryHeader}>
-                <div className={style.titleContainer}>
-                    <Heading>{props.title}</Heading>
-                </div>
 
-                <div className={style.buttonsContainer}>
-                    {props.children}   
-                    {buttons}
-                </div>
+            <div style={{marginBottom: '1rem'}}>
+                <Group direction="horizontal" justifyContent="space-between">
+                    <Heading>{props.title}</Heading>
+
+                    <Group direction="horizontal" gap="0.5rem">
+                        {props.children}   
+                        {buttons}
+                    </Group>
+                </Group>
             </div>
+            
         </>
-        
     );
 }
 
 type BodyProps = {
     displayStyle: 'vertical' | 'horizontal',
-    itemComponent: React.FC<{item: any}>,
-    errorComponent: JSX.Element,
+    itemComponent: React.FC<ListItemProps<any>>,
+    errorElement: JSX.Element,
 }
 
 export default function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props}: BodyProps){
@@ -80,79 +81,35 @@ export default function Body({displayStyle = 'vertical', itemComponent: ItemComp
     }
 
     return (
-        state.isLoading ? <Spinner size='2rem'/>
-        :
-        state.error ? <Heading>Tapahtui odottamaton virhe!</Heading>
-        :
         state.data.length ? 
 
         <div style={bodyStyle}>
             {
                 state.data.map((item, index: number) => {
-                    return <ItemComponent item={item} key={`gallery-item-${index}`}/>
+                    const isSelected = state.selectedItems.includes(item);
+                    return <ItemComponent selected={isSelected} item={item} key={`gallery-item-${index}`}/>
                 })
             }
         </div>
         :
-        props.errorComponent
+        props.errorElement
     );
 }
 
-type GalleryProps = React.PropsWithChildren & {
-    /**
-     * The title displayed in the header of the gallery.
-     */
-    title: string,
-
-    /**
-     * The modal displayed when the global add-button of the gallery is pressed.
-     */
-    AddModal?: React.FC<{
-        show: boolean,
-        onHide: () => void
-    }>,
-
-    /**
-     * The modal displayed when an object-cards open-button is pressed.
-     */
-    EditModal?: React.FC<{
-        show: boolean,
-        onHide: () => void
-        item: any,
-    }>,
-
-    /**
-     * The modal displayed when the global delete button of the gallery is pressed.
-     */
-    DeleteModal?: React.FC<ModalProps>,
-
-    /**
-     * Name of the database table containing the data to be displayed.
-     */
-    tableName: Kotilogi.Table,
-
-    /**
-     * Query object passed to knex.
-     */
-    query: {refId: Kotilogi.IdType, mimeType?: Kotilogi.MimeType, type?: 'heat' | 'water' | 'electric'},
-
-    /**
-     * For development purposes, Explicitly state this gallery is unsupported.
-     */
-
-    unsupported?: boolean,
+type GalleryProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
+    data: T[],
 }
 
 type GalleryContextValueType = {
-    state: GalleryStateType,
-    props: GalleryProps,
-    dispatch: React.Dispatch<ActionT>,
+    state: StateType<Kotilogi.ItemType>,
+    props: GalleryProps<Kotilogi.ItemType>,
+    dispatch: React.Dispatch<ActionType<Kotilogi.ItemType>>,
 }
 
 const GalleryContext = createContext<GalleryContextValueType | null>(null);
 
-export function Gallery(props: GalleryProps){
-    const {state, dispatch} = useGallery(props.tableName, props.query);
+export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
+    const {state, dispatch} = useGallery(props.data);
 
     const contextValue: GalleryContextValueType = {
         state,
@@ -171,9 +128,26 @@ export function Gallery(props: GalleryProps){
 
 Gallery.Header = Header;
 Gallery.Body = Body;
+Gallery.DeleteModal = ({deleteMethod, ...props}: ModalProps & {deleteMethod: (id: string) => Promise<void>}) => {
+    const {state, dispatch} = useGalleryContext();
+
+    return (
+        <DeleteModal 
+            {...props} 
+            targetsToDelete={state.selectedItems} 
+
+            deleteMethod={async (id: string) => {
+                await deleteMethod(id);
+            }}
+
+            resetSelectedTargets={() => dispatch({
+                type: 'reset_selected',
+            })}/>
+    )
+}
 
 export function useGalleryContext(){
     const context = useContext(GalleryContext);
-    if(!context) throw new Error('Gallery context is null!');
+    if(!context) throw new Error('useGalleryContext must be used within the scope of a GalleryContext!');
     return context;
 }
