@@ -39,8 +39,6 @@
   },
   "devDependencies": {
     "@stylexjs/nextjs-plugin": "^0.3.0",
-    "@testing-library/jest-dom": "^6.2.0",
-    "@testing-library/react": "^14.1.2",
     "@types/bcrypt": "^5.0.0",
     "@types/formidable": "^3.4.2",
     "@types/jest": "^29.5.11",
@@ -50,7 +48,6 @@
     "@types/nodemailer": "^6.4.9",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.18",
-    "@types/testing-library__jest-dom": "^6.0.0",
     "cypress": "^13.3.1",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
