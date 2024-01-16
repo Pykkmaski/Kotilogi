@@ -1,33 +1,18 @@
 'use client';
 
-import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
-import style from './page.module.scss';
-import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
-import { deleteData } from 'kotilogi-app/actions/data/deleteData.old';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
-import { Input, Select, Textarea } from 'kotilogi-app/components/Input/Input';
-import Form from 'kotilogi-app/components/Form/Form';
-import { Label } from 'kotilogi-app/components/Label/Label';
-import { useChangeInput } from 'kotilogi-app/hooks/useChangeInput';
-import { addProperty } from 'kotilogi-app/actions/property/addProperty';
-import { useSession } from 'next-auth/react';
-import { buildingTypes } from 'kotilogi-app/constants';
-import Link from 'next/link';
-import { ActionType, StateType } from './page.reducer';
+import { createContext } from 'react';
+import { ModalProps } from 'kotilogi-app/components/Modals/Modal';
 import { usePageWithDataContext } from 'kotilogi-app/components/PageWithData/PageWithData';
-import toast from 'react-hot-toast';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import { ControlsWithAddAndDelete } from 'kotilogi-app/components/HeaderControls/ControlsWithAddAndDelete';
 import { useDashboardContext } from '../DashboardContextProvider';
 import {Header as HeaderComponent} from '@/components/Header/Header';
 import { DeleteModal } from 'kotilogi-app/components/Modals/DeleteModal';
 import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
-import { DataProvider } from 'kotilogi-app/components/Experimental/DataProvider/DataProvider';
 import { PropertyListItem } from 'kotilogi-app/components/ListItem/ListItem';
-import { Gallery, useGalleryContext } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
-import Error from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error';
+import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
+import {Error} from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error';
 
 type PropertyPageContextProps = React.PropsWithChildren & {
     ownerId: string,

@@ -21,6 +21,8 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
                 await deleteMethod(item.id);
             }
             setStatus('success');
+            resetSelectedTargets();
+            props.onHide();
         }
         catch(err){
             setStatus('error');

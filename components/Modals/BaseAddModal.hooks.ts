@@ -35,6 +35,7 @@ export function useInputFiles(){
 */
 export function useInputData(initialData){
     const [data, setData] = useState(initialData);
+    const revertData = initialData;
 
     const updateData = (e) => {
         setData({
@@ -43,7 +44,9 @@ export function useInputData(initialData){
         });
     }
 
-    return {data, updateData};
+    const reset = () => setData(revertData);
+
+    return {data, updateData, reset};
 }
 
 export function useAddModal(refId, submitMethod: (data: object, files?: FormData[]) => Promise<object>){

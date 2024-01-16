@@ -10,6 +10,8 @@ import { Heading } from "kotilogi-app/components/Heading/Heading";
 import { Group } from "kotilogi-app/components/Group/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
+import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
+import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -24,26 +26,23 @@ function Header(props: React.PropsWithChildren & {
 
     const {AddModal, DeleteModal} = props;
 
-    const buttons = (
-        <>
-            {
-                DeleteModal ? <Button
-                    className="secondary"
-                    desktopText="Poista"
-                    disabled={state.selectedItems.length === 0}
-                    mobileIconSrc={'/icons/bin.png'}
-                    onClick={() => setShowDeleteModal(true)}/> : null
-            }
+    const getButtons = () => {
+        const buttons: JSX.Element[] = [];
 
-            {
-                AddModal ? <Button 
-                    className="primary" 
-                    desktopText='Lisää Uusi' 
-                    mobileIconSrc={'/icons/plus.png'}
-                    onClick={() => setShowAddModal(true)}/> : null
-            }
-        </>
-    )
+        if(DeleteModal){
+            buttons.push(
+                <SecondaryButton desktopText="Poista" onClick={() => setShowDeleteModal(true)} hidden={!state.selectedItems.length}/>
+            );
+        }
+
+        if(AddModal){
+            buttons.push(
+                <PrimaryButton desktopText="Lisää Uusi" mobileIconSrc="/icons/plus.png" onClick={() => setShowAddModal(true)}/>
+            );
+        }
+
+        return buttons;
+    }
     
     return (
         <>
@@ -56,7 +55,7 @@ function Header(props: React.PropsWithChildren & {
 
                     <Group direction="horizontal" gap="0.5rem">
                         {props.children}   
-                        {buttons}
+                        {...getButtons()}
                     </Group>
                 </Group>
             </div>
@@ -71,13 +70,13 @@ type BodyProps = {
     errorElement: JSX.Element,
 }
 
-export default function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props}: BodyProps){
-    const {state} = useGalleryContext();
+function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props}: BodyProps){
+    const {state, data} = useGalleryContext();
 
     const bodyStyle: CSSProperties = {
         display: 'flex',
         flexFlow: displayStyle === 'vertical' ? 'column' : 'row wrap',
-        gap: '1rem'
+        gap: '0.5rem'
     }
 
     return (
@@ -85,7 +84,7 @@ export default function Body({displayStyle = 'vertical', itemComponent: ItemComp
 
         <div style={bodyStyle}>
             {
-                state.data.map((item, index: number) => {
+                data.map((item, index: number) => {
                     const isSelected = state.selectedItems.includes(item);
                     return <ItemComponent selected={isSelected} item={item} key={`gallery-item-${index}`}/>
                 })
@@ -101,6 +100,7 @@ type GalleryProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
 }
 
 type GalleryContextValueType = {
+    data: Kotilogi.ItemType[],
     state: StateType<Kotilogi.ItemType>,
     props: GalleryProps<Kotilogi.ItemType>,
     dispatch: React.Dispatch<ActionType<Kotilogi.ItemType>>,
@@ -112,6 +112,7 @@ export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
     const {state, dispatch} = useGallery(props.data);
 
     const contextValue: GalleryContextValueType = {
+        data: props.data,
         state,
         props,
         dispatch,
@@ -123,11 +124,13 @@ export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
                 {props.children}
             </div>
         </GalleryContext.Provider>
-    )
+    );
 }
 
 Gallery.Header = Header;
 Gallery.Body = Body;
+
+/**The global modal displayed when deleting multiple selected items at once. */
 Gallery.DeleteModal = ({deleteMethod, ...props}: ModalProps & {deleteMethod: (id: string) => Promise<void>}) => {
     const {state, dispatch} = useGalleryContext();
 

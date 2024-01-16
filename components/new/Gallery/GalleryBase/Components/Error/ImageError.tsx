@@ -1,6 +1,6 @@
-import Error from "./Error";
+import {Error} from "./Error";
 
-export default function ImageError(props: {
+export function ImageError(props: {
     message: string,
 }){
     return (

@@ -63,7 +63,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
         <ListItem<Kotilogi.PropertyType> {...props}>
             <InfoContainer href={`/properties/${props.item.id}/info`}>
                 <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'/>
-                <DescriptionContainer text={props.item.description}/>
+                <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
                 <small>{props.item.buildingType}</small>
             </InfoContainer>
 
@@ -105,8 +105,8 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
     return (
         <ListItem<Kotilogi.EventType> {...props}>
             <InfoContainer href={`/events/${props.item.id}/info`}>
-                <EventTitleContainer titleText={props.item.title} iconSrc='/icons/history.png' isConsolidated={isConsolidated}/>
-                <DescriptionContainer text={props.item.description}/>
+                <EventTitleContainer titleText={props.item.title} iconSrc='/icons/history.png' consolidationTime={props.item.consolidationTime}/>
+                <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
                 <small>{date}</small>
             </InfoContainer>
             
@@ -127,7 +127,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <ListItem<Kotilogi.FileType> {...props}>
-            <InfoContainer href={`/api/files/${props.item.id}?tableName=propertyFiles`}>
+            <InfoContainer target="_blank" href={`/api/files/${props.item.id}?tableName=propertyFiles`}>
                 <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
             </InfoContainer>
 
@@ -142,7 +142,7 @@ export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
 export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <ListItem<Kotilogi.FileType> {...props}>
-            <InfoContainer href={`/files/${props.item.id}?tableName=eventFiles`}>
+            <InfoContainer target="_blank" href={`/api/files/${props.item.id}?tableName=eventFiles`}>
                 <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
             </InfoContainer>
 

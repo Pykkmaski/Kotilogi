@@ -18,20 +18,25 @@ export function Content({event}: ContentProps){
             <EditCard title="Tiedot">
                 <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Input} initialInputProps={{
                     label: 'Otsikko',
+                    name: 'title',
                     description: 'Tapahtuman otsikko.',
                     placeholder: 'Kirjoita tapahtuman otsikko...',
                     defaultValue: event.title,
+                    autoComplete: 'off',
                 }}/>
 
                 <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Textarea} initialInputProps={{
                     label: 'Kuvaus',
+                    name: 'description',
                     description: 'Tapahtuman kuvaus.',
                     placeholder: 'Kirjoita tapahtuman kuvaus...',
                     defaultValue: event.description,
+                    spellCheck: false,
                 }}/>
 
                 <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Input} initialInputProps={{
                     label: 'Päiväys',
+                    name: 'time',
                     description: 'Tapahtuman päiväys.',
                     type: 'date',
                     defaultValue: new Date(event.time).toLocaleDateString('fi-FI'),

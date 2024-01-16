@@ -3,7 +3,7 @@ import styles from './error.module.scss';
 import Image from 'next/image';
 import { Heading } from 'kotilogi-app/components/Heading/Heading';
 
-export default function Error(props: {
+export function Error(props: {
     title: string,
     message: string,
     icon: string,

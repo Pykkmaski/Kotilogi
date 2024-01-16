@@ -20,10 +20,27 @@ export function TitleContainer(props: TitleContainerProps){
 }
 
 type EventTitleContainerProps = TitleContainerProps & {
-    isConsolidated: boolean,
+    consolidationTime: string,
 }
 
-export function EventTitleContainer({isConsolidated, ...props}: EventTitleContainerProps){
+export function EventTitleContainer({consolidationTime, ...props}: EventTitleContainerProps){
+
+    const isConsolidated = Date.now() >= parseInt(consolidationTime);
+
+    const getConsolidatedMessage = () => {
+        if(!isConsolidated){
+            const consolidationDate = new Date(parseInt(consolidationTime));
+            return (
+                <div className={style.notConsolidatedTitle} title="Tapahtumaa ei ole vakiinnutettu ja on muokattavissa.">
+                    Vakiintuu {consolidationDate.toLocaleDateString('fi-FI')}
+                </div>
+            );
+        } 
+        else{
+            return null;
+        }
+    }
+
     return (
         <Group direction="horizontal" alignItems="baseline">
             {
@@ -32,7 +49,7 @@ export function EventTitleContainer({isConsolidated, ...props}: EventTitleContai
                 null
             }
             <TitleContainer {...props}/>
-            {!isConsolidated ? <div className={style.notConsolidatedTitle} title="Tapahtumaa ei ole vakiinnutettu ja on poistettavissa.">Vakiinnuttamaton</div> : null }
+            {getConsolidatedMessage()}
         </Group>
     );
 }
@@ -50,15 +67,16 @@ export function DescriptionContainer(props: DescriptionContainerProps){
 type InfoContainerProps = React.PropsWithChildren & {
     /**The link to the page clicking this component will route to */
     href: string,
+    target?: string,
 
 }
 
-export function InfoContainer({children, ...props}: InfoContainerProps){
+export function InfoContainer({children, href, target}: InfoContainerProps){
     return (
-        <Link href={props.href} className={style.informationContainer}>
+        <Link href={href} target={target} className={style.informationContainer}>
             {children}
         </Link>
-    )
+    );
 }
 
 export function CheckBox(){

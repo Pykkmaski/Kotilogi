@@ -10,7 +10,7 @@ export default function Chart(props: {
     title: string,
 }){
     const color = props.type === 'heat' ? '#f00' : props.type === 'water' ? '#00f' : '#ff0';
-    const {state} = useGalleryContext();
+    const {data} = useGalleryContext();
     
     const options = {
         colors: [color],
@@ -24,17 +24,15 @@ export default function Chart(props: {
     }
 
     return (
-        state.isLoading ? <Spinner size="2rem"/>
-        :
         <ChartBase
             options={options}
             series={[
                 {
                     name: 'Values',
-                    data: state.data.map(item => item.price)
+                    data: data.map((item: any) => item.price)
                 }
             ]}
-            rawdata={state.data}
+            rawdata={data as any}
         />
     )
 }

@@ -1,6 +1,6 @@
-import Error from "./Error";
+import {Error} from "./Error";
 
-export default function FileError(props: {
+export function FileError(props: {
     message: string,
 }){
     return (

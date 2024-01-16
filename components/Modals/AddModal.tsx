@@ -90,6 +90,13 @@ export function AddEventModal({refId, ...props}: AddModalProps){
                 name="description"
                 onChange={updateData}/>
 
+            <Input 
+                name="time"
+                label="Päiväys"
+                description="Tapahtuman päivämäärä."
+                type="date"
+                onChange={updateData}/>
+
             <Input
                 name="file"
                 type="file"

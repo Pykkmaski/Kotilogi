@@ -1,17 +1,8 @@
-import { PageWithData } from "kotilogi-app/components/Experimental/Page/PageWithData/PageWithData";
-import { EventImageItem } from "kotilogi-app/components/ListItem/ListItem";
+import db from "kotilogi-app/dbconfig";
+import { Content } from "./page.module";
 
 export default async function Page({params}){
-    return (
-        <PageWithData
-            title="Kuvat"
-            tablename="eventFiles"
-            query={{
-                refId: params.event_id,
-                mimeType: 'image/jpeg',
-            }}
-            display="card"
-            itemComponent={EventImageItem}
-        />
-    )
+    const files = await db('eventFiles').where({refId: params.event_id, mimeType: 'image/jpeg'});
+    
+    return <Content files={files} eventId={params.event_id}/>
 }

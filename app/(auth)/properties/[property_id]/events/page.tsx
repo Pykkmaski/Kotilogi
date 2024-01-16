@@ -1,9 +1,5 @@
 import db from "kotilogi-app/dbconfig";
-import { Content, Header } from "./page.components";
-import { PageWithDataWrapper } from "kotilogi-app/components/PageWithData/PageWithData";
-import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
-import { Gallery } from "kotilogi-app/components/Experimental/Gallery/Gallery";
-import { DataPage } from "kotilogi-app/components/Pages/DataPage/DataPage";
+import { Content } from "./page.components";
 
 const eventsPerPage = 10;
 
@@ -18,19 +14,15 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
         event.title.toLowerCase().includes(lowerCaseQuery)
         ||
         event.description?.toLowerCase().includes(lowerCaseQuery)
+        ||
+        event.createdAt?.includes(q)
     )) : events;
     
-    return displayedEvents;
+    return displayedEvents.sort((a, b) => parseInt(a.time) - parseInt(b.time));
 }
 
 export default async function EventsPage({params, searchParams}){
-    
     const events = await getEvents(params.property_id, searchParams.q, searchParams.page);
 
-    return (
-        <DataPage<Kotilogi.EventType> data={events}>
-            <Header/>
-            <Gallery<Kotilogi.EventType> data={events} itemComponent={EventListItem}/>
-        </DataPage>
-    );
+    return <main><Content events={events} propertyId={params.property_id}/></main>
 }

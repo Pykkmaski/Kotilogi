@@ -6,6 +6,7 @@ import { Layout } from "kotilogi-app/components/Layout/Layout";
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
 import { SplitScreen } from "kotilogi-app/components/SplitScreen/SplitScreen";
 import db from "kotilogi-app/dbconfig"
+import Link from "next/link";
 
 export default async function EventLayout({children, params}){
     const event = await db('propertyEvents').where({id: params.event_id}).first();
@@ -26,6 +27,7 @@ export default async function EventLayout({children, params}){
                     <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
                     <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
                     <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
+                    <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
                 </NavBar>
                 {children}
             </SplitScreen>
