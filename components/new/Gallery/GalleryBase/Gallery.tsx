@@ -80,7 +80,7 @@ function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props
     }
 
     return (
-        state.data.length ? 
+        data.length ? 
 
         <div style={bodyStyle}>
             {

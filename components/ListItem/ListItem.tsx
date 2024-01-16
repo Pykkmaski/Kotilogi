@@ -11,6 +11,8 @@ import { deleteData } from 'kotilogi-app/actions/data/deleteData.old';
 import toast, { CheckmarkIcon } from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
 import { useListItemContext } from './ListItem.hooks';
+import { deletePropertyFiles } from 'kotilogi-app/actions/property/deletePropertyFiles';
+import { deleteEventFiles } from 'kotilogi-app/actions/propertyEvent/deleteEventFiles';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
@@ -35,7 +37,7 @@ export function ListItemProvider<T extends Kotilogi.ItemType>({children, ...prop
     );
 }
 
-function ListItem<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
+export function ListItem<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
     const classes = props.selected ? [style.container, style.selected] : [style.container];
     const className = classes.join(' ');
 
@@ -120,36 +122,6 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
                 null
             }
             
-        </ListItem>
-    );
-}
-
-export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
-    return (
-        <ListItem<Kotilogi.FileType> {...props}>
-            <InfoContainer target="_blank" href={`/api/files/${props.item.id}?tableName=propertyFiles`}>
-                <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
-            </InfoContainer>
-
-            <ControlsContainer>
-                <CheckBox/>
-                <DeleteButton onClick={() => {}}/>
-            </ControlsContainer>
-        </ListItem>
-    );
-}
-
-export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
-    return (
-        <ListItem<Kotilogi.FileType> {...props}>
-            <InfoContainer target="_blank" href={`/api/files/${props.item.id}?tableName=eventFiles`}>
-                <TitleContainer titleText={props.item.fileName} iconSrc='/icons/copy.png'/>
-            </InfoContainer>
-
-            <ControlsContainer>
-                <CheckBox/>
-                <DeleteButton onClick={() => {}}/>
-            </ControlsContainer>
         </ListItem>
     );
 }

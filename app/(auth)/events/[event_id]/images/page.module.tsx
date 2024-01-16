@@ -1,6 +1,6 @@
 'use client';
 
-import { EventFileListItem } from "kotilogi-app/components/ListItem/ListItem";
+import { EventFileListItem } from "kotilogi-app/components/ListItem/FileListItem";
 import { AddFilesModal } from "kotilogi-app/components/Modals/AddModal";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { ImageError } from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/ImageError";

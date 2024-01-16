@@ -3,8 +3,6 @@
 import { MaxProperties } from "kotilogi-app/constants";
 import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
-import { formDataToObject } from "../util/formDataToObject";
-import { upload } from "../file/upload";
 import { addData } from "../data/addData";
 
 /**
@@ -14,18 +12,25 @@ import { addData } from "../data/addData";
  */
 
 export async function getMaxPropertiesByAccountId(id: Kotilogi.IdType): Promise<number>{
-    const {plan} = await db('users').where({email: id}).select('plan').first();
-    if(!plan) return 0;
+    return new Promise<number>(async (resolve, reject) => {
+        try{
+            const {plan} = await db('users').where({email: id}).select('plan').first();
+            if(!plan) resolve(0);
 
-    switch(plan){
-        case 'regular':
-            return MaxProperties.REGULAR;
+            switch(plan){
+                case 'regular':
+                    return resolve(MaxProperties.REGULAR);
 
-        case 'pro':
-            return MaxProperties.PRO;
+                case 'pro':
+                    return resolve(MaxProperties.PRO);
 
-        default: return 0;
-    }
+                default: resolve(0);
+            }
+        }
+        catch(err){
+            reject(err);
+        }
+    })
 }
 
 /**

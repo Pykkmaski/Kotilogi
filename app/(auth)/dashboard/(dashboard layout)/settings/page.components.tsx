@@ -5,11 +5,12 @@ import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/Singl
 import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
 import { Group } from "kotilogi-app/components/Group/Group";
 import { useInputData, useStatus } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
-import { updateEmail, updatePassword } from "kotilogi-app/actions/user/updateUser";
 import toast from "react-hot-toast";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { updateEmail } from "kotilogi-app/actions/user/updateEmail";
+import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
 
 export function Header(){
     return (

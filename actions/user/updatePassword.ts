@@ -1,8 +1,8 @@
 'use server';
 
+import db from "kotilogi-app/dbconfig";
+import { verifyPassword } from "./util/verifyPassword";
 import bcrypt from 'bcrypt';
-import db from 'kotilogi-app/dbconfig';
-import { verifyPassword } from './util/verifyPassword';
 
 export async function updatePassword(email: string, newPassword: string, currentPassword: string){
     return new Promise<void>(async (resolve, reject) => {
@@ -14,21 +14,6 @@ export async function updatePassword(email: string, newPassword: string, current
             await db('users').where({email}).update({
                 password: encryptedPassword,
             });
-            resolve();
-        }
-        catch(err){
-            reject(err);
-        }
-    });
-}
-
-export async function updateEmail(email: string, newEmail: string){
-    return new Promise<void>(async (resolve, reject) => {
-        try{
-            await db('users').where({email}).update({
-                email: newEmail,
-            });
-
             resolve();
         }
         catch(err){

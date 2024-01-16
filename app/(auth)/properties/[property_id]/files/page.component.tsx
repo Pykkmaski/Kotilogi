@@ -4,7 +4,7 @@ import { AddFilesModal } from "kotilogi-app/components/Modals/AddModal";
 import { Gallery } from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import {FileError} from '@/components/new/Gallery/GalleryBase/Components/Error/FileError';
-import { PropertyFileListItem } from "kotilogi-app/components/ListItem/ListItem";
+import { PropertyFileListItem } from "kotilogi-app/components/ListItem/FileListItem";
 
 export function Content({files, propertyId}){
     return (

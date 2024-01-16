@@ -1,8 +1,6 @@
-import 'ts-node/register';
-
-const jestConfig = {
+module.exports = {
     preset: 'ts-jest',
-    testEnvironment: 'jsdom',
+    testEnvironment: 'node',
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
     moduleDirectories: ["node_modules", "<rootDir>"],
@@ -11,7 +9,15 @@ const jestConfig = {
       'kotilogi-app/(.*)': '<rootDir>/$1',
       '\\.(scss|sass|css)$': 'identity-obj-proxy',
     },
+    transform: {
+      // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+      // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+      '^.+\\.tsx?$': [
+        'ts-jest',
+        {
+          tsconfig: 'tsconfig.json',
+        },
+      ],
+    },
   };
-
-export default jestConfig;
   

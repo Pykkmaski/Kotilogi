@@ -1,6 +1,7 @@
-import {expect} from '@jest/globals';
+
 import db from 'kotilogi-app/dbconfig';
 import { isAllowedToAddProperty } from '../addProperty';
+import {expect} from '@jest/globals';
 
 describe('Testing the permission verifying function for property additions to regular-plan accounts.', () => {
     const testUser = {

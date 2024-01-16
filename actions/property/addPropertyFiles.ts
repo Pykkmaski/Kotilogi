@@ -7,7 +7,8 @@ export async function addPropertyFiles(files: FormData[], propertyId: string){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await upload(files, propertyId, 'propertyFiles');
-            revalidatePath('/properties/[property_id]/');
+            revalidatePath('/properties/[property_id]/images');
+            revalidatePath('/properties/[property_id]/files');
             resolve();
         }
         catch(err){
