@@ -8,12 +8,15 @@ import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
 import { EditCard } from 'kotilogi-app/components/EditCard/EditCard';
 import { Group } from 'kotilogi-app/components/Group/Group';
+import Link from 'next/link';
+import { useInputData } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
 
 export default function LoginPage(){
     const router = useRouter();
     const params = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>('none')
+    const {data, updateData} = useInputData({});
 
     const formEmail = 'kl-login-form-email';
 
@@ -29,17 +32,18 @@ export default function LoginPage(){
 
         signIn('credentials', credentials)
         .then(res => {
-            if(res && res.error){
-                setError(res.error);
-            }
-            else{
-                setError('success');
-                router.push('/dashboard/properties');
+            if(res){
+                if(res.error){
+                    setError(res.error);
+                }
+                else{
+                    setError('success');
+                    router.push('/dashboard/properties');
+                }
             }
         })
         .catch(err => {
             console.log(err.message);
-
         })
         .finally(() => setLoading(false));
 
@@ -61,6 +65,7 @@ export default function LoginPage(){
                             name="email" 
                             required={true} 
                             placeholder="Kirjoita sähköpostiosoitteesi..."
+                            onChange={updateData}
                             />
 
                         {error === 'invalid_user' ? <span className="danger">Käyttäjää annetulla sähköpostiosoitteella ei ole!</span> : null}
@@ -75,8 +80,12 @@ export default function LoginPage(){
                             name="password" 
                             placeholder="Kirjoita salasanasi..."
                             required 
-                            className={error === 'password_mismatch' ? 'error' : undefined}/>
+                            className={error === 'password_mismatch' ? 'error' : undefined}
+                            onChange={updateData}/>
                         {error === 'password_mismatch' ? <span className="danger">Salasana on virheellinen!</span> : null}
+                        <div>
+                            <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link href="/login/reset">Klikkaa tähän.</Link>
+                        </div>
                     </Group>
                     
 
@@ -91,7 +100,7 @@ export default function LoginPage(){
                         <PrimaryButton 
                             desktopText='Kirjaudu'
                             type="submit"
-                            disabled={loading}
+                            disabled={loading || (!data.email || !data.password)}
                             loading={loading}
                         />
                     </Group>

@@ -3,7 +3,6 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import db from 'kotilogi-app/dbconfig';
-import { StatusCode } from 'kotilogi-app/utils/statusCode';
 import jwt from 'jsonwebtoken';
 import domainName from 'kotilogi-app/domain.config';
 import {sendHTMLEmail} from './email/sendHTMLEmail';
@@ -70,10 +69,10 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
 
 export async function sendResetCode(email: string): Promise<Kotilogi.Error>{
     
-    const user = await db('users').where({email}).select('email');
+    const [user] = await db('users').where({email}).select('email');
 
     //A user with provided email address does not exist.
-    if(!user.length) return {
+    if(!user) return {
         message: null,
         code: ErrorCode.INVALID_USER,
     }

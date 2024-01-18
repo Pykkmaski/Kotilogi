@@ -53,6 +53,12 @@ export default function RegisterPage(){
     return (
         <main className="flex-column center-all flex-full">
             <EditCard title={'Rekisteröidy'}>
+                <p>
+                    Rekisteröidy Kotilogin käyttäjäksi tällä lomakkeella.<br/>
+                    Perusjäsenyys on maksuton, antaen sinulle työkalut yhden talon tietojen hallinnointiin.<br/>
+                    Pro-jäsenyys on maksullinen.
+                </p>
+
                 <form onSubmit={register}>
                     <Group direction="vertical" alignItems="flex-end">
                         <Input label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required

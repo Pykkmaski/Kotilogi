@@ -1,6 +1,5 @@
 'use server';
 
-import style from './page.module.scss';
 import { Header } from '@/components/Header/Header';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import db from 'kotilogi-app/dbconfig';
@@ -11,7 +10,7 @@ export default async function InfoPage({params}){
     if(!property) throw new Error('Talon lataaminen epäonnistui!');
 
     return (
-       <main className={style.body}>
+       <main className="flex-column medium-gap margin-bottom">
             <Header>
                 <h3>Tiedot</h3>
             </Header>

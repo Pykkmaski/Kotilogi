@@ -1,3 +1,5 @@
+'use client';
+
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import style from './page.module.scss';
 import { Input, Select } from "kotilogi-app/components/Input/Input";
@@ -9,13 +11,13 @@ import toast from "react-hot-toast";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { updateEmail } from "kotilogi-app/actions/user/updateEmail";
+import { sendEmailResetEmail, updateEmail } from "kotilogi-app/actions/user/updateEmail";
 import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
 
 export function Header(){
     return (
         <div className={style.header}>
-            <h3>Asetukset</h3>
+            <h3>Tilin asetukset</h3>
         </div>
     );
 }
@@ -60,6 +62,7 @@ export function PasswordSettingsForm({email}){
             .then(() => {
                 toast.success('Salasana päivitetty!');
                 setStatus('success');
+                reset();
                 router.refresh();
             })
             .catch(err => {
@@ -91,7 +94,8 @@ export function PasswordSettingsForm({email}){
 
             <Input type="password" placeholder="Kirjoita uusi salasana uudelleen..." autoComplete="off" name="password2"
                 onChange={updateData}
-                label="Vahvista uusi salasana"/>
+                label="Salasanan Vahvistus"
+                description="Vahvista uusi salasana."/>
 
             <Input type="password" placeholder="Kirjoita nykyinen salasanasi..." autoComplete="off" name="password3"
                 onChange={updateData}
@@ -99,7 +103,7 @@ export function PasswordSettingsForm({email}){
                 description="Vahvista nykyinen salasanasi."/>
 
             <Group direction="horizontal" justifyContent="right" gap="1rem">
-                <SecondaryButton desktopText="Tyhjennä" hidden={!hasSomeInput()} onClick={reset}/>
+                <SecondaryButton desktopText="Tyhjennä" hidden={!hasSomeInput() || status === 'loading'} onClick={reset}/>
                 <PrimaryButton desktopText="Päivitä" type="submit" 
                     disabled={submitDisabled || !hasAllPasswordsFilled()}
                     loading={status === 'loading'}/>

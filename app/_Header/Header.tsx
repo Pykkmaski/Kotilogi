@@ -80,6 +80,7 @@ function UserIcon2({email}){
                                 <Link href="/">Etusivu</Link>
                                 <Link href="/dashboard/properties">Hallintapaneeli</Link>
                                 <span className={style.logoutLink} onClick={async () => {
+                                    router.replace('/');
                                     signOut().then(() => router.replace('/'));
                                 }}>Kirjaudu Ulos</span>
                             </nav>

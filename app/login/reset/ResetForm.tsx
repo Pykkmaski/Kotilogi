@@ -12,14 +12,15 @@ import { ErrorCode } from "kotilogi-app/constants";
 import Button from "kotilogi-app/components/Button/Button";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-
-function FormHeader(){
-    return <Form.Header>Nollaa Salasana</Form.Header>
-}
+import { Group } from "kotilogi-app/components/Group/Group";
+import { Input } from "kotilogi-app/components/Input/Input";
+import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
 
 function StepOne(){
     const router = useRouter();
     const {dispatch, state, next} = useResetFormProvider();
+    const {data, updateData} = useInputData({});
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -62,39 +63,48 @@ function StepOne(){
     }, [state.status])
 
     return (
-        <Form onSubmit={onSubmitHandler}>
-            <FormHeader/>
+        <EditCard title={"Nollaa salasanasi"}>
             <p>
                 Anna sähköpostiosoitteesi. Lähetämme antamaasi osoitteeseen linkin,<br/> jonka kautta pääset nollaamaan salasanasi.<br/>
                 Sähköpostin saapumiseen saattaa mennä muutama minuutti.
             </p>
-            <Form.Group>
-                <label>Anna Sähköpostiosoitteesi</label>
-                <input type="email" name="email" required></input>
-            </Form.Group>
 
-            <Form.Group direction="horizontal">
-                <SecondaryButton 
-                    onClick={() => router.replace('/login')}
-                    desktopText='Peruuta'
-                    disabled={state.isLoading}
-                />
+            <form onSubmit={onSubmitHandler}>
+                <Group direction="horizontal">
+                    <Input 
+                        type="email" 
+                        name="email"
+                        label="Sähköpostiosoite"
+                        description="Anna sähköpostiosoitteesi." 
+                        placeholder="Kirjoita sähköpostiosoitteesi..."
+                        required
+                        onChange={updateData}/>
+                </Group>
 
-                <PrimaryButton 
-                    type="submit" 
-                    disabled={state.isLoading}
-                    loading={state.isLoading}
-                    desktopText='Seuraava'
-                />
-            </Form.Group>
-            {
-                state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
-                :
-                state.status === StatusCode.UNEXPECTED ? <Form.Error>Varmennuslinkin lähetys epäonnistui!</Form.Error>
-                :
-                <></>
-            }
-        </Form>
+                <Group direction="horizontal" justifyContent="right">
+                    <SecondaryButton 
+                        onClick={() => router.replace('/login')}
+                        desktopText='Peruuta'
+                        disabled={state.isLoading}
+                    />
+
+                    <PrimaryButton 
+                        type="submit" 
+                        disabled={state.isLoading || !data.email}
+                        loading={state.isLoading}
+                        desktopText='Seuraava'
+                    />
+                </Group>
+                {
+                    state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
+                    :
+                    state.status === StatusCode.UNEXPECTED ? <Form.Error>Varmennuslinkin lähetys epäonnistui!</Form.Error>
+                    :
+                    <></>
+                }
+            </form>
+        </EditCard>
+        
     );
 }
 
@@ -104,6 +114,7 @@ function StepTwo(){
 
     const [isLoading, setIsLoading] = useState(false);
     const {previous, state} = useResetFormProvider();
+    const {data, updateData} = useInputData({});
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -143,28 +154,45 @@ function StepTwo(){
     }
 
     return (
-        <Form onSubmit={onSubmitHandler}>
-            <FormHeader/>
+        <EditCard title="Luo Uusi Salasana">
             <p>
                 Luo uusi salasana tällä lomakkeella. <br/>
                 Salasana tulee vaihtaa 30 minuutin sisällä.
             </p>
-            <Form.Group>
-                <label>Anna Uusi Salasana</label>
-                <input type="password" name='password1' required minLength={8}></input>
-                <Form.SubLabel>Salasanan tulee olla vähintään 8 merkkiä pitkä.</Form.SubLabel>
-            </Form.Group>
 
-            <Form.Group>
-                <label>Anna Salasana Uudelleen</label>
-                <input type="password" name="password2" required minLength={8}></input>
-            </Form.Group>
+            <form onSubmit={onSubmitHandler}>
+                <Group direction="horizontal">
+                    <Input 
+                        autoComplete="new-password"
+                        type="password" 
+                        name='password1' 
+                        label="Anna Uusi Salasana"
+                        description="Tilisi uusi salasana."
+                        placeholder="Kirjoita uusi salsanasi..."
+                        required 
+                        minLength={8}
+                        onChange={updateData}/>
+                </Group>
 
-            <Form.Group direction="horizontal">
-                <SecondaryButton onClick={previous} disabled={isLoading} desktopText="Takaisin"/>
-                <PrimaryButton type="submit" disabled={isLoading} loading={isLoading} desktopText="Lähetä"/>
-            </Form.Group>
-        </Form>
+                <Group direction="horizontal">
+                    <Input 
+                        label="Toista Salasana"
+                        description="Uuden salsanan vahvistus."
+                        placeholder="Kirjoita salasana uudelleen..."
+                        type="password" 
+                        name="password2" 
+                        required 
+                        minLength={8}
+                        onChange={updateData}/>
+                </Group>
+
+                <Group direction="horizontal" justifyContent="right">
+                    <SecondaryButton onClick={previous} disabled={isLoading} desktopText="Takaisin"/>
+                    <PrimaryButton type="submit" disabled={isLoading || !data.password1 || !data.password2} loading={isLoading} desktopText="Lähetä"/>
+                </Group>
+            </form>
+        </EditCard>
+        
     );
 }
 

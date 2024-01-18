@@ -1,17 +1,17 @@
-'use client';
-
 import { useSession } from "next-auth/react";
 import { Content, Header } from "./page.components";
 import style from './page.module.scss';
+import { getServerSession } from "next-auth";
+import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 
-export default function Page(){
-    const session = useSession();
-    if(!session.data || !session.data.user) return <h3>Ladataan tilin asetuksia...</h3>
+export default async function Page(){
+    const session = await getServerSession(options) as {user: {email: string}};
+    if(!session) throw new Error('Käyttäjän varmennus epäonnistui!');
     
     return (
-        <main className={style.page}>
+        <main className="flex-column margin-bottom medium-gap">
             <Header/>
-            <Content user={session.data.user}/>
+            <Content user={session.user}/>
         </main>
     )
 }

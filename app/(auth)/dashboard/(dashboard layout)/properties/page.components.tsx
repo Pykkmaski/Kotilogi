@@ -9,7 +9,7 @@ import {Error} from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/
 
 export function Content({properties, user}){
     return (
-        <main>
+        <main className='margin-bottom'>
             <Gallery<Kotilogi.PropertyType> data={properties}>
                 <Gallery.Header 
                     title="Talot" 
