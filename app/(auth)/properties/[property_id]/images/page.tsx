@@ -2,8 +2,9 @@ import db from "kotilogi-app/dbconfig";
 import { Content } from "./page.component";
 
 async function getImages(propertyId){
-    return await db('propertyFiles').where({refId: propertyId});
+    return await db('propertyFiles').where({refId: propertyId, mimeType: 'image/jpeg'});
 }
+
 export default async function FilesPage({params}){
     const images = await getImages(params.property_id);
 

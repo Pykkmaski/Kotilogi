@@ -11,9 +11,9 @@ export async function addData<T extends Kotilogi.ItemType>(tableName: Kotilogi.T
     return new Promise<T>(async (resolve, reject) => {
         try{
             [addedData] = await db(tableName).insert(data, '*');
+            const fileTableName = getFileTableName(tableName);
 
-            if(files){
-                const fileTableName = getFileTableName(tableName);
+            if(files && fileTableName){
                 await upload(files, addedData.id, fileTableName);
             }
 

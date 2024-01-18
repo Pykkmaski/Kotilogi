@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import styles from './styles.module.scss';
-import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 

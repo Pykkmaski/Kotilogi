@@ -1,5 +1,5 @@
 export function getFileTableName(targetTableName: string){
     return (
-        targetTableName === 'properties' ? 'propertyFiles' : 'eventFiles'
+        targetTableName === 'properties' ? 'propertyFiles' : targetTableName === 'propertyEvents' ? 'eventFiles' : null
     );
 }

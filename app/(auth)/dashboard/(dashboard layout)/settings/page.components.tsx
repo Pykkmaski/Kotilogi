@@ -20,7 +20,6 @@ export function Header(){
     );
 }
 
-
 export function EmailSettingsForm({email}){
 
     const submitMethod = async (newData: {email: string}) => {

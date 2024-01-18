@@ -1,7 +1,6 @@
 'use client';
 
-import {useEffect, useRef} from 'react';
-import useSubComponents from 'kotilogi-app/hooks/useSubComponents';
+import {useEffect} from 'react';
 import { Heading } from '../Heading/Heading';
 
 function CloseButton(props){

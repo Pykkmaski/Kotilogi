@@ -4,7 +4,7 @@ import { AddFilesModal } from "kotilogi-app/components/Modals/AddModal";
 import { Gallery } from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import {ImageError} from '@/components/new/Gallery/GalleryBase/Components/Error/ImageError';
-import { PropertyFileListItem } from "kotilogi-app/components/ListItem/FileListItem";
+import { PropertyImageListItem } from "kotilogi-app/components/ListItem/ImageListItem";
 
 export function Content({files, propertyId}){
     return (
@@ -15,7 +15,7 @@ export function Content({files, propertyId}){
                 
             />
 
-            <Gallery.Body displayStyle="vertical" itemComponent={PropertyFileListItem} errorElement={
+            <Gallery.Body displayStyle="horizontal" itemComponent={PropertyImageListItem} errorElement={
                 <ImageError message="Et ole vielä lisännyt talolle kuvia. Aloita painamalla Lisää-Uusi painiketta."/>
             }/>
         </Gallery>

@@ -9,8 +9,12 @@ export async function deleteData(tablename: string, dataId: string){
     return new Promise<void>(async (resolve, reject) => {
         try{
             const fileTableName = getFileTableName(tablename);
-            const files = await db(fileTableName).where({refId: dataId}).select('fileName', 'id');
-            await deleteFiles(fileTableName, files);
+            
+            if(fileTableName){
+                const files = await db(fileTableName).where({refId: dataId}).select('fileName', 'id');
+                await deleteFiles(fileTableName, files);
+            }
+            
             await db(tablename).where({id: dataId}).del();
             resolve();
         }

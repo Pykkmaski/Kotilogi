@@ -4,7 +4,7 @@ import { ListItem, ListItemProps } from "./ListItem";
 import { CheckBox, ControlsContainer, DeleteButton, InfoContainer, TitleContainer } from "./ListItem.components";
 import toast from "react-hot-toast";
 
-type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
+export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
     icon: string,
     tablename: 'propertyFiles' | 'eventFiles',
     deleteMethod: () => Promise<void>,

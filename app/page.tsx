@@ -5,7 +5,7 @@ import Pricing from 'kotilogi-app/components/Pages/Index/Pricing/Pricing';
 import Footer from 'kotilogi-app/components/Pages/Index/Footer/Footer';
 
 
-export default function Page(props){
+export default function Home(props){
     return (
         <main>
             <WelcomeText/>

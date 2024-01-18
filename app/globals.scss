@@ -6,6 +6,20 @@
     --link-in-focus-color: rgb(255, 252, 232);
 }
 
+.flex-column{
+    display: flex;
+    flex-flow: column;
+}
+
+.flex-full{
+    flex: 1;
+}
+
+.center-all{
+    justify-content: center;
+    align-items: center;
+}
+
 #main-header{
     transition: all 0.2s ease;
 }
@@ -17,7 +31,6 @@ img{
 main{
     flex: 1;
     margin: 0;
-    padding-bottom: 1em;
     height: 100%;
     overflow: hidden;
     overflow-y: scroll;

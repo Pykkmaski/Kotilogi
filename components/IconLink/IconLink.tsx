@@ -5,12 +5,14 @@ import style from './style.module.scss';
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+/**The background of the link displayed when on the route the link points to. */
 function SelectedBackground(){
     return (
         <div className={style.selectedBackground}/>
     );
 }
 
+/**The indicator on the left border displayed when on the route the link points to. */
 function SelectedIndicator(){
     return (
         <div className={style.selectedIndicator}/>

@@ -1,18 +1,12 @@
 'use client';
 
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import style from './style.module.scss';
 import React from 'react';
-import Link from 'next/link';
-import { usePageWithDataContext } from '../PageWithData/PageWithData';
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer, TitleContainer } from './ListItem.components';
-import { deleteData } from 'kotilogi-app/actions/data/deleteData.old';
-import toast, { CheckmarkIcon } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
-import { useListItemContext } from './ListItem.hooks';
-import { deletePropertyFiles } from 'kotilogi-app/actions/property/deletePropertyFiles';
-import { deleteEventFiles } from 'kotilogi-app/actions/propertyEvent/deleteEventFiles';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
@@ -123,33 +117,5 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
             }
             
         </ListItem>
-    );
-}
-
-type ImageListItemProps = ListItemProps<Kotilogi.FileType> & {
-    imageSrc: string,
-}
-
-export function ImageListItem({imageSrc, ...props}: ImageListItemProps){
-    return (
-        <ListItemProvider {...props}>
-            <div className={style.imageItemContainer}>
-                <img src={imageSrc} className={style.image}/>
-            </div>
-        </ListItemProvider>
-    );
-}
-
-export function PropertyImageListItem(props: ListItemProps<Kotilogi.FileType>){
-    return (
-        <ImageListItem {...props} imageSrc={`/api/files/${props.item.id}?tableName=propertyFiles`}/>
-    );
-}
-
-export function EventImageItem(props: ListItemProps<Kotilogi.FileType>){
-    return (
-        <div className={style.imageItemContainer}>
-            <img src={`/api/files/${props.item.id}?tablename=eventFiles`} className={style.image}/>
-        </div>  
     );
 }

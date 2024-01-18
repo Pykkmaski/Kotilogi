@@ -1,6 +1,6 @@
 'use client';
 
-import { EventFileListItem } from "kotilogi-app/components/ListItem/FileListItem";
+import { EventImageListItem } from "kotilogi-app/components/ListItem/ImageListItem";
 import { AddFilesModal } from "kotilogi-app/components/Modals/AddModal";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { ImageError } from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/ImageError";
@@ -13,7 +13,7 @@ export function Content({files, eventId}){
                 title="Tiedostot"
                 AddModal={(props: ModalProps) => <AddFilesModal tablename={"eventFiles"} accept={"image/jpeg"} refId={eventId} {...props} />}/>
 
-            <Gallery.Body displayStyle="vertical" itemComponent={EventFileListItem} errorElement={
+            <Gallery.Body displayStyle="horizontal" itemComponent={EventImageListItem} errorElement={
                 <ImageError message="Et ole vielä lisännyt tapahtumalle kuvia. Aloita painamalla Lisää Uusi-painiketta."/>
             }/>
         </Gallery>

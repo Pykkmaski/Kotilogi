@@ -1,6 +1,4 @@
 import styles from './styles.module.scss';
-import Image from 'next/image';
-import profileImage from 'kotilogi-app/public/img/profile1.jpg';
 import LinkButton from 'kotilogi-app/components/LinkButton/LinkButton';
 
 function ProfileText(props){

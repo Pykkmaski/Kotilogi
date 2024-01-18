@@ -29,6 +29,11 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
         }
     }
 
+    const cancelDelete = () => {
+        resetSelectedTargets();
+        props.onHide();
+    }
+
     const loading = status === 'loading';
 
     return (
@@ -57,7 +62,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
                 <PrimaryButton 
                     desktopText="Ei" 
                     disabled={loading}
-                    onClick={props.onHide}/>
+                    onClick={cancelDelete}/>
 
                 <SecondaryButton 
                     desktopText="Kyllä" 

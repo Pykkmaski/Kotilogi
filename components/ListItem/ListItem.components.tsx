@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { usePageWithDataContext } from "../PageWithData/PageWithData"
 import style from './style.module.scss';
 import { useListItemContext } from "./ListItem.hooks";
 import { Group } from "../Group/Group";

@@ -1,8 +1,7 @@
 'use client';
 
 import { useSession } from "next-auth/react";
-import { Content, EmailSettingsForm, Header, PasswordSettingsForm } from "./page.components";
-import { useState } from "react";
+import { Content, Header } from "./page.components";
 import style from './page.module.scss';
 
 export default function Page(){

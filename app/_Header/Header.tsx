@@ -2,16 +2,15 @@
 
 import Link from 'next/link';
 import {signOut, useSession} from 'next-auth/react';
-import Menu from './Menu/Menu';
 import style from './component.module.scss';
 import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
-import MarginContainer from 'kotilogi-app/components/MarginContainer/MarginContainer';
-import AccountIcon from '@/assets/user.png';
-import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
 import { useState } from 'react';
-import Button from 'kotilogi-app/components/Button/Button';
+import { VisibilityProvider } from 'kotilogi-app/components/Experimental/VisibilityProvider/VisibilityProvider';
+import { Group } from 'kotilogi-app/components/Group/Group';
+import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
+import { useRouter } from 'next/navigation';
 
 export function Logo(){
     return (
@@ -57,6 +56,41 @@ function UserIcon(props: {
     );
 }
 
+function UserIcon2({email}){
+
+    const router = useRouter();
+
+    const getContent = () => email ? [email[0].toUpperCase(), email[1].toUpperCase()] : null;
+
+    return (
+        <VisibilityProvider>
+            <RelativePosition>
+                <Group direction="vertical" gap="1rem">
+                    <VisibilityProvider.Trigger>
+                        <div className={style.userIcon}>
+                            {getContent()}
+                        </div>
+                    </VisibilityProvider.Trigger>
+
+                    <VisibilityProvider.Target>
+                        <div 
+                            className={style.userMenu}
+                        >
+                            <nav>
+                                <Link href="/">Etusivu</Link>
+                                <Link href="/dashboard/properties">Hallintapaneeli</Link>
+                                <span className={style.logoutLink} onClick={async () => {
+                                    signOut().then(() => router.replace('/'));
+                                }}>Kirjaudu Ulos</span>
+                            </nav>
+                        </div>
+                    </VisibilityProvider.Target>
+                </Group>
+            </RelativePosition>
+        </VisibilityProvider>
+    );
+}
+
 export default function Header(props){
     const {data: session, status} = useSession();
 
@@ -75,7 +109,7 @@ export default function Header(props){
                 :
                 userIsLoggedIn ?
                 <div className={style.links}>
-                    <UserIcon email={userEmail}/>
+                    <UserIcon2 email={userEmail}/>
                 </div>
                 :
                 <div className={style.links}>
@@ -85,9 +119,6 @@ export default function Header(props){
                 </div>
             }
             </nav>
-
-            {/**Mobile nav */}
-            <Menu userIsLoggedIn={userIsLoggedIn}/>
         </header>
     );
 }
