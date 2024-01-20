@@ -1,18 +1,31 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
-import style from './style.module.scss';
-import Link from 'next/link';
+import Chart from 'kotilogi-app/components/Chart/Chart';
+import { EditCard } from 'kotilogi-app/components/EditCard/EditCard';
 import { Heading } from 'kotilogi-app/components/Heading/Heading';
+import { SingleInputForm } from 'kotilogi-app/components/SingleInputForm/SingleInputForm';
+import db from 'kotilogi-app/dbconfig';
+import { Content } from './page.components';
 
-export default async function UsagePage({params}){
+async function getUsageData(type: 'heat' | 'water' | 'electric', propertyId: string){
+    return new Promise<Record<string, string>[] | undefined>(async (resolve, reject) => {
+        try{
+            const data = await db('usage').where({type, refId: propertyId});
+            resolve(data);
+        }
+        catch(err){
+            reject(err);
+        }
+    });
+}
 
-    const searchParams = useSearchParams();
-    const section = searchParams.get('data');
+export default async function UsagePage({params, searchParams}){
+    const type = searchParams.type as 'heat' | 'water' | 'electric';
+    const data = await getUsageData(type, params.property_id);
 
-    return (
+    if(!data) throw new Error('Kulutustietojen lataus epäonnistui!');
+
+    return (    
         <main>
-            <Heading>Osio on työn alla...</Heading>
+            <Content data={data} type={type} />
         </main>
     );
 }

@@ -64,7 +64,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
             </InfoContainer>
 
             <ControlsContainer>
-                <CheckBox/>
+                <CheckBox checked={props.selected}/>
                 <DeleteButton onClick={deleteItem}/>
             </ControlsContainer>
         </ListItem>
@@ -109,7 +109,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
             {
                 !isConsolidated ? 
                 <ControlsContainer>
-                    <CheckBox/>
+                    <CheckBox checked={props.selected}/>
                     <DeleteButton onClick={deleteEvent} hidden={isConsolidated}/>
                 </ControlsContainer>
                 :

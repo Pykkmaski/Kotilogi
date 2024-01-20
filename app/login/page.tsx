@@ -56,7 +56,8 @@ export default function LoginPage(){
     return (
         <main className="flex-column center-all flex-full">
             <EditCard title="Kirjaudu Sisään">
-                <form onSubmit={onSubmitHandler}>
+                <Group direction="vertical" gap="0">
+                    <form onSubmit={onSubmitHandler}>
                     <Group direction='vertical' alignItems='flex-end'>
                         <Input 
                             label="Sähköpostiosoite"
@@ -104,7 +105,9 @@ export default function LoginPage(){
                             loading={loading}
                         />
                     </Group>
-                </form>
+                    </form>
+                </Group>
+                
             </EditCard>
         </main>
     )

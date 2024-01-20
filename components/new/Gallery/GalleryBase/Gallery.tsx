@@ -12,6 +12,7 @@ import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
+import { SelectionProvider } from "kotilogi-app/components/Experimental/SelectionProvider/SelectionProvider";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -49,7 +50,7 @@ function Header(props: React.PropsWithChildren & {
             {AddModal ? <AddModal id="gallery-add-modal" show={showAddModal} onHide={() => setShowAddModal(false)}/> : null}
             {DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null}
 
-            <div style={{marginBottom: '1rem'}}>
+            <div style={{marginBottom: '1rem', paddingBottom: '0.5rem'}}>
                 <Group direction="horizontal" justifyContent="space-between">
                     <Heading>{props.title}</Heading>
 
@@ -76,7 +77,7 @@ function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props
     const bodyStyle: CSSProperties = {
         display: 'flex',
         flexFlow: displayStyle === 'vertical' ? 'column' : 'row wrap',
-        gap: '0.5rem'
+        gap: '0.5rem',
     }
 
     return (

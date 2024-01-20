@@ -33,16 +33,21 @@ function Label(props: {
     const requiredBadge = props.required ? <span className={style.required}>Pakollinen</span> : null;
 
     return (
-        <Group direction="vertical" gap="0rem">
+        <Group direction="vertical" gap="0rem" justifyContent="center">
             <span style={{
                 fontSize: '1.1rem',
                 color: 'black',
             }}>{props.text} {requiredBadge}</span>
-
-            <span style={{
-                fontSize: '1rem',
-                color: '#999',
-            }}>{props.description}</span>
+            
+            {
+                props.description ? <span style={{
+                    fontSize: '1rem',
+                    color: '#999',
+                }}>{props.description}</span>
+                :
+                null
+            }
+            
         </Group>
     );
 }

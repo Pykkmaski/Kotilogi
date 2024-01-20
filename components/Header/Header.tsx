@@ -17,3 +17,9 @@ export function Header({children, border}: HeaderProps){
         </div>
     );
 }
+
+export function BorderHeader({children}){
+    return (
+        <Header border={true}>{children}</Header>
+    );
+}

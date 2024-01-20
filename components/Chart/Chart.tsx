@@ -1,26 +1,34 @@
 'use client';
 
 import Spinner from "kotilogi-app/components/Spinner/Spinner";
-import { useGalleryContext } from "../GalleryBase/Gallery";
 import ChartBase from "./ChartBase";
 import { ChartProps } from "./ChartProps";
 
 export default function Chart(props: {
     type: string,
     title: string,
+    data: any,
+    onDataPointSelected?: (dataPoint: any) => void,
 }){
     const color = props.type === 'heat' ? '#f00' : props.type === 'water' ? '#00f' : '#ff0';
-    const {data} = useGalleryContext();
     
     const options = {
         colors: [color],
         chart: {
-            
+            background: '#ff01',
+            events: {
+                dataPointSelection: function (event, chartContext, config) {
+                    console.log('Clicking on a datapoint')
+                  props.onDataPointSelected && props.onDataPointSelected(config.dataPointIndex);
+                }
+            }
         },
 
         title:{
             text: props.title
-        }
+        },
+
+        
     }
 
     return (
@@ -29,10 +37,10 @@ export default function Chart(props: {
             series={[
                 {
                     name: 'Values',
-                    data: data.map((item: any) => item.price)
+                    data: props.data.map((item: any) => item.price)
                 }
             ]}
-            rawdata={data as any}
+            rawdata={props.data as any}
         />
     )
 }
