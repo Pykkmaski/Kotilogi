@@ -61,7 +61,7 @@ export async function addProperty(data: Kotilogi.PropertyType, files?: FormData[
     return new Promise<object>(async (resolve, reject) => {
         try{
             const ok = await isAllowedToAddProperty(data.refId);
-            if(!ok) return reject('not_allowed');
+            if(!ok) return reject('AddProperty: not_allowed, user: ' + data.refId);
 
             const property = await addData<Kotilogi.PropertyType>('properties', data, files);
             revalidatePath('/properties');

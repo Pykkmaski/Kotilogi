@@ -14,8 +14,6 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
         event.title.toLowerCase().includes(lowerCaseQuery)
         ||
         event.description?.toLowerCase().includes(lowerCaseQuery)
-        ||
-        event.createdAt?.includes(q)
     )) : events;
     
     return displayedEvents.sort((a, b) => parseInt(a.time) - parseInt(b.time));
