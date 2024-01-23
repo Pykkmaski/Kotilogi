@@ -3,7 +3,7 @@
 import styles from './page.module.scss';
 import Gradient from 'kotilogi-app/components/Gradient/Gradient';
 import { RegisterForm } from './RegisterForm';
-import { EditCard } from 'kotilogi-app/components/EditCard/EditCard';
+import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
 import { Input, Select } from 'kotilogi-app/components/Input/Input';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
@@ -52,7 +52,7 @@ export default function RegisterPage(){
 
     return (
         <main className="flex-column center-all flex-full">
-            <EditCard title={'Rekisteröidy'}>
+            <ContentCard title={'Rekisteröidy'}>
                 <p>
                     Rekisteröidy Kotilogin käyttäjäksi tällä lomakkeella.<br/>
                     Perusjäsenyys on maksuton, antaen sinulle työkalut yhden talon tietojen hallinnointiin.<br/>
@@ -93,7 +93,7 @@ export default function RegisterPage(){
                         <PrimaryButton desktopText='Rekisteröidy' type="submit" disabled={loading} loading={loading}/>
                     </Group>
                 </form>
-            </EditCard>
+            </ContentCard>
         </main>
     )
 }

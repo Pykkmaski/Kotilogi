@@ -6,7 +6,7 @@ import {useState} from 'react';
 import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
-import { EditCard } from 'kotilogi-app/components/EditCard/EditCard';
+import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import Link from 'next/link';
 import { useInputData } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
@@ -55,7 +55,7 @@ export default function LoginPage(){
 
     return (
         <main className="flex-column center-all flex-full">
-            <EditCard title="Kirjaudu Sisään">
+            <ContentCard title="Kirjaudu Sisään">
                 <Group direction="vertical" gap="0">
                     <form onSubmit={onSubmitHandler}>
                     <Group direction='vertical' alignItems='flex-end'>
@@ -101,14 +101,14 @@ export default function LoginPage(){
                         <PrimaryButton 
                             desktopText='Kirjaudu'
                             type="submit"
-                            disabled={loading || (!data.email || !data.password)}
+                            disabled={loading}
                             loading={loading}
                         />
                     </Group>
                     </form>
                 </Group>
                 
-            </EditCard>
+            </ContentCard>
         </main>
     )
 }

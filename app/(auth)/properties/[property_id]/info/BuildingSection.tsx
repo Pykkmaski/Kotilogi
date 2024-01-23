@@ -1,12 +1,12 @@
 import { Select } from "kotilogi-app/components/Input/Input";
 import { buildingMaterials, colors } from "kotilogi-app/constants";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 export default function BuildingSection({propertyData, updateProperty}){
     
     return (
-        <EditCard title="Julkisivu">
+        <ContentCard title="Julkisivu">
             <SingleSelectForm 
                 submitMethod={updateProperty}
                 inputComponent={Select}
@@ -40,6 +40,6 @@ export default function BuildingSection({propertyData, updateProperty}){
                         children: type,
                     }
                 })}/>
-        </EditCard> 
+        </ContentCard> 
     );
 }

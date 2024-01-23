@@ -1,22 +1,9 @@
 'use client';
 
-import { useChangeInput } from "kotilogi-app/hooks/useChangeInput";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useQuery } from "kotilogi-app/hooks/useQuery";
 
 export function SearchBar(){
-    //const {dispatch} = usePageWithDataContext();
-    const router = useRouter();
-    const route = usePathname();
-    const {data, onChange} = useChangeInput({query: ''});
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            router.replace(route + `?q=${data.query}`);
-        }, 450);
-
-        return () => clearTimeout(timeout);
-    }, [data.query]);
+    const {onChange} = useQuery('q', '', 450);
 
     return (
         <input type="search" name="query" placeholder="Etsi..." onInput={onChange}/>

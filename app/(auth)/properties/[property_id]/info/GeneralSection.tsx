@@ -2,13 +2,13 @@
 
 import { Input, Select, Textarea } from "kotilogi-app/components/Input/Input";
 import { buildingTypes, energyClasses } from "kotilogi-app/constants";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 export default function GeneralSection({propertyData, updateProperty}){
 
     return (
-        <EditCard title="Yleistiedot">
+        <ContentCard title="Yleistiedot">
             <SingleInputForm 
                 submitMethod={updateProperty}
                 inputComponent={Input}
@@ -116,6 +116,6 @@ export default function GeneralSection({propertyData, updateProperty}){
                     maxLength: 256,
                 }}/>
 
-        </EditCard> 
+        </ContentCard> 
     );
 }

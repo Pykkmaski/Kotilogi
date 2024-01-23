@@ -44,7 +44,9 @@ export function useInputData(initialData){
         });
     }
 
-    const reset = () => setData(revertData);
+    const reset = (resetData?: any) => {
+        setData(resetData || revertData);
+    }
 
     return {data, updateData, reset};
 }

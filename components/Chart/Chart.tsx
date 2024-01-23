@@ -18,7 +18,6 @@ export default function Chart(props: {
             background: '#ff01',
             events: {
                 dataPointSelection: function (event, chartContext, config) {
-                    console.log('Clicking on a datapoint')
                   props.onDataPointSelected && props.onDataPointSelected(config.dataPointIndex);
                 }
             }

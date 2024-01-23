@@ -1,12 +1,12 @@
 import { Select } from "kotilogi-app/components/Input/Input";
 import { primaryHeatingSystems, secondaryHeatingSystems } from "kotilogi-app/constants";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 export default function HeatingSection({propertyData, updateProperty}){
 
     return (
-        <EditCard title="Lämmitys">
+        <ContentCard title="Lämmitys">
             <SingleSelectForm 
                 submitMethod={updateProperty}
                 inputComponent={Select}
@@ -42,6 +42,6 @@ export default function HeatingSection({propertyData, updateProperty}){
                         }
                     })
                 }/>
-        </EditCard> 
+        </ContentCard> 
     );
 }

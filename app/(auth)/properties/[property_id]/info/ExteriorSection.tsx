@@ -1,12 +1,12 @@
 import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { yardOwnershipTypes } from "kotilogi-app/constants";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 export default function ExteriorSection({propertyData, updateProperty}){
 
     return (
-        <EditCard title="Tontti">
+        <ContentCard title="Tontti">
             <SingleInputForm
                 submitMethod={updateProperty}
                 inputComponent={Input}
@@ -37,6 +37,6 @@ export default function ExteriorSection({propertyData, updateProperty}){
                         }
                     })
                 }/>
-        </EditCard> 
+        </ContentCard> 
     );
 }

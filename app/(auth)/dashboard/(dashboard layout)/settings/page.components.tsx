@@ -4,7 +4,7 @@ import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import style from './page.module.scss';
 import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { Group } from "kotilogi-app/components/Group/Group";
 import { useInputData, useStatus } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
 import toast from "react-hot-toast";
@@ -115,12 +115,12 @@ export function PasswordSettingsForm({email}){
 export function Content({user}){
     return (
         <>
-            <EditCard title="Yleiset">
+            <ContentCard title="Yleiset">
                 <EmailSettingsForm email={user.email}/>
                 <PasswordSettingsForm email={user.email}/>
-            </EditCard>
+            </ContentCard>
 
-            <EditCard title="Tilaus">
+            <ContentCard title="Tilaus">
                 <SingleSelectForm inputComponent={Select} childComponent={Select.Option} initialInputProps={{
                     name: 'plan',
                     label: "Tilaus",
@@ -136,7 +136,7 @@ export function Content({user}){
                         children: 'Pro',
                     }
                 ]} submitMethod={(value: object) => Promise.resolve({})}/>
-            </EditCard>
+            </ContentCard>
         </>
     )
 }

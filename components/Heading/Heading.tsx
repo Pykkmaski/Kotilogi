@@ -18,3 +18,9 @@ export function SecondaryHeading({children}: React.ComponentProps<'span'>){
         <span className={style.secondaryHeading}>{children}</span>
     )
 }
+
+export function BoxHeading({children}: React.PropsWithChildren){
+    return (
+        <span style={{fontSize: '1.2rem'}}>{children}</span>
+    );
+}

@@ -116,6 +116,8 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
         
     } = useSingleInputForm<SelectProps>(props.initialInputProps);
 
+    const inputId = crypto.randomUUID();
+
     return (
         <Group direction="vertical" gap="1rem">
             <InputComponent 
@@ -136,8 +138,8 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
                         return (
                             <ChildComponent 
                                 {...childProps} 
-                                selected={selected
-                                }> {childProps.children} </ChildComponent>
+                                selected={selected}
+                                key={`input-option-${inputId}`}> {childProps.children} </ChildComponent>
                         )
                     }) 
                     :

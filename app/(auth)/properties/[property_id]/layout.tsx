@@ -11,7 +11,7 @@ import { Header } from 'kotilogi-app/components/Header/Header';
 import { Layout } from 'kotilogi-app/components/Layout/Layout';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import { SecondaryHeading } from 'kotilogi-app/components/Heading/Heading';
-import {Group as Experimental_Group} from '@/components/Experimental/Group/Group';
+import { Flex } from 'kotilogi-app/components/Util/Flex';
 
 export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -31,24 +31,29 @@ export default async function PropertyDetailsLayout({children, params}){
         <PropertyContextProvider value={contextValue}>
            <Layout>
                 <Header>
-                    <Experimental_Group weights={[1, 1]} direction="vertical" gap="0">
+                    <Group direction="vertical" gap="0">
                         <SecondaryHeading>Talo</SecondaryHeading>
                         <h3>{property.title}</h3>
-                    </Experimental_Group>
+                    </Group>
                 </Header>
 
-                <Experimental_Group weights={[1, 7]} gap="1rem" direction="horizontal">
-                    <NavBar>
-                        <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                        <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                        <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
-                        <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                        <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                <Group gap="1rem" direction="horizontal">
+                    <Flex value={1}>
+                        <NavBar>
+                            <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                            <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                            <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
+                            <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                            <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
 
-                        <Link href={`/dashboard/properties/`}>Takaisin Taloihin</Link>
-                    </NavBar>
-                    {children}
-                </Experimental_Group>
+                            <Link href={`/dashboard/properties/`}>Takaisin Taloihin</Link>
+                        </NavBar>
+                    </Flex>
+                    
+                    <Flex value={7}>
+                        {children}
+                    </Flex>
+                </Group>
            </Layout>
         </PropertyContextProvider>
     );

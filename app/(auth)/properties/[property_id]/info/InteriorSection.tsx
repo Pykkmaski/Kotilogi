@@ -1,10 +1,10 @@
 import { Input } from "kotilogi-app/components/Input/Input";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { SingleInputForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 export default function InteriorSection({propertyData, updateProperty}){
     return (
-        <EditCard title="Sisätilat">
+        <ContentCard title="Sisätilat">
             <SingleInputForm 
                 submitMethod={updateProperty}
                 inputComponent={Input}
@@ -60,6 +60,6 @@ export default function InteriorSection({propertyData, updateProperty}){
                 }}
             />
 
-        </EditCard> 
+        </ContentCard> 
     );
 }

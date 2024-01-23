@@ -1,7 +1,3 @@
-import Chart from 'kotilogi-app/components/Chart/Chart';
-import { EditCard } from 'kotilogi-app/components/EditCard/EditCard';
-import { Heading } from 'kotilogi-app/components/Heading/Heading';
-import { SingleInputForm } from 'kotilogi-app/components/SingleInputForm/SingleInputForm';
 import db from 'kotilogi-app/dbconfig';
 import { Content } from './page.components';
 

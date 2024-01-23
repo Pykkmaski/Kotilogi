@@ -43,8 +43,10 @@ namespace Kotilogi{
         mimeType?: MimeType,
     }
 
+    type UsageTypeType = 'heat' | 'electric' | 'water';
+
     type UsageType = HasId & HasRefId & HasDate & HasTimeStamp & {
-        type: 'heat' | 'electric' | 'water',
+        type: UsageTypeType,
         price: number,
     }
 

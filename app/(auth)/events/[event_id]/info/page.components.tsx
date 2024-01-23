@@ -1,7 +1,7 @@
 'use client';
 
 import { updatePropertyEvent } from "kotilogi-app/actions/propertyEvent/updatePropertyEvent";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { Input, Textarea } from "kotilogi-app/components/Input/Input";
 import { SingleInputForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
@@ -15,7 +15,7 @@ export function Content({event}: ContentProps){
 
     return (
         <>
-            <EditCard title="Tiedot">
+            <ContentCard title="Tiedot">
                 <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Input} initialInputProps={{
                     label: 'Otsikko',
                     name: 'title',
@@ -41,7 +41,7 @@ export function Content({event}: ContentProps){
                     type: 'date',
                     defaultValue: new Date(event.time).toLocaleDateString('fi-FI'),
                 }}/>
-            </EditCard>
+            </ContentCard>
         </>
     )
 }

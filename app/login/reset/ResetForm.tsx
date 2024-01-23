@@ -14,7 +14,7 @@ import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import { Group } from "kotilogi-app/components/Group/Group";
 import { Input } from "kotilogi-app/components/Input/Input";
-import { EditCard } from "kotilogi-app/components/EditCard/EditCard";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
 
 function StepOne(){
@@ -63,7 +63,7 @@ function StepOne(){
     }, [state.status])
 
     return (
-        <EditCard title={"Nollaa salasanasi"}>
+        <ContentCard title={"Nollaa salasanasi"}>
             <p>
                 Anna sähköpostiosoitteesi. Lähetämme antamaasi osoitteeseen linkin,<br/> jonka kautta pääset nollaamaan salasanasi.<br/>
                 Sähköpostin saapumiseen saattaa mennä muutama minuutti.
@@ -103,7 +103,7 @@ function StepOne(){
                     <></>
                 }
             </form>
-        </EditCard>
+        </ContentCard>
         
     );
 }
@@ -154,7 +154,7 @@ function StepTwo(){
     }
 
     return (
-        <EditCard title="Luo Uusi Salasana">
+        <ContentCard title="Luo Uusi Salasana">
             <p>
                 Luo uusi salasana tällä lomakkeella. <br/>
                 Salasana tulee vaihtaa 30 minuutin sisällä.
@@ -191,7 +191,7 @@ function StepTwo(){
                     <PrimaryButton type="submit" disabled={isLoading || !data.password1 || !data.password2} loading={isLoading} desktopText="Lähetä"/>
                 </Group>
             </form>
-        </EditCard>
+        </ContentCard>
         
     );
 }
