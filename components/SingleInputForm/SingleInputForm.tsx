@@ -131,7 +131,7 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
                 {/**Render all children when editing and just the defaultValue if not*/}
                 {
                     editing ? 
-                    props.childProps.map(childProps => {
+                    props.childProps.map((childProps, index: number) => {
                          //Determine the selected status of the option through the default value, or the fallback value.
                         const selected = cancelFallbackValue.current === childProps.value;
 
@@ -139,7 +139,7 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
                             <ChildComponent 
                                 {...childProps} 
                                 selected={selected}
-                                key={`input-option-${inputId}`}> {childProps.children} </ChildComponent>
+                                key={`input-option-${inputId}-${index}`}> {childProps.children} </ChildComponent>
                         )
                     }) 
                     :

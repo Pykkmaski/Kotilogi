@@ -81,16 +81,23 @@ export function useSingleInputForm<PropsT extends InputProps | SelectProps | Tex
             [initialInputProps.name!] : inputValue.current,
         }
 
+        //In case of an error, use this to revert the input's value.
+        const oldCancelFallbackValue = cancelFallbackValue.current;
+
+        //Prevent the input from flashing the old fallback value when setting the loading state.
+        cancelFallbackValue.current = inputValue.current;
+
         setStatus('loading');
         method(dataToSubmit)
         .then(() => {
-            cancelFallbackValue.current = inputValue.current;
+           
             setStatus('success');
             setEditing(false);
         })
         .catch(err => {
             setStatus('error');
             console.log(err.message);
+            cancelFallbackValue.current = oldCancelFallbackValue;
         });
     } 
 
