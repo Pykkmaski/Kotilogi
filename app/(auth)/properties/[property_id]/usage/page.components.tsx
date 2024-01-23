@@ -149,7 +149,10 @@ export function Content({data, type}: ContentProps){
 
         updateUsage(currentData)
         .catch(err => toast.error(err.message))
-        .finally(() => setStatus('idle'));
+        .finally(() => {
+            console.log('Update done.');
+            setStatus('idle');
+        });
     }
 
     const getDataPointColor = () => {

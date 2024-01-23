@@ -2,6 +2,7 @@
 
 import { ApexOptions } from 'apexcharts';
 import ApexChart from 'react-apexcharts';
+import { isWindowDefined } from 'swr/_internal';
 
 type TakesDataOfType<T> = {
     data: T[],
@@ -14,6 +15,8 @@ type ChartProps = {
 }
 
 function Chart(props: ChartProps){
+
+   if(typeof window === 'undefined') return null;
 
     const options: ApexOptions = {
         ...props.options,
