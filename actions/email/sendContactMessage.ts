@@ -1,5 +1,6 @@
 "use server";
 
+import { logError } from "kotilogi-app/utils/logError";
 import {sendEmail} from "./sendEmail";
 
 type MessageDataType = {
@@ -69,8 +70,8 @@ export async function sendContactMessage(data: MessageDataType){
             resolve();
         }
         catch(err){
-            console.log(err.message);
-            reject(err.message);
+            logError(err);
+            reject(err);
         }
     })
 }

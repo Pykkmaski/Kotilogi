@@ -1,6 +1,7 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
+import { logError } from "kotilogi-app/utils/logError";
 
 /**
  * Checks if an image is the main image of a ref target.
@@ -20,7 +21,7 @@ export async function isMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdTy
             resolve(imageId === refMainImageId);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     })

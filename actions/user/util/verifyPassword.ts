@@ -1,5 +1,6 @@
 import db from "kotilogi-app/dbconfig";
 import bcrypt from 'bcrypt';
+import { logError } from "kotilogi-app/utils/logError";
 
 export async function verifyPassword(email: string, password: string){
     return new Promise<boolean>(async (resolve, reject) => {
@@ -9,7 +10,7 @@ export async function verifyPassword(email: string, password: string){
             resolve(isOk);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

@@ -1,6 +1,7 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
+import { logError } from "kotilogi-app/utils/logError";
 import { revalidatePath } from "next/cache";
 
 /**Figures out which paths to revalidate based on the passed table name. */
@@ -37,8 +38,8 @@ export async function updateDataById(newData: object, id: Kotilogi.IdType, table
             resolve(updatedData);
         }
         catch(err){
-            console.log(err.message);
-            reject(err.message);
+            logError(err);
+            reject(err);
         }
     });
 }

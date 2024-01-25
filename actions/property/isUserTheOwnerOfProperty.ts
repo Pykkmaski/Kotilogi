@@ -1,4 +1,5 @@
 import db from "kotilogi-app/dbconfig"
+import { logError } from "kotilogi-app/utils/logError";
 
 /**Checks if a user with the given email is the owner of the property with given id. */
 export async function isUserTheOwnerOfProperty(email: string, propertyId: string){
@@ -8,7 +9,7 @@ export async function isUserTheOwnerOfProperty(email: string, propertyId: string
             resolve(property !== undefined);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

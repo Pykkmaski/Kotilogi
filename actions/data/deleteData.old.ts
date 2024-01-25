@@ -4,6 +4,7 @@ import db from "kotilogi-app/dbconfig";
 import {unlink} from 'fs/promises';
 import { uploadPath } from "kotilogi-app/uploadsConfig";
 import { revalidatePath } from "next/cache";
+import { logError } from "kotilogi-app/utils/logError";
 
 const ErrorCode = {
     SUCCESS: 0,
@@ -26,7 +27,7 @@ export async function deleteFiles(fileNames: string[]): Promise<number>{
         return 0;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return 1;
     }
 }
@@ -48,7 +49,7 @@ async function handlePropertyDeletion(propertyId: Kotilogi.IdType): Promise<numb
         return ErrorCode.SUCCESS;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return ErrorCode.UNEXPECTED;
     }
 }
@@ -66,7 +67,7 @@ async function handleDeletion(id: Kotilogi.IdType, tableName: Kotilogi.Table): P
         return ErrorCode.SUCCESS;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return ErrorCode.UNEXPECTED;
     }
 }
@@ -117,7 +118,7 @@ async function handleFileDeletion(fileId: Kotilogi.IdType): Promise<number>{
         return ErrorCode.SUCCESS;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return ErrorCode.UNEXPECTED;
     }
 }
@@ -148,7 +149,7 @@ export async function deleteData(id: Kotilogi.IdType, tableName: Kotilogi.Table)
             resolve();
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

@@ -35,7 +35,7 @@ export async function resetPassword(verificationToken: string, newPassword: stri
             code: ErrorCode.SUCCESS,
         }
     }
-    catch(err){
+    catch(err: any){
         console.log(err.message);
         return {
             message: null,
@@ -55,7 +55,7 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
         const decoded: any = jwt.verify(token, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
         return decoded;
     }
-    catch(err){
+    catch(err: any){
         console.log(err.message);
         return null;
     }

@@ -3,6 +3,7 @@
 import {readFileSync} from 'fs';
 import db from 'kotilogi-app/dbconfig';
 import {uploadPath} from 'kotilogi-app/uploadsConfig';
+import { logError } from 'kotilogi-app/utils/logError';
 
 export async function getFile(dbTableName: Kotilogi.Table, id: Kotilogi.IdType): Promise<Buffer | null>{
     try{
@@ -14,7 +15,7 @@ export async function getFile(dbTableName: Kotilogi.Table, id: Kotilogi.IdType):
         return fileBuffer;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return null;
     }
 }

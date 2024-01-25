@@ -24,7 +24,7 @@ export async function registerUser(credentials: {email: string, password: string
             await db('users').insert(user);
             resolve('success');
         }
-        catch(err){
+        catch(err: any){
             if(err.message.includes('UNIQUE')){
                 resolve('user_exists');
             }

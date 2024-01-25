@@ -7,7 +7,10 @@ import { PropertyListItem } from 'kotilogi-app/components/ListItem/ListItem';
 import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import {Error} from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error';
 
-export function Content({properties, user}){
+export function Content({properties, user}: {
+    properties: Kotilogi.PropertyType[],
+    user: {email: string}
+}){
     return (
         <main className='margin-bottom'>
             <Gallery<Kotilogi.PropertyType> data={properties}>

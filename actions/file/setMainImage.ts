@@ -1,6 +1,7 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
+import { logError } from "kotilogi-app/utils/logError";
 
 const ErrorCode = {
     SUCCESS: 0,
@@ -20,8 +21,8 @@ export async function setMainImage(imageId: Kotilogi.IdType, refId: Kotilogi.IdT
             resolve();
         }
         catch(err){
-            console.log(err.message);
-            reject(err.message);
+            logError(err);
+            reject(err);
         }
     });
 }

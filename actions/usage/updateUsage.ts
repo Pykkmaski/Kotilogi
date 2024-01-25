@@ -1,6 +1,7 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
+import { logError } from "kotilogi-app/utils/logError";
 import { revalidatePath } from "next/cache";
 
 export async function updateUsage(usageData: Kotilogi.UsageType){
@@ -11,7 +12,7 @@ export async function updateUsage(usageData: Kotilogi.UsageType){
             resolve();
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

@@ -1,5 +1,5 @@
 export function formDataToObject(formData: FormData){
-    const obj = {};
+    const obj: any = {};
 
     formData.forEach((key, value) => {
         if(key instanceof File){

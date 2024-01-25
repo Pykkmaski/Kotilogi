@@ -15,7 +15,7 @@ export function useQuery(queryParamName: string, initialQueryValue: string | nul
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            router.replace(route + `?${queryParamName}=${data.query}`);
+            router.push(route + `?${queryParamName}=${data.query}`);
         }, queryDelay);
 
         return () => clearTimeout(timeout);

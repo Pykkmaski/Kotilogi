@@ -5,6 +5,7 @@ import { addData } from '../data/addData';
 import { uploadFile } from './uploadFile';
 import stringToDate from 'kotilogi-app/utils/stringToDate';
 import { revalidatePath } from 'next/cache';
+import { logError } from 'kotilogi-app/utils/logError';
 
 /**
  * Uploads files, and saves their info into a database table.
@@ -60,7 +61,7 @@ export async function upload(data: FormData[], refId: Kotilogi.IdType, tableName
             resolve(successfullyInsertedFiles);
         }
         catch(err){
-          console.log(err.message);
+          logError(err);
           reject(err);
         }
     });

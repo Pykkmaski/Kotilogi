@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { sendHTMLEmail } from "../email/sendHTMLEmail";
 import { sendEmail } from "../email/sendEmail";
 import { revalidatePath } from "next/cache";
+import { logError } from "kotilogi-app/utils/logError";
 
 export async function updateEmail(email: string, newEmail: string){
     return new Promise<void>(async (resolve, reject) => {
@@ -47,7 +48,7 @@ export async function sendEmailResetEmail(currentEmail: string, newEmail: string
             resolve();
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

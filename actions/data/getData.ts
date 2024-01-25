@@ -1,6 +1,7 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
+import { logError } from "kotilogi-app/utils/logError";
 
 export async function getData(dbTableName: string, query: any, onlyOne: boolean = false){
     if(onlyOne){
@@ -40,7 +41,7 @@ export async function getDataById(id: Kotilogi.IdType, dbTableName: string): Pro
         return data;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return null;
     }
 }
@@ -59,7 +60,7 @@ export async function getDataByRefId(refId: Kotilogi.IdType, dbTableName: Kotilo
         return data;
     }
     catch(err){
-        console.log(err);
+        logError(err);
         return null;
     }
 }

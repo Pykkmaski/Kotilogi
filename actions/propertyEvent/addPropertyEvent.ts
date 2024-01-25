@@ -4,6 +4,7 @@ import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
 import { addData } from "../data/addData";
 import { generateConsolidationTime } from "./util/generateConsolidationTime";
+import { logError } from "kotilogi-app/utils/logError";
 
 export async function addPropertyEvent(eventData: Kotilogi.EventType, files?: FormData[]){
     var addedEvent: Kotilogi.EventType | null = null;
@@ -20,7 +21,7 @@ export async function addPropertyEvent(eventData: Kotilogi.EventType, files?: Fo
             resolve(addedEvent);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             if(addedEvent){
                 //Clean up the event if it was added.
                 await db('propertyEvents').where({id: addedEvent.id}).del();

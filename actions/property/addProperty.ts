@@ -4,6 +4,7 @@ import { MaxProperties } from "kotilogi-app/constants";
 import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
 import { addData } from "../data/addData";
+import { logError } from "kotilogi-app/utils/logError";
 
 /**
  * Returns the number of properties a user is allowed to add based on their account type.
@@ -52,7 +53,7 @@ export async function isAllowedToAddProperty(email: string): Promise<boolean>{
         return maxPropertiesAllowed < 0 || properties.count < maxPropertiesAllowed;
     }
     catch(err){
-        console.log(err.message);
+        logError(err);
         return false;
     }
 }
@@ -68,7 +69,7 @@ export async function addProperty(data: Kotilogi.PropertyType, files?: FormData[
             resolve(property);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

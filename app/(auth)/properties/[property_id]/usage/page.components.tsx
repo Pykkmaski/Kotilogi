@@ -6,7 +6,7 @@ import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/Roun
 import { BorderHeader } from "kotilogi-app/components/Header/Header";
 import { Input } from "kotilogi-app/components/Input/Input";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BoxHeading } from "kotilogi-app/components/Heading/Heading";
 import { useQuery } from "kotilogi-app/hooks/useQuery";
@@ -26,7 +26,7 @@ type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
 function AddUsageModal({type, ...props}: AddUsageModalProps){
     console.log(type);
     const {property} = usePropertyContext();
-    const {updateData, data} = useInputData({refId: property.id, type});
+    const {updateData, data, reset: resetInputData} = useInputData({refId: property.id, type});
     const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -39,7 +39,7 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
         props.onHide();
     }
 
-    const submitUsageData = (e) => {
+    const submitUsageData = (e: FormEvent) => {
         e.preventDefault();
         setStatus('loading');
         
@@ -53,9 +53,28 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
         });
     }
 
+    const getTitle = () => {
+        if(type === 'heat'){
+            return 'Lisää lämmityskulu';
+        }
+        else if(type === 'water'){
+            return 'Lisää vesikulu';
+        }
+        else if(type === 'electric'){
+            return 'Lisää sähkökulu';
+        }
+        else{
+            return 'Lisää tuntematon';
+        }
+    }
+
+    useEffect(() => {
+        resetInputData({refId: property.id, type});
+    }, [type])
+
     return (
         <Modal {...props}>
-            <Modal.Header>Lisää Kulutustieto</Modal.Header>
+            <Modal.Header>{getTitle()}</Modal.Header>
             <Modal.Body>
                 <form id={formId} onSubmit={submitUsageData}>
                     <Input 
@@ -87,7 +106,11 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
     )
 }
 
-function TypeSelector({type}){
+type TypeSelectorProps = {
+    type: Kotilogi.UsageTypeType,
+}
+
+function TypeSelector({type}: TypeSelectorProps){
     const {onChange: onQueryChange} = useQuery('type', type);
 
     return (
@@ -106,7 +129,7 @@ type ContentProps = {
 
 export function Content({data, type}: ContentProps){
     const [selectedData, setSelectedData] = useState<any>(null);
-    const {data: currentData, updateData: updateCurrentData, reset: resetInputData} = useInputData(selectedData);
+    const {data: currentData, updateData: updateCurrentData, reset: resetInputData} = useInputData({type});
     const [showAddModal, setShowAddModal] = useState(false);
     const [status, setStatus] = useState<'loading' | 'idle' | 'error'>('idle');
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -183,6 +206,10 @@ export function Content({data, type}: ContentProps){
     const isSubmitDisabled = () => {
         return !selectedData || loading || currentData.price === '' || currentData.time === undefined;
     }
+
+    useEffect(() => {
+        resetInputData({type});
+    }, [type])
 
     return (
         <Group gap="0.5rem" direction="horizontal">

@@ -3,6 +3,7 @@
 import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
 import { generateConsolidationTime } from "./util/generateConsolidationTime";
+import { logError } from "kotilogi-app/utils/logError";
 
 /**Updates a saved event entry. Will reset the consolidation time. */
 export async function updatePropertyEvent(eventId: Kotilogi.IdType, newEventData: any){
@@ -17,7 +18,7 @@ export async function updatePropertyEvent(eventId: Kotilogi.IdType, newEventData
             resolve(updatedData[0]);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });

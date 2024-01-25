@@ -3,6 +3,7 @@
 import { fileNameTimestampSeparator } from "kotilogi-app/constants";
 import { uploadPath } from "kotilogi-app/uploadsConfig";
 import {writeFile} from 'fs/promises';
+import { logError } from "kotilogi-app/utils/logError";
 
 export async function uploadFile(file: File){
     return new Promise<string>(async (resolve, reject) => {
@@ -16,7 +17,7 @@ export async function uploadFile(file: File){
             resolve(fileName);
         }
         catch(err){
-            console.log(err.message);
+            logError(err);
             reject(err);
         }
     });
