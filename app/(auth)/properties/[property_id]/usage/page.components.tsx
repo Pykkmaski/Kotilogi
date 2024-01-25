@@ -6,7 +6,7 @@ import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/Roun
 import { BorderHeader } from "kotilogi-app/components/Header/Header";
 import { Input } from "kotilogi-app/components/Input/Input";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BoxHeading } from "kotilogi-app/components/Heading/Heading";
 import { useQuery } from "kotilogi-app/hooks/useQuery";
@@ -146,6 +146,7 @@ export function Content({data, type}: ContentProps){
     }
 
     const updateDataPoint = () => {
+        console.log(currentData.time);
         setStatus('loading');
 
         updateUsage(currentData)
@@ -172,11 +173,15 @@ export function Content({data, type}: ContentProps){
         return '#000';
     }
 
+    const loading = status === 'loading';
+
     const totalPrice = data.reduce((acc, cur) => {
         return acc + cur.price;
     }, 0);
 
-    const loading = status === 'loading';
+    const isSubmitDisabled = () => {
+        return !selectedData || loading || currentData.price === '' || currentData.time === undefined;
+    }
 
     return (
         <Group gap="0.5rem" direction="horizontal">
@@ -249,7 +254,7 @@ export function Content({data, type}: ContentProps){
                                     <PrimaryButton 
                                         loading={loading}
                                         desktopText="Päivitä" 
-                                        disabled={!selectedData || loading} 
+                                        disabled={isSubmitDisabled()} 
                                         type="submit"/>
                                 </Group>
                             </form>
