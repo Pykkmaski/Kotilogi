@@ -6,7 +6,11 @@ const eventsPerPage = 10;
 async function getEvents(propertyId: string, q: string | undefined, page?: number){
     var events: Kotilogi.EventType[] = await db('propertyEvents').where({refId: propertyId});
 
-    if(!q) return events;
+    if(!q) return events.sort((a, b) => {
+        const aTime = new Date(a.time).getTime();
+        const bTime = new Date(b.time).getTime();
+        return bTime - aTime;
+    });
 
     const lowerCaseQuery = q.toLowerCase();
 
@@ -16,7 +20,12 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
         event.description?.toLowerCase().includes(lowerCaseQuery)
     )) : events;
     
-    return displayedEvents.sort((a, b) => parseInt(a.time) - parseInt(b.time));
+    return displayedEvents.sort((a, b) => {
+        const aTime = new Date(a.time).getTime();
+        const bTime = new Date(b.time).getTime();
+
+        return bTime - aTime;
+    });
 }
 
 export default async function EventsPage({params, searchParams}){
