@@ -140,6 +140,7 @@ export function Content({data, type}: ContentProps){
         
         setStatus('loading');
         deleteUsage(selectedData)
+        .then(() => setSelectedData(null))
         .catch(err => toast.error(err.message))
         .finally(() => setStatus('idle'));
     }
@@ -232,7 +233,8 @@ export function Content({data, type}: ContentProps){
                                     name="price" 
                                     label="Hinta" 
                                     description="Laskun hinta euroissa." 
-                                    defaultValue={selectedData?.price}/>
+                                    step="0.01"
+                                    defaultValue={selectedData?.price || undefined}/>
 
                                 <Input 
                                     onChange={updateCurrentData}
