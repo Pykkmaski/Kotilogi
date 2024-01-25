@@ -4,6 +4,7 @@ import { limit } from 'kotilogi-app/uploadsConfig';
 import { addData } from '../data/addData';
 import { uploadFile } from './uploadFile';
 import stringToDate from 'kotilogi-app/utils/stringToDate';
+import { revalidatePath } from 'next/cache';
 
 /**
  * Uploads files, and saves their info into a database table.
@@ -50,7 +51,12 @@ export async function upload(data: FormData[], refId: Kotilogi.IdType, tableName
               const result = await addData<Kotilogi.FileType>(tableName, fileData as any,);
               successfullyInsertedFiles.push({id: result.id, fileName: result.fileName});
             }
-  
+            
+            revalidatePath('/properties[property_id]/files');
+            revalidatePath('/properties[property_id]/images');
+            revalidatePath('/events[event_id]/files');
+            revalidatePath('/events[event_id]/images');
+            
             resolve(successfullyInsertedFiles);
         }
         catch(err){

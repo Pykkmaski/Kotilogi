@@ -24,6 +24,7 @@ type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
 }
 
 function AddUsageModal({type, ...props}: AddUsageModalProps){
+    console.log(type);
     const {property} = usePropertyContext();
     const {updateData, data} = useInputData({refId: property.id, type});
     const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
