@@ -13,6 +13,7 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { sendEmailResetEmail, updateEmail } from "kotilogi-app/actions/user/updateEmail";
 import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
+import { Margin } from "kotilogi-app/components/Util/Margin";
 
 export function Header(){
     return (
@@ -31,6 +32,7 @@ export function EmailSettingsForm({email}){
     return (
         <SingleInputForm 
             submitMethod={submitMethod}
+            editingDisabled={true}
             inputComponent={Input}
             initialInputProps={{
                 name: 'email',
@@ -104,7 +106,7 @@ export function PasswordSettingsForm({email}){
 
             <Group direction="horizontal" justifyContent="right" gap="1rem">
                 <SecondaryButton desktopText="Tyhjennä" hidden={!hasSomeInput() || status === 'loading'} onClick={reset}/>
-                <PrimaryButton desktopText="Päivitä" type="submit" 
+                <PrimaryButton desktopText="Päivitä Salasana" type="submit" 
                     disabled={submitDisabled || !hasAllPasswordsFilled()}
                     loading={status === 'loading'}/>
             </Group>
@@ -116,12 +118,15 @@ export function Content({user}){
     return (
         <>
             <ContentCard title="Yleiset">
-                <EmailSettingsForm email={user.email}/>
+                <Margin direction="bottom" amount="2rem">
+                    <EmailSettingsForm email={user.email}/>
+                </Margin>
+                
                 <PasswordSettingsForm email={user.email}/>
             </ContentCard>
 
             <ContentCard title="Tilaus">
-                <SingleSelectForm inputComponent={Select} childComponent={Select.Option} initialInputProps={{
+                <SingleSelectForm editingDisabled={true} inputComponent={Select} childComponent={Select.Option} initialInputProps={{
                     name: 'plan',
                     label: "Tilaus",
                     description: 'Tilauksen tyyppi.',
