@@ -49,7 +49,10 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
         const response = confirm('Olet poistamassa taloa ' + props.item.title + '. Oletko varma?');
         if(!response) return;
 
+        toast.loading('Poistetaan taloa...');
+
         deleteProperty(props.item.id)
+        .then(() => toast.success('Talo poistettu!'))
         .catch(err => {
             toast.error(err.message);
         });
@@ -78,7 +81,10 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
         const response = confirm('Olet poistamassa tapahtumaa ' + props.item.title + '. Oletko varma?');
         if(!response) return;
 
+        toast.loading('Poistetaan tapahtumaa...');
+
         deletePropertyEvent(props.item.id)
+        .then(() => toast.success('Tapahtuma poistettu!'))
         .catch(err => {
             toast.error(err.message);
         });
