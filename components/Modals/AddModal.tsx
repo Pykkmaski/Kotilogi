@@ -82,19 +82,20 @@ export function AddEventModal({refId, ...props}: AddModalProps){
                 autoComplete="off"
                 onChange={updateData}/>
 
+            <Input 
+                name="time"
+                label="Päiväys"
+                description="Tapahtuman päivämäärä."
+                required
+                type="date"
+                onChange={updateData}/>
+
             <Textarea 
                 label="Kuvaus" 
                 description="Tapahtuman lyhyt kuvaus." 
                 placeholder="Kirjoita kuvaus..." 
                 spellCheck={false}
                 name="description"
-                onChange={updateData}/>
-
-            <Input 
-                name="time"
-                label="Päiväys"
-                description="Tapahtuman päivämäärä."
-                type="date"
                 onChange={updateData}/>
 
             <Input
