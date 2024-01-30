@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
-import { useInputData, useInputFiles, useStatus } from "./BaseAddModal.hooks";
+import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
 import { Group } from "../Group/Group";
 import Form from "../Form/Form";
-import { Input } from "../Input/Input";
+import toast from "react-hot-toast";
 
 type BaseAddModalProps = ModalProps & {
     submitMethod: (e) => Promise<any>,
@@ -29,8 +29,8 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
             closeModal();
         })
         .catch(err => {
-            console.log(err.message);
-            setStatus('error');
+            toast.error(err.message);
+            closeModal();
         });
     }
 

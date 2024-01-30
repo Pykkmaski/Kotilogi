@@ -8,6 +8,8 @@ import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import { DashboardContextProvider } from "./DashboardContextProvider";
 import { SecondaryHeading } from "kotilogi-app/components/Heading/Heading";
 import { Group } from "kotilogi-app/components/Group/Group";
+import { Accordion } from "kotilogi-app/components/Experimental/Accordion/Accordion";
+import Link from "next/link";
 
 export default async function DashboardLayout({children}){
 
@@ -27,6 +29,7 @@ export default async function DashboardLayout({children}){
                 <NavBar>
                     <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
                     <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
+                    <IconLink imageSrc="/icons/user.png" href="/dashboard/plan">Tilaus</IconLink>
                 </NavBar>
 
                 <DashboardContextProvider user={session.user}>

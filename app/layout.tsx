@@ -1,12 +1,13 @@
 import 'bootstrap/scss/bootstrap.scss';
 import 'kotilogi-app/scss/main.scss';
-import './globals.scss';
+import './globals.css';
 import styles from './layout.module.scss';
 
 import Header from './_Header/Header';
 import Notice from 'kotilogi-app/components/Notice';
 import {Toaster} from 'react-hot-toast';
 import {AuthProvider} from '@/contexts/AuthProvider';
+
 export const metadata = {
   title: 'Kotilogi',
   description: 'Talosi huoltokirja',

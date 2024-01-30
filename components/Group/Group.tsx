@@ -1,20 +1,23 @@
 type GroupProps = React.PropsWithChildren & {
-    direction: 'vertical' | 'horizontal',
-    gap?: string,
-    justifyContent?: string,
-    alignItems?: string,
+    direction: 'col' | 'row',
+    gap?: number,
+    justify?: 'start' | 'end' | 'center' | 'between',
+    center?: boolean,
 }
 
 /**A wrapper to arrange it's children in a row or a column. */
-export function Group({children, justifyContent, alignItems, direction = 'vertical', gap = '0.5rem'}: GroupProps){
+export function Group({children, justify = 'start', direction = 'col', gap = 0, center = false}: GroupProps){
+
+    const className = [
+        'flex',
+        `flex-${direction}`,
+        `gap-${gap}`,
+        center,
+        `justify-${justify}`
+    ];
+
     return (
-        <div style={{
-            display: 'flex',
-            flexFlow: direction === 'vertical' ? 'column' : 'row',
-            justifyContent,
-            alignItems,
-            gap,
-        }}>
+        <div className={className.join(' ')}>
             {children}
         </div>
     )

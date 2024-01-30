@@ -9,7 +9,7 @@ export default async function Page(){
     if(!session) throw new Error('Käyttäjän varmennus epäonnistui!');
     
     return (
-        <main className="flex-column margin-bottom medium-gap">
+        <main className="flex flex-col mb-4 gap-4">
             <Header/>
             <Content user={session.user}/>
         </main>
