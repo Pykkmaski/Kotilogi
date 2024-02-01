@@ -11,8 +11,13 @@ export function Header({children, border}: HeaderProps){
         paddingBottom: border ? '1rem' : 'none',
     }
 
+    const className = [
+        'flex flex-row w-full mb-8',
+        border ? 'border-b-[1px] border-b-slate-200 pb-4' : undefined,
+    ];
+
     return (
-        <div style={containerStyle} className={style.container}>
+        <div className={className.join(' ')}>
             {children}
         </div>
     );

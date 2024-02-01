@@ -33,7 +33,7 @@ function Label(props: {
     const requiredBadge = props.required ? <span className={style.required}>Pakollinen</span> : null;
 
     return (
-        <Group direction="vertical" gap="0rem" justifyContent="center">
+        <Group direction="col" justify="center">
             <span style={{
                 fontSize: '1.1rem',
                 color: 'black',
@@ -115,7 +115,7 @@ Select.Option = Option;
 
 function TextareaCharacterCounter({currentLength, max}: {currentLength: number | undefined, max: number | undefined}){
     return (
-        <Group direction="horizontal" gap="1rem">
+        <Group direction="row" gap={4}>
             <span>{currentLength} / {max}</span>
         </Group>
     )
@@ -142,7 +142,7 @@ export function Textarea(props: TextAreaProps){
     return (
         <div style={containerStyle}>
             <Label text={props.label} {...props}/>
-            <Group direction="vertical" gap="0.5rem">
+            <Group direction="col" gap={2}>
                 <textarea {...props} style={textareaStyle} className={style.input} ref={ref} onChange={(e) => {
                     props.onChange && props.onChange(e);
                     setLength(ref.current?.value.length);

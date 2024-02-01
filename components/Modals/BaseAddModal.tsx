@@ -44,30 +44,32 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
 
     return (
         <Modal {...props}>
-            <Modal.Header>{props.title}</Modal.Header>
+            <Modal.Header>
+                <span className="text-xl text-slate-500">{props.title}</span>
+            </Modal.Header>
             <Modal.Body>
                 <form onSubmit={onSubmit} ref={formRef} id={formId}>
-                    {children}
+                    <Group direction="col" gap={4}>
+                        {children}
+                    </Group>
                 </form>
             </Modal.Body>
 
             <Modal.Footer>
-                <Group direction="horizontal" justifyContent="space-between">
+                <Group direction="row" justify="between">
                     {status === 'error' ? <Form.Error>Tapahtui odottamaton virhe!</Form.Error> : null}
-                    <Group direction="horizontal">
+                    <Group direction="row" gap={4}>
                         <SecondaryButton
-                            desktopText="Peruuta"
                             onClick={() => {
                                 closeModal();
                             }}
-                            disabled={loading}/>
+                            disabled={loading}>Peruuta</SecondaryButton>
 
                         <PrimaryButton
-                            desktopText="Lähetä"
                             type="submit"
                             loading={loading}
                             disabled={loading}
-                            form={formId}/>
+                            form={formId}>Lähetä</PrimaryButton>
                     </Group>
                 </Group>
             </Modal.Footer>

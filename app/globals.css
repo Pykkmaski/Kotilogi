@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+textarea, input, select{
+    width: 100%;
+}
+
+textarea{
+    border-radius: 12px;
+}
+
+a:hover{
+    text-decoration: underline;
+}

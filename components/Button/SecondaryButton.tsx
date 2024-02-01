@@ -8,7 +8,7 @@ import Button, { ButtonProps } from "./Button"
 export default function SecondaryButton(props: ButtonProps){
     return (
         <Button
-            className='secondary'
+            variant='secondary'
             {...props}
         />
     );

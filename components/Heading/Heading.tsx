@@ -9,7 +9,7 @@ type HeadingProps = React.ComponentProps<'h3'>;
  */
 export function Heading({children, ...props}: HeadingProps){
     return (
-        <h3 {...props}>{children}</h3>
+        <h3 className="text-slate-500 text-xl">{children}</h3>
     );
 }
 

@@ -19,7 +19,7 @@ export default async function DashboardLayout({children}){
     return (
         <Layout>
             <Header>
-                <Group direction="vertical" gap="0">
+                <Group direction="col" gap={0}>
                     <SecondaryHeading>{session.user.email}</SecondaryHeading>
                     <h3>Hallintapaneeli</h3>
                 </Group>

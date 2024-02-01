@@ -11,7 +11,9 @@ export default async function Page(){
     return (
         <main className="flex flex-col mb-4 gap-4">
             <Header/>
-            <Content user={session.user}/>
+            <div className="w-full">
+                <Content user={session.user}/>
+            </div>
         </main>
     )
 }

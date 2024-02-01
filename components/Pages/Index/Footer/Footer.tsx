@@ -7,7 +7,7 @@ function Footer(props){
         <div className={style.container}>
             <div className={style.element}>
                 <header>
-                    <h1>Ota Yhteyttä</h1>
+                    <h1 className="text-3xl">Ota Yhteyttä</h1>
                 </header>
 
                 <p>

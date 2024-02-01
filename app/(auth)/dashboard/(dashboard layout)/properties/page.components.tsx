@@ -12,7 +12,7 @@ export function Content({properties, user}: {
     user: {email: string}
 }){
     return (
-        <main className='margin-bottom'>
+        <main className='mb-4 flex-1 h-full'>
             <Gallery<Kotilogi.PropertyType> data={properties}>
                 <Gallery.Header 
                     title="Talot" 

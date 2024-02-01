@@ -61,27 +61,33 @@ export function PasswordSettingsForm({email}){
 
     return (
         <form onSubmit={onSubmit} ref={formRef}>
-            <Input type="password" placeholder="Kirjoita uusi salasana..." autoComplete="new-password" name="password1"
-                onChange={updateData}
-                label="Uusi Salasana"
-                description="Päivitä salasanasi."/>
+                <Group direction="col" gap={4}>
+                    <Input type="password" placeholder="Kirjoita uusi salasana..." autoComplete="new-password" name="password1"
+                        onChange={updateData}
+                        label="Uusi Salasana"
+                        description="Päivitä salasanasi."/>
 
-            <Input type="password" placeholder="Kirjoita uusi salasana uudelleen..." autoComplete="off" name="password2"
-                onChange={updateData}
-                label="Salasanan Vahvistus"
-                description="Vahvista uusi salasana."/>
+                    <Input type="password" placeholder="Kirjoita uusi salasana uudelleen..." autoComplete="off" name="password2"
+                        onChange={updateData}
+                        label="Salasanan Vahvistus"
+                        description="Vahvista uusi salasana."/>
 
-            <Input type="password" placeholder="Kirjoita nykyinen salasanasi..." autoComplete="off" name="password3"
-                onChange={updateData}
-                label="Nykyinen salasanasi"
-                description="Vahvista nykyinen salasanasi."/>
+                    <Input type="password" placeholder="Kirjoita nykyinen salasanasi..." autoComplete="off" name="password3"
+                        onChange={updateData}
+                        label="Nykyinen salasanasi"
+                        description="Vahvista nykyinen salasanasi."/>
 
-            <Group direction="row" justify="end" gap={4}>
-                <SecondaryButton desktopText="Tyhjennä" hidden={!hasSomeInput() || status === 'loading'} onClick={reset}/>
-                <PrimaryButton desktopText="Päivitä Salasana" type="submit" 
-                    disabled={submitDisabled || !hasAllPasswordsFilled()}
-                    loading={status === 'loading'}/>
-            </Group>
+                    <div className="w-full">
+                        <Group direction="row" justify="end" gap={4}>
+                            <SecondaryButton hidden={!hasSomeInput() || status === 'loading'} onClick={reset}>Tyhjennä</SecondaryButton>
+                            <PrimaryButton type="submit" 
+                                disabled={submitDisabled || !hasAllPasswordsFilled()}
+                                loading={status === 'loading'}>Päivitä Salasana</PrimaryButton>
+                        </Group>
+                    </div>
+                </Group>
+            
+            
         </form>
     );
 }

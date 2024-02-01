@@ -57,19 +57,17 @@ export function RegisterForm(){
                 <Form.Group direction="horizontal">
                     <Button
                         type="button"
-                        desktopText='Peruuta'
                         className="secondary"
                         onClick={cancelHandler}
                         disabled={loading}
-                    />
+                    >Peruuta</Button>
 
                     <Button
                         type="submit"
-                        desktopText='Lähetä'
                         className="primary"
                         disabled={loading}
                         loading={loading}
-                    />
+                    >Lähetä</Button>
                 </Form.Group>
 
                 {

@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 
 export function Logo(){
     return (
-        <div className={style.logo} id="app-logo">
+        <div className="z-40" id="app-logo">
             <Link href="/" id="app-logo-link">
                 <Image src={MainLogo} alt="Kotilogi logo"/>
             </Link>
@@ -60,15 +60,15 @@ function UserIcon2({email}){
 
     const router = useRouter();
 
-    const getContent = () => email ? [email[0].toUpperCase(), email[1].toUpperCase()] : null;
+    const getUserIconContent = () => email ? [email[0].toUpperCase(), email[1].toUpperCase()] : null;
 
     return (
         <VisibilityProvider>
             <RelativePosition>
-                <Group direction="vertical" gap="1rem">
+                <Group direction="col" gap={4}>
                     <VisibilityProvider.Trigger>
-                        <div className={style.userIcon}>
-                            {getContent()}
+                        <div className="rounded-full w-14 h-14 bg-white flex flex-col items-center justify-center cursor-pointer">
+                            {getUserIconContent()}
                         </div>
                     </VisibilityProvider.Trigger>
 
@@ -100,8 +100,7 @@ export default function Header(props){
     //<Image src={Logo} alt="Kotilogi logo"/>
 
     return(
-        <header className={style.header} id="main-header">
-            
+        <header className="flex flex-row justify-between items-center pt-2 pb-2 pl-32 pr-32 bg-black h-[4em]" id="main-header">
             <Logo/>
             {/**Desktop nav */}
             <nav className={style.navDesktop}>
@@ -113,10 +112,13 @@ export default function Header(props){
                     <UserIcon2 email={userEmail}/>
                 </div>
                 :
-                <div className={style.links}>
-                    <Link href="/">Etusivu</Link>
-                    <Link href="/login">Kirjaudu</Link>
-                    <Link href="/register">Rekisteröidy</Link>
+                <div className="[&>*]:text-white [&>*]:font-semibold">
+                    <Group direction="row" gap={4}>
+                        <Link href="/">Etusivu</Link>
+                        <Link href="/login">Kirjaudu</Link>
+                        <Link href="/register">Rekisteröidy</Link>
+                    </Group>
+                    
                 </div>
             }
             </nav>

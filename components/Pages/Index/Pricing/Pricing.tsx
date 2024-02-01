@@ -8,7 +8,7 @@ const proPrice = 59.90;
 function PricingCard({children}){
     return (
         <div className={style.card}>
-            <Group direction="vertical" gap="0">
+            <Group direction="col" gap={0}>
                 {children}
             </Group>
         </div>
@@ -88,8 +88,8 @@ export default function Pricing(){
             <div className={style.bgImage}/>
 
             <div className={style.containerBody}>
-                <Group direction="horizontal" gap="2rem">
-                    <Group direction="horizontal" gap="1rem">
+                <Group direction="row" gap={8}>
+                    <Group direction="row" gap={8}>
                         <ProCard buttonEnabled={true}/>
                         <RegularCard buttonEnabled={true}/>
                     </Group>

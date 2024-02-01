@@ -5,7 +5,7 @@ import style from './style.module.scss';
 
 export function RoundedBox({children}: React.PropsWithChildren){
     return (
-        <div className={style.container}>
+        <div className="flex flex-col border rounded-lg bg-white p-4">
             {children}
         </div>
     );
@@ -18,7 +18,7 @@ type ContentCardProps = React.PropsWithChildren & {
 export function ContentCard({children, title}: ContentCardProps){
     return (
         <RoundedBox>
-            <Group direction="vertical" gap="1rem">
+            <Group direction="col" gap={4}>
                 <BorderHeader>
                     <BoxHeading>{title}</BoxHeading>
                 </BorderHeader>

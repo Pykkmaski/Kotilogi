@@ -25,7 +25,7 @@ export default async function PlanPage(){
                 <ContentCard title="Nykyinen Tilaus">
                     <Group direction="row" gap={3} justify="between">
                         <Heading>{planNameToLang(user.plan, 'fi')}</Heading>
-                        <PrimaryButton desktopText="Muuta"></PrimaryButton>
+                        <PrimaryButton>Muuta</PrimaryButton>
                     </Group>
                 </ContentCard>
             </Group>

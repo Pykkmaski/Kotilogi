@@ -32,13 +32,19 @@ function Header(props: React.PropsWithChildren & {
 
         if(DeleteModal){
             buttons.push(
-                <SecondaryButton desktopText="Poista" onClick={() => setShowDeleteModal(true)} hidden={!state.selectedItems.length}/>
+                <SecondaryButton onClick={() => setShowDeleteModal(true)} hidden={!state.selectedItems.length}>Poista</SecondaryButton>
             );
         }
 
         if(AddModal){
             buttons.push(
-                <PrimaryButton desktopText="Lisää Uusi" mobileIconSrc="/icons/plus.png" onClick={() => setShowAddModal(true)}/>
+                <PrimaryButton onClick={() => setShowAddModal(true)}>
+                    <Group direction="row" gap={4} align="center">
+                        <img src="/icons/plus.png" className="invert aspect-square w-[25px]"/>
+                        <span>Lisää Uusi</span>
+                    </Group>
+                    
+                </PrimaryButton>
             );
         }
 
@@ -51,10 +57,10 @@ function Header(props: React.PropsWithChildren & {
             {DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null}
 
             <div style={{marginBottom: '1rem', paddingBottom: '0.5rem'}}>
-                <Group direction="horizontal" justifyContent="space-between">
+                <Group direction="row" justify="between">
                     <Heading>{props.title}</Heading>
 
-                    <Group direction="horizontal" gap="0.5rem">
+                    <Group direction="row" gap={4}>
                         {props.children}   
                         {...getButtons()}
                     </Group>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './component.module.scss';
 import {sendContactMessage} from 'kotilogi-app/actions/email/sendContactMessage';
 import toast from 'react-hot-toast';
+import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 
 function ContactForm(props){
     const [loading, setLoading] = useState(false);
@@ -55,7 +56,7 @@ function ContactForm(props){
             </Form.Group>
 
             <Form.Group direction="horizontal">
-                <button type="submit" className={styles.submitButton} disabled={loading} id="contact-submit-button">Lähetä</button>
+                <PrimaryButton type="submit" id="contact-submit-button">Lähetä</PrimaryButton>
             </Form.Group>
 
             {
