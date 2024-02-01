@@ -21,27 +21,24 @@ function Controls(props: ControlsProps){
     const loading = props.status === 'loading';
 
     return (
-        <div className={style.controls}>
+        <div className="flex flex-1 flex-row justify-end w-full">
             {
                 props.editing ? 
-                <Group direction="horizontal">
+                <Group direction="row">
                     <SecondaryButton 
-                        desktopText="Peruuta" 
                         onClick={props.cancelEdit}
-                        hidden={loading}/>
+                        hidden={loading}>Peruuta</SecondaryButton>
 
                     <PrimaryButton 
-                        desktopText="Tallenna" 
                         type="button" 
                         onClick={props.onSubmit}
                         loading={loading}
-                        disabled={loading}/>
+                        disabled={loading}>Tallenna</PrimaryButton>
                 </Group>
                 :
                 <PrimaryButton 
-                    desktopText="Muokkaa" 
                     type="button" 
-                    onClick={() => props.edit()}/>
+                    onClick={() => props.edit()}>Muokkaa</PrimaryButton>
             }
         </div>
     );
@@ -67,32 +64,34 @@ export function SingleInputForm({inputComponent: InputComponent, ...props}: Sing
     } = useSingleInputForm(props.initialInputProps);
 
     return (
-        <Group direction="vertical" gap="1rem">
-            <InputComponent 
-                {...props.initialInputProps} 
-                disabled={!editing} 
-                defaultValue={cancelFallbackValue.current}
-                value={
-                    editing ? undefined : cancelFallbackValue.current}
-                onChange={(e) => inputValue.current = e.target.value}
-                title={!editing && !props.editingDisabled ? 'Paina Muokkaa-nappia muokataksesi.' : undefined}/>
+        <div className="w-full">
+            <Group direction="col" gap={4}>
+                <InputComponent 
+                    {...props.initialInputProps} 
+                    disabled={!editing} 
+                    defaultValue={cancelFallbackValue.current}
+                    value={
+                        editing ? undefined : cancelFallbackValue.current}
+                    onChange={(e) => inputValue.current = e.target.value}
+                    title={!editing && !props.editingDisabled ? 'Paina Muokkaa-nappia muokataksesi.' : undefined}/>
 
-            {
-                !props.editingDisabled ? 
-                <Controls 
-                    editing={editing} 
-                    edit={edit}
-                    onSubmit={() => {
-                        onSubmit(props.submitMethod)
-                    }} 
-                    status={status}
-                    cancelEdit={cancelEdit}/>
-                :
-                null
-            }
-            
-        </Group>
-    )
+                {
+                    !props.editingDisabled ? 
+                    <Controls 
+                        editing={editing} 
+                        edit={edit}
+                        onSubmit={() => {
+                            onSubmit(props.submitMethod)
+                        }} 
+                        status={status}
+                        cancelEdit={cancelEdit}/>
+                    :
+                    null
+                }
+                
+            </Group>
+        </div>
+    );
 }
 
 export type SingleSelectFormProps = {
@@ -119,52 +118,53 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
     const inputId = crypto.randomUUID();
 
     return (
-        <Group direction="vertical" gap="1rem">
-            <InputComponent 
-                {...props.initialInputProps} 
-                disabled={!editing} 
-                onChange={(e) => {
-                    inputValue.current = e.target.value;
-                    //props.initialInputProps.onChange && props.initialInputProps.onChange(e);
-                }}
-            >
-                {/**Render all children when editing and just the defaultValue if not*/}
-                {
-                    editing ? 
-                    props.childProps.map((childProps, index: number) => {
-                         //Determine the selected status of the option through the default value, or the fallback value.
-                        const selected = cancelFallbackValue.current === childProps.value;
+        <div className="w-full">
+            <Group direction="col" gap={4}>
+                <InputComponent 
+                    {...props.initialInputProps} 
+                    disabled={!editing} 
+                    onChange={(e) => {
+                        inputValue.current = e.target.value;
+                        //props.initialInputProps.onChange && props.initialInputProps.onChange(e);
+                    }}
+                >
+                    {/**Render all children when editing and just the defaultValue if not*/}
+                    {
+                        editing ? 
+                        props.childProps.map((childProps, index: number) => {
+                            //Determine the selected status of the option through the default value, or the fallback value.
+                            const selected = cancelFallbackValue.current === childProps.value;
 
-                        return (
-                            <ChildComponent 
-                                {...childProps} 
-                                selected={selected}
-                                key={`input-option-${inputId}-${index}`}> {childProps.children} </ChildComponent>
-                        )
-                    }) 
-                    :
-                    props.childProps.map(childProps => {
-                        if(childProps.value === cancelFallbackValue.current){
-                            return <ChildComponent {...childProps} >{childProps.children}</ChildComponent>
-                        }
-                    })
-                }
-          
-            </InputComponent>
-            {
-                !props.editingDisabled ? 
-                <Controls 
-                    editing={editing} 
-                    edit={edit}
-                    onSubmit={() => {
-                        onSubmit(props.submitMethod)
-                    }} 
-                    status={status}
-                    cancelEdit={cancelEdit}/>
-                :
-                null
-            }
+                            return (
+                                <ChildComponent 
+                                    {...childProps} 
+                                    selected={selected}
+                                    key={`input-option-${inputId}-${index}`}> {childProps.children} </ChildComponent>
+                            )
+                        }) 
+                        :
+                        props.childProps.map(childProps => {
+                            if(childProps.value === cancelFallbackValue.current){
+                                return <ChildComponent {...childProps} >{childProps.children}</ChildComponent>
+                            }
+                        })
+                    }
             
-        </Group>
-    )
+                </InputComponent>
+                {
+                    !props.editingDisabled ? 
+                    <Controls 
+                        editing={editing} 
+                        edit={edit}
+                        onSubmit={() => {
+                            onSubmit(props.submitMethod)
+                        }} 
+                        status={status}
+                        cancelEdit={cancelEdit}/>
+                    :
+                    null
+                }
+            </Group>
+        </div>
+    );
 }

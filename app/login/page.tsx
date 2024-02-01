@@ -58,55 +58,60 @@ export default function LoginPage(){
         <main className="flex flex-col justify-center items-center flex-1">
             <Padding>
                 <ContentCard title="Kirjaudu Sisään">
-                    <Group direction="col" gap={0}>
-                        <form onSubmit={onSubmitHandler}>
-                        <Group direction='col' center>
-                            <Input 
-                                label="Sähköpostiosoite"
-                                description='Sähköpostiosoite jolle tili on rekisteröity.'
-                                type="email" 
-                                name="email" 
-                                required={true} 
-                                placeholder="Kirjoita sähköpostiosoitteesi..."
-                                onChange={updateData}
-                                />
+                    <form onSubmit={onSubmitHandler}>
+                        <Group gap={4} direction="col">
+                            <Group direction='col' align="end" gap={2}>
+                                <Input 
+                                    label="Sähköpostiosoite"
+                                    description='Sähköpostiosoite jolle tili on rekisteröity.'
+                                    type="email" 
+                                    name="email" 
+                                    required={true} 
+                                    placeholder="Kirjoita sähköpostiosoitteesi..."
+                                    onChange={updateData}
+                                    />
 
-                            {error === 'invalid_user' ? <span className="danger">Käyttäjää annetulla sähköpostiosoitteella ei ole!</span> : null}
-                        </Group>
-                        
+                                {error === 'invalid_user' ? <span className="danger">Käyttäjää annetulla sähköpostiosoitteella ei ole!</span> : null}
+                            </Group>
 
-                        <Group direction="col">
-                            <Input 
-                                label="Salasana"
-                                description='Tilin salasana.'
-                                type="password" 
-                                name="password" 
-                                placeholder="Kirjoita salasanasi..."
-                                required 
-                                className={error === 'password_mismatch' ? 'error' : undefined}
-                                onChange={updateData}/>
-                            {error === 'password_mismatch' ? <span className="danger">Salasana on virheellinen!</span> : null}
-                            <div>
-                                <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link href="/login/reset">Klikkaa tähän.</Link>
+                            <div className="w-full">
+                                <Group direction="col" align="end" gap={2}>
+                                    <Input 
+                                        label="Salasana"
+                                        description='Tilin salasana.'
+                                        type="password" 
+                                        name="password" 
+                                        placeholder="Kirjoita salasanasi..."
+                                        required 
+                                        className={error === 'password_mismatch' ? 'error' : undefined}
+                                        onChange={updateData}/>
+
+                                    {error === 'password_mismatch' ? <span className="danger">Salasana on virheellinen!</span> : null}
+
+                                    <div className="w-full flex justify-end mt-4 gap-2">
+                                        <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
+                                    </div>
+                                </Group>
+                            </div>
+
+
+                            <div className="w-full mt-4">
+                                <Group direction="row" justify="end" gap={2}>
+                                    <SecondaryButton 
+                                        type="button" 
+                                        disabled={loading} 
+                                        onClick={cancelHandler}
+                                    >Peruuta</SecondaryButton>
+
+                                    <PrimaryButton 
+                                        type="submit"
+                                        disabled={loading}
+                                        loading={loading}
+                                    >Kirjaudu</PrimaryButton>
+                                </Group>
                             </div>
                         </Group>
-                        
-
-                        <Group direction="row" justify="end">
-                            <SecondaryButton 
-                                type="button" 
-                                disabled={loading} 
-                                onClick={cancelHandler}
-                            >Peruuta</SecondaryButton>
-
-                            <PrimaryButton 
-                                type="submit"
-                                disabled={loading}
-                                loading={loading}
-                            >Kirjaudu</PrimaryButton>
-                        </Group>
-                        </form>
-                    </Group>
+                    </form>
                 </ContentCard>
             </Padding>
         </main>

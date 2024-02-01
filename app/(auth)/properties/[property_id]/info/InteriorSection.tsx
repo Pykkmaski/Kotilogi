@@ -4,7 +4,8 @@ import { SingleInputForm } from "kotilogi-app/components/SingleInputForm/SingleI
 
 export default function InteriorSection({propertyData, updateProperty}){
     return (
-        <ContentCard title="Sisätilat">
+        <div className="w-full">
+<ContentCard title="Sisätilat">
             <SingleInputForm 
                 submitMethod={updateProperty}
                 inputComponent={Input}
@@ -61,5 +62,7 @@ export default function InteriorSection({propertyData, updateProperty}){
             />
 
         </ContentCard> 
+        </div>
+        
     );
 }

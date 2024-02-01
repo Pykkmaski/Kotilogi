@@ -21,6 +21,7 @@ function StepOne(){
     const router = useRouter();
     const {dispatch, state, next} = useResetFormProvider();
     const {data, updateData} = useInputData({});
+    const [submitDisabled, setSubmitDisabled] = useState(false);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -38,12 +39,15 @@ function StepOne(){
                 type: 'set_email',
                 value: email,
             });
-        }
 
-        dispatch({
-            type: 'set_status',
-            value: error.code,
-        });
+            setSubmitDisabled(true);
+        }
+        else{
+            dispatch({
+                type: 'set_status',
+                value: error.code,
+            });
+        }
 
         dispatch({
             type: 'set_loading',
@@ -70,7 +74,7 @@ function StepOne(){
             </p>
 
             <form onSubmit={onSubmitHandler}>
-                <Group direction="horizontal">
+                <Group direction="row">
                     <Input 
                         type="email" 
                         name="email"
@@ -81,20 +85,22 @@ function StepOne(){
                         onChange={updateData}/>
                 </Group>
 
-                <Group direction="horizontal" justifyContent="right">
-                    <SecondaryButton 
-                        onClick={() => router.replace('/login')}
-                        desktopText='Peruuta'
-                        disabled={state.isLoading}
-                    />
+                <div className="mt-4">
+                    <Group direction="row" justify="end" gap={2}>
+                        <SecondaryButton 
+                            type="button"
+                            onClick={() => router.push('/login')}
+                            disabled={state.isLoading}
+                        >Peruuta</SecondaryButton>
 
-                    <PrimaryButton 
-                        type="submit" 
-                        disabled={state.isLoading || !data.email}
-                        loading={state.isLoading}
-                        desktopText='Seuraava'
-                    />
-                </Group>
+                        <PrimaryButton 
+                            type="submit" 
+                            disabled={state.isLoading || !data.email || submitDisabled}
+                            loading={state.isLoading}
+                        >Lähetä</PrimaryButton>
+                    </Group>
+                </div>
+                
                 {
                     state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
                     :
@@ -160,37 +166,46 @@ function StepTwo(){
                 Salasana tulee vaihtaa 30 minuutin sisällä.
             </p>
 
-            <form onSubmit={onSubmitHandler}>
-                <Group direction="horizontal">
-                    <Input 
-                        autoComplete="new-password"
-                        type="password" 
-                        name='password1' 
-                        label="Anna Uusi Salasana"
-                        description="Tilisi uusi salasana."
-                        placeholder="Kirjoita uusi salsanasi..."
-                        required 
-                        minLength={8}
-                        onChange={updateData}/>
-                </Group>
+            <div className="w-full [&>*]:flex-1">
+            <form onSubmit={onSubmitHandler} className="mt-4">
+                <Group direction="col" gap={4}>
+                    <Group direction="row">
+                        <Input 
+                            autoComplete="new-password"
+                            type="password" 
+                            name='password1' 
+                            label="Anna Uusi Salasana"
+                            description="Tilisi uusi salasana."
+                            placeholder="Kirjoita uusi salsanasi..."
+                            required 
+                            minLength={8}
+                            onChange={updateData}/>
+                    </Group>
 
-                <Group direction="horizontal">
-                    <Input 
-                        label="Toista Salasana"
-                        description="Uuden salsanan vahvistus."
-                        placeholder="Kirjoita salasana uudelleen..."
-                        type="password" 
-                        name="password2" 
-                        required 
-                        minLength={8}
-                        onChange={updateData}/>
-                </Group>
-
-                <Group direction="horizontal" justifyContent="right">
-                    <SecondaryButton onClick={previous} disabled={isLoading} desktopText="Takaisin"/>
-                    <PrimaryButton type="submit" disabled={isLoading || !data.password1 || !data.password2} loading={isLoading} desktopText="Lähetä"/>
+                    <div className="w-full">
+                        <Group direction="row">
+                            <Input 
+                                label="Toista Salasana"
+                                description="Uuden salsanan vahvistus."
+                                placeholder="Kirjoita salasana uudelleen..."
+                                type="password" 
+                                name="password2" 
+                                required 
+                                minLength={8}
+                                onChange={updateData}/>
+                        </Group>
+                    </div>
+        
+                    <div className="mt-4 w-full">
+                        <Group direction="row" justify="end">
+                            <SecondaryButton onClick={previous} disabled={isLoading}>Takaisin</SecondaryButton>
+                            <PrimaryButton type="submit" disabled={isLoading || !data.password1 || !data.password2} loading={isLoading}>Lähetä</PrimaryButton>
+                        </Group>
+                    </div>
                 </Group>
             </form>
+            </div>
+            
         </ContentCard>
         
     );

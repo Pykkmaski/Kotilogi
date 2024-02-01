@@ -6,7 +6,8 @@ import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/Single
 export default function BuildingSection({propertyData, updateProperty}){
     
     return (
-        <ContentCard title="Julkisivu">
+        <div className="w-full">
+<ContentCard title="Julkisivu">
             <SingleSelectForm 
                 submitMethod={updateProperty}
                 inputComponent={Select}
@@ -41,5 +42,7 @@ export default function BuildingSection({propertyData, updateProperty}){
                     }
                 })}/>
         </ContentCard> 
+        </div>
+        
     );
 }

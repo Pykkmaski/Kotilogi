@@ -18,12 +18,14 @@ type ContentCardProps = React.PropsWithChildren & {
 export function ContentCard({children, title}: ContentCardProps){
     return (
         <RoundedBox>
-            <Group direction="col" gap={4}>
-                <BorderHeader>
-                    <BoxHeading>{title}</BoxHeading>
-                </BorderHeader>
-                {children}
-            </Group>
+            <div className="w-full">
+                <Group direction="col" gap={4}>
+                    <BorderHeader>
+                        <BoxHeading>{title}</BoxHeading>
+                    </BorderHeader>
+                    {children}
+                </Group>
+            </div>
         </RoundedBox>
     );
 }

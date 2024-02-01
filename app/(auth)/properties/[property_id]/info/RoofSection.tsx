@@ -5,7 +5,8 @@ import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/Single
 
 export default function RoofSection({propertyData, updateProperty}){
     return (
-        <ContentCard title="Katto">
+        <div className="w-full">
+<ContentCard title="Katto">
             <SingleSelectForm 
                 submitMethod={updateProperty}
                 inputComponent={Select}
@@ -40,5 +41,7 @@ export default function RoofSection({propertyData, updateProperty}){
                     defaultValue: propertyData.roofMaterial,
                 }}/>
         </ContentCard>  
+        </div>
+        
     );
 }

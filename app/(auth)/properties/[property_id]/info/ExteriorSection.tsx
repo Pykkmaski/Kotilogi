@@ -6,7 +6,8 @@ import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/Singl
 export default function ExteriorSection({propertyData, updateProperty}){
 
     return (
-        <ContentCard title="Tontti">
+        <div className="w-full">
+            <ContentCard title="Tontti">
             <SingleInputForm
                 submitMethod={updateProperty}
                 inputComponent={Input}
@@ -38,5 +39,7 @@ export default function ExteriorSection({propertyData, updateProperty}){
                     })
                 }/>
         </ContentCard> 
+        </div>
+        
     );
 }

@@ -39,7 +39,7 @@ function ContactForm(props){
     }
 
     return (
-        <form onSubmit={onSubmitHandler} className={styles.form} ref={formRef}>
+        <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 [&>*]:text-white w-[600px]' ref={formRef}>
             <Form.Group>
                 <label>Nimesi</label>
                 <input type="text" name="name" id="contact-name-input" placeholder="Kirjoita nimesi..."/>
@@ -55,9 +55,9 @@ function ContactForm(props){
                 <textarea name="message" maxLength={200} required={true} id="contact-message-input" placeholder="Kirjoita viestisi..."/>
             </Form.Group>
 
-            <Form.Group direction="horizontal">
-                <PrimaryButton type="submit" id="contact-submit-button">Lähetä</PrimaryButton>
-            </Form.Group>
+            <div className="w-full">
+                <PrimaryButton type="submit" id="contact-submit-button" className="w-full">Lähetä</PrimaryButton>
+            </div>
 
             {
                 loading ? <Form.Spinner size="2rem"></Form.Spinner> : <></>

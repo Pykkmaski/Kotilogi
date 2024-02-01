@@ -10,14 +10,16 @@ export default async function InfoPage({params}){
     if(!property) throw new Error('Talon lataaminen epäonnistui!');
 
     return (
-       <main className="flex-column medium-gap margin-bottom">
+       <main className="flex-col flex gap-4 mb-4 w-full">
             <Header>
                 <h3>Tiedot</h3>
             </Header>
             
-            <Group direction="vertical" gap="1rem">
-                <Content propertyData={property}/>
-            </Group>
+            <div className="w-full">
+                <Group direction="col" gap={4}>
+                    <Content propertyData={property}/>
+                </Group>
+            </div>
        </main> 
     );
 }

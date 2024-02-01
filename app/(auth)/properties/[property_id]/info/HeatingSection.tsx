@@ -6,7 +6,8 @@ import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/Single
 export default function HeatingSection({propertyData, updateProperty}){
 
     return (
-        <ContentCard title="Lämmitys">
+        <div className="w-full">
+<ContentCard title="Lämmitys">
             <SingleSelectForm 
                 submitMethod={updateProperty}
                 inputComponent={Select}
@@ -43,5 +44,7 @@ export default function HeatingSection({propertyData, updateProperty}){
                     })
                 }/>
         </ContentCard> 
+        </div>
+        
     );
 }
