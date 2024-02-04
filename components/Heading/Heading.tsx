@@ -1,5 +1,3 @@
-import style from './style.module.scss';
-
 type HeadingProps = React.ComponentProps<'h3'>;
 
 /**

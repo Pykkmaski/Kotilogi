@@ -33,10 +33,6 @@
     }
 }
 
-.selected{
-    
-}
-
 @keyframes IndicatorAnimation{
     0%{
         height: 0;
@@ -46,6 +42,7 @@
         height: 100%;
     }
 }
+
 .selectedIndicator{
     position: absolute;
     top: 0;

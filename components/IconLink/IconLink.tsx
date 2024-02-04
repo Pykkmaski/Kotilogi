@@ -41,7 +41,6 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
 
     const className = isSelected ? `${style.container} ${style.selected}` : style.container;
 
-
     return (
         <Link {...props} className={className.toString()} ref={ref}>
             {

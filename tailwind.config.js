@@ -13,6 +13,18 @@ module.exports = {
       backgroundImage: {
         heroSection: "url('./public/index.jpg')",
         houses: "url('/img/Properties/default-bg.jpg')",
+      },
+
+      keyframes: {
+        indicatorAnimation: {
+          '0%': {
+            height: 0,
+          },
+
+          '100%': {
+            height: '100%',
+          }
+        }
       }
     },
   },
