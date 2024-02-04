@@ -2,41 +2,83 @@ import Link from 'next/link';
 import styles from './styles.module.scss';
 import LinkButton from 'kotilogi-app/components/LinkButton/LinkButton';
 
+function PricingCard({children}){
+    return (
+        <div className="rounded-lg min-w-[250px] min-h-[500px] shadow-lg overflow-hidden flex flex-col bg-gradient-to-b from-white to-slate-300">
+            {children}
+        </div>
+    );
+}
+
+export function RegularPlanCard(){
+    return (
+        <PricingCard>
+            <div className="bg-gray-500 p-4">
+                <h1 className="text-orange-300 font-semibold text-2xl">Perus</h1>
+                <span className="text-white">19,90€ vuodessa</span>
+            </div>
+
+            <div className="p-4 flex-1">
+                <span className="font-semibold mb-2">Yhden talon tiedot +</span>
+                <ul className="list-disc ml-4 [&>li]:text-gray-600">
+                    <li>Tiedostot</li>
+                    <li>Kuvat</li>
+                    <li>Tapahtumat</li>
+                    <li>Kulutustiedot</li>
+                </ul>
+            </div>
+        </PricingCard>
+    );
+}
+
+export function ProPlanCard(){
+    return (
+        <PricingCard>
+            <div className="bg-gray-500 p-4 flex flex-col">
+                <h1 className="text-orange-300 font-semibold text-2xl">Pro</h1>
+                <span className="text-white">49,90€ vuodessa</span>
+            </div>
+
+            <div className="p-4 flex-1">
+                <span className="font-semibold mb-2">Rajaton määrä taloja +</span>
+                <ul className="list-disc ml-4  [&>li]:text-gray-600">
+                    <li>Tiedostot</li>
+                    <li>Kuvat</li>
+                    <li>Tapahtumat</li>
+                    <li>Kulutustiedot</li>
+                </ul>
+            </div>
+        </PricingCard>
+    );
+}
+
 function ProfileText(){
     return (
-        <div className={styles.container}>
-            <div className={styles.element}>
-
+        <div className="flex flex-row w-full">
+            <div className="flex-1">
                 <div className={styles.text}>
                     <h1 className="text-4xl text-slate-500">Mikä Kotilogi?</h1>
-                    <p>
+                    <p className="mt-4 mb-4 text-lg">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
-                        mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.
-                    </p>
+                        mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.<br/><br/>
 
-                    <p>
                         Kun tarvitset tietoja näistä remonteista, kuten esimerkiksi kotitalousvähennyksen hakemista varten, 
                         joudut kaivelemaan läpi eri paperipinoja tai selata satoja sähköpostiviestejä löytääksesi tarvittavat asiakirjat. 
-                        Tämä voi olla aikaa vievää ja turhauttavaa.
-                    </p>
+                        Tämä voi olla aikaa vievää ja turhauttavaa.<br/><br/>
 
-                    <p>
                         Juuri tällaisessa tilanteessa syntyi ajatus Kotilogi-palvelusta. 
                         Kotilogi on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, 
-                        ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.
+                        ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.<br/><br/>
                     </p>
 
-                    <p>
-                        Miksi tarvitset Kotilogi-palvelua? Sen avulla voit helposti tallentaa kaikki kotiisi tehdyt muutokset, remontit ja huoltopisteet yhteen paikkaan. Tiedot ovat helposti saatavilla aina kun niitä tarvitset, olipa kyseessä sitten kotitalousvähennyksen hakeminen, myynti tai seuraavan omistajan tietojen jakaminen tulevaisuudessa. 
-                    </p>
+                    <Link href="/register" className="rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita Kotilogin Käyttö</Link>
+                </div>    
+            </div>
 
-                    <p>
-                        Unohtakaa hukatut kuitit ja hajanaiset asiakirjat - Kotilogi tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa. Joten, pidä huolta kodistasi ja sen historiasta yksinkertaisesti ja kätevästi Kotilogi-palvelun avulla.
-                        <br/><br/>
-                        <Link href="/register" className="rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita Kotilogin Käyttö</Link>
-                    </p>
-                </div>
+            <div className="flex-1 flex flex-row-reverse gap-4 items-center justify-center">
+                <ProPlanCard/>
+                <RegularPlanCard/>
             </div>
         </div>
     );

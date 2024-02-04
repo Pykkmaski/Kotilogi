@@ -1,6 +1,7 @@
 'use client';
 
 import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
+import { useAppContext } from "kotilogi-app/app/AppContext";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import { Group } from "kotilogi-app/components/Group/Group";
@@ -10,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import {z} from 'zod';
+import { useDashboardContext } from "../DashboardContextProvider";
 
 const PasswordSchema = z.object({
     password1: z.string(),
@@ -17,7 +19,10 @@ const PasswordSchema = z.object({
     password3: z.string(),
 });
 
-export function PasswordSettingsForm({email}){
+export function PasswordSettingsForm(){
+    const {user} = useDashboardContext();
+    const email = user.email;
+
     const {data, updateData, reset: resetData} = useInputData({email});
     const [status, setStatus] = useStatus('idle');
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -60,7 +65,7 @@ export function PasswordSettingsForm({email}){
     const submitDisabled = status === 'loading' || status === 'success';
 
     return (
-        <form onSubmit={onSubmit} ref={formRef}>
+            <form onSubmit={onSubmit} ref={formRef}>
                 <Group direction="col" gap={4}>
                     <Input type="password" placeholder="Kirjoita uusi salasana..." autoComplete="new-password" name="password1"
                         onChange={updateData}
@@ -79,15 +84,13 @@ export function PasswordSettingsForm({email}){
 
                     <div className="w-full">
                         <Group direction="row" justify="end" gap={4}>
-                            <SecondaryButton hidden={!hasSomeInput() || status === 'loading'} onClick={reset}>Tyhjennä</SecondaryButton>
+                            <SecondaryButton hidden={!hasSomeInput() || status === 'loading'} onClick={reset} type="button">Tyhjennä</SecondaryButton>
                             <PrimaryButton type="submit" 
                                 disabled={submitDisabled || !hasAllPasswordsFilled()}
                                 loading={status === 'loading'}>Päivitä Salasana</PrimaryButton>
                         </Group>
                     </div>
                 </Group>
-            
-            
-        </form>
+            </form>
     );
 }

@@ -15,9 +15,9 @@ export default async function EventLayout({children, params}){
     return (
         <Layout>
             <Header>
-                <Group direction="vertical" gap="0">
+                <Group direction="col" gap={0}>
                     <SecondaryHeading>Tapahtuma</SecondaryHeading>
-                    <h3>{event.title}</h3>
+                    <span className="text-black text-xl">{event.title}</span>
                 </Group>
                 
             </Header>

@@ -56,6 +56,7 @@
     border: 1px solid #DDD;
     background: $body-color;
     box-shadow: 2px 2px 2px 2px #0004;
+    z-index: 20;
 
     nav{
         display: flex;

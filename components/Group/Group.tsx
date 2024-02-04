@@ -3,7 +3,7 @@ type GroupProps = React.PropsWithChildren & {
     gap?: number,
     justify?: 'start' | 'end' | 'center' | 'between',
     center?: boolean,
-    align?: 'start' | 'end' | 'center',
+    align?: 'start' | 'end' | 'center' | 'baseline',
 }
 
 /**A wrapper to arrange it's children in a row or a column. */

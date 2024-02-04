@@ -15,7 +15,7 @@ export function Heading({children, ...props}: HeadingProps){
 
 export function SecondaryHeading({children}: React.ComponentProps<'span'>){
     return (
-        <span className={style.secondaryHeading}>{children}</span>
+        <span className="text-slate-500 text-lg">{children}</span>
     )
 }
 

@@ -21,10 +21,10 @@ function Controls(props: ControlsProps){
     const loading = props.status === 'loading';
 
     return (
-        <div className="flex flex-1 flex-row justify-end w-full">
+        <div className="flex flex-1 flex-row justify-end w-full gap-4">
             {
                 props.editing ? 
-                <Group direction="row">
+                <Group direction="row" gap={4}>
                     <SecondaryButton 
                         onClick={props.cancelEdit}
                         hidden={loading}>Peruuta</SecondaryButton>

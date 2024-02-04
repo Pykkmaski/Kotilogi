@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { Header } from 'kotilogi-app/components/Header/Header';
 import { Layout } from 'kotilogi-app/components/Layout/Layout';
 import { Group } from 'kotilogi-app/components/Group/Group';
-import { SecondaryHeading } from 'kotilogi-app/components/Heading/Heading';
+import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading/Heading';
 import { Flex } from 'kotilogi-app/components/Util/Flex';
 
 export default async function PropertyDetailsLayout({children, params}){
@@ -31,13 +31,13 @@ export default async function PropertyDetailsLayout({children, params}){
         <PropertyContextProvider value={contextValue}>
            <Layout>
                 <Header>
-                    <Group direction="vertical" gap="0">
+                    <Group direction="col">
                         <SecondaryHeading>Talo</SecondaryHeading>
-                        <h3>{property.title}</h3>
+                        <span className="text-black text-xl">{property.title}</span>
                     </Group>
                 </Header>
-
-                <Group gap="1rem" direction="horizontal">
+                
+                <Group gap={1} direction="row">
                     <Flex value={1}>
                         <NavBar>
                             <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
@@ -45,13 +45,17 @@ export default async function PropertyDetailsLayout({children, params}){
                             <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
                             <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
                             <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
-
-                            <Link href={`/dashboard/properties/`}>Takaisin Taloihin</Link>
+                            
+                            <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
+                        
+                            <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
                         </NavBar>
                     </Flex>
-                    
-                    <Flex value={7}>
-                        {children}
+
+                    <Flex value={8}>
+                        <div className="ml-4 mb-8">
+                            {children}
+                        </div>
                     </Flex>
                 </Group>
            </Layout>

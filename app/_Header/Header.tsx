@@ -11,6 +11,8 @@ import { VisibilityProvider } from 'kotilogi-app/components/Experimental/Visibil
 import { Group } from 'kotilogi-app/components/Group/Group';
 import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
 import { useRouter } from 'next/navigation';
+import { useAppContext } from '../AppContext';
+import { Padding } from 'kotilogi-app/components/Util/Padding';
 
 export function Logo(){
     return (
@@ -19,40 +21,6 @@ export function Logo(){
                 <Image src={MainLogo} alt="Kotilogi logo"/>
             </Link>
         </div>
-    );
-}
-
-function UserIcon(props: {
-    email?: string | null, 
-}){
-    const [showModal, setShowModal] = useState(false);
-    const [showMenu, setShowMenu] = useState(false);
-
-    const content = (
-        props.email ? [props.email[0].toUpperCase(), props.email[1].toUpperCase()]
-        :
-        null
-    );
-
-    return (
-        <>
-            <div className={style.userIcon} onClick={() => setShowMenu(prev => !prev)}>
-                <div 
-                    className={style.userMenu} 
-                    hidden={!showMenu} 
-                    onMouseLeave={() => setShowMenu(false)}
-                >
-                    <nav>
-                        <Link href="/">Etusivu</Link>
-                        <Link href="/dashboard/properties">Hallintapaneeli</Link>
-                        <span className={style.logoutLink} onClick={async () => await signOut()}>Kirjaudu Ulos</span>
-                    </nav>
-                </div>
-                <div>
-                    {content}
-                </div>
-            </div>
-        </>
     );
 }
 
@@ -67,7 +35,7 @@ function UserIcon2({email}){
             <RelativePosition>
                 <Group direction="col" gap={4}>
                     <VisibilityProvider.Trigger>
-                        <div className="rounded-full w-14 h-14 bg-white flex flex-col items-center justify-center cursor-pointer">
+                        <div className="rounded-full w-[50px] h-[50px] bg-white flex flex-col items-center justify-center cursor-pointer font-semibold">
                             {getUserIconContent()}
                         </div>
                     </VisibilityProvider.Trigger>
@@ -92,36 +60,39 @@ function UserIcon2({email}){
     );
 }
 
-export default function Header(props){
-    const {data: session, status} = useSession();
+export default function Header(){
+    const {session} = useAppContext();
+    const userIsLoggedIn = session !== null;
 
-    const userIsLoggedIn = status === 'authenticated';
-    const userEmail = session?.user ? session?.user.email : 'testUser@app.com';
+    const userEmail = session ? session.user.email : 'testUser@email.com';
+
     //<Image src={Logo} alt="Kotilogi logo"/>
 
     return(
-        <header className="flex flex-row justify-between items-center pt-2 pb-2 pl-32 pr-32 bg-black h-[4em]" id="main-header">
-            <Logo/>
-            {/**Desktop nav */}
-            <nav className={style.navDesktop}>
-            {
-                status === 'loading' ? <Spinner size="2rem"/>
-                :
-                userIsLoggedIn ?
-                <div className={style.links}>
-                    <UserIcon2 email={userEmail}/>
-                </div>
-                :
-                <div className="[&>*]:text-white [&>*]:font-semibold">
-                    <Group direction="row" gap={4}>
-                        <Link href="/">Etusivu</Link>
-                        <Link href="/login">Kirjaudu</Link>
-                        <Link href="/register">Rekisteröidy</Link>
-                    </Group>
-                    
-                </div>
-            }
-            </nav>
+        <header className="w-full pt-2 pb-2 pl-32 pr-32 bg-black h-[4em] items-center flex" id="main-header">
+            <div className="w-full">
+                <Group direction="row" justify='between' align="center">
+                    <Logo/>
+                    {/**Desktop nav */}
+                    <nav className={style.navDesktop}>
+                        {
+                            userIsLoggedIn ?
+                            <div className={style.links}>
+                                <UserIcon2 email={userEmail}/>
+                            </div>
+                            :
+                            <div className="[&>*]:text-white [&>*]:font-semibold">
+                                <Group direction="row" gap={4}>
+                                    <Link href="/">Etusivu</Link>
+                                    <Link href="/login">Kirjaudu</Link>
+                                    <Link href="/register">Rekisteröidy</Link>
+                                </Group>
+                            </div>
+                        }
+                    </nav>
+                </Group>
+            </div>
+            
         </header>
     );
 }

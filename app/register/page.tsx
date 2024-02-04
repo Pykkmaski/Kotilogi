@@ -13,18 +13,28 @@ import { registerUser } from 'kotilogi-app/actions/registerUser';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
+import Link from 'next/link';
+import {z} from 'zod';
+import toast from 'react-hot-toast';
 
 function RegularPlanInfo(){
     return (
-        <span>Olet valinnut tilauksesi tyypiksi perustilin. Perustilin vuosihinta on <span className="text-slate-500">19,90€.</span></span>
+        <span className="text-slate-500">Olet valinnut tilauksesi tyypiksi perustilin. Perustilin vuosihinta on <span className="text-orange-500">19,90€.</span></span>
     );
 }
 
 function ProPlanInfo(){
     return (
-        <span>Olet valinnut tilauksesi tyypiksi pro-tilin. Pro-tilin vuosihinta on <span className="text-slate-500">49,90€.</span></span>
+        <span className="text-slate-500">Olet valinnut tilauksesi tyypiksi pro-tilin. Pro-tilin vuosihinta on <span className="text-orange-500">49,90€.</span></span>
     );
 }
+
+const RegisterSchema = z.object({
+    email: z.string().email(),
+    password1: z.string().min(8, 'password_len'),
+    password2: z.string(),
+    plan: z.enum(['pro', 'regular']),
+});
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage(){
@@ -43,6 +53,12 @@ export default function RegisterPage(){
 
         if(!checkPasswordMatch(data.password, e.target.password2.value)){
             setError('password_mismatch');
+            return;
+        }
+
+        const result = RegisterSchema.safeParse(data);
+        if(!result.success){
+            toast.error('Lomake sisältää virheitä!');
             return;
         }
 
@@ -86,7 +102,7 @@ export default function RegisterPage(){
                             </Group>
                             
                             <div className="w-full items-end">
-                                <Group direction="col" gap={4} align="end">
+                                <Group direction="col" gap={2} align="end">
                                     <Select name="plan" label="Tilaustyyppi" description="Valitse tilauksesi tyyppi." onChange={updateData} required> 
                                         <Select.Option value="regular">Perus</Select.Option>
                                         <Select.Option value="pro">Pro</Select.Option>
@@ -99,7 +115,7 @@ export default function RegisterPage(){
                         
                             <div className="w-full">
                                 <Group direction="row" justify='between' align="center">
-                                    <span>Olen lukenut kotilogin käyttöehdot:</span>
+                                    <span>Olen lukenut kotilogin <Link href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
                                     <input className="aspect-square w-[20px]" type="checkbox" required />
                                 </Group>
                             </div>

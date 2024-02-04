@@ -13,7 +13,8 @@ export async function Hero(){
         <div className="flex flex-col gap-5 relative">
             <span className="text-5xl text-white">Talosi huoltotiedot, yhdessä paikassa.</span>
             <p className="text-lg mb-5 text-white">
-                Tallenna talosi remonttitiedot, kulutustiedot, kuitit, tiedostot ja kuvat kätevästi samaan paikkaan. <br/>
+                Tallenna talosi remonttitiedot, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan. <br/>
+                Unohda hukatut kuitit ja hajanaiset asiakirjat - Kotilogi tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa.
             </p>
             
             <Group direction="row" gap={5} center>

@@ -38,12 +38,10 @@ function Header(props: React.PropsWithChildren & {
 
         if(AddModal){
             buttons.push(
-                <PrimaryButton onClick={() => setShowAddModal(true)}>
-                    <Group direction="row" gap={4} align="center">
+                <PrimaryButton onClick={() => setShowAddModal(true)} className="shadow-md">
+                    <Group direction="row" gap={4}>
                         <img src="/icons/plus.png" className="invert aspect-square w-[25px]"/>
-                        <span>Lisää Uusi</span>
                     </Group>
-                    
                 </PrimaryButton>
             );
         }
@@ -56,8 +54,8 @@ function Header(props: React.PropsWithChildren & {
             {AddModal ? <AddModal id="gallery-add-modal" show={showAddModal} onHide={() => setShowAddModal(false)}/> : null}
             {DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null}
 
-            <div style={{marginBottom: '1rem', paddingBottom: '0.5rem'}}>
-                <Group direction="row" justify="between">
+            <div className="mb-4 w-full">
+                <Group direction="row" justify="between" align="center">
                     <Heading>{props.title}</Heading>
 
                     <Group direction="row" gap={4}>

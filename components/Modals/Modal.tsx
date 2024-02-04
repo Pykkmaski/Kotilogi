@@ -5,10 +5,10 @@ import { Heading } from '../Heading/Heading';
 
 function CloseButton(props){
     return (
-        <div className="absolute top-4 right-8 flex flex-col justify-center items-center cursor-pointer" onClick={() => props.onHide()} title="Sulje">
-            <div className="relative">
-                <div className="bg-slate-500 w-[1px] h-6 absolute -rotate-45"></div>
-                <div className="bg-slate-500 w-[1px] h-6 absolute rotate-45"></div>
+        <div className="absolute top-4 right-4 cursor-pointer" onClick={() => props.onHide()} title="Sulje">
+            <div className="relative w-[32px] h-[32px] flex justify-center items-center">
+                <div className="bg-slate-500 absolute w-[2px] h-6 -rotate-45"></div>
+                <div className="bg-slate-500 absolute w-[2px] h-6 rotate-45"></div>
             </div>
         </div>
     );
@@ -41,7 +41,7 @@ function Modal(props: ModalProps){
 
     return (
         <ModalContext.Provider value={{onHide}}>
-            <dialog ref={dialogRef} className='rounded-lg p-4 relative' key={props.id} id={props.id}>
+            <dialog ref={dialogRef} className='rounded-lg p-4 relative shadow-lg' key={props.id} id={props.id}>
             {props.children}
             </dialog>
         </ModalContext.Provider>

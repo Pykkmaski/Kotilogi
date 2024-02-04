@@ -4,6 +4,7 @@ import { Header } from '@/components/Header/Header';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import db from 'kotilogi-app/dbconfig';
 import { Content } from './Content';
+import { Heading } from 'kotilogi-app/components/Heading/Heading';
 
 export default async function InfoPage({params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -12,7 +13,7 @@ export default async function InfoPage({params}){
     return (
        <main className="flex-col flex gap-4 mb-4 w-full">
             <Header>
-                <h3>Tiedot</h3>
+                <Heading>Tiedot</Heading>
             </Header>
             
             <div className="w-full">

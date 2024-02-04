@@ -3,6 +3,8 @@ import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import { Group } from "kotilogi-app/components/Group/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
 import { Heading } from "kotilogi-app/components/Heading/Heading";
+import { Input, Select } from "kotilogi-app/components/Input/Input";
+import { ProPlanCard, RegularPlanCard } from "kotilogi-app/components/Pages/Index/ProfileText/ProfileText";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import db from "kotilogi-app/dbconfig";
 import { planNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
@@ -16,19 +18,48 @@ export default async function PlanPage(){
     if(!user) throw new Error('Unable to fetch user data! Try refreshing the page.');
 
     return (
-        <main>
+        <main className="w-full flex flex-col gap-4 mb-8">
             <Header>
                 <Heading>Tilaus</Heading>
             </Header>
+ 
+            <ContentCard title="Kortti">
+                <div className="w-full flex flex-col gap-4">
+                    <Input placeholder="Kirjoita haltijan nimi..." label="Haltija" description="Kortin haltija."/>
+                    <Group direction="row" align="center" gap={4}>
+                        <div className="flex-[5]">
+                            <Input name="cardNumber" placeholder="Kortin numero..." label="Numero" description="Kortin numero."/>
+                        </div>
 
-            <Group direction="col" gap={3}>
-                <ContentCard title="Nykyinen Tilaus">
-                    <Group direction="row" gap={3} justify="between">
-                        <Heading>{planNameToLang(user.plan, 'fi')}</Heading>
-                        <PrimaryButton>Muuta</PrimaryButton>
+                        <div className="flex-[1]">
+                            <input maxLength={3} name="securityNumber" placeholder="Kirjoita turvanumero..." className="rounded-[10px] border border-gray min-h-[3rem] pl-2 pr-2"/>
+                        </div>
                     </Group>
-                </ContentCard>
-            </Group>
+                    <Select label="Maa" description="Valitse kortinhaltijan maa.">
+                        <option selected disabled>Valitse Maa</option>
+                        <option value="Finland">Suomi</option>
+                    </Select>
+                </div>
+            </ContentCard>
+
+            <ContentCard title="Nykyinen Tilaus">
+                <div className="w-full">
+                    <Group direction="row" gap={4}>
+                        <div className="w-[200px]">
+                            {
+                                user.plan === 'regular' ? <RegularPlanCard/> : <ProPlanCard/>
+                            }
+                        </div>
+                    </Group>
+                    
+                    <div className="mt-4">
+                        <Group direction="row" gap={3} justify="end">
+                            <PrimaryButton className="w-[100px] flex justify-center">Muuta</PrimaryButton>
+                        </Group>
+                    </div>
+                    </div>
+            </ContentCard>
+            
         </main>
     );
 }

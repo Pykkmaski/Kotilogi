@@ -41,7 +41,7 @@ export function EventTitleContainer({consolidationTime, ...props}: EventTitleCon
     }
 
     return (
-        <Group direction="horizontal" alignItems="baseline">
+        <Group direction="row" align="center" gap={2}>
             {
                 isConsolidated ? <img src="/icons/padlock.png" className={style.icon} title="Tapahtuma on vakiinnutettu, eikä sitä voi muokata."/> 
                 : 

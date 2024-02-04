@@ -21,21 +21,25 @@ export default async function DashboardLayout({children}){
             <Header>
                 <Group direction="col" gap={0}>
                     <SecondaryHeading>{session.user.email}</SecondaryHeading>
-                    <h3>Hallintapaneeli</h3>
+                    <h3 className="text-xl">Hallintapaneeli</h3>
                 </Group>
                 
             </Header>
-            <SplitScreen rightWeight={9} gap="1rem">
-                <NavBar>
-                    <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
-                    <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                    <IconLink imageSrc="/icons/user.png" href="/dashboard/plan">Tilaus</IconLink>
-                </NavBar>
-
+            <Group direction={'row'} gap={4}>
+                <div className="flex-[1]">
+                    <NavBar>
+                        <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
+                        <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
+                        <IconLink imageSrc="/icons/user.png" href="/dashboard/plan">Tilaus</IconLink>
+                    </NavBar>
+                </div>
+                
                 <DashboardContextProvider user={session.user}>
-                    {children}
+                    <div className="flex-[9]">
+                        {children}
+                    </div>
                 </DashboardContextProvider>
-            </SplitScreen>
+            </Group>
         </Layout>
     );
 }

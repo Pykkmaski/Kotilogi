@@ -12,7 +12,7 @@ import { PaymentSettingsForm } from './PaymentSettingsForm';
 export function Header(){
     return (
         <div className={style.header}>
-            <h3>Tilin asetukset</h3>
+            <h3 className="text-slate-500 text-2xl">Tilin asetukset</h3>
         </div>
     );
 }
@@ -20,12 +20,14 @@ export function Header(){
 export function Content({user}){
     return (
         <>
-            <ContentCard title="Yleiset">
-                <div className="mb-4">
-                    <EmailSettingsForm email={user.email}/>
+            <ContentCard title="Turvallisuus">
+                <div className="w-full">
+                    <div className="mb-10">
+                        <EmailSettingsForm email={user.email}/>
+                    </div>
+                    <PasswordSettingsForm/>
                 </div>
                 
-                <PasswordSettingsForm email={user.email}/>
             </ContentCard>
         </>
     )

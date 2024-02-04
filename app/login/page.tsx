@@ -88,7 +88,7 @@ export default function LoginPage(){
 
                                     {error === 'password_mismatch' ? <span className="danger">Salasana on virheellinen!</span> : null}
 
-                                    <div className="w-full flex justify-end mt-4 gap-2">
+                                    <div className="w-full flex justify-end gap-2">
                                         <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
                                     </div>
                                 </Group>

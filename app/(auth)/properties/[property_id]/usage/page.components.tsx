@@ -76,7 +76,7 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
         <Modal {...props}>
             <Modal.Header>{getTitle()}</Modal.Header>
             <Modal.Body>
-                <form id={formId} onSubmit={submitUsageData}>
+                <form id={formId} onSubmit={submitUsageData} className="flex flex-col gap-4">
                     <Input 
                         name="price"
                         label="Laskun Hinta" 
@@ -99,8 +99,8 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
             </Modal.Body>
 
             <Modal.Footer>
-                <SecondaryButton desktopText="Peruuta" onClick={closeModal}/>
-                <PrimaryButton desktopText="Lisää" type="submit" loading={loading} disabled={loading} form={formId}/>
+                <SecondaryButton onClick={closeModal} type="button">Peruuta</SecondaryButton>
+                <PrimaryButton type="submit" loading={loading} disabled={loading} form={formId}>Lisää</PrimaryButton>
             </Modal.Footer>
         </Modal>
     )
@@ -212,7 +212,7 @@ export function Content({data, type}: ContentProps){
     }, [type])
 
     return (
-        <Group gap="0.5rem" direction="horizontal">
+        <Group gap={2} direction="row">
             <AddUsageModal 
                 show={showAddModal} 
                 onHide={() => setShowAddModal(false)} 
@@ -223,12 +223,14 @@ export function Content({data, type}: ContentProps){
                 <RoundedBox>
                     <BorderHeader>
                         <Flex value={1}>
-                            <Group direction="horizontal" justifyContent="space-between" alignItems="center">
+                            <Group direction="row" justify="between" align="center">
                                 <BoxHeading>Kulutustiedot</BoxHeading>
 
-                                <Group direction="horizontal">
+                                <Group direction="row" gap={2}>
                                     <TypeSelector type={type}/>
-                                    <PrimaryButton desktopText="" mobileIconSrc="/icons/plus.png" onClick={() => setShowAddModal(true)}/>
+                                    <PrimaryButton onClick={() => setShowAddModal(true)}>
+                                        <img src="/icons/plus.png" className="invert"/>
+                                    </PrimaryButton>
                                 </Group>
                             </Group>
                         </Flex>
@@ -248,7 +250,7 @@ export function Content({data, type}: ContentProps){
             
             
             <Flex value={1.25}>
-                <Group direction="vertical" gap="0.5rem">
+                <Group direction="col" gap={2}>
 
                     <ContentCard title="Yleiskatsaus">
                         <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice} disabled={true} />
@@ -259,7 +261,7 @@ export function Content({data, type}: ContentProps){
                             <form onSubmit={(e) => {
                                 e.preventDefault();
                                 updateDataPoint();
-                            }} ref={formRef}>
+                            }} ref={formRef} className="flex flex-col gap-4 w-full">
                                 <Input 
                                     onChange={updateCurrentData}
                                     type="number" 
@@ -277,18 +279,16 @@ export function Content({data, type}: ContentProps){
                                     description="Laskun päiväys." 
                                     defaultValue={selectedData?.time}/>
 
-                                <Group direction="horizontal" gap="0.5rem" justifyContent="right">
-                                    <SecondaryButton desktopText="Poista" hidden={!selectedData} onClick={deleteDataPoint} disabled={loading}/>
+                                <Group direction="row" gap={2} justify="end">
+                                    <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading}>Poista</SecondaryButton>
                                     <PrimaryButton 
                                         loading={loading}
-                                        desktopText="Päivitä" 
                                         disabled={isSubmitDisabled()} 
-                                        type="submit"/>
+                                        type="submit">Päivitä</PrimaryButton>
                                 </Group>
                             </form>
                         </ContentCard>
                     </Flex>
-                    
                 </Group>
             </Flex>
         </Group>
