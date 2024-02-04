@@ -1,7 +1,6 @@
 import { Group } from "kotilogi-app/components/Group/Group"
-import { Input, Select } from "kotilogi-app/components/Input/Input"
-import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox"
-import { SingleInputForm, SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
+import { Select } from "kotilogi-app/components/Input/Input"
+import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 
 type PaymentSettingsFormProps = {
 
