@@ -16,6 +16,7 @@ import { Group } from "kotilogi-app/components/Group/Group";
 import { Input } from "kotilogi-app/components/Input/Input";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
+import { ErrorText, SuccessText } from "kotilogi-app/components/Util/Text";
 
 function StepOne(){
     const router = useRouter();
@@ -102,9 +103,9 @@ function StepOne(){
                 </div>
                 
                 {
-                    state.status === StatusCode.SUCCESS ? <Form.Success>Varmennuslinkki on lähetetty!</Form.Success>
+                    state.status === StatusCode.SUCCESS ? <SuccessText>Varmennuslinkki on lähetetty!</SuccessText>
                     :
-                    state.status === StatusCode.UNEXPECTED ? <Form.Error>Varmennuslinkin lähetys epäonnistui!</Form.Error>
+                    state.status === StatusCode.UNEXPECTED ? <ErrorText>Varmennuslinkin lähetys epäonnistui!</ErrorText>
                     :
                     <></>
                 }

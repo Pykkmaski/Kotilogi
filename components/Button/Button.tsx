@@ -8,7 +8,6 @@ export type ButtonProps = React.ComponentProps<'button'> & {
 };
 
 export default function Button({children, variant = 'primary', ...props}: ButtonProps){
-
     const className = [
         props.className,
         props.hidden ? 'hidden' : '',

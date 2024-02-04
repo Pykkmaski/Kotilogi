@@ -35,7 +35,7 @@ function Header(props: React.PropsWithChildren & {
 
         if(AddModal){
             buttons.push(
-                <PrimaryButton onClick={() => setShowAddModal(true)} className="shadow-md">
+                <PrimaryButton onClick={() => setShowAddModal(true)} className="shadow-md min-h-8">
                     <Group direction="row" gap={4}>
                         <img src="/icons/plus.png" className="invert aspect-square w-[25px]"/>
                     </Group>
@@ -55,7 +55,7 @@ function Header(props: React.PropsWithChildren & {
                 <Group direction="row" justify="between" align="center">
                     <Heading>{props.title}</Heading>
 
-                    <Group direction="row" gap={4}>
+                    <Group direction="row" gap={4} align="center">
                         {props.children}   
                         {...getButtons()}
                     </Group>
