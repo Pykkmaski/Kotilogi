@@ -4,7 +4,7 @@ import { Group } from "kotilogi-app/components/Group/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
 import { Heading } from "kotilogi-app/components/Heading/Heading";
 import { Input, Select } from "kotilogi-app/components/Input/Input";
-import { ProPlanCard, RegularPlanCard } from "kotilogi-app/components/Pages/Index/ProfileText/ProfileText";
+import { ProPlanCard, RegularPlanCard } from "kotilogi-app/components/HomePage/ProfileText";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import db from "kotilogi-app/dbconfig";
 import { planNameToLang } from "kotilogi-app/utils/translate/planNameToLang";

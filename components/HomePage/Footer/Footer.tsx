@@ -1,4 +1,4 @@
-import ContactForm from "./ContactForm/ContactForm";
+import ContactForm from "./ContactForm";
 import Link from 'next/link';
 import style from './style.module.scss';
 
