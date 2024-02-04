@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import styles from './styles.module.scss';
-import LinkButton from 'kotilogi-app/components/LinkButton/LinkButton';
 
 function PricingCard({children}){
     return (
@@ -56,7 +54,7 @@ function ProfileText(){
     return (
         <div className="flex flex-row w-full">
             <div className="flex-1">
-                <div className={styles.text}>
+                <div className="flex flex-col gap-4">
                     <h1 className="text-4xl text-slate-500">Mikä Kotilogi?</h1>
                     <p className="mt-4 mb-4 text-lg">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
