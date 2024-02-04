@@ -13,6 +13,7 @@ import { Padding } from 'kotilogi-app/components/Util/Padding';
 import Link from 'next/link';
 import {z} from 'zod';
 import toast from 'react-hot-toast';
+import { ErrorText } from 'kotilogi-app/components/Util/Text';
 
 function RegularPlanInfo(){
     return (
@@ -85,7 +86,7 @@ export default function RegisterPage(){
                             <Group direction="col" align="end">
                                 <Input label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
                                     placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
-                                {error === 'user_exists' ? <span className="danger">Tili annetulla osoitteella on jo olemassa!</span> : null}
+                                {error === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
                             </Group>
                         
                             <Group direction="col" align='end' gap={4}>
@@ -95,7 +96,7 @@ export default function RegisterPage(){
                                 <Input label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
                                     placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2" />
 
-                                {error === 'password_mismatch' ? <span className="danger">Salasanat eivät täsmää</span> : null}
+                                {error === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
                             </Group>
                             
                             <div className="w-full items-end">
@@ -127,7 +128,6 @@ export default function RegisterPage(){
                     </form>
                 </ContentCard>
             </Padding>
-            
         </main>
     )
 }
