@@ -4,28 +4,30 @@ import style from './style.module.scss';
 
 function Footer(props){
     return (
-        <div className={style.container}>
-            <div className={style.element}>
+        <div className="flex flex-col items-center justify-center pt-[5rem] pb-[5rem] bg-gray-900 gap-4 w-full text-white">
+            <div className="flex flex-col items-center gap-4">
                 <header>
                     <h1 className="text-3xl">Ota Yhteyttä</h1>
                 </header>
 
-                <p>
-                    Kysyttävää? Lähetä meille viesti ja palaamme asiaan mahdollisimman pian.
+                <p className="text-center">
+                    Kysyttävää? Lähetä meille viesti ja palaamme asiaan mahdollisimman pian.<br/>
                     Antamaasi sähköpostia ei käytetä mihinkään muuhun tarkoitukseen kuin viestiisi vastaamiseen.
                 </p>
 
-                <ContactForm/>
+                <div className="mt-8">
+                    <ContactForm/>
+                </div>
             </div>
 
             <footer>
-                <Link href="/tos" className={style.tosLink}>Käyttöehdot</Link>
-                <div className={style.socials}>
-                    <a className="fa fa-instagram" title="Instagram">
+                <Link href="/tos" className="text-white">Käyttöehdot</Link>
+                <div className="flex justify-center gap-4 mt-[2em]">
+                    <a className="fa fa-instagram text-white cursor-pointer no-underline before:text-[42px]" title="Instagram">
                        
                     </a>
 
-                    <a className="fa fa-facebook" title="Facebook">
+                    <a className="fa fa-facebook text-white cursor-pointer no-underline before:text-[42px]" title="Facebook">
                         
                     </a>
                 </div>
