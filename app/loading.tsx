@@ -1,5 +1,4 @@
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
-import style from './loading.module.scss';
 
 export default function Loading(){
     return(
