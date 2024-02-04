@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import {signOut} from 'next-auth/react';
+import {signOut, useSession} from 'next-auth/react';
 import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import { VisibilityProvider } from 'kotilogi-app/components/Experimental/VisibilityProvider/VisibilityProvider';
@@ -9,6 +9,7 @@ import { Group } from 'kotilogi-app/components/Group/Group';
 import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
 import { useRouter } from 'next/navigation';
 import { useAppContext } from '../../app/AppContext';
+import Spinner from '../Spinner/Spinner';
 
 export function Logo(){
     return (
@@ -57,11 +58,10 @@ function UserIcon2({email}){
 }
 
 export default function Header(){
-    const {session} = useAppContext();
-    const userIsLoggedIn = session !== null;
+    const {data, status} = useSession();
+    const userIsLoggedIn = status === 'authenticated';
 
-    const userEmail = session ? session.user.email : 'testUser@email.com';
-
+    const userEmail = data?.user?.email;
     //<Image src={Logo} alt="Kotilogi logo"/>
 
     return(
@@ -72,6 +72,8 @@ export default function Header(){
                     {/**Desktop nav */}
                     <nav>
                         {
+                            status === 'loading' ? <Spinner size="2rem"/>
+                            :
                             userIsLoggedIn ?
                                 <UserIcon2 email={userEmail}/>
                             :

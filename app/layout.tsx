@@ -4,6 +4,7 @@ import {Toaster} from 'react-hot-toast';
 import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
 import { AppContextProvider } from './AppContext';
+import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 
 export const metadata = {
   title: 'Kotilogi',
@@ -21,7 +22,7 @@ export default async function RootLayout({ children }) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
       </head>
 
-      <AppContextProvider value={{session}}>
+      <AuthProvider>
         <body className="flex flex-col bg-gradient-to-b from-white to-slate-200 min-h-screen">
             <Header/>
           
@@ -33,7 +34,7 @@ export default async function RootLayout({ children }) {
               }
             }}/>
           </body>
-      </AppContextProvider>
+      </AuthProvider>
         
     </html>
   )
