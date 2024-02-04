@@ -8,9 +8,9 @@ import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
 import IconLink from 'kotilogi-app/components/IconLink/IconLink';
 import Link from 'next/link';
 import { Header } from 'kotilogi-app/components/Header/Header';
-import { Layout } from 'kotilogi-app/components/Layout/Layout';
-import { Group } from 'kotilogi-app/components/Group/Group';
-import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading/Heading';
+import { Layout } from 'kotilogi-app/components/Layout';
+import { Group } from 'kotilogi-app/components/Group';
+import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading';
 import { Flex } from 'kotilogi-app/components/Util/Flex';
 
 export default async function PropertyDetailsLayout({children, params}){

@@ -2,12 +2,12 @@ import { SplitScreen } from "kotilogi-app/components/SplitScreen/SplitScreen";
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
 import IconLink from "kotilogi-app/components/IconLink/IconLink";
 import { Header } from "kotilogi-app/components/Header/Header";
-import { Layout } from "kotilogi-app/components/Layout/Layout";
+import { Layout } from "kotilogi-app/components/Layout";
 import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import { DashboardContextProvider } from "./DashboardContextProvider";
-import { SecondaryHeading } from "kotilogi-app/components/Heading/Heading";
-import { Group } from "kotilogi-app/components/Group/Group";
+import { SecondaryHeading } from "kotilogi-app/components/Heading";
+import { Group } from "kotilogi-app/components/Group";
 import { Accordion } from "kotilogi-app/components/Experimental/Accordion/Accordion";
 import Link from "next/link";
 

@@ -1,4 +1,4 @@
-import { Group } from "kotilogi-app/components/Group/Group";
+import { Group } from "kotilogi-app/components/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import React from "react";
 import { createContext, useContext, useState } from "react";

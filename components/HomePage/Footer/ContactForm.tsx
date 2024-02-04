@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import {sendContactMessage} from 'kotilogi-app/actions/email/sendContactMessage';
 import toast from 'react-hot-toast';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
-import { Group } from 'kotilogi-app/components/Group/Group';
+import { Group } from 'kotilogi-app/components/Group';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
 import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 

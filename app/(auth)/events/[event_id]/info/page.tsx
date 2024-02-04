@@ -1,5 +1,5 @@
 import { Header } from "kotilogi-app/components/Header/Header";
-import { Heading } from "kotilogi-app/components/Heading/Heading";
+import { Heading } from "kotilogi-app/components/Heading";
 import db from "kotilogi-app/dbconfig";
 import { Content } from "./page.components";
 

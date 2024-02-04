@@ -1,8 +1,8 @@
-import { Group } from "kotilogi-app/components/Group/Group";
+import { Group } from "kotilogi-app/components/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
-import { SecondaryHeading } from "kotilogi-app/components/Heading/Heading";
+import { SecondaryHeading } from "kotilogi-app/components/Heading";
 import IconLink from "kotilogi-app/components/IconLink/IconLink";
-import { Layout } from "kotilogi-app/components/Layout/Layout";
+import { Layout } from "kotilogi-app/components/Layout";
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
 import { SplitScreen } from "kotilogi-app/components/SplitScreen/SplitScreen";
 import db from "kotilogi-app/dbconfig"

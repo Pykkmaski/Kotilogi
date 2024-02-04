@@ -2,7 +2,7 @@
 
 import { CSSProperties, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import * as stylex from '@stylexjs/stylex';
-import { Group } from "../Group/Group";
+import { Group } from "../Group";
 import style from './style.module.scss';
 import SecondaryButton from "../Button/SecondaryButton";
 import PrimaryButton from "../Button/PrimaryButton";

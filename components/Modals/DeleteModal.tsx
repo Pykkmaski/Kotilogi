@@ -1,6 +1,6 @@
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
-import { Group } from "../Group/Group";
+import { Group } from "../Group";
 import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
 

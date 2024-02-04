@@ -1,8 +1,8 @@
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-import { Group } from "kotilogi-app/components/Group/Group";
+import { Group } from "kotilogi-app/components/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
-import { Heading } from "kotilogi-app/components/Heading/Heading";
+import { Heading } from "kotilogi-app/components/Heading";
 import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { ProPlanCard, RegularPlanCard } from "kotilogi-app/components/HomePage/ProfileText";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";

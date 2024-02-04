@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Group } from 'kotilogi-app/components/Group/Group';
+import { Group } from 'kotilogi-app/components/Group';
 import {PrimaryButton} from 'kotilogi-app/components/Button/Button2';
 
 type SessionT = {

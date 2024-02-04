@@ -2,7 +2,7 @@
 
 import { useChangeInput } from "kotilogi-app/hooks/useChangeInput"
 import React, { useState } from "react";
-import { Group } from "../Group/Group";
+import { Group } from "../Group";
 import SecondaryButton from "../Button/SecondaryButton";
 import PrimaryButton from "../Button/PrimaryButton";
 import style from './style.module.scss';

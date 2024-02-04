@@ -1,4 +1,4 @@
-import { Heading } from "kotilogi-app/components/Heading/Heading";
+import { Heading } from "kotilogi-app/components/Heading";
 import { CSSProperties } from "react"
 
 type SectionProps = React.PropsWithChildren & {

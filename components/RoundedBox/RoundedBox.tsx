@@ -1,6 +1,6 @@
-import { Group } from '../Group/Group';
+import { Group } from '../Group';
 import { BorderHeader } from '../Header/Header';
-import { BoxHeading } from '../Heading/Heading';
+import { BoxHeading } from '../Heading';
 import style from './style.module.scss';
 
 export function RoundedBox({children}: React.PropsWithChildren){

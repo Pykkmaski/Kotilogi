@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorCode } from "kotilogi-app/constants";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
-import { Group } from "kotilogi-app/components/Group/Group";
+import { Group } from "kotilogi-app/components/Group";
 import { Input } from "kotilogi-app/components/Input/Input";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";

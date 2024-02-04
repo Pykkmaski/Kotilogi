@@ -1,7 +1,7 @@
 import Link from "next/link"
 import style from './style.module.scss';
 import { useListItemContext } from "./ListItem.hooks";
-import { Group } from "../Group/Group";
+import { Group } from "../Group";
 import { useGalleryContext } from "../new/Gallery/GalleryBase/Gallery";
 
 type TitleContainerProps = {

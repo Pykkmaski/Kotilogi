@@ -5,7 +5,7 @@ import {signOut, useSession} from 'next-auth/react';
 import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import { VisibilityProvider } from 'kotilogi-app/components/Experimental/VisibilityProvider/VisibilityProvider';
-import { Group } from 'kotilogi-app/components/Group/Group';
+import { Group } from 'kotilogi-app/components/Group';
 import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
 import { useRouter } from 'next/navigation';
 import Spinner from '../Spinner/Spinner';

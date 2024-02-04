@@ -2,7 +2,7 @@
 
 import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
 import { Input, Select } from 'kotilogi-app/components/Input/Input';
-import { Group } from 'kotilogi-app/components/Group/Group';
+import { Group } from 'kotilogi-app/components/Group';
 import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import { useInputData, useStatus } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';

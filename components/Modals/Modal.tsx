@@ -1,7 +1,7 @@
 'use client';
 
 import {createContext, useContext, useEffect, useRef} from 'react';
-import { Heading } from '../Heading/Heading';
+import { Heading } from '../Heading';
 
 function CloseButton(props){
     return (

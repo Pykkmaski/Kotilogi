@@ -1,4 +1,4 @@
-import { Group } from "kotilogi-app/components/Group/Group"
+import { Group } from "kotilogi-app/components/Group"
 import { Select } from "kotilogi-app/components/Input/Input"
 import { SingleSelectForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
 

@@ -1,7 +1,7 @@
 import { StaticImageData } from 'next/image';
 import styles from './error.module.scss';
 import Image from 'next/image';
-import { Heading } from 'kotilogi-app/components/Heading/Heading';
+import { Heading } from 'kotilogi-app/components/Heading';
 
 export function Error(props: {
     title: string,
