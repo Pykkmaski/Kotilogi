@@ -2,14 +2,12 @@
 
 import { resetPassword, sendResetCode } from "kotilogi-app/actions/resetPassword";
 import { StatusCode } from "kotilogi-app/utils/statusCode";
-import Form from "kotilogi-app/components/Form/Form";
 import { useEffect, useReducer, useState } from "react";
 import resetFormReducer, { State, emailKey } from "./resetFormReducer";
 import ResetFormProvider, { useResetFormProvider } from "./ResetFormContext";
 import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorCode } from "kotilogi-app/constants";
-import Button from "kotilogi-app/components/Button/Button";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import { Group } from "kotilogi-app/components/Group/Group";
