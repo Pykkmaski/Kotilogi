@@ -2,8 +2,6 @@
 
 import { useRef, useState } from 'react';
 import Form from 'kotilogi-app/components/Form/Form';
-import axios from 'axios';
-import styles from './component.module.scss';
 import {sendContactMessage} from 'kotilogi-app/actions/email/sendContactMessage';
 import toast from 'react-hot-toast';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
@@ -69,7 +67,7 @@ function ContactForm(props){
             }
 
             {
-                error === 0 ? <Form.Success className={styles.formSuccess}>Viesti lähetetty!</Form.Success>
+                error === 0 ? <Form.Success className="color-white">Viesti lähetetty!</Form.Success>
                 :
                 error === 500 ? <Form.Error>Jotain meni pieleen! Yritä myöhemmin uudelleen.</Form.Error>
                 :
