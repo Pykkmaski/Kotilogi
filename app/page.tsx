@@ -1,6 +1,5 @@
 import Footer from 'kotilogi-app/components/Pages/Index/Footer/Footer';
 import {Hero} from 'kotilogi-app/components/Pages/Index/Hero/Hero';
-import Pricing from 'kotilogi-app/components/Pages/Index/Pricing/Pricing';
 import ProfileText from 'kotilogi-app/components/Pages/Index/ProfileText/ProfileText';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
 import { CSSProperties } from 'react';
