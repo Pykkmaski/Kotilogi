@@ -1,12 +1,11 @@
 import { Padding } from 'kotilogi-app/components/Util/Padding';
-import style from './page.module.scss';
 
 const BigHeading = ({children}) => {
     return <h1 className="text-lg text-slate-500 mb-4 font-semibold">{children}</h1>
 }
 
 const SmallHeading = ({children}) => {
-    return <h2 className="font-semibold mb-4 text-slate-500">{children}</h2>
+    return <h2 className="font-semibold mb-2 text-slate-500">{children}</h2>
 }
 
 export default function TOS(){
