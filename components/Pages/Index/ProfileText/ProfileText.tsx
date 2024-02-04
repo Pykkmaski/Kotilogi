@@ -69,8 +69,8 @@ function ProfileText(){
                         Kotilogi on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, 
                         ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.<br/><br/>
                     </p>
-
-                    <Link href="/register" className="rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita Kotilogin Käyttö</Link>
+                    
+                    <Link href="/register" className="flex justify-center items-center w-[200px] rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita Kotilogin Käyttö</Link>
                 </div>    
             </div>
 
