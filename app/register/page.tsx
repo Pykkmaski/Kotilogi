@@ -1,8 +1,5 @@
 "use client";
 
-import styles from './page.module.scss';
-import Gradient from 'kotilogi-app/components/Gradient/Gradient';
-import { RegisterForm } from './RegisterForm';
 import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
 import { Input, Select } from 'kotilogi-app/components/Input/Input';
 import { Group } from 'kotilogi-app/components/Group/Group';

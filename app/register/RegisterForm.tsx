@@ -2,7 +2,6 @@ import Form from "kotilogi-app/components/Form/Form";
 import { useRegisterForm } from "./page.hooks";
 import { MIN_PASSWORD_LENGTH } from "kotilogi-app/constants";
 import Button from "kotilogi-app/components/Button/Button";
-import styles from './page.module.scss';
 import { useEffect } from "react";
 
 /**This component is responsible for rendering the contents of the register form. */
@@ -46,8 +45,8 @@ export function RegisterForm(){
                         placeholder="Kirjoita salasana vielä uudelleen..."/>
                 </Form.Group>
 
-                <div className={styles.agreementContainer}>
-                    <span className={styles.tosAgreementText}>
+                <div className="flex justify-between text-slate-500">
+                    <span className="text-slate-500">
                         Olen lukenut ja hyväksyn Kotilogin <a href="/tos" target="_blank">käyttöehdot</a>
                     </span>
 
