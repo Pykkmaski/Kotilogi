@@ -38,7 +38,7 @@ function UserIcon2({email}){
 
                     <VisibilityProvider.Target>
                         <div 
-                            className="w-[300px] absolute top-[60px] right-0 border border-slate-200 z-20 shadow-lg"
+                            className="w-[300px] absolute top-[60px] right-0 border border-slate-200 z-40 shadow-lg bg-white"
                         >
                             <nav className="flex flex-col gap-2 p-4">
                                 <Link href="/">Etusivu</Link>

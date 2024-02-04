@@ -81,7 +81,7 @@ export default function RegisterPage(){
         <main className="flex flex-col flex-1 justify-center items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={register}>
+                    <form onSubmit={register} className="py-4 px-16">
                         <Group direction="col" gap={4}>
                             <Group direction="col" align="end">
                                 <Input label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required

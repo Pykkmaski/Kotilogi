@@ -4,8 +4,8 @@ import SecondaryButton from "../Button/SecondaryButton";
 import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
 import { Group } from "../Group/Group";
-import Form from "../Form/Form";
 import toast from "react-hot-toast";
+import { ErrorText } from "../Util/Text";
 
 type BaseAddModalProps = ModalProps & {
     submitMethod: (e) => Promise<any>,
@@ -57,7 +57,7 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
 
             <Modal.Footer>
                 <Group direction="row" justify="between">
-                    {status === 'error' ? <Form.Error>Tapahtui odottamaton virhe!</Form.Error> : null}
+                    {status === 'error' ? <ErrorText>Tapahtui odottamaton virhe!</ErrorText> : null}
                     <Group direction="row" gap={4}>
                         <SecondaryButton
                             onClick={() => {

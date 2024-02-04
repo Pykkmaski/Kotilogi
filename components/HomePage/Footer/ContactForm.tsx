@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef, useState } from 'react';
-import Form from 'kotilogi-app/components/Form/Form';
 import {sendContactMessage} from 'kotilogi-app/actions/email/sendContactMessage';
 import toast from 'react-hot-toast';
 import PrimaryButton from 'kotilogi-app/components/Button/PrimaryButton';
 import { Group } from 'kotilogi-app/components/Group/Group';
+import { ErrorText } from 'kotilogi-app/components/Util/Text';
+import Spinner from 'kotilogi-app/components/Spinner/Spinner';
 
 function ContactForm(props){
     const [loading, setLoading] = useState(false);
@@ -63,13 +64,13 @@ function ContactForm(props){
             </div>
 
             {
-                loading ? <Form.Spinner size="2rem"></Form.Spinner> : <></>
+                loading ? <Spinner size="2rem"></Spinner> : <></>
             }
 
             {
-                error === 0 ? <Form.Success className="color-white">Viesti lähetetty!</Form.Success>
+                error === 0 ? <span className="text-white">Viesti lähetetty!</span>
                 :
-                error === 500 ? <Form.Error>Jotain meni pieleen! Yritä myöhemmin uudelleen.</Form.Error>
+                error === 500 ? <ErrorText>Jotain meni pieleen! Yritä myöhemmin uudelleen.</ErrorText>
                 :
                 <></>
             }
