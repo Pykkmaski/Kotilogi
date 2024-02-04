@@ -1,49 +1,57 @@
 import { Padding } from 'kotilogi-app/components/Util/Padding';
 import style from './page.module.scss';
 
+const BigHeading = ({children}) => {
+    return <h1 className="text-lg text-slate-500 mb-4 font-semibold">{children}</h1>
+}
+
+const SmallHeading = ({children}) => {
+    return <h2 className="font-semibold mb-4 text-slate-500">{children}</h2>
+}
+
 export default function TOS(){
     return (
-        <main className={style.page}>
+        <main className="text-slate-600 [&_p]:mb-[3rem]">
             <Padding>
-                <h1 className="text-2xl mt-8">Käyttöehdot</h1>
-                <h1>Yleistä</h1>
+                <h1 className="text-2xl mt-8 mb-8">Käyttöehdot</h1>
+                <BigHeading>Yleistä</BigHeading>
                 <p>
                 Näitä yleisiä käyttöehtoja sovelletaan Kotilogi Oy:n kotilogi palvelun rekisteröitymis lomakkeessa määritellyn asiakkaan väliseen sitovaan sopimukseen. Palvelun käytön edellytyksenä on sopimusehtojen hyväksyminen ja noudattaminen. Käyttämällä palvelua hyväksyt nämä Sopimusehdot. Kulloinkin voimassa olevat sopimusehdot ja Palveluntarjoajan tietoturva seloste ovat luettavissa Palveluntarjoajan kotisivuilla ja/tai muutoin Palvelun yhteydessä.
                 Palvelu on palveluntarjoajan tietoverkon välityksellä tarjoama tietokoneohjelmistoon perustuva palvelu, jolla asiakas voi tallentaa omistamansa talon/kiinteistön tietoja kuten korjaushistorian, kulutustiedot, kuvat sekä tiedostot. palveluntarjoaja voi tarjota palvelussa tai sen yhteydessä lisäpalveluita, joista peritään erillinen maksu.
                 Sopimus syntyy, kun asiakas rekisteröityy palveluun Kotilogi.com-sivuston kautta ja hyväksyy sopimusehdot. Rekisteröityessään Palveluun ja luodessaan sinne käyttäjätilin asiakas saa oikeuden käyttää palvelua sisäisessä toiminnassaan sopimusehtojen sekä muiden palvelun käyttöä koskevien ohjeiden mukaisesti.
                 </p>
 
-                <h1>2. Sopimuksen kesto ja tilauksen irtisanominen</h1>
+                <BigHeading>2. Sopimuksen kesto ja tilauksen irtisanominen</BigHeading>
 
-                <h2>Maksuton kokeilujakso</h2>
+                <SmallHeading>Maksuton kokeilujakso</SmallHeading>
                 <p>
                     Palveluntarjoaja tarjoaa asiakkaalle mahdollisuuden käyttää Palvelua maksutta 6 (kuusi) kuukautta tai erillisessä tarjouksessa määritellyn ajan (”Kokeilujakso”). Asiakas saa käyttää palvelua kokeilujakson ajan ilman, että asiakkaan tarvitsee maksaa hinnastossa tai muussa tarjouksessa eriteltyä hintaa.
                     Sopimus säilyy voimassa kokeilujakson keston ajan. Sopimus päättyy automaattisesti, jos Asiakas ei tee maksullista tilausta kokeilujakson päättymisen jälkeen.
                 </p>
 
-                <h2>Maksullinen Tilaus</h2>
+                <SmallHeading>Maksullinen Tilaus</SmallHeading>
                 <p>
                     Tilaus tehdään aina vuodeksi eteenpäin. Tilausjakso jatkuu uutena voimassa olevan hinnaston mukaisesti mikäli asiakas ei irtisano sopimusta ilmoittamalla siitä kirjallisesti palveluntarjoajalle viimeistään 30 päivää ennen kuluvan tilausjakson päättymistä. Tilausjakson uusiutuessa asiakkaan katsotaan hyväksyneen kulloinkin ajantasaisimmat Sopimusehdot.
                 </p>
 
-                <h1>3. Sopimuksen muuttaminen</h1>
+                <BigHeading>3. Sopimuksen muuttaminen</BigHeading>
                 <p>
                 Palveluntarjoajalla on oikeus muuttaa sopimusehtoja ilmoittamalla siitä asiakkaalle kirjallisesti vähintään yhtä kuukautta ennen muutoksen voimaantuloa. Palvelun hintaa koskevat muutokset astuvat voimaan aikaisintaan asiakkaan seuraavan laskutusjakson alussa.
                 </p>
 
-                <h1>4. Palvelun toimittaminen</h1>
+                <BigHeading>4. Palvelun toimittaminen</BigHeading>
                 <p>
                     Palvelu toimitetaan ”sellaisena kuin se on”. Palveluntarjoaja ei anna mitään suoranaisia tai välillisiä takuita palvelun toiminnasta tai ominaisuuksista eikä takaa, että palvelu toimii käyttökatkoitta ja/tai virheettömästi. Palvelu on kuitenkin lähtökohtaisesti käytettävissä 24 tuntia vuorokaudessa. Lisäksi Palveluntarjoaja pyrkii mahdollisuuksien mukaan tiedottamaan palvelussa tapahtuvista asiakkaan kannalta olennaisista katkoksista tai muista häiriöistä etukäteen ja suorittamaan palvelun ylläpitoon liittyvät toimenpiteet muutoinkin siten, että ne haittaavat palvelun käyttöä mahdollisimman vähän.
                 </p>
 
-                <h1>5. Oikeudet ja velvollisuudet</h1>
+                <BigHeading>5. Oikeudet ja velvollisuudet</BigHeading>
                 <p>
                     Asiakas sitoutuu antamaan rekisteröinnin yhteydessä oikeat ja riittävät rekisteröinti- ja maksutiedot. Rekisteröinnin toteuttava henkilö vakuuttaa olevansa oikeutettu edustamaan asiakasta palvelun käyttöönotossa. Jos asiakkaan rekisteröinnin yhteydessä antamat tiedot osoittautuvat virheellisiksi tai muulla tavoin puutteellisiksi, palveluntarjoajalla on oikeus olla toimittamatta palvelua.
                     Asiakas ei saa luovuttaa tilin hallintaa kolmansille osapuolille. Jos tili tai sen hallinnan mahdollistavat tiedot joutuvat vääriin käsiin, asiakkaan on välittömästi ilmoitettava asiasta palveluntarjoajalle.
                     Asiakas sitoutuu noudattamaan sopimusta, lakia ja hyvää tapaa palvelua käyttäessään. Palveluntarjoajalla on oikeus katkaista palvelun toimittaminen ja poistaa käyttäjätili ilman etukäteisilmoitusta mikäli sopimusehtoja rikotaan.
                 </p>
 
-                <h1>6. Käyttäjätilillä olevien tietojen säilyttäminen</h1>
+                <BigHeading>6. Käyttäjätilillä olevien tietojen säilyttäminen</BigHeading>
 
                 <p>
                 Palveluntarjoaja lukitsee Tilin, jos Asiakas ei ole tehnyt maksullista tilausta Kokeilujakson aikana, tilausjakso on päättynyt, maksullisen tilauksen maksu on viivästynyt tai laiminlyöty, Tili ja/tai sille kirjautumisen mahdollistavat tiedot ovat joutuneet kolmannen haltuun tai Asiakas on käyttänyt Palvelua Suomen lain, Sopimusehtojen tai hyvän tavan vastaiseen toimintaan.
@@ -54,7 +62,7 @@ export default function TOS(){
                 Palveluntarjoaja ylläpitää varmuuskopiota asiakkaan palveluun syöttämistä tiedoista kuuden kuukauden ajan. Alkuperäisten tietojen katoamiseen vaikuttaneelta asiakkaalta voidaan veloittaa varmuuskopion palauttamisesta aiheutuneet kustannukset. Palveluntarjoaja poistaa kaikki  asiakkaan palveluun syöttämät tiedot kuuden kuukauden sisällä Sopimuksen päättymisestä, ellei toisin ole sovittu.
                 </p>
 
-                <h1>7. Palvelussa oleva aineisto ja immateriaalioikeudet</h1>
+                <BigHeading>7. Palvelussa oleva aineisto ja immateriaalioikeudet</BigHeading>
                 <p>
                     Kaikki immateriaalioikeudet palveluun, sen sisältöön, ominaisuuksiin ja toiminnallisuuksiin sekä niiden myöhempiin muutoksiin kuuluvat yksin palveluntarjoajalle. Asiakas saa sopimuksen voimassaoloajaksi rajoitetun ei-yksinomaisen oikeuden käyttää palvelua omassa käytössä sopimusehtojen mukaisesti. Palvelun ja sen sisällön tai osien kopiointi, jäljentäminen, eteenpäin välittäminen, levittäminen tai käyttäminen muuten kuin näiden sopimusehtojen mukaisesti on ehdottomasti kielletty.
 
@@ -62,7 +70,7 @@ export default function TOS(){
                 </p>
         
 
-                <h1>8. Vastuunrajoitukset</h1>
+                <BigHeading>8. Vastuunrajoitukset</BigHeading>
                 <p>
                 Asiakas on aina itse vastuussa omista tietosuoja toimenpiteistään sekä niiden lainmukaisuudesta, tuloksellisuudesta ja mahdollisista seurauksista. Palvelun käyttäminen ei siirrä asiakkaan tietosuoja velvoitteita ja -vastuita. Palveluntarjoaja ei ole miltään osin vastuussa palvelun perusteella luotujen tietosuojakäytäntöjen tuloksista, vaikutuksista tai seurauksista, eikä sitä kohtaan voida esittää näiltä osin mitään vaatimuksia.
 
@@ -70,7 +78,7 @@ export default function TOS(){
                 </p>
 
 
-                <h1>9. Sovellettava laki ja riidanratkaisu</h1>
+                <BigHeading>9. Sovellettava laki ja riidanratkaisu</BigHeading>
                 <p>
                 Tähän sopimukseen sovelletaan Suomen lakia. Erimielisyydet pyritään ensisijaisesti ratkaisemaan neuvottelemalla. 
 
