@@ -19,7 +19,6 @@ export default async function EventLayout({children, params}){
                     <SecondaryHeading>Tapahtuma</SecondaryHeading>
                     <span className="text-black text-xl">{event.title}</span>
                 </Group>
-                
             </Header>
 
             <SplitScreen rightWeight={7} gap="1rem">

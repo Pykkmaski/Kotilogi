@@ -23,8 +23,8 @@ export default async function DashboardLayout({children}){
                     <SecondaryHeading>{session.user.email}</SecondaryHeading>
                     <h3 className="text-xl">Hallintapaneeli</h3>
                 </Group>
-                
             </Header>
+            
             <Group direction={'row'} gap={4}>
                 <div className="flex-[1]">
                     <NavBar>

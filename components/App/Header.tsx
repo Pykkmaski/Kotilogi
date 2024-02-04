@@ -8,7 +8,6 @@ import { VisibilityProvider } from 'kotilogi-app/components/Experimental/Visibil
 import { Group } from 'kotilogi-app/components/Group/Group';
 import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
 import { useRouter } from 'next/navigation';
-import { useAppContext } from '../../app/AppContext';
 import Spinner from '../Spinner/Spinner';
 
 export function Logo(){
