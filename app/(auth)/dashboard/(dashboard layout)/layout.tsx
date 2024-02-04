@@ -24,7 +24,7 @@ export default async function DashboardLayout({children}){
                     <h3 className="text-xl">Hallintapaneeli</h3>
                 </Group>
             </Header>
-            
+
             <Group direction={'row'} gap={4}>
                 <div className="flex-[1]">
                     <NavBar>
@@ -35,7 +35,7 @@ export default async function DashboardLayout({children}){
                 </div>
                 
                 <DashboardContextProvider user={session.user}>
-                    <div className="flex-[9]">
+                    <div className="flex-[9] ml-8 mb-8">
                         {children}
                     </div>
                 </DashboardContextProvider>

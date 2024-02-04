@@ -53,7 +53,7 @@ export default async function PropertyDetailsLayout({children, params}){
                     </Flex>
 
                     <Flex value={8}>
-                        <div className="ml-4 mb-8">
+                        <div className="ml-8 mb-8">
                             {children}
                         </div>
                     </Flex>

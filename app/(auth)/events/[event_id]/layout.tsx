@@ -28,7 +28,10 @@ export default async function EventLayout({children, params}){
                     <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
                     <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
                 </NavBar>
-                {children}
+
+                <div className="ml-8 mb-8">
+                    {children}
+                </div>
             </SplitScreen>
         </Layout>
     )
