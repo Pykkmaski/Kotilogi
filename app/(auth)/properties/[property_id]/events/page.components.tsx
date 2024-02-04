@@ -6,7 +6,7 @@ import {Gallery} from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import {Error} from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error";
-import { SearchBar } from "kotilogi-app/components/SearchBar/SearchBar";
+import { SearchBar } from "kotilogi-app/components/SearchBar";
 import { LayoutGroup } from "kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup";
 import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { Group } from "kotilogi-app/components/Group";

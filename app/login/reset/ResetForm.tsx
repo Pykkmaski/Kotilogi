@@ -15,6 +15,7 @@ import { Input } from "kotilogi-app/components/Input/Input";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
 import { ErrorText, SuccessText } from "kotilogi-app/components/Util/Text";
+import { Form } from "kotilogi-app/components/Form";
 
 function StepOne(){
     const router = useRouter();
@@ -72,7 +73,7 @@ function StepOne(){
                 Sähköpostin saapumiseen saattaa mennä muutama minuutti.
             </p>
 
-            <form onSubmit={onSubmitHandler}>
+            <Form onSubmit={onSubmitHandler}>
                 <Group direction="row">
                     <Input 
                         type="email" 
@@ -107,7 +108,7 @@ function StepOne(){
                     :
                     <></>
                 }
-            </form>
+            </Form>
         </ContentCard>
         
     );
@@ -165,8 +166,8 @@ function StepTwo(){
                 Salasana tulee vaihtaa 30 minuutin sisällä.
             </p>
 
-            <div className="w-full [&>*]:flex-1">
-            <form onSubmit={onSubmitHandler} className="mt-4">
+            <div className="w-full [&>*]:flex-1 mt-4">
+            <Form onSubmit={onSubmitHandler}>
                 <Group direction="col" gap={4}>
                     <Group direction="row">
                         <Input 
@@ -202,7 +203,7 @@ function StepTwo(){
                         </Group>
                     </div>
                 </Group>
-            </form>
+            </Form>
             </div>
             
         </ContentCard>

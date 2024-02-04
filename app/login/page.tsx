@@ -11,6 +11,7 @@ import { Group } from 'kotilogi-app/components/Group';
 import Link from 'next/link';
 import { useInputData } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
+import { Form } from 'kotilogi-app/components/Form';
 
 export default function LoginPage(){
     const router = useRouter();
@@ -55,7 +56,7 @@ export default function LoginPage(){
         <main className="flex flex-col justify-center items-center flex-1">
             <Padding>
                 <ContentCard title="Kirjaudu Sisään">
-                    <form onSubmit={onSubmitHandler}>
+                    <Form onSubmit={onSubmitHandler}>
                         <Group gap={4} direction="col">
                             <Group direction='col' align="end" gap={2}>
                                 <Input 
@@ -92,7 +93,7 @@ export default function LoginPage(){
                             </div>
 
 
-                            <div className="w-full mt-4">
+                            <div className="w-full mt-4 border-t pt-4">
                                 <Group direction="row" justify="end" gap={2}>
                                     <SecondaryButton 
                                         type="button" 
@@ -108,7 +109,7 @@ export default function LoginPage(){
                                 </Group>
                             </div>
                         </Group>
-                    </form>
+                    </Form>
                 </ContentCard>
             </Padding>
         </main>

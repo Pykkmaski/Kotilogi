@@ -14,6 +14,7 @@ import Link from 'next/link';
 import {z} from 'zod';
 import toast from 'react-hot-toast';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
+import { Form } from 'kotilogi-app/components/Form';
 
 function RegularPlanInfo(){
     return (
@@ -81,7 +82,7 @@ export default function RegisterPage(){
         <main className="flex flex-col flex-1 justify-center items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={register} className="py-4 px-16">
+                    <Form onSubmit={register}>
                         <Group direction="col" gap={4}>
                             <Group direction="col" align="end">
                                 <Input label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
@@ -125,7 +126,7 @@ export default function RegisterPage(){
                                 </Group>
                             </div>
                         </Group>
-                    </form>
+                    </Form>
                 </ContentCard>
             </Padding>
         </main>
