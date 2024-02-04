@@ -14,12 +14,9 @@ import { Padding } from 'kotilogi-app/components/Util/Padding';
 
 export default function LoginPage(){
     const router = useRouter();
-    const params = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>('none')
-    const {data, updateData} = useInputData({});
-
-    const formEmail = 'kl-login-form-email';
+    const {updateData} = useInputData({});
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
