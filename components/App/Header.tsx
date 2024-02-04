@@ -1,18 +1,14 @@
 "use client";
 
 import Link from 'next/link';
-import {signOut, useSession} from 'next-auth/react';
-import style from './component.module.scss';
+import {signOut} from 'next-auth/react';
 import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
-import Spinner from 'kotilogi-app/components/Spinner/Spinner';
-import { useState } from 'react';
 import { VisibilityProvider } from 'kotilogi-app/components/Experimental/VisibilityProvider/VisibilityProvider';
 import { Group } from 'kotilogi-app/components/Group/Group';
 import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
 import { useRouter } from 'next/navigation';
-import { useAppContext } from '../AppContext';
-import { Padding } from 'kotilogi-app/components/Util/Padding';
+import { useAppContext } from '../../app/AppContext';
 
 export function Logo(){
     return (
@@ -42,12 +38,12 @@ function UserIcon2({email}){
 
                     <VisibilityProvider.Target>
                         <div 
-                            className={style.userMenu}
+                            className="w-[300px] absolute top-[60px] right-0 border border-slate-200 z-20 shadow-lg"
                         >
-                            <nav>
+                            <nav className="flex flex-col gap-2 p-4">
                                 <Link href="/">Etusivu</Link>
                                 <Link href="/dashboard/properties">Hallintapaneeli</Link>
-                                <span className={style.logoutLink} onClick={async () => {
+                                <span className="cursor-pointer hover:underline" onClick={async () => {
                                     router.replace('/');
                                     signOut().then(() => router.replace('/'));
                                 }}>Kirjaudu Ulos</span>
@@ -74,12 +70,10 @@ export default function Header(){
                 <Group direction="row" justify='between' align="center">
                     <Logo/>
                     {/**Desktop nav */}
-                    <nav className={style.navDesktop}>
+                    <nav>
                         {
                             userIsLoggedIn ?
-                            <div className={style.links}>
                                 <UserIcon2 email={userEmail}/>
-                            </div>
                             :
                             <div className="[&>*]:text-white [&>*]:font-semibold">
                                 <Group direction="row" gap={4}>

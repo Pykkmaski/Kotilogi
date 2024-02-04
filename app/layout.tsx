@@ -1,8 +1,6 @@
 import './globals.css';
-import Header from './_Header/Header';
-import Notice from 'kotilogi-app/components/Notice';
+import Header from '../components/App/Header';
 import {Toaster} from 'react-hot-toast';
-import {AuthProvider} from '@/contexts/AuthProvider';
 import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
 import { AppContextProvider } from './AppContext';
