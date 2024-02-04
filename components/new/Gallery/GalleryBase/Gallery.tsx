@@ -2,17 +2,14 @@
 
 import { CSSProperties, createContext, useContext, useState} from "react";
 import { ActionType } from "./Gallery.reducer";
-import style from './style.module.scss';
 import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useGallery, StateType } from "./Gallery.hooks";
-import Button from "kotilogi-app/components/Button/Button";
 import { Heading } from "kotilogi-app/components/Heading/Heading";
 import { Group } from "kotilogi-app/components/Group/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
 import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
-import { SelectionProvider } from "kotilogi-app/components/Experimental/SelectionProvider/SelectionProvider";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -125,7 +122,7 @@ export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
 
     return (
         <GalleryContext.Provider value={contextValue}>
-            <div className={style.galleryContainer}>
+            <div className="relative flex flex-col flex-1 text-white z-[2] w-full">
                 {props.children}
             </div>
         </GalleryContext.Provider>
