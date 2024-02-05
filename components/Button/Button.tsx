@@ -1,5 +1,3 @@
-import Image, { StaticImageData } from "next/image"
-import style from './style.module.scss';
 import Spinner from "../Spinner/Spinner";
 
 export type ButtonProps = React.ComponentProps<'button'> & {
