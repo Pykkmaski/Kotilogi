@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Group } from 'kotilogi-app/components/Group';
-import {PrimaryButton} from 'kotilogi-app/components/Button/Button2';
+import {PrimaryButton} from 'kotilogi-app/components/Button/PrimaryButton';
 
 type SessionT = {
     user: {
@@ -18,7 +18,9 @@ export async function Hero(){
             </p>
             
             <Group direction="row" gap={5} center>
-                <Link href="/register" className="text-slate-900 bg-orange-300 font-semibold p-2 rounded-md hover:bg-orange-200">Rekisteröidy</Link>
+               <Link href="/register">
+                    <PrimaryButton>Rekisteröidy</PrimaryButton>
+               </Link>
                 <Link href="" className="text-white hover:underline cursor-pointer font-semibold">Lue Lisää</Link>
             </Group>
         </div>

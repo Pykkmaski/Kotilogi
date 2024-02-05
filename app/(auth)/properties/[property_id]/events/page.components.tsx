@@ -8,12 +8,6 @@ import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import {Error} from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error";
 import { SearchBar } from "kotilogi-app/components/SearchBar";
 import { LayoutGroup } from "kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup";
-import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/RoundedBox";
-import { Group } from "kotilogi-app/components/Group";
-import { BorderHeader } from "kotilogi-app/components/Header/Header";
-import { FullWidth } from "kotilogi-app/components/Util/FullWidth";
-import { BoxHeading } from "kotilogi-app/components/Heading";
-import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
 
 /**The main content rendering component of the page. */
 export function Content({events, propertyId}){

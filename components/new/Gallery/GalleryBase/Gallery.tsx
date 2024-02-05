@@ -8,7 +8,7 @@ import { Heading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
-import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
+import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 
 function Header(props: React.PropsWithChildren & {

@@ -1,5 +1,4 @@
-import { useChangeInput } from "kotilogi-app/hooks/useChangeInput";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 export type StatusType = 'idle' | 'loading' | 'error' | 'success';
 

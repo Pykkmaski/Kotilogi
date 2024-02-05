@@ -3,7 +3,7 @@ import { useInputData } from "./BaseAddModal.hooks"
 import Modal, { ModalProps } from "./Modal"
 import React, { useRef } from "react";
 import SecondaryButton from "../Button/SecondaryButton";
-import PrimaryButton from "../Button/PrimaryButton";
+import {PrimaryButton} from "../Button/PrimaryButton";
 
 type AddDataModalProps = ModalProps & {
     title: string,
@@ -47,8 +47,8 @@ export function AddDataModal({children, title, initialData, onSubmit, ...props}:
                 }
             </form>
             <Modal.Footer>
-                <SecondaryButton desktopText="Peruuta" onClick={closeModal}/>
-                <PrimaryButton desktopText="Lähetä" type="submit" form={formId}/>
+                <SecondaryButton onClick={closeModal}>Peruuta</SecondaryButton>
+                <PrimaryButton type="submit" form={formId}>Lähetä</PrimaryButton>
             </Modal.Footer>
         </Modal>
     );

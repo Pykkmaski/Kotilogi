@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import PrimaryButton from "../Button/PrimaryButton";
+import {PrimaryButton} from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";

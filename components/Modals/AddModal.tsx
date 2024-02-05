@@ -5,12 +5,9 @@ import { addProperty } from "kotilogi-app/actions/property/addProperty";
 import { Input, Select, Textarea } from "../Input/Input";
 import { buildingTypes } from "kotilogi-app/constants";
 import { addPropertyEvent } from "kotilogi-app/actions/propertyEvent/addPropertyEvent";
-import { useInputFiles, useInputData, useAddModal } from "./BaseAddModal.hooks";
+import { useInputFiles, useAddModal } from "./BaseAddModal.hooks";
 import { BaseAddModal } from "./BaseAddModal";
 import { upload } from "kotilogi-app/actions/file/upload";
-import { addPropertyFiles } from "kotilogi-app/actions/property/addPropertyFiles";
-import { addPropertyEventFiles } from "kotilogi-app/actions/propertyEvent/addPropertyEventFiles";
-import { createContext } from "react";
 import React from "react";
 
 type AddModalProps = ModalProps & {

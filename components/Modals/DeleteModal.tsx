@@ -1,4 +1,4 @@
-import PrimaryButton from "../Button/PrimaryButton";
+import {PrimaryButton} from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import { Group } from "../Group";
 import { useStatus } from "./BaseAddModal.hooks";
@@ -40,7 +40,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
         <Modal {...props}>
             <Modal.Header>Poista</Modal.Header>
             <Modal.Body>
-                <Group direction="vertical">
+                <Group direction="col">
                     <p>
                         Olet poistamassa seuraavia kohteita:
                     </p>
@@ -60,15 +60,13 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
             </Modal.Body>
             <Modal.Footer>
                 <PrimaryButton 
-                    desktopText="Ei" 
                     disabled={loading}
-                    onClick={cancelDelete}/>
+                    onClick={cancelDelete}>Ei</PrimaryButton>
 
                 <SecondaryButton 
-                    desktopText="Kyllä" 
                     loading={loading}
                     disabled={loading}
-                    onClick={deleteItems}/>
+                    onClick={deleteItems}>Kyllä</SecondaryButton>
             </Modal.Footer> 
         </Modal>
     )

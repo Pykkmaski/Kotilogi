@@ -1,8 +1,7 @@
 'use client';
 
 import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
-import { useAppContext } from "kotilogi-app/app/AppContext";
-import PrimaryButton from "kotilogi-app/components/Button/PrimaryButton";
+import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
 import { Group } from "kotilogi-app/components/Group";
 import { Input } from "kotilogi-app/components/Input/Input";

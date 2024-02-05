@@ -4,7 +4,7 @@ import { useChangeInput } from "kotilogi-app/hooks/useChangeInput"
 import React, { useState } from "react";
 import { Group } from "../Group";
 import SecondaryButton from "../Button/SecondaryButton";
-import PrimaryButton from "../Button/PrimaryButton";
+import {PrimaryButton} from "../Button/PrimaryButton";
 import style from './style.module.scss';
 import { InputProps, SelectProps, TextAreaProps } from "../Input/Input";
 import { useInputComponent, useSingleInputForm } from "./SingleInputForm.hooks";
