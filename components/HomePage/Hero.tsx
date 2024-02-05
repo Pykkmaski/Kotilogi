@@ -19,7 +19,9 @@ export async function Hero(){
             
             <Group direction="row" gap={5} center>
                <Link href="/register">
-                    <PrimaryButton>Rekisteröidy</PrimaryButton>
+                    <PrimaryButton>
+                        <span className="font-semibold">Rekisteröidy</span>
+                    </PrimaryButton>
                </Link>
                 <Link href="" className="text-white hover:underline cursor-pointer font-semibold">Lue Lisää</Link>
             </Group>
