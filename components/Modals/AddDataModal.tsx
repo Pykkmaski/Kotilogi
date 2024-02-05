@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { useInputData } from "./BaseAddModal.hooks"
 import Modal, { ModalProps } from "./Modal"
 import React, { useRef } from "react";
-import SecondaryButton from "../Button/SecondaryButton";
+import {SecondaryButton} from "../Button/SecondaryButton";
 import {PrimaryButton} from "../Button/PrimaryButton";
 
 type AddDataModalProps = ModalProps & {

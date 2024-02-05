@@ -57,7 +57,7 @@ export default async function PlanPage(){
                             <PrimaryButton className="w-[100px] flex justify-center">Muuta</PrimaryButton>
                         </Group>
                     </div>
-                    </div>
+                </div>
             </ContentCard>
             
         </main>

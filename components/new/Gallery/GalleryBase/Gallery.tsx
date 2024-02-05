@@ -9,7 +9,7 @@ import { Group } from "kotilogi-app/components/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
-import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
+import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -55,7 +55,7 @@ function Header(props: React.PropsWithChildren & {
                 <Group direction="row" justify="between" align="center">
                     <Heading>{props.title}</Heading>
 
-                    <Group direction="row" gap={4} align="center">
+                    <Group direction="row" gap={4} align="center" justify="center">
                         {props.children}   
                         {...getButtons()}
                     </Group>

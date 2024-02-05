@@ -5,7 +5,7 @@ import Button, { ButtonProps } from "./Button"
  * @param props 
  * @returns 
  */
-export default function SecondaryButton(props: ButtonProps){
+export function SecondaryButton(props: ButtonProps){
     return (
         <Button
             variant='secondary'

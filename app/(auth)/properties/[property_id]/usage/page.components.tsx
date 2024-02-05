@@ -1,7 +1,7 @@
 'use client';
 
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
-import SecondaryButton from "kotilogi-app/components/Button/SecondaryButton";
+import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { BorderHeader } from "kotilogi-app/components/Header/Header";
 import { Input } from "kotilogi-app/components/Input/Input";

@@ -3,7 +3,7 @@
 import {signIn} from 'next-auth/react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState} from 'react';
-import SecondaryButton from 'kotilogi-app/components/Button/SecondaryButton';
+import {SecondaryButton} from 'kotilogi-app/components/Button/SecondaryButton';
 import {PrimaryButton} from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
 import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';

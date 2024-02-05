@@ -1,13 +1,11 @@
 'use client';
 
-import { useChangeInput } from "kotilogi-app/hooks/useChangeInput"
-import React, { useState } from "react";
+import React from "react";
 import { Group } from "../Group";
-import SecondaryButton from "../Button/SecondaryButton";
+import {SecondaryButton} from "../Button/SecondaryButton";
 import {PrimaryButton} from "../Button/PrimaryButton";
-import style from './style.module.scss';
 import { InputProps, SelectProps, TextAreaProps } from "../Input/Input";
-import { useInputComponent, useSingleInputForm } from "./SingleInputForm.hooks";
+import { useSingleInputForm } from "./SingleInputForm.hooks";
 
 type ControlsProps = {
     editing: boolean,
