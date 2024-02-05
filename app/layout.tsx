@@ -3,8 +3,8 @@ import Header from '../components/App/Header';
 import {Toaster} from 'react-hot-toast';
 import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
-import { AppContextProvider } from './AppContext';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
+import Notice from 'kotilogi-app/components/App/Notice';
 
 export const metadata = {
   title: 'Kotilogi',
@@ -33,6 +33,8 @@ export default async function RootLayout({ children }) {
                 fontSize: '1.2rem'
               }
             }}/>
+
+            <Notice text={'Sovellus on työn alla. Pahoittelemme mahdollisista häiriöistä.'}/>
           </body>
       </AuthProvider>
         
