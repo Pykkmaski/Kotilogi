@@ -81,10 +81,13 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
         const response = confirm('Olet poistamassa tapahtumaa ' + props.item.title + '. Oletko varma?');
         if(!response) return;
 
-        toast.loading('Poistetaan tapahtumaa...');
+        const loadingToast = toast.loading('Poistetaan tapahtumaa...');
 
         deletePropertyEvent(props.item.id)
-        .then(() => toast.success('Tapahtuma poistettu!'))
+        .then(() => {
+            toast.dismiss(loadingToast);
+            toast.success('Tapahtuma poistettu!')
+        })
         .catch(err => {
             toast.error(err.message);
         });

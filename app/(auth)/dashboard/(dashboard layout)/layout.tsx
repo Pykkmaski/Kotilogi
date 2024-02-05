@@ -27,7 +27,7 @@ export default async function DashboardLayout({children}){
                     <NavBar>
                         <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
                         <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                        <IconLink imageSrc="/icons/user.png" href="/dashboard/plan">Tilaus</IconLink>
+                        <IconLink imageSrc="/icons/user.png" href="/dashboard/plan">Laskutus</IconLink>
                     </NavBar>
                 </div>
                 

@@ -9,25 +9,26 @@ import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import db from "kotilogi-app/dbconfig";
 import { planNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
 import { getServerSession } from "next-auth";
+import { MakePaymentButton } from "kotilogi-app/components/BillingPage/MakePaymentButton";
 
 export default async function PlanPage(){
     const session = await getServerSession(options) as {user: {email: string}} | null;
     if(!session) throw new Error('Unable to load user session! Try refreshing the page.');
 
-    const [user] = await db('users').where({email: session.user.email}).select('plan', 'email');
+    const [user] = await db('users').where({email: session.user.email}).select('plan', 'email', 'nextPayment');
     if(!user) throw new Error('Unable to fetch user data! Try refreshing the page.');
 
     return (
         <main className="w-full flex flex-col gap-4 mb-8">
             <Header>
-                <Heading>Tilaus</Heading>
+                <Heading>Laskutus</Heading>
             </Header>
  
             <ContentCard title="Kortti">
                 <div className="w-full flex flex-col gap-4">
                     <Input placeholder="Kirjoita haltijan nimi..." label="Haltija" description="Kortin haltija."/>
                     <Group direction="row" align="center" gap={4}>
-                        <div className="flex-[5]">
+                        <div className="flex-[7]">
                             <Input name="cardNumber" placeholder="Kortin numero..." label="Numero" description="Kortin numero."/>
                         </div>
 
@@ -45,10 +46,34 @@ export default async function PlanPage(){
             <ContentCard title="Nykyinen Tilaus">
                 <div className="w-full">
                     <Group direction="row" gap={4}>
-                        <div className="w-[200px]">
+                        <div className="w-auto">
                             {
                                 user.plan === 'regular' ? <RegularPlanCard/> : <ProPlanCard/>
                             }
+                        </div>
+
+                        <div className="w-full flex flex-col text-slate-500">
+                            {
+                                Date.now() >= parseInt(user.nextPayment) ? 
+                                <>
+                                    <h1 className="text-2xl">Vahvistamaton Maksu</h1>
+                                    <span className="text-4xl mb-2">49,90€</span>
+                                    <span className="text-sm">Laskutuskaudelta 2023</span>
+
+                                    <div className="w-[30%] mt-4">
+                                        <MakePaymentButton/>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <h1 className="text-2xl">Tuleva Maksu</h1>
+                                    <span className="text-4xl mb-2">49,90€</span>
+                                    <span className="text-sm">
+                                        {new Date(user.nextPayment).toLocaleDateString('fi')}
+                                    </span>
+                                </>
+                            }
+                            
                         </div>
                     </Group>
                     
