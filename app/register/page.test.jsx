@@ -1,8 +1,8 @@
-import '@testing-library/jest-dom';
-import {expect} from '@jest/globals';
+import {expect} from "@jest/globals";
 import {render, screen} from '@testing-library/react';
 import Page from './page';
 import { MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
+import '@testing-library/jest-dom/extend-expect';
 
 // Mock useRouter:
 jest.mock("next/navigation", () => ({
@@ -14,7 +14,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe('Testing the email input', () => {
-    var emailInput: HTMLElement | null = null;
+    var emailInput = null;
 
     beforeEach(() => {
         render(<Page/>);
@@ -35,7 +35,7 @@ describe('Testing the email input', () => {
 });
 
 describe('Testing the password1 input', () => {
-    var passwordInput1: HTMLElement | null = null;
+    var passwordInput1 = null;
 
     beforeEach(() => {
         render(<Page/>);
@@ -56,7 +56,7 @@ describe('Testing the password1 input', () => {
 });
 
 describe('Testing the password2 input', () => {
-    var passwordInput2: HTMLElement | null = null;
+    var passwordInput2 = null;
 
     beforeEach(() => {
         render(<Page/>);
@@ -73,7 +73,7 @@ describe('Testing the password2 input', () => {
 });
 
 describe('Testing the tos checkbox', () => {
-    var tosCheckbox: HTMLElement | null = null;
+    var tosCheckbox = null;
 
     beforeEach(() => {
         render(<Page/>);
@@ -94,7 +94,7 @@ describe('Testing the tos checkbox', () => {
 });
 
 describe('Testing the register TOS-link', () => {
-    var tosLink: HTMLElement | null = null;
+    var tosLink = null;
 
     beforeEach(() => {
         render(<Page/>);
@@ -110,13 +110,45 @@ describe('Testing the register TOS-link', () => {
     });
 });
 
+describe('Testing the cancel button', () => {
+    var cancelButton = null;
+    beforeEach(() => {
+        render(<Page/>);
+        cancelButton = screen.getByTestId('register-cancel-btn');
+    });
+
+    it('Gets rendered', () => {
+        expect(cancelButton).toBeInTheDocument();
+    });
+
+    it('Links to the home page', () => {
+        expect(cancelButton).toHaveAttribute('href', '/');
+    });
+});
+
+describe('Testing the submit button', () => {
+    var submitButton = null;
+    beforeEach(() => {
+        render(<Page/>);
+        submitButton = screen.getByTestId('register-submit-btn');
+    });
+
+    it('Gets rendered', () => {
+        expect(submitButton).toBeInTheDocument();
+    });
+
+    it('Is marked as a submit button', () => {
+        expect(submitButton).toHaveAttribute('type', 'submit');
+    });
+});
+
 describe('Testing the register form', () => {
-    var registerForm: HTMLElement | null = null;
+    var registerForm = null;
 
     beforeEach(() => {
         render(<Page/>);
         registerForm = screen.getByTestId('register-form');
-    })
+    });
 
     it('Gets rendered', () => {
         expect(registerForm).toBeInTheDocument();

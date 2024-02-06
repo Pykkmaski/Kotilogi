@@ -26,7 +26,7 @@ export async function registerUser(credentials: {email: string, password: string
         }
         catch(err: any){
             if(err.message.includes('UNIQUE')){
-                resolve('user_exists');
+                reject('user_exists');
             }
             else{
                 reject(err);

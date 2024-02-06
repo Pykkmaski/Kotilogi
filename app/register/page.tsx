@@ -47,7 +47,7 @@ export default function RegisterPage(){
         return password1 === password2;
     }
 
-    const register = (e) => {
+    const register = (e: any) => {
         e.preventDefault();
 
         if(!checkPasswordMatch(data.password, e.target.password2.value)){
@@ -60,15 +60,12 @@ export default function RegisterPage(){
         registerUser(data)
         .then(status => {
             setStatus('idle');
-            setError(status);
-            if(status === 'success'){
-                toast.success('Rekisteröityminen onnistui!');
-                router.replace('/login');
-            }
+            toast.success('Rekisteröityminen onnistui!');
+            router.replace('/login');
         })
         .catch(err => {
-            setStatus('error');
             toast.error(err.message);
+            setError(err.message);
         });
     }
 
@@ -117,10 +114,10 @@ export default function RegisterPage(){
 
                             <div className="w-full mt-4 border-t-[1px] pt-[1rem]">
                                 <Group direction="row" justify='end' gap={2}>
-                                    <Link href="/">
+                                    <Link href="/" data-testid="register-cancel-btn">
                                         <SecondaryButton disabled={loading}>Peruuta</SecondaryButton>
                                     </Link>
-                                    <PrimaryButton type="submit" disabled={loading} loading={loading}>Rekisteröidy</PrimaryButton>
+                                    <PrimaryButton data-testid="register-submit-btn" type="submit" disabled={loading} loading={loading}>Rekisteröidy</PrimaryButton>
                                 </Group>
                             </div>
                         </Group>

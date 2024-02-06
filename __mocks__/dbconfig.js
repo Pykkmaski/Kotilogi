@@ -1,6 +1,7 @@
 import {jest} from '@jest/globals';
 
 const select = jest.fn().mockReturnThis();
+const insert = jest.fn();
 const from = select;
 const where = select;
 
@@ -11,7 +12,8 @@ module.exports = jest.fn(() => {
         select,
         from,
         where,
-        first
+        first,
+        insert,
     }
 });
 
@@ -19,5 +21,6 @@ module.exports.select = select;
 module.exports.from = from;
 module.exports.where = where;
 module.exports.first = first;
+module.exports.insert = insert;
 
 

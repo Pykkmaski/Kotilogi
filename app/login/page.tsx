@@ -59,6 +59,7 @@ export default function LoginPage(){
                         <Group gap={4} direction="col">
                             <Group direction='col' align="end" gap={2}>
                                 <Input 
+                                    data-testid="login-email-input"
                                     label="Sähköpostiosoite"
                                     description='Sähköpostiosoite jolle tili on rekisteröity.'
                                     type="email" 
@@ -74,6 +75,7 @@ export default function LoginPage(){
                             <div className="w-full">
                                 <Group direction="col" align="end" gap={2}>
                                     <Input 
+                                        data-testid="login-password-input"
                                         label="Salasana"
                                         description='Tilin salasana.'
                                         type="password" 
@@ -86,7 +88,7 @@ export default function LoginPage(){
                                     {error === 'password_mismatch' ? <span className="danger">Salasana on virheellinen!</span> : null}
 
                                     <div className="w-full flex justify-end gap-2">
-                                        <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
+                                        <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
                                     </div>
                                 </Group>
                             </div>
