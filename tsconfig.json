@@ -29,7 +29,9 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
+    "jest.setup.ts",
     "jest.config.ts", "actions/user/_test_/updatePassword.test.ts", "_tests_/test.test.js", "actions/user/util/_test_/verifyPassword.test.js"  ],
   "exclude": ["node_modules", "src"],
-  "types": ["jest", "node"]
+  "types": ["jest", "node", "@testing-library/jest-dom"],
+  "typeRoots": ["node_modules/@types", "node_modules/@testing-library"]
 }

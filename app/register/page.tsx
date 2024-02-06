@@ -14,6 +14,7 @@ import Link from 'next/link';
 import {z} from 'zod';
 import toast from 'react-hot-toast';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
+import { MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
 
 function RegularPlanInfo(){
     return (
@@ -58,7 +59,6 @@ export default function RegisterPage(){
 
         registerUser(data)
         .then(status => {
-            
             setStatus('idle');
             setError(status);
             if(status === 'success'){
@@ -68,6 +68,7 @@ export default function RegisterPage(){
         })
         .catch(err => {
             setStatus('error');
+            toast.error(err.message);
         });
     }
 
@@ -77,20 +78,20 @@ export default function RegisterPage(){
         <main className="flex flex-col flex-1 justify-center items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={register}>
+                    <form onSubmit={register} data-testid="register-form">
                         <Group direction="col" gap={4}>
                             <Group direction="col" align="end">
-                                <Input label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
+                                <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
                                     placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
                                 {error === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
                             </Group>
                         
                             <Group direction="col" align='end' gap={4}>
-                                <Input label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
-                                    placeholder="Kirjoita salasana..." autoComplete='new-password' name="password"/>
+                                <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
+                                    placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
 
-                                <Input label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
-                                    placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2" />
+                                <Input data-testid="register-password2-input" label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
+                                    placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2"/>
 
                                 {error === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
                             </Group>
@@ -109,8 +110,8 @@ export default function RegisterPage(){
                         
                             <div className="w-full">
                                 <Group direction="row" justify='between' align="center">
-                                    <span>Olen lukenut kotilogin <Link href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
-                                    <input className="aspect-square w-[20px]" type="checkbox" required />
+                                    <span>Olen lukenut kotilogin <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
+                                    <input data-testid="register-tos-checkbox" className="aspect-square w-[20px]" type="checkbox" required />
                                 </Group>
                             </div>
 
