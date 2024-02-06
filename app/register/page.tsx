@@ -58,10 +58,11 @@ export default function RegisterPage(){
 
         registerUser(data)
         .then(status => {
-            toast.success('Rekisteröityminen onnistui!');
+            
             setStatus('idle');
             setError(status);
             if(status === 'success'){
+                toast.success('Rekisteröityminen onnistui!');
                 router.replace('/login');
             }
         })
