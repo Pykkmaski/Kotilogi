@@ -117,7 +117,9 @@ export default function RegisterPage(){
 
                             <div className="w-full mt-4 border-t-[1px] pt-[1rem]">
                                 <Group direction="row" justify='end' gap={2}>
-                                    <SecondaryButton disabled={loading} onClick={() => router.push('/')}>Peruuta</SecondaryButton>
+                                    <Link href="/">
+                                        <SecondaryButton disabled={loading}>Peruuta</SecondaryButton>
+                                    </Link>
                                     <PrimaryButton type="submit" disabled={loading} loading={loading}>Rekisteröidy</PrimaryButton>
                                 </Group>
                             </div>
