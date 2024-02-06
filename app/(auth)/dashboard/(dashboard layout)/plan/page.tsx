@@ -10,6 +10,18 @@ import db from "kotilogi-app/dbconfig";
 import { planNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
 import { getServerSession } from "next-auth";
 import { MakePaymentButton } from "kotilogi-app/components/BillingPage/MakePaymentButton";
+import { PaymentType } from "kotilogi-app/types/PaymentType";
+
+async function getLatestPendingPayment(userEmail: string): Promise<PaymentType | null>{
+    try{
+        const payment = await db('payments').where({userEmail}).first() as PaymentType;
+        return payment;
+    }
+    catch(err: any){
+        console.log(err.message);
+        return null;
+    }
+}
 
 export default async function PlanPage(){
     const session = await getServerSession(options) as {user: {email: string}} | null;
@@ -17,6 +29,8 @@ export default async function PlanPage(){
 
     const [user] = await db('users').where({email: session.user.email}).select('plan', 'email', 'nextPayment');
     if(!user) throw new Error('Unable to fetch user data! Try refreshing the page.');
+
+    const payment = await getLatestPendingPayment(user.email);
 
     return (
         <main className="w-full flex flex-col gap-4 mb-8">
@@ -54,24 +68,27 @@ export default async function PlanPage(){
 
                         <div className="w-full flex flex-col text-slate-500">
                             {
-                                Date.now() >= parseInt(user.nextPayment) ? 
+                                payment && Date.now() >= parseInt(payment.dueDate) ? 
                                 <>
-                                    <h1 className="text-2xl">Vahvistamaton Maksu</h1>
-                                    <span className="text-4xl mb-2">49,90€</span>
-                                    <span className="text-sm">Laskutuskaudelta 2023</span>
+                                    <h1 className="text-2xl">Vahvistamaton Lasku</h1>
+                                    <span className="text-4xl mb-2">{(payment.amount / 100).toFixed(2)}€</span>
+                                    <span className="text-sm">Laskutuskaudelta {new Date(parseInt(payment.dueDate)).getFullYear() - 1}</span>
 
                                     <div className="w-[30%] mt-4">
                                         <MakePaymentButton/>
                                     </div>
                                 </>
                                 :
+                                payment ? 
                                 <>
-                                    <h1 className="text-2xl">Tuleva Maksu</h1>
-                                    <span className="text-4xl mb-2">49,90€</span>
+                                    <h1 className="text-2xl">Tuleva Lasku</h1>
+                                    <span className="text-4xl mb-2">{payment.amount / 100}</span>
                                     <span className="text-sm">
-                                        {new Date(user.nextPayment).toLocaleDateString('fi')}
+                                        {new Date(payment.dueDate).toLocaleDateString('fi')}
                                     </span>
                                 </>
+                                :
+                                <span>Seuraavan maksun lataus epäonnistui.</span>
                             }
                             
                         </div>

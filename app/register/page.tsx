@@ -54,16 +54,11 @@ export default function RegisterPage(){
             return;
         }
 
-        const result = RegisterSchema.safeParse(data);
-        if(!result.success){
-            toast.error('Lomake sisältää virheitä!');
-            return;
-        }
-
         setStatus('loading');
 
         registerUser(data)
         .then(status => {
+            toast.success('Rekisteröityminen onnistui!');
             setStatus('idle');
             setError(status);
             if(status === 'success'){
