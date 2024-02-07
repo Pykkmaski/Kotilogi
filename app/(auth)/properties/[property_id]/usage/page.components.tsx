@@ -291,7 +291,7 @@ export function Content({data, type}: ContentProps){
                                     disabled={isSubmitDisabled()}/>
 
                                 <Group direction="row" gap={2} justify="end">
-                                    <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading}>Poista</SecondaryButton>
+                                    <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading || isSubmitDisabled()}>Poista</SecondaryButton>
                                     <PrimaryButton 
                                         loading={loading}
                                         disabled={isSubmitDisabled()} 
