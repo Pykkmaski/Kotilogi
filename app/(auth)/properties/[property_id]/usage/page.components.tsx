@@ -285,7 +285,8 @@ export function Content({data, type}: ContentProps){
                                     label="Hinta" 
                                     description="Laskun hinta euroissa." 
                                     step="0.01"
-                                    defaultValue={selectedData?.price || undefined}/>
+                                    defaultValue={selectedData?.price || undefined}
+                                    disabled={isSubmitDisabled()}/>
 
                                 <Input 
                                     onChange={updateCurrentData}
@@ -293,7 +294,8 @@ export function Content({data, type}: ContentProps){
                                     name="time" 
                                     label="Päiväys" 
                                     description="Laskun päiväys." 
-                                    defaultValue={selectedData?.time}/>
+                                    defaultValue={selectedData?.time}
+                                    disabled={isSubmitDisabled()}/>
 
                                 <Group direction="row" gap={2} justify="end">
                                     <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading}>Poista</SecondaryButton>
