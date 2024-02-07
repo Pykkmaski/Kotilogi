@@ -213,7 +213,7 @@ export function Content({data, type}: ContentProps){
     const loading = status === 'loading';
 
     const totalPrice = data.reduce((acc, cur) => {
-        return acc + cur.price;
+        return acc + parseFloat(cur.price);
     }, 0);
 
     const isSubmitDisabled = () => {
