@@ -53,10 +53,10 @@ export function ProPlanCard(){
 
 function ProfileText(){
     return (
-        <div className="flex flex-row w-full">
+        <div className="flex sm:flex-col lg:flex-row w-full">
             <div className="flex-1">
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-4xl text-slate-500">Mikä {serviceName}?</h1>
+                    <h1 className="text-4xl text-slate-500 sm:text-center lg:text-left">Mikä {serviceName}?</h1>
                     <p className="mt-4 mb-4 text-lg">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
@@ -70,7 +70,9 @@ function ProfileText(){
                         ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.<br/><br/>
                     </p>
                     
-                    <Link href="/register" className="flex justify-center items-center w-[200px] rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita {serviceName}n Käyttö</Link>
+                    <div className="flex flex-row w-full sm:justify-center lg:justify-start sm:mb-8">
+                        <Link href="/register" className="flex justify-center items-center w-[200px] rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita {serviceName}n Käyttö</Link>
+                    </div>
                 </div>    
             </div>
 
