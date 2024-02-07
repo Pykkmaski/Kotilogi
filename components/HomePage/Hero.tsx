@@ -11,7 +11,7 @@ type SessionT = {
 export async function Hero(){
     return (
         <div className="flex flex-col gap-5 relative">
-            <span className="text-5xl text-white">Talosi huoltotiedot, yhdessä paikassa.</span>
+            <span className="text-5xl text-white">Talosi huoltokirja</span>
             <p className="text-lg mb-5 text-white">
                 Tallenna talosi remonttitiedot, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan. <br/>
                 Unohda hukatut kuitit ja hajanaiset asiakirjat - Kotilogi tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa.
