@@ -1,4 +1,5 @@
 import { Padding } from 'kotilogi-app/components/Util/Padding';
+import { serviceName } from 'kotilogi-app/constants';
 
 const BigHeading = ({children}) => {
     return <h1 className="text-lg text-slate-500 mb-4 font-semibold">{children}</h1>
@@ -15,9 +16,9 @@ export default function TOS(){
                 <h1 className="text-2xl mt-8 mb-8">Käyttöehdot</h1>
                 <BigHeading>Yleistä</BigHeading>
                 <p>
-                Näitä yleisiä käyttöehtoja sovelletaan Kotilogi Oy:n kotilogi palvelun rekisteröitymis lomakkeessa määritellyn asiakkaan väliseen sitovaan sopimukseen. Palvelun käytön edellytyksenä on sopimusehtojen hyväksyminen ja noudattaminen. Käyttämällä palvelua hyväksyt nämä Sopimusehdot. Kulloinkin voimassa olevat sopimusehdot ja Palveluntarjoajan tietoturva seloste ovat luettavissa Palveluntarjoajan kotisivuilla ja/tai muutoin Palvelun yhteydessä.
+                Näitä yleisiä käyttöehtoja sovelletaan {serviceName} Oy:n {serviceName} palvelun rekisteröitymislomakkeessa määritellyn asiakkaan väliseen sitovaan sopimukseen. Palvelun käytön edellytyksenä on sopimusehtojen hyväksyminen ja noudattaminen. Käyttämällä palvelua hyväksyt nämä Sopimusehdot. Kulloinkin voimassa olevat sopimusehdot ja Palveluntarjoajan tietoturva seloste ovat luettavissa Palveluntarjoajan kotisivuilla ja/tai muutoin Palvelun yhteydessä.
                 Palvelu on palveluntarjoajan tietoverkon välityksellä tarjoama tietokoneohjelmistoon perustuva palvelu, jolla asiakas voi tallentaa omistamansa talon/kiinteistön tietoja kuten korjaushistorian, kulutustiedot, kuvat sekä tiedostot. palveluntarjoaja voi tarjota palvelussa tai sen yhteydessä lisäpalveluita, joista peritään erillinen maksu.
-                Sopimus syntyy, kun asiakas rekisteröityy palveluun Kotilogi.com-sivuston kautta ja hyväksyy sopimusehdot. Rekisteröityessään Palveluun ja luodessaan sinne käyttäjätilin asiakas saa oikeuden käyttää palvelua sisäisessä toiminnassaan sopimusehtojen sekä muiden palvelun käyttöä koskevien ohjeiden mukaisesti.
+                Sopimus syntyy, kun asiakas rekisteröityy palveluun {serviceName}.com-sivuston kautta ja hyväksyy sopimusehdot. Rekisteröityessään Palveluun ja luodessaan sinne käyttäjätilin asiakas saa oikeuden käyttää palvelua sisäisessä toiminnassaan sopimusehtojen sekä muiden palvelun käyttöä koskevien ohjeiden mukaisesti.
                 </p>
 
                 <BigHeading>2. Sopimuksen kesto ja tilauksen irtisanominen</BigHeading>
@@ -85,7 +86,7 @@ export default function TOS(){
                 </p>
                 
                 <p>
-                Kotilogi Oy <br/>
+                {serviceName} Oy <br/>
                 Timontie 13, 65300 Vaasa Suomi<br/>
 
                 puh: <a href="tel:+358451310749">+358 45 1310 749</a><br/>

@@ -1,6 +1,4 @@
-interface HasId{
-    ID: Kotilogi.IdType,
-}
+export const serviceName = 'Kotiloki';
 
 export const fileNameTimestampSeparator = '--';
 

@@ -2,6 +2,7 @@
 
 import { logError } from "kotilogi-app/utils/logError";
 import {sendEmail} from "./sendEmail";
+import { serviceName } from "kotilogi-app/constants";
 
 type MessageDataType = {
     email: string,
@@ -52,7 +53,7 @@ function createMessageHTML(from: string, message: string): string{
                     ${message}
                 </div>
                 <div class="footer">
-                    <strong>Kotilogi</strong>
+                    <strong>${serviceName}</strong>
                     <small>Timontie, Vaasa</small>
                     <small>Lähettäjä: <a href="mailto: ${from}">${from}</a><small>
                 </div>
@@ -66,7 +67,7 @@ export async function sendContactMessage(data: MessageDataType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             const to = process.env.SERVICE_CONTACT_EMAILS as string;
-            await sendEmail('Kotilogin Yhteydenotto', data.email, to.split(','), data.message);
+            await sendEmail(serviceName, data.email, to.split(','), data.message);
             resolve();
         }
         catch(err){

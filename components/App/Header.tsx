@@ -9,12 +9,13 @@ import { Group } from 'kotilogi-app/components/Group';
 import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
 import { useRouter } from 'next/navigation';
 import Spinner from '../Spinner/Spinner';
+import { serviceName } from 'kotilogi-app/constants';
 
 export function Logo(){
     return (
         <div className="z-40" id="app-logo">
-            <Link href="/" id="app-logo-link">
-                <Image src={MainLogo} alt="Kotilogi logo"/>
+            <Link href="/" id="app-logo-link" className="w-[50px] aspect-auto object-contain">
+                <Image width={100} height={50} src={'/logo_new_orange.png'} alt={`${serviceName} logo`}/>
             </Link>
         </div>
     );

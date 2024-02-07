@@ -1,3 +1,4 @@
+import {serviceName} from '@/constants';
 import Link from 'next/link';
 
 function PricingCard({children}){
@@ -55,7 +56,7 @@ function ProfileText(){
         <div className="flex flex-row w-full">
             <div className="flex-1">
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-4xl text-slate-500">Mikä Kotilogi?</h1>
+                    <h1 className="text-4xl text-slate-500">Mikä {serviceName}?</h1>
                     <p className="mt-4 mb-4 text-lg">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
@@ -65,12 +66,11 @@ function ProfileText(){
                         joudut kaivelemaan läpi eri paperipinoja tai selata satoja sähköpostiviestejä löytääksesi tarvittavat asiakirjat. 
                         Tämä voi olla aikaa vievää ja turhauttavaa.<br/><br/>
 
-                        Juuri tällaisessa tilanteessa syntyi ajatus Kotilogi-palvelusta. 
-                        Kotilogi on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, 
+                        Juuri tällaisessa tilanteessa syntyi ajatus {serviceName}-palvelusta. {serviceName} on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, 
                         ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.<br/><br/>
                     </p>
                     
-                    <Link href="/register" className="flex justify-center items-center w-[200px] rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita Kotilogin Käyttö</Link>
+                    <Link href="/register" className="flex justify-center items-center w-[200px] rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita {serviceName}n Käyttö</Link>
                 </div>    
             </div>
 

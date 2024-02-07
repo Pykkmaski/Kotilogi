@@ -14,7 +14,7 @@ export async function Hero(){
             <span className="text-5xl text-white">Talosi huoltokirja</span>
             <p className="text-lg mb-5 text-white">
                 Tallenna talosi remonttitiedot, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan. <br/>
-                Unohda hukatut kuitit ja hajanaiset asiakirjat - Kotilogi tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa.
+                Unohda hukatut kuitit ja hajanaiset asiakirjat - Kotiloki tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa.
             </p>
             
             <Group direction="row" gap={5} center>
