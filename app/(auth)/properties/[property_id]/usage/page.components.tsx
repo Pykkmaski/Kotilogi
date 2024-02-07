@@ -19,6 +19,7 @@ import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { addUsageData } from "kotilogi-app/actions/usage/addUsageData";
 import { usePropertyContext } from "../_util/PropertyContextProvider";
 import Link from "next/link";
+import { TypeNav } from "@/components/UsagePage/TypeNav";
 
 type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
     type: Kotilogi.UsageTypeType,
@@ -121,18 +122,6 @@ function TypeSelector({type}: TypeSelectorProps){
             <option value="electric" selected={type === 'electric'}>Sähkö</option>
         </select>
     )
-}
-
-function TypeNav(){
-    return (
-        <nav>
-            <Group direction="row" gap={4} align="center">
-                <Link href="?type=heat">Lämmitys</Link>
-                <Link href="?type=water">Vesi</Link>
-                <Link href="?type=electric">Sähkö</Link>
-            </Group>
-        </nav>
-    );
 }
 
 type ContentProps = {

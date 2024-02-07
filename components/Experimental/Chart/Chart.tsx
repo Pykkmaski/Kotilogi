@@ -59,7 +59,7 @@ function ColumnChart(props: ChartProps){
     );
 }
 
-function PieChart(props: ChartProps){
+export function PieChart(props: ChartProps){
     const options: ApexOptions = {
         ...props.options,
         chart: {
