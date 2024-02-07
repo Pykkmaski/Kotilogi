@@ -18,52 +18,47 @@ import { ErrorText, SuccessText } from "kotilogi-app/components/Util/Text";
 
 function StepOne(){
     const router = useRouter();
-    const {dispatch, state, next} = useResetFormProvider();
+    const {dispatch, next} = useResetFormProvider();
     const {data, updateData} = useInputData({});
-    const [submitDisabled, setSubmitDisabled] = useState(false);
+    const [status, setStatus] = useState<'success' | 'error' | 'loading' | 'idle'>('idle');
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        dispatch({
-            type: 'set_loading',
-            value: true,
-        });
+        setStatus('loading');
 
         const email = e.target.email.value;
-        const error = await sendResetCode(email);
 
-        if(error.code === StatusCode.SUCCESS){
+        sendResetCode(email)
+        .then(() => {
             toast.success('Varmennuskoodi lähetetty onnistuneesti!');
+            setStatus('success');
+
             dispatch({
                 type: 'set_email',
                 value: email,
             });
-
-            setSubmitDisabled(true);
-        }
-        else{
+        })
+        .catch(err => {
             dispatch({
                 type: 'set_status',
-                value: error.code,
+                value: err.code,
             });
-        }
 
-        dispatch({
-            type: 'set_loading',
-            value: false,
+            setStatus('error');
         });
     }
 
     useEffect(() => {
+        if(status !== 'error') return;
+
         const timeout = setTimeout(() => {
-            dispatch({
-                type: 'set_status',
-                value: -1,
-            });
+            setStatus('idle');
         }, 3000);
 
         return () => clearTimeout(timeout);
-    }, [state.status])
+    }, [status])
+
+    const isDisabled = () => status === 'loading' || status === 'success';
 
     return (
         <ContentCard title={"Nollaa salasanasi"}>
@@ -89,21 +84,21 @@ function StepOne(){
                         <SecondaryButton 
                             type="button"
                             onClick={() => router.push('/login')}
-                            disabled={state.isLoading}
+                            disabled={status === 'loading' || isDisabled()}
                         >Peruuta</SecondaryButton>
 
                         <PrimaryButton 
                             type="submit" 
-                            disabled={state.isLoading || !data.email || submitDisabled}
-                            loading={state.isLoading}
+                            disabled={!data.email || isDisabled()}
+                            loading={status === 'loading'}
                         >Lähetä</PrimaryButton>
                     </Group>
                 </div>
                 
                 {
-                    state.status === StatusCode.SUCCESS ? <SuccessText>Varmennuslinkki on lähetetty!</SuccessText>
+                    status === 'success' ? <SuccessText>Varmennuslinkki on lähetetty! Tarkista sähköpostisi.</SuccessText>
                     :
-                    state.status === StatusCode.UNEXPECTED ? <ErrorText>Varmennuslinkin lähetys epäonnistui!</ErrorText>
+                    status === 'error' ? <ErrorText>Varmennuslinkin lähetys epäonnistui!</ErrorText>
                     :
                     <></>
                 }
