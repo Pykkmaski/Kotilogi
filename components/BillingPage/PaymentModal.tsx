@@ -5,7 +5,6 @@ import { Input } from "../Input/Input";
 import Modal, { ModalProps } from "../Modals/Modal";
 
 export function PaymentModal(props: ModalProps){
-
     const closeModal = () => {
         props.onHide();
     }

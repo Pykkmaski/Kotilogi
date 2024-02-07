@@ -43,7 +43,7 @@ export default async function PlanPage(){
                     <Input placeholder="Kirjoita haltijan nimi..." label="Haltija" description="Kortin haltija."/>
                     <Group direction="row" align="center" gap={4}>
                         <div className="flex-[7]">
-                            <Input name="cardNumber" placeholder="Kortin numero..." label="Numero" description="Kortin numero."/>
+                            <input name="cardNumber" placeholder="Kirjoita kortin numero..."/>
                         </div>
 
                         <div className="flex-[1]">

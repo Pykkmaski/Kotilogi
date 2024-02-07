@@ -45,10 +45,9 @@ function UserIcon2({email}){
                                 <Link href="/">Etusivu</Link>
                                 <Link href="/dashboard/properties">Hallintapaneeli</Link>
                                 <span className="cursor-pointer hover:underline" onClick={async () => {
-                                    await signOut({
-                                        callbackUrl: '/',
-                                    }).then(() => {
+                                    await signOut({redirect: false}).then(() => {
                                         toast.success('Olet kirjautunut ulos.');
+                                        router.push('/');
                                     })
                                 }}>Kirjaudu Ulos</span>
                             </nav>

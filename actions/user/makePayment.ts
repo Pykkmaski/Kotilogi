@@ -17,7 +17,6 @@ async function userHasUnresolvedPayments(userEmail: string){
 export async function makePayment(userEmail: string){
     return new Promise<void>(async (resolve, reject) => {
         try{
-           
             //Do visma payment here.
             resolve();
         }
