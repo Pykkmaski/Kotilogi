@@ -9,26 +9,28 @@ export function TypeNav({children}){
 
     return (
         <nav>
-            <div className="flex flex-row gap-[2rem] items-center">
+            <div className="flex flex-row gap-1 items-center">
                 {
                     React.Children.map(children, (child: React.ReactElement<HTMLAnchorElement>) => {
                         const params = new URLSearchParams(child.props.href);
                         const typeName = params.get('type');
+                        const baseClassName = "p-[0.75rem] flex justify-center items-center rounded-full min-w-[100px] text-black";
 
                         if(params.get('type') === currentParam){
-                            const className = [
+                            const selectedClassName = [
                                 typeName === 'heat' ? 'bg-red-500 text-white' : typeName === 'water' ? 'bg-blue-500 text-white' : 'bg-blue-200 text-black',
-                                "p-[0.75rem] flex justify-center items-center rounded-full min-w-[100px]",
+                                baseClassName,
 
-                            ]
+                            ];
+
                             return (
-                                <div className={className.join(' ')}>
+                                <div className={selectedClassName.join(' ')}>
                                     {child}
                                 </div>
                             )
                         }
                         else{
-                            return child;
+                            return <div className={baseClassName}>{child}</div>
                         }
                     })
                 }
