@@ -14,7 +14,7 @@ export function TypeNav({children}){
                     React.Children.map(children, (child: React.ReactElement<HTMLAnchorElement>) => {
                         const params = new URLSearchParams(child.props.href);
                         const typeName = params.get('type');
-                        const baseClassName = "p-1 flex justify-center items-center rounded-lg min-w-[70px] text-black text-sm";
+                        const baseClassName = "p-1 flex justify-center items-center rounded-lg min-w-[70px] text-black text-sm no-underline";
 
                         if(params.get('type') === currentParam){
                             const selectedClassName = [
@@ -31,7 +31,12 @@ export function TypeNav({children}){
                             )
                         }
                         else{
-                            return <div className={baseClassName}>{child}</div>
+                            const className = [
+                                'border border-gray-200 hover:bg-slate-100',
+                                baseClassName,
+                            ];
+
+                            return <div className={className.join(' ')}>{child}</div>
                         }
                     })
                 }
