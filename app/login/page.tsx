@@ -11,6 +11,7 @@ import { Group } from 'kotilogi-app/components/Group';
 import Link from 'next/link';
 import { useInputData } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
+import { ErrorText } from '@/components/Util/Text';
 
 export default function LoginPage(){
     const router = useRouter();
@@ -69,7 +70,7 @@ export default function LoginPage(){
                                     onChange={updateData}
                                     />
 
-                                {error === 'invalid_user' ? <span className="danger">Käyttäjää annetulla sähköpostiosoitteella ei ole!</span> : null}
+                                {error === 'invalid_user' ? <ErrorText>Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
                             </Group>
 
                             <div className="w-full">
@@ -85,7 +86,7 @@ export default function LoginPage(){
                                         className={error === 'password_mismatch' ? 'error' : undefined}
                                         onChange={updateData}/>
 
-                                    {error === 'password_mismatch' ? <span className="danger">Salasana on virheellinen!</span> : null}
+                                    {error === 'password_mismatch' ? <ErrorText>Salasana on virheellinen!</ErrorText> : null}
 
                                     <div className="w-full flex justify-end gap-2">
                                         <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
