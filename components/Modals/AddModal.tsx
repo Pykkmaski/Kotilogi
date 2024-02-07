@@ -66,8 +66,8 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
                 name="file"
                 type="file"
                 accept="application/pdf,image/jpeg"
-                label="Tiedostot"
-                description="Lähetä samalla taloon liittyviä tiedostoja."
+                label="Tiedostot ja kuvat"
+                description="Lähetä samalla taloon liittyviä tiedostoja ja kuvia."
                 multiple={true}
                 onInput={updateFiles}/>
         </BaseAddModal>
@@ -108,8 +108,8 @@ export function AddEventModal({refId, ...props}: AddModalProps){
                 name="file"
                 type="file"
                 accept="application/pdf,image/jpeg"
-                label="Tiedostot"
-                description="Voit lähettää samalla tapahtumaan liittyviä tiedostoja."
+                label="Tiedostot ja kuvat"
+                description="Lähetä samalla tapahtumaan liittyviä tiedostoja ja kuvia."
                 multiple={true}
                 onInput={updateFiles}/>
         </BaseAddModal>
