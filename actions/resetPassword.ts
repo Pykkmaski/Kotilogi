@@ -12,36 +12,28 @@ import { ErrorCode, serviceName } from 'kotilogi-app/constants';
  * Resets the password of the user encoded into the verification code.
  * @param {string} verificationCode A JWT encoding the user whose password to reset.
  * @param {string} newPassword The new password.
- * @returns {Promise<Kotilogi.Error>} Resolves to a custom Error-object containing a message and an error code.
  */
 
-export async function resetPassword(verificationToken: string, newPassword: string): Promise<Kotilogi.Error>{
-    try{
-        const decoded: any = await verifyToken(verificationToken);
-        if(decoded === null) throw new Error('Invalid token');
-
-        const currentTime = new Date().getTime();
-        if(currentTime > decoded.expires) return {
-            message: 'The token has expired! Cannot reset password.',
-            code: ErrorCode.EXPIRED,
+export async function resetPassword(verificationToken: string, newPassword: string){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            const decoded: any = await verifyToken(verificationToken);
+            if(decoded === null) throw new Error('Invalid token');
+    
+            const currentTime = new Date().getTime();
+            if(currentTime > decoded.expires) throw new Error('Token has expired!');
+    
+            await db('users').where({email: decoded.email}).update({
+                password: await bcrypt.hash(newPassword, 15) as string,
+            });
+    
+            resolve();
         }
-
-        await db('users').where({email: decoded.email}).update({
-            password: await bcrypt.hash(newPassword, 15) as string,
-        });
-
-        return {
-            message: null,
-            code: ErrorCode.SUCCESS,
+        catch(err: any){
+            console.log(err.message);
+            reject(err);
         }
-    }
-    catch(err: any){
-        console.log(err.message);
-        return {
-            message: null,
-            code: ErrorCode.UNEXPECTED,
-        }
-    }
+    });
 }
 
 /**

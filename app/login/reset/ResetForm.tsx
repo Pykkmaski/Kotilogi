@@ -18,7 +18,7 @@ import { ErrorText, SuccessText } from "kotilogi-app/components/Util/Text";
 
 function StepOne(){
     const router = useRouter();
-    const {dispatch, next} = useResetFormProvider();
+    const {dispatch} = useResetFormProvider();
     const {data, updateData} = useInputData({});
     const [status, setStatus] = useState<'success' | 'error' | 'loading' | 'idle'>('idle');
 
@@ -113,7 +113,7 @@ function StepTwo(){
     const params = useSearchParams();
 
     const [isLoading, setIsLoading] = useState(false);
-    const {previous, state} = useResetFormProvider();
+    const {previous} = useResetFormProvider();
     const {data, updateData} = useInputData({});
 
     const onSubmitHandler = async (e) => {
@@ -131,23 +131,15 @@ function StepTwo(){
             toast.error('Salasanat eivät täsmää!');
         }
         else{
-            const error = await resetPassword(verificationCode, password1);
-
-            switch(error.code){
-                case ErrorCode.SUCCESS:{
-                    toast.success('Salasana vaihdettu onnistuneesti!');
-                    sessionStorage.removeItem(emailKey);
-                    router.replace('/login');
-                }
-                    
-                break;
-    
-                case ErrorCode.INVALID_RESETCODE:
-                    toast.error('Varmennuskoodia ei hyväksytty!');
-                break;
-    
-                default: toast.error('Tapahtui odottamaton virhe!');
-            }
+            resetPassword(verificationCode, password1)
+            .then(() => {
+                toast.success('Salasana vaihdettu onnistuneesti!');
+                sessionStorage.removeItem(emailKey);
+                router.push('/login');
+            })
+            .catch(err => {
+                toast.error(err.message);
+            })
         }
 
         setIsLoading(false);
