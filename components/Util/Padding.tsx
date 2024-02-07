@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
 
 export function Padding({children}: PropsWithChildren){
-    return <div className="pl-32 pr-32">{children}</div>
+    return <div className="sm:px-4 lg:px-32">{children}</div>
 }

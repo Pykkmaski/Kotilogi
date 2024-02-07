@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import {signOut, useSession} from 'next-auth/react';
-import MainLogo from 'kotilogi-app/assets/logo_orange.png';
 import Image from 'next/image';
 import { VisibilityProvider } from 'kotilogi-app/components/Experimental/VisibilityProvider/VisibilityProvider';
 import { Group } from 'kotilogi-app/components/Group';
@@ -11,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import toast from 'react-hot-toast';
+import { Padding } from '../Util/Padding';
 
 export function Logo(){
     return (
@@ -67,30 +67,32 @@ export default function Header(){
     //<Image src={Logo} alt="Kotilogi logo"/>
 
     return(
-        <header className="w-full pt-2 pb-2 pl-32 pr-32 bg-black h-[4em] items-center flex" id="main-header">
+        <header className="w-full py-2 bg-black h-[4em] items-center flex" id="main-header">
             <div className="w-full">
-                <Group direction="row" justify='between' align="center">
-                    <Logo/>
-                    {/**Desktop nav */}
-                    <nav>
-                        {
-                            status === 'loading' ? <Spinner size="2rem"/>
-                            :
-                            userIsLoggedIn ?
-                                <UserIcon2 email={userEmail}/>
-                            :
-                            <div className="[&>*]:text-white [&>*]:font-semibold">
-                                <Group direction="row" gap={4}>
-                                    <Link href="/">Etusivu</Link>
-                                    <Link href="/login">Kirjaudu</Link>
-                                    <Link href="/register">Rekisteröidy</Link>
-                                </Group>
-                            </div>
-                        }
-                    </nav>
-                </Group>
+                <Padding>
+                    <Group direction="row" justify='between' align="center">
+                        <Logo/>
+                        {/**Desktop nav */}
+                        <nav>
+                            {
+                                status === 'loading' ? <Spinner size="2rem"/>
+                                :
+                                userIsLoggedIn ?
+                                    <UserIcon2 email={userEmail}/>
+                                :
+                                <div className="[&>*]:text-white [&>*]:font-semibold">
+                                    <Group direction="row" gap={4}>
+                                        <Link href="/">Etusivu</Link>
+                                        <Link href="/login">Kirjaudu</Link>
+                                        <Link href="/register">Rekisteröidy</Link>
+                                    </Group>
+                                </div>
+                            }
+                        </nav>
+                    </Group>
+                </Padding>
+                
             </div>
-            
         </header>
     );
 }
