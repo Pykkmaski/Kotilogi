@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
+import { serviceName } from 'kotilogi-app/constants';
 
 export const metadata = {
   title: 'Kotilogi',
@@ -18,7 +19,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Kotilogi</title>
+        <title>{serviceName}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
       </head>
 

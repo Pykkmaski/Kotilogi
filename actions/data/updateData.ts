@@ -29,12 +29,12 @@ function revalidateByTableName(tablename: string){
     }
 }
 
-/**Generic function to update data in the database. */
+/**Generic function to update data in the database.*/
 export async function updateDataById(newData: object, id: Kotilogi.IdType, tablename: string){
     return new Promise<object>(async (resolve, reject) => {
         try{
             const [updatedData]: [object] = await db(tablename).where({id}).update(newData, '*');
-            revalidateByTableName(tablename);
+            //revalidateByTableName(tablename);
             resolve(updatedData);
         }
         catch(err){
