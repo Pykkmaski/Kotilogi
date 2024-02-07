@@ -14,7 +14,7 @@ import Link from 'next/link';
 import {z} from 'zod';
 import toast from 'react-hot-toast';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
-import { MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
+import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
 
 function RegularPlanInfo(){
     return (
@@ -107,7 +107,7 @@ export default function RegisterPage(){
                         
                             <div className="w-full">
                                 <Group direction="row" justify='between' align="center">
-                                    <span>Olen lukenut kotilogin <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
+                                    <span>Olen lukenut <span data-testid="service-name">{serviceName}</span>n <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
                                     <input data-testid="register-tos-checkbox" className="aspect-square w-[20px]" type="checkbox" required />
                                 </Group>
                             </div>

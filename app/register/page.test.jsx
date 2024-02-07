@@ -1,7 +1,7 @@
 import {expect} from "@jest/globals";
 import {render, screen} from '@testing-library/react';
 import Page from './page';
-import { MIN_PASSWORD_LENGTH } from 'kotilogi-app/constants';
+import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
 import '@testing-library/jest-dom/extend-expect';
 
 // Mock useRouter:
@@ -139,6 +139,20 @@ describe('Testing the submit button', () => {
 
     it('Is marked as a submit button', () => {
         expect(submitButton).toHaveAttribute('type', 'submit');
+    });
+});
+
+describe('Testing the service name on the TOS prompt', () => {
+    var serviceNameText = null;
+    beforeEach(() => {
+        render(<Page/>);
+        serviceNameText = screen.getByTestId('service-name');
+    });
+
+    it('Gets rendered', () => expect(serviceNameText).toBeInTheDocument());
+    
+    test('Contains the correct service name as text', () => {
+        expect(serviceNameText).toHaveTextContent(serviceName);
     });
 });
 
