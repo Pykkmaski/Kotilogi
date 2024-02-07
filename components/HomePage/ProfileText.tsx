@@ -1,5 +1,6 @@
 import {serviceName} from '@/constants';
 import Link from 'next/link';
+import { PrimaryButton } from '../Button/PrimaryButton';
 
 function PricingCard({children}){
     return (
@@ -71,7 +72,11 @@ function ProfileText(){
                     </p>
                     
                     <div className="flex flex-row w-full sm:justify-center lg:justify-start sm:mb-8">
-                        <Link href="/register" className="flex justify-center items-center w-[200px] rounded-md font-semibold text-slate-900 bg-orange-300 p-2 shadow-md hover:bg-orange-200">Aloita {serviceName}n Käyttö</Link>
+                        <Link href="/register">
+                            <PrimaryButton>
+                                <span className="font-semibold">Aloita {serviceName}n Käyttö</span>
+                            </PrimaryButton>
+                        </Link>
                     </div>
                 </div>    
             </div>
