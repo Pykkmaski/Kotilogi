@@ -1,5 +1,3 @@
-import {jest} from '@jest/globals';
-
 const select = jest.fn().mockReturnThis();
 const insert = jest.fn();
 const from = select;

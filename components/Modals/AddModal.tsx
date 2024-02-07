@@ -39,6 +39,15 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
                 autoComplete="off"
                 onChange={updateData}/>
 
+            <Input
+                name="buildYear"
+                label="Rakennusvuosi"
+                description="Vuosi jona talo valmistui."
+                placeholder="Kirjoita talon rakennusvuosi..."
+                required={true}
+                autoComplete="off"
+                onChange={updateData}/>
+
             <Select name="buildingType" label="Talotyyppi" description="Talon tyyppi." onChange={updateData}>
                 {
                     buildingTypes.map(type => <Select.Option key={type}>{type}</Select.Option>)

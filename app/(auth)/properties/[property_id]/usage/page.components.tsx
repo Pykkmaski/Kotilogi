@@ -18,6 +18,7 @@ import { updateUsage } from "kotilogi-app/actions/usage/updateUsage";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { addUsageData } from "kotilogi-app/actions/usage/addUsageData";
 import { usePropertyContext } from "../_util/PropertyContextProvider";
+import Link from "next/link";
 
 type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
     type: Kotilogi.UsageTypeType,
@@ -120,6 +121,18 @@ function TypeSelector({type}: TypeSelectorProps){
             <option value="electric" selected={type === 'electric'}>Sähkö</option>
         </select>
     )
+}
+
+function TypeNav(){
+    return (
+        <nav>
+            <Group direction="row" gap={4} align="center">
+                <Link href="?type=heat">Lämmitys</Link>
+                <Link href="?type=water">Vesi</Link>
+                <Link href="?type=electric">Sähkö</Link>
+            </Group>
+        </nav>
+    );
 }
 
 type ContentProps = {
@@ -226,8 +239,11 @@ export function Content({data, type}: ContentProps){
                             <Group direction="row" justify="between" align="center">
                                 <BoxHeading>Kulutustiedot</BoxHeading>
 
-                                <Group direction="row" gap={2}>
-                                    <TypeSelector type={type}/>
+                                <Group direction="row" gap={2} align="center">
+                                    <div className="mr-8">
+                                        <TypeNav/>
+                                    </div>
+                                    
                                     <PrimaryButton onClick={() => setShowAddModal(true)}>
                                         <img src="/icons/plus.png" className="invert"/>
                                     </PrimaryButton>

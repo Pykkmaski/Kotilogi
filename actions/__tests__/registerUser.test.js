@@ -1,5 +1,5 @@
 import {registerUser} from '../registerUser';
-import db from '../../dbconfig';
+import db from '@/dbconfig';
 const bcrypt = require('bcrypt');
 
 jest.mock('../../dbconfig');
@@ -19,7 +19,7 @@ describe('Testing the user registration function', () => {
         await expect(registerUser(credentials)).resolves.toBe('success');
     });
 
-    it('Rejects if trying to register a user with a duplicate email', async () => {
+    it('Rejects if trying to register a user with the email of an existing user', async () => {
         const credentials = {
             email: 'testUser@email.com',
             password: '1234',
