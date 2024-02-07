@@ -1,14 +1,38 @@
 import Link from "next/link";
 import { Group } from "../Group";
+import { useSearchParams } from "next/navigation";
+import React from "react";
 
-export function TypeNav(){
+export function TypeNav({children}){
+    const searchParams = useSearchParams();
+    const currentParam = searchParams.get('type');
+
     return (
         <nav>
-            <Group direction="row" gap={4} align="center">
-                <Link href="?type=heat">Lämmitys</Link>
-                <Link href="?type=water">Vesi</Link>
-                <Link href="?type=electric">Sähkö</Link>
-            </Group>
+            <div className="flex flex-row gap-[2rem] items-center">
+                {
+                    React.Children.map(children, (child: React.ReactElement<HTMLAnchorElement>) => {
+                        const params = new URLSearchParams(child.props.href);
+                        const typeName = params.get('type');
+
+                        if(params.get('type') === currentParam){
+                            const className = [
+                                typeName === 'heat' ? 'bg-red-500 text-white' : typeName === 'water' ? 'bg-blue-500 text-white' : 'bg-blue-200 text-black',
+                                "p-[0.75rem] flex justify-center items-center rounded-full min-w-[100px]",
+
+                            ]
+                            return (
+                                <div className={className.join(' ')}>
+                                    {child}
+                                </div>
+                            )
+                        }
+                        else{
+                            return child;
+                        }
+                    })
+                }
+            </div>
         </nav>
     );
 }

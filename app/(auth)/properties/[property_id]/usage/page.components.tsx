@@ -230,7 +230,11 @@ export function Content({data, type}: ContentProps){
 
                                 <Group direction="row" gap={2} align="center">
                                     <div className="mr-8">
-                                        <TypeNav/>
+                                        <TypeNav>
+                                            <Link href="?type=heat">Lämmitys</Link>
+                                            <Link href="?type=water">Vesi</Link>
+                                            <Link href="?type=electric">Sähkö</Link>
+                                        </TypeNav>
                                     </div>
                                     
                                     <PrimaryButton onClick={() => setShowAddModal(true)}>
