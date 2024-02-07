@@ -61,18 +61,23 @@ export const colors = [
 
 export const energyClasses = ['A', 'B', 'C', 'D', 'E', 'F', 'Ei Määritelty'];
 
+const sharedHeatingSystems = [
+    'Öljy',
+    'Muu'
+];
+
 export const primaryHeatingSystems = [
     'Kaukolämpö',
     'Sähkö',
     'Maalämpö',
     'Vesi-Ilmalämpöpumppu',
-    'Muu'
+    ...sharedHeatingSystems,
 ];
 
 export const secondaryHeatingSystems = [
     'Takka',
     'Ilmalämpöpumppu',
-    'Muu',
+    ...sharedHeatingSystems,
     'Ei Mitään'
 ];
 
