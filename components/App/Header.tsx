@@ -10,6 +10,7 @@ import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativeP
 import { useRouter } from 'next/navigation';
 import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
+import toast from 'react-hot-toast';
 
 export function Logo(){
     return (
@@ -22,7 +23,6 @@ export function Logo(){
 }
 
 function UserIcon2({email}){
-
     const router = useRouter();
 
     const getUserIconContent = () => email ? [email[0].toUpperCase(), email[1].toUpperCase()] : null;
@@ -45,8 +45,11 @@ function UserIcon2({email}){
                                 <Link href="/">Etusivu</Link>
                                 <Link href="/dashboard/properties">Hallintapaneeli</Link>
                                 <span className="cursor-pointer hover:underline" onClick={async () => {
-                                    router.replace('/');
-                                    signOut().then(() => router.replace('/'));
+                                    await signOut({
+                                        callbackUrl: '/',
+                                    }).then(() => {
+                                        toast.success('Olet kirjautunut ulos.');
+                                    })
                                 }}>Kirjaudu Ulos</span>
                             </nav>
                         </div>

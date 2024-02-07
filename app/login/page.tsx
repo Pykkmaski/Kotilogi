@@ -25,7 +25,7 @@ export default function LoginPage(){
         const credentials = {
             email: e.target.email.value,
             password: e.target.password.value,
-            redirect: false,
+            callbackUrl: '/dashboard/properties',
         }
 
         signIn('credentials', credentials)
@@ -36,7 +36,6 @@ export default function LoginPage(){
                 }
                 else{
                     setError('success');
-                    router.push('/dashboard/properties');
                 }
             }
         })
