@@ -12,6 +12,7 @@ import { Layout } from 'kotilogi-app/components/Layout';
 import { Group } from 'kotilogi-app/components/Group';
 import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading';
 import { Flex } from 'kotilogi-app/components/Util/Flex';
+import { Padding } from '@/components/Util/Padding';
 
 export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -30,34 +31,36 @@ export default async function PropertyDetailsLayout({children, params}){
     return (
         <PropertyContextProvider value={contextValue}>
            <Layout>
-                <Header>
-                    <Group direction="col">
-                        <SecondaryHeading>Talo</SecondaryHeading>
-                        <span className="text-black text-xl">{property.title}</span>
-                    </Group>
-                </Header>
+                <Padding>
+                    <Header>
+                        <Group direction="col">
+                            <SecondaryHeading>Talo</SecondaryHeading>
+                            <span className="text-black text-xl">{property.title}</span>
+                        </Group>
+                    </Header>
                 
-                <Group gap={1} direction="row">
-                    <Flex value={1}>
-                        <NavBar>
-                            <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                            <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                            <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
-                            <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                            <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                    <Group gap={1} direction="row">
+                        <Flex value={1}>
+                            <NavBar>
+                                <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                                <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                                <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
+                                <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                                <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                                
+                                <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
                             
-                            <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
-                        
-                            <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
-                        </NavBar>
-                    </Flex>
+                                <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                            </NavBar>
+                        </Flex>
 
-                    <Flex value={8}>
-                        <div className="ml-8 mb-8">
-                            {children}
-                        </div>
-                    </Flex>
-                </Group>
+                        <Flex value={8}>
+                            <div className="ml-8 mb-8">
+                                {children}
+                            </div>
+                        </Flex>
+                    </Group>
+                </Padding>
            </Layout>
         </PropertyContextProvider>
     );
