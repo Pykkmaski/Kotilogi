@@ -2,25 +2,10 @@
 
 import { CSSProperties, useEffect, useRef, useState } from "react"
 import { Group } from "../Group";
-import style from './style.module.scss';
 
-const borderRadius = '10px';
+const containerClassName = "grid grid-cols-inputComponentColumns w-full min-h-[2rem] gap-4";
 
-const containerStyle: CSSProperties = {
-    display: 'grid',
-    width: '100%',
-    gridTemplateColumns: '1fr 3fr',
-    minHeight: '2rem',
-    gap: '1rem',
-}
-
-const inputStyle: CSSProperties = {
-    flex: 1,
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
-    borderRadius,
-    width: '100%',
-}
+const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#999] disabled:bg-[#EEE]';
 
 function Label(props: {
     text: string,
@@ -29,7 +14,7 @@ function Label(props: {
 }){
     const getRequiredBadge = () => {
         if(props.required){
-            return <span className={style.required}>Pakollinen</span>;
+            return <span className="text-[#b27070]">Pakollinen</span>;
         }
         else{
             return null;
@@ -71,7 +56,7 @@ export type InputProps = React.ComponentProps<'input'> & {
 
 export function Input({label, description, ...props}: InputProps){
     return (
-        <div className="grid grid-cols-inputComponentColumns w-full min-h-[2rem] gap-4">
+        <div className={containerClassName}>
             <Label 
                 text={label} 
                 required={props.required} 
@@ -79,8 +64,7 @@ export function Input({label, description, ...props}: InputProps){
 
             <input 
                 {...props}
-                style={inputStyle}
-                className={style.input}
+                className={inputClassName}
                 ref={props.ref}/>
         </div>
     );
@@ -98,13 +82,13 @@ export type SelectProps = React.ComponentProps<'select'> & {
  */
 export function Select(props: SelectProps){
     return (
-        <div style={containerStyle}>
+        <div className={containerClassName}>
             <Label 
                 text={props.label} 
                 description={props.description}
                 required={props.required}/>
                 
-            <select style={inputStyle} {...props} className={style.input}>
+            <select className={inputClassName} {...props}>
                 {props.children}
             </select>
         </div>
@@ -136,20 +120,17 @@ export function Textarea(props: TextAreaProps){
     const ref = useRef<HTMLTextAreaElement | null>(null);
     const [length, setLength] = useState<number | undefined>(undefined);
 
-    const textareaStyle: CSSProperties = {
-        flexFlow: 'column',
-    }
-
-    const textareaLabelStyle: CSSProperties = {
-        ...inputStyle,
-    }
+    const textareaClassName = [
+        'flex-col',
+        inputClassName,
+    ];
 
     useEffect(() => setLength(ref.current?.value.length), []);
     return (
-        <div style={containerStyle}>
+        <div className={containerClassName}>
             <Label text={props.label} {...props}/>
             <Group direction="col" gap={2}>
-                <textarea {...props} style={textareaStyle} className={style.input} ref={ref} onChange={(e) => {
+                <textarea {...props} className={textareaClassName.join(' ')} ref={ref} onChange={(e) => {
                     props.onChange && props.onChange(e);
                     setLength(ref.current?.value.length);
                 }}/>
