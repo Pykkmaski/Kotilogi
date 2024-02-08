@@ -32,9 +32,13 @@ export default async function UsagePage({params, searchParams}){
         <main>
             <Group direction="col" gap={4}>
                 <Content data={dataByType} type={type} />
-                <ContentCard title="Yleiskatsaus">
-                    <UsagePieChart data={allData}/>
-                </ContentCard>
+                <div className="w-full">
+                    <ContentCard title="Yleiskatsaus">
+                        <div className="w-[500px]">
+                            <UsagePieChart data={allData}/>
+                        </div>
+                    </ContentCard>
+                </div>
             </Group>
         </main>
     );
