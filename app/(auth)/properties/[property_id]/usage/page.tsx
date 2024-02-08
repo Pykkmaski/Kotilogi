@@ -30,7 +30,7 @@ export default async function UsagePage({params, searchParams}){
     
     const totalPrice = allData.reduce((acc: number, cur) => acc += cur.price, 0);
     return (    
-        <main>
+        <main className="w-full">
             <Group direction="col" gap={4}>
                 <Content data={dataByType} type={type} />
                 <div className="w-full">

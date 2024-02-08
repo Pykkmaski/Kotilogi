@@ -25,12 +25,10 @@ export default async function DashboardLayout({children}){
                 </Header>
 
                 <Group direction={'row'} gap={4}>
-                    <div className="flex-[1]">
-                        <NavBar>
-                            <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
-                            <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                        </NavBar>
-                    </div>
+                    <NavBar>
+                        <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
+                        <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
+                    </NavBar>
                     
                     <DashboardContextProvider user={session.user}>
                         <div className="flex-[9] ml-8 mb-8">

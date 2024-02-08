@@ -266,46 +266,47 @@ export function Content({data, type}: ContentProps){
                 
                 <Flex value={1.25}>
                     <Group direction="col" gap={2}>
-
-                        <ContentCard title="Yhteenveto">
-                            <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
-                        </ContentCard>
-                        
-                        <Flex value={1}>
-                            <ContentCard title="Nykyinen valinta">
-                                <form onSubmit={(e) => {
-                                    e.preventDefault();
-                                    updateDataPoint();
-                                }} ref={formRef} className="flex flex-col gap-4 w-full">
-                                    <Input 
-                                        onChange={updateCurrentData}
-                                        type="number" 
-                                        name="price" 
-                                        label="Hinta" 
-                                        description="Laskun hinta euroissa." 
-                                        step="0.01"
-                                        defaultValue={selectedData?.price || undefined}
-                                        disabled={isSubmitDisabled()}/>
-
-                                    <Input 
-                                        onChange={updateCurrentData}
-                                        type="date" 
-                                        name="time" 
-                                        label="Päiväys" 
-                                        description="Laskun päiväys." 
-                                        defaultValue={selectedData?.time}
-                                        disabled={isSubmitDisabled()}/>
-
-                                    <Group direction="row" gap={2} justify="end">
-                                        <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading || isSubmitDisabled()}>Poista</SecondaryButton>
-                                        <PrimaryButton 
-                                            loading={loading}
-                                            disabled={isSubmitDisabled()} 
-                                            type="submit">Päivitä</PrimaryButton>
-                                    </Group>
-                                </form>
+                        <div className="w-full">
+                            <ContentCard title="Yhteenveto">
+                                <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
                             </ContentCard>
-                        </Flex>
+                        </div>
+                        
+                        <div className="flex-1 w-full h-full">
+                            <ContentCard title="Nykyinen valinta">
+                                    <form onSubmit={(e) => {
+                                        e.preventDefault();
+                                        updateDataPoint();
+                                    }} ref={formRef} className="flex flex-col gap-4 w-full">
+                                        <Input 
+                                            onChange={updateCurrentData}
+                                            type="number" 
+                                            name="price" 
+                                            label="Hinta" 
+                                            description="Laskun hinta euroissa." 
+                                            step="0.01"
+                                            defaultValue={selectedData?.price || undefined}
+                                            disabled={isSubmitDisabled()}/>
+
+                                        <Input 
+                                            onChange={updateCurrentData}
+                                            type="date" 
+                                            name="time" 
+                                            label="Päiväys" 
+                                            description="Laskun päiväys." 
+                                            defaultValue={selectedData?.time}
+                                            disabled={isSubmitDisabled()}/>
+
+                                        <Group direction="row" gap={2} justify="end">
+                                            <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading || isSubmitDisabled()}>Poista</SecondaryButton>
+                                            <PrimaryButton 
+                                                loading={loading}
+                                                disabled={isSubmitDisabled()} 
+                                                type="submit">Päivitä</PrimaryButton>
+                                        </Group>
+                                    </form>
+                            </ContentCard>
+                        </div>
                     </Group>
                 </Flex>
             </Group>
