@@ -10,7 +10,7 @@ const containerStyle: CSSProperties = {
     display: 'grid',
     width: '100%',
     gridTemplateColumns: '1fr 3fr',
-    minHeight: '3rem',
+    minHeight: '2rem',
     gap: '1rem',
 }
 
@@ -19,6 +19,7 @@ const inputStyle: CSSProperties = {
     paddingLeft: '0.5rem',
     paddingRight: '0.5rem',
     borderRadius,
+    width: '100%',
 }
 
 function Label(props: {
@@ -26,26 +27,39 @@ function Label(props: {
     description?: string,
     required?: boolean,
 }){
-
-    const requiredBadge = props.required ? <span className={style.required}>Pakollinen</span> : null;
+    const getRequiredBadge = () => {
+        if(props.required){
+            return <span className={style.required}>Pakollinen</span>;
+        }
+        else{
+            return null;
+        }
+    }
+    const getDescription = () => {
+        if(props.description){
+            return (
+                <span className="text-base text-slate-500">{props.description}</span>
+            );
+        }
+        else{
+            return null;
+        }
+    }
 
     return (
-        <Group direction="col" justify="center">
-            <span style={{
-                fontSize: '1.1rem',
-                color: 'black',
-            }}>{props.text} {requiredBadge}</span>
-            
-            {
-                props.description ? <span style={{
-                    fontSize: '1rem',
-                    color: '#999',
-                }}>{props.description}</span>
-                :
-                null
-            }
-            
-        </Group>
+        <>
+            <div className="sm:hidden md:block">
+                <Group direction="col" justify="center">
+                    <span className="text-[1.1rem] text-black">{props.text} {getRequiredBadge()}</span>
+                    {getDescription()}
+                </Group>
+            </div>
+
+            <div className="sm:block md:hidden">
+                <label>{props.text} {getRequiredBadge()}</label>
+            </div>
+        </>
+        
     );
 }
 
@@ -55,14 +69,9 @@ export type InputProps = React.ComponentProps<'input'> & {
     ref?: any,
 }
 
-/**
- * An input component responsible for handling the submission of singular values to the server.
- * @param props 
- * @returns 
- */
 export function Input({label, description, ...props}: InputProps){
     return (
-        <div style={containerStyle}>
+        <div className="grid grid-cols-inputComponentColumns w-full min-h-[2rem] gap-4">
             <Label 
                 text={label} 
                 required={props.required} 

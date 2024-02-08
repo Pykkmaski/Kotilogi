@@ -25,6 +25,10 @@ module.exports = {
             height: '100%',
           }
         }
+      },
+
+      gridTemplateColumns: {
+        inputComponentColumns: '1fr 3fr',
       }
     },
   },
