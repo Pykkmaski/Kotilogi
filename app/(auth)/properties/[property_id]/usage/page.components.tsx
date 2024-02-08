@@ -20,6 +20,7 @@ import { addUsageData } from "kotilogi-app/actions/usage/addUsageData";
 import { usePropertyContext } from "../_util/PropertyContextProvider";
 import Link from "next/link";
 import { TypeNav } from "@/components/UsagePage/TypeNav";
+import { UsagePieChart } from "@/components/UsagePage/PieChart";
 
 type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
     type: Kotilogi.UsageTypeType,
@@ -213,95 +214,102 @@ export function Content({data, type}: ContentProps){
         resetInputData({type});
     }, [type])
 
+    const propertyId: string = data.at(0)?.refId;
+
     return (
-        <Group gap={2} direction="row">
-            <AddUsageModal 
-                show={showAddModal} 
-                onHide={() => setShowAddModal(false)} 
-                id={'add-usage-data-modal'} 
-                type={type}/>
+        <div className="flex flex-col gap-4 w-full">
+            <Group gap={2} direction="row">
+                <AddUsageModal 
+                    show={showAddModal} 
+                    onHide={() => setShowAddModal(false)} 
+                    id={'add-usage-data-modal'} 
+                    type={type}/>
 
-            <Flex value={1}>
-                <RoundedBox>
-                    <BorderHeader>
-                        <Flex value={1}>
-                            <Group direction="row" justify="between" align="center">
-                                <BoxHeading>Kulutustiedot</BoxHeading>
+                <Flex value={1}>
+                    <RoundedBox>
+                        <BorderHeader>
+                            <Flex value={1}>
+                                <Group direction="row" justify="between" align="center">
+                                    <BoxHeading>Kulutustiedot</BoxHeading>
 
-                                <Group direction="row" gap={2} align="center">
-                                    <div className="mr-8">
-                                        <TypeNav>
-                                            <Link href="?type=heat">Lämmitys</Link>
-                                            <Link href="?type=water">Vesi</Link>
-                                            <Link href="?type=electric">Sähkö</Link>
-                                        </TypeNav>
-                                    </div>
-                                    
-                                    <PrimaryButton onClick={() => setShowAddModal(true)}>
-                                        <img src="/icons/plus.png" className="invert"/>
-                                    </PrimaryButton>
+                                    <Group direction="row" gap={2} align="center">
+                                        <div className="mr-8">
+                                            <TypeNav>
+                                                <Link href="?type=heat">Lämmitys</Link>
+                                                <Link href="?type=water">Vesi</Link>
+                                                <Link href="?type=electric">Sähkö</Link>
+                                            </TypeNav>
+                                        </div>
+                                        
+                                        <PrimaryButton onClick={() => setShowAddModal(true)}>
+                                            <img src="/icons/plus.png" className="invert"/>
+                                        </PrimaryButton>
+                                    </Group>
                                 </Group>
-                            </Group>
-                        </Flex>
-                    </BorderHeader>
+                            </Flex>
+                        </BorderHeader>
 
-                    <UsageColumnChart 
-                        options={{
-                            title: {
-                                text: getChartTitle(),
-                            },
-                        }} 
-                        data={data} 
-                        dataPointColor={getDataPointColor()}
-                        onDataPointSelected={selectDataPoint}/>
-                </RoundedBox>
-            </Flex>
-            
-            
-            <Flex value={1.25}>
-                <Group direction="col" gap={2}>
+                        <UsageColumnChart 
+                            options={{
+                                title: {
+                                    text: getChartTitle(),
+                                },
+                            }} 
+                            data={data} 
+                            dataPointColor={getDataPointColor()}
+                            onDataPointSelected={selectDataPoint}/>
+                    </RoundedBox>
+                </Flex>
+                
+                
+                <Flex value={1.25}>
+                    <Group direction="col" gap={2}>
 
-                    <ContentCard title="Yleiskatsaus">
-                        <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
-                    </ContentCard>
-                    
-                    <Flex value={1}>
-                        <ContentCard title="Nykyinen valinta">
-                            <form onSubmit={(e) => {
-                                e.preventDefault();
-                                updateDataPoint();
-                            }} ref={formRef} className="flex flex-col gap-4 w-full">
-                                <Input 
-                                    onChange={updateCurrentData}
-                                    type="number" 
-                                    name="price" 
-                                    label="Hinta" 
-                                    description="Laskun hinta euroissa." 
-                                    step="0.01"
-                                    defaultValue={selectedData?.price || undefined}
-                                    disabled={isSubmitDisabled()}/>
-
-                                <Input 
-                                    onChange={updateCurrentData}
-                                    type="date" 
-                                    name="time" 
-                                    label="Päiväys" 
-                                    description="Laskun päiväys." 
-                                    defaultValue={selectedData?.time}
-                                    disabled={isSubmitDisabled()}/>
-
-                                <Group direction="row" gap={2} justify="end">
-                                    <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading || isSubmitDisabled()}>Poista</SecondaryButton>
-                                    <PrimaryButton 
-                                        loading={loading}
-                                        disabled={isSubmitDisabled()} 
-                                        type="submit">Päivitä</PrimaryButton>
-                                </Group>
-                            </form>
+                        <ContentCard title="Yleiskatsaus">
+                            <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
                         </ContentCard>
-                    </Flex>
-                </Group>
-            </Flex>
-        </Group>
-    )
+                        
+                        <Flex value={1}>
+                            <ContentCard title="Nykyinen valinta">
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    updateDataPoint();
+                                }} ref={formRef} className="flex flex-col gap-4 w-full">
+                                    <Input 
+                                        onChange={updateCurrentData}
+                                        type="number" 
+                                        name="price" 
+                                        label="Hinta" 
+                                        description="Laskun hinta euroissa." 
+                                        step="0.01"
+                                        defaultValue={selectedData?.price || undefined}
+                                        disabled={isSubmitDisabled()}/>
+
+                                    <Input 
+                                        onChange={updateCurrentData}
+                                        type="date" 
+                                        name="time" 
+                                        label="Päiväys" 
+                                        description="Laskun päiväys." 
+                                        defaultValue={selectedData?.time}
+                                        disabled={isSubmitDisabled()}/>
+
+                                    <Group direction="row" gap={2} justify="end">
+                                        <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading || isSubmitDisabled()}>Poista</SecondaryButton>
+                                        <PrimaryButton 
+                                            loading={loading}
+                                            disabled={isSubmitDisabled()} 
+                                            type="submit">Päivitä</PrimaryButton>
+                                    </Group>
+                                </form>
+                            </ContentCard>
+                        </Flex>
+                    </Group>
+                </Flex>
+            </Group>
+
+            <UsagePieChart propertyId={propertyId}/>
+        </div>
+    );
+        
 }

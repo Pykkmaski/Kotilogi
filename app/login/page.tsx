@@ -15,13 +15,12 @@ import { ErrorText } from '@/components/Util/Text';
 
 export default function LoginPage(){
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string>('none')
+    const [status, setStatus] = useState<'loading' | 'password_mismatch' | 'invalid_user' | 'idle' | 'success'>('idle');
     const {updateData} = useInputData({});
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        setStatus('loading');
 
         const credentials = {
             email: e.target.email.value,
@@ -33,24 +32,24 @@ export default function LoginPage(){
         .then(res => {
             if(res){
                 if(res.error){
-                    setError(res.error);
+                    setStatus(res.error as any);
                 }
                 else{
-                    setError('success');
+                    setStatus('success');
                     router.push('/dashboard/properties');
                 }
             }
         })
         .catch(err => {
             console.log(err.message);
-        })
-        .finally(() => setLoading(false));
-
+        });
     }
 
     const cancelHandler = () => {
         router.push('/');
     }
+
+    const loading = status === 'loading';
 
     return (
         <main className="flex flex-col justify-center items-center flex-1">
@@ -70,7 +69,7 @@ export default function LoginPage(){
                                     onChange={updateData}
                                     />
 
-                                {error === 'invalid_user' ? <ErrorText>Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
+                                {status === 'invalid_user' ? <ErrorText>Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
                             </Group>
 
                             <div className="w-full">
@@ -83,10 +82,9 @@ export default function LoginPage(){
                                         name="password" 
                                         placeholder="Kirjoita salasanasi..."
                                         required 
-                                        className={error === 'password_mismatch' ? 'error' : undefined}
                                         onChange={updateData}/>
 
-                                    {error === 'password_mismatch' ? <ErrorText>Salasana on virheellinen!</ErrorText> : null}
+                                    {status === 'password_mismatch' ? <ErrorText>Salasana on virheellinen!</ErrorText> : null}
 
                                     <div className="w-full flex justify-end gap-2">
                                         <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
