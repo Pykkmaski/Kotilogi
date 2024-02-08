@@ -1,9 +1,9 @@
 'use client';
 
-import { CSSProperties, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Group } from "../Group";
 
-const containerClassName = "grid grid-cols-inputComponentColumns w-full min-h-[2rem] gap-4";
+const containerClassName = "lg:grid lg:grid-cols-inputComponentColumns md:flex md:flex-col w-full min-h-[2rem] md:gap-1 sm:gap-1";
 
 const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#999] disabled:bg-[#EEE]';
 
@@ -20,6 +20,7 @@ function Label(props: {
             return null;
         }
     }
+
     const getDescription = () => {
         if(props.description){
             return (
@@ -32,19 +33,15 @@ function Label(props: {
     }
 
     return (
-        <>
-            <div className="sm:hidden md:block">
-                <Group direction="col" justify="center">
-                    <span className="text-[1.1rem] text-black">{props.text} {getRequiredBadge()}</span>
-                    {getDescription()}
-                </Group>
-            </div>
+        <div className="sm:hidden md:block">
+            <Group direction="col" justify="center">
+                <span className="text-[1.1rem] text-black">{props.text} {getRequiredBadge()}</span>
 
-            <div className="sm:block md:hidden">
-                <label>{props.text} {getRequiredBadge()}</label>
-            </div>
-        </>
-        
+                <div className="sm:hidden lg:block">
+                    {getDescription()}
+                </div>
+            </Group>
+        </div>
     );
 }
 
@@ -134,7 +131,6 @@ export function Textarea(props: TextAreaProps){
                     props.onChange && props.onChange(e);
                     setLength(ref.current?.value.length);
                 }}/>
-                
             </Group>
         </div>
     )
