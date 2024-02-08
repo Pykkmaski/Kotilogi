@@ -1,6 +1,7 @@
-import {serviceName} from '@/constants';
+import {Prices, serviceName} from '@/constants';
 import Link from 'next/link';
 import { PrimaryButton } from '../Button/PrimaryButton';
+import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
 
 function PricingCard({children}){
     return (
@@ -10,12 +11,17 @@ function PricingCard({children}){
     );
 }
 
+function TaxNotice(){
+    return <span className="text-sm text-white">Sisältää ALV {Prices.TAX * 100}%</span>
+}
+
 export function RegularPlanCard(){
     return (
         <PricingCard>
-            <div className="bg-gray-500 p-4">
+            <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Perus</h1>
-                <span className="text-white">19,90€ vuodessa</span>
+                <span className="text-white">{getFullPrice('REGULAR')}€ vuodessa</span>
+                <TaxNotice/>
             </div>
 
             <div className="p-4 flex-1">
@@ -36,7 +42,8 @@ export function ProPlanCard(){
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Pro</h1>
-                <span className="text-white">49,90€ vuodessa</span>
+                <span className="text-white">{getFullPrice('PRO')}€ vuodessa</span>
+                <TaxNotice/>
             </div>
 
             <div className="p-4 flex-1">

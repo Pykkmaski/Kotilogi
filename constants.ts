@@ -7,6 +7,12 @@ export const MaxProperties = {
     PRO: -1,
 }
 
+export const Prices = {
+    REGULAR: 2000,
+    PRO: 4900,
+    TAX: 0.24,
+}
+
 export const MIN_PASSWORD_LENGTH = 8;
 
 export const ErrorCode = {
