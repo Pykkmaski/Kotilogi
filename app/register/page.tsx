@@ -14,17 +14,22 @@ import Link from 'next/link';
 import {z} from 'zod';
 import toast from 'react-hot-toast';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
-import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
+import { MIN_PASSWORD_LENGTH, Prices, serviceName } from 'kotilogi-app/constants';
+import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
+
+function IncludesVATNotice(){
+    return <span>(Sis. ALV {Prices.TAX * 100}%)</span>
+};
 
 function RegularPlanInfo(){
     return (
-        <span className="text-slate-500">Olet valinnut tilauksesi tyypiksi perustilin. Perustilin vuosihinta on <span className="text-orange-500">19,90€.</span></span>
+        <span className="text-slate-500">Perustilin vuosihinta on <span className="text-orange-500">{getFullPrice('REGULAR')}€ <IncludesVATNotice/></span></span>
     );
 }
 
 function ProPlanInfo(){
     return (
-        <span className="text-slate-500">Olet valinnut tilauksesi tyypiksi pro-tilin. Pro-tilin vuosihinta on <span className="text-orange-500">49,90€.</span></span>
+        <span className="text-slate-500">Pro-tilin vuosihinta on <span className="text-orange-500">{getFullPrice('PRO')}€ <IncludesVATNotice/></span></span>
     );
 }
 
