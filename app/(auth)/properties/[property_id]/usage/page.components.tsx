@@ -254,9 +254,11 @@ export function Content({data, type}: ContentProps){
                                 title: {
                                     text: getChartTitle(),
                                 },
+
+                                colors:[getDataPointColor()],
                             }} 
                             data={data} 
-                            dataPointColor={getDataPointColor()}
+                            columnColor={getDataPointColor()}
                             onDataPointSelected={selectDataPoint}/>
                     </RoundedBox>
                 </Flex>
@@ -266,6 +268,7 @@ export function Content({data, type}: ContentProps){
                     <Group direction="col" gap={2}>
 
                         <ContentCard title="Yleiskatsaus">
+                            <UsagePieChart data={data}/>
                             <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
                         </ContentCard>
                         
@@ -307,8 +310,6 @@ export function Content({data, type}: ContentProps){
                     </Group>
                 </Flex>
             </Group>
-
-            <UsagePieChart propertyId={propertyId}/>
         </div>
     );
         

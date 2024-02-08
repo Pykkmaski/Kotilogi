@@ -11,7 +11,7 @@ type TakesDataOfType<T> = {
 type ChartProps = {
     options: ApexOptions,
     onDataPointSelected?: (index: number) => void,
-    dataPointColor: string,
+    dataPointColor?: string,
 }
 
 function Chart(props: ChartProps){
@@ -20,7 +20,6 @@ function Chart(props: ChartProps){
 
     const options: ApexOptions = {
         ...props.options,
-        colors: [props.dataPointColor],
         chart: {
             ...props.options.chart,
             events: {
@@ -72,13 +71,14 @@ export function PieChart(props: ChartProps){
     )
 }
 
-type UsageColumnChartProps = ChartProps & TakesDataOfType<Kotilogi.UsageType>;
+type UsageColumnChartProps = ChartProps & TakesDataOfType<Kotilogi.UsageType> & {
+    columnColor: string,
+};
 
 export function UsageColumnChart(props: UsageColumnChartProps){
 
     const options: ApexOptions = {
         ...props.options,
-
         xaxis: {
             ...props.options.xaxis,
             title:{
@@ -128,6 +128,8 @@ export function UsageColumnChart(props: UsageColumnChartProps){
                 data: props.data.map(d => d.price),
             }
         ],
+
+        colors: [props.columnColor],
     }
 
     return (

@@ -1,22 +1,27 @@
-import db from "kotilogi-app/dbconfig";
+'use client';
+
 import { PieChart } from "../Experimental/Chart/Chart";
 import { ApexOptions } from "apexcharts";
 
 type UsagePieChartProps = {
-    propertyId: string,
+    data: any[],
 }
 
 /**A pie chart displaying the total usage expenses. */
-export async function UsagePieChart({propertyId}: UsagePieChartProps){
-    const usageData = await db('usage').where({refId: propertyId});
+export function UsagePieChart({data}: UsagePieChartProps){
     
+    const electricData = data.filter(d => d.type === 'electric');
+    const heatingData = data.filter(d => d.type === 'heat');
+    const waterData = data.filter(d => d.type === 'water');
+
+    const reduce = (arr) => arr.reduce((acc, cur) => acc += cur.price, 0);
+
     const chartOptions: ApexOptions = {
         series: [
-            {
-                name: 'data',
-                data: usageData.map(d => d.price),
-            }
+            reduce(heatingData), reduce(waterData), reduce(electricData),
         ],
+        labels: ['Lämmityskulut', 'Vesikulut', 'Sähkökulut'],
+        colors: ['#f00', '#00f', '#0ff']
     }
 
     return (
