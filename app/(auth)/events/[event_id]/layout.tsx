@@ -1,3 +1,4 @@
+import { Padding } from "@/components/Util/Padding";
 import { Group } from "kotilogi-app/components/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
 import { SecondaryHeading } from "kotilogi-app/components/Heading";
@@ -14,25 +15,28 @@ export default async function EventLayout({children, params}){
 
     return (
         <Layout>
-            <Header>
-                <Group direction="col" gap={0}>
-                    <SecondaryHeading>Tapahtuma</SecondaryHeading>
-                    <span className="text-black text-xl">{event.title}</span>
-                </Group>
-            </Header>
+            <Padding>
+                <Header>
+                    <Group direction="col" gap={0}>
+                        <SecondaryHeading>Tapahtuma</SecondaryHeading>
+                        <span className="text-black text-xl">{event.title}</span>
+                    </Group>
+                </Header>
 
-            <SplitScreen rightWeight={7} gap="1rem">
-                <NavBar>
-                    <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
-                    <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
-                    <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
-                    <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
-                </NavBar>
+                <SplitScreen rightWeight={7} gap="1rem">
+                    <NavBar>
+                        <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
+                        <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
+                        <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
+                        <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
+                    </NavBar>
 
-                <div className="ml-8 mb-8">
-                    {children}
-                </div>
-            </SplitScreen>
+                    <div className="ml-8 mb-8">
+                        {children}
+                    </div>
+                </SplitScreen>
+            </Padding>
+            
         </Layout>
     )
 }
