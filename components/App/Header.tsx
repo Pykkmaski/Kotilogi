@@ -66,6 +66,26 @@ export default function Header(){
     const userEmail = data?.user?.email;
     //<Image src={Logo} alt="Kotilogi logo"/>
 
+    const getNavContent = () => {
+        if(status === 'loading'){
+            return <Spinner size="2rem"/>;
+        }
+        else if(userIsLoggedIn){
+            return <UserIcon2 email={userEmail}/>;
+        }
+        else{
+            return (
+                <div className="[&>*]:text-white [&>*]:font-semibold">
+                    <Group direction="row" gap={4}>
+                        <Link href="/">Etusivu</Link>
+                        <Link href="/login">Kirjaudu</Link>
+                        <Link href="/register">Rekisteröidy</Link>
+                    </Group>
+                </div>
+            );
+        }
+    }
+
     return(
         <header className="w-full py-2 bg-black h-[4em] items-center flex" id="main-header">
             <div className="w-full">
@@ -74,24 +94,10 @@ export default function Header(){
                         <Logo/>
                         {/**Desktop nav */}
                         <nav>
-                            {
-                                status === 'loading' ? <Spinner size="2rem"/>
-                                :
-                                userIsLoggedIn ?
-                                    <UserIcon2 email={userEmail}/>
-                                :
-                                <div className="[&>*]:text-white [&>*]:font-semibold">
-                                    <Group direction="row" gap={4}>
-                                        <Link href="/">Etusivu</Link>
-                                        <Link href="/login">Kirjaudu</Link>
-                                        <Link href="/register">Rekisteröidy</Link>
-                                    </Group>
-                                </div>
-                            }
+                            {getNavContent()}
                         </nav>
                     </Group>
                 </Padding>
-                
             </div>
         </header>
     );
