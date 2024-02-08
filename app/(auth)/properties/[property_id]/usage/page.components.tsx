@@ -267,7 +267,7 @@ export function Content({data, type}: ContentProps){
                 <Flex value={1.25}>
                     <Group direction="col" gap={2}>
 
-                        <ContentCard title="Yleiskatsaus">
+                        <ContentCard title="Yhteenveto">
                             <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
                         </ContentCard>
                         
