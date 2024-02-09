@@ -1,9 +1,21 @@
-import { PrimaryButton } from "../Button/PrimaryButton";
+'use client';
 
-export function SelectTimeSpanButton(){
+import { PrimaryButton } from "../Button/PrimaryButton";
+import { DateRangeSelector } from "../DateRangeSelector/DateRangeSelector";
+import { VisibilityProvider } from "../Experimental/VisibilityProvider/VisibilityProvider";
+
+export function SelectTimeSpanButton({children}){
     return (
-        <>
-            <PrimaryButton>Valitse Aikaväli</PrimaryButton>
-        </>  
+        <VisibilityProvider>
+            <div className="flex flex-col relative gap-4">
+                <VisibilityProvider.Trigger>
+                    <PrimaryButton>Valitse Aikaväli</PrimaryButton>
+                </VisibilityProvider.Trigger>
+
+                <VisibilityProvider.Target>
+                    {children}
+                </VisibilityProvider.Target>
+            </div>
+        </VisibilityProvider>
     );
 }

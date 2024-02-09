@@ -7,6 +7,7 @@ import { Overview } from '@/components/UsagePage/Overview';
 import { BorderHeader } from '@/components/Header/Header';
 import { BoxHeading } from '@/components/Heading';
 import { SelectTimeSpanButton } from '@/components/UsagePage/SelectTimespanButton';
+import { DateRangeSelector } from '@/components/DateRangeSelector/DateRangeSelector';
 
 async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'electric'){
     return new Promise<Kotilogi.UsageType[] | undefined>(async (resolve, reject) => {
@@ -42,9 +43,6 @@ export default async function UsagePage({params, searchParams}){
                         <BorderHeader>
                             <div className="flex justify-between items-center w-full">
                                 <BoxHeading>Yleiskatsaus</BoxHeading>
-                                <div className="shadow-md">
-                                    <SelectTimeSpanButton/>
-                                </div>
                             </div>
                         </BorderHeader>
 
