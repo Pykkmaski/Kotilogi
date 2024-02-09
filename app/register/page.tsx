@@ -5,17 +5,14 @@ import { Input, Select } from 'kotilogi-app/components/Input/Input';
 import { Group } from 'kotilogi-app/components/Group';
 import {SecondaryButton} from 'kotilogi-app/components/Button/SecondaryButton';
 import {PrimaryButton} from 'kotilogi-app/components/Button/PrimaryButton';
-import { useInputData, useStatus } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
-import { registerUser } from 'kotilogi-app/actions/registerUser';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
 import Link from 'next/link';
 import {z} from 'zod';
-import toast from 'react-hot-toast';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
 import { MIN_PASSWORD_LENGTH, Prices, serviceName } from 'kotilogi-app/constants';
 import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
+import { useRegister } from './useRegister';
 
 function IncludesVATNotice(){
     return <span>(Sis. ALV {Prices.TAX * 100}%)</span>
@@ -33,46 +30,11 @@ function ProPlanInfo(){
     );
 }
 
-const RegisterSchema = z.object({
-    email: z.string().email(),
-    password1: z.string().min(8, 'password_len'),
-    password2: z.string(),
-    plan: z.enum(['pro', 'regular']),
-});
-
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage(){
-    const {data, updateData} = useInputData({plan: 'regular'});
-    const [status, setStatus] = useStatus('idle');
-    const [error, setError] = useState<string | null>(null);
     
+    const {status, registerHandler, data, updateData} = useRegister();
     const router = useRouter();
-
-    const checkPasswordMatch = (password1: string, password2: string) => {
-        return password1 === password2;
-    }
-
-    const register = (e: any) => {
-        e.preventDefault();
-
-        if(!checkPasswordMatch(data.password, e.target.password2.value)){
-            setError('password_mismatch');
-            return;
-        }
-
-        setStatus('loading');
-
-        registerUser(data)
-        .then(status => {
-            setStatus('idle');
-            toast.success('Rekisteröityminen onnistui!');
-            router.replace('/login');
-        })
-        .catch(err => {
-            toast.error(err.message);
-            setError(err.message);
-        });
-    }
 
     const loading = status === 'loading';
 
@@ -80,12 +42,12 @@ export default function RegisterPage(){
         <main className="flex flex-col flex-1 justify-center items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={register} data-testid="register-form">
+                    <form onSubmit={registerHandler} data-testid="register-form">
                         <Group direction="col" gap={4}>
                             <Group direction="col" align="end">
                                 <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
                                     placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
-                                {error === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
+                                {status === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
                             </Group>
                         
                             <Group direction="col" align='end' gap={4}>
@@ -95,7 +57,7 @@ export default function RegisterPage(){
                                 <Input data-testid="register-password2-input" label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
                                     placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2"/>
 
-                                {error === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
+                                {status === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
                             </Group>
                             
                             <div className="w-full items-end">
