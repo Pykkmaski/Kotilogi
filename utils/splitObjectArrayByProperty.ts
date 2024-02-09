@@ -3,6 +3,6 @@
  * defined property set to the defined value.
  */
 
-export function splitObjectArrayByProperty<T extends object>(arr: T[], propertyName: keyof T, propertyValue: any){
-    
+export function splitObjectArrayByProperty<T extends object, K = keyof T>(arr: T[], propertyName: keyof K, values: any[]){
+    const obj: any = {};
 }

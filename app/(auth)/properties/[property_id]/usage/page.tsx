@@ -3,6 +3,7 @@ import { Content } from './page.components';
 import { UsagePieChart } from '@/components/UsagePage/PieChart';
 import { ContentCard } from '@/components/RoundedBox/RoundedBox';
 import { Group } from '@/components/Group';
+import { Overview } from '@/components/UsagePage/Overview';
 
 async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'electric'){
     return new Promise<Kotilogi.UsageType[] | undefined>(async (resolve, reject) => {
@@ -27,25 +28,14 @@ export default async function UsagePage({params, searchParams}){
     const allData = await getUsageData(params.property_id);
 
     if(!dataByType || !allData) throw new Error('Kulutustietojen lataus epäonnistui!');
-    
-    const totalPrice = allData.reduce((acc: number, cur) => acc += cur.price, 0);
+
     return (    
         <main className="w-full">
             <Group direction="col" gap={4}>
                 <Content data={dataByType} type={type} />
                 <div className="w-full">
                     <ContentCard title="Yleiskatsaus">
-                        <div className="flex gap-4">
-                            <div className="w-[500px]">
-                                <UsagePieChart data={allData}/>
-                            </div>
-
-                            <div className="text-slate-500 flex flex-col">
-                                <span className="text-sm">Kuluihin käytetty yhteensä:</span>
-                                <h1 className="text-4xl">{totalPrice.toFixed(2)}€</h1>
-                            </div>
-                            
-                        </div>
+                        <Overview data={allData}/>
                     </ContentCard>
                 </div>
             </Group>
