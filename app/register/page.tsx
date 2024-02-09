@@ -32,10 +32,7 @@ function ProPlanInfo(){
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage(){
-    
     const {status, registerHandler, data, updateData} = useRegister();
-    const router = useRouter();
-
     const loading = status === 'loading';
 
     return (
