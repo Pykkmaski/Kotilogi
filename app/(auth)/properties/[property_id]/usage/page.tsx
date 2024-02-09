@@ -35,6 +35,8 @@ export default async function UsagePage({params, searchParams}){
     return (    
         <main className="w-full mb-10">
             <Group direction="col" gap={4}>
+                <Content data={dataByType} type={type} />
+
                 <div className="w-full">
                     <RoundedBox>
                         <BorderHeader>
@@ -49,8 +51,6 @@ export default async function UsagePage({params, searchParams}){
                         <Overview data={allData}/>
                     </RoundedBox>
                 </div>
-
-                <Content data={dataByType} type={type} />
             </Group>
         </main>
     );

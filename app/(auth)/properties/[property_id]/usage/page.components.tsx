@@ -285,8 +285,7 @@ export function Content({data, type}: ContentProps){
                                             label="Hinta" 
                                             description="Laskun hinta euroissa." 
                                             step="0.01"
-                                            defaultValue={selectedData?.price || undefined}
-                                            disabled={isSubmitDisabled()}/>
+                                            defaultValue={selectedData?.price || undefined}/>
 
                                         <Input 
                                             onChange={updateCurrentData}
