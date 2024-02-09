@@ -36,6 +36,15 @@ function ElectricityPrice({electricityPrice}){
     )
 }
 
+function MaxPrice({maxPrice}){
+    return (
+        <div className="text-slate-400 flex flex-col">
+            <span className="text-sm">Korkein kulu aikaväliltä:</span>
+            <h1 className="text-4xl">{maxPrice.toFixed(2)}€</h1>
+        </div>
+    );
+}
+
 export function Overview({data}){
     const getUsagePriceByType = (type?: Kotilogi.UsageTypeType): number => {
         if(type){
@@ -50,7 +59,8 @@ export function Overview({data}){
     const waterPrice = getUsagePriceByType('water');
     const heatingPrice = getUsagePriceByType('heat');
     const electricityPrice = getUsagePriceByType('electric');
-
+    
+    const currentHighest = Math.max(waterPrice, heatingPrice, electricityPrice);
     return (
         <div className="flex gap-4">
             <div className="w-[500px]">
@@ -59,9 +69,7 @@ export function Overview({data}){
 
             <div className="flex flex-col gap-4">
                 <TotalPrice totalPrice={totalPrice}/>
-                <HeatingPrice heatingPrice={heatingPrice}/>
-                <WaterPrice waterPrice={waterPrice}/>
-                <ElectricityPrice electricityPrice={electricityPrice}/>
+                <MaxPrice maxPrice={currentHighest}/>
             </div>
         </div>
     );

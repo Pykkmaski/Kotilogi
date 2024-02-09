@@ -1,4 +1,4 @@
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useChangeInput } from "./useChangeInput";
 import { useEffect } from "react";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
@@ -11,11 +11,15 @@ import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks"
 export function useQuery(queryParamName: string, initialQueryValue: string | null, queryDelay: number = 0){
     const router = useRouter();
     const route = usePathname();
+    const searchParams = useSearchParams();
+
     const {data, updateData} = useInputData({query: initialQueryValue});
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            router.push(route + `?${queryParamName}=${data.query}`);
+            const currentQuery = new URLSearchParams(searchParams);
+            currentQuery.set(queryParamName, data.query);
+            router.push(route + `?${currentQuery.toString()}`);
         }, queryDelay);
 
         return () => clearTimeout(timeout);
