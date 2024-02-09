@@ -5,7 +5,7 @@ import { Group } from "../Group";
 
 const containerClassName = "lg:grid lg:grid-cols-inputComponentColumns md:flex md:flex-col w-full min-h-[2rem] md:gap-1 sm:gap-1";
 
-const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#999] disabled:bg-[#EEE]';
+const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE]';
 
 function Label(props: {
     text: string,

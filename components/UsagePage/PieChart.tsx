@@ -5,14 +5,15 @@ import { PieChart } from "../Experimental/Chart/Chart";
 import { ApexOptions } from "apexcharts";
 
 type UsagePieChartProps = {
-    data: any[],
+    data: Kotilogi.UsageType[],
 }
 
 /**A pie chart displaying the total usage expenses. */
 export function UsagePieChart({data}: UsagePieChartProps){
     
     const dataFiltered = filterIntoObject(data, 'type', ['heat', 'water', 'electric']);
-    const reduce = (arr) => arr.reduce((acc, cur) => acc += cur.price, 0);
+
+    const reduce = (arr: Kotilogi.UsageType[]) => arr.reduce((acc, cur) => acc += cur.price, 0);
 
     const chartOptions: ApexOptions = {
         series: [
