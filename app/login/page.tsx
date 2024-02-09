@@ -12,38 +12,12 @@ import Link from 'next/link';
 import { useInputData } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
 import { ErrorText } from '@/components/Util/Text';
+import { useLogin } from './useLogin';
 
 export default function LoginPage(){
     const router = useRouter();
-    const [status, setStatus] = useState<'loading' | 'password_mismatch' | 'invalid_user' | 'idle' | 'success'>('idle');
     const {updateData} = useInputData({});
-
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        setStatus('loading');
-
-        const credentials = {
-            email: e.target.email.value,
-            password: e.target.password.value,
-            redirect: false,
-        }
-
-        signIn('credentials', credentials)
-        .then(res => {
-            if(res){
-                if(res.error){
-                    setStatus(res.error as any);
-                }
-                else{
-                    setStatus('success');
-                    router.push('/dashboard/properties');
-                }
-            }
-        })
-        .catch(err => {
-            console.log(err.message);
-        });
-    }
+    const {loginHandler, status} = useLogin();
 
     const cancelHandler = () => {
         router.push('/');
@@ -55,7 +29,7 @@ export default function LoginPage(){
         <main className="flex flex-col justify-center items-center flex-1">
             <Padding>
                 <ContentCard title="Kirjaudu Sisään">
-                    <form onSubmit={onSubmitHandler}>
+                    <form onSubmit={loginHandler}>
                         <Group gap={4} direction="col">
                             <Group direction='col' align="end" gap={2}>
                                 <Input 
@@ -69,7 +43,7 @@ export default function LoginPage(){
                                     onChange={updateData}
                                     />
 
-                                {status === 'invalid_user' ? <ErrorText>Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
+                                {status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
                             </Group>
 
                             <div className="w-full">
@@ -84,7 +58,7 @@ export default function LoginPage(){
                                         required 
                                         onChange={updateData}/>
 
-                                    {status === 'password_mismatch' ? <ErrorText>Salasana on virheellinen!</ErrorText> : null}
+                                    {status === 'password_mismatch' ? <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText> : null}
 
                                     <div className="w-full flex justify-end gap-2">
                                         <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
@@ -105,6 +79,7 @@ export default function LoginPage(){
                                         type="submit"
                                         disabled={loading}
                                         loading={loading}
+                                        data-testid="login-btn"
                                     >Kirjaudu</PrimaryButton>
                                 </Group>
                             </div>
