@@ -21,7 +21,7 @@ export function UsagePieChart({data}: UsagePieChartProps){
             reduce(heatingData), reduce(waterData), reduce(electricData),
         ],
         labels: ['Lämmityskulut', 'Vesikulut', 'Sähkökulut'],
-        colors: ['#f00', '#00f', '#0ff']
+        colors: ['#f00', '#00f', '#ff0']
     }
 
     return (

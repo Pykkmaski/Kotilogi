@@ -30,7 +30,7 @@ export default async function UsagePage({params, searchParams}){
     if(!dataByType || !allData) throw new Error('Kulutustietojen lataus epäonnistui!');
 
     return (    
-        <main className="w-full">
+        <main className="w-full mb-10">
             <Group direction="col" gap={4}>
                 <Content data={dataByType} type={type} />
                 <div className="w-full">

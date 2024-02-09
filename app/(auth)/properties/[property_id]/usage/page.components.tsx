@@ -194,7 +194,7 @@ export function Content({data, type}: ContentProps){
         }
 
         if(type === 'electric'){
-            return '#0ff';
+            return '#ff0';
         }
 
         return '#000';

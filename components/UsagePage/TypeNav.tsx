@@ -19,7 +19,7 @@ export function TypeNav({children}){
                         if(params.get('type') === currentParam){
                             const selectedClassName = [
                                 'font-semibold shadow-md',
-                                typeName === 'heat' ? 'bg-red-500 text-white' : typeName === 'water' ? 'bg-blue-500 text-white' : 'bg-blue-200 text-black',
+                                typeName === 'heat' ? 'bg-red-500 text-white' : typeName === 'water' ? 'bg-blue-500 text-white' : 'bg-yellow-400 text-black',
                                 baseClassName,
 
                             ];
