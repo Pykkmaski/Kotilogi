@@ -38,7 +38,7 @@ export default function RegisterPage(){
         <main className="flex flex-col flex-1 justify-center sm:items-[none] md:items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col gap-8 sm:w-full">
+                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col md:gap-8 sm:gap-4 sm:w-full">
                         <div className="flex flex-col gap-2">
                             <MediumDevices>
                                 <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
@@ -77,7 +77,13 @@ export default function RegisterPage(){
                         <div className="w-full items-end">
                             <div className="flex flex-col gap-2">
                                 <MediumDevices>
-                                    <Select name="plan" label="Tilaustyyppi" description="Valitse tilauksesi tyyppi." onChange={updateData} required> 
+                                    <Select 
+                                        name="plan" 
+                                        label="Tilaustyyppi" 
+                                        description="Valitse tilauksesi tyyppi." 
+                                        onChange={updateData} 
+                                        required> 
+                                        
                                         <Select.Option value="regular">Perus</Select.Option>
                                         <Select.Option value="pro">Pro</Select.Option>
                                     </Select>
@@ -109,7 +115,13 @@ export default function RegisterPage(){
                                 <Link href="/" data-testid="register-cancel-btn">
                                     <SecondaryButton disabled={loading}>Peruuta</SecondaryButton>
                                 </Link>
-                                <PrimaryButton data-testid="register-submit-btn" type="submit" disabled={loading} loading={loading}>Rekisteröidy</PrimaryButton>
+
+                                <PrimaryButton 
+                                    title="Rekisteröidy kotilokin käyttäjäksi" 
+                                    data-testid="register-submit-btn" 
+                                    type="submit" 
+                                    disabled={loading} 
+                                    loading={loading}>Rekisteröidy</PrimaryButton>
                             </Group>
                         </div>
                     </form>

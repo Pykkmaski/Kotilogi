@@ -30,7 +30,7 @@ export default function LoginPage(){
         <main className="flex flex-col justify-center md:items-center sm:items-[none] flex-1">
             <Padding>
                 <ContentCard title="Kirjaudu Sisään">
-                    <form onSubmit={loginHandler} className="w-full flex flex-col gap-4">
+                    <form onSubmit={loginHandler} className="w-full flex flex-col sm:gap-4 md:gap-8">
                         <div className="flex flex-col gap-2">
                             <MediumDevices>
                                 <Input 
@@ -49,7 +49,10 @@ export default function LoginPage(){
                                 <input placeholder="Kirjoita sähköpostiosoitteesi..." className="w-full" name="email" type="email" onChange={updateData}/>
                             </SmallDevices>
                             
-                            {status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
+                            <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                {status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
+                            </div>
+                            
                         </div>
  
                         <div className="flex flex-col gap-2">
@@ -69,8 +72,10 @@ export default function LoginPage(){
                                 <input placeholder="Kirjoita salasanasi..." name="password" type="password" onChange={updateData}/>
                             </SmallDevices>
                             
-                            {status === 'password_mismatch' ? <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText> : null}
-
+                            <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                {status === 'password_mismatch' ? <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText> : null}
+                            </div>
+                            
                             <div className="w-full flex justify-end gap-2">
                                 <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
                             </div>
