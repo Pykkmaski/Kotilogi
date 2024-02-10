@@ -60,7 +60,7 @@ function IntroSection(){
 
 function ContactSection(){
     return (
-        <div className="flex w-full justify-center">
+        <div className="flex w-full">
             <Footer/>
         </div>
     )
@@ -68,7 +68,7 @@ function ContactSection(){
 
 export default function HomePage(){
     return (
-        <main className="flex-auto">
+        <main>
             <HeroSection/>
             <IntroSection/>
             <ContactSection/>

@@ -4,10 +4,10 @@ import style from './style.module.scss';
 
 function Footer(props){
     return (
-        <div className="flex flex-col items-center justify-center pt-[5rem] pb-[5rem] bg-gray-900 gap-4 w-full text-white">
-            <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col justify-center pt-[5rem] pb-[5rem] bg-gray-900 gap-4 w-full text-white">
+            <div className="flex flex-col gap-4 sm:px-4 md:px-32 md:items-center sm:items-[none]">
                 <header>
-                    <h1 className="text-3xl">Ota Yhteyttä</h1>
+                    <h1 className="text-3xl text-center">Ota Yhteyttä</h1>
                 </header>
 
                 <p className="text-center">
@@ -20,7 +20,7 @@ function Footer(props){
                 </div>
             </div>
 
-            <footer>
+            <footer className="w-full flex flex-col items-center">
                 <Link href="/tos" className="text-white">Käyttöehdot</Link>
                 <div className="flex justify-center gap-4 mt-[2em]">
                     <a className="fa fa-instagram text-white cursor-pointer no-underline before:text-[42px]" title="Instagram">

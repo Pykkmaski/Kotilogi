@@ -38,19 +38,21 @@ export default async function PropertyDetailsLayout({children, params}){
                             <span className="text-black text-xl">{property.title}</span>
                         </Group>
                     </Header>
-                
+                    
                     <Group gap={1} direction="row">
                         <Flex value={1}>
                             <NavBar>
-                                <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                                <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                                <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
-                                <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                                <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                                <div className="text-white">
+                                    <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                                    <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                                    <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
+                                    <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                                    <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                                    
+                                    <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
                                 
-                                <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
-                            
-                                <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                                    <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                                </div>
                             </NavBar>
                         </Flex>
 

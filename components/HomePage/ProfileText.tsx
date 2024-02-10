@@ -64,8 +64,8 @@ function ProfileText(){
         <div className="flex sm:flex-col lg:flex-row w-full">
             <div className="flex-1">
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-4xl text-slate-500 sm:text-center lg:text-left">Mikä {serviceName}?</h1>
-                    <p className="mt-4 mb-4 text-lg">
+                    <h1 className="md:text-4xl sm:text-xl text-slate-500 sm:text-center lg:text-left">Mikä {serviceName}?</h1>
+                    <p className="mt-4 mb-4 md:text-lg sm:text-base">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
                         mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.<br/><br/>
@@ -88,7 +88,7 @@ function ProfileText(){
                 </div>    
             </div>
 
-            <div className="flex-1 flex flex-row-reverse gap-4 items-center justify-center">
+            <div className="flex-1 md:flex flex-row-reverse gap-4 items-center justify-center sm:hidden">
                 <ProPlanCard/>
                 <RegularPlanCard/>
             </div>
