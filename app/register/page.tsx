@@ -11,6 +11,7 @@ import { ErrorText } from 'kotilogi-app/components/Util/Text';
 import { MIN_PASSWORD_LENGTH, Prices, serviceName } from 'kotilogi-app/constants';
 import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
 import { useRegister } from './useRegister';
+import { MediumDevices, SmallDevices } from '@/components/Util/Media';
 
 function IncludesVATNotice(){
     return <span>(Sis. ALV {Prices.TAX * 100}%)</span>
@@ -34,55 +35,83 @@ export default function RegisterPage(){
     const loading = status === 'loading';
 
     return (
-        <main className="flex flex-col flex-1 justify-center items-center">
+        <main className="flex flex-col flex-1 justify-center sm:items-[none] md:items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={registerHandler} data-testid="register-form">
-                        <Group direction="col" gap={4}>
-                            <Group direction="col" align="end">
+                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col gap-4 sm:w-full">
+                        <div className="flex flex-col gap-2">
+                            <MediumDevices>
                                 <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
                                     placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
-                                {status === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
-                            </Group>
-                        
-                            <Group direction="col" align='end' gap={4}>
-                                <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
-                                    placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
+                            </MediumDevices>
 
-                                <Input data-testid="register-password2-input" label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
-                                    placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2"/>
-
-                                {status === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
-                            </Group>
+                            <SmallDevices>
+                                <input name="email" type="email" placeholder="Kirjoita sähköpostiosoite..." onChange={updateData}/>
+                            </SmallDevices>
                             
-                            <div className="w-full items-end">
-                                <Group direction="col" gap={2} align="end">
+                            {status === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
+                        </div>
+                    
+                        <div className="flex flex-col gap-2">
+                            <MediumDevices>
+                                <div className="flex flex-col gap-4">
+                                    <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
+                                        placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
+
+                                    <Input data-testid="register-password2-input" label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
+                                        placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2"/>
+                                </div>
+                            </MediumDevices>
+
+                            <SmallDevices>
+                                <div className="flex flex-col gap-4">
+                                    <input name="password1" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana..."/>
+                                    <input name="password2" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana uudelleen..."/>
+                                </div>
+                            </SmallDevices>
+                           
+
+                            {status === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
+                        </div>
+                        
+                        <div className="w-full items-end">
+                            <div className="flex flex-col gap-2">
+                                <MediumDevices>
                                     <Select name="plan" label="Tilaustyyppi" description="Valitse tilauksesi tyyppi." onChange={updateData} required> 
                                         <Select.Option value="regular">Perus</Select.Option>
                                         <Select.Option value="pro">Pro</Select.Option>
                                     </Select>
-                                    {
-                                        data.plan === 'regular' ? <RegularPlanInfo/> : <ProPlanInfo/>
-                                    }
-                                </Group>
-                            </div>
-                        
-                            <div className="w-full">
-                                <Group direction="row" justify='between' align="center">
-                                    <span>Olen lukenut <span data-testid="service-name">{serviceName}</span>n <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
-                                    <input data-testid="register-tos-checkbox" className="aspect-square w-[20px]" type="checkbox" required />
-                                </Group>
-                            </div>
+                                </MediumDevices>
 
-                            <div className="w-full mt-4 border-t-[1px] pt-[1rem]">
-                                <Group direction="row" justify='end' gap={2}>
-                                    <Link href="/" data-testid="register-cancel-btn">
-                                        <SecondaryButton disabled={loading}>Peruuta</SecondaryButton>
-                                    </Link>
-                                    <PrimaryButton data-testid="register-submit-btn" type="submit" disabled={loading} loading={loading}>Rekisteröidy</PrimaryButton>
-                                </Group>
+                                <SmallDevices>
+                                    <select name="plan" onChange={updateData} required className="mb-4">
+                                        <option selected disabled>Valitse Tilauksesi Tyyppi...</option>
+                                        <option value="regular">Perus</option>
+                                        <option value="pro">Pro</option>
+                                    </select>
+                                </SmallDevices>
+                                
+                                {
+                                    data.plan === 'regular' ? <RegularPlanInfo/> : <ProPlanInfo/>
+                                }
                             </div>
-                        </Group>
+                        </div>
+                    
+                        <div className="w-full">
+                            <Group direction="row" justify='between' align="center">
+                                <span>Olen lukenut <span data-testid="service-name">{serviceName}</span>n <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
+                                <input data-testid="register-tos-checkbox" className="aspect-square w-[20px]" type="checkbox" required />
+                            </Group>
+                        </div>
+
+                        <div className="w-full mt-4 border-t-[1px] pt-[1rem]">
+                            <Group direction="row" justify='end' gap={2}>
+                                <Link href="/" data-testid="register-cancel-btn">
+                                    <SecondaryButton disabled={loading}>Peruuta</SecondaryButton>
+                                </Link>
+                                <PrimaryButton data-testid="register-submit-btn" type="submit" disabled={loading} loading={loading}>Rekisteröidy</PrimaryButton>
+                            </Group>
+                        </div>
                     </form>
                 </ContentCard>
             </Padding>
