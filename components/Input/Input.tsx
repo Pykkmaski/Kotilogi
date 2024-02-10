@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Group } from "../Group";
+import { MediumDevices } from "../Util/Media";
 
-const containerClassName = "grid grid-cols-inputComponentColumns w-full min-h-[2rem] md:gap-1";
-
-const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE]';
+const containerClassName = "md:grid md:grid-cols-inputComponentColumns w-full md:min-h-[2rem] md:gap-1";
+const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE] w-full';
 
 function Label(props: {
     text: string,
@@ -49,11 +49,13 @@ export type InputProps = React.ComponentProps<'input'> & {
 export function Input({label, description, ...props}: InputProps){
     return (
         <div className={containerClassName}>
-            <Label 
-                text={label} 
-                required={props.required} 
-                description={description}/>
-
+            <MediumDevices>
+                <Label 
+                    text={label} 
+                    required={props.required} 
+                    description={description}/>
+            </MediumDevices>
+            
             <input 
                 {...props}
                 className={inputClassName}
@@ -75,11 +77,13 @@ export type SelectProps = React.ComponentProps<'select'> & {
 export function Select(props: SelectProps){
     return (
         <div className={containerClassName}>
-            <Label 
-                text={props.label} 
-                description={props.description}
-                required={props.required}/>
-                
+            <MediumDevices>
+                <Label 
+                    text={props.label} 
+                    description={props.description}
+                    required={props.required}/>
+            </MediumDevices>
+             
             <select className={inputClassName} {...props}>
                 {props.children}
             </select>

@@ -40,66 +40,60 @@ export default function RegisterPage(){
                 <ContentCard title={'Rekisteröidy'}>
                     <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col md:gap-8 sm:gap-4 sm:w-full">
                         <div className="flex flex-col gap-2">
-                            <MediumDevices>
-                                <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
-                                    placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
-                            </MediumDevices>
+                            <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
+                                placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
 
-                            <SmallDevices>
-                                <input required name="email" type="email" placeholder="Kirjoita sähköpostiosoite..." onChange={updateData}/>
-                            </SmallDevices>
-                            
-                            {status === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
+                            {
+                                status === 'user_exists' ? (
+                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                        <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText>
+                                    </div>
+                                )
+                                :
+                                null
+                            }
+                           
                         </div>
                     
                         <div className="flex flex-col gap-2">
-                            <MediumDevices>
-                                <div className="flex flex-col gap-8">
-                                    <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
-                                        placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
+                            <div className="flex flex-col md:gap-8 sm:gap-4">
+                                <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
+                                    placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
 
-                                    <Input data-testid="register-password2-input" label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
-                                        placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2"/>
-                                </div>
-                            </MediumDevices>
-
-                            <SmallDevices>
-                                <div className="flex flex-col gap-4">
-                                    <input required name="password1" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana..."/>
-                                    <input name="password2" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana uudelleen..."/>
-                                </div>
-                            </SmallDevices>
-                           
-
-                            {status === 'password_mismatch' ? <ErrorText>Salasanat eivät täsmää</ErrorText> : null}
+                                <Input data-testid="register-password2-input" label="Vahvista salasana" description="Kirjoita salasana uudelleen." type="password" required
+                                    placeholder='Kirjoita salasana uudelleen...' autoComplete='new-password' name="password2"/>
+                            </div>
+                       
+                            {/**Align the error to the right if on a bigger than mobile device */}
+                            {
+                                status === 'password_mismatch' ? (
+                                    <div className="w-full flex sm:justify-normal md:justify-end">
+                                        <ErrorText>Salasanat eivät täsmää</ErrorText>
+                                    </div>
+                                )
+                                :
+                                null
+                            }
                         </div>
                         
                         <div className="w-full items-end">
                             <div className="flex flex-col gap-2">
-                                <MediumDevices>
-                                    <Select 
-                                        name="plan" 
-                                        label="Tilaustyyppi" 
-                                        description="Valitse tilauksesi tyyppi." 
-                                        onChange={updateData} 
-                                        required> 
-                                        
-                                        <Select.Option value="regular">Perus</Select.Option>
-                                        <Select.Option value="pro">Pro</Select.Option>
-                                    </Select>
-                                </MediumDevices>
+                                <Select 
+                                    name="plan" 
+                                    label="Tilaustyyppi" 
+                                    description="Valitse tilauksesi tyyppi." 
+                                    onChange={updateData} 
+                                    required> 
 
-                                <SmallDevices>
-                                    <select required name="plan" onChange={updateData} className="mb-4">
-                                        <option selected disabled>Valitse Tilauksesi Tyyppi...</option>
-                                        <option value="regular">Perus</option>
-                                        <option value="pro">Pro</option>
-                                    </select>
-                                </SmallDevices>
+                                    <Select.Option value="regular">Perus</Select.Option>
+                                    <Select.Option value="pro">Pro</Select.Option>
+                                </Select>
                                 
-                                {
-                                    data.plan === 'regular' ? <RegularPlanInfo/> : <ProPlanInfo/>
-                                }
+                                <div className="w-full flex sm:justify-normal md:justify-end">
+                                    {
+                                        data.plan === 'regular' ? <RegularPlanInfo/> : <ProPlanInfo/>
+                                    }
+                                </div>
                             </div>
                         </div>
                     
@@ -117,9 +111,9 @@ export default function RegisterPage(){
                                 </Link>
 
                                 <PrimaryButton 
+                                    type="submit"
                                     title="Rekisteröidy kotilokin käyttäjäksi" 
                                     data-testid="register-submit-btn" 
-                                    type="submit" 
                                     disabled={loading} 
                                     loading={loading}>Rekisteröidy</PrimaryButton>
                             </Group>

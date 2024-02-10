@@ -22,6 +22,7 @@ export function useRegister(){
     }
 
     const registerHandler = (e) => {
+        console.log('Calliing the register handler...');
         e.preventDefault();
         
         if(!checkPasswordMatch(data.password, e.target.password2.value)){

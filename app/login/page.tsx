@@ -32,45 +32,33 @@ export default function LoginPage(){
                 <ContentCard title="Kirjaudu Sisään">
                     <form onSubmit={loginHandler} className="w-full flex flex-col sm:gap-4 md:gap-8">
                         <div className="flex flex-col gap-2">
-                            <MediumDevices>
-                                <Input 
-                                    data-testid="login-email-input"
-                                    label="Sähköpostiosoite"
-                                    description='Sähköpostiosoite jolle tili on rekisteröity.'
-                                    type="email" 
-                                    name="email" 
-                                    required={true} 
-                                    placeholder="Kirjoita sähköpostiosoitteesi..."
-                                    onChange={updateData}
-                                    />
-                            </MediumDevices>
-
-                            <SmallDevices>
-                                <input placeholder="Kirjoita sähköpostiosoitteesi..." className="w-full" name="email" type="email" onChange={updateData}/>
-                            </SmallDevices>
-                            
+                            <Input 
+                                data-testid="login-email-input"
+                                label="Sähköpostiosoite"
+                                description='Sähköpostiosoite jolle tili on rekisteröity.'
+                                type="email" 
+                                name="email" 
+                                required={true} 
+                                placeholder="Kirjoita sähköpostiosoitteesi..."
+                                onChange={updateData}
+                                />
+                
                             <div className="w-full flex flex-row sm:justify-normal md:justify-end">
                                 {status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
                             </div>
-                            
                         </div>
  
                         <div className="flex flex-col gap-2">
-                            <MediumDevices>
-                                <Input 
-                                    data-testid="login-password-input"
-                                    label="Salasana"
-                                    description='Tilin salasana.'
-                                    type="password" 
-                                    name="password" 
-                                    placeholder="Kirjoita salasanasi..."
-                                    required 
-                                    onChange={updateData}/>
-                            </MediumDevices>
-
-                            <SmallDevices>
-                                <input placeholder="Kirjoita salasanasi..." name="password" type="password" onChange={updateData}/>
-                            </SmallDevices>
+                            <Input 
+                                data-testid="login-password-input"
+                                label="Salasana"
+                                description='Tilin salasana.'
+                                type="password" 
+                                name="password" 
+                                placeholder="Kirjoita salasanasi..."
+                                required 
+                                onChange={updateData}/>
+                       
                             
                             <div className="w-full flex flex-row sm:justify-normal md:justify-end">
                                 {status === 'password_mismatch' ? <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText> : null}
