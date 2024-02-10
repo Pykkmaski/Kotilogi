@@ -33,12 +33,12 @@ function ProPlanInfo(){
 export default function RegisterPage(){
     const {status, registerHandler, data, updateData} = useRegister();
     const loading = status === 'loading';
-
+   
     return (
         <main className="flex flex-col flex-1 justify-center sm:items-[none] md:items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col gap-4 sm:w-full">
+                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col gap-8 sm:w-full">
                         <div className="flex flex-col gap-2">
                             <MediumDevices>
                                 <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
@@ -46,7 +46,7 @@ export default function RegisterPage(){
                             </MediumDevices>
 
                             <SmallDevices>
-                                <input name="email" type="email" placeholder="Kirjoita sähköpostiosoite..." onChange={updateData}/>
+                                <input required name="email" type="email" placeholder="Kirjoita sähköpostiosoite..." onChange={updateData}/>
                             </SmallDevices>
                             
                             {status === 'user_exists' ? <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText> : null}
@@ -54,7 +54,7 @@ export default function RegisterPage(){
                     
                         <div className="flex flex-col gap-2">
                             <MediumDevices>
-                                <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-8">
                                     <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
                                         placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
 
@@ -65,7 +65,7 @@ export default function RegisterPage(){
 
                             <SmallDevices>
                                 <div className="flex flex-col gap-4">
-                                    <input name="password1" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana..."/>
+                                    <input required name="password1" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana..."/>
                                     <input name="password2" type="password" autoComplete='new-password' onChange={updateData} placeholder="Kirjoita salasana uudelleen..."/>
                                 </div>
                             </SmallDevices>
@@ -84,7 +84,7 @@ export default function RegisterPage(){
                                 </MediumDevices>
 
                                 <SmallDevices>
-                                    <select name="plan" onChange={updateData} required className="mb-4">
+                                    <select required name="plan" onChange={updateData} className="mb-4">
                                         <option selected disabled>Valitse Tilauksesi Tyyppi...</option>
                                         <option value="regular">Perus</option>
                                         <option value="pro">Pro</option>

@@ -1,3 +1,4 @@
+import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,14 +8,14 @@ export type LoginStatusType = 'idle' | 'success' | 'unexpected' | 'password_mism
 export function useLogin(){
     const router = useRouter();
     const [status, setStatus] = useState<LoginStatusType>('idle');
+    const {data, updateData} = useInputData({});
 
     const loginHandler = (e) => {
         e.preventDefault();
         setStatus('loading');
 
         const credentials = {
-            email: e.target.email.value,
-            password: e.target.password.value,
+            ...data,
             redirect: false,
         }
 
@@ -37,6 +38,8 @@ export function useLogin(){
 
     return {
         loginHandler,
-        status
+        status,
+        data,
+        updateData,
     }
 }

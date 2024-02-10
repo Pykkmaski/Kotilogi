@@ -23,7 +23,7 @@ export function useRegister(){
 
     const registerHandler = (e) => {
         e.preventDefault();
-
+        
         if(!checkPasswordMatch(data.password, e.target.password2.value)){
             setStatus('password_mismatch');
         }

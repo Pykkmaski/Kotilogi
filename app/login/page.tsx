@@ -17,8 +17,8 @@ import { MediumDevices, SmallDevices } from '@/components/Util/Media';
 
 export default function LoginPage(){
     const router = useRouter();
-    const {updateData} = useInputData({});
-    const {loginHandler, status} = useLogin();
+    //const {updateData} = useInputData({});
+    const {loginHandler, updateData, status} = useLogin();
 
     const cancelHandler = () => {
         router.push('/');

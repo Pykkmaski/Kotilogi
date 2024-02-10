@@ -2,3 +2,4 @@
 + Fix the color on the labels of the login form.
 - Add receiving a property via transfer code to the add modal of properties.
 + Add a consolidationTime column to events. This means an event cannot be deleted if it is older than this limit.
+- Fix the register button. Nothing happens when it is pressed.
