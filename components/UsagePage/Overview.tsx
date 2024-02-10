@@ -69,7 +69,6 @@ export function Overview({data}){
 
             <div className="flex flex-col gap-4">
                 <TotalPrice totalPrice={totalPrice}/>
-                <MaxPrice maxPrice={currentHighest}/>
             </div>
         </div>
     );
