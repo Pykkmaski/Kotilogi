@@ -81,12 +81,13 @@ export function InfoContainer({children, href, target}: InfoContainerProps){
 type CheckBoxProps = {
     checked?: boolean,
 }
+
 export function CheckBox({checked}: CheckBoxProps){
     const {dispatch} = useGalleryContext();
     const {item} = useListItemContext();
     
     return (
-        <input type="checkbox" onChange={() => dispatch({
+        <input className="aspect-square w-full" type="checkbox" onChange={() => dispatch({
             type: 'select_item',
             value: item as Kotilogi.ItemType,
         })} checked={checked}/>

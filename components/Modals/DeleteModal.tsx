@@ -4,10 +4,10 @@ import { Group } from "../Group";
 import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
 
-export type DeleteModalProps<T> = ModalProps & {
+export type DeleteModalProps<T extends Kotilogi.ItemType> = ModalProps & {
     targetsToDelete: T[],
     resetSelectedTargets: () => void, 
-    deleteMethod: (id: string) => Promise<void>,
+    deleteMethod: (item: T) => Promise<void>,
 };
 
 export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, resetSelectedTargets, deleteMethod, ...props}: DeleteModalProps<T>){
@@ -18,7 +18,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
         setStatus('loading');
         try{
             for(const item of targetsToDelete){
-                await deleteMethod(item.id);
+                await deleteMethod(item);
             }
             setStatus('success');
             resetSelectedTargets();

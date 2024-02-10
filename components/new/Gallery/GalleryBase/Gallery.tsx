@@ -133,7 +133,7 @@ Gallery.Header = Header;
 Gallery.Body = Body;
 
 /**The global modal displayed when deleting multiple selected items at once. */
-Gallery.DeleteModal = ({deleteMethod, ...props}: ModalProps & {deleteMethod: (id: string) => Promise<void>}) => {
+Gallery.DeleteModal = <T extends Kotilogi.ItemType>({deleteMethod, ...props}: ModalProps & {deleteMethod: (item: T) => Promise<void>}) => {
     const {state, dispatch} = useGalleryContext();
 
     return (
@@ -141,9 +141,7 @@ Gallery.DeleteModal = ({deleteMethod, ...props}: ModalProps & {deleteMethod: (id
             {...props} 
             targetsToDelete={state.selectedItems} 
 
-            deleteMethod={async (id: string) => {
-                await deleteMethod(id);
-            }}
+            deleteMethod={deleteMethod}
 
             resetSelectedTargets={() => dispatch({
                 type: 'reset_selected',

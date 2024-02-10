@@ -22,16 +22,13 @@ function verifyEventDeletion(event: {consolidationTime: string}): PropertyEventE
  * @param eventId 
  * @returns 
  */
-export async function deletePropertyEvent(eventId: Kotilogi.IdType){
+export async function deletePropertyEvent(event: Kotilogi.EventType){
     return new Promise<void>(async (resolve, reject) => {
         try{
-            const event = await db('propertyEvents').where({id: eventId}).first();
-            if(!event) throw new Error(`An event with id of ${eventId} does not exist, and cannot be deleted!`);
-
             const code = verifyEventDeletion(event);
             if(code !== 'success') throw new Error(code);
             
-            await deleteData('propertyEvents', eventId);
+            await deleteData('propertyEvents', event.id);
             revalidatePath('/properties/[property_id]/events');
             resolve();
         }

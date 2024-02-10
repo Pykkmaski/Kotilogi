@@ -18,7 +18,7 @@ export function Content({properties, user}: {
                     title="Talot" 
                     AddModal={(props) => <AddPropertyModal refId={user.email} {...props}/>}
                     DeleteModal={(props: ModalProps) => {
-                        return <Gallery.DeleteModal {...props} deleteMethod={(id: string) => deleteProperty(id)}/>
+                        return <Gallery.DeleteModal<Kotilogi.PropertyType> {...props} deleteMethod={item => deleteProperty(item)}/>
                     }}/>
                 <Gallery.Body displayStyle='vertical' itemComponent={PropertyListItem} errorElement={
                     <Error title="Ei Taloja" message="Et ole vielä lisännyt taloja." icon="/icons/house.png"/>

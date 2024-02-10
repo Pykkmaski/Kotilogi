@@ -1,4 +1,4 @@
-import db from '@/dbconfig';
+import db from '../../../../dbconfig';
 import bcrypt from 'bcrypt';
 import {verifyPassword} from '../verifyPassword';
 

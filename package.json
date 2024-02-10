@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest",
-    "test:watch": "jest --watchAll --detectOpenHandles"
+    "test:watch": "jest --watch --detectOpenHandles --silent"
   },
   "dependencies": {
     "@vscode/sqlite3": "^5.1.6-vscode",

@@ -24,6 +24,7 @@ function Controls(props: ControlsProps){
                 props.editing ? 
                 <Group direction="row" gap={4}>
                     <SecondaryButton 
+                        data-testid="cancel-btn"
                         onClick={props.cancelEdit}
                         hidden={loading}>Peruuta</SecondaryButton>
 
@@ -34,7 +35,8 @@ function Controls(props: ControlsProps){
                         disabled={loading}>Tallenna</PrimaryButton>
                 </Group>
                 :
-                <PrimaryButton 
+                <PrimaryButton
+                    data-testid="edit-btn" 
                     type="button" 
                     onClick={() => props.edit()}>Muokkaa</PrimaryButton>
             }
@@ -65,6 +67,7 @@ export function SingleInputForm({inputComponent: InputComponent, ...props}: Sing
         <div className="w-full">
             <Group direction="col" gap={4}>
                 <InputComponent 
+                    data-testid="input"
                     {...props.initialInputProps} 
                     disabled={!editing} 
                     defaultValue={cancelFallbackValue.current}
@@ -119,6 +122,7 @@ export function SingleSelectForm({inputComponent: InputComponent, childComponent
         <div className="w-full">
             <Group direction="col" gap={4}>
                 <InputComponent 
+                    data-testid="select"
                     {...props.initialInputProps} 
                     disabled={!editing} 
                     onChange={(e) => {

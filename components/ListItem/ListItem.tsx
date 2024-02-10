@@ -51,7 +51,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
 
         const loadingToast = toast.loading('Poistetaan taloa...');
 
-        deleteProperty(props.item.id)
+        deleteProperty(props.item)
         .then(() => {
             toast.dismiss(loadingToast);
             toast.success('Talo poistettu!')

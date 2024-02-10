@@ -17,7 +17,7 @@ export function Content({events, propertyId}){
                 <Gallery.Header 
                     title="Tapahtumat" 
                     AddModal={(props: ModalProps) => <AddEventModal {...props} refId={propertyId}/>}
-                    DeleteModal={(props: ModalProps) => <Gallery.DeleteModal {...props} deleteMethod={deletePropertyEvent}/>}>
+                    DeleteModal={(props: ModalProps) => <Gallery.DeleteModal<Kotilogi.EventType> {...props} deleteMethod={deletePropertyEvent}/>}>
                         <SearchBar/>
                     </Gallery.Header>
 

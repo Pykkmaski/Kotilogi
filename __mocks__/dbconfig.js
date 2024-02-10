@@ -5,20 +5,20 @@ const where = select;
 
 const first = jest.fn();
 
-module.exports = jest.fn(() => {
+const dbMock = jest.fn(() => {
     return {
         select,
         from,
         where,
         first,
         insert,
-    }
+    };
 });
 
-module.exports.select = select;
-module.exports.from = from;
-module.exports.where = where;
-module.exports.first = first;
-module.exports.insert = insert;
+dbMock.select = select;
+dbMock.from = from;
+dbMock.where = where;
+dbMock.first = first;
+dbMock.insert = insert;
 
-
+module.exports = dbMock;

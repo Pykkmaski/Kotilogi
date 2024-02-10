@@ -26,21 +26,20 @@ export function useRegister(){
 
         if(!checkPasswordMatch(data.password, e.target.password2.value)){
             setStatus('password_mismatch');
-            return;
         }
+        else{
+            setStatus('loading');
 
-        setStatus('loading');
-
-        registerUser(data)
-        .then(status => {
-            setStatus('idle');
-            toast.success('Rekisteröityminen onnistui!');
-            router.replace('/login');
-        })
-        .catch(err => {
-            toast.error(err.message);
-            setStatus(err.message);
-        });
+            registerUser(data)
+            .then(status => {
+                setStatus('idle');
+                toast.success('Rekisteröityminen onnistui!');
+                router.replace('/login');
+            })
+            .catch(err => {
+                setStatus(err.message);
+            });
+        }
     }
 
     return {

@@ -29,6 +29,6 @@ describe('Testing the user registration function', () => {
         db.insert.mockRejectedValueOnce(new Error('UNIQUE'));
         bcrypt.hash.mockImplementationOnce((pass) => Promise.resolve(pass));
 
-        await expect(registerUser(credentials)).rejects.toBe('user_exists');
+        await expect(registerUser(credentials)).rejects.toThrow('user_exists');
     });
 });
