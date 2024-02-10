@@ -42,10 +42,17 @@ export default function LoginPage(){
                                 placeholder="Kirjoita sähköpostiosoitteesi..."
                                 onChange={updateData}
                                 />
-                
-                            <div className="w-full flex flex-row sm:justify-normal md:justify-end">
-                                {status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
-                            </div>
+
+                            {
+                                status === 'invalid_user' ? (
+                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                        <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText>
+                                    </div>
+                                )
+                                :
+                                null
+                            }
+                            
                         </div>
  
                         <div className="flex flex-col gap-2">
@@ -60,9 +67,16 @@ export default function LoginPage(){
                                 onChange={updateData}/>
                        
                             
-                            <div className="w-full flex flex-row sm:justify-normal md:justify-end">
-                                {status === 'password_mismatch' ? <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText> : null}
-                            </div>
+                            {
+                                status === 'password_mismatch' ? (
+                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                        <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText>
+                                    </div>
+                                )
+                                :
+                                null
+                            }
+                            
                             
                             <div className="w-full flex justify-end gap-2">
                                 <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>
