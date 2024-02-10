@@ -26,27 +26,33 @@ export default function LoginPage(){
     const loading = status === 'loading';
 
     return (
-        <main className="flex flex-col justify-center items-center flex-1">
+        <main className="flex flex-col justify-center flex-1">
             <Padding>
                 <ContentCard title="Kirjaudu Sisään">
-                    <form onSubmit={loginHandler}>
-                        <Group gap={4} direction="col">
+                    <form onSubmit={loginHandler} className="w-full">
+                        <div className="w-full flex flex-col gap-4">
                             <Group direction='col' align="end" gap={2}>
-                                <Input 
-                                    data-testid="login-email-input"
-                                    label="Sähköpostiosoite"
-                                    description='Sähköpostiosoite jolle tili on rekisteröity.'
-                                    type="email" 
-                                    name="email" 
-                                    required={true} 
-                                    placeholder="Kirjoita sähköpostiosoitteesi..."
-                                    onChange={updateData}
-                                    />
+                                <div className="sm:hidden md:block">
+                                    <Input 
+                                        data-testid="login-email-input"
+                                        label="Sähköpostiosoite"
+                                        description='Sähköpostiosoite jolle tili on rekisteröity.'
+                                        type="email" 
+                                        name="email" 
+                                        required={true} 
+                                        placeholder="Kirjoita sähköpostiosoitteesi..."
+                                        onChange={updateData}
+                                        />
+                                </div>
 
+                                <div className="sm:block md:hidden flex flex-col gap-2 w-full">
+                                    <input className="w-full" name="email" type="email"/>
+                                </div>
+                                
                                 {status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText> : null}
                             </Group>
 
-                            <div className="w-full">
+                            
                                 <Group direction="col" align="end" gap={2}>
                                     <Input 
                                         data-testid="login-password-input"
@@ -83,7 +89,6 @@ export default function LoginPage(){
                                     >Kirjaudu</PrimaryButton>
                                 </Group>
                             </div>
-                        </Group>
                     </form>
                 </ContentCard>
             </Padding>

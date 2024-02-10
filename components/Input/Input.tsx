@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Group } from "../Group";
 
-const containerClassName = "lg:grid lg:grid-cols-inputComponentColumns md:flex md:flex-col w-full min-h-[2rem] md:gap-1 sm:gap-1";
+const containerClassName = "grid grid-cols-inputComponentColumns w-full min-h-[2rem] md:gap-1";
 
 const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE]';
 
@@ -21,7 +21,7 @@ function Label(props: {
         }
     }
 
-    const getDescription = () => {
+    const getDescriptionElement = () => {
         if(props.description){
             return (
                 <span className="text-base text-slate-500">{props.description}</span>
@@ -33,15 +33,10 @@ function Label(props: {
     }
 
     return (
-        <div className="sm:hidden md:block">
-            <Group direction="col" justify="center">
-                <span className="text-[1.1rem] text-black">{props.text} {getRequiredBadge()}</span>
-
-                <div className="sm:hidden lg:block">
-                    {getDescription()}
-                </div>
-            </Group>
-        </div>
+        <Group direction="col" justify="center">
+            <span className="text-[1.1rem] text-black">{props.text} {getRequiredBadge()}</span>
+            {getDescriptionElement()}
+        </Group>
     );
 }
 
