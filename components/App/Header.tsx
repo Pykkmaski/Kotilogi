@@ -11,6 +11,8 @@ import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import toast from 'react-hot-toast';
 import { Padding } from '../Util/Padding';
+import { MediumDevices, SmallDevices } from '../Util/Media';
+import { useState } from 'react';
 
 export function Logo(){
     return (
@@ -59,6 +61,34 @@ function UserIcon2({email}){
     );
 }
 
+function MobileNavMenu(){
+    const [open, setOpen] = useState(false);
+    
+    const menuButtonClassName = [
+        
+    ];
+
+    const lineClassName = 'w-full h-1 bg-white';
+
+    const MenuBtn = () => {
+        return (
+            <div className="flex flex-col gap-2 p-2 w-[50px]">
+                <div className={lineClassName}></div>
+                <div className={lineClassName}></div>
+                <div className={lineClassName}></div>
+            </div>
+        );
+    }
+
+    return (
+        <VisibilityProvider>
+            <div className="relative">
+                <MenuBtn/>
+            </div>
+        </VisibilityProvider>
+    )
+}
+
 export default function Header(){
     const {data, status} = useSession();
     const userIsLoggedIn = status === 'authenticated';
@@ -75,13 +105,16 @@ export default function Header(){
         }
         else{
             return (
-                <div className="[&>*]:text-white [&>*]:font-semibold">
-                    <Group direction="row" gap={4}>
-                        <Link href="/">Etusivu</Link>
-                        <Link href="/login">Kirjaudu</Link>
-                        <Link href="/register">Rekisteröidy</Link>
-                    </Group>
-                </div>
+                <>
+                    <div className="[&>*]:text-white [&>*]:font-semibold sm:[&>*]:text-base">
+                        <Group direction="row" gap={2}>
+                            <Link href="/">Etusivu</Link>
+                            <Link href="/login">Kirjaudu</Link>
+                            <Link href="/register">Rekisteröidy</Link>
+                        </Group>
+                    </div>
+                </>
+                
             );
         }
     }
