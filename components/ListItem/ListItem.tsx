@@ -86,7 +86,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 
         const loadingToast = toast.loading('Poistetaan tapahtumaa...');
 
-        deletePropertyEvent(props.item.id)
+        deletePropertyEvent(props.item)
         .then(() => {
             toast.dismiss(loadingToast);
             toast.success('Tapahtuma poistettu!')
