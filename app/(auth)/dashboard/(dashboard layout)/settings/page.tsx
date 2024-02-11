@@ -17,9 +17,9 @@ export default async function Page(){
             <div className="w-full">
                 <ContentCard title="Turvallisuus">
                     <div className="w-full">
-                        <div className="mb-10">
-                            <EmailSettingsForm email={session.user.email}/>
-                        </div>
+                        <EmailSettingsForm email={session.user.email}/>
+                        
+                        <div className="bg-gray-500 border-t border-gray-200 w-full my-8"/>
                         <PasswordSettingsForm/>
                     </div>
                 </ContentCard>

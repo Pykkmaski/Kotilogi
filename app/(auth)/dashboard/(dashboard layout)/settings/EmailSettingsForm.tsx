@@ -19,7 +19,7 @@ export function EmailSettingsForm({email}){
             initialInputProps={{
                 name: 'email',
                 label: 'Sähköpostiosoite',
-                description: 'Päivitä sähköpostiosoitteesi.',
+                description: 'Tilisi sähköpostiosoite.',
                 defaultValue: email,
                 type: 'email',
             }}/>
