@@ -3,14 +3,10 @@ import { SecondaryButton } from "@/components/Button/SecondaryButton";
 import { Group } from "@/components/Group";
 import { Input } from "@/components/Input/Input";
 import { ContentCard } from "@/components/RoundedBox/RoundedBox";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useResetStepTwo } from "./useResetStepTwo";
 
 export function StepTwo(){
-    const router = useRouter();
-    const params = useSearchParams();
     const {data, status, resetStepTwoHandler, updateData} = useResetStepTwo();
 
     const loading = status === 'loading';
