@@ -77,7 +77,7 @@ export default function Header(){
                 <div className="flex gap-2 text-white items-center">
                     <Link href="/">Etusivu</Link>
                     <Link href="/dashboard/properties">Hallintapaneeli</Link>
-                    <div className="h-4 border-l border-gray-100 mx-4"></div>
+                    <div className="h-4 border-l border-gray-100 mx-4 sm:hidden md:block"></div>
                     <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
                 </div>
             )
@@ -87,7 +87,7 @@ export default function Header(){
                 <>
                     <div className="text-white sm:text-base flex gap-2 items-center">
                         <Link href="/tos">Käyttöehdot</Link>
-                        <div className="h-4 border-l border-gray-100 mx-4"></div>
+                        <div className="h-4 border-l border-gray-100 mx-4 sm:hidden md:block"></div>
                         <Link href="/login">Kirjaudu</Link>
                         <Link href="/register">Rekisteröidy</Link>
                     </div>
