@@ -16,7 +16,7 @@ import { useState } from 'react';
 
 export function Logo(){
     return (
-        <div className="z-40" id="app-logo">
+        <div className="z-40" id="app-logo" title="Etusivulle">
             <Link href="/" id="app-logo-link" className="w-[50px] aspect-auto object-contain">
                 <Image width={100} height={50} src={'/logo_new_orange.png'} alt={`${serviceName} logo`}/>
             </Link>
@@ -61,34 +61,6 @@ function UserIcon2({email}){
     );
 }
 
-function MobileNavMenu(){
-    const [open, setOpen] = useState(false);
-    
-    const menuButtonClassName = [
-        
-    ];
-
-    const lineClassName = 'w-full h-1 bg-white';
-
-    const MenuBtn = () => {
-        return (
-            <div className="flex flex-col gap-2 p-2 w-[50px]">
-                <div className={lineClassName}></div>
-                <div className={lineClassName}></div>
-                <div className={lineClassName}></div>
-            </div>
-        );
-    }
-
-    return (
-        <VisibilityProvider>
-            <div className="relative">
-                <MenuBtn/>
-            </div>
-        </VisibilityProvider>
-    )
-}
-
 export default function Header(){
     const {data, status} = useSession();
     const userIsLoggedIn = status === 'authenticated';
@@ -101,17 +73,23 @@ export default function Header(){
             return <Spinner size="2rem"/>;
         }
         else if(userIsLoggedIn){
-            return <UserIcon2 email={userEmail}/>;
+            return (
+                <div className="flex gap-2 text-white items-center">
+                    <Link href="/">Etusivu</Link>
+                    <Link href="/dashboard/properties">Hallintapaneeli</Link>
+                    <div className="h-4 border-l border-gray-100 mx-4"></div>
+                    <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
+                </div>
+            )
         }
         else{
             return (
                 <>
-                    <div className="[&>*]:text-white [&>*]:font-semibold sm:[&>*]:text-base">
-                        <Group direction="row" gap={2}>
-                            <Link href="/">Etusivu</Link>
-                            <Link href="/login">Kirjaudu</Link>
-                            <Link href="/register">Rekisteröidy</Link>
-                        </Group>
+                    <div className="text-white sm:text-base flex gap-2 items-center">
+                        <Link href="/tos">Käyttöehdot</Link>
+                        <div className="h-4 border-l border-gray-100 mx-4"></div>
+                        <Link href="/login">Kirjaudu</Link>
+                        <Link href="/register">Rekisteröidy</Link>
                     </div>
                 </>
                 
