@@ -156,7 +156,19 @@ export function Textarea(props: TextAreaProps){
     useEffect(() => setLength(ref.current?.value.length), []);
     return (
         <div className={containerClassName}>
-            <Label text={props.label} {...props}/>
+            <MediumDevices>
+                <Label text={props.label} {...props}/>
+            </MediumDevices>
+
+            <SmallDevices>
+                <MobileLabel>
+                    <label>{props.label}</label>
+                    {
+                        props.required ? <span className="text-red-400 text-sm">Pakollinen</span> : null
+                    }
+                </MobileLabel>
+            </SmallDevices>
+            
             <Group direction="col" gap={2}>
                 <textarea {...props} className={textareaClassName.join(' ')} ref={ref} onChange={(e) => {
                     props.onChange && props.onChange(e);

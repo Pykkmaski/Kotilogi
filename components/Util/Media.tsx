@@ -1,3 +1,5 @@
+import React from "react";
+
 export function SmallDevices({children}){
     return (
         <div className="sm:block md:hidden">
