@@ -29,7 +29,7 @@ export async function registerUser(credentials: {email: string, password: string
             const msg = err.message.toUpperCase();
 
             if(msg.includes('UNIQUE') || msg.includes('DUPLICATE')){
-                return reject(new Error('user_exists'));
+                return resolve('user_exists');
             }
             else{
                 return reject(err);

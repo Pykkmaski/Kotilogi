@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export type RegisterStatusType = 'idle' | 'unexpected' | 'user_exists' | 'password_mismatch' | 'loading';
+export type RegisterStatusType = 'idle' | 'unexpected' | 'user_exists' | 'password_mismatch' | 'loading' | 'success';
 export type RegisterDataType = {
     email?: string,
     password1?: string,
@@ -31,14 +31,18 @@ export function useRegister(){
             setStatus('loading');
 
             registerUser(data)
-            .then(status => {
-                setStatus('idle');
-                toast.success('Rekisteröityminen onnistui!');
-                router.replace('/login');
+            .then(result => {
+                setStatus(result as RegisterStatusType);
+
+                if(status === 'success'){
+                    toast.success('Rekisteröityminen onnistui!');
+                    router.replace('/login');
+                }
+                
             })
             .catch(err => {
                 console.log(err.message);
-                setStatus(err.message);
+                setStatus('unexpected');
             });
         }
     }

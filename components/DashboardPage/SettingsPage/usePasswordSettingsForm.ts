@@ -5,7 +5,7 @@ import { useDashboardContext } from "../../../app/(auth)/dashboard/(dashboard la
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-type PasswordSettingStatus = 'idle' | 'invalid_password' | 'password_mismatch' | 'loading' | 'success';
+type PasswordSettingStatus = 'idle' | 'invalid_password' | 'password_mismatch' | 'loading' | 'success' | 'unexpected';
 
 export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElement>){
     const router = useRouter();
@@ -28,14 +28,18 @@ export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElemen
         }
         else{
             updatePassword(user.email, data.password1, data.password3)
-            .then(() => {
-                toast.success('Salasana päivitetty!');
-                setStatus('success');
-                resetForm();
-                router.refresh();
+            .then(result => {
+                setStatus(result as PasswordSettingStatus);
+
+                if(result === 'success'){
+                    toast.success('Salasana päivitetty!');
+                    setStatus('success');
+                    resetForm();
+                    router.refresh();
+                }
             })
             .catch(err => {
-                setStatus(err.message);
+                setStatus('unexpected');
             });
         }
     }
