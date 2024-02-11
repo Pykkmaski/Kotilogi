@@ -67,7 +67,7 @@ function Header(props: React.PropsWithChildren & {
 }
 
 type BodyProps = {
-    displayStyle: 'vertical' | 'horizontal',
+    displayStyle?: 'vertical' | 'horizontal',
     itemComponent: React.FC<ListItemProps<any>>,
     errorElement: JSX.Element,
 }

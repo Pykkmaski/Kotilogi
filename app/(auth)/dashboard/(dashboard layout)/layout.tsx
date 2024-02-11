@@ -8,6 +8,7 @@ import { DashboardContextProvider } from "./DashboardContextProvider";
 import { SecondaryHeading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";
 import { Padding } from "@/components/Util/Padding";
+import { MediumDevices } from "@/components/Util/Media";
 
 export default async function DashboardLayout({children}){
 
@@ -25,13 +26,17 @@ export default async function DashboardLayout({children}){
                 </Header>
 
                 <Group direction={'row'} gap={4}>
-                    <NavBar>
-                        <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
-                        <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                    </NavBar>
+                    <MediumDevices>
+                        <div className="flex-1">
+                            <NavBar>
+                                <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
+                                <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
+                            </NavBar>
+                        </div>
+                    </MediumDevices>
                     
                     <DashboardContextProvider user={session.user}>
-                        <div className="flex-[9] ml-8 mb-8">
+                        <div className="flex-[9] sm:ml-0 md:ml-8 mb-8">
                             {children}
                         </div>
                     </DashboardContextProvider>

@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Group } from "../Group";
-import { MediumDevices } from "../Util/Media";
+import { MediumDevices, SmallDevices } from "../Util/Media";
 
-const containerClassName = "md:grid md:grid-cols-inputComponentColumns w-full md:min-h-[2rem] md:gap-1";
+const containerClassName = "md:grid md:grid-cols-inputComponentColumns sm:flex sm:flex-col sm:gap-1 w-full md:min-h-[2rem] md:gap-1";
 const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE] w-full';
 
 function Label(props: {
@@ -14,7 +14,7 @@ function Label(props: {
 }){
     const getRequiredBadge = () => {
         if(props.required){
-            return <span className="text-[#b27070]">Pakollinen</span>;
+            return <span className="text-[#b27070] text-sm">Pakollinen</span>;
         }
         else{
             return null;
@@ -55,6 +55,10 @@ export function Input({label, description, ...props}: InputProps){
                     required={props.required} 
                     description={description}/>
             </MediumDevices>
+
+            <SmallDevices>
+                <label>{label}</label>
+            </SmallDevices>
             
             <input 
                 {...props}
@@ -83,6 +87,15 @@ export function Select(props: SelectProps){
                     description={props.description}
                     required={props.required}/>
             </MediumDevices>
+
+            <SmallDevices>
+                <div className="flex w-full gap-4">
+                    <label>{props.label}</label>
+                    {
+                        props.required ? <span className="text-red-400">Pakollinen</span> : null
+                    }
+                </div>
+            </SmallDevices>
              
             <select className={inputClassName} {...props}>
                 {props.children}
