@@ -22,17 +22,17 @@ export async function registerUser(credentials: {email: string, password: string
             }
     
             await db('users').insert(user);
-            resolve('success');
+            return resolve('success');
         }
         catch(err: any){
             console.log(err.message);
             const msg = err.message.toUpperCase();
 
             if(msg.includes('UNIQUE') || msg.includes('DUPLICATE')){
-                reject(new Error('user_exists'));
+                return reject(new Error('user_exists'));
             }
             else{
-                reject(err);
+                return reject(err);
             } 
         }
     });
