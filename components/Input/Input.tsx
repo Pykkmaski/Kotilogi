@@ -40,6 +40,22 @@ function Label(props: {
     );
 }
 
+function MobileLabel({children}){
+    return (
+        <div className="w-full flex gap-2 items-baseline justify-between">
+            {children}
+        </div>
+    );
+}
+
+function RequiredBadge(){
+    return (
+        <span className="absolute self-center justify-self-center font-semibold">
+            !
+        </span>
+    );
+}
+
 export type InputProps = React.ComponentProps<'input'> & {
     label: string,
     description?: string,
@@ -57,7 +73,10 @@ export function Input({label, description, ...props}: InputProps){
             </MediumDevices>
 
             <SmallDevices>
-                <label>{label}</label>
+                <MobileLabel>
+                    <label>{label}</label>
+                    {props.required ? <span className="text-red-400 text-sm">Pakollinen</span> : null}
+                </MobileLabel>
             </SmallDevices>
             
             <input 
@@ -89,12 +108,12 @@ export function Select(props: SelectProps){
             </MediumDevices>
 
             <SmallDevices>
-                <div className="flex w-full gap-4">
+                <MobileLabel>
                     <label>{props.label}</label>
                     {
-                        props.required ? <span className="text-red-400">Pakollinen</span> : null
+                        props.required ? <span className="text-red-400 text-sm">Pakollinen</span> : null
                     }
-                </div>
+                </MobileLabel>
             </SmallDevices>
              
             <select className={inputClassName} {...props}>
