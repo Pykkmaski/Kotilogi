@@ -6,9 +6,11 @@ import { ContentCard } from "@/components/RoundedBox/RoundedBox";
 import Link from "next/link";
 import { useResetStepTwo } from "./useResetStepTwo";
 import { ErrorText } from "@/components/Util/Text";
+import { useResetFormProvider } from "./ResetFormContext";
 
 export function StepTwo(){
     const {data, status, resetStepTwoHandler, updateData} = useResetStepTwo();
+    const {previous} = useResetFormProvider();
 
     const loading = status === 'loading';
 
@@ -57,7 +59,7 @@ export function StepTwo(){
                 <div className="mt-4 w-full">
                     <Group direction="row" justify="end">
                         <Link href="/login/reset">
-                            <SecondaryButton disabled={loading}>Takaisin</SecondaryButton>
+                            <SecondaryButton disabled={loading} onClick={previous}>Takaisin</SecondaryButton>
                         </Link>
                         
                         <PrimaryButton type="submit" disabled={loading || !data.password1 || !data.password2} loading={loading}>Lähetä</PrimaryButton>
