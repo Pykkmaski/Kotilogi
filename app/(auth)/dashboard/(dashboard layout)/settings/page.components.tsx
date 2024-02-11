@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
-import { PasswordSettingsForm } from "./PasswordSettingsForm";
+import { PasswordSettingsForm } from "../../../../../components/DashboardPage/SettingsPage/PasswordSettingsForm";
 import { EmailSettingsForm } from "./EmailSettingsForm";
 
 export function Header(){

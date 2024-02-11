@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { PasswordSettingsForm } from "./PasswordSettingsForm";
+import { PasswordSettingsForm } from "../../../../../components/DashboardPage/SettingsPage/PasswordSettingsForm";
 
 export function UpdatePasswordModal(){
     const dialogRef = useRef<HTMLDialogElement | null>(null);

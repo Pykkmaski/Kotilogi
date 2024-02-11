@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import toast from "react-hot-toast";
 import {z} from 'zod';
-import { useDashboardContext } from "../DashboardContextProvider";
+import { useDashboardContext } from "../../../app/(auth)/dashboard/(dashboard layout)/DashboardContextProvider";
 import { ErrorText } from "@/components/Util/Text";
 import { usePasswordSettingsForm } from "./usePasswordSettingsForm";
 

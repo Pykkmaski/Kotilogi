@@ -1,7 +1,7 @@
 import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
 import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
 import { MutableRefObject, useState } from "react";
-import { useDashboardContext } from "../DashboardContextProvider";
+import { useDashboardContext } from "../../../app/(auth)/dashboard/(dashboard layout)/DashboardContextProvider";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
