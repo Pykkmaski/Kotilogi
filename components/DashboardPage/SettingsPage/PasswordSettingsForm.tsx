@@ -24,9 +24,7 @@ export function PasswordSettingsForm(){
     const formRef = useRef<HTMLFormElement | null>(null);
     const {status, data, updateData, resetPasswordHandler, resetForm} = usePasswordSettingsForm(formRef);
     
-    const router = useRouter();
-
-    const hasAllPasswordsFilled = () => {
+    const hasAllFieldsFilled = () => {
         return data.password1 && data.password2 && data.password3;
     }
 
@@ -85,7 +83,7 @@ export function PasswordSettingsForm(){
                         <Group direction="row" justify="end" gap={4}>
                             <SecondaryButton hidden={!hasSomeInput() || status === 'loading'} onClick={resetForm} type="button">Tyhjennä</SecondaryButton>
                             <PrimaryButton type="submit" 
-                                disabled={submitDisabled || !hasAllPasswordsFilled()}
+                                disabled={submitDisabled || !hasAllFieldsFilled()}
                                 loading={status === 'loading'}>Päivitä Salasana</PrimaryButton>
                         </Group>
                     </div>
