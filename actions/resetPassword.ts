@@ -15,19 +15,19 @@ import { ErrorCode, serviceName } from 'kotilogi-app/constants';
  */
 
 export async function resetPassword(verificationToken: string, newPassword: string){
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<string>(async (resolve, reject) => {
         try{
             const decoded: any = await verifyToken(verificationToken);
-            if(decoded === null) throw new Error('Invalid token');
+            if(decoded === null) return resolve('Invalid token');
     
             const currentTime = new Date().getTime();
-            if(currentTime > decoded.expires) throw new Error('Token has expired!');
+            if(currentTime > decoded.expires) return resolve('Token has expired!');
     
             await db('users').where({email: decoded.email}).update({
                 password: await bcrypt.hash(newPassword, 15) as string,
             });
     
-            resolve();
+            resolve('success');
         }
         catch(err: any){
             console.log(err.message);
@@ -60,12 +60,12 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
  */
 
 export async function sendResetCode(email: string){
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise<string>(async (resolve, reject) => {
         try{
             const [user] = await db('users').where({email}).select('email');
 
             //A user with provided email address does not exist.
-            if(!user) throw new Error(`invalid_email`);
+            if(!user) return resolve(`invalid_email`);
 
             const numbers: number[] = [];
             for(let i = 0; i < 6; ++i){
@@ -79,8 +79,8 @@ export async function sendResetCode(email: string){
 
             const resetToken: string = jwt.sign(payload, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
             const domainName = process.env.SERVICE_DOMAIN;
-            
-            if(!domainName) throw new Error('Domain name missing!');
+
+            if(!domainName) return resolve('Domain name missing!');
 
             const link = `${domainName}/login/reset?token=${resetToken}`;
             const htmlContent = `
@@ -138,7 +138,7 @@ export async function sendResetCode(email: string){
                 htmlContent
             );
 
-            resolve();
+            resolve('success');
         }
         catch(err: any){
             reject(err);

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import {useRouter} from 'next/navigation';
 import { useState } from "react";
 
-type ResetStepTwoStatus = 'idle' | 'unknown' | 'success' | 'loading' | 'password_mismatch';
+type ResetStepTwoStatus = 'idle' | 'unknown' | 'success' | 'loading' | 'password_mismatch' | 'unexpected';
 
 export function useResetStepTwo(){
     const params = useSearchParams();
@@ -31,14 +31,18 @@ export function useResetStepTwo(){
         }
         else{
             resetPassword(verificationCode, password1)
-            .then(() => {
-                toast.success('Salasana vaihdettu onnistuneesti!');
-                router.push('/login');
+            .then(result => {
+                setStatus(result as ResetStepTwoStatus);
+
+                if(result === 'success'){
+                    toast.success('Salasana vaihdettu onnistuneesti!');
+                    router.push('/login');
+                }
             })
             .catch(err => {
                 toast.error(err.message);
-                setStatus('idle');
-            })
+                setStatus('unexpected');
+            });
         }
     }
 

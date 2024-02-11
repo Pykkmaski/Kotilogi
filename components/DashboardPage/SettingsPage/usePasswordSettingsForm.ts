@@ -33,7 +33,6 @@ export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElemen
 
                 if(result === 'success'){
                     toast.success('Salasana päivitetty!');
-                    setStatus('success');
                     resetForm();
                     router.refresh();
                 }

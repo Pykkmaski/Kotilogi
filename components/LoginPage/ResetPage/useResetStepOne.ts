@@ -16,9 +16,12 @@ export function useResetStepOne(){
         const email = data.email;
 
         sendResetCode(email)
-        .then(() => {
-            toast.success('Varmennuskoodi lähetetty onnistuneesti!');
-            setStatus('success');
+        .then(result => {
+            setStatus(result as ResetStepOneStatus);
+
+            if(result === 'success'){
+                toast.success('Varmennuskoodi lähetetty onnistuneesti!');
+            }
         })
         .catch(err => {
             setStatus(err.message);

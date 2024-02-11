@@ -34,7 +34,7 @@ export function useRegister(){
             .then(result => {
                 setStatus(result as RegisterStatusType);
 
-                if(status === 'success'){
+                if(result === 'success'){
                     toast.success('Rekisteröityminen onnistui!');
                     router.replace('/login');
                 }
