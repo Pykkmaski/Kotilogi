@@ -40,13 +40,15 @@ export function PasswordSettingsForm(){
                     <Input type="password" placeholder="Kirjoita uusi salasana..." autoComplete="new-password" name="password1"
                         onChange={updateData}
                         label="Uusi Salasana"
-                        description="Päivitä salasanasi."/>
+                        description="Päivitä salasanasi."
+                        required={true}/>
 
                     <div className="flex flex-col gap-2">
                         <Input type="password" placeholder="Kirjoita uusi salasana uudelleen..." autoComplete="off" name="password2"
                             onChange={updateData}
                             label="Salasanan Vahvistus"
-                            description="Vahvista uusi salasana."/>
+                            description="Vahvista uusi salasana."
+                            required={true}/>
 
                         {
                             status === 'password_mismatch' ? (
@@ -64,7 +66,8 @@ export function PasswordSettingsForm(){
                         <Input type="password" placeholder="Kirjoita nykyinen salasanasi..." autoComplete="off" name="password3"
                             onChange={updateData}
                             label="Nykyinen salasanasi"
-                            description="Vahvista nykyinen salasanasi."/>
+                            description="Vahvista nykyinen salasanasi."
+                            required={true}/>
                         
                         {
                             status === 'invalid_password' ? (
