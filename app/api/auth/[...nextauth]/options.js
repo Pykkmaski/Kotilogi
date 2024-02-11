@@ -16,7 +16,7 @@ async function verifyUser(email, password){
                 //Check if the trial period has ended
                 const trialDuration = process.env.TRIAL_PERIOD_DURATION;
 
-                if(trialDuration){
+                if(trialDuration && trialDuration !== '0'){
                     const currentTime = Date.now();
                     const createdAtTime = new Date(user.createdAt).getTime();
 
@@ -29,7 +29,6 @@ async function verifyUser(email, password){
                 throw new Error('user_inactive');
             }
 
-            console.log(user);
             resolve(user);
         }
         catch(err){

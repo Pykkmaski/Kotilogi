@@ -96,11 +96,10 @@ export async function sendContactMessage(data: MessageDataType){
             const to = process.env.SERVICE_CONTACT_EMAILS as string;
             const msg = createMessageHTML(data.email, data.message);
             await sendHTMLEmail(serviceName, data.email, to.split(','), msg);
-
             resolve();
         }
         catch(err){
-            logError(err);
+            console.log(err.message);
             reject(err);
         }
     })
