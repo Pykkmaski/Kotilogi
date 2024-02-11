@@ -94,6 +94,8 @@ export async function sendContactMessage(data: MessageDataType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             const to = process.env.SERVICE_CONTACT_EMAILS as string;
+            console.log(to);
+            
             const msg = createMessageHTML(data.email, data.message);
             await sendHTMLEmail(serviceName, data.email, to.split(','), msg);
             resolve();
