@@ -34,7 +34,7 @@
       "**/*.tsx",
       "types.d.ts",
       ".next/types/**/*.ts"
-, "app/register/page.test.jsx", "__mocks__/dbconfig.js", "utils/__tests__/filterIntoObject.test.js"    ],
+, "app/register/page.test.jsx", "__mocks__/dbconfig.js", "utils/__tests__/filterIntoObject.test.js", "app/api/auth/[...nextauth]/options.js"    ],
     "exclude": ["node_modules"],
     "types": ["node", "jest", "@testing-library/jest-dom"],
   }

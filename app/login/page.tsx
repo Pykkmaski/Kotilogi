@@ -44,9 +44,15 @@ export default function LoginPage(){
                                 />
 
                             {
-                                status === 'invalid_user' ? (
+                                status === 'invalid_user' || status === 'trial_expired' || status === 'user_inactive' ? (
                                     <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
-                                        <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText>
+                                        {
+                                            status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText>
+                                            :
+                                            status === 'trial_expired' ? <ErrorText>Kokeilujaksosi on päättynyt!</ErrorText>
+                                            :
+                                            <ErrorText>Käyttäjätili on poistettu käytöstä! <Link href="/" className="text-primary underline">Mitäs nyt?</Link></ErrorText>
+                                        }
                                     </div>
                                 )
                                 :
@@ -66,7 +72,6 @@ export default function LoginPage(){
                                 required 
                                 onChange={updateData}/>
                        
-                            
                             {
                                 status === 'password_mismatch' ? (
                                     <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
@@ -76,7 +81,6 @@ export default function LoginPage(){
                                 :
                                 null
                             }
-                            
                             
                             <div className="w-full flex justify-end gap-2">
                                 <span style={{color: 'gray'}}>Unohditko salasanasi? </span><Link data-testid="login-reset-link" href="/login/reset" className="text-orange-400">Klikkaa tähän.</Link>

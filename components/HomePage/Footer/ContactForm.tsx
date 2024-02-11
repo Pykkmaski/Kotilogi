@@ -39,23 +39,26 @@ function ContactForm(props){
     }
 
     const FormGroup = ({children}) => (
-        <Group direction="col" gap={4}>{children}</Group>
+        <div className="flex flex-col gap-2 text-slate-500">{children}</div>
     );
-
+    
+    const FormLabel = ({children}) => {
+        return <label className="text-white">{children}</label>
+    }
     return (
-        <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 [&>*]:text-white md:w-[600px] sm:w-full' ref={formRef}>
+        <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 md:w-[600px] sm:w-full' ref={formRef}>
             <FormGroup>
-                <label>Nimesi</label>
+                <FormLabel>Nimesi</FormLabel>
                 <input type="text" name="name" id="contact-name-input" placeholder="Kirjoita nimesi..."/>
             </FormGroup>
 
             <FormGroup>
-                <label>Sähköpostiosoitteesi<span className="text-red-500"> *</span></label>
+                <FormLabel>Sähköpostiosoitteesi<span className="text-red-500"> *</span></FormLabel>
                 <input type="email" name="email" required={true} id="contact-email-input" placeholder="Kirjoita sähköpostiosoitteesi..."/>
             </FormGroup>
 
             <FormGroup>
-                <label>Viesti<span className="text-red-500"> *</span></label>
+                <FormLabel>Viesti<span className="text-red-500"> *</span></FormLabel>
                 <textarea name="message" maxLength={200} required={true} id="contact-message-input" placeholder="Kirjoita viestisi..."/>
             </FormGroup>
 
@@ -68,7 +71,7 @@ function ContactForm(props){
             }
 
             {
-                error === 0 ? <span className="text-white">Viesti lähetetty!</span>
+                error === 0 ? <span className="text-white w-full text-center">Viesti lähetetty!</span>
                 :
                 error === 500 ? <ErrorText>Jotain meni pieleen! Yritä myöhemmin uudelleen.</ErrorText>
                 :

@@ -2,8 +2,9 @@ import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
-export type LoginStatusType = 'idle' | 'success' | 'unexpected' | 'password_mismatch' | 'invalid_user' | 'loading';
+export type LoginStatusType = 'idle' | 'success' | 'unexpected' | 'password_mismatch' | 'invalid_user' | 'loading' | 'trial_expired' | 'user_inactive';
 
 export function useLogin(){
     const router = useRouter();
@@ -13,6 +14,11 @@ export function useLogin(){
     const loginHandler = (e) => {
         e.preventDefault();
         setStatus('loading');
+
+        const data = {
+            email: e.target.email.value,
+            password: e.target.password.value,
+        }
 
         const credentials = {
             ...data,
@@ -33,6 +39,7 @@ export function useLogin(){
         })
         .catch(err => {
             console.log(err.message);
+            toast.error(err.message);
         });
     }
 

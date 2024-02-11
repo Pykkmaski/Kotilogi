@@ -44,6 +44,10 @@ module.exports = {
 
       gridTemplateColumns: {
         inputComponentColumns: '1fr 3fr',
+      },
+
+      colors: {
+        primary: "#e3a149",
       }
     },
   },

@@ -21,7 +21,6 @@ function Footer(props){
             </div>
 
             <footer className="w-full flex flex-col items-center">
-                <Link href="/tos" className="text-white">Käyttöehdot</Link>
                 <div className="flex justify-center gap-4 mt-[2em]">
                     <a className="fa fa-instagram text-white cursor-pointer no-underline before:text-[42px]" title="Instagram">
                        
