@@ -1,8 +1,8 @@
-import { useSession } from "next-auth/react";
-import { Content, Header } from "./page.components";
-import style from './page.module.scss';
 import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
+import { ContentCard } from "@/components/RoundedBox/RoundedBox";
+import { EmailSettingsForm } from "./EmailSettingsForm";
+import { PasswordSettingsForm } from "@/components/DashboardPage/SettingsPage/PasswordSettingsForm";
 
 export default async function Page(){
     const session = await getServerSession(options) as {user: {email: string}};
@@ -10,9 +10,19 @@ export default async function Page(){
     
     return (
         <main className="flex flex-col gap-4">
-            <Header/>
+            <div className="flex justify-between items-center">
+                <h3 className="text-slate-500 text-2xl">Tilin asetukset</h3>
+            </div>
+
             <div className="w-full">
-                <Content user={session.user}/>
+                <ContentCard title="Turvallisuus">
+                    <div className="w-full">
+                        <div className="mb-10">
+                            <EmailSettingsForm email={session.user.email}/>
+                        </div>
+                        <PasswordSettingsForm/>
+                    </div>
+                </ContentCard>
             </div>
         </main>
     )
