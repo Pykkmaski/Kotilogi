@@ -10,7 +10,6 @@ export async function verifyPassword(email: string, password: string){
             resolve(isOk);
         }
         catch(err){
-            logError(err);
             reject(err);
         }
     });
