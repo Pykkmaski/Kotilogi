@@ -78,6 +78,10 @@ export async function sendResetCode(email: string){
             }
 
             const resetToken: string = jwt.sign(payload, process.env.PASSWORD_RESET_SECRET as jwt.Secret);
+            const domainName = process.env.SERVICE_DOMAIN;
+            
+            if(!domainName) throw new Error('Domain name missing!');
+
             const link = `${domainName}/login/reset?token=${resetToken}`;
             const htmlContent = `
                 <html>
