@@ -34,7 +34,7 @@ export function StepOne(){
 
                     {
                         status === 'invalid_email' ? (
-                            <div className="flex w-full">
+                            <div className="flex w-full text-sm sm:justify-start md:justify-end">
                                 <ErrorText>Antamallesi sähköpostiosoitteelle ei löytynyt rekisteröityä käyttäjää!</ErrorText>
                             </div>
                         )

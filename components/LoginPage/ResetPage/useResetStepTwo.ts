@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import {useRouter} from 'next/navigation';
 import { useState } from "react";
 
-type ResetStepTwoStatus = 'idle' | 'unknown' | 'success' | 'loading';
+type ResetStepTwoStatus = 'idle' | 'unknown' | 'success' | 'loading' | 'password_mismatch';
 
 export function useResetStepTwo(){
     const params = useSearchParams();
@@ -24,9 +24,10 @@ export function useResetStepTwo(){
 
         if(!verificationCode){
             toast.error('Salasanan nollaustodennus puuttuu!');
+            setStatus('idle');
         }
         else if(password1 !== password2) {
-            toast.error('Salasanat eivät täsmää!');
+            setStatus('password_mismatch');
         }
         else{
             resetPassword(verificationCode, password1)
@@ -36,6 +37,7 @@ export function useResetStepTwo(){
             })
             .catch(err => {
                 toast.error(err.message);
+                setStatus('idle');
             })
         }
     }

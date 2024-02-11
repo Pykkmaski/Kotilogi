@@ -45,7 +45,7 @@ export default function LoginPage(){
 
                             {
                                 status === 'invalid_user' ? (
-                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
                                         <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText>
                                     </div>
                                 )
@@ -69,7 +69,7 @@ export default function LoginPage(){
                             
                             {
                                 status === 'password_mismatch' ? (
-                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
                                         <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText>
                                     </div>
                                 )

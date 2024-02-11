@@ -45,7 +45,7 @@ export default function RegisterPage(){
 
                             {
                                 status === 'user_exists' ? (
-                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end">
+                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
                                         <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText>
                                     </div>
                                 )
@@ -67,7 +67,7 @@ export default function RegisterPage(){
                             {/**Align the error to the right if on a bigger than mobile device */}
                             {
                                 status === 'password_mismatch' ? (
-                                    <div className="w-full flex sm:justify-normal md:justify-end">
+                                    <div className="w-full flex sm:justify-normal md:justify-end text-sm">
                                         <ErrorText>Salasanat eivät täsmää</ErrorText>
                                     </div>
                                 )
