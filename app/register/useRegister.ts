@@ -37,6 +37,7 @@ export function useRegister(){
                 router.replace('/login');
             })
             .catch(err => {
+                console.log(err.message);
                 setStatus(err.message);
             });
         }
