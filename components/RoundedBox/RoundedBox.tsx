@@ -19,12 +19,12 @@ export function ContentCard({children, title}: ContentCardProps){
     return (
         <RoundedBox>
             <div className="w-full">
-                <Group direction="col" gap={4}>
+                <div className="flex flex-col gap-4">
                     <BorderHeader>
                         <BoxHeading>{title}</BoxHeading>
                     </BorderHeader>
                     {children}
-                </Group>
+                </div>
             </div>
         </RoundedBox>
     );

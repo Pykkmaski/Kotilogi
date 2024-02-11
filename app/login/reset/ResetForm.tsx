@@ -152,46 +152,40 @@ function StepTwo(){
                 Salasana tulee vaihtaa 30 minuutin sisällä.
             </p>
 
-            <div className="w-full [&>*]:flex-1 mt-4">
-            <form onSubmit={onSubmitHandler}>
-                <Group direction="col" gap={4}>
+            <form onSubmit={onSubmitHandler} className="w-full mt-4 flex flex-col gap-4">
+                <Input 
+                    autoComplete="new-password"
+                    type="password" 
+                    name='password1' 
+                    label="Anna Uusi Salasana"
+                    description="Tilisi uusi salasana."
+                    placeholder="Kirjoita uusi salsanasi..."
+                    required 
+                    minLength={8}
+                    onChange={updateData}/>
+           
+
+                <div className="w-full">
                     <Group direction="row">
                         <Input 
-                            autoComplete="new-password"
+                            label="Toista Salasana"
+                            description="Uuden salsanan vahvistus."
+                            placeholder="Kirjoita salasana uudelleen..."
                             type="password" 
-                            name='password1' 
-                            label="Anna Uusi Salasana"
-                            description="Tilisi uusi salasana."
-                            placeholder="Kirjoita uusi salsanasi..."
+                            name="password2" 
                             required 
                             minLength={8}
                             onChange={updateData}/>
                     </Group>
-
-                    <div className="w-full">
-                        <Group direction="row">
-                            <Input 
-                                label="Toista Salasana"
-                                description="Uuden salsanan vahvistus."
-                                placeholder="Kirjoita salasana uudelleen..."
-                                type="password" 
-                                name="password2" 
-                                required 
-                                minLength={8}
-                                onChange={updateData}/>
-                        </Group>
-                    </div>
+                </div>
         
-                    <div className="mt-4 w-full">
-                        <Group direction="row" justify="end">
-                            <SecondaryButton onClick={previous} disabled={isLoading}>Takaisin</SecondaryButton>
-                            <PrimaryButton type="submit" disabled={isLoading || !data.password1 || !data.password2} loading={isLoading}>Lähetä</PrimaryButton>
-                        </Group>
-                    </div>
-                </Group>
+                <div className="mt-4 w-full">
+                    <Group direction="row" justify="end">
+                        <SecondaryButton onClick={previous} disabled={isLoading}>Takaisin</SecondaryButton>
+                        <PrimaryButton type="submit" disabled={isLoading || !data.password1 || !data.password2} loading={isLoading}>Lähetä</PrimaryButton>
+                    </Group>
+                </div>
             </form>
-            </div>
-            
         </ContentCard>
         
     );
