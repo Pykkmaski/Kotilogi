@@ -65,7 +65,7 @@ export async function sendResetCode(email: string){
             const [user] = await db('users').where({email}).select('email');
 
             //A user with provided email address does not exist.
-            if(!user) throw new Error(`User ${email} does not exist!`);
+            if(!user) throw new Error(`invalid_email`);
 
             const numbers: number[] = [];
             for(let i = 0; i < 6; ++i){

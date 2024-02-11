@@ -1,57 +1,16 @@
 import { useRouter } from "next/navigation";
 import { useResetFormProvider } from "./ResetFormContext";
-import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
-import { useEffect, useState } from "react";
-import { sendResetCode } from "kotilogi-app/actions/resetPassword";
-import toast from "react-hot-toast";
 import { ContentCard } from "@/components/RoundedBox/RoundedBox";
 import { Group } from "@/components/Group";
 import { Input } from "@/components/Input/Input";
 import { PrimaryButton } from "@/components/Button/PrimaryButton";
 import { SecondaryButton } from "@/components/Button/SecondaryButton";
-import { SuccessText, ErrorText } from "@/components/Util/Text";
+import { ErrorText } from "@/components/Util/Text";
+import { useResetStepOne } from "./useResetStepOne";
 
 export function StepOne(){
     const router = useRouter();
-    const {dispatch} = useResetFormProvider();
-    const {data, updateData} = useInputData({});
-    const [status, setStatus] = useState<'success' | 'error' | 'loading' | 'idle'>('idle');
-
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        setStatus('loading');
-
-        const email = e.target.email.value;
-
-        sendResetCode(email)
-        .then(() => {
-            toast.success('Varmennuskoodi lähetetty onnistuneesti!');
-            setStatus('success');
-
-            dispatch({
-                type: 'set_email',
-                value: email,
-            });
-        })
-        .catch(err => {
-            dispatch({
-                type: 'set_status',
-                value: err.code,
-            });
-
-            setStatus('error');
-        });
-    }
-
-    useEffect(() => {
-        if(status !== 'error') return;
-
-        const timeout = setTimeout(() => {
-            setStatus('idle');
-        }, 3000);
-
-        return () => clearTimeout(timeout);
-    }, [status])
+    const {data, status, updateData, resetStepOneHandler} = useResetStepOne();
 
     const isDisabled = () => status === 'loading' || status === 'success';
 
@@ -62,8 +21,8 @@ export function StepOne(){
                 Sähköpostin saapumiseen saattaa mennä muutama minuutti.
             </p>
 
-            <form onSubmit={onSubmitHandler}>
-                <Group direction="row">
+            <form onSubmit={resetStepOneHandler}>
+                <div className="flex flex-col gap-2">
                     <Input 
                         type="email" 
                         name="email"
@@ -72,7 +31,17 @@ export function StepOne(){
                         placeholder="Kirjoita sähköpostiosoitteesi..."
                         required
                         onChange={updateData}/>
-                </Group>
+
+                    {
+                        status === 'invalid_email' ? (
+                            <div className="flex w-full">
+                                <ErrorText>Antamallesi sähköpostiosoitteelle ei löytynyt rekisteröityä käyttäjää!</ErrorText>
+                            </div>
+                        )
+                        :
+                        null
+                    }
+                </div>
 
                 <div className="mt-4">
                     <Group direction="row" justify="end" gap={2}>
@@ -89,14 +58,6 @@ export function StepOne(){
                         >Lähetä</PrimaryButton>
                     </Group>
                 </div>
-                
-                {
-                    status === 'success' ? <SuccessText>Varmennuslinkki on lähetetty! Tarkista sähköpostisi.</SuccessText>
-                    :
-                    status === 'error' ? <ErrorText>Varmennuslinkin lähetys epäonnistui!</ErrorText>
-                    :
-                    <></>
-                }
             </form>
         </ContentCard>
         
