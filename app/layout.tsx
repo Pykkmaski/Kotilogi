@@ -6,6 +6,7 @@ import { options } from './api/auth/[...nextauth]/options';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
 import { serviceName } from 'kotilogi-app/constants';
+import { CookieNotice } from '@/components/App/CookieNotice';
 
 export const metadata = {
   title: 'Kotilogi',
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }) {
               }
             }}/>
 
+            <CookieNotice/>
             <Notice text={'Sovellus on työn alla. Pahoittelemme mahdollisista häiriöistä.'}/>
           </body>
       </AuthProvider>
