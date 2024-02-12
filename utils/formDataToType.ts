@@ -1,5 +1,5 @@
-export default function formDataToType<T>(data: FormData): T{
+export default function formDataToType<T extends {}>(data: FormData): T{
     return {
         ...data
-    } as T
+    } as unknown as T
 }

@@ -1,19 +1,15 @@
 "use client";
 
-import {signIn} from 'next-auth/react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import {useState} from 'react';
+import { useRouter } from 'next/navigation';
 import {SecondaryButton} from 'kotilogi-app/components/Button/SecondaryButton';
 import {PrimaryButton} from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
 import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
 import { Group } from 'kotilogi-app/components/Group';
 import Link from 'next/link';
-import { useInputData } from 'kotilogi-app/components/Modals/BaseAddModal.hooks';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
 import { ErrorText } from '@/components/Util/Text';
 import { useLogin } from './useLogin';
-import { MediumDevices, SmallDevices } from '@/components/Util/Media';
 
 export default function LoginPage(){
     const router = useRouter();
