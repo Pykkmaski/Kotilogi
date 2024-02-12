@@ -69,7 +69,7 @@ function createMessageHTML(from: string, message: string): string{
 
         <body>
             <div class="header">
-                <h1>Kotilogin Yhteydenotto</h1>
+                <h1>Kotilokin Yhteydenotto</h1>
             </div>
 
             <div class="content">
@@ -96,7 +96,30 @@ export async function sendContactMessage(data: MessageDataType){
             const to = process.env.SERVICE_CONTACT_EMAILS as string;
             console.log(to);
             
-            const msg = createMessageHTML(data.email, data.message);
+            const msg = `
+                <html>
+                    <head>
+                        <style>
+                            .sender{
+                                margin-top: 2rem;
+                                font-weight: bold;
+                            }
+                        </style>
+                    </head>
+
+                    <body>
+                        <div class="text">
+                            ${data.message}
+                        </div>
+
+                        <div class="sender">
+                            Lähettäjä:
+                            ${data.email}
+                        </div>
+                    </body>
+                </html>
+                
+            `;
             await sendHTMLEmail(serviceName, data.email, to.split(','), msg);
             resolve();
         }

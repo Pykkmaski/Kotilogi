@@ -29,7 +29,6 @@ function ContactForm(props){
         .then(() => {
             if(formRef.current){
                 formRef.current.reset();
-                console.log('Form reset');
             }
             
             setError(0); 
