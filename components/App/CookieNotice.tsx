@@ -7,15 +7,15 @@ import { RoundedBox } from "../RoundedBox/RoundedBox";
 function Message({setShowMessage}){
 
     const acceptCookies = () => {
-        sessionStorage.setItem('cookies', 'true');
+        sessionStorage?.setItem('cookies', 'true');
         setShowMessage(false);
     }
 
     return (
         <RoundedBox>
             <div className="flex flex-col gap-4 items-center">
-                <div className="flex w-full justify-between gap-4 items-center">
-                    <img src="/icons/cookie.png" width="80px" height="80px"></img>
+                <div className="flex w-full justify-between gap-4 sm:items-start md:items-center">
+                    <img src="/icons/cookie.png" className="aspect-square sm:w-[30px] md:w-[80px] sm:mt-4 md:mt-0"></img>
                     <span className="text-lg text-slate-500">
                         Käytämme evästeitä. Jatkamalla sivuston käyttöä, hyväksyt evästeiden tallennuksen laitteellesi.
                     </span>
@@ -37,11 +37,11 @@ function Message({setShowMessage}){
 }
 
 export function CookieNotice(){
-    const cookiesAccepted = sessionStorage.getItem('cookies');
+    const cookiesAccepted = sessionStorage?.getItem('cookies');
     const [showMessage, setShowMessage] = useState(cookiesAccepted && cookiesAccepted === 'true' ? false : true);
     
     return (
-        <div className="fixed bottom-11 right-4 shadow-lg w-[500px] z-50 animate-slideup-slow">
+        <div className="fixed bottom-11 sm:right-0 md:right-4 shadow-lg sm:w-full md:w-[500px] z-50 animate-slideup-slow flex items-center">
             {showMessage ? <Message setShowMessage={setShowMessage}/> : null}
         </div>
     );
