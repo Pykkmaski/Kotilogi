@@ -4,7 +4,6 @@ import Spinner from "@/components/Spinner/Spinner";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 
 export default async function LogoutPage(){
     const router = useRouter();

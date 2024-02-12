@@ -11,7 +11,6 @@ import { ErrorText } from 'kotilogi-app/components/Util/Text';
 import { MIN_PASSWORD_LENGTH, Prices, serviceName } from 'kotilogi-app/constants';
 import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
 import { useRegister } from './useRegister';
-import { MediumDevices, SmallDevices } from '@/components/Util/Media';
 
 function IncludesVATNotice(){
     return <span>(Sis. ALV {Prices.TAX * 100}%)</span>
