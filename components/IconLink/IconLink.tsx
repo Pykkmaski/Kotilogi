@@ -7,8 +7,13 @@ import { useEffect, useRef, useState } from "react";
 
 /**The background of the link displayed when on the route the link points to. */
 function SelectedBackground(){
+    const className = [
+        style.selectedBackground,
+        'shadow-lg',
+    ];
+
     return (
-        <div className={style.selectedBackground}/>
+        <div className={className.join(' ')}/>
     );
 }
 

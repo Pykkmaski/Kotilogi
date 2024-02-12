@@ -14,6 +14,7 @@ import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading';
 import { Flex } from 'kotilogi-app/components/Util/Flex';
 import { Padding } from '@/components/Util/Padding';
 import { MediumDevices } from '@/components/Util/Media';
+import { BackgroundFiller } from '@/components/BackgroundFIller';
 
 export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -34,7 +35,7 @@ export default async function PropertyDetailsLayout({children, params}){
            <Layout>
                 <Padding>
                     <Group gap={1} direction="row">
-                        <div className="sm:hidden md:block flex-1 flex flex-col">
+                        <div className="sm:hidden md:block flex-1 flex flex-col relative">
                             <Header>
                                 <Group direction="col">
                                     <SecondaryHeading>Talo</SecondaryHeading>

@@ -1,3 +1,4 @@
+import { BackgroundFiller } from "@/components/BackgroundFIller";
 import { Padding } from "@/components/Util/Padding";
 import { Group } from "kotilogi-app/components/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
@@ -19,7 +20,7 @@ export default async function EventLayout({children, params}){
                 
 
                 <div className="flex gap-4">
-                    <div className="flex-1 flex flex-col gap-4">
+                    <div className="flex-1 flex flex-col gap-4 relative">
                         <Header>
                             <Group direction="col" gap={0}>
                                 <SecondaryHeading>Tapahtuma</SecondaryHeading>

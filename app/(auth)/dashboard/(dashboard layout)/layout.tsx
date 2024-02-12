@@ -9,6 +9,7 @@ import { SecondaryHeading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";
 import { Padding } from "@/components/Util/Padding";
 import { MediumDevices, SmallDevices } from "@/components/Util/Media";
+import { BackgroundFiller } from "@/components/BackgroundFIller";
 
 export default async function DashboardLayout({children}){
 
@@ -19,7 +20,7 @@ export default async function DashboardLayout({children}){
         <Layout>
             <Padding>
                 <div className="flex gap-4">
-                    <div className="sm:hidden md:block flex-1 flex flex-col">
+                    <div className="sm:hidden md:block flex-1 flex flex-col relative">
                         <Header>
                             <Group direction="col" gap={0}>
                                 <SecondaryHeading>{session.user.email}</SecondaryHeading>
