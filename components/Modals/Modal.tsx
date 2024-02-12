@@ -41,8 +41,8 @@ function Modal(props: ModalProps){
 
     return (
         <ModalContext.Provider value={{onHide}}>
-            <dialog ref={dialogRef} className='rounded-lg sm:p-2 md:p-4 relative shadow-lg' key={props.id} id={props.id}>
-            {props.children}
+            <dialog ref={dialogRef} className='rounded-lg sm:p-2 md:p-4 relative shadow-lg animate-slideup-fast' key={props.id} id={props.id}>
+                {props.children}
             </dialog>
         </ModalContext.Provider>
     );
