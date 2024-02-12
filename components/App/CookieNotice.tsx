@@ -41,7 +41,7 @@ export function CookieNotice(){
     const [showMessage, setShowMessage] = useState(cookiesAccepted && cookiesAccepted === 'true' ? false : true);
     
     return (
-        <div className="fixed bottom-11 right-4 shadow-lg w-[500px] z-50">
+        <div className="fixed bottom-11 right-4 shadow-lg w-[500px] z-50 animate-slideup-slow">
             {showMessage ? <Message setShowMessage={setShowMessage}/> : null}
         </div>
     );

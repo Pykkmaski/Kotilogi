@@ -39,7 +39,24 @@ module.exports = {
           '100%': {
             height: '100%',
           }
+        },
+
+        slideup: {
+          '0%': {
+            transform: "translateY(12px)",
+            opacity: 0
+          },
+    
+          '100%': {
+            transform: "translateY(0)",
+            opacity: 1,
+          }
         }
+      },
+
+      animation: {
+        'slideup-slow': 'slideup 0.5s ease-out',
+        'slideup-fast': 'slideup 0.2s ease-out',
       },
 
       gridTemplateColumns: {
