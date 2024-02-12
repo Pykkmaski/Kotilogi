@@ -18,15 +18,15 @@ export default async function DashboardLayout({children}){
     return (
         <Layout>
             <Padding>
-                <Header>
-                    <Group direction="col" gap={0}>
-                        <SecondaryHeading>{session.user.email}</SecondaryHeading>
-                        <h3 className="text-xl">Hallintapaneeli</h3>
-                    </Group>
-                </Header>
-
                 <div className="flex gap-4">
-                    <div className="sm:hidden md:block flex-1">
+                    <div className="sm:hidden md:block flex-1 flex flex-col">
+                        <Header>
+                            <Group direction="col" gap={0}>
+                                <SecondaryHeading>{session.user.email}</SecondaryHeading>
+                                <h3 className="text-xl">Hallintapaneeli</h3>
+                            </Group>
+                        </Header>
+
                         <NavBar>
                             <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
                             <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>

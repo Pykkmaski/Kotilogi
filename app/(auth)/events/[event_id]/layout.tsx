@@ -16,25 +16,30 @@ export default async function EventLayout({children, params}){
     return (
         <Layout>
             <Padding>
-                <Header>
-                    <Group direction="col" gap={0}>
-                        <SecondaryHeading>Tapahtuma</SecondaryHeading>
-                        <span className="text-black text-xl">{event.title}</span>
-                    </Group>
-                </Header>
+                
 
-                <SplitScreen rightWeight={7} gap="1rem">
-                    <NavBar>
-                        <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
-                        <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
-                        <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
-                        <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
-                    </NavBar>
+                <div className="flex gap-4">
+                    <div className="flex-1 flex flex-col gap-4">
+                        <Header>
+                            <Group direction="col" gap={0}>
+                                <SecondaryHeading>Tapahtuma</SecondaryHeading>
+                                <span className="text-black text-xl">{event.title}</span>
+                            </Group>
+                        </Header>
 
-                    <div className="ml-8 mb-8">
+                        <NavBar>
+                            <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
+                            <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
+                            <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
+                            <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
+                        </NavBar>
+                    </div>
+                    
+
+                    <div className="ml-8 mb-8 flex-[9]">
                         {children}
                     </div>
-                </SplitScreen>
+                </div>
             </Padding>
             
         </Layout>

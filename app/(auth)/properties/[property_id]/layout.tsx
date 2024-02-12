@@ -33,29 +33,27 @@ export default async function PropertyDetailsLayout({children, params}){
         <PropertyContextProvider value={contextValue}>
            <Layout>
                 <Padding>
-                    <Header>
-                        <Group direction="col">
-                            <SecondaryHeading>Talo</SecondaryHeading>
-                            <span className="text-black text-xl">{property.title}</span>
-                        </Group>
-                    </Header>
-                    
                     <Group gap={1} direction="row">
-                        <MediumDevices>
-                            <Flex value={1}>
-                                <NavBar>
-                                    <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                                    <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                                    <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
-                                    <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                                    <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
-                                    
-                                    <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
+                        <div className="sm:hidden md:block flex-1 flex flex-col">
+                            <Header>
+                                <Group direction="col">
+                                    <SecondaryHeading>Talo</SecondaryHeading>
+                                    <span className="text-black text-xl">{property.title}</span>
+                                </Group>
+                            </Header>
+
+                            <NavBar>
+                                <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                                <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                                <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
+                                <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                                <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
                                 
-                                    <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
-                                </NavBar>
-                            </Flex>
-                        </MediumDevices>
+                                <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
+                            
+                                <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                            </NavBar>
+                        </div>
                         
                         <Flex value={8}>
                             <div className="sm:ml-0 md:ml-8 mb-8">

@@ -59,7 +59,7 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
                 width={15}
                 height={15}
             />
-           {props.children}
+           <div className="z-10">{props.children}</div>
         </Link>
     );
 }
