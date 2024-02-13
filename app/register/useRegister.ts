@@ -3,6 +3,7 @@ import { registerUser } from "kotilogi-app/actions/registerUser";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import * as users from '@/actions/users';
 
 export type RegisterStatusType = 'idle' | 'unexpected' | 'user_exists' | 'password_mismatch' | 'loading' | 'success';
 export type RegisterDataType = {
@@ -30,7 +31,7 @@ export function useRegister(){
         else{
             setStatus('loading');
 
-            registerUser(data)
+            users.register(data)
             .then(result => {
                 setStatus(result as RegisterStatusType);
 

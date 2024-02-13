@@ -3,6 +3,7 @@
 import { filterIntoObject } from "kotilogi-app/utils/filterIntoObject";
 import { PieChart } from "../Experimental/Chart/Chart";
 import { ApexOptions } from "apexcharts";
+import { colors } from "kotilogi-app/apex.config";
 
 type UsagePieChartProps = {
     data: Kotilogi.UsageType[],
@@ -20,7 +21,10 @@ export function UsagePieChart({data}: UsagePieChartProps){
             reduce(dataFiltered.heat), reduce(dataFiltered.water), reduce(dataFiltered.electric),
         ],
         labels: ['Lämmityskulut', 'Vesikulut', 'Sähkökulut'],
-        colors: ['#f00', '#00f', '#ff0']
+        colors: [colors.heating, colors.water, colors.electricity],
+        legend: {
+            show: false,
+        },
     }
 
     return (

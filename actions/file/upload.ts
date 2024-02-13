@@ -14,7 +14,6 @@ import { logError } from 'kotilogi-app/utils/logError';
  * @returns An array containing the newly inserted database entries of the files, or null in case of an error.
  */
 export async function upload(data: FormData[], refId: Kotilogi.IdType, tableName: 'propertyFiles' | 'eventFiles'){
-
     return new Promise<Array<{id: Kotilogi.IdType, fileName: string}>>(async (resolve, reject) => {
         try{
           /**

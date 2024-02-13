@@ -17,9 +17,13 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
     const deleteItems = async () => {
         setStatus('loading');
         try{
+            const promises: Promise<void>[] = [];
             for(const item of targetsToDelete){
-                await deleteMethod(item);
+                promises.push(deleteMethod(item));
             }
+
+            await Promise.all(promises);
+            
             setStatus('success');
             resetSelectedTargets();
             props.onHide();

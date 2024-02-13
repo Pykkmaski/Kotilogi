@@ -58,6 +58,12 @@ export async function isAllowedToAddProperty(email: string): Promise<boolean>{
     }
 }
 
+/**
+ * @deprecated This method has been replaced by the add-method in the properties module.
+ * @param data 
+ * @param files 
+ * @returns 
+ */
 export async function addProperty(data: Kotilogi.PropertyType, files?: FormData[]){
     return new Promise<object>(async (resolve, reject) => {
         try{

@@ -9,13 +9,16 @@ import { useInputFiles, useAddModal } from "./BaseAddModal.hooks";
 import { BaseAddModal } from "./BaseAddModal";
 import { upload } from "kotilogi-app/actions/file/upload";
 import React from "react";
+import * as properties from '@/actions/properties';
+import * as file from '@/actions/file';
+import * as events from '@/actions/events';
 
 type AddModalProps = ModalProps & {
     refId: string,
 }
 
 export function AddPropertyModal({refId, ...props}: AddModalProps){
-    const {onSubmit, updateData, updateFiles} = useAddModal(refId, addProperty);
+    const {onSubmit, updateData, updateFiles} = useAddModal(refId, properties.add);
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Talo">
@@ -75,7 +78,7 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
 }
 
 export function AddEventModal({refId, ...props}: AddModalProps){
-    const {updateData, updateFiles, onSubmit} = useAddModal(refId, addPropertyEvent);
+    const {updateData, updateFiles, onSubmit} = useAddModal(refId, events.add);
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Tapahtuma">
@@ -126,7 +129,11 @@ export function AddFilesModal({accept, tablename, refId, ...props}: AddFilesModa
     const {files, updateFiles} = useInputFiles();
 
     const onSubmit = (e) => {
-        return upload(files, refId, tablename as any);
+        const promises: Promise<Kotilogi.FileType>[] = [];
+        for(const f of files){
+            promises.push(file.upload(tablename as any, refId, f.get('file') as unknown as File));
+        }
+        return promises;
     }
 
     return (

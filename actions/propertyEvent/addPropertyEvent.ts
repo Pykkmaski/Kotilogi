@@ -6,6 +6,12 @@ import { addData } from "../data/addData";
 import { generateConsolidationTime } from "./util/generateConsolidationTime";
 import { logError } from "kotilogi-app/utils/logError";
 
+/**
+ * @deprecated This method has been replaced by the add-method in the actions/events module.
+ * @param eventData 
+ * @param files 
+ * @returns 
+ */
 export async function addPropertyEvent(eventData: Kotilogi.EventType, files?: FormData[]){
     var addedEvent: Kotilogi.EventType | null = null;
 

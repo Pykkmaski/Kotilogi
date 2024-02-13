@@ -19,6 +19,7 @@ function verifyEventDeletion(event: {consolidationTime: string}): PropertyEventE
 
 /**
  * Deletes an event and all its files from disk.
+ * @deprecated This function has been replaced by the del-method in the actions/events module.
  * @param eventId 
  * @returns 
  */

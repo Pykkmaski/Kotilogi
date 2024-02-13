@@ -8,12 +8,13 @@ import InteriorSection from "./InteriorSection"
 import RoofSection from "./RoofSection"
 import HeatingSection from "./HeatingSection";
 import { updateDataById } from "kotilogi-app/actions/data/updateData";
+import * as properties from '@/actions/properties';
 
 export function Content({propertyData}: {
     propertyData: Kotilogi.PropertyType
 }){
 
-    const update = (data: object) => updateDataById(data, propertyData.id, 'properties');
+    const update = (data: Kotilogi.ItemType) => properties.update(propertyData.id, data);
     
     return (
         <>

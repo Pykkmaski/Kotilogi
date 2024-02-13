@@ -14,7 +14,7 @@ type ChartProps = {
     dataPointColor?: string,
 }
 
-function Chart(props: ChartProps){
+export function Chart(props: ChartProps){
 
    if(typeof window === 'undefined') return null;
 
@@ -34,7 +34,7 @@ function Chart(props: ChartProps){
     );
 }
 
-function ColumnChart(props: ChartProps){
+export function ColumnChart(props: ChartProps){
     const options: ApexOptions = {
         ...props.options,
         chart: {
@@ -62,7 +62,7 @@ export function PieChart(props: ChartProps){
     const options: ApexOptions = {
         ...props.options,
         chart: {
-            type: 'pie',
+            type: 'donut',
         }
     }
 

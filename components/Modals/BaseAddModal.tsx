@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { ErrorText } from "../Util/Text";
 
 type BaseAddModalProps = ModalProps & {
-    submitMethod: (e) => Promise<any>,
+    submitMethod: (e) => any, //TODO: type this better.
     onHide: () => void,
     title: string,
 }
@@ -25,7 +25,7 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
 
         submitMethod(e)
         .then(res => {
-            setStatus('success');
+            setStatus(res);
             closeModal();
         })
         .catch(err => {

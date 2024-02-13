@@ -21,6 +21,7 @@ import { usePropertyContext } from "../_util/PropertyContextProvider";
 import Link from "next/link";
 import { TypeNav } from "@/components/UsagePage/TypeNav";
 import { UsagePieChart } from "@/components/UsagePage/PieChart";
+import { colors } from "kotilogi-app/apex.config";
 
 type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
     type: Kotilogi.UsageTypeType,
@@ -186,15 +187,15 @@ export function Content({data, type}: ContentProps){
 
     const getDataPointColor = () => {
         if(type === 'heat'){
-            return '#f00';
+            return colors.heating;
         }
 
         if(type === 'water'){
-            return '#00f';
+            return colors.water;
         }
 
         if(type === 'electric'){
-            return '#ff0';
+            return colors.electricity;
         }
 
         return '#000';

@@ -1,3 +1,5 @@
+import { Database } from "kotilogi-app/utils/database";
+import { properties } from "kotilogi-app/utils/properties";
 import { useState } from "react";
 
 export type StatusType = 'idle' | 'loading' | 'error' | 'success';
@@ -18,11 +20,13 @@ export function useInputFiles(){
         const uploadedFiles = e.target.files;
 
         const newFiles: FormData[] = [];
+
         for(var i = 0; i < uploadedFiles.length; ++i){
-            const data = new FormData();
-            data.append('file', uploadedFiles[i]);
-            newFiles.push(data);
+            const fdata = new FormData();
+            fdata.append('file', uploadedFiles[i]);
+            newFiles.push(fdata);
         }
+
         setFiles(newFiles);
     }
 
@@ -50,11 +54,12 @@ export function useInputData(initialData){
     return {data, updateData, reset};
 }
 
-export function useAddModal(refId, submitMethod: (data: object, files?: FormData[]) => Promise<object>){
+export function useAddModal<T extends Function>(refId: string, submitMethod: T){
     const {data, updateData} = useInputData({refId});
     const {files, updateFiles} = useInputFiles();
 
     const onSubmit = (e) => {
+        console.log(files);
         return submitMethod(data, files);
     }
 

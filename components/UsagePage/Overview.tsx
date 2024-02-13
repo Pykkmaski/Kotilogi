@@ -1,3 +1,4 @@
+import { AllUsageDataChart } from "./AllUsageDataChart";
 import { UsagePieChart } from "./PieChart";
 
 function TotalPrice({totalPrice}){
@@ -63,12 +64,19 @@ export function Overview({data}){
     const currentHighest = Math.max(waterPrice, heatingPrice, electricityPrice);
     return (
         <div className="flex gap-4">
-            <div className="w-[500px]">
-                <UsagePieChart data={data}/>
+            <div className="w-[500px] relative flex items-center justify-center">
+                <div className="w-full">
+                    <UsagePieChart data={data}/>
+                </div>
+                
+                <div className="absolute">
+                    <TotalPrice totalPrice={totalPrice}/>
+                </div>
+                
             </div>
 
             <div className="flex flex-col gap-4">
-                <TotalPrice totalPrice={totalPrice}/>
+                
             </div>
         </div>
     );

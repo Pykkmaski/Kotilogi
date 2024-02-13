@@ -8,6 +8,7 @@ import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import {Error} from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error";
 import { SearchBar } from "kotilogi-app/components/SearchBar";
 import { LayoutGroup } from "kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup";
+import {del as deleteEvent} from '@/actions/events';
 
 /**The main content rendering component of the page. */
 export function Content({events, propertyId}){
@@ -17,7 +18,7 @@ export function Content({events, propertyId}){
                 <Gallery.Header 
                     title="Tapahtumat" 
                     AddModal={(props: ModalProps) => <AddEventModal {...props} refId={propertyId}/>}
-                    DeleteModal={(props: ModalProps) => <Gallery.DeleteModal<Kotilogi.EventType> {...props} deleteMethod={deletePropertyEvent}/>}>
+                    DeleteModal={(props: ModalProps) => <Gallery.DeleteModal<Kotilogi.EventType> {...props} deleteMethod={deleteEvent}/>}>
                         <SearchBar/>
                     </Gallery.Header>
 

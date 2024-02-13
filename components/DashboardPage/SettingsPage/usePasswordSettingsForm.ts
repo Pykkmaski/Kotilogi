@@ -4,6 +4,7 @@ import { MutableRefObject, useState } from "react";
 import { useDashboardContext } from "../../../app/(auth)/dashboard/(dashboard layout)/DashboardContextProvider";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import * as users from '@/actions/users';
 
 type PasswordSettingStatus = 'idle' | 'invalid_password' | 'password_mismatch' | 'loading' | 'success' | 'unexpected';
 
@@ -27,7 +28,7 @@ export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElemen
             setStatus('password_mismatch');
         }
         else{
-            updatePassword(user.email, data.password1, data.password3)
+            users.updatePassword(user.email, data.password1, data.password3)
             .then(result => {
                 setStatus(result as PasswordSettingStatus);
 

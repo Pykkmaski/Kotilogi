@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Group } from "../Group";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import { colors } from "kotilogi-app/apex.config";
 
 export function TypeNav({children}){
     const searchParams = useSearchParams();
@@ -19,7 +20,7 @@ export function TypeNav({children}){
                         if(params.get('type') === currentParam){
                             const selectedClassName = [
                                 'font-semibold shadow-md',
-                                typeName === 'heat' ? 'bg-red-500 text-white' : typeName === 'water' ? 'bg-blue-500 text-white' : 'bg-yellow-400 text-black',
+                                typeName === 'heat' ? `bg-heating text-white` : typeName === 'water' ? `bg-water text-white` :  `bg-electricity text-black`,
                                 baseClassName,
 
                             ];

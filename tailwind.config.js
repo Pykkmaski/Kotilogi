@@ -1,3 +1,5 @@
+import {colors as chartColors} from './apex.config';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -65,6 +67,9 @@ module.exports = {
 
       colors: {
         primary: "#e3a149",
+        heating: chartColors.heating,
+        electricity: chartColors.electricity,
+        water: chartColors.water,
       }
     },
   },

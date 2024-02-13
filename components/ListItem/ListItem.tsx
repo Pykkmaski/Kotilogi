@@ -7,6 +7,7 @@ import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer, TitleContainer } from './ListItem.components';
 import toast from 'react-hot-toast';
 import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
+import * as properties from '@/actions/properties';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
@@ -51,7 +52,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
 
         const loadingToast = toast.loading('Poistetaan taloa...');
 
-        deleteProperty(props.item)
+        properties.del(props.item)
         .then(() => {
             toast.dismiss(loadingToast);
             toast.success('Talo poistettu!')
