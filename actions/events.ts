@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import * as database from './database';
+import * as file from './file';
 
 /**Generates a consolidation time from the current date + the consolidation delay environment variable. */
 export async function generateConsolidationTime(){
@@ -60,6 +61,19 @@ export async function del(event: Kotilogi.EventType){
             
             await database.delWithFiles('propertyEvents', 'propertyFiles', event);
             revalidatePath('/properties/[property_id]/events');
+            resolve();
+        }
+        catch(err){
+            reject(err);
+        }
+    });
+}
+
+export async function deleteFile(fileData: Kotilogi.FileType){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            await file.del('eventFiles', fileData);
+            revalidatePath('/events/[event_id]');
             resolve();
         }
         catch(err){

@@ -80,3 +80,16 @@ export async function update(propertyId: Kotilogi.IdType, newPropertyData: Kotil
         }
     });
 }
+
+export async function deleteFile(fileData: Kotilogi.FileType){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            await file.del('propertyFiles', fileData);
+            revalidatePath('/properties/[property_id]');
+            resolve();
+        }
+        catch(err){
+            reject(err);
+        }
+    });
+}

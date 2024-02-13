@@ -3,6 +3,8 @@ import { deleteEventFiles } from "kotilogi-app/actions/propertyEvent/deleteEvent
 import { ListItem, ListItemProps } from "./ListItem";
 import { CheckBox, ControlsContainer, DeleteButton, InfoContainer, TitleContainer } from "./ListItem.components";
 import toast from "react-hot-toast";
+import * as properties from '@/actions/properties';
+import * as events from '@/actions/events';
 
 export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
     icon: string,
@@ -47,13 +49,13 @@ function PdfListItem(props: PdfListItemProps){
 export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='propertyFiles'
-            deleteMethod={() => deletePropertyFiles([props.item])}/>
+            deleteMethod={() => properties.deleteFile(props.item)}/>
     );
 }
 
 export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='eventFiles'
-            deleteMethod={() => deleteEventFiles([props.item])}/>
+            deleteMethod={() => events.deleteFile(props.item)}/>
     );
 }

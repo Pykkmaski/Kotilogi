@@ -6,6 +6,8 @@ import { ListItemProps, ListItemProvider } from "./ListItem";
 import { deleteEventFiles } from "kotilogi-app/actions/propertyEvent/deleteEventFiles";
 import Link from "next/link";
 import { CheckBox } from "./ListItem.components";
+import * as properties from '@/actions/properties';
+import * as events from '@/actions/events';
 
 function ImageListItem(props: Omit<FileListItemProps, 'icon'>){
 
@@ -38,12 +40,12 @@ function ImageListItem(props: Omit<FileListItemProps, 'icon'>){
 
 export function PropertyImageListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
-        <ImageListItem {...props} tablename="propertyFiles" deleteMethod={() => deletePropertyFiles([props.item])}/>
+        <ImageListItem {...props} tablename="propertyFiles" deleteMethod={() => properties.deleteFile(props.item)}/>
     );
 }
 
 export function EventImageListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
-        <ImageListItem {...props} tablename="eventFiles" deleteMethod={() => deleteEventFiles([props.item])} />
+        <ImageListItem {...props} tablename="eventFiles" deleteMethod={() => events.deleteFile(props.item)} />
     );
 }

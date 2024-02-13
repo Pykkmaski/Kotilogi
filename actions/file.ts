@@ -4,6 +4,7 @@ import { fileNameTimestampSeparator } from "kotilogi-app/constants";
 import { limit, uploadPath } from "kotilogi-app/uploadsConfig";
 import * as database from './database';
 import { unlink } from "fs/promises";
+import { revalidatePath } from "next/cache";
 
 function verifyFile(file: File){
     if(!file) {
@@ -63,13 +64,13 @@ export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: s
     }); 
 }
 
-export async function del(fileTableName: string, fileData: Kotilogi.FileType){
+export async function del(tablename: 'propertyFiles' | 'eventFiles', fileData: Kotilogi.FileType){
     var fileDataBackup: Kotilogi.FileType | null = null;
 
     return new Promise<void>(async (resolve, reject) => {
         try{
             await unlink(uploadPath + fileData.fileName);
-            await database.del(fileTableName, fileData);
+            await database.del(tablename, fileData);
             resolve();
         }
         catch(err){

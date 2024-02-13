@@ -2,7 +2,7 @@
 
 import { CSSProperties, createContext, useContext, useState} from "react";
 import { ActionType } from "./Gallery.reducer";
-import { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useGallery, StateType } from "./Gallery.hooks";
 import { Heading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";

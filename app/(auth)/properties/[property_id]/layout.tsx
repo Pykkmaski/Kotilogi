@@ -34,7 +34,7 @@ export default async function PropertyDetailsLayout({children, params}){
         <PropertyContextProvider value={contextValue}>
            <Layout>
                 <Padding>
-                    <Group gap={1} direction="row">
+                    <div className="flex flex-row gap-2">
                         <div className="sm:hidden md:block flex-1 flex flex-col relative">
                             <Header>
                                 <Group direction="col">
@@ -56,12 +56,12 @@ export default async function PropertyDetailsLayout({children, params}){
                             </NavBar>
                         </div>
                         
-                        <Flex value={8}>
+                        <div className="flex-[8]">
                             <div className="sm:ml-0 md:ml-8 mb-8">
                                 {children}
                             </div>
-                        </Flex>
-                    </Group>
+                        </div>
+                    </div>
                 </Padding>
            </Layout>
         </PropertyContextProvider>

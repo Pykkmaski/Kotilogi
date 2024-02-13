@@ -12,6 +12,7 @@ import React from "react";
 import * as properties from '@/actions/properties';
 import * as file from '@/actions/file';
 import * as events from '@/actions/events';
+import * as database from '@/actions/database';
 
 type AddModalProps = ModalProps & {
     refId: string,
@@ -120,7 +121,7 @@ export function AddEventModal({refId, ...props}: AddModalProps){
 }
 
 type AddFilesModalProps = ModalProps & {
-    tablename: string,
+    tablename: 'propertyFiles' | 'eventFiles',
     accept: string,
     refId: string,
 }
@@ -129,11 +130,11 @@ export function AddFilesModal({accept, tablename, refId, ...props}: AddFilesModa
     const {files, updateFiles} = useInputFiles();
 
     const onSubmit = (e) => {
-        const promises: Promise<Kotilogi.FileType>[] = [];
+        const promises: Promise<void>[] = [];
         for(const f of files){
-            promises.push(file.upload(tablename as any, refId, f.get('file') as unknown as File));
+            promises.push(database.uploadFile(tablename, refId, f));
         }
-        return promises;
+        return Promise.all(promises);
     }
 
     return (

@@ -2,6 +2,7 @@
 
 import db from "kotilogi-app/dbconfig";
 import * as file from './file';
+import { revalidatePath } from "next/cache";
 
 export async function add<T extends {}>(tablename: string, data: T){
     return db(tablename).insert(data, '*') as Promise<T[]>;
@@ -73,5 +74,23 @@ export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
         }
     });
 }
+
+export async function uploadFile(tablename: 'propertyFiles' | 'eventFiles', refId: string, fdata: FormData){
+    return new Promise<void>(async (resolve, reject) => {
+        try{
+            await file.upload(tablename, refId, fdata.get('file') as unknown as File);
+            const path = tablename === 'propertyFiles' ? '/properties/[property_id]' : '/events/[event_id]';
+            revalidatePath(path);
+            resolve();
+        }
+        catch(err){
+            reject(err);
+        }
+    });
+}
+
+
+
+
 
 
