@@ -20,7 +20,7 @@ export default async function DashboardLayout({children}){
         <Layout>
             <Padding>
                 <div className="flex gap-4">
-                    <div className="sm:hidden md:block flex-1 flex flex-col relative">
+                    <div className="xs:hidden md:block flex-1 flex flex-col relative">
                         <Header>
                             <Group direction="col" gap={0}>
                                 <SecondaryHeading>{session.user.email}</SecondaryHeading>
@@ -35,7 +35,7 @@ export default async function DashboardLayout({children}){
                     </div>
                     
                     <DashboardContextProvider user={session.user}>
-                        <div className="flex-[9] sm:ml-0 md:ml-8 mb-8">
+                        <div className="flex-[9] xs:ml-0 md:ml-8 mb-8">
                             {children}
                         </div>
                     </DashboardContextProvider>

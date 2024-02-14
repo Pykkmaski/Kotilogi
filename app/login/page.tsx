@@ -23,10 +23,10 @@ export default function LoginPage(){
     const loading = status === 'loading';
 
     return (
-        <main className="flex flex-col justify-center md:items-center sm:items-[none] flex-1">
+        <main className="flex flex-col justify-center md:items-center xs:items-[none] flex-1">
             <Padding>
                 <ContentCard title="Kirjaudu Sisään">
-                    <form onSubmit={loginHandler} className="w-full flex flex-col sm:gap-4 md:gap-8">
+                    <form onSubmit={loginHandler} className="w-full flex flex-col xs:gap-4 md:gap-8">
                         <div className="flex flex-col gap-2">
                             <Input 
                                 data-testid="login-email-input"
@@ -41,7 +41,7 @@ export default function LoginPage(){
 
                             {
                                 status === 'invalid_user' || status === 'trial_expired' || status === 'user_inactive' ? (
-                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
+                                    <div className="w-full flex flex-row xs:justify-normal md:justify-end text-sm">
                                         {
                                             status === 'invalid_user' ? <ErrorText data-testid="invalid-user-error">Käyttäjää annetulla sähköpostiosoitteella ei ole!</ErrorText>
                                             :
@@ -70,7 +70,7 @@ export default function LoginPage(){
                        
                             {
                                 status === 'password_mismatch' ? (
-                                    <div className="w-full flex flex-row sm:justify-normal md:justify-end text-sm">
+                                    <div className="w-full flex flex-row xs:justify-normal md:justify-end text-sm">
                                         <ErrorText data-testid="password-mismatch-error">Salasana on virheellinen!</ErrorText>
                                     </div>
                                 )

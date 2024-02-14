@@ -45,7 +45,7 @@ function ContactForm(props){
         return <label className="text-white">{children}</label>
     }
     return (
-        <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 md:w-[600px] sm:w-full' ref={formRef}>
+        <form onSubmit={onSubmitHandler} className='flex flex-col gap-4 md:w-[600px] xs:w-full' ref={formRef}>
             <FormGroup>
                 <FormLabel>Nimesi</FormLabel>
                 <input type="text" name="name" id="contact-name-input" placeholder="Kirjoita nimesi..."/>

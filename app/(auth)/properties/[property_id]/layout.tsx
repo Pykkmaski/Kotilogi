@@ -35,7 +35,7 @@ export default async function PropertyDetailsLayout({children, params}){
            <Layout>
                 <Padding>
                     <div className="flex flex-row gap-2">
-                        <div className="sm:hidden md:block flex-1 flex flex-col relative">
+                        <div className="xs:hidden md:block flex-1 flex flex-col relative">
                             <Header>
                                 <Group direction="col">
                                     <SecondaryHeading>Talo</SecondaryHeading>
@@ -57,7 +57,7 @@ export default async function PropertyDetailsLayout({children, params}){
                         </div>
                         
                         <div className="flex-[8]">
-                            <div className="sm:ml-0 md:ml-8 mb-8">
+                            <div className="xs:ml-0 md:ml-8 mb-8">
                                 {children}
                             </div>
                         </div>
