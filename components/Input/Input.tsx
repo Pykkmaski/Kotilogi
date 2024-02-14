@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { Group } from "../Group";
 import { MediumDevices, SmallDevices } from "../Util/Media";
 
-const containerClassName = "md:grid md:grid-cols-inputComponentColumns sm:flex sm:flex-col sm:gap-1 w-full md:min-h-[2rem] md:gap-1";
+const containerClassName = "md:grid md:grid-cols-inputComponentColumns xs:flex xs:flex-col xs:gap-1 w-full md:min-h-[2rem] md:gap-1";
 const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE] w-full';
 
 function Label(props: {

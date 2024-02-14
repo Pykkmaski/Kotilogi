@@ -45,7 +45,7 @@ function UserIcon2({email}){
                         >
                             <nav className="flex flex-col gap-2 p-4">
                                 <Link href="/">Etusivu</Link>
-                                <Link href="/dashboard/properties">Hallintapaneeli</Link>
+                                <Link href="/dashboard/properties">Oma Sivu</Link>
                                 <span className="cursor-pointer hover:underline" onClick={async () => {
                                     await signOut({redirect: false}).then(() => {
                                         toast.success('Olet kirjautunut ulos.');
@@ -74,10 +74,10 @@ export default function Header(){
         }
         else if(userIsLoggedIn){
             return (
-                <div className="flex gap-2 text-white items-center">
-                    <Link href="/">Etusivu</Link>
-                    <Link href="/dashboard/properties">Hallintapaneeli</Link>
-                    <div className="h-4 border-l border-gray-100 mx-4 sm:hidden md:block"></div>
+                <div className="flex gap-4 text-white items-center">
+                    <Link href="/" className="xs:hidden">Etusivu</Link>
+                    <Link href="/dashboard/properties">Oma Sivu</Link>
+                    <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
                     <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
                 </div>
             )
@@ -85,9 +85,9 @@ export default function Header(){
         else{
             return (
                 <>
-                    <div className="text-white sm:text-base flex gap-2 items-center">
+                    <div className="text-white xs:text-base flex gap-2 items-center">
                         <Link href="/tos">Käyttöehdot</Link>
-                        <div className="h-4 border-l border-gray-100 mx-4 sm:hidden md:block"></div>
+                        <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
                         <Link href="/login">Kirjaudu</Link>
                         <Link href="/register">Rekisteröidy</Link>
                     </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 export function SmallDevices({children}){
     return (
-        <div className="sm:block md:hidden">
+        <div className="xs:block md:hidden">
             {children}
         </div>
     );
@@ -10,7 +10,7 @@ export function SmallDevices({children}){
 
 export function MediumDevices({children}){
     return (
-        <div className="sm:hidden md:block">
+        <div className="xs:hidden md:block">
             {children}
         </div>
     );
@@ -18,7 +18,7 @@ export function MediumDevices({children}){
 
 export function LargeDevices({children}){
     return (
-        <div className="sm:hidden lg:block">
+        <div className="xs:hidden lg:block">
             {children}
         </div>
     )
