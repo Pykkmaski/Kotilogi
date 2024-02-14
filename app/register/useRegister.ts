@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import * as users from '@/actions/users';
 
 export type RegisterStatusType = 'idle' | 'unexpected' | 'user_exists' | 'password_mismatch' | 'loading' | 'success';
+
 export type RegisterDataType = {
     email?: string,
     password1?: string,
@@ -32,18 +33,16 @@ export function useRegister(){
             setStatus('loading');
 
             users.register(data)
-            .then(result => {
-                setStatus(result as RegisterStatusType);
+            .then(status => {
+                setStatus(status);
 
-                if(result === 'success'){
+                if(status === 'success'){
                     toast.success('Rekisteröityminen onnistui!');
                     router.replace('/login');
                 }
-                
             })
             .catch(err => {
-                console.log(err.message);
-                setStatus('unexpected');
+                toast.error(err.message);
             });
         }
     }

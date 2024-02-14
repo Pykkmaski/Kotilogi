@@ -37,7 +37,7 @@ export async function add(property: Partial<Kotilogi.PropertyType>, files?: Form
         try{
             //Check if the owner (refId) if the property is allowed to add properties.
             const isOk = await verifyProperty(property);
-            if(!isOk) throw new Error('not_allowed');
+            if(!isOk) return reject('not_allowed')
     
             //Add the data into the database.
             const addedProperty = await database.addWithFiles('properties', 'propertyFiles', property, files);

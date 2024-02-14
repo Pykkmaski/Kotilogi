@@ -8,6 +8,7 @@ type RegisterStatusType = 'success' | 'user_exists';
 
 /**
  * Adds a new user to the database.
+ * @deprecated
  * @param credentials An object containing the email and password for the new user.
  * @returns
  */

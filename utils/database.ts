@@ -7,7 +7,6 @@ const uploadSizeLimit = process.env.UPLOAD_FILESIZE_LIMIT;
 
 type FileTable = 'propertyFiles' | 'eventFiles';
 
-
 export abstract class Database<T extends {}>{
     private tablename: string = '';
 
@@ -15,8 +14,8 @@ export abstract class Database<T extends {}>{
         this.tablename = tablename;
     }
 
-    async add(data: Partial<T>, files?: FormData[]){
-        return db(this.tablename).insert(data, '*');
+    async add(data: Partial<T>){
+        return db(this.tablename).insert(data, '*') as Promise<T & {id: string}[]>;
     }
 
     async get(query: T){
@@ -28,7 +27,7 @@ export abstract class Database<T extends {}>{
     }
 }
 
-export abstract class WithFiles<T extends {}> extends Database<T>{
+export abstract class WithFiles<T extends object> extends Database<T>{
 
     private fileNameTimestampSeparator: string = '--';
 
@@ -87,10 +86,10 @@ export abstract class WithFiles<T extends {}> extends Database<T>{
         });
     }
 
-    async add(data: T, fdata?: FormData[]){
-        return new Promise<string>(async (resolve, reject) => {
+    async add(data: Partial<T>, fdata?: FormData[]){
+        return new Promise<T & {id: string}>(async (resolve, reject) => {
             try{
-                const addedData = await super.add(data);
+                const [addedData] = await super.add(data);
 
                 if(fdata){
                     const files = fdata.map(f => f.get('files') as unknown as File);
@@ -103,7 +102,7 @@ export abstract class WithFiles<T extends {}> extends Database<T>{
                     await Promise.all(filePromises);
                 }
                 
-                resolve('success');
+                resolve(addedData);
             }
             catch(err){
                 console.log(err.message);

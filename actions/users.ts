@@ -70,7 +70,7 @@ export async function isAllowedToAddProperty(email: string): Promise<boolean>{
     });
 }
 
-type RegisterStatusType = 'success' | 'user_exists';
+type RegisterStatusType = 'success' | 'user_exists' | 'unexpected';
 
 /**
  * Adds a new user to the database.
@@ -86,19 +86,19 @@ export async function register(credentials: {email: string, password: string, pl
                 password: await bcrypt.hash(credentials.password, 15),
                 plan: credentials.plan,
             }
-    
+            
             await db('users').insert(user);
-            return resolve('success');
+            resolve('success');
         }
-        catch(err: any){
-            console.log(err.message);
+        catch(err){
             const msg = err.message.toUpperCase();
-
+    
             if(msg.includes('UNIQUE') || msg.includes('DUPLICATE')){
-                return resolve('user_exists');
+                resolve('user_exists');
             }
             else{
-                return reject(err);
+                console.log(err.message);
+                resolve('unexpected');
             } 
         }
     });
