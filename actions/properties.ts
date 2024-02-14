@@ -58,7 +58,7 @@ export async function del(data: Kotilogi.PropertyType){
             const ok = await verifyDeletion(data);
             if(!ok) reject('prohibited');
             
-            await database.del('properties', data);
+            await database.delWithFiles('properties', 'propertyFiles', data);
             revalidatePath('/dashboard/properties');
             resolve();
         }
@@ -85,7 +85,7 @@ export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await file.del('propertyFiles', fileData);
-            revalidatePath('/properties/[property_id]');
+            revalidatePath('/properties/[property_id]/');
             resolve();
         }
         catch(err){

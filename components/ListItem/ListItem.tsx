@@ -3,11 +3,10 @@
 import { createContext } from 'react';
 import style from './style.module.scss';
 import React from 'react';
-import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer, TitleContainer } from './ListItem.components';
 import toast from 'react-hot-toast';
-import { deletePropertyEvent } from 'kotilogi-app/actions/propertyEvent/deletePropertyEvent';
 import * as properties from '@/actions/properties';
+import * as events from '@/actions/events';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
@@ -87,7 +86,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 
         const loadingToast = toast.loading('Poistetaan tapahtumaa...');
 
-        deletePropertyEvent(props.item)
+        events.del(props.item)
         .then(() => {
             toast.dismiss(loadingToast);
             toast.success('Tapahtuma poistettu!')
