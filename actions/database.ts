@@ -30,8 +30,7 @@ export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
             if(files){
                 const promises: Promise<Kotilogi.FileType>[] = [];
                 for(const fdata of files){
-                    const f = fdata.get('file') as unknown as File;
-                    promises.push(file.upload(fileTableName, addedData.id, f));
+                    promises.push(file.upload(fileTableName, addedData.id, fdata));
                 }
     
                 await Promise.all(promises);
@@ -53,37 +52,23 @@ export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
 }
 
 export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T){
-    var dataBackup: T | null = null;
     return new Promise<void>(async (resolve, reject) => {
         try{
-            [dataBackup] = await get(tablename, data);
-
-            const fileData = await get(fileTableName, {refId: dataBackup.id} as Partial<Kotilogi.FileType>);
+            const fileData = await get(fileTableName, {refId: data.id} as Partial<Kotilogi.FileType>);
             const promises: Promise<void>[] = [];
-
+            
             for(const fd of fileData){
                 promises.push(file.del(fileTableName, fd as unknown as Kotilogi.FileType));
             }   
 
             await Promise.all(promises);
+
+            await del(tablename, {id: data.id});
+
             resolve();
         }
         catch(err){
             console.log(err.message);
-            reject(err);
-        }
-    });
-}
-
-export async function uploadFile(tablename: 'propertyFiles' | 'eventFiles', refId: string, fdata: FormData){
-    return new Promise<void>(async (resolve, reject) => {
-        try{
-            await file.upload(tablename, refId, fdata.get('file') as unknown as File);
-            const path = tablename === 'propertyFiles' ? '/properties/[property_id]' : '/events/[event_id]';
-            revalidatePath(path);
-            resolve();
-        }
-        catch(err){
             reject(err);
         }
     });

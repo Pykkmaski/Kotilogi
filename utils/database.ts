@@ -8,14 +8,14 @@ const uploadSizeLimit = process.env.UPLOAD_FILESIZE_LIMIT;
 type FileTable = 'propertyFiles' | 'eventFiles';
 
 export abstract class Database<T extends {}>{
-    private tablename: string = '';
+    protected tablename: string = '';
 
     constructor(tablename: string){
         this.tablename = tablename;
     }
 
-    async add(data: Partial<T>){
-        return db(this.tablename).insert(data, '*') as Promise<T & {id: string}[]>;
+    async add(data: T){
+        return db(this.tablename).insert(data, '*') as Promise<T[]>;
     }
 
     async get(query: T){
@@ -27,7 +27,7 @@ export abstract class Database<T extends {}>{
     }
 }
 
-export abstract class WithFiles<T extends object> extends Database<T>{
+export abstract class WithFiles<T extends Kotilogi.ItemType> extends Database<T>{
 
     private fileNameTimestampSeparator: string = '--';
 
@@ -86,8 +86,8 @@ export abstract class WithFiles<T extends object> extends Database<T>{
         });
     }
 
-    async add(data: Partial<T>, fdata?: FormData[]){
-        return new Promise<T & {id: string}>(async (resolve, reject) => {
+    async add(data: T, fdata?: FormData[]){
+        return new Promise<T[]>(async (resolve, reject) => {
             try{
                 const [addedData] = await super.add(data);
 
@@ -102,7 +102,7 @@ export abstract class WithFiles<T extends object> extends Database<T>{
                     await Promise.all(filePromises);
                 }
                 
-                resolve(addedData);
+                resolve([addedData]);
             }
             catch(err){
                 console.log(err.message);

@@ -32,15 +32,15 @@ class Properties extends WithFiles<T>{
     }
 
     async add(data: T, files?: FormData[]){
-        return new Promise<string>(async (resolve, reject) => {
+        return new Promise<T[]>(async (resolve, reject) => {
             try{
                 const isOk = await this.validateAdd(data);
-                if(!isOk) return resolve('not_allowed');
+                if(!isOk) return reject('not_allowed');
 
-                await super.add(data, files);
+                const addedData = await super.add(data, files);
 
                 revalidatePath(this.path);
-                resolve('success');
+                resolve(addedData);
             }
             catch(err){
                 reject(err);

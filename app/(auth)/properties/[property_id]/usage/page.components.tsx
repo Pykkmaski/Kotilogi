@@ -185,22 +185,6 @@ export function Content({data, type}: ContentProps){
         });
     }
 
-    const getDataPointColor = () => {
-        if(type === 'heat'){
-            return colors.heating;
-        }
-
-        if(type === 'water'){
-            return colors.water;
-        }
-
-        if(type === 'electric'){
-            return colors.electricity;
-        }
-
-        return '#000';
-    }
-
     const loading = status === 'loading';
 
     const totalPrice = data.reduce((acc, cur) => {
@@ -256,10 +240,10 @@ export function Content({data, type}: ContentProps){
                                     text: getChartTitle(),
                                 },
 
-                                colors:[getDataPointColor()],
+                                colors:[colors[type]],
                             }} 
                             data={data} 
-                            columnColor={getDataPointColor()}
+                            columnColor={colors[type]}
                             onDataPointSelected={selectDataPoint}/>
                     </RoundedBox>
                 </div>

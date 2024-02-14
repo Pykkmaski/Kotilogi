@@ -8,6 +8,9 @@ import { BorderHeader } from '@/components/Header/Header';
 import { BoxHeading } from '@/components/Heading';
 import { SelectTimeSpanButton } from '@/components/UsagePage/SelectTimespanButton';
 import { DateRangeSelector } from '@/components/DateRangeSelector/DateRangeSelector';
+import { AllUsageDataChart } from '@/components/UsagePage/AllUsageDataChart';
+import { TotalPrice } from '@/components/UsagePage/TotalPrice';
+import { UsageDataCategorized } from '@/components/UsagePage/UsageDataCategorized';
 
 async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'electric'){
     return new Promise<Kotilogi.UsageType[] | undefined>(async (resolve, reject) => {
@@ -28,27 +31,34 @@ async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'elect
 
 export default async function UsagePage({params, searchParams}){
     const type = searchParams.type as 'heat' | 'water' | 'electric';
-    const dataByType = await getUsageData(params.property_id, type);
-    const allData = await getUsageData(params.property_id);
-
+    const [dataByType, allData] = await Promise.all([getUsageData(params.property_id, type), getUsageData(params.property_id)]);
     if(!dataByType || !allData) throw new Error('Kulutustietojen lataus epäonnistui!');
 
     return (    
         <main className="w-full mb-10">
             <div className="flex flex-col gap-4">
-                <Content data={dataByType} type={type} />
-
-                <div className="w-full">
-                    <RoundedBox>
-                        <BorderHeader>
-                            <div className="flex justify-between items-center w-full">
-                                <BoxHeading>Yleiskatsaus</BoxHeading>
+                <ContentCard title="Kulutustiedot">
+                    <div className="flex gap-2">
+                        <div className="flex-1">
+                            <AllUsageDataChart data={allData}/>
+                        </div>
+                        
+                        <div className="flex-1 flex justify-center items-center">
+                            <TotalPrice data={allData}/>
+                            <div className="flex justify-center items-center relative">
+                                <UsagePieChart data={allData}/>
+                                <div className="absolute">
+                                    {'<Valittu Vuosi>'}
+                                </div>
                             </div>
-                        </BorderHeader>
 
-                        <Overview data={allData}/>
-                    </RoundedBox>
-                </div>
+                            <UsageDataCategorized data={allData}/>
+                        </div>
+                    </div>
+                </ContentCard>
+               
+                
+                <Content data={dataByType} type={type} />
             </div>
         </main>
     );

@@ -130,9 +130,10 @@ export function AddFilesModal({accept, tablename, refId, ...props}: AddFilesModa
     const {files, updateFiles} = useInputFiles();
 
     const onSubmit = (e) => {
-        const promises: Promise<void>[] = [];
+        const promises: Promise<Kotilogi.FileType>[] = [];
+        
         for(const f of files){
-            promises.push(database.uploadFile(tablename, refId, f));
+            promises.push(file.upload(tablename, refId, f));
         }
         return Promise.all(promises);
     }

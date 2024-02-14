@@ -28,11 +28,13 @@ function verifyFile(file: File){
  * @param refId The id of the object the image belongs to, for example the id of a property.
  * @returns 
  */
-export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: string, file: File){
+export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: string, fdata: FormData){
     var addedFileName: string | null = null;
 
     return new Promise<Kotilogi.FileType>(async (resolve, reject) => {
         try{
+            const file = fdata.get('file') as unknown as File;
+            
             verifyFile(file);
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
@@ -65,8 +67,6 @@ export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: s
 }
 
 export async function del(tablename: 'propertyFiles' | 'eventFiles', fileData: Kotilogi.FileType){
-    var fileDataBackup: Kotilogi.FileType | null = null;
-
     return new Promise<void>(async (resolve, reject) => {
         try{
             await unlink(uploadPath + fileData.fileName);

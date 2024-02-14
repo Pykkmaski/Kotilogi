@@ -59,7 +59,7 @@ export async function del(event: Kotilogi.EventType){
             const code = verifyEventDeletion(event);
             if(code !== 'success') throw new Error(code);
             
-            await database.delWithFiles('propertyEvents', 'propertyFiles', event);
+            await database.delWithFiles('propertyEvents', 'eventFiles', event);
             revalidatePath('/properties/[property_id]/events');
             resolve();
         }

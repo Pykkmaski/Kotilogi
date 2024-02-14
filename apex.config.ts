@@ -1,5 +1,5 @@
 export const colors = {
-    heating: "#F26419",
-    electricity: "#F6AE2D",
+    heat: "#F26419",
+    electric: "#F6AE2D",
     water: "#679EA7",
 }

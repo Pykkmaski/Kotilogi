@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import {PrimaryButton} from "../Button/PrimaryButton";
 import {SecondaryButton} from "../Button/SecondaryButton";
 import { Group } from "../Group";
@@ -29,6 +30,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
             props.onHide();
         }
         catch(err){
+            toast.error(err.message);
             setStatus('error');
         }
     }

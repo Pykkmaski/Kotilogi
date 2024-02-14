@@ -1,14 +1,7 @@
 import { AllUsageDataChart } from "./AllUsageDataChart";
 import { UsagePieChart } from "./PieChart";
 
-function TotalPrice({totalPrice}){
-    return (
-        <div className="text-slate-500 flex flex-col">
-            <span className="text-sm">Kaikki kulut yhteensä:</span>
-            <h1 className="text-4xl">{totalPrice.toFixed(2)}€</h1>
-        </div>
-    );
-}
+
 
 function WaterPrice({waterPrice}){
     return (
@@ -68,11 +61,6 @@ export function Overview({data}){
                 <div className="w-full">
                     <UsagePieChart data={data}/>
                 </div>
-                
-                <div className="absolute">
-                    <TotalPrice totalPrice={totalPrice}/>
-                </div>
-                
             </div>
 
             <div className="flex flex-col gap-4">
