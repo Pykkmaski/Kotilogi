@@ -17,11 +17,11 @@ async function verifyProperty(property: Partial<Kotilogi.PropertyType>){
     })
 }
 
-async function verifyDeletion(propertyData: Kotilogi.PropertyType){
+export async function verifyDeletion(propertyData: Kotilogi.PropertyType){
     return new Promise<boolean>(async (resolve, reject) => {
         try{
             //Only allow deletion of properties that are not a week old.
-            const [savedData] = await database.get('properties', propertyData);
+            const [savedData] = await database.get('properties', {id: propertyData.id}) as unknown as Kotilogi.PropertyType[];
             const age = Date.now() - new Date(savedData.createdAt).getTime();
             const ok = age < 60 * 60  * 24 * 7 * 1000;
             resolve(ok);

@@ -20,6 +20,14 @@ export async function update<T extends Kotilogi.ItemType>(tablename: string, id:
     return db(tablename).where({id}).update(data);
 }
 
+/**
+ * Adds data into the database, and saves any files with it onto disk.
+ * @param tablename 
+ * @param fileTableName 
+ * @param data 
+ * @param files 
+ * @returns 
+ */
 export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
     var addedData: T | null = null;
 
@@ -51,12 +59,19 @@ export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
     });
 }
 
+/**
+ * Deletes data from the database as well as any files on disk associated with it.
+ * @param tablename 
+ * @param fileTableName 
+ * @param data 
+ * @returns 
+ */
 export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T){
     return new Promise<void>(async (resolve, reject) => {
         try{
             const fileData = await get(fileTableName, {refId: data.id} as Partial<Kotilogi.FileType>);
             const promises: Promise<void>[] = [];
-            
+
             for(const fd of fileData){
                 promises.push(file.del(fileTableName, fd as unknown as Kotilogi.FileType));
             }   

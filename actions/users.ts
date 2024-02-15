@@ -6,6 +6,7 @@ import { UserType } from "kotilogi-app/types/UserType";
 import db from "kotilogi-app/dbconfig";
 import bcrypt from 'bcrypt';
 
+/**Verifies a users password. */
 async function verifyPassword(email: string, password: string){
     return new Promise<boolean>(async (resolve, reject) => {
         try{
@@ -19,6 +20,7 @@ async function verifyPassword(email: string, password: string){
     });
 }
 
+/**Returns the number of properties a user has. */
 export async function getPropertyCount(email: string){
     return new Promise<number>(async (resolve, reject) => {
         try{
@@ -32,6 +34,7 @@ export async function getPropertyCount(email: string){
     });
 }
 
+/**Returns the maximum number of properties a user is allowed to have. */
 export async function getMaxProperties(email: string){
     return new Promise<number>(async (resolve, reject) => {
         try{
@@ -55,6 +58,7 @@ export async function getMaxProperties(email: string){
     });
 }
 
+/**Checks if a user is allowed to add properties. */
 export async function isAllowedToAddProperty(email: string): Promise<boolean>{
     return new Promise<boolean>(async (resolve, reject) => {
         try{

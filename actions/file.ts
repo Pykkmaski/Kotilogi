@@ -5,27 +5,30 @@ import { limit, uploadPath } from "kotilogi-app/uploadsConfig";
 import * as database from './database';
 import { unlink } from "fs/promises";
 import { revalidatePath } from "next/cache";
+import { getFileSize } from "./util/getFileSize";
 
-function verifyFile(file: File){
-    if(!file) {
-        throw new Error('no_file');
+type FileVerifyResult = 'invalid_type' | 'invalid_size' | 'no_file' | 'success';
+
+export async function verifyFile(file?: File): Promise<FileVerifyResult>{
+    if(!file){
+        return 'no_file'
     }
-
-    if(file.type !== 'application/pdf' && file.type !== 'image/jpeg'){
-        console.log(file.type);
-        throw new Error('invalid_type');
+    else if(file.type !== 'application/pdf' && file.type !== 'image/jpeg'){
+        return 'invalid_type'
     }
-
-    if(file.size > limit){
-        throw new Error('invalid_size');
+    else if(file.size > limit){
+        return 'invalid_size'
     } 
+    else{
+        return 'success';
+    }
 }
 
 /**
  * Uploads a file and saves its data into the database.
  * @param tablename The name of the table in the database where to save the data.
- * @param file
  * @param refId The id of the object the image belongs to, for example the id of a property.
+ * @param fdata The FormData object containing the file.
  * @returns 
  */
 export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: string, fdata: FormData){
@@ -35,7 +38,9 @@ export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: s
         try{
             const file = fdata.get('file') as unknown as File;
             
-            verifyFile(file);
+            const verifyResult = await verifyFile(file);
+            if(verifyResult !== 'success') return reject(verifyResult);
+
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
         
@@ -66,6 +71,12 @@ export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: s
     }); 
 }
 
+/**
+ * Deletes files from disk, and their database entries.
+ * @param tablename 
+ * @param fileData 
+ * @returns 
+ */
 export async function del(tablename: 'propertyFiles' | 'eventFiles', fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
         try{
