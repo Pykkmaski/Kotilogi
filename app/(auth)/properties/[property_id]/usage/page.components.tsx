@@ -321,7 +321,7 @@ export function PageContent({allData, year, type}: PageContentProps){
     }
 
     return (
-        <div className="flex gap-2 w-full">
+        <div className="flex gap-2 w-full max-h-full">
             <div className="flex-[1]">
                 <ContentCard title="Yhteenveto">
                     <div className="flex flex-col gap-2">

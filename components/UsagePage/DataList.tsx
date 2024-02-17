@@ -10,6 +10,7 @@ import * as usage from '@/actions/usage';
 import { useInputData } from "../Modals/BaseAddModal.hooks";
 import { colors } from "kotilogi-app/apex.config";
 import { splitByMonth } from "kotilogi-app/actions/usage.utils";
+import { monthNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
 
 const ListItemContext = createContext<any>(null);
 
@@ -139,12 +140,43 @@ type DataListProps = {
 
 export function DataList({data}: DataListProps){
 
+    const dataSorted = [...data].sort((a, b) => {
+        const timeA = new Date(a.time).getTime();
+        const timeB = new Date(b.time).getTime();
+
+        return timeA - timeB;
+    });
+
+    const Divider = ({month, margin}) => (
+        <div className={`w-full border-b border-slate-200 mt-${margin}`}>
+            {month}
+        </div>
+    );
+
+    var currentMonth = 0;
+
     return (
         <div className="flex flex-col gap-2 max-h-full overflow-hidden">
+            <Divider month="Tammikuu" margin={0}/>
             {
-                data.map(i => (
-                    <Item item={i} key={i.toString()}/>
-                ))
+                dataSorted.map(i => {
+                    const dataMonth = new Date(i.time).getMonth();
+                    const item = <Item item={i} key={i.toString()}/>;
+
+                    if(dataMonth !== currentMonth){
+                        currentMonth = dataMonth;
+                        return (
+                            <>
+                                <Divider month={monthNameToLang(currentMonth, 'fi')} margin={4}/>
+                                {item}
+                            </>
+                        )
+                    }
+                    else{
+                        return item;
+                    }
+                    
+                })
             }
         </div>
     );
