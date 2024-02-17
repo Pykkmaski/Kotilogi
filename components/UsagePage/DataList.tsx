@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import Modal, { ModalProps } from "../Modals/Modal";
 import { Input } from "../Input/Input";
 import { PrimaryButton } from "../Button/PrimaryButton";
@@ -140,7 +140,7 @@ type DataListProps = {
 
 export function DataList({data}: DataListProps){
 
-    const dataSorted = [...data].sort((a, b) => {
+    const dataSorted = data.sort((a, b) => {
         const timeA = new Date(a.time).getTime();
         const timeB = new Date(b.time).getTime();
 
@@ -148,35 +148,46 @@ export function DataList({data}: DataListProps){
     });
 
     const Divider = ({month, margin}) => (
-        <div className={`w-full border-b border-slate-200 mt-${margin}`}>
+        <div className={`w-full border-b border-slate-200 mt-${margin}`} key={`divider-${month}`}>
             {month}
         </div>
     );
+
+    const getElements = (data: Kotilogi.UsageType[]) => {
+        return data.map(i => {
+            return <Item key={i.toString()} item={i} />
+        });
+    }
+
+    const getElementsSortedByMonth = (data: Kotilogi.UsageType[]) => {
+        return (
+            dataSorted.map(i => {
+                const dataMonth = new Date(i.time).getMonth();
+                const item = <Item item={i} key={i.toString()}/>;
+
+                if(dataMonth !== currentMonth){
+                    currentMonth = dataMonth;
+                    return (
+                        <>
+                            <Divider month={monthNameToLang(currentMonth, 'fi')} margin={4} key={`divider-${currentMonth}`}/>
+                            {item}
+                        </>
+                    )
+                }
+                else{
+                    return item;
+                }
+                
+            })
+        );
+    }
 
     var currentMonth = 0;
 
     return (
         <div className="flex flex-col gap-2 max-h-full overflow-hidden">
-            <Divider month="Tammikuu" margin={0}/>
             {
-                dataSorted.map(i => {
-                    const dataMonth = new Date(i.time).getMonth();
-                    const item = <Item item={i} key={i.toString()}/>;
-
-                    if(dataMonth !== currentMonth){
-                        currentMonth = dataMonth;
-                        return (
-                            <>
-                                <Divider month={monthNameToLang(currentMonth, 'fi')} margin={4}/>
-                                {item}
-                            </>
-                        )
-                    }
-                    else{
-                        return item;
-                    }
-                    
-                })
+                getElements(dataSorted)
             }
         </div>
     );
