@@ -1,4 +1,4 @@
-export const serviceName = 'Kotidock';
+export const serviceName = 'Kotidok';
 
 export const fileNameTimestampSeparator = '--';
 
