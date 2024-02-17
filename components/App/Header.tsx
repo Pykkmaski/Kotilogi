@@ -17,8 +17,13 @@ import { useState } from 'react';
 export function Logo(){
     return (
         <div className="z-40" id="app-logo" title="Etusivulle">
-            <Link href="/" id="app-logo-link" className="w-[50px] aspect-auto object-contain">
-                <Image width={100} height={50} src={'/logo_new_orange.png'} alt={`${serviceName} logo`}/>
+            <Link href="/" id="app-logo-link" className="w-[50px] aspect-auto object-contain font-semibold">
+                <span className="text-orange-300 text-[1.7rem]">{serviceName[0]}</span>
+                <span className="text-white text-[1.2rem]">
+                    {
+                        serviceName.slice(1)
+                    }
+                </span>
             </Link>
         </div>
     );

@@ -81,7 +81,7 @@ function ProfileText(){
                     <div className="flex flex-row w-full xs:justify-center lg:justify-start xs:mb-8">
                         <Link href="/register">
                             <PrimaryButton>
-                                <span className="font-semibold">Aloita {serviceName}n Käyttö</span>
+                                <span className="font-semibold">Aloita {serviceName}:n Käyttö</span>
                             </PrimaryButton>
                         </Link>
                     </div>

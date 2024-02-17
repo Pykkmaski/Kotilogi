@@ -98,7 +98,7 @@ export default function RegisterPage(){
                     
                         <div className="w-full">
                             <Group direction="row" justify='between' align="center">
-                                <span>Olen lukenut <span data-testid="service-name">{serviceName}</span>n <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
+                                <span>Olen lukenut <span data-testid="service-name">{serviceName}</span>:n <Link data-testid="register-tos-link" href="/tos" target="_blank" className="text-orange-500">käyttöehdot</Link>:</span>
                                 <input data-testid="register-tos-checkbox" className="aspect-square w-[20px]" type="checkbox" required />
                             </Group>
                         </div>
