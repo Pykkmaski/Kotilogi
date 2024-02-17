@@ -4,33 +4,34 @@ import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { BorderHeader } from "kotilogi-app/components/Header/Header";
-import { Input } from "kotilogi-app/components/Input/Input";
+import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BoxHeading } from "kotilogi-app/components/Heading";
-import { useQuery } from "kotilogi-app/hooks/useQuery";
 import { Flex } from "kotilogi-app/components/Util/Flex";
 import { Group } from "kotilogi-app/components/Group";
 import { UsageColumnChart } from "kotilogi-app/components/Experimental/Chart/Chart";
 import { deleteUsage } from "kotilogi-app/actions/usage/deleteUsage";
 import { updateUsage } from "kotilogi-app/actions/usage/updateUsage";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import { addUsageData } from "kotilogi-app/actions/usage/addUsageData";
 import { usePropertyContext } from "../_util/PropertyContextProvider";
 import Link from "next/link";
 import { TypeNav } from "@/components/UsagePage/TypeNav";
 import { UsagePieChart } from "@/components/UsagePage/PieChart";
 import { colors } from "kotilogi-app/apex.config";
+import { UsageDataCategorized } from "@/components/UsagePage/UsageDataCategorized";
+import { TotalPrice } from "@/components/UsagePage/TotalPrice";
+import { AllUsageDataChart } from "@/components/UsagePage/AllUsageDataChart";
+import { DateRangeSelector } from "@/components/DateRangeSelector/DateRangeSelector";
+import * as usage from '@/actions/usage';
+import { DataList } from "@/components/UsagePage/DataList";
 
-type AddUsageModalProps = React.PropsWithChildren & ModalProps & {
-    type: Kotilogi.UsageTypeType,
-}
-
-function AddUsageModal({type, ...props}: AddUsageModalProps){
-    console.log(type);
+function AddUsageModal(props: ModalProps){
     const {property} = usePropertyContext();
-    const {updateData, data, reset: resetInputData} = useInputData({refId: property.id, type});
+
+    const initialData = {refId: property.id, type: 'heat'};
+    const {updateData, data, reset: resetInputData} = useInputData(initialData);
     const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -40,6 +41,7 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
 
     const closeModal = () => {
         formRef.current?.reset();
+        resetInputData(initialData);
         props.onHide();
     }
 
@@ -47,40 +49,33 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
         e.preventDefault();
         setStatus('loading');
         
-        console.log(data);
+        console.log(data.type);
 
-        addUsageData(data)
-        .catch(err => toast.error('Tiedon lisääminen epäonnistui!'))
-        .finally(() => {
+        usage.add(data)
+        .then(() => {
             closeModal();
-            setStatus('idle');
-        });
+        })
+        .catch(err => toast.error('Tiedon lisääminen epäonnistui!'))
+        .finally(() => setStatus('idle'));
     }
-
-    const getTitle = () => {
-        if(type === 'heat'){
-            return 'Lisää lämmityskulu';
-        }
-        else if(type === 'water'){
-            return 'Lisää vesikulu';
-        }
-        else if(type === 'electric'){
-            return 'Lisää sähkökulu';
-        }
-        else{
-            return 'Lisää tuntematon';
-        }
-    }
-
-    useEffect(() => {
-        resetInputData({refId: property.id, type});
-    }, [type])
 
     return (
         <Modal {...props}>
-            <Modal.Header>{getTitle()}</Modal.Header>
+            <Modal.Header>Lisää Kulutustieto</Modal.Header>
             <Modal.Body>
-                <form id={formId} onSubmit={submitUsageData} className="flex flex-col gap-4">
+                <form id={formId} onSubmit={submitUsageData} className="flex flex-col gap-4" ref={formRef}>
+                    <Select
+                        label="Tyyppi"
+                        description="Kulutustiedon tyyppi."
+                        name="type"
+                        required={true}
+                        onChange={(e) => {
+                            updateData(e);
+                        }}>
+                            <option value="heat">Lämmityskulu</option>
+                            <option value="water">Vesikulu</option>
+                            <option value="electric">Sähkökulu</option>
+                    </Select>
                     <Input 
                         name="price"
                         label="Laskun Hinta" 
@@ -103,26 +98,12 @@ function AddUsageModal({type, ...props}: AddUsageModalProps){
             </Modal.Body>
 
             <Modal.Footer>
-                <SecondaryButton onClick={closeModal} type="button">Peruuta</SecondaryButton>
-                <PrimaryButton type="submit" loading={loading} disabled={loading} form={formId}>Lisää</PrimaryButton>
+                <div className="flex gap-4">
+                    <SecondaryButton onClick={closeModal} type="button">Peruuta</SecondaryButton>
+                    <PrimaryButton type="submit" loading={loading} disabled={loading} form={formId}>Lisää</PrimaryButton>
+                </div>
             </Modal.Footer>
         </Modal>
-    )
-}
-
-type TypeSelectorProps = {
-    type: Kotilogi.UsageTypeType,
-}
-
-function TypeSelector({type}: TypeSelectorProps){
-    const {onChange: onQueryChange} = useQuery('type', type);
-
-    return (
-        <select name="query" onChange={onQueryChange}>
-            <option value="heat" selected={type === 'heat'}>Lämmitys</option>
-            <option value="water" selected={type === 'water'}>Vesi</option>
-            <option value="electric" selected={type === 'electric'}>Sähkö</option>
-        </select>
     )
 }
 
@@ -208,7 +189,7 @@ export function Content({data, type}: ContentProps){
                     show={showAddModal} 
                     onHide={() => setShowAddModal(false)} 
                     id={'add-usage-data-modal'} 
-                    type={type}/>
+                    />
 
                 <div className="flex-1">
                     <RoundedBox>
@@ -287,6 +268,88 @@ export function Content({data, type}: ContentProps){
                     </ContentCard>
                 </div>
         </div>
+    );    
+}
+
+type PageContentProps = {
+    allData: Kotilogi.UsageType[],
+    property: Kotilogi.PropertyType,
+    year: string,
+    type: Kotilogi.UsageTypeType | 'all',
+}
+
+export function Controls({property}){
+    const [showAddModal, setShowAddModal] = useState(false);
+
+    return (
+        <div className="flex gap-4 items-center">
+            <div className="flex gap-2 items-center">
+                <span className="text-slate-500">Suodata:</span>
+                <DateRangeSelector startYear={new Date(property.createdAt).getFullYear()}/>
+            </div>
+            <AddUsageModal 
+                show={showAddModal} 
+                onHide={() => setShowAddModal(false)} 
+                id="add-usage-modal"/>
+
+            <PrimaryButton onClick={() => setShowAddModal(true)}>
+                <img className="aspect-square w-[25px] invert" src="/icons/plus.png"/>
+            </PrimaryButton>
+        </div>
     );
-        
+}
+
+export function Header(){
+    
+}
+
+export function PageContent({allData, year, type}: PageContentProps){
+    const getChart = () => {
+        if(type === 'all'){
+            return <AllUsageDataChart data={allData}/>
+        }
+        else {
+            return <UsageColumnChart data={allData} columnColor={colors[type]} options={{
+                chart: {
+                    width: '100%',
+                },
+                title: {
+                    text: 'Kulutus',
+                }
+            }}/>
+        }
+    }
+
+    return (
+        <div className="flex gap-2 w-full">
+            <div className="flex-[1]">
+                <ContentCard title="Yhteenveto">
+                    <div className="flex flex-col gap-2">
+                        {getChart()}
+                        
+                        <div className="flex-1 flex justify-center items-center">
+                            <TotalPrice data={allData}/>
+                            <div className="flex justify-center items-center relative">
+                                <UsagePieChart data={allData}/>
+                                <div className="absolute text-2xl text-slate-500">
+                                    {year}
+                                </div>
+                            </div>
+
+                            {
+                                type === 'all' ? <UsageDataCategorized data={allData}/> : null
+                            }
+                            
+                        </div>
+                    </div>
+                </ContentCard>
+            </div>
+            
+            <div className="flex-1 overflow-y-scroll max-h-[100%]">
+                <ContentCard title="Tiedot">
+                    <DataList data={allData} />
+                </ContentCard>
+            </div>
+        </div>
+    )
 }

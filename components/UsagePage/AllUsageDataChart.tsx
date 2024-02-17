@@ -1,10 +1,11 @@
 'use client';
 
 import { ApexOptions } from "apexcharts";
-import { filterIntoObject } from "kotilogi-app/utils/filterIntoObject";
+import { filterIntoObject } from "kotilogi-app/utils/array";
 import { Chart, ColumnChart, UsageColumnChart } from "../Experimental/Chart/Chart";
 import { colors } from "kotilogi-app/apex.config";
 import ApexChart from "react-apexcharts";
+import { mergeByMonth } from "kotilogi-app/actions/usage.utils";
 
 type AllUsageDataChartProps = {
     data: Kotilogi.UsageType[],
@@ -17,6 +18,15 @@ export function AllUsageDataChart({data}: AllUsageDataChartProps){
         chart: {
             type: 'bar',
             height: 500,
+        },
+
+        plotOptions:{
+            bar: {
+                dataLabels: {
+                    position: 'center',
+                    orientation: 'vertical',
+                },
+            }
         },
 
         xaxis: {
@@ -32,8 +42,8 @@ export function AllUsageDataChart({data}: AllUsageDataChartProps){
         },
 
         series: Object.keys(dataFiltered).map(key => {
-            const data = dataFiltered[key].map(d => d.price);
-            data.unshift(0);
+            const data = mergeByMonth(dataFiltered[key], true).map(d => parseFloat(d.toFixed(2)))
+            //data.unshift(0);
 
             return {
                 name: key,

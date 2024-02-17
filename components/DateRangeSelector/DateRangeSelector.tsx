@@ -1,16 +1,26 @@
 'use client';
 
-type DateRangeSelectorProps = {
-    data: {time: string}[],
-}
+import { useQuery } from "kotilogi-app/hooks/useQuery";
+import { useState } from "react";
 
-export function DateRangeSelector(props: DateRangeSelectorProps){
+export function DateRangeSelector({startYear}){
+    const currentYear = new Date().getFullYear();
+
+    const {updateQuery, currentQuery} = useQuery('year', currentYear.toString());
+
+    const getOptions = () => {
+        const opts: JSX.Element[] = [];
+        for(var i = currentYear; i >= startYear; --i){
+            opts.push(
+                <option value={i} selected={i === parseInt(currentQuery)}>{i}</option>
+            );
+        }
+        return opts;
+    }
+
     return (
-        <div className="p-2 min-w-[500px] bg-white border rounded-md border-slate-300">
-            <div className="w-full border-b border-slate-300">Valitse Aikaväli</div>
-            <div className="h-[300px]">
-                Sisältö HÄHÄÄ
-            </div>
-        </div>
+        <select name="year" onChange={(e) => updateQuery(e)} className="w-[100px]">
+           {getOptions()}
+        </select>
     )
 }

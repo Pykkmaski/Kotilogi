@@ -1,5 +1,3 @@
-import { Database } from "kotilogi-app/utils/database";
-import { properties } from "kotilogi-app/utils/properties";
 import { useState } from "react";
 
 export type StatusType = 'idle' | 'loading' | 'error' | 'success';
@@ -41,10 +39,14 @@ export function useInputData(initialData){
     const revertData = initialData;
 
     const updateData = (e) => {
-        setData({
-            ...data,
+
+        console.log('Updating data... ')
+        setData(prev => ({
+            ...prev,
             [e.target.name] : e.target.value,
-        });
+        }));
+
+        console.log(data);
     }
 
     const reset = (resetData?: any) => {

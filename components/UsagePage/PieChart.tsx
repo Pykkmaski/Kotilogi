@@ -1,6 +1,6 @@
 'use client';
 
-import { filterIntoObject } from "kotilogi-app/utils/filterIntoObject";
+import { filterIntoObject } from "kotilogi-app/utils/array";
 import { PieChart } from "../Experimental/Chart/Chart";
 import { ApexOptions } from "apexcharts";
 import { colors } from "kotilogi-app/apex.config";

@@ -52,8 +52,8 @@ module.exports = {
 
       colors: {
         primary: "#e3a149",
-        heating: chartColors.heat,
-        electricity: chartColors.electric,
+        heat: chartColors.heat,
+        electric: chartColors.electric,
         water: chartColors.water,
       },
 

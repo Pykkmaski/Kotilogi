@@ -9,14 +9,14 @@ export async function add<T extends {}>(tablename: string, data: T){
 }
 
 export async function get<T extends {}>(tablename: string, query: T){
-    return db(tablename).where(query) as T[];
+    return db(tablename).where(query) as Required<T>[];
 }
 
 export async function del<T extends {}>(tablename: string, query: T){
     return db(tablename).where(query).del() as Promise<void>;
 }
 
-export async function update<T extends Kotilogi.ItemType>(tablename: string, id: string, data: T){
+export async function update<T extends {id: string}>(tablename: string, id: string, data: T){
     return db(tablename).where({id}).update(data);
 }
 
@@ -28,7 +28,8 @@ export async function update<T extends Kotilogi.ItemType>(tablename: string, id:
  * @param files 
  * @returns 
  */
-export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
+export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>
+    (tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
     var addedData: T | null = null;
 
     return new Promise<T>(async (resolve, reject) => {

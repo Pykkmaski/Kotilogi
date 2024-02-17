@@ -1,4 +1,4 @@
-import { filterIntoObject } from "kotilogi-app/utils/filterIntoObject"
+import { filterIntoObject } from "kotilogi-app/utils/array"
 
 const Label = ({children}: React.PropsWithChildren) => (
     <div className="text-lg font-semibold">{children}</div>

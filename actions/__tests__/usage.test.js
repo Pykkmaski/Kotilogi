@@ -1,5 +1,6 @@
 import * as usage from '../usage';
 import * as database from '../database';
+import {mergeByMonth, splitByMonth} from '../usage.utils';
 
 jest.mock('../database');
 
@@ -18,4 +19,119 @@ describe('Testing the usage module', () => {
             await expect(usage.getByDateRange(100, 200)).rejects.toBe('unexpected');
         });
     });
+
+    describe('Testing the getByYear-function', () => {
+        it('Returns the correct data', async () => {
+            database.get.mockResolvedValueOnce([
+                {
+                    time: '2024-01-01',
+                    refId: 'test'
+                },
+                {
+                    time: '2023-01-01',
+                    refId: 'test',
+                }
+            ]);
+            await expect(usage.getByYear(2023, {refId: 'test'})).resolves.toEqual([{
+                time: '2023-01-01',
+                refId: 'test'
+            }]);
+        });
+    });
+
+    describe('Testing the mergeByMonth-function', () => {
+        it('Correctly returns the data when accumulate is false', () => {
+            const testData = [
+                {
+                    time: '2024-01-01',
+                    price: 10,
+                },
+
+                {
+                    time: '2024-01-03',
+                    price: 10,
+                },
+
+                {
+                    time: '2024-02-01',
+                    price: 10,
+                }
+            ];
+
+            const result = mergeByMonth(testData, false);
+            expect(result.length).toBe(12);
+
+            const comparison = Array(12).fill(0);
+            comparison[0] = 20;
+            comparison[1] = 10;
+
+            expect(result).toEqual(comparison);
+        })
+
+        it('Correctly returns the data when accumulate is true', () => {
+            const testData = [
+                {
+                    time: '2024-01-01',
+                    price: 10,
+                },
+
+                {
+                    time: '2024-01-03',
+                    price: 10,
+                },
+
+                {
+                    time: '2024-02-01',
+                    price: 10,
+                }
+            ];
+
+            const result = mergeByMonth(testData, true);
+            expect(result.length).toBe(12);
+
+            const comparison = Array(12).fill(30);
+            comparison[0] = 20;
+            comparison[1] = 30;
+
+            expect(result).toEqual(comparison);
+        })
+    });
+
+    describe('Testing the splitByMonth-function', () => {
+        it('Correctly returns the data', async () => {
+            const testData = [
+                {
+                    time: '2024-01-01',
+                },
+
+                {
+                    time: '2024-01-02',
+                },
+
+                {
+                    time: '2024-02-01'
+                }
+            ];
+
+            const result = splitByMonth(testData);
+
+            const expectation = Array(12).fill([]);
+            expectation[0] = [
+                {
+                    time: '2024-01-01',
+                },
+
+                {
+                    time: '2024-01-02',
+                },
+            ];
+
+            expectation[1] = [
+                {
+                    time: '2024-02-01'
+                }
+            ]
+            expect(result).toEqual(expectation);
+        })
+    })
 })

@@ -5,7 +5,7 @@ import style from './style.module.scss';
 
 export function RoundedBox({children}: React.PropsWithChildren){
     return (
-        <div className="flex flex-col border rounded-lg bg-white p-4 shadow-lg">
+        <div className="flex flex-col border rounded-lg bg-white p-4 shadow-lg h-full max-h-full">
             {children}
         </div>
     );

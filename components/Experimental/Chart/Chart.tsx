@@ -1,6 +1,7 @@
 'use client';
 
 import { ApexOptions } from 'apexcharts';
+import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
 import ApexChart from 'react-apexcharts';
 import { isWindowDefined } from 'swr/_internal';
 
@@ -22,6 +23,7 @@ export function Chart(props: ChartProps){
         ...props.options,
         chart: {
             ...props.options.chart,
+            width: '100%',
             events: {
                 dataPointSelection: function (event, chartContext, config) {
                     props.onDataPointSelected && props.onDataPointSelected(config.dataPointIndex)
@@ -77,12 +79,14 @@ type UsageColumnChartProps = ChartProps & TakesDataOfType<Kotilogi.UsageType> & 
 
 export function UsageColumnChart(props: UsageColumnChartProps){
 
+    const data = mergeByMonth(props.data);
+
     const options: ApexOptions = {
         ...props.options,
         xaxis: {
             ...props.options.xaxis,
             title:{
-                text: 'Päivämäärä',
+                text: 'Kuukausi',
                 style: {
                     color: '#000',
                 }
@@ -94,7 +98,7 @@ export function UsageColumnChart(props: UsageColumnChartProps){
                 }
             },
 
-            categories: props.data.map(d => new Date(d.time).toLocaleDateString('fi-FI'))
+            categories: data.map((d, index) => index + 1)
         },
 
         yaxis: {
@@ -103,7 +107,7 @@ export function UsageColumnChart(props: UsageColumnChartProps){
                 text: 'Hinta',
                 style: {
                     color: '#000',
-                    fontSize: '1.5rem'
+                    fontSize: '1.2rem'
                 } 
             },
             labels: {
@@ -125,7 +129,7 @@ export function UsageColumnChart(props: UsageColumnChartProps){
         series: [
             {
                 name: 'data',
-                data: props.data.map(d => d.price),
+                data: data.map(d => parseFloat(d.toFixed(2))),
             }
         ],
 

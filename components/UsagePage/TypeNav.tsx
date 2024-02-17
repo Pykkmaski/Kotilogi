@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import { Group } from "../Group";
 import { useSearchParams } from "next/navigation";
@@ -20,7 +22,7 @@ export function TypeNav({children}){
                         if(params.get('type') === currentParam){
                             const selectedClassName = [
                                 'font-semibold shadow-md',
-                                typeName === 'heat' ? `bg-heating text-white` : typeName === 'water' ? `bg-water text-white` :  `bg-electricity text-black`,
+                                typeName === 'heat' ? `bg-heat text-white` : typeName === 'water' ? `bg-water text-white` :  `bg-electric text-black`,
                                 baseClassName,
 
                             ];

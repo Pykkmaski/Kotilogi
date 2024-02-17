@@ -1,16 +1,10 @@
 import db from 'kotilogi-app/dbconfig';
-import { Content } from './page.components';
-import { UsagePieChart } from '@/components/UsagePage/PieChart';
-import { ContentCard, RoundedBox } from '@/components/RoundedBox/RoundedBox';
-import { Group } from '@/components/Group';
-import { Overview } from '@/components/UsagePage/Overview';
-import { BorderHeader } from '@/components/Header/Header';
-import { BoxHeading } from '@/components/Heading';
-import { SelectTimeSpanButton } from '@/components/UsagePage/SelectTimespanButton';
-import { DateRangeSelector } from '@/components/DateRangeSelector/DateRangeSelector';
-import { AllUsageDataChart } from '@/components/UsagePage/AllUsageDataChart';
-import { TotalPrice } from '@/components/UsagePage/TotalPrice';
-import { UsageDataCategorized } from '@/components/UsagePage/UsageDataCategorized';
+import { Controls, PageContent } from './page.components';
+import * as database from '@/actions/database';
+import * as usage from '@/actions/usage';
+
+import Link from 'next/link';
+import { TypeNav } from '@/components/UsagePage/TypeNav';
 
 async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'electric'){
     return new Promise<Kotilogi.UsageType[] | undefined>(async (resolve, reject) => {
@@ -30,36 +24,41 @@ async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'elect
 }
 
 export default async function UsagePage({params, searchParams}){
-    const type = searchParams.type as 'heat' | 'water' | 'electric';
-    const [dataByType, allData] = await Promise.all([getUsageData(params.property_id, type), getUsageData(params.property_id)]);
-    if(!dataByType || !allData) throw new Error('Kulutustietojen lataus epäonnistui!');
+    const type = searchParams.type as 'heat' | 'water' | 'electric' | 'all';
+    const year = searchParams.year;
 
-    return (    
-        <main className="w-full mb-10">
-            <div className="flex flex-col gap-4">
-                <ContentCard title="Kulutustiedot">
-                    <div className="flex gap-2">
-                        <div className="flex-1">
-                            <AllUsageDataChart data={allData}/>
-                        </div>
-                        
-                        <div className="flex-1 flex justify-center items-center">
-                            <TotalPrice data={allData}/>
-                            <div className="flex justify-center items-center relative">
-                                <UsagePieChart data={allData}/>
-                                <div className="absolute">
-                                    {'<Valittu Vuosi>'}
-                                </div>
-                            </div>
+    var usageQuery = type === 'all' ? {
+        refId: params.property_id,
+    }
+    : {
+        refId: params.property_id,
+        type,
+    }
 
-                            <UsageDataCategorized data={allData}/>
-                        </div>
-                    </div>
-                </ContentCard>
-               
-                
-                <Content data={dataByType} type={type} />
-            </div>
+    const [allData, [property]] = await Promise.all([
+        usage.getByYear(parseInt(year), usageQuery), 
+        database.get<Partial<Kotilogi.PropertyType>>('properties', {id: params.property_id})
+    ]);
+
+    if(!allData || !property) throw new Error('Kulutustietojen lataus epäonnistui!');
+
+    return (   
+        <main className="w-full mb-10 flex flex-col gap-4">
+            {/**The page header */}
+            <div className="w-full flex bg-white justify-between gap-4 sticky top-0 z-40">
+                <div className="flex gap-4 items-center">
+                    <h1 className="text-lg text-slate-500 mr-4">Kulutustiedot</h1>
+                    <TypeNav>
+                        <Link href={`?type=all&year=${year}`}>Kaikki</Link>
+                        <Link href={`?type=heat&year=${year}`}>Lämmitys</Link>
+                        <Link href={`?type=water&year=${year}`}>Vesi</Link>
+                        <Link href={`?type=electric&year=${year}`}>Sähkö</Link>
+                    </TypeNav>
+                </div>
+        
+                <Controls property={property}/>
+            </div> 
+            <PageContent allData={allData} property={property} year={year} type={type}/>
         </main>
     );
 }
