@@ -160,34 +160,28 @@ export function DataList({data}: DataListProps){
     }
 
     const getElementsSortedByMonth = (data: Kotilogi.UsageType[]) => {
-        return (
-            dataSorted.map(i => {
-                const dataMonth = new Date(i.time).getMonth();
-                const item = <Item item={i} key={i.toString()}/>;
+        var nextMonth = null;
 
-                if(dataMonth !== currentMonth){
-                    currentMonth = dataMonth;
-                    return (
-                        <>
-                            <Divider month={monthNameToLang(currentMonth, 'fi')} margin={4} key={`divider-${currentMonth}`}/>
-                            {item}
-                        </>
-                    )
+        return (
+            data.map((i, index: number) => {
+                const dataMonth = new Date(i.time).getMonth();
+                const items = [<Item item={i} key={i.toString()}/>];
+
+                if(!nextMonth || dataMonth === nextMonth){
+                    nextMonth = typeof dataMonth === 'number' ? dataMonth + 1 : 0;
+                    items.unshift(<Divider month={monthNameToLang(dataMonth, 'fi')} margin={index === 0 ? 0 : 4}/>)
                 }
-                else{
-                    return item;
-                }
+                
+                return items;
                 
             })
         );
     }
 
-    var currentMonth = 0;
-
     return (
         <div className="flex flex-col gap-2 max-h-full overflow-hidden">
             {
-                getElements(dataSorted)
+                getElementsSortedByMonth(dataSorted)
             }
         </div>
     );
