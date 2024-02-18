@@ -131,13 +131,7 @@ export function DataList({data}: DataListProps){
             {month}
         </div>
     );
-
-    const getElements = (data: Kotilogi.UsageType[]) => {
-        return data.map(i => {
-            return <Item key={i.toString()} item={i} />
-        });
-    }
-
+    
     const getElementsSortedByMonth = (data: Kotilogi.UsageType[]) => {
         const splitData = splitByMonth(data);
         const elements: JSX.Element[] = [];

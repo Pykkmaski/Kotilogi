@@ -42,8 +42,8 @@ export async function add(usageData: Kotilogi.UsageType){
 }
 
 export async function del(usageData: Kotilogi.UsageType){
-    return await database.del(TABLENAME, usageData)
-    .then(() => revalidateUsage());
+    database.del(TABLENAME, usageData);
+    revalidateUsage();
 }
 
 export async function update(usageData: Kotilogi.UsageType){
