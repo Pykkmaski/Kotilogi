@@ -85,8 +85,12 @@ function Item({item}: ListItemProps){
         const c = confirm('Olet poistamassa tietoa. Oletko varma?');
         if(!c) return;
 
+        const loadingToast = toast.loading('Poistetaan tietoa...');
+
         usage.del(item)
+        .then(() => toast.success('Tieto poistettu.'))
         .catch(err => toast.error(err.message))
+        .finally(() => toast.dismiss(loadingToast))
     }
 
     return (
