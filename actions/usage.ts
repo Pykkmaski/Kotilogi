@@ -28,16 +28,16 @@ export async function getByYear(year: number, query: Partial<Kotilogi.UsageType>
 }
 
 export async function add(usageData: Kotilogi.UsageType){
-    return database.add('usage', usageData)
+    return await database.add('usage', usageData)
     .then(() => revalidateUsage());
 }
 
 export async function del(usageData: Kotilogi.UsageType){
-    return database.del(TABLENAME, usageData)
+    return await database.del(TABLENAME, usageData)
     .then(() => revalidateUsage());
 }
 
 export async function update(usageData: Kotilogi.UsageType){
-    return database.update(TABLENAME, usageData.id, usageData)
+    return await database.update(TABLENAME, usageData.id, usageData)
     .then(() => revalidateUsage());
 }
