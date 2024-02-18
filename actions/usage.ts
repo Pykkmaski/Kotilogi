@@ -6,6 +6,8 @@ import {z} from 'zod';
 const TABLENAME = 'usage';
 const PATH = '/properties/[property_id]/usage';
 
+const revalidateUsage = () => revalidatePath(PATH, 'page');
+
 export async function getByDateRange(startDate: number, endDate: number, query: Partial<Kotilogi.UsageType>){
     const data = await database.get(TABLENAME, query);
     return data.filter(d => {
@@ -29,7 +31,7 @@ export async function add(usageData: Kotilogi.UsageType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await database.add('usage', usageData);
-            revalidatePath(PATH, 'page');
+            revalidateUsage();
             resolve();
         }
         catch(err){
@@ -41,10 +43,10 @@ export async function add(usageData: Kotilogi.UsageType){
 
 export async function del(usageData: Kotilogi.UsageType){
     return await database.del(TABLENAME, usageData)
-    .then(() => revalidatePath(PATH));
+    .then(() => revalidateUsage());
 }
 
 export async function update(usageData: Kotilogi.UsageType){
     return await database.update(TABLENAME, usageData.id, usageData)
-    .then(() => revalidatePath(PATH));
+    .then(() => revalidateUsage());
 }
