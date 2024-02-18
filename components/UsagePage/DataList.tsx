@@ -16,21 +16,27 @@ import { Icon } from "./Icon";
 const ListItemContext = createContext<any>(null);
 
 function EditModal(props: ModalProps){
-
-    const {item, setShowEditModal} = useItemContext();
-    const {data, updateData, reset} = useInputData({...item});
+    const {item} = useItemContext();
+    
+    const initialData = {id: item.id};
     const formRef = useRef<HTMLFormElement | null>(null);
     const [status, setStatus] = useState<'loading' | 'idle'>('idle');
 
     const closeModal = () => {
         formRef.current?.reset();
-        reset({...item});
         props.onHide();
     }
 
-    const update = () => {
+    const update = (e) => {
+        e.preventDefault();
         setStatus('loading');
-        usage.update(data)
+
+        const d = {
+            ...item,
+            price : e.target.price.valueAsNumber,
+        }
+
+        usage.update(d)
         .catch(err => toast.error(err.message))
         .finally(() => {
             closeModal();
@@ -40,11 +46,12 @@ function EditModal(props: ModalProps){
 
     const loading = status === 'loading';
 
+    const formId = props.id + '-form';
     return (
         <Modal {...props} >
              <Modal.Header>Muokkaa kulutustietoa</Modal.Header>  
              <Modal.Body>
-                <form>
+                <form onSubmit={update} id={formId}>
                     <Input 
                         label="Hinta"
                         description="Laskun hinta."
@@ -53,7 +60,7 @@ function EditModal(props: ModalProps){
                         step="0.01"
                         min="0.01"
                         defaultValue={item.price} 
-                        onInput={updateData}/>
+                    />
                 </form>
                 
             </Modal.Body> 
@@ -61,13 +68,13 @@ function EditModal(props: ModalProps){
             <Modal.Footer>
                 <SecondaryButton 
                     disabled={loading}
-                    onClick={() => setShowEditModal(false)}
+                    onClick={() => props.onHide()}
                     >Peruuta</SecondaryButton>
 
                 <PrimaryButton 
                     loading={loading}
                     disabled={loading}
-                    onClick={update}
+                    form={formId}
                     >Päivitä</PrimaryButton>
             </Modal.Footer>
         </Modal>
@@ -86,7 +93,7 @@ function Item({item}: ListItemProps){
         if(!c) return;
 
         const loadingToast = toast.loading('Poistetaan tietoa...');
-
+        
         usage.del(item)
         .then(() => toast.success('Tieto poistettu.'))
         .catch(err => toast.error(err.message))
@@ -94,8 +101,8 @@ function Item({item}: ListItemProps){
     }
 
     return (
-        <ListItemContext.Provider value={{item, setShowEditModal}}>
-            <EditModal show={showEditModal} onHide={() => setShowEditModal(false)} id={`${item.id}-edit-modal`}/>
+        <ListItemContext.Provider value={{item}}>
+            <EditModal show={showEditModal} onHide={() => setShowEditModal(false)} id={`${item.id}-edit-modal`} key={`edit-modal-${item.toString()}`}/>
             <span className="flex p-2 rounded-lg shadow-lg text-slate-500 justify-between border-gray-100 border hover:bg-orange-100">
                 <div className="flex gap-4 items-center">
                     <Icon type={item.type}/>
@@ -109,7 +116,7 @@ function Item({item}: ListItemProps){
                 </div>
             </span>
         </ListItemContext.Provider>
-        
+            
     );
 }
 
@@ -131,7 +138,7 @@ export function DataList({data}: DataListProps){
             {month}
         </div>
     );
-    
+
     const getElementsSortedByMonth = (data: Kotilogi.UsageType[]) => {
         const splitData = splitByMonth(data);
         const elements: JSX.Element[] = [];
@@ -150,6 +157,7 @@ export function DataList({data}: DataListProps){
             }
         }
 
+        console.log(splitData);
         return elements;
     }
 
