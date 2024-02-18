@@ -88,12 +88,14 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
 
         events.del(props.item)
         .then(() => {
-            toast.dismiss(loadingToast);
             toast.success('Tapahtuma poistettu!')
         })
         .catch(err => {
             toast.error(err.message);
-        });
+        })
+        .finally(() => {
+            toast.dismiss(loadingToast);
+        })
     }
 
     const HighlightBadge = () => (
