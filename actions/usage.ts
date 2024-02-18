@@ -29,7 +29,7 @@ export async function add(usageData: Kotilogi.UsageType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await database.add('usage', usageData);
-            revalidatePath(PATH);
+            revalidatePath(PATH, 'page');
             resolve();
         }
         catch(err){

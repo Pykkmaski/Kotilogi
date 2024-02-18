@@ -11,6 +11,7 @@ import { useInputData } from "../Modals/BaseAddModal.hooks";
 import { colors } from "kotilogi-app/apex.config";
 import { splitByMonth } from "kotilogi-app/actions/usage.utils";
 import { monthNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
+import { Icon } from "./Icon";
 
 const ListItemContext = createContext<any>(null);
 
@@ -88,38 +89,12 @@ function Item({item}: ListItemProps){
         .catch(err => toast.error(err.message))
     }
 
-    const getIcon = () => {
-        if(item.type === 'heat'){
-            return '/icons/flame.png';
-        }
-        else if(item.type === 'water'){
-            return '/icons/drop.png';
-        }
-        else{
-            return '/icons/bolt.png';
-        }
-    }
-
-    const getIconColor = () => {
-        return (
-            item.type === 'heat' ? 'bg-heating'
-            :
-            item.type === 'water' ? colors.water
-            :
-            item.type === 'electric' ? colors.electric
-            :
-            'transparent'
-        );
-    }
     return (
         <ListItemContext.Provider value={{item, setShowEditModal}}>
             <EditModal show={showEditModal} onHide={() => setShowEditModal(false)} id={`${item.id}-edit-modal`}/>
             <span className="flex p-2 rounded-lg shadow-lg text-slate-500 justify-between border-gray-100 border hover:bg-orange-100">
                 <div className="flex gap-4 items-center">
-                    <div className={['flex p-1 rounded-md', `bg-${item.type}`].join(' ')}>
-                        <img className={`aspect-square h-[1rem] ${item.type !== 'electric' ? 'invert' : 'filter-none'}`} src={getIcon()}/>
-                    </div>
-                    
+                    <Icon type={item.type}/>
                     <h1 className="text-slate-500 font-semibold flex-1">{item.price.toFixed(2)}€</h1>
                     <span className="text-sm flex-1">{item.time}</span>
                 </div>

@@ -26,11 +26,15 @@ import { AllUsageDataChart } from "@/components/UsagePage/AllUsageDataChart";
 import { DateRangeSelector } from "@/components/DateRangeSelector/DateRangeSelector";
 import * as usage from '@/actions/usage';
 import { DataList } from "@/components/UsagePage/DataList";
+import { useSearchParams } from "next/navigation";
+import { Icon } from "@/components/UsagePage/Icon";
 
 function AddUsageModal(props: ModalProps){
     const {property} = usePropertyContext();
+    const searchParams = useSearchParams();
+    const type = searchParams.get('type') as Kotilogi.UsageTypeType | 'all'; 
 
-    const initialData = {refId: property.id, type: 'heat'};
+    const initialData = {refId: property.id, type: type !== 'all' ? type : 'heat'};
     const {updateData, data, reset: resetInputData} = useInputData(initialData);
     const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -49,8 +53,6 @@ function AddUsageModal(props: ModalProps){
         e.preventDefault();
         setStatus('loading');
         
-        console.log(data.type);
-
         usage.add(data)
         .then(() => {
             closeModal();
@@ -61,21 +63,34 @@ function AddUsageModal(props: ModalProps){
 
     return (
         <Modal {...props}>
-            <Modal.Header>Lisää Kulutustieto</Modal.Header>
+            <Modal.Header> 
+                <div className="w-full flex gap-2 items-center">
+                    {type !== 'all' ? <Icon type={type} /> : null }
+                    <span>Lisää Kulutustieto</span>
+                </div>
+                
+            </Modal.Header>
             <Modal.Body>
                 <form id={formId} onSubmit={submitUsageData} className="flex flex-col gap-4" ref={formRef}>
-                    <Select
-                        label="Tyyppi"
-                        description="Kulutustiedon tyyppi."
-                        name="type"
-                        required={true}
-                        onChange={(e) => {
-                            updateData(e);
-                        }}>
-                            <option value="heat">Lämmityskulu</option>
-                            <option value="water">Vesikulu</option>
-                            <option value="electric">Sähkökulu</option>
-                    </Select>
+                    {
+                        type === 'all' ? (
+                            <Select
+                                label="Tyyppi"
+                                description="Kulutustiedon tyyppi."
+                                name="type"
+                                required={true}
+                                onChange={(e) => {
+                                    updateData(e);
+                                }}>
+                                    <option value="heat" selected={true}>Lämmityskulu</option>
+                                    <option value="water">Vesikulu</option>
+                                    <option value="electric">Sähkökulu</option>
+                            </Select>
+                        )
+                        :
+                        null
+                    }
+                    
                     <Input 
                         name="price"
                         label="Laskun Hinta" 
