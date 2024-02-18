@@ -1,7 +1,7 @@
 import db from 'kotilogi-app/dbconfig';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
 import bcrypt from 'bcrypt';
+import * as database from '@/actions/database';
 
 async function verifyUser(email, password){
     return new Promise(async (resolve, reject) => {
@@ -45,6 +45,22 @@ export const options = {
     
     pages: {
         signIn: '/login',
+    },
+
+    callbacks: {
+        async jwt({token, user}){
+            if(user){
+                token.plan = user.plan;
+                token.nextPayment = user.nextPayment;
+            }
+            return token;
+        },
+
+        async session({session, token}){
+            session.user.plan = token.plan;
+            session.user.nextPayment = token.nextPayment;
+            return session;
+        }
     },
     
     providers : [

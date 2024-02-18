@@ -2,7 +2,7 @@
 
 import { PrimaryButton } from "../Button/PrimaryButton";
 import { DateRangeSelector } from "../DateRangeSelector/DateRangeSelector";
-import { VisibilityProvider } from "../Experimental/VisibilityProvider/VisibilityProvider";
+import { VisibilityProvider } from "../Util/VisibilityProvider/VisibilityProvider";
 
 export function SelectTimeSpanButton({children}){
     return (

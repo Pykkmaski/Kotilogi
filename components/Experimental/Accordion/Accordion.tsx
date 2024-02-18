@@ -1,7 +1,7 @@
 'use client';
 
 import { CSSProperties } from "react";
-import { VisibilityProvider } from "../VisibilityProvider/VisibilityProvider"
+import { VisibilityProvider } from "../../Util/VisibilityProvider/VisibilityProvider"
 import React from "react";
 
 type AccordionElementProps = React.PropsWithChildren & {

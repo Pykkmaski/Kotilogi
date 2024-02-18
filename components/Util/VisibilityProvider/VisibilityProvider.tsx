@@ -36,13 +36,11 @@ VisibilityProvider.Trigger = Trigger;
 
 function Target({children}: React.PropsWithChildren & {hidesOnBlur?: boolean}){
     const {visible} = useVisibilityProviderContext();
-    const targetRef = useRef<HTMLDivElement | null>(null);
 
     return (
         React.Children.toArray(children).map((child: React.ReactElement<React.ComponentProps<'div'>>) => {
             return React.cloneElement(child, {
                 ...child.props,
-                ref: targetRef,
                 hidden: !visible,
             })
         })

@@ -160,22 +160,24 @@ export function DataList({data}: DataListProps){
     }
 
     const getElementsSortedByMonth = (data: Kotilogi.UsageType[]) => {
-        var nextMonth = null;
+        const splitData = splitByMonth(data);
+        const elements: JSX.Element[] = [];
 
-        return (
-            data.map((i, index: number) => {
-                const dataMonth = new Date(i.time).getMonth();
-                const items = [<Item item={i} key={i.toString()}/>];
+        for(var month = 0; month < splitData.length; ++month){
+            const currentMonthData = splitData[month];
+            if(currentMonthData.length){
+                elements.push(
+                    <>
+                        <Divider month={monthNameToLang(month, 'fi')} margin={month === 0 ? 0 : 4}/>
+                        {
+                            currentMonthData.map(d => <Item item={d} key={d.toString()}/>)
+                        }
+                    </>
+                );
+            }
+        }
 
-                if(!nextMonth || dataMonth === nextMonth){
-                    nextMonth = typeof dataMonth === 'number' ? dataMonth + 1 : 0;
-                    items.unshift(<Divider month={monthNameToLang(dataMonth, 'fi')} margin={index === 0 ? 0 : 4}/>)
-                }
-                
-                return items;
-                
-            })
-        );
+        return elements;
     }
 
     return (
