@@ -2,22 +2,14 @@
 
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
-import { ContentCard, RoundedBox } from "kotilogi-app/components/RoundedBox/RoundedBox";
-import { BorderHeader } from "kotilogi-app/components/Header/Header";
+import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { BoxHeading } from "kotilogi-app/components/Heading";
-import { Flex } from "kotilogi-app/components/Util/Flex";
-import { Group } from "kotilogi-app/components/Group";
 import { UsageColumnChart } from "kotilogi-app/components/Experimental/Chart/Chart";
-import { deleteUsage } from "kotilogi-app/actions/usage/deleteUsage";
-import { updateUsage } from "kotilogi-app/actions/usage/updateUsage";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { usePropertyContext } from "../_util/PropertyContextProvider";
-import Link from "next/link";
-import { TypeNav } from "@/components/UsagePage/TypeNav";
 import { UsagePieChart } from "@/components/UsagePage/PieChart";
 import { colors } from "kotilogi-app/apex.config";
 import { UsageDataCategorized } from "@/components/UsagePage/UsageDataCategorized";
@@ -31,8 +23,7 @@ import { Icon } from "@/components/UsagePage/Icon";
 
 function AddUsageModal(props: ModalProps){
     const {property} = usePropertyContext();
-    const searchParams = useSearchParams();
-    const type = searchParams.get('type') as Kotilogi.UsageTypeType | 'all'; 
+    const type = useSearchParams().get('type') as Kotilogi.UsageTypeType | 'all';
 
     const initialData = {refId: property.id, type: type !== 'all' ? type : 'heat'};
     const {updateData, data, reset: resetInputData} = useInputData(initialData);
@@ -49,11 +40,16 @@ function AddUsageModal(props: ModalProps){
         props.onHide();
     }
 
-    const submitUsageData = (e: FormEvent) => {
+    const submitUsageData = (e) => {
         e.preventDefault();
         setStatus('loading');
         
-        usage.add(data)
+        const dataToAdd = {
+            ...data,
+            type: type !== 'all' ? type : e.target.type.value,
+        }
+
+        usage.add(dataToAdd)
         .then(() => {
             closeModal();
         })
@@ -122,170 +118,6 @@ function AddUsageModal(props: ModalProps){
     )
 }
 
-type ContentProps = {
-    data: any[],
-    type: Kotilogi.UsageTypeType,
-}
-
-export function Content({data, type}: ContentProps){
-    const [selectedData, setSelectedData] = useState<any>(null);
-    const {data: currentData, updateData: updateCurrentData, reset: resetInputData} = useInputData({type});
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [status, setStatus] = useState<'loading' | 'idle' | 'error'>('idle');
-    const formRef = useRef<HTMLFormElement | null>(null);
-
-    const getChartTitle = () => {
-        if(type === 'heat'){
-            return 'Lämmitys';
-        }
-
-        if(type === 'water'){
-            return 'Vesi';
-        }
-
-        if(type === 'electric'){
-            return 'Sähkö';
-        }
-
-        return 'Tuntematon';
-    }
-    
-    const selectDataPoint = (dataPointIndex: number) => {
-        const item = data.at(dataPointIndex);
-        formRef.current?.reset();
-        resetInputData(item);
-        setSelectedData(item);
-    }
-
-    const deleteDataPoint = () => {
-
-        const c = confirm('Olet poistamassa kulutustietoa. Oletko varma?');
-        if(!c) return;
-        
-        setStatus('loading');
-        deleteUsage(selectedData)
-        .then(() => setSelectedData(null))
-        .catch(err => toast.error(err.message))
-        .finally(() => setStatus('idle'));
-    }
-
-    const updateDataPoint = () => {
-        console.log(currentData.time);
-        setStatus('loading');
-
-        updateUsage(currentData)
-        .catch(err => toast.error(err.message))
-        .finally(() => {
-            console.log('Update done.');
-            setStatus('idle');
-        });
-    }
-
-    const loading = status === 'loading';
-
-    const totalPrice = data.reduce((acc, cur) => {
-        return acc + parseFloat(cur.price);
-    }, 0);
-
-    const isSubmitDisabled = () => {
-        return !selectedData || loading || currentData.price === '' || currentData.time === undefined;
-    }
-
-    useEffect(() => {
-        resetInputData({type});
-    }, [type])
-
-    const propertyId: string = data.at(0)?.refId;
-
-    return (
-        <div className="flex flex-row gap-2 w-full">
-
-                <AddUsageModal 
-                    show={showAddModal} 
-                    onHide={() => setShowAddModal(false)} 
-                    id={'add-usage-data-modal'} 
-                    />
-
-                <div className="flex-1">
-                    <RoundedBox>
-                        <BorderHeader>
-                            <Flex value={1}>
-                                <Group direction="row" justify="between" align="center">
-                                    <BoxHeading>Kulutustiedot</BoxHeading>
-
-                                    <Group direction="row" gap={2} align="center">
-                                        <div className="mr-8">
-                                            <TypeNav>
-                                                <Link href="?type=heat">Lämmitys</Link>
-                                                <Link href="?type=water">Vesi</Link>
-                                                <Link href="?type=electric">Sähkö</Link>
-                                            </TypeNav>
-                                        </div>
-                                        
-                                        <PrimaryButton onClick={() => setShowAddModal(true)}>
-                                            <img src="/icons/plus.png" className="invert"/>
-                                        </PrimaryButton>
-                                    </Group>
-                                </Group>
-                            </Flex>
-                        </BorderHeader>
-
-                        <UsageColumnChart 
-                            options={{
-                                title: {
-                                    text: getChartTitle(),
-                                },
-
-                                colors:[colors[type]],
-                            }} 
-                            data={data} 
-                            columnColor={colors[type]}
-                            onDataPointSelected={selectDataPoint}/>
-                    </RoundedBox>
-                </div>
-                
-                <div className="flex-1 h-full flex flex-col gap-2">
-                    <ContentCard title="Yhteenveto">
-                        <Input label="Yhteenlaskettu hinta" description="Hinta euroissa." value={totalPrice.toFixed(2)} disabled={true} />
-                    </ContentCard>
-                    
-                    <ContentCard title="Nykyinen valinta">
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                            updateDataPoint();
-                        }} ref={formRef} className="flex flex-col gap-4 w-full">
-                            <Input 
-                                onChange={updateCurrentData}
-                                type="number" 
-                                name="price" 
-                                label="Hinta" 
-                                description="Laskun hinta euroissa." 
-                                step="0.01"
-                                defaultValue={selectedData?.price || undefined}/>
-
-                            <Input 
-                                onChange={updateCurrentData}
-                                type="date" 
-                                name="time" 
-                                label="Päiväys" 
-                                description="Laskun päiväys." 
-                                defaultValue={selectedData?.time}
-                                disabled={isSubmitDisabled()}/>
-
-                            <Group direction="row" gap={2} justify="end">
-                                <SecondaryButton hidden={!selectedData} onClick={deleteDataPoint} disabled={loading || isSubmitDisabled()}>Poista</SecondaryButton>
-                                <PrimaryButton 
-                                    loading={loading}
-                                    disabled={isSubmitDisabled()} 
-                                    type="submit">Päivitä</PrimaryButton>
-                            </Group>
-                        </form>
-                    </ContentCard>
-                </div>
-        </div>
-    );    
-}
-
 type PageContentProps = {
     allData: Kotilogi.UsageType[],
     property: Kotilogi.PropertyType,
@@ -293,7 +125,7 @@ type PageContentProps = {
     type: Kotilogi.UsageTypeType | 'all',
 }
 
-export function Controls({property}){
+export function Controls({property, type}){
     const [showAddModal, setShowAddModal] = useState(false);
 
     return (
@@ -302,6 +134,7 @@ export function Controls({property}){
                 <span className="text-slate-500">Suodata:</span>
                 <DateRangeSelector startYear={new Date(property.createdAt).getFullYear()}/>
             </div>
+
             <AddUsageModal 
                 show={showAddModal} 
                 onHide={() => setShowAddModal(false)} 
@@ -312,10 +145,6 @@ export function Controls({property}){
             </PrimaryButton>
         </div>
     );
-}
-
-export function Header(){
-    
 }
 
 export function PageContent({allData, year, type}: PageContentProps){

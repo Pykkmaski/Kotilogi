@@ -35,12 +35,13 @@ export default async function UsagePage({params, searchParams}){
         type,
     }
 
-    const [allData, [property]] = await Promise.all([
+    const [allData, dataByYear, [property]] = await Promise.all([
+        database.get<Partial<Kotilogi.UsageType>>('usage', {refId: params.property_id}),
         usage.getByYear(parseInt(year), usageQuery), 
         database.get<Partial<Kotilogi.PropertyType>>('properties', {id: params.property_id})
     ]);
 
-    if(!allData || !property) throw new Error('Kulutustietojen lataus epäonnistui!');
+    if(!allData || !property || !dataByYear) throw new Error('Kulutustietojen lataus epäonnistui!');
 
     return (   
         <main className="w-full mb-10 flex flex-col gap-4">
@@ -56,9 +57,9 @@ export default async function UsagePage({params, searchParams}){
                     </TypeNav>
                 </div>
         
-                <Controls property={property}/>
+                <Controls property={property} type={type}/>
             </div> 
-            <PageContent allData={allData} property={property} year={year} type={type}/>
+            <PageContent allData={dataByYear} property={property} year={year} type={type}/>
         </main>
     );
 }
