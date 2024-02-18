@@ -33,7 +33,7 @@ export async function add(usageData: Kotilogi.UsageType){
 }
 
 export async function del(usageData: Kotilogi.UsageType){
-    return await database.del(TABLENAME, usageData)
+    return await database.del(TABLENAME, {id: usageData.id})
     .then(() => revalidateUsage());
 }
 

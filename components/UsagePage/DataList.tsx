@@ -94,6 +94,8 @@ function Item({item}: ListItemProps){
 
         const loadingToast = toast.loading('Poistetaan tietoa...');
         
+        console.log('Deleting item ' + JSON.stringify(item));
+        
         usage.del(item)
         .then(() => toast.success('Tieto poistettu.'))
         .catch(err => toast.error(err.message))
@@ -115,8 +117,7 @@ function Item({item}: ListItemProps){
                     <span className="font-semibold cursor-pointer" onClick={deleteItem}>Poista</span>
                 </div>
             </span>
-        </ListItemContext.Provider>
-            
+        </ListItemContext.Provider>    
     );
 }
 

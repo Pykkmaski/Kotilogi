@@ -55,7 +55,8 @@ function verifyEventDeletion(event: {consolidationTime: string}){
  */
 export async function del(event: Kotilogi.EventType){
     const code = verifyEventDeletion(event);
-    if(code !== 'success') throw new Error(code);      
+    if(code !== 'success') throw new Error(code); 
+         
     await database.delWithFiles('propertyEvents', 'eventFiles', event);
     revalidatePath('/properties/[property_id]/events');
 }
