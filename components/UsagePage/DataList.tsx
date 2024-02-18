@@ -147,7 +147,7 @@ export function DataList({data}: DataListProps){
             if(currentMonthData.length){
                 elements.push(
                     <>
-                        <Divider month={monthNameToLang(month, 'fi')} margin={month === 0 ? 0 : 4}/>
+                        <Divider month={monthNameToLang(month, 'fi')} margin={elements.length === 0 ? 0 : 4}/>
                         {
                             currentMonthData.map(d => <Item item={d} key={d.toString()}/>)
                         }
