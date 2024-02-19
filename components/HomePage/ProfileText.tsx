@@ -20,7 +20,7 @@ export function RegularPlanCard(){
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Perus</h1>
-                <span className="text-white">{getFullPrice('REGULAR')}€ vuodessa</span>
+                <span className="text-white">{getFullPrice('regular')}€ vuodessa</span>
                 <TaxNotice/>
             </div>
 
@@ -42,7 +42,7 @@ export function ProPlanCard(){
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Pro</h1>
-                <span className="text-white">{getFullPrice('PRO')}€ vuodessa</span>
+                <span className="text-white">{getFullPrice('pro')}€ vuodessa</span>
                 <TaxNotice/>
             </div>
 

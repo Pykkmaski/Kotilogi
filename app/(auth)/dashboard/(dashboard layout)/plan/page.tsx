@@ -11,6 +11,11 @@ import { planNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
 import { getServerSession } from "next-auth";
 import { MakePaymentButton } from "kotilogi-app/components/BillingPage/MakePaymentButton";
 import { PaymentType } from "kotilogi-app/types/PaymentType";
+import { UserType } from "kotilogi-app/types/UserType";
+import Button from "@/components/Button/Button";
+import { getFullPrice } from "kotilogi-app/utils/getFullPrice";
+import { Prices } from "kotilogi-app/constants";
+import Link from "next/link";
 
 async function getLatestPendingPayment(userEmail: string): Promise<PaymentType | null>{
     try{
@@ -24,84 +29,106 @@ async function getLatestPendingPayment(userEmail: string): Promise<PaymentType |
 }
 
 export default async function PlanPage(){
-    const session = await getServerSession(options) as {user: {email: string}} | null;
+    const session = await getServerSession(options) as {user: UserType};
     if(!session) throw new Error('Unable to load user session! Try refreshing the page.');
 
-    const [user] = await db('users').where({email: session.user.email}).select('plan', 'email', 'nextPayment');
-    if(!user) throw new Error('Unable to fetch user data! Try refreshing the page.');
+    const payments = [];
 
-    const payment = await getLatestPendingPayment(user.email);
+    const getNextPayment = () => {
+        if(session.user.nextPayment){
+            if(session.user.status === 'active'){
+                const nextPayment = new Date(session.user.nextPayment);
+                console.log(nextPayment);
+
+                return (
+                    <>
+                        <span className="text-slate-500 text-lg font-semibold">Seuraava maksu</span>
+                        <div className="flex gap-4">
+                            <span className="font-semibold">{getFullPrice(session.user.plan)}€</span>
+                            <span>{session.user.nextPayment}</span>
+                        </div>
+                        <span className="text-sm text-slate-500">Sisältää ALV {Prices.TAX * 100}%</span>
+                    </>
+                )
+            }
+            else if(session.user.status === 'pending'){
+                //Return the time left on the pending account.
+                const userCreatedDate = new Date(session.user.createdAt).getTime();
+                const trialTerminationDate = new Date(userCreatedDate + parseInt(process.env.TRIAL_DURATION)).getTime();
+                const timeLeft = (trialTerminationDate - Date.now()) / 1000 / 3600 / 24;
+
+
+                return (
+                    <>
+                        <span className="text-slate-500 text-lg font-semibold">Kokeilujaksoa jäljellä</span>
+                        <span>{Math.ceil(timeLeft)} päivää.</span>
+                    </>
+                );
+            }
+            else{
+                return 'Ei seuraavaa maksua';
+            }
+        }
+    }
+
+    const getPayments = () => {
+        if(payments.length){
+            return (
+                <div className="flex flex-column justify-between items-center gap-2">
+                    {payments}
+                </div>
+            );
+        }
+        else{
+            return (
+                <div className="w-full h-full flex justify-center items-center">
+                    <span className="text-slate-500">Ei suoritettuja maksuja.</span>
+                </div>
+            );
+        }
+    }
 
     return (
         <main className="w-full flex flex-col gap-4 mb-8">
             <Header>
                 <Heading>Laskutus</Heading>
             </Header>
- 
-            <ContentCard title="Kortti">
-                <div className="w-full flex flex-col gap-4">
-                    <Input placeholder="Kirjoita haltijan nimi..." label="Haltija" description="Kortin haltija."/>
-                    <Group direction="row" align="center" gap={4}>
-                        <div className="flex-[7]">
-                            <input name="cardNumber" placeholder="Kirjoita kortin numero..."/>
-                        </div>
-
-                        <div className="flex-[1]">
-                            <input maxLength={3} name="securityNumber" placeholder="Kirjoita turvanumero..." className="rounded-[10px] border border-gray min-h-[3rem] pl-2 pr-2"/>
-                        </div>
-                    </Group>
-                    <Select label="Maa" description="Valitse kortinhaltijan maa.">
-                        <option selected disabled>Valitse Maa</option>
-                        <option value="Finland">Suomi</option>
-                    </Select>
-                </div>
-            </ContentCard>
-
-            <ContentCard title="Nykyinen Tilaus">
-                <div className="w-full">
-                    <Group direction="row" gap={4}>
-                        <div className="w-auto">
-                            {
-                                user.plan === 'regular' ? <RegularPlanCard/> : <ProPlanCard/>
-                            }
-                        </div>
-
-                        <div className="w-full flex flex-col text-slate-500">
-                            {
-                                payment && Date.now() >= parseInt(payment.dueDate) ? 
-                                <>
-                                    <h1 className="text-2xl">Vahvistamaton Lasku</h1>
-                                    <span className="text-4xl mb-2">{(payment.amount / 100).toFixed(2)}€</span>
-                                    <span className="text-sm">Laskutuskaudelta {new Date(parseInt(payment.dueDate)).getFullYear() - 1}</span>
-
-                                    <div className="w-[30%] mt-4">
-                                        <MakePaymentButton/>
-                                    </div>
-                                </>
-                                :
-                                payment ? 
-                                <>
-                                    <h1 className="text-2xl">Tuleva Lasku</h1>
-                                    <span className="text-4xl mb-2">{payment.amount / 100}</span>
-                                    <span className="text-sm">
-                                        {new Date(payment.dueDate).toLocaleDateString('fi')}
-                                    </span>
-                                </>
-                                :
-                                <span>Seuraavan maksun lataus epäonnistui.</span>
-                            }
-                            
-                        </div>
-                    </Group>
-                    
-                    <div className="mt-4">
-                        <Group direction="row" gap={3} justify="end">
-                            <PrimaryButton className="w-[100px] flex justify-center">Muuta</PrimaryButton>
-                        </Group>
-                    </div>
-                </div>
-            </ContentCard>
             
+            <div className="flex flex-row gap-4">
+                <div className="flex-1">
+                    <ContentCard title="Nykyinen Tilaus">
+                        <div className="w-full">
+                            <Group direction="row" gap={4}>
+                                <div className="w-auto">
+                                    {
+                                        session.user.plan === 'regular' ? <RegularPlanCard/> : <ProPlanCard/>
+                                    }
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    {getNextPayment()}
+                                    <div className="mt-4">
+                                        <Link href="https://duckduckgo.com" target="_blank">
+                                            <Button variant="primary">
+                                                <span className="px-4 font-semibold">
+                                                    Maksa nyt
+                                                </span>
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Group>
+                        </div>
+                    </ContentCard>
+                </div>
+                
+                <div className="flex-1">
+                    <ContentCard title="Menneet Maksut">
+                        {getPayments()}
+                    </ContentCard>
+                </div>
+                
+            </div>
         </main>
     );
 }

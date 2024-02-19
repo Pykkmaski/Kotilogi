@@ -4,6 +4,7 @@ import { ContentCard } from "@/components/RoundedBox/RoundedBox";
 import { EmailSettingsForm } from "./EmailSettingsForm";
 import { PasswordSettingsForm } from "@/components/DashboardPage/SettingsPage/PasswordSettingsForm";
 import { NextPaymentForm } from "@/components/DashboardPage/SettingsPage/NextPaymentForm";
+import { Heading } from "@/components/Heading";
 
 export default async function Page(){
     const session = await getServerSession(options) as {user: {email: string}};
@@ -12,7 +13,7 @@ export default async function Page(){
     return (
         <main className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <h3 className="text-slate-500 text-2xl">Tilin asetukset</h3>
+                <Heading>Tilin asetukset</Heading>
             </div>
 
             <div className="w-full">

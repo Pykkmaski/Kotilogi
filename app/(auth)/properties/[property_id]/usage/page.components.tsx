@@ -125,14 +125,26 @@ type PageContentProps = {
     type: Kotilogi.UsageTypeType | 'all',
 }
 
-export function Controls({property, type}){
+type ControlsProps = {
+    property: Kotilogi.PropertyType,
+    data: Kotilogi.UsageType[],
+    type: Kotilogi.UsageTypeType | 'all',
+}
+
+export function Controls({property, data, type}: ControlsProps){
     const [showAddModal, setShowAddModal] = useState(false);
+
+    const dataSorted = data.sort((a, b) => {
+        const aTime = new Date(a.time).getTime();
+        const bTime = new Date(b.time).getTime();
+        return aTime - bTime;
+    });
 
     return (
         <div className="flex gap-4 items-center">
             <div className="flex gap-2 items-center">
                 <span className="text-slate-500">Suodata:</span>
-                <DateRangeSelector startYear={new Date(property.createdAt).getFullYear()}/>
+                <DateRangeSelector startYear={new Date(dataSorted[0].time).getFullYear()}/>
             </div>
 
             <AddUsageModal 

@@ -24,7 +24,7 @@ async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'elect
 }
 
 export default async function UsagePage({params, searchParams}){
-    const type = searchParams.type as 'heat' | 'water' | 'electric' | 'all';
+    const type = searchParams.type as Kotilogi.UsageTypeType | 'all';
     const year = searchParams.year;
 
     var usageQuery = type === 'all' ? {
@@ -57,7 +57,7 @@ export default async function UsagePage({params, searchParams}){
                     </TypeNav>
                 </div>
         
-                <Controls property={property} type={type}/>
+                <Controls property={property} data={allData} type={type}/>
             </div> 
             <PageContent allData={dataByYear} property={property} year={year} type={type}/>
         </main>

@@ -50,8 +50,20 @@ export const options = {
     callbacks: {
         async jwt({token, user}){
             if(user){
+                if(user.activatedOn){
+                    const currentDate = new Date();
+                    const userActivatedDate = new Date(user.activatedOn);
+
+                    const yearsSinceActivation = currentDate.getFullYear() - userActivatedDate.getFullYear();
+                    const nextPaymentDate = new Date();
+                    nextPaymentDate.setFullYear(currentDate.getFullYear() + 1 + yearsSinceActivation);
+                    token.nextPayment = nextPaymentDate.toLocaleDateString('fi');
+                    console.log(token.nextPayment);
+                }
+                
                 token.plan = user.plan;
-                token.nextPayment = user.nextPayment;
+                token.status = user.status;
+                token.createdAt = user.createdAt;
             }
             return token;
         },
@@ -59,6 +71,8 @@ export const options = {
         async session({session, token}){
             session.user.plan = token.plan;
             session.user.nextPayment = token.nextPayment;
+            session.user.status = token.status;
+            session.user.createdAt = token.createdAt;
             return session;
         }
     },

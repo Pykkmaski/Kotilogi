@@ -7,6 +7,7 @@ import { RoundedBox } from "../RoundedBox/RoundedBox";
 function Message({setShowMessage}){
 
     const acceptCookies = () => {
+        document.cookie = 'allow_cookies: true';
         sessionStorage?.setItem('cookies', 'true');
         setShowMessage(false);
     }
@@ -17,7 +18,8 @@ function Message({setShowMessage}){
                 <div className="flex w-full justify-between gap-4 sm:items-start md:items-center">
                     <img src="/icons/cookie.png" className="aspect-square sm:w-[30px] md:w-[80px] sm:mt-4 md:mt-0"></img>
                     <span className="text-lg text-slate-500">
-                        Käytämme evästeitä. Jatkamalla sivuston käyttöä, hyväksyt evästeiden tallennuksen laitteellesi.
+                        Käytämme evästeitä. Kaikki evästeet ovat sovelluksen toiminnan kannalta välttämättömiä, eikä niitä käytetä yksityisten tietojen keräämiseen.<br/>
+                        Jatkamalla sivuston käyttöä, hyväksyt evästeiden tallennuksen laitteellesi.
                     </span>
                 </div>
                 

@@ -5,10 +5,12 @@
  */
 
 type UserStatusType = 'active' | 'inactive' | 'pending';
-type UserPlanType = 'regular' | 'pro';
+export type UserPlanType = 'regular' | 'pro';
 
 export type UserType = {
     email: string,
     status: UserStatusType,
     plan: UserPlanType,
+    nextPayment: string | null,
+    createdAt: string,
 }

@@ -2,7 +2,7 @@
 
 import db from "kotilogi-app/dbconfig";
 import * as file from './file';
-import { revalidatePath } from "next/cache";
+import {cookies} from 'next/headers';
 
 export async function add<T extends {}>(tablename: string, data: T){
     return db(tablename).insert(data, '*') as Promise<T[]>;

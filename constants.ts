@@ -8,8 +8,8 @@ export const MaxProperties = {
 }
 
 export const Prices = {
-    REGULAR: 2000,
-    PRO: 4900,
+    regular: 5400,
+    pro: 23880,
     TAX: 0.24,
 }
 
