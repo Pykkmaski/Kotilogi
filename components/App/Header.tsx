@@ -1,18 +1,12 @@
 "use client";
 
 import Link from 'next/link';
-import {signOut, useSession} from 'next-auth/react';
-import Image from 'next/image';
+import {useSession} from 'next-auth/react';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
 import { Group } from 'kotilogi-app/components/Group';
-import { RelativePosition } from 'kotilogi-app/components/Experimental/RelativePosition/RelativePosition';
-import { useRouter } from 'next/navigation';
 import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
-import toast from 'react-hot-toast';
 import { Padding } from '../Util/Padding';
-import { MediumDevices, SmallDevices } from '../Util/Media';
-import { useState } from 'react';
 import { LineButton } from '../MenuButton/LineButton';
 
 export function Logo(){

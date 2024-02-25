@@ -12,7 +12,7 @@ async function verifyUser(email, password){
             const isPasswordCorrect = await bcrypt.compare(password, user.password);
             if(!isPasswordCorrect) throw new Error('password_mismatch');
 
-            if(user.status === 'pending'){
+            if(user.trial){
                 //Check if the trial period has ended
                 const trialDuration = process.env.TRIAL_PERIOD_DURATION;
 
@@ -21,14 +21,11 @@ async function verifyUser(email, password){
                     const createdAtTime = new Date(user.createdAt).getTime();
 
                     if(currentTime - createdAtTime > parseInt(trialDuration)){
-                        throw new Error('trial_expired');
+                        user.status = 'inactive';
                     }
                 }
             }
-            else if(user.status === 'inactive'){
-                throw new Error('user_inactive');
-            }
-
+           
             resolve(user);
         }
         catch(err){
@@ -39,7 +36,8 @@ async function verifyUser(email, password){
 }
 
 export const options = {
-    jwt: {
+    session: {
+        strategy: 'jwt',
         maxAge: 60 * 60 * 24,
     },
     
@@ -58,9 +56,9 @@ export const options = {
                     const nextPaymentDate = new Date();
                     nextPaymentDate.setFullYear(currentDate.getFullYear() + 1 + yearsSinceActivation);
                     token.nextPayment = nextPaymentDate.toLocaleDateString('fi');
-                    console.log(token.nextPayment);
                 }
                 
+                token.trial = user.trial;
                 token.plan = user.plan;
                 token.status = user.status;
                 token.createdAt = user.createdAt;
@@ -74,7 +72,7 @@ export const options = {
             session.user.status = token.status;
             session.user.createdAt = token.createdAt;
             return session;
-        }
+        },
     },
     
     providers : [
@@ -90,4 +88,4 @@ export const options = {
         })
     ],
 
-}
+};

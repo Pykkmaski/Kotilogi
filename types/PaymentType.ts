@@ -1,6 +1,6 @@
-export type PaymentType = {
+export type TransactionType = {
     id?: number,
-    userEmail: string,
+    customer: string,
     amount: number,
     dueDate: string,
     paidOn: string,

@@ -4,7 +4,7 @@
  * pending - The user is in their trial period.
  */
 
-type UserStatusType = 'active' | 'inactive' | 'pending';
+type UserStatusType = 'active' | 'inactive' | 'pending' | 'trial';
 export type UserPlanType = 'regular' | 'pro';
 
 export type UserType = {

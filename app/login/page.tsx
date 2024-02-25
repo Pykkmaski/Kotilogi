@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {SecondaryButton} from 'kotilogi-app/components/Button/SecondaryButton';
 import {PrimaryButton} from 'kotilogi-app/components/Button/PrimaryButton';
 import { Input } from 'kotilogi-app/components/Input/Input';
@@ -10,15 +10,25 @@ import Link from 'next/link';
 import { Padding } from 'kotilogi-app/components/Util/Padding';
 import { ErrorText } from '@/components/Util/Text';
 import { useLogin } from './useLogin';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 export default function LoginPage(){
     const router = useRouter();
     //const {updateData} = useInputData({});
     const {loginHandler, updateData, status} = useLogin();
+    const loginCode = parseInt(useSearchParams().get('code'));
 
     const cancelHandler = () => {
         router.push('/');
     }
+
+    useEffect(() => {
+        if(loginCode == 1){
+            console.log(loginCode);
+            toast.success('Käyttäjätili aktivoitu onnistuneesti!');
+        }
+    }, [loginCode]);
 
     const loading = status === 'loading';
 

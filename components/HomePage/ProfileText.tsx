@@ -2,6 +2,7 @@ import {Prices, serviceName} from '@/constants';
 import Link from 'next/link';
 import { PrimaryButton } from '../Button/PrimaryButton';
 import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
+import Button from '../Button/Button';
 
 function PricingCard({children}){
     return (
@@ -11,17 +12,39 @@ function PricingCard({children}){
     );
 }
 
-function TaxNotice(){
-    return <span className="text-sm text-white">Sisältää ALV {Prices.TAX * 100}%</span>
+type TaxNoticeProps = {
+    plan: 'regular' | 'pro',
 }
 
-export function RegularPlanCard(){
+function TaxNotice({plan}){
+    return <span className="text-sm text-white">Sisältää ALV {Prices.TAX * 100}% (Veroton: {(Prices[plan] / 100).toFixed(2)}€)</span>
+}
+
+type PlanCardButtonProps = {
+    action?: (e: any) => Promise<void>,
+}
+
+function PlanCardButton({action}: PlanCardButtonProps){
+    return (
+        action ? (
+        <div className="mt-auto w-full flex justify-center pb-4">
+            <Button variant="primary" onClick={action}>
+                <span className="mx-8 font-semibold">Tilaa</span>
+            </Button>
+        </div>
+        )
+        :
+        null
+    )
+}
+
+export function RegularPlanCard({buttonAction = undefined}){
     return (
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Perus</h1>
-                <span className="text-white">{getFullPrice('regular')}€ vuodessa</span>
-                <TaxNotice/>
+                <span className="text-white font-semibold">{getFullPrice('regular')}€/kk</span>
+                <TaxNotice plan="regular"/>
             </div>
 
             <div className="p-4 flex-1">
@@ -33,17 +56,19 @@ export function RegularPlanCard(){
                     <li>Kulutustiedot</li>
                 </ul>
             </div>
+
+            <PlanCardButton action={buttonAction}/>
         </PricingCard>
     );
 }
 
-export function ProPlanCard(){
+export function ProPlanCard({buttonAction = undefined}){
     return (
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Pro</h1>
-                <span className="text-white">{getFullPrice('pro')}€ vuodessa</span>
-                <TaxNotice/>
+                <span className="text-white font-semibold">{getFullPrice('pro')}€/kk</span>
+                <TaxNotice plan="pro"/>
             </div>
 
             <div className="p-4 flex-1">
@@ -55,6 +80,8 @@ export function ProPlanCard(){
                     <li>Kulutustiedot</li>
                 </ul>
             </div>
+
+            <PlanCardButton action={buttonAction}/>
         </PricingCard>
     );
 }

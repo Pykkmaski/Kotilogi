@@ -87,6 +87,31 @@ export function Input({label, description, ...props}: InputProps){
     );
 }
 
+type InputGroupProps = React.PropsWithChildren & InputProps;
+
+/**Same as the regular Input exported by this module, but the input element(s) must be provided as children.*/
+export function InputGroup({children, ...props}: InputGroupProps){
+    return (
+        <div className={containerClassName}>
+            <MediumDevices>
+                <Label 
+                    text={props.label} 
+                    required={props.required} 
+                    description={props.description}/>
+            </MediumDevices>
+
+            <SmallDevices>
+                <MobileLabel>
+                    <label>{props.label}</label>
+                    {props.required ? <span className="text-red-400 text-sm">Pakollinen</span> : null}
+                </MobileLabel>
+            </SmallDevices>
+
+            {children}
+        </div>
+    )
+}
+
 export type SelectProps = React.ComponentProps<'select'> & {
     label: string,
     description?: string,

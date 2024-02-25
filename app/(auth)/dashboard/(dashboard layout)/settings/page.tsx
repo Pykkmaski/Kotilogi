@@ -3,7 +3,6 @@ import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import { ContentCard } from "@/components/RoundedBox/RoundedBox";
 import { EmailSettingsForm } from "./EmailSettingsForm";
 import { PasswordSettingsForm } from "@/components/DashboardPage/SettingsPage/PasswordSettingsForm";
-import { NextPaymentForm } from "@/components/DashboardPage/SettingsPage/NextPaymentForm";
 import { Heading } from "@/components/Heading";
 
 export default async function Page(){

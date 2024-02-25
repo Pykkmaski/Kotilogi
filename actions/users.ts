@@ -5,6 +5,7 @@ import * as database from './database';
 import { UserType } from "kotilogi-app/types/UserType";
 import db from "kotilogi-app/dbconfig";
 import bcrypt from 'bcrypt';
+import { sendAccountActivationLink } from "./email";
 
 /**Verifies a users password. */
 async function verifyPassword(email: string, password: string){
@@ -89,9 +90,11 @@ export async function register(credentials: {email: string, password: string, pl
                 email: credentials.email,
                 password: await bcrypt.hash(credentials.password, 15),
                 plan: credentials.plan,
+                status: 'pending',
             }
             
             await db('users').insert(user);
+            await sendAccountActivationLink(user.email);
             resolve('success');
         }
         catch(err){

@@ -1,6 +1,7 @@
 import { Prices } from "kotilogi-app/constants";
 import { UserPlanType } from "kotilogi-app/types/UserType";
+import { formatNumber } from "./formatNumber";
 
 export function getFullPrice(plan: UserPlanType){
-    return Prices[plan] * (1 + Prices.TAX) / 100;
+    return formatNumber(Math.round((Prices[plan] * (1 + Prices.TAX) / 100) * 100) / 100);
 }
