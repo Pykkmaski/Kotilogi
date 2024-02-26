@@ -14,14 +14,14 @@ async function verifyUser(email, password){
 
             if(user.trial){
                 //Check if the trial period has ended
-                const trialDuration = process.env.TRIAL_PERIOD_DURATION;
+                const trialDuration = process.env.TRIAL_DURATION;
 
                 if(trialDuration && trialDuration !== '0'){
                     const currentTime = Date.now();
                     const createdAtTime = new Date(user.createdAt).getTime();
 
                     if(currentTime - createdAtTime > parseInt(trialDuration)){
-                        user.status = 'inactive';
+                        user.status = 'trial_expired';
                     }
                 }
             }
@@ -66,12 +66,12 @@ export const options = {
             return token;
         },
 
-        async session({session, token}){
-            session.user.plan = token.plan;
-            session.user.nextPayment = token.nextPayment;
-            session.user.status = token.status;
-            session.user.createdAt = token.createdAt;
-            return session;
+        async session({session, token, trigger}){
+            if(trigger === 'update'){
+                return {...token, user: {...session.user}};
+            }
+
+            return {user: {...token}};
         },
     },
     

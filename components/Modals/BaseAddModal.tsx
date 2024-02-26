@@ -31,7 +31,8 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
         .catch(err => {
             toast.error(err.message);
             closeModal();
-        });
+        })
+        .finally(() => setStatus('idle'));
     }
 
     const closeModal = () => {

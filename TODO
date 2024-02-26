@@ -1,5 +1,30 @@
-+ Emptying the search field in a gallery header should refetch all data.
-+ Fix the color on the labels of the login form.
-- Add receiving a property via transfer code to the add modal of properties.
-+ Add a consolidationTime column to events. This means an event cannot be deleted if it is older than this limit.
-- Fix the register button. Nothing happens when it is pressed.
++ Upon successful payment, change a user's status to active.
+- Upon successful payment, refresh the user's session.
++ Figure out why the visma card charge route returns a validation error.
++ Handle a user logging in when their trial period has ended.
+- Handle a user logging in when their account is inactive.
+- Handle a user logging in when their account is in the unpaid state.
+- Handle all error cases when making the first payment.
+
+-26.02
+-Testing the checkout process
++ Check for correct response when the result is null.
++ Check for correct response when the result is 04.
++ Check for correct response when the result is 05.
++ Check for correct response when the result is 51.
++ Check for correct response when the result is 54.
++ Check for correct response when the result is 61.
++ Check for correct response when the result is 62.
++ Check for correct response when the result is 1000.
++ Verify successfull payments.
+
+26.02
+-Implement signing in response when:
+    - User status is 'inactive'
+    - User status is 'unpaid'
+
+-Verify signing in response when:
+    - User status is 'unconfirmed'
+
+
+

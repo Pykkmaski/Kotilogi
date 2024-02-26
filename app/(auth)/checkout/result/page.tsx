@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import db from "kotilogi-app/dbconfig";
 import { getServerSession } from "next-auth";
+import PaymentResult from "./PaymentResult";
 
 type ReturnCodeType = 0 | 1 | 4 | 10;
 
@@ -38,34 +39,34 @@ export default async function CheckoutResultPage({searchParams}){
     const session = getServerSession(options as any) as any;
     const returnCode = parseInt(searchParams.RETURN_CODE);
 
-    var payment: any = null;
+    const [{payment}, paymentStatus] = await Promise.all([
+        getPayment(searchParams.ORDER_NUMBER), 
+        getPaymentStatus(searchParams.ORDER_NUMBER)
+    ]);
 
     if(returnCode == 0){
-        const [{result, payment}, cardToken] = await Promise.all([
-            getPayment(searchParams.ORDER_NUMBER), 
-            getPaymentStatus(searchParams.ORDER_NUMBER)
-        ]);
-        console.log(cardToken);
+        await db('billing').insert({
+            customer: payment.customer.email,
+            cardToken: payment.source.card_token,
+            price: payment.amount,
+            tax: 24,
+            productTitle: payment.payment_products[0].title,
+            productId: payment.payment_products[0].id,
+            timestamp: Date.now().toString(),
+        })
+        .onConflict('customer')
+        .merge();
 
-        if(result === 0){
-            console.log(payment);
-            await db('billing').insert({
-                customer: payment.customer.email,
-                cardToken: payment.source.card_token,
-                price: payment.amount,
-                tax: 24,
-                productTitle: payment.payment_products[0].title,
-                productId: payment.payment_products[0].id,
-                timestamp: Date.now().toString(),
-            })
-            .onConflict('customer')
-            .merge();
-        }
+        //Update the users status to active.
+        await db('users').where({email: payment.customer.email}).update({
+            status: 'active',
+            trial: false,
+        });
     }
 
     return (
         <main className="flex flex-col w-full flex-1">
-           {returnCode == 0 ? 'Maksu suoritettu.' : 'Maksuvirhe.'}
+           <PaymentResult paymentStatusCode={paymentStatus.source.error_code} returnCode={returnCode}/>
         </main>
     )
 }

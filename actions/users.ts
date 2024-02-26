@@ -25,7 +25,8 @@ async function verifyPassword(email: string, password: string){
 export async function getPropertyCount(email: string){
     return new Promise<number>(async (resolve, reject) => {
         try{
-            const {count} = await db('properties').where({refId: email}).count('*', {as: 'count'}) as {count: number};
+            const [{count}] = await db('properties').where({refId: email}).count('*', {as: 'count'}) as [{count: number}];
+            console.log(count);
             resolve(count);
         }
         catch(err){
@@ -65,7 +66,8 @@ export async function isAllowedToAddProperty(email: string): Promise<boolean>{
         try{
             //Get the number of properties a user has, and how many they are allowed to have.
             const [propertyCount, maxPropertiesAllowed] = await Promise.all([getPropertyCount(email), getMaxProperties(email)]);
-    
+            console.log(propertyCount, maxPropertiesAllowed);
+
             resolve(maxPropertiesAllowed < 0 || propertyCount < maxPropertiesAllowed);
         }
         catch(err){
@@ -90,7 +92,6 @@ export async function register(credentials: {email: string, password: string, pl
                 email: credentials.email,
                 password: await bcrypt.hash(credentials.password, 15),
                 plan: credentials.plan,
-                status: 'pending',
             }
             
             await db('users').insert(user);

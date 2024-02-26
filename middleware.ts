@@ -1,5 +1,6 @@
 import { JWT } from 'next-auth/jwt';
 import {NextRequestWithAuth, withAuth} from 'next-auth/middleware';
+import { NextURL } from 'next/dist/server/web/next-url';
 import { NextResponse } from 'next/server';
 
 function handleAuthorized(token: JWT, req: NextRequestWithAuth){
@@ -16,12 +17,16 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth){
    }
    else if(token.status === 'inactive'){
       //Redirect to the user inactive page.
+      const url = req.nextUrl.clone();
+      url.pathname = '/user/inactive';
+      return NextResponse.redirect(url);
    }
 }
 
 
 async function middleware(req: NextRequestWithAuth){
    const {token} = req.nextauth;
+
    if(token){
       return handleAuthorized(token, req);
    } 
