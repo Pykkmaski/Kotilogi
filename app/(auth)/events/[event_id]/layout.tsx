@@ -4,7 +4,7 @@ import { Group } from "kotilogi-app/components/Group";
 import { Header } from "kotilogi-app/components/Header/Header";
 import { SecondaryHeading } from "kotilogi-app/components/Heading";
 import IconLink from "kotilogi-app/components/IconLink/IconLink";
-import { Layout } from "kotilogi-app/components/Layout";
+import { Layout, LayoutContentContainer, LayoutNavBarContainer } from "kotilogi-app/components/Layout";
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
 import { SplitScreen } from "kotilogi-app/components/SplitScreen/SplitScreen";
 import db from "kotilogi-app/dbconfig"
@@ -15,34 +15,26 @@ export default async function EventLayout({children, params}){
     if(!event) throw new Error('Tapahtuman lataus epäonnistui!');
 
     return (
-        <Layout>
-            <Padding>
-                
+        <div className="flex gap-4 w-full flex-1">
+            <LayoutNavBarContainer>
+                <Header>
+                    <Group direction="col" gap={0}>
+                        <SecondaryHeading>Tapahtuma</SecondaryHeading>
+                        <span className="text-black text-xl">{event.title}</span>
+                    </Group>
+                </Header>
 
-                <div className="flex gap-4">
-                    <div className="flex-1 flex flex-col gap-4 relative">
-                        <Header>
-                            <Group direction="col" gap={0}>
-                                <SecondaryHeading>Tapahtuma</SecondaryHeading>
-                                <span className="text-black text-xl">{event.title}</span>
-                            </Group>
-                        </Header>
+                <NavBar>
+                    <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
+                    <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
+                    <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
+                    <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
+                </NavBar>
+            </LayoutNavBarContainer>
 
-                        <NavBar>
-                            <IconLink href={`info`} imageSrc="/icons/info.png">Tiedot</IconLink>
-                            <IconLink href={'images'} imageSrc='/icons/image.png'>Kuvat</IconLink>
-                            <IconLink href={'files'} imageSrc="/icons/copy.png">Tiedostot</IconLink>
-                            <Link href={`/properties/${event.refId}/events`}>Takaisin Tapahtumiin</Link>
-                        </NavBar>
-                    </div>
-                    
-
-                    <div className="ml-8 mb-8 flex-[9]">
-                        {children}
-                    </div>
-                </div>
-            </Padding>
-            
-        </Layout>
+            <LayoutContentContainer>
+                {children}
+            </LayoutContentContainer>
+        </div>
     )
 }

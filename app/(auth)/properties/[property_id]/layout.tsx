@@ -8,7 +8,7 @@ import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
 import IconLink from 'kotilogi-app/components/IconLink/IconLink';
 import Link from 'next/link';
 import { Header } from 'kotilogi-app/components/Header/Header';
-import { Layout } from 'kotilogi-app/components/Layout';
+import { Layout, LayoutContentContainer, LayoutNavBarContainer } from 'kotilogi-app/components/Layout';
 import { Group } from 'kotilogi-app/components/Group';
 import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading';
 import { Flex } from 'kotilogi-app/components/Util/Flex';
@@ -32,38 +32,31 @@ export default async function PropertyDetailsLayout({children, params}){
 
     return (
         <PropertyContextProvider value={contextValue}>
-           <Layout>
-                <Padding>
-                    <div className="flex flex-row gap-2">
-                        <div className="xs:hidden md:block flex-1 flex flex-col relative">
-                            <Header>
-                                <Group direction="col">
-                                    <SecondaryHeading>Talo</SecondaryHeading>
-                                    <span className="text-black text-xl">{property.title}</span>
-                                </Group>
-                            </Header>
+            <div className="flex flex-row gap-2">
+                <LayoutNavBarContainer>
+                    <Header>
+                        <Group direction="col">
+                            <SecondaryHeading>Talo</SecondaryHeading>
+                            <span className="text-black text-xl">{property.title}</span>
+                        </Group>
+                    </Header>
 
-                            <NavBar>
-                                <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                                <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                                <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
-                                <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                                <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
-                                
-                                <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
-                            
-                                <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
-                            </NavBar>
-                        </div>
-                        
-                        <div className="flex-[8]">
-                            <div className="xs:ml-0 md:ml-8 mb-8">
-                                {children}
-                            </div>
-                        </div>
-                    </div>
-                </Padding>
-           </Layout>
+                    <NavBar>
+                        <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                        <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                        <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
+                        <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                        <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                        <div className="bg-slate-300 h-[1px] w-full mt-4 mb-4"></div>
+                
+                        <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                    </NavBar>
+                </LayoutNavBarContainer>
+                
+                <LayoutContentContainer>
+                    {children}
+                </LayoutContentContainer>
+            </div>
         </PropertyContextProvider>
     );
 }
