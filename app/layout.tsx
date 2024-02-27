@@ -15,7 +15,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 
-  const session = await getServerSession(options) as {user: {email: string}};
+  const session = await getServerSession(options as any) as {user: {email: string}};
 
   return (
     <html lang="en">

@@ -4,45 +4,40 @@ import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import db from "kotilogi-app/dbconfig";
 import { getServerSession } from "next-auth";
 import PaymentResult from "./PaymentResult";
+import { getPayment, getPaymentStatus } from "./page.actions";
 
 type ReturnCodeType = 0 | 1 | 4 | 10;
 
-async function getPayment(orderNumber: string){
+function createPaymentReq(orderNumber: string){
     const authdata = `${process.env.VISMA_API_KEY}|${orderNumber}`;
     const authcode = crypto.createHmac('SHA256', process.env.VISMA_MERCHANT_SECRET).update(authdata).digest('hex').toUpperCase();
-    const {data: payment} = await axios.post('https://www.vismapay.com/pbwapi/get_payment', {
+    return {
         version: 'w3.1',
         api_key: process.env.VISMA_API_KEY,
         order_number: orderNumber,
         authcode,
-    });
-
-    return payment;
+    }
 }
 
-async function getPaymentStatus(orderNumber: string){
+function createPaymentStatusReq(orderNumber: string){
     const authdata = `${process.env.VISMA_API_KEY}|${orderNumber}`;
     const authcode = crypto.createHmac('SHA256', process.env.VISMA_MERCHANT_SECRET).update(authdata).digest('hex').toUpperCase();
-    
-    const {data: paymentStatus} = await axios.post('https://www.vismapay.com/pbwapi/check_payment_status', {
+    return {
         version: 'w3.1',
         api_key: process.env.VISMA_API_KEY,
         order_number: orderNumber,
-        authcode,
-    });
-
-    return paymentStatus;
+        authcode: authcode,
+    }
 }
 
 export default async function CheckoutResultPage({searchParams}){
 
+    const orderNumber = searchParams.ORDER_NUMBER;
+    const {data: {payment}} = await axios.post('https://www.vismapay.com/pbwapi/get_payment', createPaymentReq(orderNumber));
+    const {data: paymentStatus} = await axios.post('https://www.vismapay.com/pbwapi/check_payment_status', createPaymentStatusReq(orderNumber));
+
     const session = getServerSession(options as any) as any;
     const returnCode = parseInt(searchParams.RETURN_CODE);
-
-    const [{payment}, paymentStatus] = await Promise.all([
-        getPayment(searchParams.ORDER_NUMBER), 
-        getPaymentStatus(searchParams.ORDER_NUMBER)
-    ]);
 
     if(returnCode == 0){
         await db('billing').insert({

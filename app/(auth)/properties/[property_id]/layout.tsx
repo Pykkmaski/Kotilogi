@@ -20,7 +20,7 @@ export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
     if(!property) throw new Error('Failed to load property!');
 
-    const session = await getServerSession(options) as {user: {email: string}};
+    const session = await getServerSession(options as any) as {user: {email: string}};
     if(!session) throw new Error('Failed to fetch user session!');
 
     const isLoggedInUserTheOwner = await isUserTheOwnerOfProperty(session.user.email, property.id);

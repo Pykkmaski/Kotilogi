@@ -18,13 +18,13 @@ function IncludesVATNotice(){
 
 function RegularPlanInfo(){
     return (
-        <span className="text-slate-500">Perustilin vuosihinta on <span className="text-orange-500">{getFullPrice('REGULAR')}€ <IncludesVATNotice/></span></span>
+        <span className="text-slate-500">Perustilin vuosihinta on <span className="text-orange-500">{getFullPrice('regular')}€ <IncludesVATNotice/></span></span>
     );
 }
 
 function ProPlanInfo(){
     return (
-        <span className="text-slate-500">Pro-tilin vuosihinta on <span className="text-orange-500">{getFullPrice('PRO')}€ <IncludesVATNotice/></span></span>
+        <span className="text-slate-500">Pro-tilin vuosihinta on <span className="text-orange-500">{getFullPrice('pro')}€ <IncludesVATNotice/></span></span>
     );
 }
 

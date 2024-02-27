@@ -8,7 +8,7 @@ import * as database from '@/actions/database';
  * header containing controls as well as a Gallery-component to render the properties.
  */
 export default async function PropertiesPage({searchParams}: any){
-    const session = await getServerSession(options) as {user: {email: string}};
+    const session = await getServerSession(options as any) as {user: {email: string}};
     if(!session) throw new Error('Pääsy evätty!');
 
     const propertyData = await database.get('properties', {refId: session.user.email} as Partial<Kotilogi.PropertyType>) as unknown as Kotilogi.PropertyType[];

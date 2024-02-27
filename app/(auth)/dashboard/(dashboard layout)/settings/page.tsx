@@ -6,7 +6,7 @@ import { PasswordSettingsForm } from "@/components/DashboardPage/SettingsPage/Pa
 import { Heading } from "@/components/Heading";
 
 export default async function Page(){
-    const session = await getServerSession(options) as {user: {email: string}};
+    const session = await getServerSession(options as any) as {user: {email: string}};
     if(!session) throw new Error('Käyttäjän varmennus epäonnistui!');
     
     return (

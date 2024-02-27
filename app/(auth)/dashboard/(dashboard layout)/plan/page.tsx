@@ -7,7 +7,7 @@ import { getFullPrice } from "kotilogi-app/utils/getFullPrice";
 import { Prices } from "kotilogi-app/constants";
 
 export default async function PlanPage(){
-    const session = await getServerSession(options) as {user: UserType};
+    const session = await getServerSession(options as any) as {user: UserType};
     if(!session) throw new Error('Unable to load user session! Try refreshing the page.');
 
     const payments = [];

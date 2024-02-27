@@ -29,7 +29,7 @@ export function PaymentForm({session, ...props}: PaymentFormProps){
     return (
         <Modal {...props}>
             <Modal.Header>Maksu</Modal.Header>
-                <form className="flex flex-col gap-4 my-8 p-4 justify-center" action={payments.makePayment}>
+                <form className="flex flex-col gap-4 my-8 p-4 justify-center" >
                     
                 <iframe 
                     ref={vismaFrameRef} 

@@ -5,12 +5,7 @@ import crypto from 'crypto';
 import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import axios from "axios";
-import { redirect } from "next/navigation";
 import { UserPlanType, UserType } from "kotilogi-app/types/UserType";
-import db from "kotilogi-app/dbconfig";
-import { OrderType } from "kotilogi-app/types/OrderType";
-import * as vismaPay from 'visma-pay';
-import { NextResponse } from "next/server";
 
 function generateAuthCode(orderNumber: string){
     const data = `${process.env.VISMA_API_KEY}|${orderNumber}`;
@@ -23,7 +18,7 @@ function generateOrderNumber(user: UserType){
 
 export async function makeOrder(plan: UserPlanType){
     try{
-        const session = await getServerSession(options);
+        const session = await getServerSession(options as any) as any;
         const price = Math.round(Prices[plan] * (1 + Prices.TAX));
         const orderNumber = generateOrderNumber(session.user);
         

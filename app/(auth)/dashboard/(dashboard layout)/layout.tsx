@@ -13,7 +13,7 @@ import { BackgroundFiller } from "@/components/BackgroundFIller";
 
 export default async function DashboardLayout({children}){
 
-    const session = await getServerSession(options) as {user: {email: string}};
+    const session = await getServerSession(options as any) as {user: {email: string}};
     if(!session) throw new Error('Käyttäjän lataaminen epäonnistui!');
 
     return (
