@@ -46,7 +46,7 @@ export default async function PropertyDetailsLayout({children, params}){
                             <NavBar>
                                 <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
                                 <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                                <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=heat">Kulutustiedot</IconLink>
+                                <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
                                 <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
                                 <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
                                 
