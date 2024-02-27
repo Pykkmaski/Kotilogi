@@ -92,6 +92,16 @@ export async function del(tablename: 'propertyFiles' | 'eventFiles', fileData: K
         try{
             await unlink(uploadPath + fileData.fileName);
             await database.del(tablename, fileData);
+
+            if(tablename === 'propertyFiles'){
+                revalidatePath('/properties/[property_id]/files');
+                revalidatePath('/properties/[property_id]/images');
+            }
+            else if(tablename === 'eventFiles'){
+                revalidatePath('/events/[event_id]/files');
+                revalidatePath('/events/[event_id]/images');
+            }
+            
             resolve();
         }
         catch(err){

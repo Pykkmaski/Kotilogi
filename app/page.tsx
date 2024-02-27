@@ -12,7 +12,7 @@ function HeroGradient(){
 
 function HeroBgImage(){
     const style: CSSProperties = {
-        background: "url('/index.jpg')",
+        background: "url('/index_blur.jpg')",
         backgroundPositionY: 'center',
         backgroundSize: 'cover'
     }
