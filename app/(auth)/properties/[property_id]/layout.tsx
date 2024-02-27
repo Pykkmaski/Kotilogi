@@ -32,7 +32,7 @@ export default async function PropertyDetailsLayout({children, params}){
 
     return (
         <PropertyContextProvider value={contextValue}>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 w-full flex-1">
                 <LayoutNavBarContainer>
                     <Header>
                         <Group direction="col">
