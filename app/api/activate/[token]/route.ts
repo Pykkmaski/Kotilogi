@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 import db from "kotilogi-app/dbconfig";
+import { signOut } from "next-auth/react";
 
 export async function GET(req: NextRequest, {params}){
     try{
@@ -36,7 +37,8 @@ export async function GET(req: NextRequest, {params}){
             status: 'active',
         });
     
-        return NextResponse.redirect(`${process.env.SERVICE_DOMAIN}/login?code=1`, {
+
+        return NextResponse.redirect(`${process.env.SERVICE_DOMAIN}/logout`, {
             status: 303,
         });
     }
