@@ -71,6 +71,8 @@ export default async function PlanPage(){
             <Header>
                 <Heading>Tilaus</Heading>
             </Header>
+
+            <span>Tulossa</span>
         </main>
     );
 }
