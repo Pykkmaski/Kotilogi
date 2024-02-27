@@ -58,10 +58,12 @@ export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: s
             const uploadedFileData = await database.add(tablename, fileData);
 
             if(tablename === 'propertyFiles'){
-                revalidatePath('/properties/[property_id]/');
+                revalidatePath('/properties/[property_id]/files');
+                revalidatePath('/properties/[property_id]/images');
             }
             else if(tablename === 'eventFiles'){
-                revalidatePath('/events/[event_id]/');
+                revalidatePath('/events/[event_id]/files');
+                revalidatePath('/events/[event_id]/images');
             }
 
             resolve(uploadedFileData as unknown as Kotilogi.FileType);
