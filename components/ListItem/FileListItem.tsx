@@ -5,6 +5,7 @@ import { CheckBox, ControlsContainer, DeleteButton, InfoContainer, TitleContaine
 import toast from "react-hot-toast";
 import * as properties from '@/actions/properties';
 import * as events from '@/actions/events';
+import * as file from '@/actions/file';
 
 export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
     icon: string,
@@ -49,13 +50,13 @@ function PdfListItem(props: PdfListItemProps){
 export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='propertyFiles'
-            deleteMethod={() => properties.deleteFile(props.item)}/>
+            deleteMethod={() => file.del('propertyFiles', props.item)}/>
     );
 }
 
 export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='eventFiles'
-            deleteMethod={() => events.deleteFile(props.item)}/>
+            deleteMethod={() => file.del('eventFiles', props.item)}/>
     );
 }
