@@ -4,6 +4,7 @@ import {SecondaryButton} from "../Button/SecondaryButton";
 import { Group } from "../Group";
 import { useStatus } from "./BaseAddModal.hooks";
 import Modal, { ModalProps } from "./Modal";
+import Button from "../Button/Button";
 
 export type DeleteModalProps<T extends Kotilogi.ItemType> = ModalProps & {
     targetsToDelete: T[],
@@ -36,7 +37,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
     }
 
     const cancelDelete = () => {
-        resetSelectedTargets();
+        //resetSelectedTargets();
         props.onHide();
     }
 
@@ -65,14 +66,20 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
                 </Group>
             </Modal.Body>
             <Modal.Footer>
-                <PrimaryButton 
+                <Button 
+                    variant="secondary"
                     disabled={loading}
-                    onClick={cancelDelete}>Ei</PrimaryButton>
+                    onClick={cancelDelete}>
+                        <span className="mx-4">Ei</span>
+                </Button>
 
-                <SecondaryButton 
+                <Button 
+                    variant="primary"
                     loading={loading}
                     disabled={loading}
-                    onClick={deleteItems}>Kyllä</SecondaryButton>
+                    onClick={deleteItems}>
+                        <span className="mx-4">Kyllä</span>
+                    </Button>
             </Modal.Footer> 
         </Modal>
     )
