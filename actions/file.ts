@@ -56,6 +56,14 @@ export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: s
             }
 
             const uploadedFileData = await database.add(tablename, fileData);
+
+            if(tablename === 'propertyFiles'){
+                revalidatePath('/properties/[property_id]/');
+            }
+            else if(tablename === 'eventFiles'){
+                revalidatePath('/events/[event_id]/');
+            }
+
             resolve(uploadedFileData as unknown as Kotilogi.FileType);
         }
         catch(err){
