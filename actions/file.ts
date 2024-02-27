@@ -91,7 +91,7 @@ export async function del(tablename: 'propertyFiles' | 'eventFiles', fileData: K
     return new Promise<void>(async (resolve, reject) => {
         try{
             await unlink(uploadPath + fileData.fileName);
-            await database.del(tablename, fileData);
+            await database.del(tablename, {id: fileData.id});
 
             if(tablename === 'propertyFiles'){
                 revalidatePath('/properties/[property_id]/files');
