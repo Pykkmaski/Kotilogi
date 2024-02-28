@@ -66,6 +66,7 @@ function AddUsageModal(props: ModalProps){
             closeModal();
             setStatus('idle');
 
+            //Route to the same year as the year of the newly added data.
             const newSearchParams = new URLSearchParams(searchParams.toString());
             newSearchParams.set('year', new Date(dataToAdd.time).getFullYear().toString());
             const url = `${pathName}?${newSearchParams.toString()}`;

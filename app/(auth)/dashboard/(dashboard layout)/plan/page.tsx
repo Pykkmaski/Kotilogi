@@ -48,7 +48,7 @@ export default async function PlanPage(){
                     <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
                     <span className="text-lg mt-4">{getBillDueDate()}</span>
                     <div className="mt-8">
-                        <CancelSubscriptionButton user={session.user} disabled={Date.now() >= billDueDate.getTime()}/>
+                        <CancelSubscriptionButton user={session.user} disabled={billDueDate ? billDueDate.getTime() >= Date.now() : false}/>
                     </div>
                 </div>
             </div>

@@ -41,6 +41,7 @@ export default async function PropertyDetailsLayout({children, params}){
                         <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
                         <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
                         <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                        <IconLink imageSrc={`/icons/user.png`} href="history">Omistus</IconLink>
                         <div className="bg-slate-400 h-[1px] w-full mt-4 mb-4"></div>
                 
                         <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>

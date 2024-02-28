@@ -1,5 +1,7 @@
+import { Heading } from "@/components/Heading";
+
 export default function History(){
     return (
-        <h1>Muutoshistoria</h1>
+        <Heading>Talon historia</Heading>
     )
 }
