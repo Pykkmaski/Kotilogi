@@ -45,4 +45,5 @@ app/auth/properties/[property_id]
 pelican/
 /pelican
 /autobiller.db.config
+dbtest.js
 

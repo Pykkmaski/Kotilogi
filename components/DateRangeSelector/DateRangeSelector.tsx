@@ -10,7 +10,12 @@ export function DateRangeSelector({startYear}){
 
     const getOptions = () => {
         const opts: JSX.Element[] = [];
+
+        console.log(currentYear);
+        console.log(startYear);
+        
         for(var i = currentYear; i >= startYear; --i){
+            console.log(i);
             opts.push(
                 <option value={i} selected={i === parseInt(currentQuery)}>{i}</option>
             );

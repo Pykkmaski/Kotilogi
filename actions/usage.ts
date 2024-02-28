@@ -27,7 +27,24 @@ export async function getByYear(year: number, query: Partial<Kotilogi.UsageType>
     });
 }
 
+type UsageValidationResult = 'valid' | 'invalid_date';
+
+function validateUsageData(data: Kotilogi.UsageType){
+    const currentTime = Date.now();
+    const dataTime = new Date(data.time).getTime();
+    if(Number.isNaN(dataTime)) throw new Error('Error validating usage data! Passed data time parses to NaN');
+    if(dataTime > currentTime){
+        return 'invalid_date';
+    }
+    else{
+        return 'valid';
+    }
+}
+
 export async function add(usageData: Kotilogi.UsageType){
+    const validationResult = validateUsageData(usageData);
+    if(validationResult !== 'valid') throw new Error(validationResult);
+    
     return await database.add('usage', usageData)
     .then(() => revalidateUsage());
 }

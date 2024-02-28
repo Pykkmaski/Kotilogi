@@ -50,11 +50,18 @@ function AddUsageModal(props: ModalProps){
         }
 
         usage.add(dataToAdd)
-        .then(() => {
-            closeModal();
+        .catch(err => {
+            if(err.message === 'invalid_date'){
+                toast.error('Tiedon päiväys ei voi olla tulevaisuudessa!');
+            }
+            else{
+                toast.error('Tuntematon virhe!');
+            }
         })
-        .catch(err => toast.error('Tiedon lisääminen epäonnistui!'))
-        .finally(() => setStatus('idle'));
+        .finally(() => {
+            closeModal();
+            setStatus('idle');
+        });
     }
 
     return (
@@ -140,11 +147,17 @@ export function Controls({property, data, type}: ControlsProps){
         return aTime - bTime;
     });
 
+    console.log(dataSorted[0].time);
+    const parsedTime = new Date(dataSorted[0].time).getTime();
+    const dateRangeStartYear = new Date(parsedTime).getFullYear();
+    console.log(dateRangeStartYear);
+    if(Number.isNaN(dateRangeStartYear)) throw new Error('Date range starting year cannot be NaN!');
+
     return (
         <div className="flex gap-4 items-center">
             <div className="flex gap-2 items-center">
                 <span className="text-slate-500">Suodata:</span>
-                <DateRangeSelector startYear={new Date(dataSorted[0].time).getFullYear()}/>
+                <DateRangeSelector startYear={dateRangeStartYear}/>
             </div>
 
             <AddUsageModal 
