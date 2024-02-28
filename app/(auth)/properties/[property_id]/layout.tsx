@@ -3,18 +3,12 @@ import PropertyContextProvider from './_util/PropertyContextProvider';
 import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/property/isUserTheOwnerOfProperty';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
-import { SplitScreen } from 'kotilogi-app/components/SplitScreen/SplitScreen';
 import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
 import IconLink from 'kotilogi-app/components/IconLink/IconLink';
-import Link from 'next/link';
 import { Header } from 'kotilogi-app/components/Header/Header';
-import { Layout, LayoutContentContainer, LayoutNavBarContainer } from 'kotilogi-app/components/Layout';
+import { LayoutContentContainer, LayoutNavBarContainer } from 'kotilogi-app/components/Layout';
 import { Group } from 'kotilogi-app/components/Group';
-import { Heading, SecondaryHeading } from 'kotilogi-app/components/Heading';
-import { Flex } from 'kotilogi-app/components/Util/Flex';
-import { Padding } from '@/components/Util/Padding';
-import { MediumDevices } from '@/components/Util/Media';
-import { BackgroundFiller } from '@/components/BackgroundFIller';
+import { SecondaryHeading } from 'kotilogi-app/components/Heading';
 
 export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -24,7 +18,7 @@ export default async function PropertyDetailsLayout({children, params}){
     if(!session) throw new Error('Failed to fetch user session!');
 
     const isLoggedInUserTheOwner = await isUserTheOwnerOfProperty(session.user.email, property.id);
-    if(!isLoggedInUserTheOwner) throw new Error('You are not allowed to view this property!');
+    if(!isLoggedInUserTheOwner) throw new Error('property_unauthorized');
     
     const contextValue = {
         property,
