@@ -18,12 +18,16 @@ import { AllUsageDataChart } from "@/components/UsagePage/AllUsageDataChart";
 import { DateRangeSelector } from "@/components/DateRangeSelector/DateRangeSelector";
 import * as usage from '@/actions/usage';
 import { DataList } from "@/components/UsagePage/DataList";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components/UsagePage/Icon";
 
 function AddUsageModal(props: ModalProps){
     const {property} = usePropertyContext();
-    const type = useSearchParams().get('type') as Kotilogi.UsageTypeType | 'all';
+    const pathName = usePathname();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    
+    const type = searchParams.get('type') as Kotilogi.UsageTypeType | 'all';
 
     const initialData = {refId: property.id, type: type !== 'all' ? type : 'heat'};
     const {updateData, data, reset: resetInputData} = useInputData(initialData);
@@ -61,6 +65,11 @@ function AddUsageModal(props: ModalProps){
         .finally(() => {
             closeModal();
             setStatus('idle');
+
+            const newSearchParams = new URLSearchParams(searchParams.toString());
+            newSearchParams.set('year', new Date(dataToAdd.time).getFullYear().toString());
+            const url = `${pathName}?${newSearchParams.toString()}`;
+            router.push(url);
         });
     }
 
