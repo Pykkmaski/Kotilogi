@@ -14,6 +14,15 @@ module.exports = {
     useNullAsDefault: true,
   },
 
+  development_pg: {
+    client: 'pg',
+    connection: {
+      filename: './data/dev_pg.db3'
+    },
+
+    useNullAsDefault: true,
+  },
+
   billing: {
     client: 'pg',
     connection: {

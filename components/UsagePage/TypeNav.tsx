@@ -17,7 +17,7 @@ export function TypeNav({children}){
                     React.Children.map(children, (child: React.ReactElement<HTMLAnchorElement>) => {
                         const params = new URLSearchParams(child.props.href);
                         const typeName = params.get('type');
-                        const baseClassName = "p-1 flex justify-center items-center rounded-lg min-w-[70px] text-black text-sm no-underline cursor-pointer";
+                        const baseClassName = "p-1 flex justify-center items-center rounded-lg min-w-[70px] text-black text-sm no-underline cursor-pointer [&>*]:w-full [&>*]:h-full [&>*]:flex [&>*]:justify-center";
 
                         if(params.get('type') === currentParam){
                             const selectedClassName = [

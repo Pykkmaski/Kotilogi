@@ -147,10 +147,10 @@ export function Controls({property, data, type}: ControlsProps){
         return aTime - bTime;
     });
 
-    console.log(dataSorted[0].time);
+    //console.log(dataSorted[0].time);
     const parsedTime = new Date(dataSorted[0].time).getTime();
     const dateRangeStartYear = new Date(parsedTime).getFullYear();
-    console.log(dateRangeStartYear);
+    //console.log(dateRangeStartYear);
     if(Number.isNaN(dateRangeStartYear)) throw new Error('Date range starting year cannot be NaN!');
 
     return (
