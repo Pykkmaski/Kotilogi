@@ -12,11 +12,30 @@ function generateConsolidationTime(){
     return Date.now() + parseInt(consolidationDelay);
 }
 
+type VerifyEventResultType = 'valid' | 'invalid_date';
+
+function verifyEvent(eventData: Kotilogi.EventType){
+    const eventTime = new Date(eventData.time).getTime();
+    const currentTime = Date.now();
+
+    if(eventTime > currentTime){
+        return 'invalid_date';
+    }
+    else{
+        return 'valid';
+    }
+}
+
 export async function add(eventData: Kotilogi.EventType, files?: FormData[]){
     var addedEvent: Kotilogi.EventType | null = null;
 
     return new Promise<Kotilogi.EventType>(async (resolve, reject) => {
         try{
+            const verifyResult = verifyEvent(eventData);
+            if(verifyResult === 'invalid_date'){
+                throw new Error('Tapahtuman päiväys ei voi olla tulevaisuudessa!');
+            }
+
             const processedData: Kotilogi.EventType = {
                 ...eventData,
                 consolidationTime: generateConsolidationTime().toString(),
