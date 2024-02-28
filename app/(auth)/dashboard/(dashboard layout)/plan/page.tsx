@@ -5,74 +5,49 @@ import { getServerSession } from "next-auth";
 import { UserType } from "kotilogi-app/types/UserType";
 import { getFullPrice } from "kotilogi-app/utils/getFullPrice";
 import { Prices } from "kotilogi-app/constants";
+import { ProPlanCard, RegularPlanCard } from "@/components/HomePage/ProfileText";
+import Button from "@/components/Button/Button";
+import db from "kotilogi-app/dbconfig";
+import { formatNumber } from "kotilogi-app/utils/formatNumber";
 
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
-    if(!session) throw new Error('Unable to load user session! Try refreshing the page.');
+    const [bill] = await db('billing').where({customer: session.user.email});
 
-    const payments = [];
-
-    const getNextPayment = () => {
-        if(session.user.nextPayment){
-            if(session.user.status === 'active'){
-                const nextPayment = new Date(session.user.nextPayment);
-                console.log(nextPayment);
-
-                return (
-                    <>
-                        <span className="text-slate-500 text-lg font-semibold">Seuraava maksu</span>
-                        <div className="flex gap-4">
-                            <span className="font-semibold">{getFullPrice(session.user.plan)}€</span>
-                            <span>{session.user.nextPayment}</span>
-                        </div>
-                        <span className="text-sm text-slate-500">Sisältää ALV {Prices.TAX * 100}%</span>
-                    </>
-                )
-            }
-            else if(session.user.status === 'pending'){
-                //Return the time left on the pending account.
-                const userCreatedDate = new Date(session.user.createdAt).getTime();
-                const trialTerminationDate = new Date(userCreatedDate + parseInt(process.env.TRIAL_DURATION)).getTime();
-                const timeLeft = (trialTerminationDate - Date.now()) / 1000 / 3600 / 24;
-
-
-                return (
-                    <>
-                        <span className="text-slate-500 text-lg font-semibold">Kokeilujaksoa jäljellä</span>
-                        <span>{Math.ceil(timeLeft)} päivää.</span>
-                    </>
-                );
-            }
-            else{
-                return 'Ei seuraavaa maksua';
-            }
+    const getPlanCard = () => {
+        if(session.user.plan === 'regular'){
+            return <RegularPlanCard/>
+        }
+        else if(session.user.plan === 'pro'){
+            return <ProPlanCard/>
         }
     }
 
-    const getPayments = () => {
-        if(payments.length){
-            return (
-                <div className="flex flex-column justify-between items-center gap-2">
-                    {payments}
-                </div>
-            );
-        }
-        else{
-            return (
-                <div className="w-full h-full flex justify-center items-center">
-                    <span className="text-slate-500">Ei suoritettuja maksuja.</span>
-                </div>
-            );
-        }
+    const getBillDueDate = () => {
+        if(!bill) return 'Kokeilujakso';
+        
+        const nextBill = new Date(bill.timestamp);
+        nextBill.setMonth(nextBill.getMonth() + 1);
+
+        return nextBill.toLocaleDateString('fi');
     }
 
     return (
-        <main className="w-full flex flex-col gap-4 mb-8">
+        <main className="flex flex-col gap-4 mb-8">
             <Header>
                 <Heading>Tilaus</Heading>
             </Header>
 
-            <span>Tulossa</span>
+            <div className="flex flex-row gap-4">
+                <div>
+                    {getPlanCard()}
+                </div>
+
+                <div>
+                    <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
+                    <span className="text-lg mt-4">{getBillDueDate()}</span>
+                </div>
+            </div>
         </main>
     );
 }
