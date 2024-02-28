@@ -39,7 +39,7 @@ export function Content({event}: ContentProps){
                     name: 'time',
                     description: 'Tapahtuman päiväys.',
                     type: 'date',
-                    defaultValue: new Date(event.time).toLocaleDateString('fi-FI'),
+                    defaultValue: event.time,
                 }}/>
             </ContentCard>
         </>

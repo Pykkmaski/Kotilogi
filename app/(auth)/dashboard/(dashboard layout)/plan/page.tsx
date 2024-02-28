@@ -9,10 +9,14 @@ import { ProPlanCard, RegularPlanCard } from "@/components/HomePage/ProfileText"
 import Button from "@/components/Button/Button";
 import db from "kotilogi-app/dbconfig";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
+import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
 
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
     const [bill] = await db('billing').where({customer: session.user.email});
+    const billTimestamp: number | null = bill ? parseInt(bill.timestamp) : null;
+
+    const billDueDate = billTimestamp ? new Date(billTimestamp + (1000 * 3600 * 31)) : null;
 
     const getPlanCard = () => {
         if(session.user.plan === 'regular'){
@@ -24,12 +28,9 @@ export default async function PlanPage(){
     }
 
     const getBillDueDate = () => {
-        if(!bill) return 'Kokeilujakso';
-        
-        const nextBill = new Date(bill.timestamp);
-        nextBill.setMonth(nextBill.getMonth() + 1);
+        if(!billDueDate) return 'Kokeilujakso';
 
-        return nextBill.toLocaleDateString('fi');
+        return billDueDate.toLocaleDateString('fi');
     }
 
     return (
@@ -43,12 +44,12 @@ export default async function PlanPage(){
                     {getPlanCard()}
                 </div>
 
-                <div>
+                <div className="flex flex-col">
                     <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
                     <span className="text-lg mt-4">{getBillDueDate()}</span>
-                    <Button variant="primary">
-                        <span className="mx-4">Peruuta tilaus</span>
-                    </Button>
+                    <div className="mt-8">
+                        <CancelSubscriptionButton user={session.user} disabled={Date.now() >= billDueDate.getTime()}/>
+                    </div>
                 </div>
             </div>
         </main>

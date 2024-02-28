@@ -72,7 +72,7 @@ export function ProPlanCard({buttonAction = undefined}){
             </div>
 
             <div className="p-4 flex-1">
-                <span className="font-semibold mb-2">Rajaton määrä taloja +</span>
+                <span className="font-semibold mb-2">Kymmenen (10) talon tiedot +</span>
                 <ul className="list-disc ml-4  [&>li]:text-gray-600">
                     <li>Tiedostot</li>
                     <li>Kuvat</li>

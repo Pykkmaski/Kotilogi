@@ -19,11 +19,13 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth){
       //Redirect to the user inactive page.
       const url = req.nextUrl.clone();
       url.pathname = '/user/inactive';
+
       return NextResponse.redirect(url);
    }
    else if(token.status === 'unpaid'){
       const url = req.nextUrl.clone();
       url.pathname = '/user/unpaid';
+      
       return NextResponse.redirect(url);
    }
 }

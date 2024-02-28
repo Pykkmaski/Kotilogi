@@ -21,6 +21,22 @@ async function verifyPassword(email: string, password: string){
     });
 }
 
+export async function cancelSubscription(email: string){
+    const [{status}] = await db('users').where({email}).select('status');
+    //Check that the user is not in an unpaid state.
+    if(status === 'unpaid'){
+        throw new Error('status_unpaid');
+    }
+
+    //Remove the undue bill
+    await db('billing').where({customer: email}).del();
+    
+    //Make the user inactive
+    await db('users').where({email}).update({
+        status: 'inactive',
+    });
+}
+
 /**Returns the number of properties a user has. */
 export async function getPropertyCount(email: string){
     return new Promise<number>(async (resolve, reject) => {
