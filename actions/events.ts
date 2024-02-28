@@ -5,11 +5,11 @@ import * as database from './database';
 import * as file from './file';
 
 /**Generates a consolidation time from the current date + the consolidation delay environment variable. */
-export async function generateConsolidationTime(){
+function generateConsolidationTime(){
     const consolidationDelay = process.env.EVENT_CONSOLIDATION_TIME;
     if(!consolidationDelay) throw new Error('generateConsolidationTime: EVENT_CONSOLIDATION_TIME environment variable is missing!');
 
-    return Promise.resolve(Date.now() + parseInt(consolidationDelay));
+    return Date.now() + parseInt(consolidationDelay);
 }
 
 export async function add(eventData: Kotilogi.EventType, files?: FormData[]){
@@ -19,7 +19,7 @@ export async function add(eventData: Kotilogi.EventType, files?: FormData[]){
         try{
             const processedData: Kotilogi.EventType = {
                 ...eventData,
-                consolidationTime: await generateConsolidationTime().toString(),
+                consolidationTime: generateConsolidationTime().toString(),
             };
 
             addedEvent = await database.addWithFiles('propertyEvents', 'eventFiles', processedData, files);

@@ -78,7 +78,9 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
 }
 
 export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
-    const date = props.item.time ? new Date(props.item.time).toLocaleDateString('fi-FI') : 'Ei Päivämäärää.';
+    const timestamp: string | null = props.item.time;
+    console.log(timestamp);
+    const date = timestamp !== null ? new Date(timestamp).toLocaleDateString('fi-FI') : 'Ei Päivämäärää.';
 
     const deleteEvent = () => {
         const response = confirm('Olet poistamassa tapahtumaa ' + props.item.title + '. Oletko varma?');

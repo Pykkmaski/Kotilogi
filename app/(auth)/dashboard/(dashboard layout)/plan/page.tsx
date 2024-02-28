@@ -46,6 +46,9 @@ export default async function PlanPage(){
                 <div>
                     <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
                     <span className="text-lg mt-4">{getBillDueDate()}</span>
+                    <Button variant="primary">
+                        <span className="mx-4">Peruuta tilaus</span>
+                    </Button>
                 </div>
             </div>
         </main>

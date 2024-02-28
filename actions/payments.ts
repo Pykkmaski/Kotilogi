@@ -49,7 +49,7 @@ export async function makeOrder(plan: UserPlanType){
 
             products: [
                 {
-                    id: 'kdk00',
+                    id: plan === 'regular' ? 'kdk-00' : 'kdk-01',
                     title: `${serviceName}, ${plan}-tilaus.`,
                     pretax_price: Prices[plan],
                     count: 1,
