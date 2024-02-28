@@ -21,15 +21,18 @@ export default async function DashboardLayout({children}){
             <LayoutNavBarContainer>
                 <Header>
                     <Group direction="col" gap={0}>
-                        <SecondaryHeading>{session.user.email}</SecondaryHeading>
-                        <h3 className="text-xl">Hallintapaneeli</h3>
+                      
+                        <span className="text-white text-sm">{session.user.email}</span>
+                        <h3 className="text-xl text-white">Hallintapaneeli</h3>
                     </Group>
                 </Header>
 
                 <NavBar>
-                    <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
-                    <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                    <IconLink imageSrc="/icons/credit-card.png" href="/dashboard/plan">Tilaus</IconLink>
+                    <div className="text-white">
+                        <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
+                        <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
+                        <IconLink imageSrc="/icons/credit-card.png" href="/dashboard/plan">Tilaus</IconLink>
+                    </div>
                 </NavBar>
             </LayoutNavBarContainer>
             

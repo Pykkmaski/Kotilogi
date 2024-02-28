@@ -8,6 +8,7 @@ import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../Util/Padding';
 import { LineButton } from '../MenuButton/LineButton';
+import { Button } from './MobileMenu/MobileMenu';
 
 export function Logo(){
     return (
@@ -58,14 +59,11 @@ export default function Header(){
                         <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
                         <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
                     </div>
-                    
-                    <div className="xs:block md:hidden">
-                       <MobileMenu>
-                        <Link href="/" className="xs:hidden">Etusivu</Link>
-                            <Link href="/dashboard/properties">Oma Sivu</Link>
-                            <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
-                            <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
-                       </MobileMenu>
+
+                    <div className="sm:block md:hidden">
+                        <MobileMenu>
+                            <Link href="">Test</Link>
+                        </MobileMenu>
                     </div>
                 </>
                 
@@ -81,16 +79,17 @@ export default function Header(){
                         <Link href="/register">Rekisteröidy</Link>
                     </div>
 
-                    <div className="xs:block md:hidden aspect-square w-[25px]">
-                        <MobileMenu>
-                            <div className="flex flex-col gap-2 bg-white w-[100px] absolute top-0 right-4">
-                                <Link href="/tos">Käyttöehdot</Link>
-                                <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
-                                <Link href="/login">Kirjaudu</Link>
-                                <Link href="/register">Rekisteröidy</Link>
-                            </div>
-                        </MobileMenu>
-                    </div>
+                    <VisibilityProvider>
+                        <VisibilityProvider.Trigger>
+                            <Button/>
+                        </VisibilityProvider.Trigger>
+
+                        <VisibilityProvider.Target>
+                            <MobileMenu>
+                                Menu
+                            </MobileMenu>
+                        </VisibilityProvider.Target>
+                    </VisibilityProvider>
                 </>
                 
             );

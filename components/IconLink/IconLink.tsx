@@ -45,6 +45,14 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
     }, [pathName]);
 
     const className = isSelected ? `${style.container} ${style.selected}` : style.container;
+    const textClassName = [
+        'z-10 decoration-none',
+        isSelected ? 'text-black' : 'text-white',
+    ];
+
+    const imageClassName = [
+        isSelected ? 'filter-none' : 'invert',
+    ]
 
     return (
         <Link {...props} className={className.toString()} ref={ref}>
@@ -59,12 +67,13 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
             }
             
             <img
+                className={imageClassName.join(' ')}
                 src={props.imageSrc}
                 alt="Link Icon"
-                width={15}
-                height={15}
+                width={17}
+                height={17}
             />
-           <div className="z-10">{props.children}</div>
+           <div className={textClassName.join(' ')}>{props.children}</div>
         </Link>
     );
 }

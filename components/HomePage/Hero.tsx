@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Group } from 'kotilogi-app/components/Group';
 import {PrimaryButton} from 'kotilogi-app/components/Button/PrimaryButton';
 import { serviceName } from 'kotilogi-app/constants';
+import Button from '../Button/Button';
 
 type SessionT = {
     user: {
@@ -20,14 +21,11 @@ export async function Hero(){
             
             <div className="flex flex-1 xs:justify-center lg:justify-start items-center gap-4">
                 <Link href="/register">
-                    <PrimaryButton>
-                        <span className="font-semibold">Rekisteröidy</span>
-                    </PrimaryButton>
+                    <Button variant="primary">
+                        <span className="font-semibold mx-8">Rekisteröidy</span>
+                    </Button>
                </Link>
-                <Link href="" className="text-white hover:underline cursor-pointer font-semibold">Lue Lisää</Link>
             </div>
-               
-
         </div>
     );
     

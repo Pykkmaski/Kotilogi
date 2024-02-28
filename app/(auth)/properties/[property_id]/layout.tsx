@@ -6,7 +6,7 @@ import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
 import IconLink from 'kotilogi-app/components/IconLink/IconLink';
 import { Header } from 'kotilogi-app/components/Header/Header';
-import { LayoutContentContainer, LayoutNavBarContainer } from 'kotilogi-app/components/Layout';
+import { LayoutContentContainer, LayoutNavBarContainer, NavDivider } from 'kotilogi-app/components/Layout';
 import { Group } from 'kotilogi-app/components/Group';
 import { SecondaryHeading } from 'kotilogi-app/components/Heading';
 
@@ -30,20 +30,25 @@ export default async function PropertyDetailsLayout({children, params}){
                 <LayoutNavBarContainer>
                     <Header>
                         <Group direction="col">
-                            <SecondaryHeading>Talo</SecondaryHeading>
-                            <span className="text-black text-xl">{property.title}</span>
+                            <SecondaryHeading>
+                                <span className="text-white">Talo</span>
+                            </SecondaryHeading>
+                            <span className="text-white text-xl">{property.title}</span>
                         </Group>
                     </Header>
 
                     <NavBar>
-                        <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                        <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                        <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
-                        <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                        <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
-                        <div className="bg-slate-400 h-[1px] w-full mt-4 mb-4"></div>
-                
-                        <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                        <div className="text-white">
+                            <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                            <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                            <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
+                            <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                            <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                            <NavDivider/>
+                    
+                            <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                        </div>
+                        
                     </NavBar>
                 </LayoutNavBarContainer>
                 
