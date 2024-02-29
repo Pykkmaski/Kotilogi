@@ -20,7 +20,9 @@ export default async function CheckoutPage({searchParams}){
             );
         }
         else{
-            return 'Aloita kotidokin käyttö ja kerrytä arvokasta näyttöä taloon tehdyistä töistä.'
+            return (
+                <span>Aloita Kotidok-tilaus ja kerrytä arvokkaat kotisi tiedot helposti yhteen paikkaan tulevaisuutta varten.</span>
+            )
         }
     }
     return (

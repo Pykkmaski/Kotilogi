@@ -78,18 +78,6 @@ export default function Header(){
                         <Link href="/login">Kirjaudu</Link>
                         <Link href="/register">Rekisteröidy</Link>
                     </div>
-
-                    <VisibilityProvider>
-                        <VisibilityProvider.Trigger>
-                            <Button/>
-                        </VisibilityProvider.Trigger>
-
-                        <VisibilityProvider.Target>
-                            <MobileMenu>
-                                Menu
-                            </MobileMenu>
-                        </VisibilityProvider.Target>
-                    </VisibilityProvider>
                 </>
                 
             );

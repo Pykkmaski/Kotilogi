@@ -13,11 +13,12 @@ export default async function TrialExpredPage(){
                 <div className="flex flex-col gap-4 flex-3">
                     <h1 className="text-2xl text-slate-500 font-semibold">Tilisi on poistettu käytöstä.</h1>
                     <p className="text-lg">
-                        TODO
+                        Olet poistanut tilisi käytöstä. Käytöstä poistetut tilit poistetaan pysyvästi kuukauden kuluttua.<br/>
+                        Jos muutit mielesi ja haluatkin jatkaa Kotidokin käyttöä, voit vielä aloittaa uuden tilauksen.
                     </p>
 
                     <div className="mt-4 flex gap-4 items-center font-semibold">
-                        <Link href="/checkout?cp=trial">
+                        <Link href="/checkout">
                             <Button variant="primary">
                                 <span className="mx-8 font-semibold">Siirry Tilaamaan</span>
                             </Button>
