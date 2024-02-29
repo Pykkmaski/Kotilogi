@@ -9,7 +9,7 @@ export function Layout({children}: React.PropsWithChildren){
 
 export function LayoutNavBarContainer({children}){
     return (
-        <div className="xs:hidden md:block flex-1 flex flex-col pl-32 bg-gray-600 pt-8 pr-8">
+        <div className="xs:hidden md:block flex-2 flex flex-col pl-32 bg-gray-600 pt-8 pr-8 sticky top-0 h-screen">
             {children}
         </div>
     );
