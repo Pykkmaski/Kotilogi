@@ -20,6 +20,7 @@ import * as usage from '@/actions/usage';
 import { DataList } from "@/components/UsagePage/DataList";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components/UsagePage/Icon";
+import { getYears } from "kotilogi-app/actions/usage.utils";
 
 function AddUsageModal(props: ModalProps){
     const {property} = usePropertyContext();
@@ -70,7 +71,7 @@ function AddUsageModal(props: ModalProps){
             const newSearchParams = new URLSearchParams(searchParams.toString());
             newSearchParams.set('year', new Date(dataToAdd.time).getFullYear().toString());
             const url = `${pathName}?${newSearchParams.toString()}`;
-            router.push(url);
+            router.replace(url);
         });
     }
 
@@ -143,31 +144,18 @@ type PageContentProps = {
 }
 
 type ControlsProps = {
-    property: Kotilogi.PropertyType,
     data: Kotilogi.UsageType[],
-    type: Kotilogi.UsageTypeType | 'all',
+    currentYear: string,
 }
 
-export function Controls({property, data, type}: ControlsProps){
+export function Controls({data, currentYear}: ControlsProps){
     const [showAddModal, setShowAddModal] = useState(false);
-
-    const dataSorted = data.sort((a, b) => {
-        const aTime = new Date(a.time).getTime();
-        const bTime = new Date(b.time).getTime();
-        return aTime - bTime;
-    });
-
-    //console.log(dataSorted[0].time);
-    const parsedTime = new Date(dataSorted[0].time).getTime();
-    const dateRangeStartYear = new Date(parsedTime).getFullYear();
-    //console.log(dateRangeStartYear);
-    if(Number.isNaN(dateRangeStartYear)) throw new Error('Date range starting year cannot be NaN!');
 
     return (
         <div className="flex gap-4 items-center">
             <div className="flex gap-2 items-center">
                 <span className="text-slate-500">Suodata:</span>
-                <DateRangeSelector startYear={dateRangeStartYear}/>
+                <DateRangeSelector data={data} currentYear={currentYear}/>
             </div>
 
             <AddUsageModal 

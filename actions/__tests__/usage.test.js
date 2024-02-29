@@ -1,6 +1,6 @@
 import * as usage from '../usage';
 import * as database from '../database';
-import {mergeByMonth, splitByMonth} from '../usage.utils';
+import {mergeByMonth, splitByMonth, getYears} from '../usage.utils';
 
 jest.mock('../database');
 
@@ -133,5 +133,20 @@ describe('Testing the usage module', () => {
             ]
             expect(result).toEqual(expectation);
         })
+    });
+
+    describe('Testing the getYears-function', () => {
+        it('Correctly returns each year represented in the data', () => {
+            const testData = [
+                {time: '2024-01-01'},
+                {time: '2024-01-02'},
+                {time: '2023-01-02'},
+                {time: '2022-01-24'},
+                {time: '2018-01-23'},
+            ];
+
+            const years = getYears(testData);
+            expect(years).toEqual([2018, 2022, 2023, 2024]);
+        });
     })
 })

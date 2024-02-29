@@ -33,3 +33,18 @@ export function splitByMonth(data: Kotilogi.UsageType[]){
 
     return newData;
 }
+
+export function getYears(data: Kotilogi.UsageType[]): number[]{
+    const years: number[] = [];
+
+    for(const entry of data){
+        const year = new Date(entry.time).getFullYear();
+        if(!years.find(item => item === year)){
+            years.push(year);
+        }
+    }
+
+    years.sort((a, b) => a - b);
+
+    return years;
+}

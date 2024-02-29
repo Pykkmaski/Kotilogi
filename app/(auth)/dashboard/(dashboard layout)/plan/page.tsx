@@ -33,6 +33,7 @@ export default async function PlanPage(){
         return billDueDate.toLocaleDateString('fi');
     }
 
+    console.log(billDueDate.toLocaleDateString('fi'));
     return (
         <main className="flex flex-col gap-4 mb-8">
             <Header>
@@ -48,7 +49,7 @@ export default async function PlanPage(){
                     <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
                     <span className="text-lg mt-4">{getBillDueDate()}</span>
                     <div className="mt-8">
-                        <CancelSubscriptionButton user={session.user} disabled={billDueDate ? billDueDate.getTime() >= Date.now() : false}/>
+                        <CancelSubscriptionButton user={session.user} disabled={billDueDate ? Date.now() >= billDueDate.getTime() : false}/>
                     </div>
                 </div>
             </div>

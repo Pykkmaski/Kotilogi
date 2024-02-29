@@ -57,7 +57,7 @@ export default async function UsagePage({params, searchParams}){
                     </TypeNav>
                 </div>
         
-                <Controls property={property} data={allData} type={type}/>
+                <Controls data={allData} currentYear={year}/>
             </div> 
             <PageContent allData={dataByYear} property={property} year={year} type={type}/>
         </main>
