@@ -19,7 +19,7 @@ type AddModalProps = ModalProps & {
 }
 
 export function AddPropertyModal({refId, ...props}: AddModalProps){
-    const {onSubmit, updateData, updateFiles} = useAddModal(refId, properties.add);
+    const {onSubmit, updateData, updateFiles} = useAddModal({refId: refId, buildingType: 'Kerrostalo'}, properties.add);
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Talo">
@@ -79,7 +79,7 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
 }
 
 export function AddEventModal({refId, ...props}: AddModalProps){
-    const {updateData, updateFiles, onSubmit} = useAddModal(refId, events.add);
+    const {updateData, updateFiles, onSubmit} = useAddModal({refId}, events.add);
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Tapahtuma">

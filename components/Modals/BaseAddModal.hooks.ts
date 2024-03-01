@@ -39,8 +39,6 @@ export function useInputData(initialData){
     const revertData = initialData;
 
     const updateData = (e) => {
-
-        console.log('Updating data... ')
         setData(prev => ({
             ...prev,
             [e.target.name] : e.target.value,
@@ -56,12 +54,13 @@ export function useInputData(initialData){
     return {data, updateData, reset};
 }
 
-export function useAddModal<T extends Function>(refId: string, submitMethod: T){
-    const {data, updateData} = useInputData({refId});
+export function useAddModal<T extends Function>(initialData: {}, submitMethod: T){
+    const {data, updateData} = useInputData(initialData);
     const {files, updateFiles} = useInputFiles();
 
     const onSubmit = (e) => {
         console.log(files);
+
         return submitMethod(data, files);
     }
 

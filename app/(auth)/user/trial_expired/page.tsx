@@ -3,6 +3,7 @@ import { ProPlanCard, RegularPlanCard } from "@/components/HomePage/ProfileText"
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { DeleteDataButton } from "./DeleteDataButton";
 
 export default async function TrialExpredPage(){
     const session = await getServerSession(options as any);
@@ -23,7 +24,10 @@ export default async function TrialExpredPage(){
                                 <span className="mx-8 font-semibold">Siirry Tilaamaan</span>
                             </Button>
                         </Link>
-                        <Link href="">Poista tiedot</Link>
+
+                        <DeleteDataButton session={session}>
+                            <span>Poista tiedot</span>
+                        </DeleteDataButton>
                     </div>
                 </div>
             </div>

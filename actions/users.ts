@@ -6,6 +6,9 @@ import { UserType } from "kotilogi-app/types/UserType";
 import db from "kotilogi-app/dbconfig";
 import bcrypt from 'bcrypt';
 import { sendAccountActivationLink } from "./email";
+import { unlink } from "fs/promises";
+import * as files from './file';
+import { uploadPath } from "kotilogi-app/uploadsConfig";
 
 /**Verifies a users password. */
 async function verifyPassword(email: string, password: string){
@@ -146,4 +149,33 @@ export async function updatePassword(email: string, newPassword: string, current
             reject(err);
         }
     });
+}
+
+export async function del(email: string){
+    //Get all properties of the user.
+    const userProperties = await db('properties').where({refId: email}).select('id');
+
+    for(const property of userProperties){
+        const propertyFiles = await db('propertyFiles').where({refId: property.id});
+        const fileUnlinkPromises: Promise<void>[] = [];
+
+        //Delete all files of the property
+        for(const propertyFile of propertyFiles){
+            fileUnlinkPromises.push(files.del('propertyFiles', propertyFile));
+        }
+
+        //Delete all files of all events of the property
+        const events = await db('propertyEvents').where({refId: property.id}).select('id');
+        for(const event of events){
+            const eventFiles = await db('eventFiles').where({refId: event.id});
+            for(const file of eventFiles){
+                fileUnlinkPromises.push(files.del('eventFiles', file));
+            }
+        }
+
+        await Promise.all(fileUnlinkPromises);
+    }
+
+    //Delete the user.
+    await db('users').where({email}).del();
 }
