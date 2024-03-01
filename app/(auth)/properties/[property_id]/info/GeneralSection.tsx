@@ -17,7 +17,7 @@ export default function GeneralSection({propertyData, updateProperty}){
                     <SingleInputForm
                         submitMethod={updateProperty}
                         inputComponent={Input}
-                        editingDisabled={true}
+                        editingDisabled={propertyData.propertyNumber ? true : false}
                         initialInputProps={{
                             label: 'Kiinteistötunnus',
                             description: 'Talon kiinteistötunnus',
