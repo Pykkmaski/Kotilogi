@@ -14,9 +14,7 @@ import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
     const [bill] = await db('billing').where({customer: session.user.email});
-    const billTimestamp: number | null = bill ? parseInt(bill.timestamp) : null;
-
-    const billDueDate = billTimestamp ? new Date(billTimestamp + (1000 * 3600 * 31)) : null;
+    const billDueDate = bill ? new Date(bill.timestamp) : null;
 
     const getPlanCard = () => {
         if(session.user.plan === 'regular'){
@@ -33,7 +31,7 @@ export default async function PlanPage(){
         return billDueDate.toLocaleDateString('fi');
     }
 
-    console.log(billDueDate.toLocaleDateString('fi'));
+    console.log(billDueDate?.toLocaleDateString('fi'));
     return (
         <main className="flex flex-col gap-4 mb-8">
             <Header>

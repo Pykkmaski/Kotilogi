@@ -50,8 +50,7 @@ export default async function UsagePage({params, searchParams}){
         return timeA - timeB;
     });
 
-    const displayYear = year || new Date(data[0].time).getFullYear().toString();
-    console.log(displayYear);
+    const displayYear = year || new Date(data.at(-1).time).getFullYear().toString();
 
     return (   
         <main className="w-full mb-10 flex flex-col gap-4">

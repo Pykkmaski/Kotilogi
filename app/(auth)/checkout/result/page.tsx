@@ -40,6 +40,10 @@ export default async function CheckoutResultPage({searchParams}){
     const returnCode = parseInt(searchParams.RETURN_CODE);
 
     if(returnCode == 0){
+        const paid = Date.now();
+        const dueDate = new Date(paid);
+        dueDate.setMonth(dueDate.getMonth() + 1);
+
         await db('billing').insert({
             customer: payment.customer.email,
             cardToken: payment.source.card_token,
@@ -47,7 +51,7 @@ export default async function CheckoutResultPage({searchParams}){
             tax: 24,
             productTitle: payment.payment_products[0].title,
             productId: payment.payment_products[0].id,
-            timestamp: Date.now().toString(),
+            timestamp: dueDate.getTime(),
         })
         .onConflict('customer')
         .merge();
