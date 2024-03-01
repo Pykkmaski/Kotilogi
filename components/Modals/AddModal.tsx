@@ -23,6 +23,15 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Talo">
+            <Input 
+                name="propertyNumber"
+                label="Kiinteistötunnus"
+                description="Talon kiinteistötunnus"
+                placeholder="Kirjoita talon kiinteistötunnus..."
+                required={true}
+                autoComplete="off"
+                onChange={updateData}/>
+                
             <Input
                 name="title"
                 label="Osoite"

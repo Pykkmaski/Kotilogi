@@ -14,7 +14,17 @@ export default function GeneralSection({propertyData, updateProperty}){
         <ContentCard title="Yleistiedot">
             <div className="mb-8 w-full">
                 <Group direction="col" gap={4}>
-               
+                    <SingleInputForm
+                        submitMethod={updateProperty}
+                        inputComponent={Input}
+                        editingDisabled={true}
+                        initialInputProps={{
+                            label: 'Kiinteistötunnus',
+                            description: 'Talon kiinteistötunnus',
+                            autoComplete: 'off',
+                            name: 'propertyNumber',
+                            defaultValue: propertyData.propertyNumber,
+                        }}/>
                <SingleInputForm 
                    submitMethod={updateProperty}
                    editingDisabled={true}
