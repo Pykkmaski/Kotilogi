@@ -19,7 +19,7 @@ function generateOrderNumber(user: UserType){
 export async function makeOrder(plan: UserPlanType){
     try{
         const session = await getServerSession(options as any) as any;
-        const price = Math.round(Prices[plan] * (1 + Prices.TAX));
+        const price = Prices[plan];
         const orderNumber = generateOrderNumber(session.user);
         
         const VISMA_API_KEY = process.env.VISMA_API_KEY;
@@ -51,10 +51,10 @@ export async function makeOrder(plan: UserPlanType){
                 {
                     id: plan === 'regular' ? 'kdk-00' : 'kdk-01',
                     title: `${serviceName}, ${plan}-tilaus.`,
-                    pretax_price: Prices[plan],
+                    pretax_price: price,
                     count: 1,
-                    tax: Prices.TAX * 100,
-                    price: Math.round(Prices[plan] * (1 + Prices.TAX)),
+                    tax: 0,
+                    price: price,
                     type: 1,
                 },
             ]

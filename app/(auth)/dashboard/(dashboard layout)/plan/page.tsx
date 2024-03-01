@@ -14,7 +14,7 @@ import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
     const [bill] = await db('billing').where({customer: session.user.email});
-    const billDueDate = bill ? new Date(bill.timestamp) : null;
+    const billDueDate = bill ? new Date(parseInt(bill.timestamp)) : null;
 
     const getPlanCard = () => {
         if(session.user.plan === 'regular'){

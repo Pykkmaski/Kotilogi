@@ -18,6 +18,9 @@ export function CancelSubscriptionButton({children, user, ...props}: CancelSubsc
     const [status, setStatus] = useState<'idle' | 'loading'>('idle');
 
     const cancelSubscription = async () => {
+        const c = confirm('Oletko varma että haluat peruuttaa tilauksesi?');
+        if(!c) return;
+        
         setStatus('loading');
 
         users.cancelSubscription(user.email)

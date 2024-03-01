@@ -9,7 +9,7 @@ import { Padding } from 'kotilogi-app/components/Util/Padding';
 import Link from 'next/link';
 import { ErrorText } from 'kotilogi-app/components/Util/Text';
 import { MIN_PASSWORD_LENGTH, Prices, serviceName } from 'kotilogi-app/constants';
-import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
+import { getBasePrice, getFullPrice } from 'kotilogi-app/utils/getFullPrice';
 import { useRegister } from './useRegister';
 
 function IncludesVATNotice(){
@@ -18,13 +18,13 @@ function IncludesVATNotice(){
 
 function RegularPlanInfo(){
     return (
-        <span className="text-slate-500">Perustilin vuosihinta on <span className="text-orange-500">{getFullPrice('regular')}€ <IncludesVATNotice/></span></span>
+        <span className="text-slate-500">Perustilin vuosihinta on <span className="text-orange-500">{getBasePrice('regular')}€</span></span>
     );
 }
 
 function ProPlanInfo(){
     return (
-        <span className="text-slate-500">Pro-tilin vuosihinta on <span className="text-orange-500">{getFullPrice('pro')}€ <IncludesVATNotice/></span></span>
+        <span className="text-slate-500">Pro-tilin vuosihinta on <span className="text-orange-500">{getBasePrice('pro')}€</span></span>
     );
 }
 

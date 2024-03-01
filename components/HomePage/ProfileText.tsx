@@ -1,7 +1,7 @@
 import {Prices, serviceName} from '@/constants';
 import Link from 'next/link';
 import { PrimaryButton } from '../Button/PrimaryButton';
-import { getFullPrice } from 'kotilogi-app/utils/getFullPrice';
+import { getBasePrice, getFullPrice } from 'kotilogi-app/utils/getFullPrice';
 import Button from '../Button/Button';
 
 function PricingCard({children}){
@@ -43,8 +43,7 @@ export function RegularPlanCard({buttonAction = undefined}){
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Perus</h1>
-                <span className="text-white font-semibold">{getFullPrice('regular')}€/kk</span>
-                <TaxNotice plan="regular"/>
+                <span className="text-white font-semibold">{getBasePrice('regular')}€/kk</span>
             </div>
 
             <div className="p-4 flex-1">
@@ -67,8 +66,7 @@ export function ProPlanCard({buttonAction = undefined}){
         <PricingCard>
             <div className="bg-gray-500 p-4 flex flex-col">
                 <h1 className="text-orange-300 font-semibold text-2xl">Pro</h1>
-                <span className="text-white font-semibold">{getFullPrice('pro')}€/kk</span>
-                <TaxNotice plan="pro"/>
+                <span className="text-white font-semibold">{getBasePrice('pro')}€/kk</span>
             </div>
 
             <div className="p-4 flex-1">

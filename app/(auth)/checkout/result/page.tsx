@@ -48,7 +48,7 @@ export default async function CheckoutResultPage({searchParams}){
             customer: payment.customer.email,
             cardToken: payment.source.card_token,
             price: payment.amount,
-            tax: 24,
+            tax: 0,
             productTitle: payment.payment_products[0].title,
             productId: payment.payment_products[0].id,
             timestamp: dueDate.getTime(),
