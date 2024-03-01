@@ -1,17 +1,24 @@
 'use client';
 
-import { getYears } from "kotilogi-app/actions/usage.utils";
 import { useQuery } from "kotilogi-app/hooks/useQuery";
-import { useState } from "react";
 
 type DateRangeSelectorProps = {
-    data: Kotilogi.UsageType[],
+    timestamps: {time: string}[],
     currentYear: string,
 }
 
-export function DateRangeSelector({data, currentYear}: DateRangeSelectorProps){
+export function DateRangeSelector({timestamps, currentYear}: DateRangeSelectorProps){
     const {updateQuery, currentQuery} = useQuery('year', currentYear.toString());
-    const years = getYears(data);
+
+    const years: number[] = [];
+    for(const stamp of timestamps){
+        const year = new Date(stamp.time).getFullYear();
+        if(!years.includes(year)){
+            years.push(year);
+        }
+    }
+
+    years.sort((a, b) => a - b);
     
     const getOptions = () => {
         const opts: JSX.Element[] = [];

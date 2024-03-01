@@ -25,7 +25,7 @@ async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'elect
 
 export default async function UsagePage({params, searchParams}){
     const type = searchParams.type as Kotilogi.UsageTypeType | 'all';
-    const year = searchParams.year;
+    const year = searchParams.year as string | undefined;
 
     var usageQuery = type === 'all' ? {
         refId: params.property_id,
@@ -35,13 +35,23 @@ export default async function UsagePage({params, searchParams}){
         type,
     }
 
-    const [allData, dataByYear, [property]] = await Promise.all([
-        database.get<Partial<Kotilogi.UsageType>>('usage', {refId: params.property_id}),
-        usage.getByYear(parseInt(year), usageQuery), 
-        database.get<Partial<Kotilogi.PropertyType>>('properties', {id: params.property_id})
+    //Get the data for the selected year, and the timestamps for all data, to render the year selector.
+    const [data, timestamps] = await Promise.all([
+        usage.get(usageQuery, year || 'all'),
+        db('usage').select('time'),
     ]);
 
-    if(!allData || !property || !dataByYear) throw new Error('Kulutustietojen lataus epäonnistui!');
+    if(!data || !timestamps) throw new Error('Kulutustietojen lataus epäonnistui!');
+
+    data.sort((a, b) => {
+        const timeA = new Date(a.time).getTime();
+        const timeB = new Date(b.time).getTime();
+
+        return timeA - timeB;
+    });
+
+    const displayYear = year || new Date(data[0].time).getFullYear().toString();
+    console.log(displayYear);
 
     return (   
         <main className="w-full mb-10 flex flex-col gap-4">
@@ -57,9 +67,10 @@ export default async function UsagePage({params, searchParams}){
                     </TypeNav>
                 </div>
         
-                <Controls data={allData} currentYear={year}/>
-            </div> 
-            <PageContent allData={dataByYear} property={property} year={year} type={type}/>
+                <Controls timestamps={timestamps} currentYear={displayYear}/>
+            </div>
+
+            <PageContent data={data} year={displayYear} type={type}/>
         </main>
     );
 }

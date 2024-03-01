@@ -2,6 +2,7 @@
 import { revalidatePath } from 'next/cache';
 import * as database from './database';
 import {z} from 'zod';
+import db from 'kotilogi-app/dbconfig';
 
 const TABLENAME = 'usage';
 const PATH = '/properties/[property_id]/usage';
@@ -32,12 +33,22 @@ type UsageValidationResult = 'valid' | 'invalid_date';
 function validateUsageData(data: Kotilogi.UsageType){
     const currentTime = Date.now();
     const dataTime = new Date(data.time).getTime();
-    if(Number.isNaN(dataTime)) throw new Error('Error validating usage data! Passed data time parses to NaN');
+    if(Number.isNaN(dataTime)) throw new Error('Error validating usage data! Passed data time parses to NaN ' + `(${data.time})`);
     if(dataTime > currentTime){
         return 'invalid_date';
     }
     else{
         return 'valid';
+    }
+}
+
+export async function get(query: Partial<Kotilogi.UsageType>, year: string = 'all'){
+    if(year === 'all'){
+        //Return all data.
+        return db(TABLENAME).where(query) as Kotilogi.UsageType[];
+    }
+    else{
+        return db(TABLENAME).where(query).whereLike('time', `%${year}%`) as Kotilogi.UsageType[];
     }
 }
 

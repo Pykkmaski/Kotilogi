@@ -5,7 +5,7 @@ import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { Input, Select } from "kotilogi-app/components/Input/Input";
 import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { UsageColumnChart } from "kotilogi-app/components/Experimental/Chart/Chart";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
@@ -20,7 +20,6 @@ import * as usage from '@/actions/usage';
 import { DataList } from "@/components/UsagePage/DataList";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components/UsagePage/Icon";
-import { getYears } from "kotilogi-app/actions/usage.utils";
 
 function AddUsageModal(props: ModalProps){
     const {property} = usePropertyContext();
@@ -55,6 +54,13 @@ function AddUsageModal(props: ModalProps){
         }
 
         usage.add(dataToAdd)
+        .then(() => {
+            //Route to the same year as the year of the newly added data.
+            const newSearchParams = new URLSearchParams(searchParams.toString());
+            newSearchParams.set('year', new Date(dataToAdd.time).getFullYear().toString());
+            const url = `${pathName}?${newSearchParams.toString()}`;
+            router.replace(url);
+        })
         .catch(err => {
             if(err.message === 'invalid_date'){
                 toast.error('Tiedon päiväys ei voi olla tulevaisuudessa!');
@@ -67,11 +73,7 @@ function AddUsageModal(props: ModalProps){
             closeModal();
             setStatus('idle');
 
-            //Route to the same year as the year of the newly added data.
-            const newSearchParams = new URLSearchParams(searchParams.toString());
-            newSearchParams.set('year', new Date(dataToAdd.time).getFullYear().toString());
-            const url = `${pathName}?${newSearchParams.toString()}`;
-            router.replace(url);
+            
         });
     }
 
@@ -136,26 +138,19 @@ function AddUsageModal(props: ModalProps){
     )
 }
 
-type PageContentProps = {
-    allData: Kotilogi.UsageType[],
-    property: Kotilogi.PropertyType,
-    year: string,
-    type: Kotilogi.UsageTypeType | 'all',
-}
-
 type ControlsProps = {
-    data: Kotilogi.UsageType[],
+    timestamps: {time: string}[],
     currentYear: string,
 }
 
-export function Controls({data, currentYear}: ControlsProps){
+export function Controls({timestamps, currentYear}: ControlsProps){
     const [showAddModal, setShowAddModal] = useState(false);
 
     return (
         <div className="flex gap-4 items-center">
             <div className="flex gap-2 items-center">
                 <span className="text-slate-500">Suodata:</span>
-                <DateRangeSelector data={data} currentYear={currentYear}/>
+                <DateRangeSelector timestamps={timestamps} currentYear={currentYear}/>
             </div>
 
             <AddUsageModal 
@@ -170,13 +165,19 @@ export function Controls({data, currentYear}: ControlsProps){
     );
 }
 
-export function PageContent({allData, year, type}: PageContentProps){
+type PageContentProps = {
+    data: Kotilogi.UsageType[],
+    year: string,
+    type: Kotilogi.UsageTypeType | 'all',
+}
+
+export function PageContent({data, year, type}: PageContentProps){
     const getChart = () => {
         if(type === 'all'){
-            return <AllUsageDataChart data={allData}/>
+            return <AllUsageDataChart data={data}/>
         }
         else {
-            return <UsageColumnChart data={allData} columnColor={colors[type]} options={{
+            return <UsageColumnChart data={data} columnColor={colors[type]} options={{
                 chart: {
                     width: '100%',
                 },
@@ -195,16 +196,16 @@ export function PageContent({allData, year, type}: PageContentProps){
                         {getChart()}
                         
                         <div className="flex-1 flex justify-center items-center">
-                            <TotalPrice data={allData}/>
+                            <TotalPrice data={data}/>
                             <div className="flex justify-center items-center relative">
-                                <UsagePieChart data={allData}/>
+                                <UsagePieChart data={data}/>
                                 <div className="absolute text-2xl text-slate-500">
                                     {year}
                                 </div>
                             </div>
 
                             {
-                                type === 'all' ? <UsageDataCategorized data={allData}/> : null
+                                type === 'all' ? <UsageDataCategorized data={data}/> : null
                             }
                             
                         </div>
@@ -214,7 +215,7 @@ export function PageContent({allData, year, type}: PageContentProps){
             
             <div className="flex-1 overflow-y-scroll max-h-[100%]">
                 <ContentCard title="Tiedot">
-                    <DataList data={allData} />
+                    <DataList data={data} />
                 </ContentCard>
             </div>
         </div>
