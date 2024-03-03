@@ -45,7 +45,7 @@ export default function RegisterPage(){
                             {
                                 status === 'user_exists' ? (
                                     <div className="w-full flex flex-row xs:justify-normal md:justify-end text-sm">
-                                        <ErrorText>Tili annetulla osoitteella on jo olemassa!</ErrorText>
+                                        <ErrorText data-testid="email-error-text">Tili annetulla osoitteella on jo olemassa!</ErrorText>
                                     </div>
                                 )
                                 :

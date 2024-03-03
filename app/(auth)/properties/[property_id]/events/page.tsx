@@ -5,28 +5,15 @@ import { ContentCard, RoundedBox } from "@/components/RoundedBox/RoundedBox";
 const eventsPerPage = 10;
 
 async function getEvents(propertyId: string, q: string | undefined, page?: number){
-    var events: Kotilogi.EventType[] = await db('propertyEvents').where({refId: propertyId});
+    const query = `%${q}%`;
+    const events: Kotilogi.EventType[] = await db('propertyEvents')
+    .where({refId: propertyId})
+    .andWhereLike('time', query)
+    .orWhereLike('title', query)
+    .orWhereLike('description', query)
+    .orderBy('time', 'desc');
 
-    if(!q) return events.sort((a, b) => {
-        const aTime = new Date(a.time).getTime();
-        const bTime = new Date(b.time).getTime();
-        return bTime - aTime;
-    });
-
-    const lowerCaseQuery = q.toLowerCase();
-
-    const displayedEvents = q ? events.filter(event => (
-        event.title.toLowerCase().includes(lowerCaseQuery)
-        ||
-        event.description?.toLowerCase().includes(lowerCaseQuery)
-    )) : events;
-    
-    return displayedEvents.sort((a, b) => {
-        const aTime = new Date(a.time).getTime();
-        const bTime = new Date(b.time).getTime();
-
-        return bTime - aTime;
-    });
+    return events;
 }
 
 export default async function EventsPage({params, searchParams}){

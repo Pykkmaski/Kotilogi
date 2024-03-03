@@ -154,11 +154,11 @@ export async function updatePassword(email: string, newPassword: string, current
 export async function del(email: string){
     //Get all properties of the user.
     const userProperties = await db('properties').where({refId: email}).select('id');
+    const fileUnlinkPromises: Promise<void>[] = [];
 
     for(const property of userProperties){
         const propertyFiles = await db('propertyFiles').where({refId: property.id});
-        const fileUnlinkPromises: Promise<void>[] = [];
-
+        
         //Delete all files of the property
         for(const propertyFile of propertyFiles){
             fileUnlinkPromises.push(files.del('propertyFiles', propertyFile));
@@ -172,9 +172,9 @@ export async function del(email: string){
                 fileUnlinkPromises.push(files.del('eventFiles', file));
             }
         }
-
-        await Promise.all(fileUnlinkPromises);
     }
+
+    await Promise.all(fileUnlinkPromises);
 
     //Delete the user.
     await db('users').where({email}).del();

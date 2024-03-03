@@ -1,7 +1,9 @@
 import {expect} from "@jest/globals";
-import {render, screen} from '@testing-library/react';
+import {fireEvent, render, screen, user} from '@testing-library/react';
 import Page from './page';
 import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
+import { register } from "kotilogi-app/actions/users";
+
 import '@testing-library/jest-dom/extend-expect';
 
 // Mock useRouter:
@@ -167,6 +169,24 @@ describe('Testing the register form', () => {
     it('Gets rendered', () => {
         expect(registerForm).toBeInTheDocument();
     });
+});
+
+describe('Testing the register email error text', () => {
+    beforeEach(() => {
+        render(<Page/>);
+    });
+
+    it('Displays the error text when trying to register an existing email address', () => {
+        jest.mock('@/actions/users');
+        register.mockResolvedValueOnce('invalid_user')
+        const submitButton = screen.getByTestId('register-submit-btn');
+        fireEvent(submitButton, new MouseEvent('click', {
+
+        }));
+
+        expect(screen.getElementByTestId('email-error-text')).not.toThrow();
+        
+    })
 });
 
 
