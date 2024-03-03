@@ -7,12 +7,15 @@ const eventsPerPage = 10;
 async function getEvents(propertyId: string, q: string | undefined, page?: number){
     const query = `%${q}%`;
     const events: Kotilogi.EventType[] = await db('propertyEvents')
-    .andWhereLike('time', query)
-    .orWhereLike('title', query)
-    .orWhereLike('description', query)
+    .where(function(){
+        this.whereLike('time', query)
+        .orWhereLike('title', query)
+        .orWhereLike('description', query)
+    })
     .andWhere({refId: propertyId})
     .orderBy('time', 'desc');
 
+    console.log(q, propertyId, events);
     return events;
 }
 
