@@ -25,7 +25,19 @@ async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'elect
 
 export default async function UsagePage({params, searchParams}){
     const type = searchParams.type as Kotilogi.UsageTypeType | 'all';
-    const year = searchParams.year as string | undefined;
+    var year = searchParams.year as string | undefined;
+
+    if(!year){
+        //Fetch all usage data for this property, and assign the year as the most recent year with usage-data.
+        const dates = await db('usage').where({refId: params.property_id}).select('time').orderBy('time', 'desc');
+        if(dates.length){
+            year = new Date(dates.at(0).time).getFullYear().toString();
+        }
+        else{
+            //No usage data added yet. Arbitrarily set the year to the current year.
+            year = new Date().getFullYear().toString();
+        }
+    }
 
     var usageQuery = type === 'all' ? {
         refId: params.property_id,
@@ -34,6 +46,8 @@ export default async function UsagePage({params, searchParams}){
         refId: params.property_id,
         type,
     }
+
+    console.log(year);
 
     //Get the data for the selected year, and the timestamps for all data, to render the year selector.
     const [data, timestamps] = await Promise.all([

@@ -30,6 +30,5 @@ export function Content({events, propertyId}){
                 }/>
             </Gallery>
         </LayoutGroup>
-        
     );
 }

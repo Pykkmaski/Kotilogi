@@ -14,8 +14,7 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
     })
     .andWhere({refId: propertyId})
     .orderBy('time', 'desc');
-
-    console.log(q, propertyId, events);
+    
     return events;
 }
 
