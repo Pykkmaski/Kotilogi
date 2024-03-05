@@ -50,13 +50,13 @@ function PdfListItem(props: PdfListItemProps){
 export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='propertyFiles'
-            deleteMethod={() => file.del('propertyFiles', props.item)}/>
+            deleteMethod={() => properties.deleteFile(props.item)}/>
     );
 }
 
 export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='eventFiles'
-            deleteMethod={() => file.del('eventFiles', props.item)}/>
+            deleteMethod={() => events.deleteFile(props.item)}/>
     );
 }

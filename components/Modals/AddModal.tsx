@@ -133,16 +133,17 @@ type AddFilesModalProps = ModalProps & {
     tablename: 'propertyFiles' | 'eventFiles',
     accept: string,
     refId: string,
+    uploadMethod: (fdata: FormData) => Promise<void>,
 }
 
-export function AddFilesModal({accept, tablename, refId, ...props}: AddFilesModalProps){
+export function AddFilesModal({accept, tablename, refId, uploadMethod, ...props}: AddFilesModalProps){
     const {files, updateFiles} = useInputFiles();
 
     const onSubmit = (e) => {
-        const promises: Promise<Kotilogi.FileType>[] = [];
+        const promises: Promise<void>[] = [];
         
         for(const f of files){
-            promises.push(file.upload(tablename, refId, f));
+            promises.push(uploadMethod(f));
         }
         return Promise.all(promises);
     }

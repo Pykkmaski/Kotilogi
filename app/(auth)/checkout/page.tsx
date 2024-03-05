@@ -33,6 +33,11 @@ export default async function CheckoutPage({searchParams}){
                     <p className="text-lg md:max-w-[700px]">
                         {getText()}
                     </p>
+
+                    <small className="text-sm mt-4">
+                        Kotidok ei suorita maksujen palautuksia.<br/> 
+                        Tilaukset voi peruuttaa koska tahansa ennen seuraavaa eräpäivää.
+                    </small>
                 </div>
 
                 <PlanCards session={session}/>

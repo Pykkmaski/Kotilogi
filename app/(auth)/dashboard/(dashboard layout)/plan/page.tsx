@@ -3,13 +3,18 @@ import { Header } from "kotilogi-app/components/Header/Header";
 import { Heading } from "kotilogi-app/components/Heading";
 import { getServerSession } from "next-auth";
 import { UserType } from "kotilogi-app/types/UserType";
-import { getFullPrice } from "kotilogi-app/utils/getFullPrice";
-import { Prices } from "kotilogi-app/constants";
 import { ProPlanCard, RegularPlanCard } from "@/components/HomePage/ProfileText";
-import Button from "@/components/Button/Button";
 import db from "kotilogi-app/dbconfig";
-import { formatNumber } from "kotilogi-app/utils/formatNumber";
 import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
+import { RoundedBox } from "@/components/RoundedBox/RoundedBox";
+
+const BillItem = ({bill}) => {
+    return (
+        <div className="w-full rounded-md shadow-md flex flex-row">
+
+        </div>
+    );
+} 
 
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
@@ -38,17 +43,23 @@ export default async function PlanPage(){
                 <Heading>Tilaus</Heading>
             </Header>
 
-            <div className="flex flex-row gap-4">
-                <div>
-                    {getPlanCard()}
-                </div>
+            <div className="flex gap-2">
+                <div className="flex-1">
+                    <RoundedBox>
+                        <div className="flex flex-row gap-4">
+                            <div>
+                                {getPlanCard()}
+                            </div>
 
-                <div className="flex flex-col">
-                    <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
-                    <span className="text-lg mt-4">{getBillDueDate()}</span>
-                    <div className="mt-8">
-                        <CancelSubscriptionButton user={session.user} disabled={billDueDate ? Date.now() >= billDueDate.getTime() : false}/>
-                    </div>
+                            <div className="flex flex-col">
+                                <h1 className="text-2xl text-slate-500">Tuleva lasku</h1>
+                                <span className="text-lg mt-4">{getBillDueDate()}</span>
+                                <div className="mt-4">
+                                    <CancelSubscriptionButton user={session.user} disabled={billDueDate ? Date.now() >= billDueDate.getTime() : false}/>
+                                </div>
+                            </div>
+                        </div>
+                    </RoundedBox>
                 </div>
             </div>
         </main>

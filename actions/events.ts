@@ -80,11 +80,18 @@ export async function del(event: Kotilogi.EventType){
     revalidatePath('/properties/[property_id]/events');
 }
 
+export async function uploadFile(fdata: FormData, eventId: string){
+    await file.upload('eventFiles', eventId, fdata);
+    revalidatePath('/events/[event_id]/files');
+    revalidatePath('/events/[event_id]/images');
+}
+
 export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await file.del('eventFiles', fileData);
-            revalidatePath('/events/[event_id]');
+            revalidatePath('/events/[event_id]/files');
+            revalidatePath('/events/[event_id]/images');
             resolve();
         }
         catch(err){

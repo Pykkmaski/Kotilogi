@@ -81,11 +81,18 @@ export async function update(propertyId: Kotilogi.IdType, newPropertyData: Kotil
     });
 }
 
+export async function uploadFile(fileData: FormData, refId: string){
+    await file.upload('propertyFiles', refId, fileData);
+    revalidatePath('/properties/[property_id]/files');
+    revalidatePath('/properties/[property_id]/images');
+}
+
 export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
         try{
             await file.del('propertyFiles', fileData);
-            revalidatePath('/properties/[property_id]/');
+            revalidatePath('/properties/[property_id]/files');
+            revalidatePath('/properties/[property_id]/images');
             resolve();
         }
         catch(err){
