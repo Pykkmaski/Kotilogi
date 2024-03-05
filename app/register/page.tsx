@@ -74,27 +74,6 @@ export default function RegisterPage(){
                                 null
                             }
                         </div>
-                        
-                        <div className="w-full items-end">
-                            <div className="flex flex-col gap-2">
-                                <Select 
-                                    name="plan" 
-                                    label="Tilaustyyppi" 
-                                    description="Valitse tilauksesi tyyppi." 
-                                    onChange={updateData} 
-                                    required> 
-
-                                    <Select.Option value="regular">Perus</Select.Option>
-                                    <Select.Option value="pro">Pro</Select.Option>
-                                </Select>
-                                
-                                <div className="w-full flex xs:justify-normal md:justify-end">
-                                    {
-                                        data.plan === 'regular' ? <RegularPlanInfo/> : <ProPlanInfo/>
-                                    }
-                                </div>
-                            </div>
-                        </div>
                     
                         <div className="w-full">
                             <Group direction="row" justify='between' align="center">

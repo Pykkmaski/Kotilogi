@@ -31,10 +31,18 @@ export async function update<T extends {id: string}>(tablename: string, id: stri
 export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>
     (tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
     var addedData: T | null = null;
+    let addedFiles: Kotilogi.FileType[] = [];
+    let filesSavedSuccessFully = false;
+    let dataSavedSuccessfully = false;
 
     return new Promise<T>(async (resolve, reject) => {
+        const trx = await db.transaction();
+
         try{
-            [addedData] = await add(tablename, data);
+            [addedData] = await db(tablename).insert(data, '*').then((data: T[]) => {
+                dataSavedSuccessfully = true;
+                return data;
+            });
 
             if(files){
                 const promises: Promise<Kotilogi.FileType>[] = [];
@@ -42,17 +50,24 @@ export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>
                     promises.push(file.upload(fileTableName, addedData.id, fdata));
                 }
     
-                await Promise.all(promises);
+                addedFiles = await Promise.all(promises).then((data: Kotilogi.FileType[]) => {
+                    filesSavedSuccessFully = true;
+                    return data;
+                });
             }
             
+            await trx.commit();
             resolve(addedData);
         }
         catch(err){
 
-            if(addedData !== null){
-                //Delete the data if it was saved.
-                await del('properties', addedData)
-                .catch(err => console.log(err.message));
+            if(dataSavedSuccessfully){
+                await trx.rollback();
+            }
+
+            if(filesSavedSuccessFully){
+                //Delete any files saved
+
             }
 
             reject(err);

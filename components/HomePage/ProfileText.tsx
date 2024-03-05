@@ -90,9 +90,9 @@ function ProfileText(){
             <div className="flex-1">
                 <div className="flex flex-col gap-4">
                     <h1 className="md:text-4xl xs:text-xl text-slate-500 xs:text-center lg:text-left">Mikä {serviceName}?</h1>
-                    <p className="mt-4 mb-4 md:text-lg xs:text-base">
+                    <p className="mt-4 mb-4 md:text-lg xs:text-base w-[50%]">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
-                        vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
+                        vuosien varrella.Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
                         mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.<br/><br/>
 
                         Kun tarvitset tietoja näistä remonteista, kuten esimerkiksi kotitalousvähennyksen hakemista varten, 
@@ -101,6 +101,12 @@ function ProfileText(){
 
                         Juuri tällaisessa tilanteessa syntyi ajatus {serviceName}-palvelusta. {serviceName} on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, 
                         ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.<br/><br/>
+                    </p>
+
+                    <h1 className="md:text-4xl xs:text-xl text-slate-500 xs:text-center lg:text-left">Hinnat</h1>
+                    <p className="mt-4 mb-4 md:text-lg xs:text-base">
+                        Uuden talon avaushinta Kotidok:issa on 9,90€ kertamaksuna. Sen jälkeen palvelun käyttö on maksutonta.<br/>
+                        Lisää rajattomasti tapahtumia, kuvia, tiedostoja ja kulutstietoja.
                     </p>
                     
                     <div className="flex flex-row w-full xs:justify-center lg:justify-start xs:mb-8">
@@ -111,11 +117,6 @@ function ProfileText(){
                         </Link>
                     </div>
                 </div>    
-            </div>
-
-            <div className="flex-1 md:flex flex-row-reverse gap-4 items-center justify-center xs:hidden">
-                <ProPlanCard/>
-                <RegularPlanCard/>
             </div>
         </div>
     );
