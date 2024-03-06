@@ -45,10 +45,10 @@ function validateUsageData(data: Kotilogi.UsageType){
 export async function get(query: Partial<Kotilogi.UsageType>, year: string = 'all'){
     if(year === 'all'){
         //Return all data.
-        return db(TABLENAME).where(query) as Kotilogi.UsageType[];
+        return db(TABLENAME).where(query) as unknown as Kotilogi.UsageType[];
     }
     else{
-        return db(TABLENAME).where(query).whereLike('time', `%${year}%`) as Kotilogi.UsageType[];
+        return db(TABLENAME).where(query).whereLike('time', `%${year}%`) as unknown as Kotilogi.UsageType[];
     }
 }
 

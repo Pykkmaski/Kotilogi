@@ -1,10 +1,13 @@
 require('dotenv').config();
 
 const dbEngine = process.env.DB_ENVIRONMENT || "development";
-const config = require("./knexfile")[dbEngine];
+import configObj from './knexfile';
+import knex from 'knex';
 
-const db = require('knex')(config);
+const config = configObj[dbEngine];
+
+const db = knex(config);
 const enableForeignKeys = async () => await db.raw('PRAGMA foreign_keys=ON');
 if(dbEngine === 'development') enableForeignKeys();
 
-module.exports = db;
+export default db;

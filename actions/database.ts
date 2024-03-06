@@ -3,13 +3,15 @@
 import db from "kotilogi-app/dbconfig";
 import * as file from './file';
 import {cookies} from 'next/headers';
+import { readFile, unlink } from "fs/promises";
+import { uploadPath } from "kotilogi-app/uploadsConfig";
 
 export async function add<T extends {}>(tablename: string, data: T){
     return db(tablename).insert(data, '*') as Promise<T[]>;
 }
 
 export async function get<T extends {}>(tablename: string, query: T){
-    return db(tablename).where(query) as Required<T>[];
+    return db(tablename).where(query) as unknown as Required<T>[];
 }
 
 export async function del<T extends {}>(tablename: string, query: T){
@@ -29,30 +31,52 @@ export async function update<T extends {id: string}>(tablename: string, id: stri
  * @returns 
  */
 export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>
-    (tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
+(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
     var addedData: T | null = null;
-    let addedFiles: Kotilogi.FileType[] = [];
+    let addedFilesData: Kotilogi.FileType[] = [];
     let filesSavedSuccessFully = false;
-    let dataSavedSuccessfully = false;
+    let filesUploadedSuccessFully = false;
 
     return new Promise<T>(async (resolve, reject) => {
         const trx = await db.transaction();
 
         try{
-            [addedData] = await db(tablename).insert(data, '*').then((data: T[]) => {
-                dataSavedSuccessfully = true;
-                return data;
-            });
+            [addedData] = await trx(tablename).insert(data, '*');
 
             if(files){
-                const promises: Promise<Kotilogi.FileType>[] = [];
+                //Upload all files
+                const filePromises: Promise<Kotilogi.FileType>[] = [];
                 for(const fdata of files){
-                    promises.push(file.upload(fileTableName, addedData.id, fdata));
+                    filePromises.push(file.upload(fdata));
                 }
-    
-                addedFiles = await Promise.all(promises).then((data: Kotilogi.FileType[]) => {
+                
+                //Get the file data objects.
+                await Promise.allSettled(filePromises).then((results) => {
+                    results.forEach(result => {
+                        if(result.status === 'fulfilled'){
+                            addedFilesData.push(result.value);
+                        }
+                        else{
+                            throw new Error('Files failed to upload');
+                        }
+                    });
+
+                    filesUploadedSuccessFully = true;
+                });
+
+                //Insert the file data objects into the database.
+                const insertPromises: Promise<void>[] = [];
+                for(const fileData of addedFilesData){
+                    insertPromises.push(
+                        trx(fileTableName).insert({
+                            ...fileData,
+                            refId: addedData.id,
+                        })
+                    );
+                }
+
+                await Promise.all(insertPromises).then(() => {
                     filesSavedSuccessFully = true;
-                    return data;
                 });
             }
             
@@ -61,14 +85,19 @@ export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>
         }
         catch(err){
 
-            if(dataSavedSuccessfully){
-                await trx.rollback();
+            console.log(err.message);
+
+            for(const file of addedFilesData){
+                try{
+                    await unlink(uploadPath + file.fileName);
+                }
+                catch(err){
+                    console.log(err.message);
+                    return reject(err);
+                }
             }
 
-            if(filesSavedSuccessFully){
-                //Delete any files saved
-
-            }
+            await trx.rollback();
 
             reject(err);
         }
@@ -86,8 +115,8 @@ export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
     return new Promise<void>(async (resolve, reject) => {
         try{
             const fileData = await get(fileTableName, {refId: data.id} as Partial<Kotilogi.FileType>);
-            const promises: Promise<void>[] = [];
 
+            const promises: Promise<void>[] = [];
             for(const fd of fileData){
                 promises.push(file.del(fileTableName, fd as unknown as Kotilogi.FileType));
             }   

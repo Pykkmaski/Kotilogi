@@ -3,6 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import * as database from './database';
 import * as file from './file';
+import db from 'kotilogi-app/dbconfig';
+import { unlink } from 'fs/promises';
+import { uploadPath } from 'kotilogi-app/uploadsConfig';
 
 /**Generates a consolidation time from the current date + the consolidation delay environment variable. */
 function generateConsolidationTime(){
@@ -47,10 +50,6 @@ export async function add(eventData: Kotilogi.EventType, files?: FormData[]){
         }
         catch(err){
             console.log(err.message);
-            if(addedEvent){
-                //Clean up the event if it was added.
-                await database.del('propertyEvents', {id: addedEvent.id}).catch(err => console.log(err.message));
-            }
             reject(err);
         }
     });
@@ -80,10 +79,39 @@ export async function del(event: Kotilogi.EventType){
     revalidatePath('/properties/[property_id]/events');
 }
 
-export async function uploadFile(fdata: FormData, eventId: string){
-    await file.upload('eventFiles', eventId, fdata);
-    revalidatePath('/events/[event_id]/files');
-    revalidatePath('/events/[event_id]/images');
+export async function uploadFile(fileData: FormData, refId: string){
+    const trx = await db.transaction();
+    let uploadedFileData: Kotilogi.FileType | null = null;
+
+    try{
+        uploadedFileData = await file.upload(fileData);
+        await trx('propertyFiles').insert({
+            ...uploadedFileData,
+            refId,
+        });
+
+        revalidatePath('/events/[event_id]/files');
+        revalidatePath('/events/[event_id]/images');
+
+        await trx.commit();
+    }
+    catch(err){
+        console.log(err.message);
+
+        if(uploadedFileData){
+            //Delete the file if it was uploaded.
+            try{
+                await unlink(uploadPath + uploadedFileData.fileName);
+            }
+            catch(err){
+                console.log(err.message);
+                throw err;
+            }
+        }
+
+        await trx.rollback();
+        throw err;
+    }
 }
 
 export async function deleteFile(fileData: Kotilogi.FileType){

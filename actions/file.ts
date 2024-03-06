@@ -46,57 +46,30 @@ async function saveToDisk(file: File){
  * @param fdata The FormData object containing the file.
  * @returns 
  */
-export async function upload(tablename: 'propertyFiles' | 'eventFiles', refId: string, fdata: FormData){
+export async function upload(fdata: FormData){
     return new Promise<Kotilogi.FileType>(async (resolve, reject) => {
-        var addedFileName: string | null = null;
-        const trx = await db.transaction();
+        var addedFileData: Kotilogi.FileType | null = null;
         let fileUplodedSuccessfully = false;
-        let dataSavedSuccessfully = false;
 
         try{
             const file = fdata.get('file') as unknown as File;
             const verifyResult = await verifyFile(file);
             if(verifyResult !== 'success') return reject(verifyResult);
 
-            addedFileName = await saveToDisk(file).then((fileName) => {
-                fileUplodedSuccessfully = true
-                return fileName;
+            await saveToDisk(file).then((fileName) => {
+                fileUplodedSuccessfully = true;
+
+                addedFileData = {
+                    fileName,
+                    title: fileName,
+                    mimeType: file.type as Kotilogi.MimeType,
+                } as Kotilogi.FileType;
             });
 
-            const fileData: Partial<Kotilogi.FileType> = {
-                title: addedFileName,
-                fileName: addedFileName,
-                refId,
-                mimeType: file.type as any,
-            }
-
-            const [uploadedFileData] = await trx(tablename).insert(fileData, '*').then((data: Kotilogi.FileType[]) => {
-                dataSavedSuccessfully = true;
-                return data;
-            });
-
-            await trx.commit();
-            resolve(uploadedFileData as unknown as Kotilogi.FileType);
+            resolve(addedFileData);
         }
         catch(err){
             console.log(err.message);
-
-            try{
-                if(fileUplodedSuccessfully){
-                    //Delete the file in case of an error, if it was saved.
-                    await unlink(uploadPath + addedFileName);
-                }
-
-                if(dataSavedSuccessfully){
-                    //Rollback the db if the data was saved.
-                    await trx.rollback();
-                }
-            }
-            catch(err){
-                console.log('Rollback failed!: ', err.message);
-                reject(err);
-            }
-
             reject(err);
         }
     }); 

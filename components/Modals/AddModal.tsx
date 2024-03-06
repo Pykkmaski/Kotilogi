@@ -1,18 +1,13 @@
 'use client';
 
 import { ModalProps } from "./Modal";
-import { addProperty } from "kotilogi-app/actions/property/addProperty";
 import { Input, Select, Textarea } from "../Input/Input";
 import { buildingTypes } from "kotilogi-app/constants";
-import { addPropertyEvent } from "kotilogi-app/actions/propertyEvent/addPropertyEvent";
 import { useInputFiles, useAddModal } from "./BaseAddModal.hooks";
 import { BaseAddModal } from "./BaseAddModal";
-import { upload } from "kotilogi-app/actions/file/upload";
 import React from "react";
 import * as properties from '@/actions/properties';
-import * as file from '@/actions/file';
 import * as events from '@/actions/events';
-import * as database from '@/actions/database';
 
 type AddModalProps = ModalProps & {
     refId: string,
@@ -83,6 +78,11 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
                 description="Lähetä samalla taloon liittyviä tiedostoja ja kuvia."
                 multiple={true}
                 onInput={updateFiles}/>
+
+            <div className="flex items-center w-full gap-4">
+                <span className="text-slate-500">Lisäämällä talon, sitoudun maksamaan talon avaushinnan <span className="text-orange-400">(9,90€):</span></span>
+                <input type="checkbox" required className="w-4 aspect-square"/>
+            </div>
         </BaseAddModal>
     )
 }
