@@ -5,6 +5,8 @@ import * as file from './file';
 import {cookies} from 'next/headers';
 import { readFile, unlink } from "fs/promises";
 import { uploadPath } from "kotilogi-app/uploadsConfig";
+import { Knex } from "knex";
+import { createCart } from "./bills";
 
 export async function add<T extends {}>(tablename: string, data: T){
     return db(tablename).insert(data, '*') as Promise<T[]>;
@@ -30,78 +32,74 @@ export async function update<T extends {id: string}>(tablename: string, id: stri
  * @param files 
  * @returns 
  */
-export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>
-(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T, files?: FormData[]){
-    var addedData: T | null = null;
+export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(
+    trx: Knex.Transaction,
+    tablename: string, 
+    fileTableName: 'propertyFiles' | 'eventFiles', 
+    data: T,
+    files?: FormData[]){
+
     let addedFilesData: Kotilogi.FileType[] = [];
-    let filesSavedSuccessFully = false;
-    let filesUploadedSuccessFully = false;
 
-    return new Promise<T>(async (resolve, reject) => {
-        const trx = await db.transaction();
+    try{
+        const [addedData] = await db(tablename).transacting(trx).insert(data, '*') as T[];
 
-        try{
-            [addedData] = await trx(tablename).insert(data, '*');
-
-            if(files){
-                //Upload all files
-                const filePromises: Promise<Kotilogi.FileType>[] = [];
-                for(const fdata of files){
-                    filePromises.push(file.upload(fdata));
-                }
-                
-                //Get the file data objects.
-                await Promise.allSettled(filePromises).then((results) => {
-                    results.forEach(result => {
-                        if(result.status === 'fulfilled'){
-                            addedFilesData.push(result.value);
-                        }
-                        else{
-                            throw new Error('Files failed to upload');
-                        }
-                    });
-
-                    filesUploadedSuccessFully = true;
-                });
-
-                //Insert the file data objects into the database.
-                const insertPromises: Promise<void>[] = [];
-                for(const fileData of addedFilesData){
-                    insertPromises.push(
-                        trx(fileTableName).insert({
-                            ...fileData,
-                            refId: addedData.id,
-                        })
-                    );
-                }
-
-                await Promise.all(insertPromises).then(() => {
-                    filesSavedSuccessFully = true;
-                });
+        if(files){
+            //Upload all files
+            const filePromises: Promise<Kotilogi.FileType[]>[] = [];
+            for(const fdata of files){
+                filePromises.push(file.upload([fdata]));
             }
             
-            await trx.commit();
-            resolve(addedData);
-        }
-        catch(err){
+            //Get the file data objects.
+            await Promise.allSettled(filePromises).then((results) => {
+                let rejectedCount: number = 0;
 
-            console.log(err.message);
+                results.forEach(result => {
+                    if(result.status === 'fulfilled'){
+                        addedFilesData.push(result.value);
+                    }
+                    else{
+                        rejectedCount++;
+                    }
+                });
 
-            for(const file of addedFilesData){
-                try{
-                    await unlink(uploadPath + file.fileName);
+                if(rejectedCount > 0){
+                    throw new Error('Some files failed to upload!');
                 }
-                catch(err){
-                    console.log(err.message);
-                    return reject(err);
-                }
+            });
+
+            //Insert the file data objects into the database.
+            const insertPromises: Promise<void>[] = [];
+            for(const fileData of addedFilesData){
+                insertPromises.push(
+                    db(fileTableName).transacting(trx).insert({
+                        ...fileData,
+                        refId: addedData.id,
+                    })
+                );
             }
 
-            await trx.rollback();
-
-            reject(err);
+            await Promise.all(insertPromises);
         }
-    });
+
+        return addedData;
+    }
+    catch(err){
+        console.log(err.message);
+
+        for(const file of addedFilesData){
+            try{
+                await unlink(uploadPath + file.fileName);
+            }
+            catch(err){
+                console.log(err.message);
+                throw err;
+            }
+        }
+
+        throw err;
+    }
 }
 
 /**
@@ -132,6 +130,84 @@ export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
             reject(err);
         }
     });
+}
+
+/**
+ * Helper function to upload files.
+ * @param files 
+ * @param refId 
+ */
+async function uploadFiles(files: FormData[], refId: string){
+    const addedFileData: Kotilogi.FileType[] = [];
+
+    await file.upload(files).then(uploadResults => {
+
+        let rejectedFiles = 0;
+        uploadResults.forEach(result => {
+            if(result.status === 'fulfilled'){
+                addedFileData.push({
+                    ...result.value,
+                    refId,
+                });
+            }
+            else{
+                rejectedFiles++;
+            }
+        });
+
+        if(rejectedFiles > 0){
+            throw new Error('Some files failed to upload!');
+        }
+    });
+
+    return addedFileData;
+}
+
+async function insertFileData(trx: Knex.Transaction, addedFileData: Kotilogi.FileType[], tablename: string){
+    const insertPromises: Promise<void>[] = [];
+    for(const addedFile of addedFileData){
+        insertPromises.push(
+            trx(tablename).insert(addedFileData)
+        );
+    }
+}
+
+export async function addViaTransaction<T extends Kotilogi.ItemType>(
+    trx: Knex.Transaction, 
+    tablename: string, 
+    fileTablename: string,
+    data: T, 
+    files?: FormData[]){
+
+    let addedFileData: Kotilogi.FileType[] = [];
+
+    try{
+        //Add the data into the database.
+        const [addedDataId] = await trx(tablename).insert(data, 'id') as string[];
+
+        //Upload the files
+        addedFileData = await uploadFiles(files, addedDataId);
+
+        //Insert file data into the database
+        await insertFileData(trx, addedFileData, fileTablename);
+
+        return [addedDataId, addedFileData] as const;
+    }
+    catch(err){
+        console.log(err.message);
+
+        for(const fdata of addedFileData){
+            try{
+                await unlink(fdata.fileName);
+            }
+            catch(err){
+                console.log(err.message);
+                throw err;
+            }
+        }
+    
+        throw err;
+    }
 }
 
 

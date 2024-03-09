@@ -2,12 +2,13 @@
 
 import { ModalProps } from "./Modal";
 import { Input, Select, Textarea } from "../Input/Input";
-import { buildingTypes } from "kotilogi-app/constants";
+import { buildingTypes, serviceName } from "kotilogi-app/constants";
 import { useInputFiles, useAddModal } from "./BaseAddModal.hooks";
 import { BaseAddModal } from "./BaseAddModal";
 import React from "react";
 import * as properties from '@/actions/properties';
 import * as events from '@/actions/events';
+import toast from "react-hot-toast";
 
 type AddModalProps = ModalProps & {
     refId: string,
@@ -79,10 +80,17 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
                 multiple={true}
                 onInput={updateFiles}/>
 
-            <div className="flex items-center w-full gap-4">
-                <span className="text-slate-500">Lisäämällä talon, sitoudun maksamaan talon avaushinnan <span className="text-orange-400">(9,90€):</span></span>
-                <input type="checkbox" required className="w-4 aspect-square"/>
+            <div className="flex flex-col w-full">
+                <div className="flex items-center w-full gap-4 justify-end">
+                    <span className="text-slate-500">Sitoudun maksamaan talon avausmaksun viimeistään kuukauden päästä: <span className="text-green-600 text-lg">(9,90€)</span></span>
+                    <input className="w-8 aspect-square" type="checkbox" required/>
+                </div>
+                <small className="text-sm text-slate-500 text-right mt-4">Talo poistetaan 30 päivän kuluttua, ellei sitä aktivoida.<br/> 
+                    Jälkiaktivointiin lisätään jälkiaktivointikulu (2€).<br/>
+                    {serviceName} ei suorita maksujen palautuksia.
+                </small>
             </div>
+            
         </BaseAddModal>
     )
 }

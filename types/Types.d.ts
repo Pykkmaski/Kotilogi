@@ -57,6 +57,7 @@ namespace Kotilogi{
     type ItemType = HasTitle & HasDescription & HasId & HasTimeStamp & HasRefId;
 
     type PropertyType = ItemType & HasMainImageId & {
+        status: string,
         roomCount?: number,
         floorCount?: number,
         wcCount?: number,  

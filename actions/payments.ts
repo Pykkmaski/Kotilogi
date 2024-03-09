@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import axios from "axios";
 import { UserPlanType, UserType } from "kotilogi-app/types/UserType";
+import { OrderIdType } from "kotilogi-app/types/OrderIdType";
 
 function generateAuthCode(orderNumber: string){
     const data = `${process.env.VISMA_API_KEY}|${orderNumber}`;
@@ -16,10 +17,45 @@ function generateOrderNumber(user: UserType){
     return crypto.createHash('SHA256').update(Date.now() + user.email + user.plan).digest('hex').toUpperCase();
 }
 
-export async function makeOrder(plan: UserPlanType){
+/**
+ * 
+ * @param id The id used in the order.
+ */
+function getOrderPrice(id: OrderIdType): number{
+    let price: string | null = null;
+
+    switch(id){
+        case 'add_property':
+            price =  process.env.PRICE_PROPERTY;
+        break;
+        
+        case 'add_event':
+            price = process.env.PRICE_EVENT;
+        break;
+
+        case 'add_usage':
+            price = process.env.PRICE_USAGE;
+        break;
+
+        case 'add_file':
+            price = process.env.PRICE_FILE;
+        break;
+
+       default: price = '0';
+    }
+
+    return parseInt(price);
+}
+
+/**
+ * Creates a visma payment request.
+ * @param id 
+ * @returns 
+ */
+export async function makeOrder(id: OrderIdType){
     try{
         const session = await getServerSession(options as any) as any;
-        const price = Prices[plan];
+        const price = getOrderPrice(id);
         const orderNumber = generateOrderNumber(session.user);
         
         const VISMA_API_KEY = process.env.VISMA_API_KEY;
@@ -39,7 +75,7 @@ export async function makeOrder(plan: UserPlanType){
                 return_url: `${process.env.SERVICE_DOMAIN}/checkout/result`,
                 notify_url: 'http://localhost:3000/',
                 selected: [
-                    'creditcards',
+                    'banks',
                 ]
             },
 
@@ -49,12 +85,12 @@ export async function makeOrder(plan: UserPlanType){
 
             products: [
                 {
-                    id: plan === 'regular' ? 'kdk-00' : 'kdk-01',
-                    title: `${serviceName}, ${plan}-tilaus.`,
+                    id: id,
+                    title: `Tiedon lisäys`,
                     pretax_price: price,
                     count: 1,
-                    tax: 0,
-                    price: price,
+                    tax: 24,
+                    price: Math.round(price * 1.24),
                     type: 1,
                 },
             ]

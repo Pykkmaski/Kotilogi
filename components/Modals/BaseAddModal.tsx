@@ -6,6 +6,7 @@ import Modal, { ModalProps } from "./Modal";
 import { Group } from "../Group";
 import toast from "react-hot-toast";
 import { ErrorText } from "../Util/Text";
+import Button from "../Button/Button";
 
 type BaseAddModalProps = ModalProps & {
     submitMethod: (e) => any, //TODO: type this better.
@@ -66,11 +67,15 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
                             }}
                             disabled={loading}>Peruuta</SecondaryButton>
 
-                        <PrimaryButton
+                        <Button
                             type="submit"
                             loading={loading}
                             disabled={loading}
-                            form={formId}>Lähetä</PrimaryButton>
+                            form={formId}>
+
+                            <span className="mx-8">Lähetä</span>
+                        
+                        </Button>
                     </Group>
                 </Group>
             </Modal.Footer>

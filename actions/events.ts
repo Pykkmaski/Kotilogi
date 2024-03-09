@@ -32,27 +32,25 @@ function verifyEvent(eventData: Kotilogi.EventType){
 export async function add(eventData: Kotilogi.EventType, files?: FormData[]){
     var addedEvent: Kotilogi.EventType | null = null;
 
-    return new Promise<Kotilogi.EventType>(async (resolve, reject) => {
-        try{
-            const verifyResult = verifyEvent(eventData);
-            if(verifyResult === 'invalid_date'){
-                throw new Error('Tapahtuman päiväys ei voi olla tulevaisuudessa!');
-            }
-
-            const processedData: Kotilogi.EventType = {
-                ...eventData,
-                consolidationTime: generateConsolidationTime().toString(),
-            };
-
-            addedEvent = await database.addWithFiles('propertyEvents', 'eventFiles', processedData, files);
-            revalidatePath('/properties/[property_id]/events');
-            resolve(addedEvent);
+    try{
+        const verifyResult = verifyEvent(eventData);
+        if(verifyResult === 'invalid_date'){
+            throw new Error('Tapahtuman päiväys ei voi olla tulevaisuudessa!');
         }
-        catch(err){
-            console.log(err.message);
-            reject(err);
-        }
-    });
+
+        const processedData: Kotilogi.EventType = {
+            ...eventData,
+            consolidationTime: generateConsolidationTime().toString(),
+        };
+
+        addedEvent = await database.addWithFiles('propertyEvents', 'eventFiles', processedData, files);
+        revalidatePath('/properties/[property_id]/events');
+        return addedEvent;
+    }
+    catch(err){
+        console.log(err.message);
+        throw err;
+    }
 }
 
 /**Checks if an event passes all requirements for deletion and returns and error code.

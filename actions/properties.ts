@@ -7,6 +7,7 @@ import * as users from './users';
 import db from 'kotilogi-app/dbconfig';
 import { unlink } from 'fs/promises';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
+import { createBill, createCart } from './bills';
 
 async function verifyProperty(property: Partial<Kotilogi.PropertyType>){
     return new Promise<boolean>(async (resolve, reject) => {
@@ -36,39 +37,51 @@ export async function verifyDeletion(propertyData: Kotilogi.PropertyType){
 }
 
 export async function add(property: Partial<Kotilogi.PropertyType>, files?: FormData[]){
-    return new Promise<Kotilogi.PropertyType>(async (resolve, reject) => {
-        try{
-            //Add the data into the database.
-            const addedProperty = await database.addWithFiles('properties', 'propertyFiles', property, files);
+    const trx = await db.transaction();
+    let addedFileData: Kotilogi.FileType[] = [];
 
-            const dueDate = new Date();
-            dueDate.setMonth(dueDate.getMonth() + 1);
-            dueDate.setDate(1);
+    try{
+        //Add the data into the database.
+        const [addedProperty] = await trx('properties').insert(property, '*') as Kotilogi.PropertyType[];
+        addedFileData = await file.upload(files);
 
-            const amount = 9.9;
-            const [previousBill] = await db('billing').where({customer: property.refId});
-
-            if(previousBill){
-                await db('billing').where({id: previousBill.id}).update({
-                    amount: previousBill.amount + amount,
-                });
+        //Get the customer cart
+        const cart = await trx('carts').where({customer: property.refId})
+        .then(async ([cart]) => {
+            if(!cart){
+                //A cart for this customer doesn't exist. Create one.
+                const newCart = createCart(property.refId);
+                return await trx('carts').insert(newCart, '*');
             }
             else{
-                await db('billing').insert({
-                    customer: property.refId,
-                    amount,
-                    due: dueDate.getTime(),
-                });
+                return cart;
             }
-           
-            revalidatePath('/dashboard/properties');
-            resolve(addedProperty as unknown as Kotilogi.PropertyType);
+        });
+
+        //Create a new bill
+        const bill = createBill(cart.id, 990, addedProperty.id, 'add_property');
+        await trx('cartItems').insert(bill);
+
+        await trx.commit();
+        revalidatePath('/dashboard/properties');
+        return addedProperty as unknown as Kotilogi.PropertyType;
+    }
+    catch(err){
+        console.log(err.message);
+
+        for(const fdata of addedFileData){
+            try{
+                await unlink(fdata.fileName);
+            }
+            catch(err){
+                console.log(err.message);
+                throw err;
+            }
         }
-        catch(err){
-            console.log(err.message);
-            reject(err);
-        }
-    });
+        
+        await trx.rollback();
+        throw err;
+    }
 }
 
 export async function del(data: Kotilogi.PropertyType){
@@ -105,7 +118,7 @@ export async function uploadFile(fileData: FormData, refId: string){
     let uploadedFileData: Kotilogi.FileType | null = null;
 
     try{
-        uploadedFileData = await file.upload(fileData);
+        [uploadedFileData] = await file.upload([fileData]);
         await trx('propertyFiles').insert({
             ...uploadedFileData,
             refId,

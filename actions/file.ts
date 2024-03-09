@@ -30,49 +30,41 @@ export async function verifyFile(file?: File): Promise<FileVerifyResult>{
  * @param file 
  * @returns 
  */
-async function saveToDisk(file: File){
+async function saveToDisk(file: File): Promise<Kotilogi.FileType>{
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     const fileName = Date.now() + fileNameTimestampSeparator + file.name;
     await writeFile(uploadPath + fileName, buffer);
-    return fileName;
+
+    return {
+        fileName,
+        title: fileName,
+        mimeType: file.type,
+    } as Kotilogi.FileType;
 }
 
 /**
- * Uploads a file and saves its data into the database.
+ * Uploads an array of files onto disk.
  * @param tablename The name of the table in the database where to save the data.
  * @param refId The id of the object the image belongs to, for example the id of a property.
- * @param fdata The FormData object containing the file.
- * @returns 
+ * @param fdata An array of FormData objects containing the files.
+ * @returns An array of the results of the uploads.
  */
-export async function upload(fdata: FormData){
-    return new Promise<Kotilogi.FileType>(async (resolve, reject) => {
-        var addedFileData: Kotilogi.FileType | null = null;
-        let fileUplodedSuccessfully = false;
+export async function upload(fdata: FormData[]): Promise<PromiseSettledResult<Kotilogi.FileType>[]>{
+    const uploadPromises: Promise<Kotilogi.FileType>[] = [];
+    for(const file of fdata){
+        const f = file.get('file') as unknown as File;
 
-        try{
-            const file = fdata.get('file') as unknown as File;
-            const verifyResult = await verifyFile(file);
-            if(verifyResult !== 'success') return reject(verifyResult);
+        const verifyResult = await verifyFile(f);
+        if(verifyResult !== 'success') throw new Error(verifyResult);
 
-            await saveToDisk(file).then((fileName) => {
-                fileUplodedSuccessfully = true;
+        uploadPromises.push(
+            saveToDisk(f)
+        );
+    }
 
-                addedFileData = {
-                    fileName,
-                    title: fileName,
-                    mimeType: file.type as Kotilogi.MimeType,
-                } as Kotilogi.FileType;
-            });
-
-            resolve(addedFileData);
-        }
-        catch(err){
-            console.log(err.message);
-            reject(err);
-        }
-    }); 
+    return await Promise.allSettled(uploadPromises);
 }
 
 /**

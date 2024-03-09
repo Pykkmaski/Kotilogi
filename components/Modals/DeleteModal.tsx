@@ -47,7 +47,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
         <Modal {...props}>
             <Modal.Header>Poista</Modal.Header>
             <Modal.Body>
-                <Group direction="col">
+                <div className="flex flex-col mx-8">
                     <p>
                         Olet poistamassa seuraavia kohteita:
                     </p>
@@ -55,7 +55,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
                         {
                             targetsToDelete.map(target => {
                                 const content = target.title;
-                                return <li>{content}</li>
+                                return <li className="font-semibold">{content}</li>
                             })
                         }
                     </ul>
@@ -63,7 +63,7 @@ export function DeleteModal<T extends Kotilogi.ItemType>({targetsToDelete, reset
                     <p>
                         Oletko varma?
                     </p>
-                </Group>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button 

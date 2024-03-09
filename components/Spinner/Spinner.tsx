@@ -13,10 +13,7 @@ export default function Spinner(props : SpinnerProps){
 
     return (
         <div className={className}>
-            <div className={styles.spinner} style={{width: props.size, height: props.size}}>
-
-            </div>
-
+            <div className={styles.spinner} style={{width: props.size, height: props.size}}/>
             <span className={styles.message}>{props.message}</span>
         </div>
         

@@ -30,12 +30,17 @@ export default abstract class Database<T extends Kotilogi.ItemType>{
 
     }
 
-    async add(data: T, fdata?: FormData[]){
-        let insertedFileInfo: Kotilogi.FileType[] | null = null;
+    /**
+     * Creates a transaction, and adds the passed data through it, then returns the transaction for further use.
+     * @param data 
+     * @param fdata 
+     * @returns 
+     */
+    async transact(data: T, fdata?: FormData[]){
+        let insertedFileInfo: Kotilogi.FileType[] = [];
         const trx = await this.transaction();
 
         try{
-
             const [id] = await this.table().insert(data, 'id').transacting(trx) as unknown as number[];
 
             if(fdata){
@@ -46,7 +51,22 @@ export default abstract class Database<T extends Kotilogi.ItemType>{
                     filePromises.push(files.upload(f))
                 }
 
-                insertedFileInfo = await Promise.all(filePromises);
+                await Promise.allSettled(filePromises).then(results => {
+                    let rejectedCount: number = 0;
+
+                    results.forEach(result => {
+                        if(result.status === 'fulfilled'){
+                            insertedFileInfo.push(result.value);
+                        }
+                        else{
+                            rejectedCount++;
+                        }
+                    });
+
+                    if(rejectedCount > 0){
+                        throw new Error('Some files failed to upload!');
+                    } 
+                });
 
                 //Save the inserted file's info into the database.
                 const dataPromises: Promise<void>[] = [];
@@ -63,21 +83,18 @@ export default abstract class Database<T extends Kotilogi.ItemType>{
             return trx;
         }
         catch(err){
-            if(insertedFileInfo){
-                try{
-                    for(const info of insertedFileInfo){
-                        await files.unlink(info.fileName);
-                    }
-                }
-                catch(err){
-                    throw err;
+            try{
+                //Delete the files that were uploaded.
+                for(const info of insertedFileInfo){
+                    await files.unlink(info.fileName);
                 }
             }
-
-            await trx.rollback();
+            catch(err){
+                throw err;
+            }
+            
             throw err;
         }
-        
     }
 }
 
@@ -100,23 +117,14 @@ export abstract class CreatesBills<T extends Kotilogi.ItemType> extends Database
     }
 
     async add(data: T, fdata?: FormData[]){
-        let trx;
+        let trx: Knex.Transaction;
 
         try{
-            trx = await super.add(data, fdata);
+            trx = await super.transact(data, fdata);
             const bill = billing.createBill(data.refId, this.amountCharged);
-            const [previousBill] = await db('billing').where({customer: bill.customer});
-            if(previousBill){
-                await db('billing').where({customer: previousBill.customer}).update({
-                    amount: previousBill.bill + bill.amount,
-                }).transacting(trx);
-            }
-            else{
-                await db('billing').insert(bill).transacting(trx);
-            }
+            await db('billing').insert(bill).transacting(trx);
 
             await trx.commit();
-            return trx;
         }
         catch(err){
             console.log(err.message);

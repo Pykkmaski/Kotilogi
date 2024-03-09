@@ -31,7 +31,7 @@ export default async function DashboardLayout({children}){
                     <div className="text-white">
                         <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
                         <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                        <IconLink imageSrc="/icons/credit-card.png" href="/dashboard/plan">Tilaus</IconLink>
+                        <IconLink imageSrc="/icons/credit-card.png" href="/dashboard/plan">Lasku</IconLink>
                     </div>
                 </NavBar>
             </LayoutNavBarContainer>
