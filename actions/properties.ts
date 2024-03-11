@@ -21,12 +21,11 @@ async function verifyProperty(property: Partial<Kotilogi.PropertyType>){
     })
 }
 
-export async function verifyDeletion(propertyData: Kotilogi.PropertyType){
+export async function verifyDeletion(propertyAge: string){
     return new Promise<boolean>(async (resolve, reject) => {
         try{
             //Only allow deletion of properties that are not a month old.
-            const [savedData] = await database.get('properties', {id: propertyData.id}) as unknown as Kotilogi.PropertyType[];
-            const age = Date.now() - new Date(savedData.createdAt).getTime();
+            const age = Date.now() - new Date(propertyAge).getTime();
             const ok = age < 3600 * 1000 * 24 * 30;
             resolve(ok);
         }
@@ -38,12 +37,24 @@ export async function verifyDeletion(propertyData: Kotilogi.PropertyType){
 
 export async function add(property: Partial<Kotilogi.PropertyType>, files?: FormData[]){
     const trx = await db.transaction();
-    let addedFileData: Kotilogi.FileType[] = [];
+    let fileUploadResults: PromiseSettledResult<any>[] = [];
+    let rollbackUpload: () => Promise<void> | null = null;
 
     try{
         //Add the data into the database.
-        const [addedProperty] = await trx('properties').insert(property, '*') as Kotilogi.PropertyType[];
-        addedFileData = await file.upload(files);
+        const [{id: addedPropertyId}] = await trx('properties').insert(property, 'id') as {id: string}[];
+
+        //Upload the files.
+        let addedFileData: Kotilogi.FileType[] = [];
+        [addedFileData, rollbackUpload] = await file.upload(files);
+
+        //Insert the file data
+        for(const fileData of addedFileData){
+            await trx('propertyFiles').insert({
+                ...fileData,
+                refId: addedPropertyId,
+            });
+        }
 
         //Get the customer cart
         const cart = await trx('carts').where({customer: property.refId})
@@ -59,45 +70,63 @@ export async function add(property: Partial<Kotilogi.PropertyType>, files?: Form
         });
 
         //Create a new bill
-        const bill = createBill(cart.id, 990, addedProperty.id, 'add_property');
+        const bill = createBill(cart.id, 990, addedPropertyId, 'add_property');
         await trx('cartItems').insert(bill);
 
         await trx.commit();
         revalidatePath('/dashboard/properties');
-        return addedProperty as unknown as Kotilogi.PropertyType;
     }
     catch(err){
         console.log(err.message);
 
-        for(const fdata of addedFileData){
-            try{
-                await unlink(fdata.fileName);
-            }
-            catch(err){
-                console.log(err.message);
-                throw err;
-            }
+        if(rollbackUpload){
+            await rollbackUpload();
         }
-        
+
         await trx.rollback();
         throw err;
     }
 }
 
 export async function del(data: Kotilogi.PropertyType){
-    return new Promise<void>(async (resolve, reject) => {
-        try{
-            const ok = await verifyDeletion(data);
-            if(!ok) reject('prohibited');
-            
-            await database.delWithFiles('properties', 'propertyFiles', data);
-            revalidatePath('/dashboard/properties');
-            resolve();
+    const trx = await db.transaction();
+    let rollbackFileDelete: () => Promise<void> | null = null;
+
+    try{
+        const [{createdAt: propertyAge}] = await trx('properties').where({id: data.id}).select('createdAt');
+  
+        const ok = await verifyDeletion(propertyAge);
+        if(!ok) throw new Error('Property deletion prohibited!');
+
+        const fileData = await trx('propertyFiles').where({refId: data.id}).then(async (propertyFiles: Kotilogi.FileType[]) => {
+            //Get the events for this property.
+            const eventIds = await trx('propertyEvents').where({refId: data.id}).pluck('id');
+
+            //Get the files for the events.
+            const eventFiles = await trx('eventFiles').whereIn('refId', eventIds);
+
+            //Add the event files to the property files.
+            return propertyFiles.concat(eventFiles) as Kotilogi.FileType[];
+        });
+
+        rollbackFileDelete = await file.del(fileData);
+
+        await trx('properties').where({id: data.id}).del();
+
+        await trx.commit();
+
+        revalidatePath('/dashboard/properties');
+    }
+    catch(err){
+        console.log(err.message);
+
+        if(rollbackFileDelete){
+            await rollbackFileDelete();
         }
-        catch(err){
-            reject(err);
-        }
-    });
+
+        await trx.rollback();
+        throw err;
+    }
 }
 
 export async function update(propertyId: Kotilogi.IdType, newPropertyData: Kotilogi.PropertyType){
@@ -116,9 +145,11 @@ export async function update(propertyId: Kotilogi.IdType, newPropertyData: Kotil
 export async function uploadFile(fileData: FormData, refId: string){
     const trx = await db.transaction();
     let uploadedFileData: Kotilogi.FileType | null = null;
+    let rollbackUpload: () => Promise<void> | null;
 
     try{
-        [uploadedFileData] = await file.upload([fileData]);
+        [[uploadedFileData], rollbackUpload] = await file.upload([fileData]);
+
         await trx('propertyFiles').insert({
             ...uploadedFileData,
             refId,
@@ -132,14 +163,12 @@ export async function uploadFile(fileData: FormData, refId: string){
     catch(err){
         console.log(err.message);
 
-        if(uploadedFileData){
-            //Delete the file if it was uploaded.
+        if(rollbackUpload){
             try{
-                await unlink(uploadPath + uploadedFileData.fileName);
+                await rollbackUpload();
             }
             catch(err){
-                console.log(err.message);
-                throw err;
+                console.log('Upload rollback failed!');
             }
         }
 
@@ -150,13 +179,22 @@ export async function uploadFile(fileData: FormData, refId: string){
 
 export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
+        let rollbackDelete: () => Promise<void>;
+
         try{
-            await file.del('propertyFiles', fileData);
+            rollbackDelete = await file.del([fileData]);
             revalidatePath('/properties/[property_id]/files');
             revalidatePath('/properties/[property_id]/images');
             resolve();
         }
         catch(err){
+            try{
+                await rollbackDelete();
+            }
+            catch(err){
+                console.log(err.message);
+            }
+            
             reject(err);
         }
     });

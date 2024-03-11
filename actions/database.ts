@@ -3,10 +3,11 @@
 import db from "kotilogi-app/dbconfig";
 import * as file from './file';
 import {cookies} from 'next/headers';
-import { readFile, unlink } from "fs/promises";
+import { readFile, unlink, writeFile } from "fs/promises";
 import { uploadPath } from "kotilogi-app/uploadsConfig";
 import { Knex } from "knex";
 import { createCart } from "./bills";
+import { files } from "kotilogi-app/utils/files";
 
 export async function add<T extends {}>(tablename: string, data: T){
     return db(tablename).insert(data, '*') as Promise<T[]>;
@@ -110,26 +111,77 @@ export async function addWithFiles<T extends Partial<Kotilogi.ItemType>>(
  * @returns 
  */
 export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablename: string, fileTableName: 'propertyFiles' | 'eventFiles', data: T){
-    return new Promise<void>(async (resolve, reject) => {
+    const trx = await db.transaction();
+    let backupFiles: {fileName: string, file: Buffer}[] = [];
+    let deletedFilenames: string[] = [];
+
+    try{
+        const fileData = await trx(fileTableName).where({refId: data.id}) as Kotilogi.FileType[];
+
+        //Create backups of the files currently on disk, in case of an error.
+        const backupFileReadPromises: Promise<{fileName: string, file: Buffer}>[] = [];
+        for(const fd of fileData){
+            backupFileReadPromises.push(new Promise<{fileName: string, file: Buffer}>(async (resolve, reject) => {
+                try{
+                    const buffer = await readFile(uploadPath + fd.fileName)
+                    resolve( {
+                        fileName: fd.fileName,
+                        file: buffer,
+                    });
+                }
+                catch(err){
+                    reject(err);
+                }
+            }));
+        }
+
+        backupFiles = await Promise.all(backupFileReadPromises);
+
+        //Delete the files from disk.
+        const fileUnlinkPromises: Promise<void>[] = [];
+        for(const fd of fileData){
+           fileUnlinkPromises.push(
+            unlink(uploadPath + fd.fileName)
+           );
+        }   
+
+        await Promise.all(fileUnlinkPromises);
+
+        const delPromises: Promise<void>[] = [];
+        for(const file of fileData){
+            delPromises.push(
+                trx(fileTableName).where({id: file.id}).del()
+            );
+        }
+
+        await Promise.all(delPromises);
+        await trx.commit();
+    }
+    catch(err){
+        console.log(err.message);
+
+        /*
+            Resave the backed-up files. Any files that failed to delete, will throw an error here when trying to re-save them.
+            Just log the error.
+        */
+
+        const resavePromises: Promise<void>[] = [];
         try{
-            const fileData = await get(fileTableName, {refId: data.id} as Partial<Kotilogi.FileType>);
+            for(const backupFile of backupFiles){
+                resavePromises.push(
+                    writeFile(uploadPath + backupFile.fileName, backupFile.file)
+                )
+            }
 
-            const promises: Promise<void>[] = [];
-            for(const fd of fileData){
-                promises.push(file.del(fileTableName, fd as unknown as Kotilogi.FileType));
-            }   
-
-            await Promise.all(promises);
-
-            await del(tablename, {id: data.id});
-
-            resolve();
+            await Promise.allSettled(resavePromises);
         }
         catch(err){
             console.log(err.message);
-            reject(err);
         }
-    });
+          
+        await trx.rollback();
+        throw err;
+    }
 }
 
 /**
@@ -138,29 +190,13 @@ export async function delWithFiles<T extends Partial<Kotilogi.ItemType>>(tablena
  * @param refId 
  */
 async function uploadFiles(files: FormData[], refId: string){
-    const addedFileData: Kotilogi.FileType[] = [];
+    return await file.upload(files).then(uploadResults => {
+        const successfullUploads = uploadResults.filter(result => result.status === 'fulfilled');
+        const failedUploads = uploadResults.filter(result => result.status === 'rejected');
+        if(failedUploads.length) throw new Error('Some files failed to upload!');
 
-    await file.upload(files).then(uploadResults => {
-
-        let rejectedFiles = 0;
-        uploadResults.forEach(result => {
-            if(result.status === 'fulfilled'){
-                addedFileData.push({
-                    ...result.value,
-                    refId,
-                });
-            }
-            else{
-                rejectedFiles++;
-            }
-        });
-
-        if(rejectedFiles > 0){
-            throw new Error('Some files failed to upload!');
-        }
+       return successfullUploads.map((result: PromiseFulfilledResult<Kotilogi.FileType>) => result.value);
     });
-
-    return addedFileData;
 }
 
 async function insertFileData(trx: Knex.Transaction, addedFileData: Kotilogi.FileType[], tablename: string){
@@ -172,10 +208,10 @@ async function insertFileData(trx: Knex.Transaction, addedFileData: Kotilogi.Fil
     }
 }
 
-export async function addViaTransaction<T extends Kotilogi.ItemType>(
+export async function addViaTransaction<T extends Partial<Kotilogi.ItemType>>(
     trx: Knex.Transaction, 
     tablename: string, 
-    fileTablename: string,
+    fileTablename: 'propertyFiles' | 'eventFiles',
     data: T, 
     files?: FormData[]){
 
@@ -188,24 +224,14 @@ export async function addViaTransaction<T extends Kotilogi.ItemType>(
         //Upload the files
         addedFileData = await uploadFiles(files, addedDataId);
 
-        //Insert file data into the database
-        await insertFileData(trx, addedFileData, fileTablename);
+        //Insert the files into the db.
+        await trx(fileTablename).insert(addedFileData);
 
-        return [addedDataId, addedFileData] as const;
+        return addedDataId;
     }
     catch(err){
         console.log(err.message);
-
-        for(const fdata of addedFileData){
-            try{
-                await unlink(fdata.fileName);
-            }
-            catch(err){
-                console.log(err.message);
-                throw err;
-            }
-        }
-    
+        await file.unlinkMultiple(trx, fileTablename, addedFileData)
         throw err;
     }
 }

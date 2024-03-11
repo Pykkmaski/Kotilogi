@@ -30,25 +30,37 @@ function verifyEvent(eventData: Kotilogi.EventType){
 }
 
 export async function add(eventData: Kotilogi.EventType, files?: FormData[]){
-    var addedEvent: Kotilogi.EventType | null = null;
+    const trx = await db.transaction();
+    let fileUploadResults: PromiseSettledResult<any>[] = [];
+    let rollbackUpload: () => Promise<void> | null = null;
 
     try{
-        const verifyResult = verifyEvent(eventData);
-        if(verifyResult === 'invalid_date'){
-            throw new Error('Tapahtuman päiväys ei voi olla tulevaisuudessa!');
+        //Add the data into the database.
+        const [{id: addedEventId}] = await trx('propertyEvents').insert(eventData, 'id') as {id: string}[];
+
+        //Upload the files.
+        let addedFileData: Kotilogi.FileType[] = [];
+        [addedFileData, rollbackUpload] = await file.upload(files);
+
+        //Insert the file data
+        for(const fileData of addedFileData){
+            await trx('eventFiles').insert({
+                ...fileData,
+                refId: addedEventId,
+            });
         }
 
-        const processedData: Kotilogi.EventType = {
-            ...eventData,
-            consolidationTime: generateConsolidationTime().toString(),
-        };
-
-        addedEvent = await database.addWithFiles('propertyEvents', 'eventFiles', processedData, files);
+        await trx.commit();
         revalidatePath('/properties/[property_id]/events');
-        return addedEvent;
     }
     catch(err){
         console.log(err.message);
+
+        if(rollbackUpload){
+            await rollbackUpload();
+        }
+
+        await trx.rollback();
         throw err;
     }
 }
@@ -69,21 +81,43 @@ function verifyEventDeletion(event: {consolidationTime: string}){
  * @param eventId 
  * @returns 
  */
-export async function del(event: Kotilogi.EventType){
-    const code = verifyEventDeletion(event);
-    if(code !== 'success') throw new Error(code); 
-         
-    await database.delWithFiles('propertyEvents', 'eventFiles', event);
-    revalidatePath('/properties/[property_id]/events');
+export async function del(data: Kotilogi.EventType){
+    const trx = await db.transaction();
+    let rollbackDelete: () => Promise<void> | null = null;
+
+    try{
+        const ok = verifyEventDeletion(data);
+        if(!ok) throw new Error('Event deletion prohibited!');
+
+        const fileData = await trx('eventFiles').where({refId: data.id});
+        rollbackDelete = await file.del(fileData);
+
+        await trx('propertyEvents').where({id: data.id}).del();
+        await trx.commit();
+
+        revalidatePath('/properties/[property_id]/events');
+    }
+    catch(err){
+        console.log(err.message);
+
+        if(rollbackDelete){
+            await rollbackDelete();
+        }
+
+        await trx.rollback();
+        throw err;
+    }
 }
 
 export async function uploadFile(fileData: FormData, refId: string){
     const trx = await db.transaction();
     let uploadedFileData: Kotilogi.FileType | null = null;
+    let rollbackUpload: () => Promise<void> | null;
 
     try{
-        uploadedFileData = await file.upload(fileData);
-        await trx('propertyFiles').insert({
+        [[uploadedFileData], rollbackUpload] = await file.upload([fileData]);
+
+        await trx('eventFiles').insert({
             ...uploadedFileData,
             refId,
         });
@@ -96,14 +130,12 @@ export async function uploadFile(fileData: FormData, refId: string){
     catch(err){
         console.log(err.message);
 
-        if(uploadedFileData){
-            //Delete the file if it was uploaded.
+        if(rollbackUpload){
             try{
-                await unlink(uploadPath + uploadedFileData.fileName);
+                await rollbackUpload();
             }
             catch(err){
-                console.log(err.message);
-                throw err;
+                console.log('Upload rollback failed!');
             }
         }
 
@@ -114,13 +146,22 @@ export async function uploadFile(fileData: FormData, refId: string){
 
 export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
+        let rollbackDelete: () => Promise<void>;
+
         try{
-            await file.del('eventFiles', fileData);
+            rollbackDelete = await file.del([fileData]);
             revalidatePath('/events/[event_id]/files');
-            revalidatePath('/events/[event_id]/images');
+            revalidatePath('/events/[events_id]/images');
             resolve();
         }
         catch(err){
+            try{
+                await rollbackDelete();
+            }
+            catch(err){
+                console.log(err.message);
+            }
+            
             reject(err);
         }
     });

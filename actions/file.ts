@@ -7,6 +7,7 @@ import { unlink } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { getFileSize } from "./util/getFileSize";
 import db from "kotilogi-app/dbconfig";
+import { Knex } from "knex";
 
 type FileVerifyResult = 'invalid_type' | 'invalid_size' | 'no_file' | 'success';
 
@@ -49,69 +50,158 @@ async function saveToDisk(file: File): Promise<Kotilogi.FileType>{
  * @param tablename The name of the table in the database where to save the data.
  * @param refId The id of the object the image belongs to, for example the id of a property.
  * @param fdata An array of FormData objects containing the files.
- * @returns An array of the results of the uploads.
+ * @returns An array of the file data, and a function to rollback the upload.
  */
-export async function upload(fdata: FormData[]): Promise<PromiseSettledResult<Kotilogi.FileType>[]>{
-    const uploadPromises: Promise<Kotilogi.FileType>[] = [];
-    for(const file of fdata){
-        const f = file.get('file') as unknown as File;
+export async function upload(fdata: FormData[]){
+    const uploadedFiles: Kotilogi.FileType[] = [];
+    let uploadPromises: Promise<void>[] = [];
 
-        const verifyResult = await verifyFile(f);
-        if(verifyResult !== 'success') throw new Error(verifyResult);
-
-        uploadPromises.push(
-            saveToDisk(f)
-        );
+    const rollbackUpload = async () => {
+        for(const uploadedFile of uploadedFiles){
+            await unlink(uploadPath + uploadedFile.fileName);
+        }
     }
 
-    return await Promise.allSettled(uploadPromises);
+    try{
+        for(const file of fdata){
+            const f = file.get('file') as unknown as File;
+    
+            const verifyResult = await verifyFile(f);
+            if(verifyResult !== 'success') throw new Error(verifyResult);
+    
+            uploadPromises.push(new Promise<void>(async (resolve, reject) => {
+                try{
+                    const fileData = await saveToDisk(f);
+                    uploadedFiles.push(fileData);
+                    resolve();
+                }
+                catch(err){
+                    reject(err);
+                }
+            }));
+        }
+        await Promise.all(uploadPromises);
+        return [uploadedFiles, rollbackUpload] as const;
+    }
+    catch(err){
+        try{
+            await rollbackUpload();
+        }
+        catch(err){
+            console.log('File upload rollback failed!');
+        }
+    }
+}
+
+export async function del(fileData: Kotilogi.FileType[]){
+    type BackupFileType = {
+        fileName: string,
+        buffer: Buffer,
+    };
+
+    let backupFiles: BackupFileType[] = [];
+    let deletedFiles: BackupFileType[] = [];
+
+    const rollbackDelete = async () => {
+        const rollbackPromises: Promise<void>[] = [];
+        for(const deletedFile of deletedFiles){
+            rollbackPromises.push(
+                writeFile(uploadPath + deletedFile.fileName, deletedFile.buffer)
+            )
+        }
+        await Promise.allSettled(rollbackPromises);
+    }
+
+    try{
+        //Backup the files about to be deleted:
+        const backupFilePromises: Promise<BackupFileType>[] = [];
+        for(const data of fileData){
+            backupFilePromises.push(
+                new Promise<BackupFileType>(async (resolve, reject) => {
+                    try{
+                        const buffer = await readFile(uploadPath + data.fileName);
+                        resolve({
+                            fileName: data.fileName,
+                            buffer,
+                        });
+                    }
+                    catch(err){
+                        console.log(err.message);
+                        reject(err);
+                    }
+                })
+            )
+        }
+
+        backupFiles = await Promise.allSettled(backupFilePromises).then(results => {
+            const backupFiles = [];
+            results.forEach(result => {
+                if(result.status === 'fulfilled'){
+                    backupFiles.push(result.value);
+                }
+            });
+
+            return backupFiles;
+        });
+
+        const deletePromises: Promise<void>[] = [];
+        for(const data of fileData){
+            deletePromises.push(
+                unlink(uploadPath + data.fileName)
+            );
+        }
+        await Promise.all(deletePromises);
+
+        return rollbackDelete;
+    }
+    catch(err){
+        await rollbackDelete();
+    }
 }
 
 /**
- * Deletes a file from disk, and it's database entry.
+ * Deletes a file from disk, and it's database entry, using a transaction.
+ * @param trx
  * @param tablename 
  * @param fileData 
  * @returns 
  */
-export async function del(tablename: 'propertyFiles' | 'eventFiles', fileData: Kotilogi.FileType){
-    return new Promise<void>(async (resolve, reject) => {
-        //Backup the file in case of an error.
-        let fileBackup: Buffer | null = null;
-        let unlinkSuccess = false;
-        let dataDeletionSuccess = false;
+export async function delViaTransaction(trx: Knex.Transaction, tablename: 'propertyFiles' | 'eventFiles', fileData: Kotilogi.FileType){
+    let fileBackup: Buffer | null = null;
+    let unlinkSuccess = false;
 
-        const trx = await db.transaction();
+    try{
+        fileBackup = await readFile(uploadPath + fileData.fileName);
+        await unlink(uploadPath + fileData.fileName).then(() => unlinkSuccess = true);
+        await trx(tablename).where({id: fileData.id}).del();
+    }
+    catch(err){
+        //Roll back the deletion if something goes wrong.
+        console.log(err.message);
 
         try{
-            fileBackup = await readFile(uploadPath + fileData.fileName);
-
-            await unlink(uploadPath + fileData.fileName).then(() => unlinkSuccess = true)
-            await trx(tablename).where({id: fileData.id}).del().then(() => dataDeletionSuccess = true);
-            
-            await trx.commit();
-            resolve();
+            if(unlinkSuccess){ 
+                //Re-save the file only if it was deleted.
+                await writeFile(uploadPath + fileData.fileName, fileBackup);
+            }
         }
         catch(err){
-            //Roll back the deletion if something goes wrong.
-            console.log(err.message);
-
-            try{
-                if(fileBackup && unlinkSuccess){ 
-                    //Re-save the file only if it was deleted.
-                    await writeFile(uploadPath + fileData.fileName, fileBackup);
-                }
-
-                if(dataDeletionSuccess){
-                    //Rollback the database only if the data was deleted.
-                    trx.rollback();
-                }
-            }
-            catch(err){
-                console.log('Database rollback failed!: ', err.message);
-                reject(err);
-            }
-            
-            reject(err);
+            console.log('File re-save failed!: ', err.message);
+            throw err;
         }
-    })
+        
+        throw err;
+    }
+}
+
+export async function unlinkMultiple(trx: Knex.Transaction, tablename: 'propertyFiles' | 'eventFiles', fileData: Kotilogi.FileType[]){
+    const unlinkPromises: Promise<void>[] = [];
+
+    for(const file of fileData){
+        unlinkPromises.push(
+            delViaTransaction(trx, tablename, file)
+        );
+    }
+
+    await Promise.all(unlinkPromises);
 }
