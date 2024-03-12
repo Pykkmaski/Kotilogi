@@ -21,23 +21,28 @@ const BillItem = ({bill}) => {
 
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
-    const bills = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
+    const [cart, bills] = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
+        if(!cart){
+            return [null, []];
+        }
+
         return db('cartItems').where({cartId: cart.id}).then(async cartItems => {
-            return cartItems.map(item => ({
+            return [ cart, cartItems.map(item => ({
                 ...item,
                 due: cart.due
-            }));
+            })) ];
         });
-    })
-    .catch(err => {
-        console.log(err.message);
-        return [];
     });
 
-    const due = bills.at(0)?.due;
+    const due = cart?.due;
 
     const dueDate = due ? new Date(parseInt(due)) : null;
     const totalBill = bills.reduce((acc, cur) => acc += cur.amount, 0);
+
+    const dateClassName = [
+        'text-lg',
+        dueDate && dueDate.getTime() < Date.now() ? 'text-red-500' : 'text-black',
+    ];
 
     return (    
         <main className="flex flex-col gap-4 mb-8">
@@ -49,7 +54,7 @@ export default async function PlanPage(){
                 <div className="flex flex-col">
                     <span className="text-slate-500">Tämän kuun lasku:</span>
                     <small className="text-sm mt-4">Erääntyy:</small>
-                    <span className="text-lg">{dueDate ? dueDate.toLocaleDateString('fi') : 'Sinulla ei ole erääntyviä maksuja.'}</span>
+                    <span className={dateClassName.join(' ')}>{dueDate ? dueDate.toLocaleDateString('fi') : 'Sinulla ei ole erääntyviä maksuja.'}</span>
                 </div>
 
                 <span className="text-2xl text-green-600">

@@ -11,21 +11,14 @@ async function verifyUser(email, password){
 
             const isPasswordCorrect = await bcrypt.compare(password, user.password);
             if(!isPasswordCorrect) throw new Error('password_mismatch');
-
-            if(user.trial){
-                //Check if the trial period has ended
-                const trialDuration = process.env.TRIAL_DURATION;
-
-                if(trialDuration && trialDuration !== '0'){
-                    const currentTime = Date.now();
-                    const createdAtTime = new Date(user.createdAt).getTime();
-
-                    if(currentTime - createdAtTime > parseInt(trialDuration)){
-                        user.status = 'trial_expired';
-                    }
-                }
+            
+            const [cart] = await db('carts').where({customer: email});
+            const currentDate = Date.now();
+            
+            if(cart && currentDate >= cart.due){
+                user.status = 'unpaid';
             }
-           
+
             resolve(user);
         }
         catch(err){

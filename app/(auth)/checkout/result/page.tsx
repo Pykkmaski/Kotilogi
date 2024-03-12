@@ -37,13 +37,9 @@ export default async function CheckoutResultPage({searchParams}){
     const {data: paymentStatus} = await axios.post('https://www.vismapay.com/pbwapi/check_payment_status', createPaymentStatusReq(orderNumber));
 
     const session = await getServerSession(options as any) as any;
-    if(!session) {
-        throw new Error('Failed to load the user\'s session!');
-    }
-
     const returnCode = parseInt(searchParams.RETURN_CODE);
 
-    if(returnCode == 0){
+    if(session && returnCode == 0){
         const paid = Date.now();
         const dueDate = new Date(paid);
         dueDate.setMonth(dueDate.getMonth() + 1);

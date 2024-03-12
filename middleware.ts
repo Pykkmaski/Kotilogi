@@ -9,12 +9,6 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth){
       url.pathname = '/user/confirm_email';
       return NextResponse.redirect(url);
    }
-   else if(token.status === 'trial_expired'){
-      const url = req.nextUrl.clone();
-      url.pathname = '/user/trial_expired';
-
-      return NextResponse.redirect(url);
-   }
    else if(token.status === 'inactive'){
       //Redirect to the user inactive page.
       const url = req.nextUrl.clone();

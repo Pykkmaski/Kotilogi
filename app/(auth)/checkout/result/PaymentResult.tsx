@@ -3,7 +3,7 @@
 import Button from "@/components/Button/Button";
 import Spinner from "@/components/Spinner/Spinner";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Heading = ({children}) => {
@@ -28,21 +28,26 @@ const BackToCheckout = () => (
 )
 
 export default function PaymentResult({returnCode, paymentStatusCode}){
-    const [signingOut, setSigningOut] = useState(false);
+    const [signingOut, setSigningOut] = useState(true);
     
     console.log(paymentStatusCode);
 
     const getContent = () => {
-        if(returnCode === 0){
+        if(signingOut){
+            return <Spinner size="2rem"/>
+        }
+        else if(returnCode === 0){
             //Sucessful payment
             return (
                 <>
                     <Heading>Maksu Onnistui!</Heading>
-
+                    <Paragraph>
+                        Olet maksanut laskusi onnistuneesti! Sinun on kirjauduttava takaisin sisään, että muutokset tulevat voimaan.
+                    </Paragraph>
                     <div className="mt-4">
-                        <Link href="/dashboard/plan">
+                        <Link href="/login">
                             <Button variant="primary">
-                                <span className="mx-8">Takaisin laskuihin</span>
+                                <span className="mx-8">Kirjaudu sisään</span>
                             </Button>
                         </Link>
                     </div>
@@ -141,6 +146,15 @@ export default function PaymentResult({returnCode, paymentStatusCode}){
             }
         }
     }
+
+    useEffect(() => {
+        signOut({
+            redirect: false,
+        })
+        .then(() => setSigningOut(false));
+        
+    }, []);
+
     return (
         <main className="flex flex-col w-full flex-1 items-center justify-center">
             {getContent()}
