@@ -36,7 +36,11 @@ export default async function CheckoutResultPage({searchParams}){
     const {data: {payment}} = await axios.post('https://www.vismapay.com/pbwapi/get_payment', createPaymentReq(orderNumber));
     const {data: paymentStatus} = await axios.post('https://www.vismapay.com/pbwapi/check_payment_status', createPaymentStatusReq(orderNumber));
 
-    const session = getServerSession(options as any) as any;
+    const session = await getServerSession(options as any) as any;
+    if(!session) {
+        throw new Error('Failed to load the user\'s session!');
+    }
+
     const returnCode = parseInt(searchParams.RETURN_CODE);
 
     if(returnCode == 0){
@@ -44,22 +48,22 @@ export default async function CheckoutResultPage({searchParams}){
         const dueDate = new Date(paid);
         dueDate.setMonth(dueDate.getMonth() + 1);
 
-        await db('billing').insert({
-            customer: payment.customer.email,
-            cardToken: payment.source.card_token,
-            price: payment.amount,
-            tax: 0,
-            productTitle: payment.payment_products[0].title,
-            productId: payment.payment_products[0].id,
-            timestamp: dueDate.getTime(),
+        //Remove the user's cart.
+        const trx = await db.transaction();
+        await trx('carts').where({customer: session.user.email}).del()
+        .then(async () => {
+            //Update the users status to active.
+            await trx('users').where({email: payment.customer.email}).update({
+                status: 'active',
+                trial: false,
+            });
         })
-        .onConflict('customer')
-        .merge();
-
-        //Update the users status to active.
-        await db('users').where({email: payment.customer.email}).update({
-            status: 'active',
-            trial: false,
+        .then(async () => {
+            await trx.commit();
+        })
+        .catch(async err => {
+            console.log(err.message);
+            await trx.rollback();
         });
     }
 

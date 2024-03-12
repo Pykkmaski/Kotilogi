@@ -7,6 +7,7 @@ import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import axios from "axios";
 import { UserPlanType, UserType } from "kotilogi-app/types/UserType";
 import { OrderIdType } from "kotilogi-app/types/OrderIdType";
+import db from "kotilogi-app/dbconfig";
 
 function generateAuthCode(orderNumber: string){
     const data = `${process.env.VISMA_API_KEY}|${orderNumber}`;
@@ -14,7 +15,7 @@ function generateAuthCode(orderNumber: string){
 }
 
 function generateOrderNumber(user: UserType){
-    return crypto.createHash('SHA256').update(Date.now() + user.email + user.plan).digest('hex').toUpperCase();
+    return crypto.createHash('SHA256').update(Date.now() + user.email + user.plan).digest('hex').toUpperCase().substring(-10);
 }
 
 /**
@@ -52,10 +53,18 @@ function getOrderPrice(id: OrderIdType): number{
  * @param id 
  * @returns 
  */
-export async function makeOrder(id: OrderIdType){
+export async function makeOrder(){
     try{
         const session = await getServerSession(options as any) as any;
-        const price = getOrderPrice(id);
+        if(!session){
+            throw new Error('Could not make the payment, as the user\'s session was not found!');
+        }
+
+        const price = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
+            const items = await db('cartItems').where({cartId: cart.id});
+            return items.reduce((acc: number, cur) => acc += cur.amount, 0);
+        });
+
         const orderNumber = generateOrderNumber(session.user);
         
         const VISMA_API_KEY = process.env.VISMA_API_KEY;
@@ -85,12 +94,12 @@ export async function makeOrder(id: OrderIdType){
 
             products: [
                 {
-                    id: id,
-                    title: `Tiedon lisäys`,
+                    id: 'cart',
+                    title: `Ostoskorin maksu`,
                     pretax_price: price,
                     count: 1,
-                    tax: 24,
-                    price: Math.round(price * 1.24),
+                    tax: 0,
+                    price: price,
                     type: 1,
                 },
             ]

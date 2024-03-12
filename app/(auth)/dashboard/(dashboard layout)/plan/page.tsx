@@ -9,6 +9,7 @@ import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
 import { RoundedBox } from "@/components/RoundedBox/RoundedBox";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
 import Button from "@/components/Button/Button";
+import { PaymentButton } from "./PaymentButton";
 
 const BillItem = ({bill}) => {
     return (
@@ -20,13 +21,25 @@ const BillItem = ({bill}) => {
 
 export default async function PlanPage(){
     const session = await getServerSession(options as any) as {user: UserType};
-    const bills = await db('billing').where({customer: session.user.email});
+    const bills = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
+        return db('cartItems').where({cartId: cart.id}).then(async cartItems => {
+            return cartItems.map(item => ({
+                ...item,
+                due: cart.due
+            }));
+        });
+    })
+    .catch(err => {
+        console.log(err.message);
+        return [];
+    });
+
     const due = bills.at(0)?.due;
 
     const dueDate = due ? new Date(parseInt(due)) : null;
     const totalBill = bills.reduce((acc, cur) => acc += cur.amount, 0);
 
-    return (
+    return (    
         <main className="flex flex-col gap-4 mb-8">
             <Header>
                 <Heading>Lasku</Heading>
@@ -35,7 +48,8 @@ export default async function PlanPage(){
             <div className="flex gap-10 items-end">
                 <div className="flex flex-col">
                     <span className="text-slate-500">Tämän kuun lasku:</span>
-                    <span className="text-lg">{dueDate?.toLocaleDateString('fi')}</span>
+                    <small className="text-sm mt-4">Erääntyy:</small>
+                    <span className="text-lg">{dueDate ? dueDate.toLocaleDateString('fi') : 'Sinulla ei ole erääntyviä maksuja.'}</span>
                 </div>
 
                 <span className="text-2xl text-green-600">
@@ -43,13 +57,17 @@ export default async function PlanPage(){
                 </span>
             </div>
 
-            <div className="mt-8">
-                <span className="text-slate-500">Maksun hoitaa PayTrail.</span>
+            <div className="mt-8 flex flex-col">
+                <span className="text-slate-500">Maksun hoitaa Visma.</span>
                 <div className="w-full justify-end">
-                    <Button variant="primary">
-                        <span className="mx-8">Maksa Nyt</span>
-                    </Button>
+                    <PaymentButton disabled={bills.length === 0}>
+                        <span className="mx-8">Maksa nyt</span>
+                    </PaymentButton>
                 </div>
+
+                <small className="text-sm text-slate-500 mt-4">
+                    Kotidok ei suorita maksujen palautuksia.
+                </small>
             </div>
             
         </main>

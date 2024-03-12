@@ -61,8 +61,8 @@ export async function add(property: Partial<Kotilogi.PropertyType>, files?: Form
         .then(async ([cart]) => {
             if(!cart){
                 //A cart for this customer doesn't exist. Create one.
-                const newCart = createCart(property.refId);
-                return await trx('carts').insert(newCart, '*');
+                const [newCart] = await trx('carts').insert(createCart(property.refId), '*');
+                return newCart;
             }
             else{
                 return cart;

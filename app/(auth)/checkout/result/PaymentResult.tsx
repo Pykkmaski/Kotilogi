@@ -19,9 +19,9 @@ const Paragraph = ({children}) => {
 const FailureHeading = () => <Heading>Maksu Epäonnistui!</Heading>
 const BackToCheckout = () => (
     <div className="mt-4">
-        <Link href="/checkout">
+        <Link href="/dashboard/plan">
             <Button variant="primary">
-                <span className="mx-4">Takaisin tilaamiseen</span>
+                <span className="mx-4">Takaisin laskuun</span>
             </Button>
         </Link>
     </div>
@@ -37,29 +37,20 @@ export default function PaymentResult({returnCode, paymentStatusCode}){
             //Sucessful payment
             return (
                 <>
-                    <Heading>Maksu Onnistui</Heading>
-                    <Paragraph>
-                        Kiitos tilauksestasi!
-                        Sinun on kirjauduttava ulos, että tilauksesi tulee voimaan.
-                    </Paragraph>
+                    <Heading>Maksu Onnistui!</Heading>
 
                     <div className="mt-4">
-                        <Button variant="primary" disabled={signingOut} loading={signingOut} onClick={() => {
-                            setSigningOut(true);
-                            signOut({
-                            callbackUrl: '/login',
-                            redirect: true,
-                        })}}>
-                            <span className="mx-4">
-                                Kirjaudu ulos nyt
-                            </span>
-                        </Button>
+                        <Link href="/dashboard/plan">
+                            <Button variant="primary">
+                                <span className="mx-8">Takaisin laskuihin</span>
+                            </Button>
+                        </Link>
                     </div>
                 </>
             );
         }
         else{
-            if(paymentStatusCode === null){
+            if(!paymentStatusCode){
                 return ( 
                     <>
                         <FailureHeading/>

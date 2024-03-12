@@ -66,9 +66,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
     return (
         <ListItem<Kotilogi.PropertyType> {...props}>
             <InfoContainer href={`/properties/${props.item.id}/info`}>
-                <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'>
-                    {propertyStatus !== 'ok' ? <span className="text-orange-400" title="Aktivoimaton talo poistetaan 30 päivän kuluttua sen luomisesta.">Taloa ei ole aktivoitu!</span> : null}
-                </TitleContainer>
+                <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'/>
                 <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
                 <small>{props.item.buildingType}</small>
             </InfoContainer>
