@@ -54,10 +54,7 @@ export function CurrentPlanCard({session}){
     }
 
     const initiatePayment = async () => {
-        const paymentToken = await makeOrder(session.user.plan);
-        if(paymentToken){
-            //router.push(`https://www.vismapay.com/pbwapi/token/${paymentToken.token}`);
-        }
+      
     }
 
     return (
