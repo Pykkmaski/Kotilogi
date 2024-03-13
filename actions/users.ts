@@ -164,30 +164,36 @@ export async function updatePassword(email: string, newPassword: string, current
 }
 
 export async function del(email: string){
-    //Get all properties of the user.
-    const userProperties = await db('properties').where({refId: email}).select('id');
-    const fileUnlinkPromises: Promise<void>[] = [];
+    const trx = await db.transaction();
+    let rollbackFileDelete: () => Promise<void> = null;
 
-    for(const property of userProperties){
-        const propertyFiles = await db('propertyFiles').where({refId: property.id});
-        
-        //Delete all files of the property
-        for(const propertyFile of propertyFiles){
-            fileUnlinkPromises.push(files.del('propertyFiles', propertyFile));
-        }
+    try{
+        //All property and event files must be manually deleted.
+        const files = await trx('properties').where({refId: email}).pluck('id').then(async propertyIds => {
+            //Get the event files associated with events of the property:
+            const eventFiles = await trx('propertyEvents').whereIn('refId', propertyIds).pluck('id').then(async eventIds => {
+                return await trx('eventFiles').whereIn('refId', eventIds).pluck('fileName');
+            });
+    
+            //Get the files associated with the property:
+            const propertyFiles = await trx('propertyFiles').whereIn('refId', propertyIds).pluck('fileName');
+    
+            return [...eventFiles, ...propertyFiles]
+        });
 
-        //Delete all files of all events of the property
-        const events = await db('propertyEvents').where({refId: property.id}).select('id');
-        for(const event of events){
-            const eventFiles = await db('eventFiles').where({refId: event.id});
-            for(const file of eventFiles){
-                fileUnlinkPromises.push(files.del('eventFiles', file));
-            }
-        }
+        //Delete the files from disk:
+        rollbackFileDelete = files.del(files);
+
+        //Deletes the user, their properties, the events of the properties, and all file entries for both on the database.
+        await trx('users').where({email}).del();
+        await trx.commit();
     }
+    catch(err){
+        console.log(err.message);
+        if(rollbackFileDelete){
+            await rollbackFileDelete();
+        }
 
-    await Promise.all(fileUnlinkPromises);
-
-    //Delete the user.
-    await db('users').where({email}).del();
+        await trx.rollback();
+    }
 }

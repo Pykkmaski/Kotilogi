@@ -9,6 +9,7 @@ import React from "react";
 import * as properties from '@/actions/properties';
 import * as events from '@/actions/events';
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type AddModalProps = ModalProps & {
     refId: string,
@@ -82,11 +83,11 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
 
             <div className="flex flex-col w-full">
                 <div className="flex items-center w-full gap-4 justify-end">
-                    <span className="text-slate-500">Sitoudun maksamaan talon avausmaksun viimeistään kuukauden päästä: <span className="text-green-600 text-lg">(9,90€)</span></span>
+                    <span className="text-slate-500">Sitoudun maksamaan talon avausmaksun <span className="text-green-600 text-lg">(9,90€)</span></span>
                     <input className="w-8 aspect-square" type="checkbox" required/>
                 </div>
-                <small className="text-sm text-slate-500 text-right mt-4">Talo poistetaan 30 päivän kuluttua, ellei sitä aktivoida.<br/> 
-                    Jälkiaktivointiin lisätään jälkiaktivointikulu (2€).<br/>
+                <small className="text-sm text-slate-500 text-right mt-4">Avausmaksua ei tarvitse maksaa heti.<br/> 
+                    Hinta lisätään nykyiseen laskuusi, joka löytyy <Link href="/dashboard/plan" target="_blank" className="text-orange-500">täältä.</Link><br/>
                     {serviceName} ei suorita maksujen palautuksia.
                 </small>
             </div>

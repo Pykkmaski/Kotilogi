@@ -71,7 +71,8 @@ export default async function PlanPage(){
                 </div>
 
                 <small className="text-sm text-slate-500 mt-4">
-                    Kotidok ei suorita maksujen palautuksia.
+                    Kotidok ei suorita maksujen palautuksia.<br/>
+                    Ongelmatilanteissa <a href="mailto:kotidok.service@gmail.com" className="text-orange-500">ota yhteyttä.</a>
                 </small>
             </div>
             
