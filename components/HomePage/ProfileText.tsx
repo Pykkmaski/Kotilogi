@@ -105,8 +105,7 @@ function ProfileText(){
 
                     <h1 className="md:text-4xl xs:text-xl text-slate-500 xs:text-center lg:text-left">Hinnat</h1>
                     <p className="mt-4 mb-4 md:text-lg xs:text-base">
-                        Uuden talon avaushinta Kotidok:issa on 9,90€ kertamaksuna. Sen jälkeen palvelun käyttö on maksutonta.<br/>
-                        Lisää rajattomasti tapahtumia, kuvia, tiedostoja ja kulutstietoja.
+                        Palvelun kokeilu on ilmaista. Talon lisäyshinta on 9,90€
                     </p>
                     
                     <div className="flex flex-row w-full xs:justify-center lg:justify-start xs:mb-8">

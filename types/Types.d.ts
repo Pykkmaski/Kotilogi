@@ -95,3 +95,5 @@ namespace Kotilogi{
 
     type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage' | 'files';
 }
+
+declare type TODO = any;

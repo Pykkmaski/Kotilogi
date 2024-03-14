@@ -10,6 +10,7 @@ import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
 import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
+import { AdContainer } from "@/components/AdContainer";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -91,6 +92,8 @@ function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props
                     return <ItemComponent selected={isSelected} item={item} key={`gallery-item-${index}`}/>
                 })
             }
+
+            <AdContainer/>
         </div>
         :
         props.errorElement
