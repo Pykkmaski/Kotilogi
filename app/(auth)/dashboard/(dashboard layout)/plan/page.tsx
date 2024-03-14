@@ -52,7 +52,7 @@ export default async function PlanPage(){
 
             <div className="flex gap-10 items-end">
                 <div className="flex flex-col">
-                    <span className="text-slate-500">Tämän kuun lasku:</span>
+                    <span className="text-slate-500">Ostoskorisi:</span>
                     <small className="text-sm mt-4">Erääntyy:</small>
                     <span className={dateClassName.join(' ')}>{dueDate ? dueDate.toLocaleDateString('fi') : 'Sinulla ei ole erääntyviä maksuja.'}</span>
                 </div>
@@ -63,7 +63,7 @@ export default async function PlanPage(){
             </div>
 
             <div className="mt-8 flex flex-col">
-                <span className="text-slate-500">Maksun hoitaa Visma.</span>
+                <span className="text-slate-500">Maksupalvelun tarjoaa Visma Pay.</span>
                 <div className="w-full justify-end">
                     <PaymentButton disabled={bills.length === 0}>
                         <span className="mx-8">Maksa nyt</span>

@@ -102,16 +102,11 @@ function ProfileText(){
                         Juuri tällaisessa tilanteessa syntyi ajatus {serviceName}-palvelusta. {serviceName} on digitaalinen ratkaisu, joka tarjoaa sinulle mahdollisuuden tallentaa kaikki kotisi remontit, 
                         ylläpitotoimenpiteet ja niihin liittyvät asiakirjat yhteen paikkaan - digitaaliseen huoltokirjaan.<br/><br/>
                     </p>
-
-                    <h1 className="md:text-4xl xs:text-xl text-slate-500 xs:text-center lg:text-left">Hinnat</h1>
-                    <p className="mt-4 mb-4 md:text-lg xs:text-base">
-                        Palvelun kokeilu on ilmaista. Talon lisäyshinta on 9,90€
-                    </p>
                     
                     <div className="flex flex-row w-full xs:justify-center lg:justify-start xs:mb-8">
                         <Link href="/register">
                             <PrimaryButton>
-                                <span className="font-semibold">Aloita {serviceName}:n Käyttö</span>
+                                <span className="font-semibold">Kokeile ilmaiseksi</span>
                             </PrimaryButton>
                         </Link>
                     </div>

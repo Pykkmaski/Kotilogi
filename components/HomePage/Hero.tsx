@@ -22,7 +22,7 @@ export async function Hero(){
             <div className="flex flex-1 xs:justify-center lg:justify-start items-center gap-4">
                 <Link href="/register">
                     <Button variant="primary">
-                        <span className="font-semibold mx-8">Rekisteröidy</span>
+                        <span className="font-semibold mx-8">Kokeile Ilmaiseksi</span>
                     </Button>
                </Link>
             </div>
