@@ -92,8 +92,6 @@ function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props
                     return <ItemComponent selected={isSelected} item={item} key={`gallery-item-${index}`}/>
                 })
             }
-
-            <AdContainer/>
         </div>
         :
         props.errorElement
