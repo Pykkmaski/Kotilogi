@@ -47,12 +47,11 @@ export default async function PlanPage(){
     return (    
         <main className="flex flex-col gap-4 mb-8">
             <Header>
-                <Heading>Lasku</Heading>
+                <Heading>Ostoskori</Heading>
             </Header>
 
             <div className="flex gap-10 items-end">
                 <div className="flex flex-col">
-                    <span className="text-slate-500">Ostoskorisi:</span>
                     <small className="text-sm mt-4">Erääntyy:</small>
                     <span className={dateClassName.join(' ')}>{dueDate ? dueDate.toLocaleDateString('fi') : 'Sinulla ei ole erääntyviä maksuja.'}</span>
                 </div>
