@@ -76,8 +76,10 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
                 <div className="flex items-center w-full gap-4 justify-end">
                     <span className="text-slate-500">Kohteen avausmaksu on <span className="text-green-600 text-lg">(9,90€)</span></span>
                 </div>
-                <small className="text-sm text-slate-500 text-right mt-4">Avausmaksua ei tarvitse maksaa heti. Jos maksua ei makseta kuukauden sisällä, lukkiutuu tilisi, ja avautuu kun maksu on suoritettu.<br/>
-                    Tapahtuman hinta lisätään nykyiseen ostoskoriisi, joka löytyy <Link href="/dashboard/plan" target="_blank" className="text-orange-500">täältä.</Link><br/>
+                <small className="text-sm text-slate-500 text-right mt-4">
+                    Avausmaksua ei tarvitse maksaa heti.<br/>
+                    Jos maksua ei makseta kuukauden sisällä, lukkiutuu tilisi, ja avautuu kun maksu on suoritettu.<br/>
+                    Tapahtuman hinta lisätään nykyiseen ostoskoriisi, joka löytyy <Link href="/dashboard/cart" target="_blank" className="text-orange-500">täältä.</Link><br/>
                     {serviceName} ei suorita maksujen palautuksia.
                 </small>
             </div>
