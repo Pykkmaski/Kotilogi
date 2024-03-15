@@ -66,7 +66,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
     return (
         <ListItem<Kotilogi.PropertyType> {...props}>
             <InfoContainer href={`/properties/${props.item.id}/info`}>
-                <TitleContainer titleText={props.item.title} iconSrc='/icons/house.png'/>
+                <TitleContainer titleText={props.item.title} icon="fa-home" iconSrc='/icons/house.png'/>
                 <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
                 <small>{props.item.buildingType}</small>
             </InfoContainer>
@@ -119,7 +119,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
     return (
         <ListItem<Kotilogi.EventType> {...props}>
             <InfoContainer href={`/events/${props.item.id}/info`}>
-                <EventTitleContainer titleText={props.item.title} iconSrc='/icons/history.png' consolidationTime={props.item.consolidationTime}/>
+                <EventTitleContainer titleText={props.item.title} icon="fa-history" iconSrc='/icons/history.png' consolidationTime={props.item.consolidationTime}/>
                 <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
                 <small>{date}</small>
             </InfoContainer>

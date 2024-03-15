@@ -29,9 +29,9 @@ export default async function DashboardLayout({children}){
 
                 <NavBar>
                     <div className="text-white">
-                        <IconLink imageSrc="/icons/house.png" href="/dashboard/properties">Talot</IconLink>
-                        <IconLink imageSrc="/icons/settings.png" href="/dashboard/settings">Asetukset</IconLink>
-                        <IconLink imageSrc="/icons/cart.png" href="/dashboard/cart">Ostoskori</IconLink>
+                        <IconLink imageSrc="/icons/house.png" icon="fa-home" href="/dashboard/properties">Talot</IconLink>
+                        <IconLink imageSrc="/icons/settings.png" icon="fa-cog" href="/dashboard/settings">Asetukset</IconLink>
+                        <IconLink imageSrc="/icons/cart.png" icon="fa-shopping-cart" href="/dashboard/cart">Ostoskori</IconLink>
                     </div>
                 </NavBar>
             </LayoutNavBarContainer>

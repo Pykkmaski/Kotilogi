@@ -39,14 +39,14 @@ export default async function PropertyDetailsLayout({children, params}){
 
                     <NavBar>
                         <div className="text-white">
-                            <IconLink imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
-                            <IconLink imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
-                            <IconLink imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
-                            <IconLink imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
-                            <IconLink imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
+                            <IconLink icon="fa-info-circle" imageSrc={'/icons/info.png'} href='info?section=general'>Tiedot</IconLink>
+                            <IconLink icon="fa-history" imageSrc={'/icons/history.png'} href="events">Tapahtumat</IconLink>
+                            <IconLink icon="fa-bolt" imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
+                            <IconLink icon="fa-image" imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
+                            <IconLink icon="fa-copy" imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
                             <NavDivider/>
                     
-                            <IconLink imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
+                            <IconLink icon="fa-home" imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>
                         </div>
                         
                     </NavBar>

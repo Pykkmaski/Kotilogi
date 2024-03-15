@@ -13,7 +13,7 @@ const ReceiptItem = ({receipt}: ReceiptItemProps) => {
     const SmallText = ({children}) => <div className="text-sm text-slate-500 w-full flex">{children}</div>
 
     return (
-        <div className="w-full flex items-center rounded-md bg-white p-2 justify-between">
+        <div className="w-full flex items-center rounded-md bg-white p-2 justify-between shadow-md">
             <div className="flex items-center gap-8">
                 <Group>
                     <SmallText>Päiväys</SmallText>
@@ -30,10 +30,10 @@ const ReceiptItem = ({receipt}: ReceiptItemProps) => {
                 <SmallText>
                     <span className="text-right w-full flex-1">Tunnus</span>
                 </SmallText>
-                <span className="text-sm text-right">{receipt.id}</span>
+                <span className="text-sm text-right flex gap-2">
+                    {receipt.id}
+                </span>
             </Group>
-            
-            
         </div>
     );
 }

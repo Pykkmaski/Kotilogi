@@ -7,12 +7,18 @@ import { useGalleryContext } from "../new/Gallery/GalleryBase/Gallery";
 type TitleContainerProps = React.PropsWithChildren & {
     titleText: string,
     iconSrc: string,
+    icon?: string,
 }
 
 export function TitleContainer({children, ...props}: TitleContainerProps){
     return (
         <div className={style.titleContainer}>
-            <img src={props.iconSrc} className={style.icon}/>
+            {
+                props.icon ? <i className={`fa ${props.icon} text-base text-black`} /> : (
+                    <img src={props.iconSrc} className={style.icon}/>
+                )
+            }
+            
             <span className={style.title}>{props.titleText}</span>   
             {children}
         </div>

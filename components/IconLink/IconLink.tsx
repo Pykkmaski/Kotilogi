@@ -27,6 +27,9 @@ function SelectedIndicator(){
 export default function IconLink(props: React.ComponentProps<'a'> & {
     imageSrc: string,
     href: string,
+
+    /**Use a font awesome icon. */
+    icon?: string 
 }){
     const pathName = usePathname().split('/').at(-1);
     const ref = useRef<HTMLAnchorElement | null>(null);
@@ -51,6 +54,7 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
     ];
 
     const imageClassName = [
+        props.icon,
         isSelected ? 'filter-none' : 'invert',
     ]
 
@@ -66,13 +70,22 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
                  ) : null
             }
             
-            <img
-                className={imageClassName.join(' ')}
-                src={props.imageSrc}
-                alt="Link Icon"
-                width={17}
-                height={17}
-            />
+            {
+                props.icon ? (
+                    <i 
+                        className={`z-10 fa ${props.icon} text-base ${isSelected ? 'text-black' : 'text-white'}`}
+                    />
+                )
+                :
+                <img
+                    className={imageClassName.join(' ')}
+                    src={props.imageSrc}
+                    alt="Link Icon"
+                    width={17}
+                    height={17}
+                />
+            }
+            
            <div className={textClassName.join(' ')}>{props.children}</div>
         </Link>
     );
