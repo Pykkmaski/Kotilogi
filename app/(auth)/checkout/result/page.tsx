@@ -34,6 +34,8 @@ export default async function CheckoutResultPage({searchParams}){
 
     const orderNumber = searchParams.ORDER_NUMBER;
     const {data: {payment}} = await axios.post('https://www.vismapay.com/pbwapi/get_payment', createPaymentReq(orderNumber));
+    console.log(payment);
+
     const {data: paymentStatus} = await axios.post('https://www.vismapay.com/pbwapi/check_payment_status', createPaymentStatusReq(orderNumber));
 
     const session = await getServerSession(options as any) as any;
@@ -45,21 +47,33 @@ export default async function CheckoutResultPage({searchParams}){
         dueDate.setMonth(dueDate.getMonth() + 1);
 
         //Remove the user's cart.
-        const trx = await db.transaction();
-        await trx('carts').where({customer: session.user.email}).del()
+        //const trx = await db.transaction();
+        await db('carts').where({customer: session.user.email}).del()
         .then(async () => {
             //Update the users status to active.
-            await trx('users').where({email: payment.customer.email}).update({
+            await db('users').where({email: payment.customer.email}).update({
                 status: 'active',
                 trial: false,
             });
-        })
-        .then(async () => {
-            await trx.commit();
+
+            //Add a receipt for the payment.
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 12);
+
+            const receipt = {
+                customer: payment.customer.email,
+                expires: expiryDate.getTime(),
+                paidOn: Date.now(),
+                amount: payment.amount,
+            }
+
+            await db('receipts').insert({
+                id: crypto.createHash('SHA256').update(JSON.stringify(receipt)).digest('hex').toString(),
+                ...receipt,
+            });
         })
         .catch(async err => {
             console.log(err.message);
-            await trx.rollback();
         });
     }
 

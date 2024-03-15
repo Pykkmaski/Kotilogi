@@ -6,6 +6,7 @@ import { UserType } from "kotilogi-app/types/UserType";
 import db from "kotilogi-app/dbconfig";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
 import { PaymentButton } from "./PaymentButton";
+import { Receipts } from "./Receipts";
 
 const BillItem = ({bill}) => {
     return (
@@ -15,7 +16,7 @@ const BillItem = ({bill}) => {
     );
 } 
 
-export default async function PlanPage(){
+export default async function CartPage(){
     const session = await getServerSession(options as any) as {user: UserType};
     const [cart, bills] = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
         if(!cart){
@@ -29,6 +30,8 @@ export default async function PlanPage(){
             })) ];
         });
     });
+
+    const receipts = await db('receipts').where({customer: session.user.email});
 
     const due = cart?.due;
 
@@ -72,6 +75,8 @@ export default async function PlanPage(){
             </div>
 
             <img src="https://static.vismapay.com/pay_banners/row.png"/>
+
+            <Receipts receipts={receipts}/>
         </main>
     );
 }
