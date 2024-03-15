@@ -3,12 +3,8 @@ import { Header } from "kotilogi-app/components/Header/Header";
 import { Heading } from "kotilogi-app/components/Heading";
 import { getServerSession } from "next-auth";
 import { UserType } from "kotilogi-app/types/UserType";
-import { ProPlanCard, RegularPlanCard } from "@/components/HomePage/ProfileText";
 import db from "kotilogi-app/dbconfig";
-import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
-import { RoundedBox } from "@/components/RoundedBox/RoundedBox";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
-import Button from "@/components/Button/Button";
 import { PaymentButton } from "./PaymentButton";
 
 const BillItem = ({bill}) => {
@@ -63,7 +59,7 @@ export default async function PlanPage(){
 
             <div className="mt-8 flex flex-col">
                 <span className="text-slate-500">Maksupalvelun tarjoaa Visma Pay.</span>
-                <div className="w-full justify-end">
+                <div className="w-full justify-end mt-4">
                     <PaymentButton disabled={bills.length === 0}>
                         <span className="mx-8">Maksa nyt</span>
                     </PaymentButton>
@@ -74,7 +70,8 @@ export default async function PlanPage(){
                     Ongelmatilanteissa <a href="mailto:kotidok.service@gmail.com" className="text-orange-500">ota yhteyttä.</a>
                 </small>
             </div>
-            
+
+            <img src="https://static.vismapay.com/pay_banners/row.png"/>
         </main>
     );
 }
