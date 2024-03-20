@@ -20,15 +20,7 @@ function Trigger({children}: React.PropsWithChildren){
     const {toggleState} = useVisibilityProviderContext();
 
     return (
-        React.Children.toArray(children).map((child: React.ReactElement<React.ComponentProps<'button'>>) => {
-            return React.cloneElement(child, {
-                ...child.props,
-                onClick: (e) => {
-                    child.props.onClick && child.props.onClick(e);
-                    toggleState();
-                },
-            })
-        })
+        <div onClick={toggleState}>{children}</div>
     );
 }
 
@@ -38,12 +30,7 @@ function Target({children}: React.PropsWithChildren & {hidesOnBlur?: boolean}){
     const {visible} = useVisibilityProviderContext();
 
     return (
-        React.Children.toArray(children).map((child: React.ReactElement<React.ComponentProps<'div'>>) => {
-            return React.cloneElement(child, {
-                ...child.props,
-                hidden: !visible,
-            })
-        })
+        <div hidden={!visible}>{children}</div>
     );
 }
 

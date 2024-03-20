@@ -8,7 +8,7 @@ function Message({setShowMessage}){
 
     const acceptCookies = () => {
         document.cookie = 'allow_cookies: true';
-        sessionStorage?.setItem('cookies', 'true');
+        localStorage?.setItem('kotidok-cookies', 'true');
         setShowMessage(false);
     }
 
@@ -39,7 +39,7 @@ function Message({setShowMessage}){
 }
 
 export function CookieNotice(){
-    const cookiesAccepted = sessionStorage?.getItem('cookies');
+    const cookiesAccepted = typeof window !== 'undefined' ? localStorage?.getItem('kotidok-cookies') : false;
     const [showMessage, setShowMessage] = useState(cookiesAccepted && cookiesAccepted === 'true' ? false : true);
     
     return (

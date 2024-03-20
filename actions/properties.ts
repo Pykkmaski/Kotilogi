@@ -8,6 +8,7 @@ import db from 'kotilogi-app/dbconfig';
 import { unlink } from 'fs/promises';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { createBill, createCart } from './bills';
+import jwt from 'jsonwebtoken';
 
 async function verifyProperty(property: Partial<Kotilogi.PropertyType>){
     return new Promise<boolean>(async (resolve, reject) => {
@@ -198,4 +199,8 @@ export async function deleteFile(fileData: Kotilogi.FileType){
             reject(err);
         }
     });
+}
+
+export async function generateTransferKey(receiver: string){
+
 }

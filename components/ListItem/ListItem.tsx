@@ -7,6 +7,7 @@ import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventT
 import toast from 'react-hot-toast';
 import * as properties from '@/actions/properties';
 import * as events from '@/actions/events';
+import { DottedButtonMenu } from '../DottedButton';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,

@@ -1,13 +1,8 @@
 'use server';
 
 import db from "kotilogi-app/dbconfig";
-import * as file from './file';
-import {cookies} from 'next/headers';
 import { readFile, unlink, writeFile } from "fs/promises";
 import { uploadPath } from "kotilogi-app/uploadsConfig";
-import { Knex } from "knex";
-import { createCart } from "./bills";
-import { files } from "kotilogi-app/utils/files";
 
 export async function add<T extends {}>(tablename: string, data: T){
     return db(tablename).insert(data, '*') as Promise<T[]>;

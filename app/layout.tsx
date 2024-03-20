@@ -9,14 +9,11 @@ import { serviceName } from 'kotilogi-app/constants';
 import { CookieNotice } from '@/components/App/CookieNotice';
 
 export const metadata = {
-  title: 'Kotilogi',
+  title: 'Kotidok',
   description: 'Talosi huoltokirja',
 }
 
 export default async function RootLayout({ children }) {
-
-  const session = await getServerSession(options as any) as {user: {email: string}};
-
   return (
     <html lang="en">
       <head>
