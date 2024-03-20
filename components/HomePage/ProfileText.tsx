@@ -90,7 +90,7 @@ function ProfileText(){
             <div className="flex-1">
                 <div className="flex flex-col gap-4">
                     <h1 className="md:text-4xl xs:text-xl text-slate-500 xs:text-center lg:text-left">Mikä {serviceName}?</h1>
-                    <p className="mt-4 mb-4 md:text-lg xs:text-base w-[50%]">
+                    <p className="mt-4 mb-4 md:text-lg xs:text-base md:w-[50%] xs:w-full">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
                         mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.<br/><br/>
