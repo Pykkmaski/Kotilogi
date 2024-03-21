@@ -6,7 +6,9 @@
     position: relative;
     align-items: center;
     justify-content: center;
+    width: 50px;
     aspect-ratio: 1/1;
+    z-index: 70;
 }
 
 .container .line{
@@ -18,6 +20,8 @@
 
 .container.active .line{
     position: absolute;
+    background: black;
+
 }
 
 .container.active .line:nth-child(1){

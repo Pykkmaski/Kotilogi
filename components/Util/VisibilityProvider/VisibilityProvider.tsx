@@ -1,7 +1,7 @@
 'use client';
 
 import { useToggle } from "kotilogi-app/hooks/useToggle";
-import React, { useContext, useRef } from "react";
+import React, { ReactElement, useContext, useRef } from "react";
 import { createContext } from "react";
 
 const VisibilityContext = createContext<any>(null);

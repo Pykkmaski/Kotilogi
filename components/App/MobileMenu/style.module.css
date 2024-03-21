@@ -1,5 +1,8 @@
-.menuContainer{
-    display: flex;
-    flex-flow: column;
-    gap: 2;
+.container{
+    transition: transform 0.1s ease-in-out;
+    transform: translateY(-100%);
 }
+
+.container.open{
+    transform: translateY(0px);
+} 

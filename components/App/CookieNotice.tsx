@@ -1,22 +1,22 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PrimaryButton } from "../Button/PrimaryButton";
 import { RoundedBox } from "../RoundedBox/RoundedBox";
 
-function Message({setShowMessage}){
+function Message({setCookiesAccepted}){
 
     const acceptCookies = () => {
         document.cookie = 'allow_cookies: true';
-        localStorage?.setItem('kotidok-cookies', 'true');
-        setShowMessage(false);
+        sessionStorage.setItem('kotidok-cookies', 'true');
+        setCookiesAccepted(true);
     }
 
     return (
         <RoundedBox>
             <div className="flex flex-col gap-4 items-center">
-                <div className="flex w-full justify-between gap-4 sm:items-start md:items-center">
-                    <img src="/icons/cookie.png" className="aspect-square sm:w-[30px] md:w-[80px] sm:mt-4 md:mt-0"></img>
+                <div className="flex w-full justify-between gap-4 xs:items-start md:items-center">
+                    <img src="/icons/cookie.png" className="aspect-square xs:w-[30px] md:w-[80px] xs:mt-4 md:mt-0"></img>
                     <span className="text-lg text-slate-500">
                         Käytämme evästeitä. Kaikki evästeet ovat sovelluksen toiminnan kannalta välttämättömiä, eikä niitä käytetä yksityisten tietojen keräämiseen.<br/>
                         Jatkamalla sivuston käyttöä, hyväksyt evästeiden tallennuksen laitteellesi.
@@ -39,12 +39,15 @@ function Message({setShowMessage}){
 }
 
 export function CookieNotice(){
-    const cookiesAccepted = typeof window !== 'undefined' ? localStorage?.getItem('kotidok-cookies') : false;
-    const [showMessage, setShowMessage] = useState(cookiesAccepted && cookiesAccepted === 'true' ? false : true);
+    const [cookiesAccepted, setCookiesAccepted] = useState(true);
+    
+    useEffect(() => {
+        setCookiesAccepted(() => sessionStorage.getItem('kotidok-cookies') === 'true');
+    }, []);
     
     return (
         <div className="fixed bottom-11 xs:right-0 md:right-4 shadow-lg xs:w-full md:w-[500px] z-50 animate-slideup-slow flex items-center">
-            {showMessage ? <Message setShowMessage={setShowMessage}/> : null}
+            {!cookiesAccepted ? <Message setCookiesAccepted={setCookiesAccepted}/> : null}
         </div>
     );
 }

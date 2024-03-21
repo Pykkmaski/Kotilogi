@@ -8,7 +8,8 @@ import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../Util/Padding';
 import { LineButton } from '../MenuButton/LineButton';
-import { Button } from './MobileMenu/MobileMenu';
+import { MobileMenu } from './MobileMenu/MobileMenu';
+import { useToggle } from 'kotilogi-app/hooks/useToggle';
 
 export function Logo(){
     return (
@@ -25,22 +26,9 @@ export function Logo(){
     );
 }
 
-function MobileMenu({children}: React.PropsWithChildren){
-    return (
-        <VisibilityProvider>
-            <VisibilityProvider.Trigger>
-                <LineButton/>
-            </VisibilityProvider.Trigger>
-
-            <VisibilityProvider.Target>
-                {children}
-            </VisibilityProvider.Target>
-        </VisibilityProvider>
-    );
-}
-
 export default function Header(){
     const {data, status} = useSession();
+    const {toggled: menuVisible, toggleState: toggleMenu} = useToggle(false);
     const userIsLoggedIn = status === 'authenticated';
 
     const userEmail = data?.user?.email;
@@ -60,9 +48,25 @@ export default function Header(){
                         <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
                     </div>
 
-                    <div className="sm:block md:hidden">
-                        <MobileMenu>
-                            <Link href="">Test</Link>
+                    <div className="xm:block md:hidden">
+                        <LineButton onClick={(e) => toggleMenu()}/>
+                        <MobileMenu open={menuVisible}>
+                            <div className="flex flex-col">
+                                <h1 className="text-3xl text-slate-500 mb-8">Valikko</h1>
+                                <ul className="flex flex-col gap-4 list-none text-slate-500 text-2xl">
+                                    <li>
+                                        <Link href="/" onClick={(e) => toggleMenu(false)}>Etusivu</Link>
+                                    </li>
+
+                                    <li>
+                                        <Link href="/register" onClick={(e) => toggleMenu(false)}>Rekisteröidy</Link>
+                                    </li>
+
+                                    <li>
+                                        <Link href="/login" onClick={(e) => toggleMenu(false)}>Kirjaudu Sisään</Link>
+                                    </li>
+                                </ul>
+                            </div>
                         </MobileMenu>
                     </div>
                 </>

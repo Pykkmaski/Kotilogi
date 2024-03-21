@@ -1,19 +1,21 @@
 'use client';
+import style from './style.module.css';
 
-export function MobileMenu({children}){
+type MobileMenuProps = React.PropsWithChildren & {
+    open: boolean,
+}
+
+export function MobileMenu({children, open}: MobileMenuProps){
+
+    const className = [
+        "h-screen w-full bg-white flex flex-col gap-4 fixed top-0 left-0 z-50 justify-center items-center",
+        open ? style.open : '',
+        style.container,
+    ];
+
     return (
-        <div className="sm:flex md:hidden flex-col gap-2 p-2">
+        <div className={className.join(' ')}>
             {children}
         </div>
-    )
-}
-
-export function Button(){
-    return (
-        <div className="sm:flex md:hidden flex-col gap-2 aspect-square w-64">
-            <div className="w-full bg-white h-1"></div>
-            <div className="w-full bg-white h-1"></div>
-            <div className="w-full bg-white h-1"></div>
-        </div>
     );
-}
+} 
