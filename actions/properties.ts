@@ -9,6 +9,7 @@ import { unlink } from 'fs/promises';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { createBill, createCart } from './bills';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 async function verifyProperty(property: Partial<Kotilogi.PropertyType>){
     return new Promise<boolean>(async (resolve, reject) => {
@@ -201,6 +202,20 @@ export async function deleteFile(fileData: Kotilogi.FileType){
     });
 }
 
-export async function generateTransferKey(receiver: string){
+export async function generateTransferKey(data: {
+    address: string;
+    receiver: string;
+    sender: string;
+    password: string;
+}){
+    const [{password: userPassword}] = await db('users').where({email: data.sender}).select('password');
+    const passwordOk = await bcrypt.compare(data.password, userPassword);
 
+    var error: 'invalid_password' | null = null;
+    if(!passwordOk) error = 'invalid_password';
+
+    const token = jwt.sign(data, process.env.TRANSFER_SECRET);
+    return {
+        token, error
+    }
 }

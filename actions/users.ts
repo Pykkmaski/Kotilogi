@@ -197,3 +197,7 @@ export async function del(email: string){
         await trx.rollback();
     }
 }
+
+export async function isUserValid(email: string){
+    return (await db('users').where({email})).length !== 0;
+}

@@ -49,8 +49,7 @@ export default function Header(){
                     </div>
 
                     <div className="xm:block md:hidden">
-                        <LineButton onClick={(e) => toggleMenu()}/>
-                        <MobileMenu open={menuVisible}>
+                        <MobileMenu>
                             <div className="flex flex-col">
                                 <h1 className="text-3xl text-slate-500 mb-8">Valikko</h1>
                                 <ul className="flex flex-col gap-4 list-none text-slate-500 text-2xl">

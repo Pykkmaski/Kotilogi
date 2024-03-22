@@ -1,7 +1,11 @@
 'use client';
 
 import Button from "@/components/Button/Button";
-import { useState } from "react";
+import axios from "axios";
+import { generateTransferKey } from "kotilogi-app/actions/properties";
+import { isUserValid } from "kotilogi-app/actions/users";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Label = ({children}: React.ComponentProps<'label'>) => {
     return <label>{children}</label>
@@ -15,47 +19,179 @@ const Group = ({children}: React.PropsWithChildren) => {
     );
 }
 
-const Input = ({children, ...props}: React.ComponentProps<'input'>) => {
+const Input = ({children, ...props}: React.ComponentProps<'input'> & React.PropsWithChildren) => {
     return (
-        <input {...props}/>
+        <div className="relative flex w-full items-center">
+            <input {...props} className="w-full"/>
+            <div className="absolute right-2">
+                {children}
+            </div>
+        </div>
+        
+    );
+}
+
+const SubLabel = ({children}: React.PropsWithChildren) => {
+    return (
+        <div className="text-sm w-full text-right">{children}</div>
     );
 }
 
 const Description = ({children}: React.PropsWithChildren) => {
     return (
-        <div className="text-sm text-slate-500 w-full text-right">{children}</div>
+        <SubLabel>
+            <div className="text-slate-500">{children}</div>
+        </SubLabel>
     );
 }
 
-export function TransferForm(){
+const ErrorMessage = ({children}: React.PropsWithChildren) => {
+    return (
+        <SubLabel>
+            <div className="text-red-500">{children}</div>
+        </SubLabel>
+    );
+}
 
+type TransferFormProps = {
+    property: Kotilogi.PropertyType,
+    user: {
+        email: string,
+    }
+}
+
+export function TransferForm({property, user}: TransferFormProps){
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'key_copied' | 'invalid_password'>('idle');
+
+    const [email, setEmail] = useState('');
+    const [emailValid, setEmailValid] = useState<'undetermined' | 'valid' | 'invalid'>('undetermined');
     const [key, setKey] = useState<string | null>(null);
 
-    const generateKey = async () => {
-        
+    const copyKeyToClipboard = () => {
+        navigator.clipboard.writeText(key);
+        toast.success('Varmenne kopioitu leikepöydälle!');
+        setStatus('key_copied');
     }
 
+    const generateKey = async (e) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        generateTransferKey({
+            address: property.title,
+            receiver: email,
+            sender: user.email,
+            password: e.target.password.value,
+        })
+        .then(({token, error}) => {
+
+            if(error){
+                setStatus(error);
+            }
+            else{
+                setKey(token);
+                setStatus('success');
+                toast.success('Varmenne luotu!');
+            }
+        })
+        .catch(err => {
+            toast.error(err.message.message);
+            setStatus('idle');
+        });
+    }
+
+    const checkUserValidity = async () => {
+        if(email.length === 0){
+            setEmailValid('undetermined');
+        }
+        else{
+            isUserValid(email)
+            .then(result => {
+                if(result === true){
+                    setEmailValid(() => 'valid');
+
+                }
+                else{
+                    setEmailValid(() => 'invalid');
+                }
+            });
+        }
+    }
+
+    useEffect(() => {
+        const timeout = setTimeout(() => checkUserValidity(), 100);
+        return () => clearTimeout(timeout);
+    }, [email]);
+
+    const isLoading = status === 'loading';
+
     return (
-        <form className="flex flex-col gap-4">
-            <Group>
-                <Label>Vastaanottaja</Label>
-                <Input type="email" name="receiver" placeholder="Kirjoita vastaanottajan sähköpostiosoite..."/>
-                <Description>Osoitteen tulee olla Kotidokiin rekisteröidyn käyttäjän sähköpostiosoite.</Description>
-            </Group>
+        <div className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" onSubmit={generateKey}>
+                <Group>
+                    <Label>Vastaanottaja</Label>
+                    <Input required type="email" name="receiver" placeholder="Kirjoita vastaanottajan sähköpostiosoite..." onChange={(e) => {
+                        setEmail(e.target.value);
+                    }}>
+                        {emailValid === 'valid' ? 
+                        <i className="fa fa-check text-green-500" title="Käyttäjä annetulla osoitteella on olemassa."></i> :
+                        emailValid === 'invalid' ? 
+                        <i className="fa fa-times text-red-500" title="Käyttäjää annetulla osoitteella ei ole!"></i> : null}
+                    </Input>
+                    <Description>Osoitteen tulee olla Kotidokiin rekisteröidyn käyttäjän sähköpostiosoite.</Description>
+                </Group>
 
-            <Group>
-                <Label>Salasana</Label>
-                <Input type="password" name="password" placeholder="Kirjoita salasanasi..." autoComplete="new-password"/>
-            </Group>
+                <Group>
+                    <Label>Salasana</Label>
+                    <Input required type="password" name="password" placeholder="Kirjoita salasanasi..." autoComplete="new-password"/>
+                    {
+                        status === 'invalid_password' ? 
+                        <ErrorMessage>Salasana on virheellinen!</ErrorMessage>
+                        :
+                        null
+                    }
+                </Group>
 
-            <div className="flex justify-between">
-                <Label>Ymmärrän, että siirto on pysyvä:</Label>
-                <input type="checkbox" className="aspect-square w-5"/>
-            </div>
+                <div className="flex justify-between">
+                    <Label>Ymmärrän, että siirto on pysyvä:</Label>
+                    <input required type="checkbox" className="aspect-square w-5"/>
+                </div>
 
-            <div className="mt-8">
-                <Button variant="primary" type="button">Luo Varmenne</Button>
-            </div>
-        </form>
+                <div className="mt-8 flex flex-row gap-2">
+                    {
+                        status === 'success' || status === 'key_copied' ? 
+                        <div className="flex flex-row gap-2 items-center">
+                            <Button 
+                                variant="primary" 
+                                type="button" 
+                                onClick={copyKeyToClipboard} 
+                                disabled={status !== 'key_copied'}>Kopioi leikepöydälle</Button>
+
+                            <i className="fa fa-check text-green-500" hidden={status !== 'key_copied'}/>
+                        </div>
+                        
+                        :
+                        <Button variant="primary" type="submit" loading={isLoading} disabled={isLoading || !emailValid}>Luo Varmenne</Button>
+                    }
+                </div>
+            </form>
+            
+            {
+                status === 'success' ? 
+                <div className="text-slate-500 flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold mt-4">Varmenne luotu!</h2>
+                    <p>
+                        Varmenne kohteen omistajan vaihtoa varten on luotu onnistuneesti!<br/>
+                        Kopioi varmenne leikepöydälle painamalla "Kopioi leikepöydälle"-painiketta. <br/>
+                        Voit lähettää varmenteen valitsemallesi vastaanottajalle haluamallasi tavalla (sähköposti, yms.).
+                        Älä jaa varmennetta julkisesti!
+                    </p>
+                </div>
+                :
+                null
+            }
+            
+        </div>
+        
     );
 }

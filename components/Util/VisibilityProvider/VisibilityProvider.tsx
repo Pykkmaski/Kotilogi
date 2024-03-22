@@ -29,9 +29,10 @@ VisibilityProvider.Trigger = Trigger;
 function Target({children}: React.PropsWithChildren & {hidesOnBlur?: boolean}){
     const {visible} = useVisibilityProviderContext();
 
-    return (
-        <div hidden={!visible}>{children}</div>
-    );
+    return React.Children.map(children, (child: ReactElement) => React.cloneElement(child, {
+        ...child.props,
+        className: [...child.props.className.split(' '), visible ? 'open' : ''].join(' '),
+    }));
 }
 
 VisibilityProvider.Target = Target;

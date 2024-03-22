@@ -1,8 +1,13 @@
 import { Heading } from "@/components/Heading";
 import { TransferForm } from "./TransferForm";
 import db from "kotilogi-app/dbconfig";
+import { getServerSession } from "next-auth";
+import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 
-export default async function TransferPage(){
+export default async function TransferPage({params}){
+    const [property] = await db('properties').where({id: params.property_id});
+    const session = await getServerSession(options as any) as any;
+
     return (
         <main className="flex flex-col w-full">
             <Heading>Siirrä Omistajuus</Heading>
@@ -13,7 +18,7 @@ export default async function TransferPage(){
                 Talon omistajuuden siirto on pysyvä, mikäli vastaanottaja käyttää varmenteen ennenkuin se umpeutuu.
             </p>
             <div className="mt-8 md:w-[50%]">
-                <TransferForm/>
+                <TransferForm property={property} user={session.user}/>
             </div>
         </main>
     );
