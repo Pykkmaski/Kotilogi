@@ -1,0 +1,4 @@
+.gradient{
+    /* This will create a radial gradient from black to transparent */
+    background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+}

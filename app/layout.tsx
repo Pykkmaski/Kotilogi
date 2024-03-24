@@ -7,6 +7,7 @@ import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
 import { serviceName } from 'kotilogi-app/constants';
 import { CookieNotice } from '@/components/App/CookieNotice';
+import { IndexHeader } from '@/components/App/IndexHeader';
 
 export const metadata = {
   title: 'Kotidok',
@@ -25,8 +26,6 @@ export default async function RootLayout({ children }) {
 
       <AuthProvider>
         <body className="flex flex-col bg-gradient-to-b from-white to-slate-200 min-h-screen">
-            <Header/>
-          
             {children}
             <Toaster position="bottom-right" toastOptions={{
               duration: 5000,

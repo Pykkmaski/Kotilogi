@@ -13,7 +13,10 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        heroSection: "url('./public/index.jpg')",
+        "about-hero" : "url('/img/about/bridge.jpg')",
+        heroSection: "url('/index.jpg')",
+        kitchen: "url('/img/kitchen.jpg')",
+        room: "url('/img/room.jpg')",
         houses: "url('/img/Properties/default-bg.jpg')",
       },
 
@@ -51,7 +54,9 @@ module.exports = {
       },
 
       colors: {
-        primary: "#e3a149",
+        hero: "#feffe9",
+        primary: "#fffdc1",
+        secondary: "#2e3105",
         heat: chartColors.heat,
         electric: chartColors.electric,
         water: chartColors.water,

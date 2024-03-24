@@ -11,6 +11,14 @@ import { LineButton } from '../MenuButton/LineButton';
 import { MobileMenu } from './MobileMenu/MobileMenu';
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
 
+function Logo2(){
+    return (
+        <Link href="/">
+            <img src="/logo.png" className="aspect-auto w-[170px]"/>
+        </Link>
+    );
+}
+
 export function Logo(){
     return (
         <div className="z-40" id="app-logo" title="Etusivulle">
@@ -69,7 +77,6 @@ export default function Header(){
                         </MobileMenu>
                     </div>
                 </>
-                
             )
         }
         else{
@@ -82,17 +89,16 @@ export default function Header(){
                         <Link href="/register">Rekisteröidy</Link>
                     </div>
                 </>
-                
             );
         }
     }
 
     return(
-        <header className="w-full py-2 bg-black h-[4em] items-center flex" id="main-header">
+        <header className="w-full py-2 bg-black h-[4em] items-center flex absolute top-0 left-0 z-20" id="main-header">
             <div className="w-full">
                 <Padding>
                     <Group direction="row" justify='between' align="center">
-                        <Logo/>
+                        <Logo2/>
                         {/**Desktop nav */}
                         <nav>
                             {getNavContent()}
