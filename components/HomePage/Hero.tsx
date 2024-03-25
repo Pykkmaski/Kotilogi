@@ -12,8 +12,8 @@ type SessionT = {
 
 export async function Hero(){
     return (
-        <div className="flex flex-col gap-5 relative">
-            <span className="text-8xl text-white xs:text-center md:text-left">Talosi huoltokirja</span>
+        <section className="flex flex-col gap-5 relative">
+            <span className="md:text-8xl xs:text-5xl text-white xs:text-center md:text-left">Talosi huoltokirja</span>
             <p className="text-lg mb-5 text-white xs:text-center md:text-left">
                 Tallenna talosi remonttitiedot, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan. <br/>
                 Unohda hukatut kuitit ja hajanaiset asiakirjat - {serviceName} tekee kodin ylläpitämisestä helpompaa ja tehokkaampaa.
@@ -26,7 +26,7 @@ export async function Hero(){
                     </Button>
                </Link>
             </div>
-        </div>
+        </section>
     );
     
 }

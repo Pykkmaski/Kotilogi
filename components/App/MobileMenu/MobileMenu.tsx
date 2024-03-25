@@ -1,30 +1,60 @@
 'use client';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
-import style from './style.module.css';
-import { LineButton } from '@/components/MenuButton/LineButton';
-import { useToggle } from 'kotilogi-app/hooks/useToggle';
 
-type MobileMenuProps = React.PropsWithChildren & {
+import { OpenProvider } from '@/components/Util/ToggleProvider';
+import style from './style.module.css';
+import { useToggle } from 'kotilogi-app/hooks/useToggle';
+import { createContext, useContext, useEffect, useRef } from 'react';
+
+type MobileMenuContextProps = {
+    open: boolean;
+    toggleState: (state?: boolean) => void,
 }
 
-export function MobileMenu({children}: MobileMenuProps){
-    const {toggled: open, toggleState} = useToggle(false);
+const MobileMenuContext = createContext<MobileMenuContextProps | null>(null);
 
-    const className = [
-        "h-screen w-full bg-white flex flex-col gap-4 fixed top-0 left-0 z-50 justify-center items-center",
-        open ? style.open : '',
-        style.container,
-    ];
+function MenuButton(){
+    const {open, toggleState} = useMobileMenuContext();
+
+    //const toggle = () => console.log('Toggling...');
 
     return (
-        <>
-            <div className="absolute top-2 right-2">
-                <LineButton open={open} toggleState={toggleState}/>
+        <OpenProvider open={open} openClassName={style.open}>
+            <div className={style.button} onClick={() => toggleState()}>
+                <div className={style.line}></div>
+                <div className={style.line}></div>
+                <div className={style.line}></div>
             </div>
-            
-            <div className={className.join(' ')}>
+        </OpenProvider>
+    );
+}
+
+function MenuBody({children}){
+    const {open} = useMobileMenuContext();
+
+    return (
+        <OpenProvider open={open} openClassName={style.open}>
+            <div className={style.body}>
                 {children}
             </div>
-        </>
+        </OpenProvider>
+    );
+}
+
+export function MobileMenu({children}){
+    const {toggled: open, toggleState} = useToggle(false);
+
+    return (
+        <MobileMenuContext.Provider value={{open, toggleState}}>
+            <MenuButton/>
+            <MenuBody>
+                {children}
+            </MenuBody>
+        </MobileMenuContext.Provider>
     );
 } 
+
+function useMobileMenuContext(){
+    const ctx = useContext(MobileMenuContext);
+    if(!ctx) throw new Error('useMobileMenuContext must be used within the scope of a MobileMenuContext!');
+    return ctx;
+}

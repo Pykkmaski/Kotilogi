@@ -72,7 +72,6 @@ function ContactSection(){
 }
 
 function Customers(){
-
     type CustomerType = {
         name: string;
         imageUrl: string;
@@ -102,21 +101,21 @@ function Customers(){
     const CustomerProfile = ({imageUrl, name, flipped, text}) => {
 
         const className = [
-            "flex gap-8 w-full justify-center",
-            flipped ? 'flex-row-reverse' : 'flex-row',
+            "flex gap-8 w-full justify-center xs:items-center md:items-none xs:flex-col",
+            flipped ? 'md:flex-row-reverse' : 'md:flex-row',
         ];
 
         const textClassName = [
-            'text-5xl w-full',
+            'text-5xl w-full md:text-left xs:text-center',
         ];
 
         const pClassName = [
-            'text-lg',
+            'text-lg md:text-left xs:text-center',
         ];
 
         return (
             <div className={className.join(' ')}>
-                <div className="object-contain w-[500px]">
+                <div className="object-contain md:w-[500px] xs:w-[300px]">
                     <img src={imageUrl} className="aspect-auto flex-1 object-contain"/>
                 </div>
                 
@@ -131,15 +130,18 @@ function Customers(){
     }
 
     return (
-        <section className="flex flex-col px-64 py-20 bg-primary gap-32">
-            <h1 className="text-7xl text-secondary text-center mb-32">Mitä asiakkaamme sanovat?</h1>
-            {
-                customerItems.map((item, index) => {
-                    return (
-                        <CustomerProfile imageUrl={'/blank_profile.png'} name={item.name} text={item.text} flipped={index % 2 == 0}/>
-                    )
-                })
-            }
+        <section className="flex flex-col md:px-64 xs:px-4 py-20 bg-primary">
+            <h1 className="md:text-7xl xs:text-4xl text-secondary text-center md:mb-32 xs:mb-10">Mitä asiakkaamme sanovat?</h1>
+            <div className="flex flex-col gap-32">
+                {
+                    customerItems.map((item, index) => {
+                        return (
+                            <CustomerProfile imageUrl={'/blank_profile.png'} name={item.name} text={item.text} flipped={index % 2 == 0}/>
+                        )
+                    })
+                }
+            </div>
+            
         </section>
     )
 }

@@ -6,3 +6,57 @@
 .container.open{
     transform: translateY(0px);
 } 
+
+.body{
+    background: white;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    transform: translateY(-100%);
+    transition: transform 0.2s ease-out;
+}
+
+.body.open{
+    transform: translateY(0);
+}
+
+.button{
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+    width: 2rem;
+    position: relative;
+    cursor: pointer;
+    z-index: 60;
+}
+
+.line{
+    background: white;
+    width: 100%;
+    height: 5px;
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+.button.open .line{
+    background: black;
+}
+
+.button.open .line:nth-child(1){
+    transform: translateY(13px) rotate(45deg);
+}
+
+.button.open .line:nth-child(2){
+    opacity: 0;
+}
+
+.button.open .line:nth-child(3){
+    transform: translateY(-13px) rotate( calc(-45deg * 5));
+}

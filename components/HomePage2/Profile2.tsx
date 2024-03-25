@@ -4,11 +4,11 @@ import Link from "next/link";
 
 export function Profile2(){
     return (
-        <section className="xs:px-0 md:px-32 py-32 flex flex-col bg-primary text-secondary">
+        <section className="xs:px-2 md:px-32 py-32 flex flex-col bg-primary text-secondary">
             <div className="flex flex-row gap-8">
-                <div className="flex flex-col flex-1">
-                    <h1 className="text-7xl">Mikä on Kotidok?</h1>
-                    <p className="mt-20 text-lg">
+                <div className="flex flex-col flex-1 xs:items-center md:items-start">
+                    <h1 className="md:text-7xl xs:text-4xl">Mikä on Kotidok?</h1>
+                    <p className="mt-20 text-lg xs:text-center md:text-left">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
                         mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.<br/><br/>
@@ -28,7 +28,7 @@ export function Profile2(){
                     </Link>
                 </div>
 
-                <div className="w-full object-contain flex-1">
+                <div className="w-full object-contain flex-1 xs:hidden md:block">
                     <img src="/img/renovate.jpg" className="flex-1 aspect-auto"/>
                 </div>
             </div>
