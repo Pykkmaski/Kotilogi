@@ -4,6 +4,7 @@ import { OpenProvider } from '@/components/Util/ToggleProvider';
 import style from './style.module.css';
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
 import { createContext, useContext, useEffect, useRef } from 'react';
+import { CallbackOnClickProvider } from '@/components/Util/CallbackOnClickProvider';
 
 type MobileMenuContextProps = {
     open: boolean;
@@ -29,12 +30,14 @@ function MenuButton(){
 }
 
 function MenuBody({children}){
-    const {open} = useMobileMenuContext();
+    const {open, toggleState} = useMobileMenuContext();
 
     return (
         <OpenProvider open={open} openClassName={style.open}>
             <div className={style.body}>
-                {children}
+                <CallbackOnClickProvider callback={() => toggleState(false)}>
+                    {children}
+                </CallbackOnClickProvider>
             </div>
         </OpenProvider>
     );

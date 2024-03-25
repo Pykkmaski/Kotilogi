@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link"
 import Button from "../Button/Button";
 import { MobileMenu } from "./MobileMenu/MobileMenu";
+import { CallbackOnClickProvider } from "../Util/CallbackOnClickProvider";
 
 export async function IndexHeader(){
     const session = await getServerSession(options as any) as any;
@@ -43,10 +44,15 @@ export async function IndexHeader(){
                             </Button>
                         </Link>
                     </div>
-                    
-                    <div className="xs:block md:hidden">
+
+                    <div className="xs:block md:hidden text-slate-500">
                         <MobileMenu>
-                            <Link href="/">Etusivulle</Link>
+                            <nav className="flex flex-col gap-8 items-center justify-center w-full h-full text-4xl">
+                                <Link href="/">Etusivulle</Link>
+                                <Link href="/about">Tietoa Meistä</Link>
+                                <Link href="/register">Rekisteröidy</Link>
+                                <Link href="/login">Kirjaudu Sisään</Link>
+                            </nav>
                         </MobileMenu>
                     </div>
                 </>
