@@ -171,7 +171,7 @@ export function TransferForm({property, user}: TransferFormProps){
                         </div>
                         
                         :
-                        <Button variant="primary" type="submit" loading={isLoading} disabled={isLoading || !emailValid}>Luo Varmenne</Button>
+                        <Button variant="primary-dashboard" type="submit" loading={isLoading} disabled={isLoading || !emailValid}>Luo Varmenne</Button>
                     }
                 </div>
             </form>

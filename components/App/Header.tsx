@@ -88,13 +88,24 @@ export default function Header(){
                         <Link href="/login">Kirjaudu</Link>
                         <Link href="/register">Rekisteröidy</Link>
                     </div>
+
+                    <div className="xs:block md:hidden">
+                        <MobileMenu>
+                            <nav className="flex flex-col gap-8 text-4xl">
+                                <Link href="/">Etusivulle</Link>
+                                <Link href="/about">Tietoa Meistä</Link>
+                                <Link href="/register">Rekisteröidy</Link>
+                                <Link href="/login">Kirjaudu Sisään</Link>
+                            </nav>
+                        </MobileMenu>
+                    </div>
                 </>
             );
         }
     }
 
     return(
-        <header className="w-full py-2 bg-black h-[4em] items-center flex absolute top-0 left-0 z-20" id="main-header">
+        <header className="w-full py-2 bg-black h-[4em] items-center flex z-20" id="main-header">
             <div className="w-full">
                 <Padding>
                     <Group direction="row" justify='between' align="center">

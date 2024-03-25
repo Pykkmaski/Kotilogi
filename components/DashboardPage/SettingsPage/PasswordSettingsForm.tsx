@@ -1,16 +1,11 @@
 'use client';
 
-import { updatePassword } from "kotilogi-app/actions/user/updatePassword";
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 import { Group } from "kotilogi-app/components/Group";
 import { Input } from "kotilogi-app/components/Input/Input";
-import { useInputData, useStatus } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
-import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import toast from "react-hot-toast";
 import {z} from 'zod';
-import { useDashboardContext } from "../../../app/(auth)/dashboard/(dashboard layout)/DashboardContextProvider";
 import { ErrorText } from "@/components/Util/Text";
 import { usePasswordSettingsForm } from "./usePasswordSettingsForm";
 

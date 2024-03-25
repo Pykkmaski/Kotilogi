@@ -8,7 +8,7 @@ import Button, { ButtonProps } from "./Button"
 export function PrimaryButton(props: ButtonProps){
     return (
         <Button
-            variant='primary'
+            variant='primary-dashboard'
             {...props}
         />
     );
