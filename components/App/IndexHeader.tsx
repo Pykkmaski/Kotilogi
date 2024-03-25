@@ -34,7 +34,7 @@ export async function IndexHeader(){
         else{
             return (
                 <>
-                    <div className="xs:hidden md:block">
+                    <div className="xs:hidden md:flex flex-row gap-8 items-center">
                         <Link href="/about">Tietoa meistä</Link>
                         <div className="w-[1px] bg-white h-4"/>
                         <Link href="/register">Rekisteröidy</Link>
@@ -47,7 +47,7 @@ export async function IndexHeader(){
 
                     <div className="xs:block md:hidden text-slate-500">
                         <MobileMenu>
-                            <nav className="flex flex-col gap-8 items-center justify-center w-full h-full text-4xl">
+                            <nav className="flex flex-col gap-8 text-4xl">
                                 <Link href="/">Etusivulle</Link>
                                 <Link href="/about">Tietoa Meistä</Link>
                                 <Link href="/register">Rekisteröidy</Link>
