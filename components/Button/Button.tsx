@@ -13,7 +13,7 @@ export default function Button({children, variant = 'primary', ...props}: Button
         'rounded-md p-2 flex flex-row gap-4',
         variant === 'primary' ? 'bg-primary hover:bg-[#ecf2a6] disabled:bg-slate-500' : 
         variant === 'secondary-filled' ? 'bg-secondary hover:bg-[#4c5018] disabled:bg-slate-500' : 
-        variant === 'primary-dashboard' ? 'bg-orange-300 hover:bg-orange-200' : 'bg-transparent text-black'
+        variant === 'primary-dashboard' ? 'bg-orange-300 hover:bg-orange-200 disabled:bg-slate-500' : 'bg-transparent text-black'
     ];
 
     return (

@@ -58,22 +58,10 @@ export default function Header(){
 
                     <div className="xm:block md:hidden">
                         <MobileMenu>
-                            <div className="flex flex-col">
-                                <h1 className="text-3xl text-slate-500 mb-8">Valikko</h1>
-                                <ul className="flex flex-col gap-4 list-none text-slate-500 text-2xl">
-                                    <li>
-                                        <Link href="/" onClick={(e) => toggleMenu(false)}>Etusivu</Link>
-                                    </li>
-
-                                    <li>
-                                        <Link href="/register" onClick={(e) => toggleMenu(false)}>Rekisteröidy</Link>
-                                    </li>
-
-                                    <li>
-                                        <Link href="/login" onClick={(e) => toggleMenu(false)}>Kirjaudu Sisään</Link>
-                                    </li>
-                                </ul>
-                            </div>
+                            <nav className="flex flex-col gap-8 text-4xl">
+                                <Link href="/dashboard/properties">Oma sivu</Link>
+                                <Link href="/logout">Kirjaudu ulos</Link>
+                            </nav>
                         </MobileMenu>
                     </div>
                 </>

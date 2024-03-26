@@ -17,7 +17,7 @@ export function LayoutNavBarContainer({children}){
 
 export function LayoutContentContainer({children}){
     return (
-        <div className="flex-[9] xs:ml-0 md:ml-2 mb-8 pr-32 pt-8">
+        <div className="flex-[9] xs:ml-0 mb-8 md:pr-32 xs:px-4 pt-8">
             {children}
         </div>
     );

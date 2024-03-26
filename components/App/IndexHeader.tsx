@@ -18,7 +18,7 @@ export async function IndexHeader(){
         if(session){
             return (
                 <>
-                    <div className="md:block xs:hidden">
+                    <div className="md:flex xs:hidden gap-8 items-center">
                         <Link href="/dashboard">Oma Sivu</Link>
                         <Link href="/logout">Kirjaudu Ulos</Link>
                     </div>
