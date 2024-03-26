@@ -14,6 +14,7 @@ export default async function LogoutPage(){
         })
         .then(() => {
             router.push('/');
+
             //toast.success('Olet kirjautunut ulos!');
         });
     }, []);

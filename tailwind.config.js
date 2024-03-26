@@ -18,6 +18,8 @@ module.exports = {
         kitchen: "url('/img/kitchen.jpg')",
         room: "url('/img/room.jpg')",
         houses: "url('/img/Properties/default-bg.jpg')",
+        "about-profile": "url('/img/about/portrait.jpg')",
+        "about-house": "url('/img/about/house.jpg')",
       },
 
       keyframes: {
