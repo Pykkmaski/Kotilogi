@@ -5,19 +5,19 @@ type IconProps = {
 export function Icon({type}: IconProps){
     const getIcon = () => {
         if(type === 'heat'){
-            return '/icons/flame.png';
+            return 'fa fa-fire';
         }
         else if(type === 'water'){
-            return '/icons/drop.png';
+            return 'fa fa-tint';
         }
         else{
-            return '/icons/bolt.png';
+            return 'fa fa-bolt';
         }
     }
 
     return (
         <div className={['flex p-1 rounded-md w-[25px]', `bg-${type}`].join(' ')}>
-            <img className={`aspect-square h-[1rem] ${type !== 'electric' ? 'invert' : 'filter-none'}`} src={getIcon()}/>
+            <i className={`${getIcon()} text-lg`}/>
         </div>
     );
 }

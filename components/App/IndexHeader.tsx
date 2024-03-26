@@ -19,7 +19,7 @@ export async function IndexHeader(){
             return (
                 <>
                     <div className="md:flex xs:hidden gap-8 items-center">
-                        <Link href="/dashboard">Oma Sivu</Link>
+                        <Link href="/dashboard/properties">Oma Sivu</Link>
                         <Link href="/logout">Kirjaudu Ulos</Link>
                     </div>
 
