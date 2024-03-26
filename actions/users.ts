@@ -9,6 +9,8 @@ import { sendAccountActivationLink } from "./email";
 import { unlink } from "fs/promises";
 import * as files from './file';
 import { uploadPath } from "kotilogi-app/uploadsConfig";
+import { signOut as authSignOut } from "next-auth/react";
+import { revalidatePath } from "next/cache";
 
 /**Verifies a users password. */
 async function verifyPassword(email: string, password: string){
@@ -200,4 +202,10 @@ export async function del(email: string){
 
 export async function isUserValid(email: string){
     return (await db('users').where({email})).length !== 0;
+}
+
+export async function signOut(){
+    await authSignOut({
+        redirect: false,
+    }).then(() => revalidatePath('/'));
 }

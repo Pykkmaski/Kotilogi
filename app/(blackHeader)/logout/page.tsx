@@ -9,12 +9,10 @@ export default async function LogoutPage(){
     const router = useRouter();
     
     useEffect(() => {
-        signOut({
-            redirect: false,
-        })
+        signOut({redirect: false})
         .then(() => {
             router.push('/');
-
+            router.refresh();
             //toast.success('Olet kirjautunut ulos!');
         });
     }, []);
