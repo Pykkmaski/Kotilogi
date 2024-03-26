@@ -1,6 +1,8 @@
+import {default as NextImage} from 'next/image';
+
 export function HouseProfile(){
     const Image = () => (
-        <img src="/img/about_page/house.jpg" className="aspect-auto md:w-[800px] xs:w-full"/>
+        <img alt="Talo" src="/img/about_page/house.jpg" className="aspect-auto md:w-[800px] xs:w-full"/>
     );
 
     const Text = () => (

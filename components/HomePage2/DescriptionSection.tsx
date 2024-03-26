@@ -29,7 +29,7 @@ export function DescriptionSection(){
             <div className="flex flex-col text-white items-center md:py-32 xs:py-10 relative">
                 <Background/>
                 <div className="w-full bg-[#0006] py-20 flex flex-col items-center justify-center z-10 md:px-32 xs:px-4">
-                    <h1 className="md:text-7xl xs:text-3xl mb-20 z-10 font-semibold md:text-left xs:text-center w-full">Kaikki yhdessä paikassa</h1>
+                    <h1 className="md:text-7xl xs:text-3xl mb-20 z-10 font-semibold text-center w-full">Kaikki yhdessä paikassa</h1>
                     <FeaturesList/>
                 </div>
             </div>

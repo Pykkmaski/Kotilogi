@@ -1,6 +1,8 @@
+import {default as NextImage} from "next/image";
+
 export function Profile(){
     const Image = () => (
-        <img src="/img/about_page/portrait.jpg" className="aspect-auto md:w-[600px]"/>
+        <img alt="Profiilikuva" src="/img/about_page/portrait.jpg" className="aspect-auto md:w-[600px]"/>
     );
 
     const Text = () => (
