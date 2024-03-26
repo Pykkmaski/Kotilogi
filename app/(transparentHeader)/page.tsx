@@ -101,7 +101,7 @@ function Customers(){
     const CustomerProfile = ({imageUrl, name, flipped, text}) => {
 
         const className = [
-            "flex gap-8 w-full justify-center xs:items-center md:items-none xs:flex-col",
+            "flex gap-8 w-full xs:items-center md:items-start xs:flex-col",
             flipped ? 'md:flex-row-reverse' : 'md:flex-row',
         ];
 

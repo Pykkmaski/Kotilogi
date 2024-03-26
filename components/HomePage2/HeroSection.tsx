@@ -43,7 +43,7 @@ export function HeroSection(){
     );
     
     return (
-        <div className="flex flex-col bg-heroSection px-32 relative bg-center bg-cover pt-8">
+        <section className="flex flex-col bg-heroSection px-32 relative bg-center bg-cover pt-8">
             <Gradient/>
             <HeroHeader/>
             <div className="mt-32 mb-12 z-10 flex flex-col justify-center items-center font-serif">
@@ -54,6 +54,6 @@ export function HeroSection(){
                     </Button>
                 </Link>
             </div>
-        </div>
+        </section>
     )
 }
