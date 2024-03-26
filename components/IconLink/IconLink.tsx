@@ -73,7 +73,7 @@ export default function IconLink(props: React.ComponentProps<'a'> & {
             {
                 props.icon ? (
                     <i 
-                        className={`z-10 fa ${props.icon} text-base ${isSelected ? 'text-black' : 'text-white'}`}
+                        className={`z-10 fa ${props.icon} text-center text-base ${isSelected ? 'text-black' : 'text-white'}`}
                     />
                 )
                 :
