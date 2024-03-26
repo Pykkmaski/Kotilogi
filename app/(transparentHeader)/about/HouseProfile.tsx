@@ -1,6 +1,6 @@
 export function HouseProfile(){
     const Image = () => (
-        <img src="/img/about/house.jpg" className="aspect-auto md:w-[800px] xs:w-full"/>
+        <img src="/img/about_page/house.jpg" className="aspect-auto md:w-[800px] xs:w-full"/>
     );
 
     const Text = () => (

@@ -13,13 +13,13 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "about-hero" : "url('/img/about/bridge.jpg')",
+        "about-hero" : "url('/img/about_page/bridge.jpg')",
         heroSection: "url('/index.jpg')",
         kitchen: "url('/img/kitchen.jpg')",
         room: "url('/img/room.jpg')",
         houses: "url('/img/Properties/default-bg.jpg')",
-        "about-profile": "url('/img/about/portrait.jpg')",
-        "about-house": "url('/img/about/house.jpg')",
+        "about-profile": "url('/img/about_page/portrait.jpg')",
+        "about-house": "url('/img/about_page/house.jpg')",
       },
 
       keyframes: {

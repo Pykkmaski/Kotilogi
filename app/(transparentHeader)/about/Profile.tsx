@@ -1,6 +1,6 @@
 export function Profile(){
     const Image = () => (
-        <img src="/img/about/portrait.jpg" className="aspect-auto md:w-[600px]"/>
+        <img src="/img/about_page/portrait.jpg" className="aspect-auto md:w-[600px]"/>
     );
 
     const Text = () => (
