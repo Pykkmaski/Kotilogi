@@ -34,7 +34,11 @@ export function Logo(){
     );
 }
 
-export default function Header(){
+type HeaderProps = {
+    variant?: 'black' | 'transparent';
+}
+
+export default function Header({variant = 'black'}: HeaderProps){
     const {data, status} = useSession();
     const {toggled: menuVisible, toggleState: toggleMenu} = useToggle(false);
     const userIsLoggedIn = status === 'authenticated';
@@ -92,8 +96,13 @@ export default function Header(){
         }
     }
 
+    const className = [
+        "w-full py-2 h-[4em] items-center flex z-20",
+        variant === 'black' ? 'bg-black' : 'bg-transparent absolute top-0 left-0',
+    ];
+
     return(
-        <header className="w-full py-2 bg-black h-[4em] items-center flex z-20" id="main-header">
+        <header className={className.join(' ')} id="main-header">
             <div className="w-full">
                 <Padding>
                     <Group direction="row" justify='between' align="center">

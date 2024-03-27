@@ -1,9 +1,9 @@
-import { IndexHeader } from "@/components/App/IndexHeader";
+import Header from "@/components/App/Header";
 
 export default function TransparentHeaderLayout({children}: React.PropsWithChildren){
     return (
         <>
-            <IndexHeader/>
+            <Header variant="transparent"/>
             {children}
         </>
     )
