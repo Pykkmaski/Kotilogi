@@ -108,17 +108,15 @@ export default function Header({variant = 'black'}: HeaderProps){
 
     const className = [
         "w-full py-2 h-[4em] items-center flex z-20",
-        variant === 'black' ? 'bg-black' : 'bg-[#0003] absolute top-0 left-0',
+        variant === 'black' ? 'bg-black' : 'bg-gradient-to-l from-[#0005] to-transparent to-60% absolute top-0 left-0',
     ];
 
     return(
         <header className={className.join(' ')} id="main-header">
-            <div className="w-full">
+            <div className="w-full ">
                 <Padding>
                     <Group direction="row" justify='between' align="center">
                         <Logo2/>
-                        {/**Desktop nav */}
-                       
                         {getNavContent()}
                     </Group>
                 </Padding>
