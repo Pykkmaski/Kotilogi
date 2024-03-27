@@ -73,12 +73,15 @@ export default function Header({variant = 'black'}: HeaderProps){
             )
         }
         else{
+            const linkClassName = '';
+
             return (
                 <>
-                    <nav className="text-white xs:text-base md:flex gap-2 items-center xs:hidden font-semibold">
-                        <Link href="/tos">Käyttöehdot</Link>
+                    <nav className="text-white xs:text-base md:flex gap-4 items-center xs:hidden font-semibold">
+                        <Link href="/about" className={linkClassName}>Tietoa Meistä</Link>
+                        <Link href="/tos" className={linkClassName}>Käyttöehdot</Link>
                         <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
-                        <Link href="/register">Rekisteröidy</Link>
+                        <Link href="/register" className={linkClassName}>Rekisteröidy</Link>
 
                         <Link href="/login" className="ml-8">
                             <Button variant="primary">
@@ -105,7 +108,7 @@ export default function Header({variant = 'black'}: HeaderProps){
 
     const className = [
         "w-full py-2 h-[4em] items-center flex z-20",
-        variant === 'black' ? 'bg-black' : 'bg-transparent absolute top-0 left-0',
+        variant === 'black' ? 'bg-black' : 'bg-[#0003] absolute top-0 left-0',
     ];
 
     return(
