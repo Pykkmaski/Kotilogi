@@ -141,7 +141,6 @@ function Customers(){
                     })
                 }
             </div>
-            
         </section>
     )
 }
