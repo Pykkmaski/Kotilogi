@@ -10,11 +10,12 @@ import { Padding } from '../Util/Padding';
 import { LineButton } from '../MenuButton/LineButton';
 import { MobileMenu } from './MobileMenu/MobileMenu';
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
+import Button from '../Button/Button';
 
 function Logo2(){
     return (
         <Link href="/">
-            <img src="/logo.png" className="aspect-auto w-[170px]"/>
+            <img src="/logo.png" className="aspect-auto md:w-[170px] xs:w-[130px]"/>
         </Link>
     );
 }
@@ -74,12 +75,18 @@ export default function Header({variant = 'black'}: HeaderProps){
         else{
             return (
                 <>
-                    <div className="text-white xs:text-base md:flex gap-2 items-center xs:hidden">
+                    <nav className="text-white xs:text-base md:flex gap-2 items-center xs:hidden font-semibold">
                         <Link href="/tos">Käyttöehdot</Link>
                         <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
-                        <Link href="/login">Kirjaudu</Link>
                         <Link href="/register">Rekisteröidy</Link>
-                    </div>
+
+                        <Link href="/login" className="ml-8">
+                            <Button variant="primary">
+                                <span className="mx-8 text-black">Kirjaudu Sisään</span>
+                            </Button>
+                        </Link>
+                        
+                    </nav>
 
                     <div className="xs:block md:hidden">
                         <MobileMenu>
@@ -108,9 +115,8 @@ export default function Header({variant = 'black'}: HeaderProps){
                     <Group direction="row" justify='between' align="center">
                         <Logo2/>
                         {/**Desktop nav */}
-                        <nav>
-                            {getNavContent()}
-                        </nav>
+                       
+                        {getNavContent()}
                     </Group>
                 </Padding>
             </div>
