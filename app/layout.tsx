@@ -1,13 +1,9 @@
 import './globals.css';
-import Header from '../components/App/Header';
 import {Toaster} from 'react-hot-toast';
-import { getServerSession } from 'next-auth';
-import { options } from './api/auth/[...nextauth]/options';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
 import { serviceName } from 'kotilogi-app/constants';
 import { CookieNotice } from '@/components/App/CookieNotice';
-import { IndexHeader } from '@/components/App/IndexHeader';
 
 export const metadata = {
   title: 'Kotidok',
