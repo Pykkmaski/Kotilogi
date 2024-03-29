@@ -1,16 +1,18 @@
 "use client";
 
-import { CSSProperties, createContext, useContext, useState} from "react";
+import { CSSProperties, MutableRefObject, createContext, useContext, useRef, useState} from "react";
 import { ActionType } from "./Gallery.reducer";
 import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useGallery, StateType } from "./Gallery.hooks";
 import { Heading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
-import { DeleteModal } from "kotilogi-app/components/Modals/DeleteModal";
+import { DeleteModal as DeleteModal2 } from "kotilogi-app/components/Modals/DeleteModal";
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 import { AdContainer } from "@/components/AdContainer";
+import React from "react";
+import { ModalRefType } from "@/components/Experimental/Modal";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -98,6 +100,22 @@ function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props
     );
 }
 
+function AddModal({children}){
+    const {addModalRef} = useGalleryContext();
+    return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
+        ...child.props,
+        ref: addModalRef,
+    }));
+}
+
+function DeleteModal({children}){
+    const {deleteModalRef} = useGalleryContext();
+    return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
+        ...child.props,
+        ref: deleteModalRef,
+    }));
+}
+
 type GalleryProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     data: T[],
 }
@@ -105,7 +123,11 @@ type GalleryProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
 type GalleryContextValueType = {
     data: Kotilogi.ItemType[],
     state: StateType<Kotilogi.ItemType>,
-    props: GalleryProps<Kotilogi.ItemType>,
+    props: GalleryProps<Kotilogi.ItemType>;
+
+    addModalRef: MutableRefObject<ModalRefType>;
+    deleteModalRef: MutableRefObject<ModalRefType>;
+
     dispatch: React.Dispatch<ActionType<Kotilogi.ItemType>>,
 }
 
@@ -113,11 +135,16 @@ const GalleryContext = createContext<GalleryContextValueType | null>(null);
 
 export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
     const {state, dispatch} = useGallery(props.data);
+    const addModalRef = useRef<ModalRefType>(null);
+    const deleteModalRef = useRef<ModalRefType>(null);
 
     const contextValue: GalleryContextValueType = {
         data: props.data,
         state,
         props,
+
+        addModalRef,
+        deleteModalRef,
         dispatch,
     }
 
@@ -132,13 +159,14 @@ export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
 
 Gallery.Header = Header;
 Gallery.Body = Body;
+Gallery.AddModal = AddModal;
 
 /**The global modal displayed when deleting multiple selected items at once. */
 Gallery.DeleteModal = <T extends Kotilogi.ItemType>({deleteMethod, ...props}: ModalProps & {deleteMethod: (item: T) => Promise<void>}) => {
     const {state, dispatch} = useGalleryContext();
 
     return (
-        <DeleteModal 
+        <DeleteModal2 
             {...props} 
             targetsToDelete={state.selectedItems} 
 

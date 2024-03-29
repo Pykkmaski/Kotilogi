@@ -14,11 +14,12 @@ function CloseButton(props){
     );
 }
 
-const ModalContext = createContext<{onHide: () => void} | null>(null);
+type ModalContextProps = {
+    onHide: () => void;
+}
+const ModalContext = createContext<ModalContextProps | null>(null);
 
-export type ModalProps = React.PropsWithChildren & {
-    id: string,
-    className?: string,
+export type ModalProps = React.PropsWithChildren & React.ComponentProps<'dialog'> & {
     show: boolean,
     onHide: () => void,
 }

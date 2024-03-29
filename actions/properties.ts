@@ -203,13 +203,13 @@ export async function deleteFile(fileData: Kotilogi.FileType){
 }
 
 export async function generateTransferKey(data: {
-    address: string;
-    receiver: string;
-    sender: string;
-    password: string;
+    propertyAddress: string;
+    receiverEmail: string;
+    senderEmail: string;
+    senderPassword: string;
 }){
-    const [{password: userPassword}] = await db('users').where({email: data.sender}).select('password');
-    const passwordOk = await bcrypt.compare(data.password, userPassword);
+    const [{password: senderPassword}] = await db('users').where({email: data.senderEmail}).select('password');
+    const passwordOk = await bcrypt.compare(data.senderPassword, senderPassword);
 
     var error: 'invalid_password' | null = null;
     if(!passwordOk) error = 'invalid_password';
@@ -218,4 +218,9 @@ export async function generateTransferKey(data: {
     return {
         token, error
     }
+}
+
+export async function transferOwnership(token: string){
+    const data = jwt.verify(token, process.env.TRANSFER_SECRET);
+    console.log(data);
 }

@@ -165,9 +165,12 @@ export function TransferForm({property, user}: TransferFormProps){
                                 variant="primary" 
                                 type="button" 
                                 onClick={copyKeyToClipboard} 
-                                disabled={status !== 'key_copied'}>Kopioi leikepöydälle</Button>
+                                disabled={status === 'key_copied'}>Kopioi leikepöydälle</Button>
 
-                            <i className="fa fa-check text-green-500" hidden={status !== 'key_copied'}/>
+                            {
+                                status === 'key_copied' ? <i className="fa fa-check text-green-500"/> : null
+                            }
+                            
                         </div>
                         
                         :
@@ -177,7 +180,7 @@ export function TransferForm({property, user}: TransferFormProps){
             </form>
             
             {
-                status === 'success' ? 
+                status === 'success' || status === 'key_copied' ? 
                 <div className="text-slate-500 flex flex-col gap-2">
                     <h2 className="text-xl font-semibold mt-4">Varmenne luotu!</h2>
                     <p>

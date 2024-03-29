@@ -2,6 +2,8 @@
 
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
+import {default as ExperimentalModal} from '@/components/Experimental/Modal';
+
 import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
 import { PropertyListItem } from 'kotilogi-app/components/ListItem/ListItem';
 import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
@@ -10,6 +12,7 @@ import * as properties from '@/actions/properties';
 import Button from '@/components/Button/Button';
 import { Heading } from '@/components/Heading';
 import { useState } from 'react';
+import { CloseButton } from '@/components/CloseButton';
 
 function PaymentModal(props: ModalProps){
     return (
@@ -39,7 +42,7 @@ function PaymentModal(props: ModalProps){
                         </Button>
                     </div>
 
-                    <span className="text-sm text-right text-slate-500 mt-2">Maksun suorittaa Paytrail.</span>
+                    <span className="text-sm text-right text-slate-500 mt-2">Maksun suorittaa Visma.</span>
                 </div>
                 
             </Modal.Footer>
@@ -55,6 +58,29 @@ export function Content({propertyData, user}: {
     return (
         <main className='mb-4 flex-1 h-full'>
             <Gallery<Kotilogi.PropertyType> data={propertyData}>
+                <Gallery.AddModal>
+                    <ExperimentalModal>
+                        <ExperimentalModal.Header>
+                            <h1 className="Lisää Talo"></h1>
+                            <ExperimentalModal.CloseTrigger>
+                                <CloseButton/>
+                            </ExperimentalModal.CloseTrigger>
+                        </ExperimentalModal.Header>
+                        
+                        <div className="px-4">
+                            Testi
+                        </div>
+                        
+                        <ExperimentalModal.Footer>
+                            <ExperimentalModal.CloseTrigger>
+                                <Button variant="primary-dashboard">
+                                    <span className="mx-8">Sulje</span>
+                                </Button>
+                            </ExperimentalModal.CloseTrigger>
+                        </ExperimentalModal.Footer>
+                    </ExperimentalModal>
+                </Gallery.AddModal>
+
                 <Gallery.Header 
                     title="Talot" 
                     AddModal={(props) => <AddPropertyModal refId={user.email} {...props}/>}
