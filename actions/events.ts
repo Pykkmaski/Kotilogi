@@ -147,16 +147,25 @@ export async function uploadFile(fileData: FormData, refId: string){
 export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
         let rollbackDelete: () => Promise<void>;
+        const trx = await db.transaction();
 
         try{
             rollbackDelete = await file.del([fileData]);
+            await trx('eventFiles').where({id: fileData.id}).del();
+            await trx.commit();
+
             revalidatePath('/events/[event_id]/files');
             revalidatePath('/events/[events_id]/images');
             resolve();
         }
         catch(err){
             try{
-                await rollbackDelete();
+                if(rollbackDelete){
+                    await rollbackDelete();
+                }
+
+                await trx.rollback();
+               
             }
             catch(err){
                 console.log(err.message);

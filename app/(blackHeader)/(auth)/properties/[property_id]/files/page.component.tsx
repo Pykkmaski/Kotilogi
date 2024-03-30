@@ -9,16 +9,18 @@ import * as properties from '@/actions/properties';
 import * as file from '@/actions/file';
 import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
+import { uploadFile } from "kotilogi-app/actions/uploadFile";
+import { deleteFile } from "kotilogi-app/actions/deleteFile";
 
 export function Content({files, propertyId}){
     return (
         <Gallery data={files}>
             <Gallery.AddModal>
-                <AddFilesModal accept="application/pdf" uploadMethod={properties.uploadFile} refId={propertyId}/>
+                <AddFilesModal accept="application/pdf" uploadMethod={(fdata: FormData) => uploadFile('propertyFiles', fdata, propertyId)}/>
             </Gallery.AddModal>
 
             <Gallery.DeleteModal>
-                <DeleteSelectedItemsModal deleteMethod={properties.deleteFile}/>
+                <DeleteSelectedItemsModal deleteMethod={(fileData: Kotilogi.FileType) => deleteFile('propertyFiles', fileData)}/>
             </Gallery.DeleteModal>
 
             <Gallery.Header title="Tiedostot">

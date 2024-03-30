@@ -1,31 +1,37 @@
 'use client';
 
-import { AddFilesModal } from "kotilogi-app/components/Modals/AddModal";
+import AddFilesModal from "kotilogi-app/components/Experimental/Modal/AddFilesModal";
 import { Gallery } from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
-import { ModalProps } from "kotilogi-app/components/Modals/Modal";
-import {ImageError} from '@/components/new/Gallery/GalleryBase/Components/Error/ImageError';
 import { PropertyImageListItem } from "kotilogi-app/components/ListItem/ImageListItem";
-import * as properties from '@/actions/properties';
-import * as file from '@/actions/file';
+import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
+import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
+import { FileError } from "@/components/new/Gallery/GalleryBase/Components/Error/FileError";
+import { uploadFile } from "kotilogi-app/actions/uploadFile";
+import { deleteFile } from "kotilogi-app/actions/deleteFile";
 
 export function Content({files, propertyId}){
     return (
         <Gallery data={files}>
-            <Gallery.Header 
-                title="Kuvat"
-                AddModal={(props: ModalProps) => <AddFilesModal 
-                    {...props} 
-                    tablename="propertyFiles" 
-                    accept="image/jpeg" 
-                    refId={propertyId} 
-                    uploadMethod={(fdata: FormData) => properties.uploadFile(fdata, propertyId)}/>}
+            <Gallery.AddModal>
+                <AddFilesModal accept="image/jpeg" uploadMethod={(fdata: FormData) => uploadFile('propertyFiles', fdata, propertyId)}/>
+            </Gallery.AddModal>
 
-                DeleteModal={(props: ModalProps) => <Gallery.DeleteModal<Kotilogi.FileType> {...props} deleteMethod={(item) => properties.deleteFile(item)}/>}
-                
-            />
+            <Gallery.DeleteModal>
+                <DeleteSelectedItemsModal deleteMethod={(fileData: Kotilogi.FileType) => deleteFile('propertyFiles', fileData)}/>
+            </Gallery.DeleteModal>
 
-            <Gallery.Body displayStyle="horizontal" itemComponent={PropertyImageListItem} errorElement={
-                <ImageError message="Et ole vielä lisännyt talolle kuvia. Aloita painamalla Lisää-Uusi painiketta."/>
+            <Gallery.Header title="Tiedostot">
+                <Gallery.DeleteModalTrigger>
+                    <DeleteButton/>
+                </Gallery.DeleteModalTrigger>
+
+                <Gallery.AddModalTrigger>
+                    <AddButton/>
+                </Gallery.AddModalTrigger>
+            </Gallery.Header>
+
+            <Gallery.Body displayStyle="vertical" itemComponent={PropertyImageListItem} errorElement={
+                <FileError message="Et ole vielä lisännyt talolle tiedostoja. Aloita painamalla Lisää-Uusi painiketta."/>
             }/>
         </Gallery>
     )

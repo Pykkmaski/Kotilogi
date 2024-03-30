@@ -11,17 +11,15 @@ import { upload } from "kotilogi-app/actions/file";
 import toast from "react-hot-toast";
 
 type AddFilesModalProps = {
-    /**To what item these files belong to */
-    refId: string;
-    uploadMethod: (fdata: FormData, refId: string) => Promise<void>;
+    uploadMethod: (fdata: FormData) => Promise<void>;
     accept: string;
 }
 
-function AddFilesModal({refId, accept, uploadMethod}: AddFilesModalProps, ref: React.MutableRefObject<ModalRefType>){
+function AddFilesModal({accept, uploadMethod}: AddFilesModalProps, ref: React.MutableRefObject<ModalRefType>){
     const formRef = useRef<HTMLFormElement>(null);
     const {files, updateFiles} = useInputFiles();
     const [status, setStatus] = useState<'idle' | 'loading'>('idle');
-    const formId = `add-files-modal-${refId}`;
+    const formId = `add-files-modal`;
 
     const uploadFiles = (e) => {
         e.preventDefault();
@@ -30,7 +28,7 @@ function AddFilesModal({refId, accept, uploadMethod}: AddFilesModalProps, ref: R
         const promises: Promise<void>[] = [];
         for(const fdata of files){
             promises.push(
-                uploadMethod(fdata, refId)
+                uploadMethod(fdata)
             );
         }
         
@@ -59,7 +57,7 @@ function AddFilesModal({refId, accept, uploadMethod}: AddFilesModalProps, ref: R
                 <form ref={formRef} id={formId} onSubmit={uploadFiles} className="flex flex-col gap-4 md:w-[700px] xs:w-full">
                     <Input 
                         label="Tiedostot"
-                        description="PDF tai JPEG"
+                        description={accept === 'application/pdf' ? 'Valitse PDF-tiedostot' : 'Valitse kuvat' }
                         type="file"
                         name="file"
                         accept={accept}
