@@ -1,57 +1,12 @@
 'use client';
 
 import Button from "@/components/Button/Button";
+import { Description, ErrorMessage, Group, Input, Label } from "@/components/Util/FormUtils";
 import axios from "axios";
 import { generateTransferKey } from "kotilogi-app/actions/properties";
 import { isUserValid } from "kotilogi-app/actions/users";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
-const Label = ({children}: React.ComponentProps<'label'>) => {
-    return <label>{children}</label>
-}
-
-const Group = ({children}: React.PropsWithChildren) => {
-    return (
-        <div className="flex flex-col gap-1">
-            {children}
-        </div>
-    );
-}
-
-const Input = ({children, ...props}: React.ComponentProps<'input'> & React.PropsWithChildren) => {
-    return (
-        <div className="relative flex w-full items-center">
-            <input {...props} className="w-full"/>
-            <div className="absolute right-2">
-                {children}
-            </div>
-        </div>
-        
-    );
-}
-
-const SubLabel = ({children}: React.PropsWithChildren) => {
-    return (
-        <div className="text-sm w-full text-right">{children}</div>
-    );
-}
-
-const Description = ({children}: React.PropsWithChildren) => {
-    return (
-        <SubLabel>
-            <div className="text-slate-500">{children}</div>
-        </SubLabel>
-    );
-}
-
-const ErrorMessage = ({children}: React.PropsWithChildren) => {
-    return (
-        <SubLabel>
-            <div className="text-red-500">{children}</div>
-        </SubLabel>
-    );
-}
 
 type TransferFormProps = {
     property: Kotilogi.PropertyType,
@@ -78,10 +33,10 @@ export function TransferForm({property, user}: TransferFormProps){
         setStatus('loading');
 
         generateTransferKey({
-            address: property.title,
-            receiver: email,
-            sender: user.email,
-            password: e.target.password.value,
+            propertyAddress: property.title,
+            receiverEmail: email,
+            senderEmail: user.email,
+            senderPassword: e.target.password.value,
         })
         .then(({token, error}) => {
 

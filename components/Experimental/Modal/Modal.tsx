@@ -11,6 +11,11 @@ type ModalContextProps = {
 
 const ModalContext = createContext<ModalContextProps | null>(null);
 
+/**
+ * Closes the modal when the child is clicked. If the child has it's own onClick-event, that will be called first, and then the modal closes.
+ * @param param0 
+ * @returns 
+ */
 function CloseTrigger({children}){
     const {toggleOpen} = useModalContext();
 
@@ -40,6 +45,14 @@ function Footer({children}){
             {children}
         </div>
     )
+}
+
+function Body({children}){
+    return (
+        <div className="w-full p-2">
+            {children}
+        </div>
+    );
 }
 
 type ModalProps = React.PropsWithChildren;
@@ -78,6 +91,7 @@ function Modal({children}: ModalProps, ref: React.Ref<ModalRefType>){
 Modal.CloseTrigger = CloseTrigger;
 Modal.Header = Header;
 Modal.Footer = Footer;
+Modal.Body = Body;
 
 function useModalContext(){
     const ctx = useContext(ModalContext);
@@ -89,4 +103,5 @@ export default Object.assign(forwardRef(Modal), {
     CloseTrigger,
     Header,
     Footer,
+    Body
 });

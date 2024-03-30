@@ -2,9 +2,9 @@
 
 import { deleteProperty } from 'kotilogi-app/actions/property/deleteProperty';
 import Modal, { ModalProps } from 'kotilogi-app/components/Modals/Modal';
-import {default as ExperimentalModal} from '@/components/Experimental/Modal';
-
-import { AddPropertyModal } from 'kotilogi-app/components/Modals/AddModal';
+import {default as ExperimentalModal} from '@/components/Experimental/Modal/Modal';
+import { AddPropertyModal as AddPropertyModalOld} from '@/components/Modals/AddModal';
+import AddPropertyModal from '@/components/Experimental/Modal/AddPropertyModal';
 import { PropertyListItem } from 'kotilogi-app/components/ListItem/ListItem';
 import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import {Error} from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error';
@@ -13,6 +13,8 @@ import Button from '@/components/Button/Button';
 import { Heading } from '@/components/Heading';
 import { useState } from 'react';
 import { CloseButton } from '@/components/CloseButton';
+import DeleteSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal';
+import { AddButton, DeleteButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 
 function PaymentModal(props: ModalProps){
     return (
@@ -59,34 +61,25 @@ export function Content({propertyData, user}: {
         <main className='mb-4 flex-1 h-full'>
             <Gallery<Kotilogi.PropertyType> data={propertyData}>
                 <Gallery.AddModal>
-                    <ExperimentalModal>
-                        <ExperimentalModal.Header>
-                            <h1 className="Lisää Talo"></h1>
-                            <ExperimentalModal.CloseTrigger>
-                                <CloseButton/>
-                            </ExperimentalModal.CloseTrigger>
-                        </ExperimentalModal.Header>
-                        
-                        <div className="px-4">
-                            Testi
-                        </div>
-                        
-                        <ExperimentalModal.Footer>
-                            <ExperimentalModal.CloseTrigger>
-                                <Button variant="primary-dashboard">
-                                    <span className="mx-8">Sulje</span>
-                                </Button>
-                            </ExperimentalModal.CloseTrigger>
-                        </ExperimentalModal.Footer>
-                    </ExperimentalModal>
+                    <AddPropertyModal owner={user.email}/>
                 </Gallery.AddModal>
 
-                <Gallery.Header 
-                    title="Talot" 
-                    AddModal={(props) => <AddPropertyModal refId={user.email} {...props}/>}
-                    DeleteModal={(props: ModalProps) => {
-                        return <Gallery.DeleteModal<Kotilogi.PropertyType> {...props} deleteMethod={properties.del}/>
-                    }}/>
+                <Gallery.DeleteModal>
+                    <DeleteSelectedItemsModal deleteMethod={properties.del}/>
+                </Gallery.DeleteModal>
+
+                <Gallery.Header title="Talot">
+                    <div className="flex gap-4 items-center">
+                        <Gallery.DeleteModalTrigger>
+                            <DeleteButton/>
+                        </Gallery.DeleteModalTrigger>
+
+                        <Gallery.AddModalTrigger>
+                            <AddButton/>
+                        </Gallery.AddModalTrigger>
+                    </div>
+                </Gallery.Header>
+                
                 <Gallery.Body displayStyle='vertical' itemComponent={PropertyListItem} errorElement={
                     <Error title="Ei Taloja" message="Et ole vielä lisännyt taloja." icon="/icons/house.png"/>
                 }/>

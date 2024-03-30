@@ -7,6 +7,7 @@ import { Group } from "../Group";
 import toast from "react-hot-toast";
 import { ErrorText } from "../Util/Text";
 import Button from "../Button/Button";
+import {default as ExperimentalModal} from '@/components/Experimental/Modal/Modal';
 
 type BaseAddModalProps = ModalProps & {
     submitMethod: (e) => any, //TODO: type this better.
@@ -45,6 +46,7 @@ export function BaseAddModal({children, submitMethod, ...props}: BaseAddModalPro
     const loading = status === 'loading';
 
     return (
+
         <Modal {...props}>
             <Modal.Header>
                 <span className="text-xl text-slate-500">{props.title}</span>

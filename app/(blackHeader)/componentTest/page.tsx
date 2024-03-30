@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button/Button";
 import { CloseButton } from "@/components/CloseButton";
-import Modal, { ModalRefType } from "@/components/Experimental/Modal";
+import Modal, { ModalRefType } from "@/components/Experimental/Modal/Modal";
 import MultiStepModal, { MultiStepModalMethods } from "@/components/Modals/MultiStepModal";
 import { useRef, useState } from "react";
 

@@ -12,7 +12,11 @@ import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
 import { AdContainer } from "@/components/AdContainer";
 import React from "react";
-import { ModalRefType } from "@/components/Experimental/Modal";
+import { ModalRefType } from "@/components/Experimental/Modal/Modal";
+import {default as ExperimentalModal} from '@/components/Experimental/Modal/Modal';
+import { CloseButton } from "@/components/CloseButton";
+import Button from "@/components/Button/Button";
+import toast from "react-hot-toast";
 
 function Header(props: React.PropsWithChildren & {
     title: string,
@@ -21,7 +25,7 @@ function Header(props: React.PropsWithChildren & {
     /**The modal displayed when deleting multiple items at once. */
     DeleteModal?: React.FC<ModalProps>,
 }){
-    const {state} = useGalleryContext();
+    const {state, addModalRef} = useGalleryContext();
     const [showAddModal, setShowAddModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -36,9 +40,9 @@ function Header(props: React.PropsWithChildren & {
             );
         }
 
-        if(AddModal){
+        if(addModalRef.current){
             buttons.push(
-                <PrimaryButton onClick={() => setShowAddModal(true)} className="shadow-md min-h-8">
+                <PrimaryButton onClick={() => addModalRef.current.toggleOpen(true)} className="shadow-md min-h-8">
                     <Group direction="row" gap={4}>
                         <img src="/icons/plus.png" className="invert aspect-square w-[25px]"/>
                     </Group>
@@ -51,16 +55,15 @@ function Header(props: React.PropsWithChildren & {
     
     return (
         <>
-            {AddModal ? <AddModal id="gallery-add-modal" show={showAddModal} onHide={() => setShowAddModal(false)}/> : null}
-            {DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null}
+            {/**AddModal ? <AddModal id="gallery-add-modal" show={showAddModal} onHide={() => setShowAddModal(false)}/> : null*/}
+            {/**DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null*/}
 
             <div className="mb-4 w-full">
                 <Group direction="row" justify="between" align="center">
                     <Heading>{props.title}</Heading>
 
                     <Group direction="row" gap={4} align="center" justify="center">
-                        {props.children}   
-                        {...getButtons()}
+                        {props.children}  
                     </Group>
                 </Group>
             </div>
@@ -100,6 +103,26 @@ function Body({displayStyle = 'vertical', itemComponent: ItemComponent, ...props
     );
 }
 
+/**
+ * Triggers the modal for adding new data, if it is present.
+ * @param param0 
+ * @returns 
+ */
+function AddModalTrigger({children}){
+    const {addModalRef} = useGalleryContext();
+    return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
+        ...child.props,
+        title: 'Lisää uusi kohde...',
+        onClick: () => {
+            if(child.props.onClick){
+                child.props.onClick();
+            }
+
+            addModalRef.current?.toggleOpen(true);
+        }
+    }))
+}
+
 function AddModal({children}){
     const {addModalRef} = useGalleryContext();
     return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
@@ -113,6 +136,23 @@ function DeleteModal({children}){
     return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
         ...child.props,
         ref: deleteModalRef,
+    }));
+}
+
+function DeleteModalTrigger({children}){
+    const {deleteModalRef, state} = useGalleryContext();
+
+    return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
+        ...child.props,
+        title: 'Poista valitut kohteet...',
+        hidden: state.selectedItems.length === 0,
+        onClick: () => {
+            if(child.props.onClick){
+                child.props.onClick();
+            }
+
+            deleteModalRef.current?.toggleOpen(true);
+        }
     }));
 }
 
@@ -160,12 +200,70 @@ export function Gallery<T extends Kotilogi.ItemType>(props: GalleryProps<T>){
 Gallery.Header = Header;
 Gallery.Body = Body;
 Gallery.AddModal = AddModal;
+Gallery.DeleteModal = DeleteModal;
+Gallery.AddModalTrigger = AddModalTrigger;
+Gallery.DeleteModalTrigger = DeleteModalTrigger;
+
+type DeleteSelectedItemsModalProps<T extends Kotilogi.ItemType> = {
+    deleteMethod: (item: T) => Promise<void>;
+}
 
 /**The global modal displayed when deleting multiple selected items at once. */
-Gallery.DeleteModal = <T extends Kotilogi.ItemType>({deleteMethod, ...props}: ModalProps & {deleteMethod: (item: T) => Promise<void>}) => {
+Gallery.DeleteSelectedItemsModal = function<T extends Kotilogi.ItemType>({deleteMethod}: DeleteSelectedItemsModalProps<T>){
     const {state, dispatch} = useGalleryContext();
+    const [status, setStatus] = useState<'idle' | 'loading'>('idle');
+
+    const executeDelete = () => {
+        const promises: Promise<void>[] = [];
+        for(const item of state.selectedItems){
+            promises.push(
+                deleteMethod(item as TODO)
+            );
+        }
+        setStatus('loading');
+        Promise.all(promises).catch(err => toast.error('Joidenkin kohteiden poisto epäonnistui!'))
+        .finally(() => setStatus('idle'));
+    }
+
+    const loading = status === 'loading';
 
     return (
+        <ExperimentalModal>
+            <ExperimentalModal.Header>
+                <h1 className="text-xl text-slate-500">Poista Valitut Kohteet</h1>
+                <ExperimentalModal.CloseTrigger>
+                    <CloseButton/>
+                </ExperimentalModal.CloseTrigger>
+            </ExperimentalModal.Header>
+
+            <ExperimentalModal.Body>
+                <div className="flex flex-col gap-4">
+                    <p className="text-slate-500">
+                        Olet poistamassa seuraavia kohteita:
+                    </p>
+                    <ul className="text-slate-500">
+                        {
+                            state.selectedItems.map(item => (
+                                <li>{item.title}</li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </ExperimentalModal.Body>
+
+            <ExperimentalModal.Footer>
+                <ExperimentalModal.CloseTrigger>
+                    <Button variant="secondary" disabled={loading}>
+                        <span>Peruuta</span>
+                    </Button>
+                </ExperimentalModal.CloseTrigger>
+
+                <Button variant="primary-dashboard" disabled={loading} loading={loading} onClick={executeDelete}>
+                    <span className="mx-8">Poista</span>
+                </Button>
+            </ExperimentalModal.Footer>
+        </ExperimentalModal>
+        /*
         <DeleteModal2 
             {...props} 
             targetsToDelete={state.selectedItems} 
@@ -175,6 +273,7 @@ Gallery.DeleteModal = <T extends Kotilogi.ItemType>({deleteMethod, ...props}: Mo
             resetSelectedTargets={() => dispatch({
                 type: 'reset_selected',
             })}/>
+            */
     )
 }
 

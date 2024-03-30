@@ -118,17 +118,15 @@ export async function del(fileData: Kotilogi.FileType[]){
         for(const data of fileData){
             backupFilePromises.push(
                 new Promise<BackupFileType>(async (resolve, reject) => {
-                    try{
-                        const buffer = await readFile(uploadPath + data.fileName);
-                        resolve({
-                            fileName: data.fileName,
-                            buffer,
-                        });
-                    }
-                    catch(err){
-                        console.log(err.message);
-                        reject(err);
-                    }
+                    const fileName = uploadPath + data.fileName;
+
+                    await readFile(fileName)
+                    .then((buffer) => resolve({
+                        fileName: data.fileName,
+                        buffer,
+                    }))
+                    .catch(err => reject(err));
+                    
                 })
             )
         }
@@ -156,6 +154,7 @@ export async function del(fileData: Kotilogi.FileType[]){
     }
     catch(err){
         await rollbackDelete();
+        throw err;
     }
 }
 

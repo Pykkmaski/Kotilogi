@@ -24,7 +24,7 @@ function Label(props: {
     const getDescriptionElement = () => {
         if(props.description){
             return (
-                <span className="text-base text-slate-500">{props.description}</span>
+                <span className="text-sm text-slate-500">{props.description}</span>
             );
         }
         else{
