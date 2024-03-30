@@ -14,7 +14,6 @@ import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Bu
 export function Content({files, eventId}){
     return (
         <Gallery data={files}>
-
             <Gallery.AddModal>
                 <AddFilesModal accept="application/pdf" uploadMethod={(fdata: FormData) => uploadFile('eventFiles', fdata, eventId)} />
             </Gallery.AddModal>
@@ -27,7 +26,7 @@ export function Content({files, eventId}){
                 <Gallery.DeleteModalTrigger>
                     <DeleteButton/>
                 </Gallery.DeleteModalTrigger>
-                
+
                 <Gallery.AddModalTrigger>
                     <AddButton/>
                 </Gallery.AddModalTrigger>

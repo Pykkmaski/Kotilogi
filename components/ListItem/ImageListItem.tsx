@@ -15,17 +15,8 @@ function ImageListItem(props: Omit<FileListItemProps, 'icon'>){
 
     return (
         <ListItemProvider item={props.item}>
-            <div className="relative">
-                <Link href={imageSrc} target="_blank" style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '12rem',
-                    aspectRatio: '1/1',
-                    border: '1px solid #DDD',
-                    borderRadius: '10px',
-                    objectFit: 'contain',
-                    overflow: 'hidden',
-                }}>
+            <div className="relative aspect-square overflow-hidden object-contain rounded-lg w-[200px] flex items-center justify-center shadow-md">
+                <Link href={imageSrc} target="_blank">
                     <img style={{objectFit: 'contain'}} src={imageSrc}></img>
                 </Link>
 

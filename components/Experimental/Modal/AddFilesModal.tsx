@@ -61,6 +61,7 @@ function AddFilesModal({accept, uploadMethod}: AddFilesModalProps, ref: React.Mu
                         type="file"
                         name="file"
                         accept={accept}
+                        multiple={true}
                         required
                         onChange={updateFiles}
                     />

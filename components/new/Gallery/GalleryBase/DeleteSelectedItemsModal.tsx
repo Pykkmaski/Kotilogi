@@ -10,10 +10,17 @@ type DeleteSelectedItemsModalProps = {
 }
 
 function DeleteSelectedItemsModal({deleteMethod}: DeleteSelectedItemsModalProps, ref: React.MutableRefObject<ModalRefType>){
-    const {state} = useGalleryContext();
+    const {state, dispatch} = useGalleryContext();
     const {status, executeDelete} = useDeleteDataModal(ref, deleteMethod, state.selectedItems);
     const loading = status === 'loading';
     
+    const deleteItems = () => {
+        executeDelete();
+        dispatch({
+            type: 'reset_selected',
+        });
+    }
+
     return (
         <ExperimentalModal ref={ref}>
             <ExperimentalModal.Header>
@@ -45,7 +52,7 @@ function DeleteSelectedItemsModal({deleteMethod}: DeleteSelectedItemsModalProps,
                     </Button>
                 </ExperimentalModal.CloseTrigger>
 
-                <Button variant="primary-dashboard" disabled={loading} loading={loading} onClick={executeDelete}>
+                <Button variant="primary-dashboard" disabled={loading} loading={loading} onClick={deleteItems}>
                     <span className="mx-8">Poista</span>
                 </Button>
             </ExperimentalModal.Footer>

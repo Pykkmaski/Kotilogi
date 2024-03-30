@@ -183,6 +183,7 @@ export async function deleteFile(fileData: Kotilogi.FileType){
     return new Promise<void>(async (resolve, reject) => {
         let rollbackDelete: () => Promise<void>;
         const trx = await db.transaction();
+        
         try{
             rollbackDelete = await file.del([fileData]);
             await trx('propertyFiles').where({id: fileData.id}).del();

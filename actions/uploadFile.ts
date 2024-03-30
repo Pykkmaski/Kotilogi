@@ -1,3 +1,5 @@
+'use server';
+
 import db from "kotilogi-app/dbconfig";
 import { revalidatePath } from "next/cache";
 import * as file from './file';

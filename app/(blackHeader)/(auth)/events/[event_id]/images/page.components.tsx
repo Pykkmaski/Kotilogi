@@ -16,14 +16,14 @@ export function Content({files, eventId}){
     return (
         <Gallery data={files}>
             <Gallery.AddModal>
-                <AddFilesModal accept="application/pdf" uploadMethod={(fdata: FormData) => uploadFile('eventFiles', fdata, eventId)} />
+                <AddFilesModal accept="image/jpeg" uploadMethod={(fdata: FormData) => uploadFile('eventFiles', fdata, eventId)} />
             </Gallery.AddModal>
 
             <Gallery.DeleteModal>
                 <DeleteSelectedItemsModal deleteMethod={(fdata: Kotilogi.FileType) => deleteFile('eventFiles', fdata)} />
             </Gallery.DeleteModal>
 
-            <Gallery.Header title="Tiedostot">
+            <Gallery.Header title="Kuvat">
                 <Gallery.DeleteModalTrigger>
                     <DeleteButton/>
                 </Gallery.DeleteModalTrigger>
@@ -33,8 +33,8 @@ export function Content({files, eventId}){
                 </Gallery.AddModalTrigger>
             </Gallery.Header>
 
-            <Gallery.Body displayStyle="vertical" itemComponent={EventImageListItem} errorElement={
-                <FileError message="Et ole vielä lisännyt tapahtumalle tiedostoja. Aloita painamalla Lisää Uusi-painiketta."/>
+            <Gallery.Body displayStyle="horizontal" itemComponent={EventImageListItem} errorElement={
+                <ImageError message="Et ole vielä lisännyt tapahtumalle kuvia. Aloita painamalla Lisää Uusi-painiketta."/>
             }/>
         </Gallery>
     )
