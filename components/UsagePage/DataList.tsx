@@ -1,17 +1,17 @@
 'use client';
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import Modal, { ModalProps } from "../Modals/Modal";
 import { Input } from "../Input/Input";
 import { PrimaryButton } from "../Button/PrimaryButton";
 import { SecondaryButton } from "../Button/SecondaryButton";
 import toast from "react-hot-toast";
 import * as usage from '@/actions/usage';
-import { useInputData } from "../Modals/BaseAddModal.hooks";
-import { colors } from "kotilogi-app/apex.config";
 import { splitByMonth } from "kotilogi-app/actions/usage.utils";
 import { monthNameToLang } from "kotilogi-app/utils/translate/planNameToLang";
 import { Icon } from "./Icon";
+import { ModalRefType } from "../Experimental/Modal/Modal";
+import EditUsageModal from "./EditUsageModal";
 
 const ListItemContext = createContext<any>(null);
 
@@ -78,7 +78,7 @@ function EditModal(props: ModalProps){
                     >Päivitä</PrimaryButton>
             </Modal.Footer>
         </Modal>
-    )
+    );
 }
 
 type ListItemProps = {
@@ -86,7 +86,8 @@ type ListItemProps = {
 }
 
 function Item({item}: ListItemProps){
-    const [showEditModal, setShowEditModal] = useState(false);
+    //const [showEditModal, setShowEditModal] = useState(false);
+    const editModalRef = useRef<ModalRefType>(null);
     
     const deleteItem = () => {
         const c = confirm('Olet poistamassa tietoa. Oletko varma?');
@@ -104,7 +105,7 @@ function Item({item}: ListItemProps){
 
     return (
         <ListItemContext.Provider value={{item}}>
-            <EditModal show={showEditModal} onHide={() => setShowEditModal(false)} id={`${item.id}-edit-modal`} key={`edit-modal-${item.toString()}`}/>
+            <EditUsageModal ref={editModalRef}/>
             <span className="flex p-2 rounded-lg shadow-lg text-slate-500 justify-between border-gray-100 border hover:bg-orange-100">
                 <div className="flex gap-4 items-center">
                     <Icon type={item.type}/>
@@ -113,7 +114,7 @@ function Item({item}: ListItemProps){
                 </div>
                 
                 <div className="flex gap-4 items-center">
-                    <span className="cursor-pointer" onClick={() => setShowEditModal(true)}>Muokkaa</span>
+                    <span className="cursor-pointer" onClick={() => editModalRef.current?.toggleOpen(true)}>Muokkaa</span>
                     <span className="font-semibold cursor-pointer" onClick={deleteItem}>Poista</span>
                 </div>
             </span>
@@ -126,7 +127,6 @@ type DataListProps = {
 }
 
 export function DataList({data}: DataListProps){
-
     const dataSorted = data.sort((a, b) => {
         const timeA = new Date(a.time).getTime();
         const timeB = new Date(b.time).getTime();
@@ -171,7 +171,7 @@ export function DataList({data}: DataListProps){
     );
 }
 
-function useItemContext(){
+export function useItemContext(){
     const context = useContext(ListItemContext);
     if(!context) throw new Error('useItemContext must be used within the scope of an ItemContext');
     return context;
