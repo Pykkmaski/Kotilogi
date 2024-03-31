@@ -74,7 +74,6 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
 
             <ControlsContainer>
                 <CheckBox checked={props.selected}/>
-                <DeleteButton onClick={deleteItem}/>
             </ControlsContainer>
         </ListItem>
     );
@@ -82,7 +81,6 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
 
 export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
     const timestamp: string | null = props.item.time;
-    console.log(timestamp);
     const date = timestamp !== null ? new Date(timestamp).toLocaleDateString('fi-FI') : 'Ei Päivämäärää.';
 
     const deleteEvent = () => {

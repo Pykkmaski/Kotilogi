@@ -71,7 +71,7 @@ function AddFilesModal({accept, uploadMethod}: AddFilesModalProps, ref: React.Mu
             <Modal.Footer>
                 <Modal.CloseTrigger>
                     <Button variant="secondary" disabled={loading}>
-                        <span className="mx-8">Sulje</span>
+                        <span>Sulje</span>
                     </Button>
                 </Modal.CloseTrigger>
                 <Button variant="primary-dashboard" disabled={loading} loading={loading} form={formId}>

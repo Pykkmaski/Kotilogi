@@ -6,9 +6,7 @@ import { signOut } from "next-auth/react";
 export async function GET(req: NextRequest, {params}){
     try{
         if(!params.token){
-            return new NextResponse('Token not found!', {
-                status: 404,
-            });
+            throw new Error('token_not_found');
         }
         
         const activationSecret = process.env.ACTIVATION_SECRET;
@@ -17,7 +15,8 @@ export async function GET(req: NextRequest, {params}){
         const emailToActivate = jwt.verify(params.token, activationSecret, (err, decoded) => {
             if(err){
                 console.log(err.message);
-                //Return response on invalid token.
+                //Throw error on invalid token.
+                throw new Error('token_invalid');
             }
             else{
                 return decoded;
@@ -28,25 +27,41 @@ export async function GET(req: NextRequest, {params}){
         const [{status: userStatus}] = await db('users').where({email: emailToActivate}).select('status');
     
         if(userStatus !== 'unconfirmed'){
-            return new NextResponse('User already activated!', {
-                status: 409,
-            });
+            throw new Error('user_activated');
         }
     
         await db('users').where({email: emailToActivate}).update({
             status: 'active',
+            activatedOn: Date.now(),
         });
     
-
         return NextResponse.redirect(`${process.env.SERVICE_DOMAIN}/logout`, {
-            status: 303,
+            status: 200,
         });
     }
     catch(err){
         console.log(err.message);
-        return new NextResponse('Palvelinvirhe', {
-            status: 500,
-        });
+        if(err.message === 'invalid_token'){
+            return new NextResponse(null, {
+                status: 403,
+            });
+        }
+        else if(err.message === 'user_activated'){
+            return new NextResponse(null, {
+                status: 409,
+            });
+        }
+        else if(err.message === 'token_not_found'){
+            return new NextResponse(null, {
+                status: 400,
+            });
+        }
+        else{
+            return new NextResponse('Palvelinvirhe', {
+                status: 500,
+            });
+        }
+        
     }
     
 }

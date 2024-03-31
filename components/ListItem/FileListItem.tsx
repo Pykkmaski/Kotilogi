@@ -1,13 +1,9 @@
-import { deletePropertyFiles } from "kotilogi-app/actions/property/deletePropertyFiles";
-import { deleteEventFiles } from "kotilogi-app/actions/propertyEvent/deleteEventFiles";
+'use client';
+
 import { ListItem, ListItemProps } from "./ListItem";
 import { CheckBox, ControlsContainer, InfoContainer, TitleContainer } from "./ListItem.components";
-import toast from "react-hot-toast";
 import * as properties from '@/actions/properties';
 import * as events from '@/actions/events';
-import * as file from '@/actions/file';
-import { Gallery } from "../new/Gallery/GalleryBase/Gallery";
-import { DeleteButton } from "../new/Gallery/GalleryBase/Buttons";
 
 export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
     icon: string,

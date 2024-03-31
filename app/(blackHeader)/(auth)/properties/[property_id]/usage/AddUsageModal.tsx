@@ -82,7 +82,7 @@ function AddUsageModal(props, ref: MutableRefObject<ModalRefType>){
             </ExperimentalModal.Header>
 
             <ExperimentalModal.Body>
-                <form id={formId} onSubmit={submitUsageData} className="flex flex-col gap-4" ref={formRef}>
+                <form id={formId} onSubmit={submitUsageData} className="flex flex-col gap-4 md:w-[800px] xs:w-full" ref={formRef}>
                     {
                         type === 'all' ? (
                             <Select

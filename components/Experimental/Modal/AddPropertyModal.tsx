@@ -97,7 +97,7 @@ function AddPropertyModal({owner}: AddPropertyModalProps, ref: MutableRefObject<
             <Modal.Footer>
                 <Modal.CloseTrigger>
                     <Button variant="secondary" onClick={() => cleanup()}>
-                        <span className="mx-8">Peruuta</span>
+                        <span>Peruuta</span>
                     </Button>
                 </Modal.CloseTrigger>
 

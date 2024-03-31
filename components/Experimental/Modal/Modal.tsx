@@ -41,7 +41,7 @@ function Header({children}){
 
 function Footer({children}){
     return (
-        <div className="border-t border-slate-200 w-full flex items-center justify-end p-2">
+        <div className="border-t border-slate-200 w-full flex items-center justify-end p-2 gap-4">
             {children}
         </div>
     )

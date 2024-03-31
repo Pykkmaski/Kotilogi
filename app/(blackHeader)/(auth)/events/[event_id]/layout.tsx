@@ -22,7 +22,7 @@ export default async function EventLayout({children, params}){
                         <SecondaryHeading>
                             <span className="text-white">Tapahtuma</span>
                         </SecondaryHeading>
-                        <span className="text-white text-xl">{event.title}</span>
+                        <span className="text-white text-xl max-w-[50%] overflow-hidden text-ellipsis whitespace-nowrap">{event.title}</span>
                     </Group>
                 </Header>
 

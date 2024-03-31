@@ -50,7 +50,7 @@ function EditUsageModal(props, ref: MutableRefObject<ModalRefType>){
             </Modal.Header>
 
             <Modal.Body>
-                <form onSubmit={update} id={formId}>
+                <form onSubmit={update} id={formId} className="xs:w-full md:w-[600px]">
                     <Input 
                         label="Hinta"
                         description="Laskun hinta."

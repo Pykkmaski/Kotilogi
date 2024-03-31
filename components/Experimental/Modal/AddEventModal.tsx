@@ -68,7 +68,7 @@ function AddEventModal({propertyId}: AddEventModalProps, ref: MutableRefObject<M
             <Modal.Footer>
                 <Modal.CloseTrigger>
                     <Button variant="secondary" disabled={loading}>
-                        <span className="mx-8">Peruuta</span>
+                        <span>Peruuta</span>
                     </Button>
                 </Modal.CloseTrigger>
 

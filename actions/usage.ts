@@ -61,6 +61,12 @@ export async function add(usageData: Kotilogi.UsageType){
 }
 
 export async function del(usageData: Kotilogi.UsageType){
+    //The time beyond which the data cannot be deleted:
+    const expiryTime = parseInt(usageData.time + 1000 * 60 * 60 * 24 * 7);
+    if(parseInt(usageData.time) > expiryTime){
+        throw new Error('deletion_prohibited');
+    }
+
     return await database.del(TABLENAME, {id: usageData.id})
     .then(() => revalidateUsage());
 }

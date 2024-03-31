@@ -37,18 +37,7 @@ function Footer(props){
 
             <footer className="w-full flex flex-col items-center mt-10">
                 <nav className="flex flex-row gap-32 mt-2">
-                    <div className="flex flex-col gap-2">
-                        <h3 className="text-lg">Jani Österberg</h3>
-                        <LinkIcon href="https://instagram.com/jani.osterberg" variant="ig"/>
-                    </div>
-                    
-                    <div className="flex flex-col gap-2">
-                        <h3 className="text-lg">Jens Österberg</h3>
-                        <div className="flex gap-8">
-                            <LinkIcon href="https://instagram.com/oletusarvo.art" variant="ig"/>
-                            <LinkIcon href="https://soundcloud.com/oletusarvo" variant="sc"/>
-                        </div>
-                    </div>
+                    <LinkIcon variant="ig" href="https://instagram.com/kotidok.fi"/>
                 </nav>
             </footer>
         </div>
