@@ -34,7 +34,7 @@ function AddUsageModal(props, ref: MutableRefObject<ModalRefType>){
     const closeModal = () => {
         formRef.current?.reset();
         resetInputData(initialData);
-        props.onHide();
+        ref.current?.toggleOpen(false)
     }
 
     const submitUsageData = (e) => {

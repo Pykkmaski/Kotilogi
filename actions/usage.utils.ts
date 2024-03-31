@@ -9,11 +9,21 @@ export function mergeByMonth(data: Kotilogi.UsageType[], accumulate: boolean = f
 
     for(var month = 0; month < 12; ++month){
         const dataOnMonth = getDataForMonth(month, data);
+
         const priceOnMonth = dataOnMonth.reduce((acc, cur) => acc + cur.price, 0);
         const previousPrice = month > 0 ? merged[month - 1] : 0;
 
         const priceToSave = accumulate ? previousPrice + priceOnMonth : priceOnMonth;
         merged.push(priceToSave);
+    }
+
+    for(let i = merged.length - 1; i >= 0; --i){
+        if(merged[i] === 0){
+            merged[i] = null;
+        } 
+        else{
+            break;
+        }
     }
 
     return merged;

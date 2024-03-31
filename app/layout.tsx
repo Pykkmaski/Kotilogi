@@ -30,7 +30,7 @@ export default async function RootLayout({ children }) {
             }}/>
 
             <CookieNotice/>
-            <div className="md:hidden xs:block">
+            <div className="md:hidden xs:hidden">
               <Notice text={'Sovelluksen mobiiliversio on työn alla! Kokeile uudelleen myöhemmin.'}/>
             </div>
             

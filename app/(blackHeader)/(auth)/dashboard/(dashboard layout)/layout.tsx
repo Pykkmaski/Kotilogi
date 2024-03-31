@@ -10,6 +10,9 @@ import { Group } from "kotilogi-app/components/Group";
 import { Padding } from "@/components/Util/Padding";
 import { MediumDevices, SmallDevices } from "@/components/Util/Media";
 import { BackgroundFiller } from "@/components/BackgroundFIller";
+import { DashboardMobileNav } from "./DashboardMobileNav";
+import { FooterNav } from "@/components/FooterNav";
+import Link from "next/link";
 
 export default async function DashboardLayout({children}){
 
@@ -39,6 +42,7 @@ export default async function DashboardLayout({children}){
             <DashboardContextProvider user={session.user}>
                 <LayoutContentContainer>
                     {children}
+                    <DashboardMobileNav/>
                 </LayoutContentContainer>
             </DashboardContextProvider>
         </div>

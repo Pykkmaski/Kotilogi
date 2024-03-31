@@ -9,6 +9,8 @@ import { Header } from 'kotilogi-app/components/Header/Header';
 import { LayoutContentContainer, LayoutNavBarContainer, NavDivider } from 'kotilogi-app/components/Layout';
 import { Group } from 'kotilogi-app/components/Group';
 import { SecondaryHeading } from 'kotilogi-app/components/Heading';
+import { FooterNav } from '@/components/FooterNav';
+import Link from 'next/link';
 
 export default async function PropertyDetailsLayout({children, params}){
     const property = await db('properties').where({id: params.property_id}).first();
@@ -55,6 +57,31 @@ export default async function PropertyDetailsLayout({children, params}){
                 
                 <LayoutContentContainer>
                     {children}
+                    <FooterNav>
+                        <Link href="info">
+                            <i className="fa fa-info-circle"/>
+                        </Link>
+
+                        <Link href="events">
+                            <i className="fa fa-history"/>
+                        </Link>
+
+                        <Link href="usage?type=all">
+                            <i className="fa fa-bolt"/>
+                        </Link>
+
+                        <Link href="images">
+                            <i className="fa fa-image"/>
+                        </Link>
+
+                        <Link href="files">
+                            <i className="fa fa-copy"/>
+                        </Link>
+
+                        <Link href="transfer">
+                            <i className="fa fa-angle-double-up"/>
+                        </Link>
+                    </FooterNav>
                 </LayoutContentContainer>
             </div>
         </PropertyContextProvider>

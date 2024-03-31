@@ -32,7 +32,9 @@ export function AllUsageDataChart({data}: AllUsageDataChartProps){
         xaxis: {
             title: {
                 text: 'Päiväys',
-            }
+            },
+
+            categories: ['Tammi', 'Helmi', 'Maalis', 'Huhti', 'Touko', 'Kesä', 'Heinä', 'Elo', 'Syys', 'Loka', 'Marras', 'Joulu'],
         },
 
         yaxis: {
@@ -42,7 +44,7 @@ export function AllUsageDataChart({data}: AllUsageDataChartProps){
         },
 
         series: Object.keys(dataFiltered).map(key => {
-            const data = mergeByMonth(dataFiltered[key], true).map(d => parseFloat(d.toFixed(2)))
+            const data = mergeByMonth(dataFiltered[key], false).map(d => d !== null ? parseFloat(d.toFixed(2)) : d)
             //data.unshift(0);
 
             return {
