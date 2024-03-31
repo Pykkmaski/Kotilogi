@@ -8,16 +8,16 @@ import {PrimaryButton} from "../Button/PrimaryButton";
 type AddDataModalProps = ModalProps & {
     title: string,
     initialData: Kotilogi.IdType,
-    onSubmit: (value: object) => Promise<object>,
+    submitMethod: (value: object) => Promise<object>,
 }   
 
-export function AddDataModal({children, title, initialData, onSubmit, ...props}: AddDataModalProps){
+export function AddDataModal({children, title, initialData, submitMethod, ...props}: AddDataModalProps){
     const {data, updateData} = useInputData(initialData);
     const formRef = useRef<HTMLFormElement | null>(null);
     
     const modalSubmit = (e) => {
         e.preventDefault();
-        onSubmit(data)
+        submitMethod(data)
         .then(res => {
             toast.success('Tiedon lähetys onnistui!');
         })
