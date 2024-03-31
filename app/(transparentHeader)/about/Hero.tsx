@@ -6,7 +6,7 @@ export function Hero(){
     return (
         <section className="flex flex-col md:py-40 xs:py-20 relative bg-primary">
             <Background/>
-            <div className="bg-[#0004] w-full md:px-32 xs:px-4 z-20 py-10">
+            <div className="bg-[#0004] w-full md:px-32 xs:px-4 z-10 py-10">
                 <h1 className="md:text-8xl xs:text-4xl text-hero z-20">Idea omasta tarpeesta säilyttää omakotitalon tositteet tehdyistä korjauksista.</h1>
             </div>
         </section>
