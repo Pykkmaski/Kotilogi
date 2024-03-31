@@ -30,7 +30,7 @@ function HeroSection(){
         <div className="flex flex-row items-center w-full relative py-32 min-h-[500px]">
             <HeroBgImage/>
             <HeroGradient/>
-            <div className="mt-10 z-20">
+            <div className="mt-10 z-10">
                 <Padding>
                     <Hero/>
                 </Padding>
@@ -145,7 +145,7 @@ function Customers(){
 
 export default function HomePage(){
     return (
-        <main>
+        <main className="flex flex-col">
             <HeroSection/>
             <Profile2/>
             <DescriptionSection/>

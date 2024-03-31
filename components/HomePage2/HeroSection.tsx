@@ -46,7 +46,7 @@ export function HeroSection(){
         <section className="flex flex-col bg-heroSection px-32 relative bg-center bg-cover pt-8">
             <Gradient/>
             <HeroHeader/>
-            <div className="mt-32 mb-12 z-10 flex flex-col justify-center items-center font-serif">
+            <div className="mt-32 mb-12 z-0 flex flex-col justify-center items-center font-serif">
                 <h1 className="text-[170px] text-white w-full text-center">Talosi Huoltokirja</h1>
                 <Link href="/register" className="mt-32">
                     <Button variant="primary">

@@ -93,7 +93,7 @@ export default function Header({variant = 'black'}: HeaderProps){
 
                     <div className="xs:block md:hidden">
                         <MobileMenu>
-                            <nav className="flex flex-col gap-8 text-4xl">
+                            <nav className="flex flex-col gap-8 text-4xl z-50">
                                 <Link href="/">Etusivulle</Link>
                                 <Link href="/about">Tietoa Meistä</Link>
                                 <Link href="/register">Rekisteröidy</Link>

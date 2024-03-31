@@ -32,9 +32,14 @@ function MenuButton(){
 function MenuBody({children}){
     const {open, toggleState} = useMobileMenuContext();
 
+    const bodyClassName = [
+        style.body,
+        'z-70',
+    ];
+
     return (
         <OpenProvider open={open} openClassName={style.open}>
-            <div className={style.body}>
+            <div className={bodyClassName.join(' ')}>
                 <CallbackOnClickProvider callback={() => toggleState(false)}>
                     {children}
                 </CallbackOnClickProvider>
