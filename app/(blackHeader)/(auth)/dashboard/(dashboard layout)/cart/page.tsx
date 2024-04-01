@@ -45,7 +45,7 @@ export default async function CartPage(){
     ];
 
     return (    
-        <main className="flex flex-col gap-4 mb-8">
+        <main className="flex flex-col gap-4 mb-10">
             <Header>
                 <Heading>Ostoskori</Heading>
             </Header>

@@ -10,7 +10,7 @@ export default async function Page(){
     if(!session) throw new Error('Käyttäjän varmennus epäonnistui!');
     
     return (
-        <main className="flex flex-col gap-4">
+        <main className="flex flex-col gap-4 pb-10">
             <div className="flex justify-between items-center">
                 <Heading>Tilin asetukset</Heading>
             </div>

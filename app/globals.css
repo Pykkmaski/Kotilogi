@@ -25,7 +25,3 @@ a:hover{
 dialog::backdrop{
     backdrop-filter: blur(10px);
 }
-
-main{
-    padding-bottom: 2rem;
-}
