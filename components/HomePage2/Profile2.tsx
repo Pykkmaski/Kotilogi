@@ -1,11 +1,12 @@
 import { serviceName } from "kotilogi-app/constants";
 import Button from "../Button/Button";
 import Link from "next/link";
+import { IntroVideo } from "./IntroVideo";
 
 export function Profile2(){
     return (
         <section className="xs:px-2 md:px-32 py-32 flex flex-col bg-primary text-secondary">
-            <div className="flex flex-row gap-8">
+            <div className="flex md:flex-row xs:flex-col-reverse gap-8">
                 <div className="flex flex-col flex-1 xs:items-center md:items-start">
                     <h1 className="md:text-7xl xs:text-4xl">Mikä on Kotidok?</h1>
                     <p className="mt-20 text-lg xs:text-center md:text-left">
@@ -28,9 +29,14 @@ export function Profile2(){
                     </Link>
                 </div>
 
-                <div className="w-full object-contain flex-1 xs:hidden md:block">
+                <div className="w-full object-contain flex-1 xs:hidden md:hidden">
                     <img src="/img/renovate.jpg" className="flex-1 aspect-auto"/>
                 </div>
+
+                <div className="flex-1 object-contain items-center justify-center flex">
+                    <IntroVideo/>
+                </div>
+                
             </div>
             
         </section>
