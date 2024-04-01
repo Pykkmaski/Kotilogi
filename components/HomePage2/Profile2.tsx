@@ -5,11 +5,11 @@ import { IntroVideo } from "./IntroVideo";
 
 export function Profile2(){
     return (
-        <section className="xs:px-2 md:px-32 py-32 flex flex-col bg-primary text-secondary">
-            <div className="flex md:flex-row xs:flex-col-reverse gap-8">
-                <div className="flex flex-col flex-1 xs:items-center md:items-start">
-                    <h1 className="md:text-7xl xs:text-4xl">Mikä on Kotidok?</h1>
-                    <p className="mt-20 text-lg xs:text-center md:text-left">
+        <section className="xs:px-2 xl:px-32 py-32 flex flex-col bg-primary text-secondary">
+            <div className="flex xl:flex-row xs:flex-col-reverse gap-8">
+                <div className="flex flex-col flex-1 xs:items-center xl:items-start">
+                    <h1 className="xl:text-7xl xs:text-4xl">Mikä on Kotidok?</h1>
+                    <p className="mt-20 text-lg xs:text-center xl:text-left">
                         Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä 
                         vuosien varrella. Olet hankkinut tarpeelliset kuitit ja asiakirjat näiden töiden suorittamisesta, 
                         mutta ajan myötä olet hukannut osan niistä tai ne ovat hujan hajan sähköpostilaatikossasi.<br/><br/>
@@ -29,7 +29,7 @@ export function Profile2(){
                     </Link>
                 </div>
 
-                <div className="w-full object-contain flex-1 xs:hidden md:hidden">
+                <div className="w-full object-contain flex-1 xs:hidden xl:hidden">
                     <img src="/img/renovate.jpg" className="flex-1 aspect-auto"/>
                 </div>
 

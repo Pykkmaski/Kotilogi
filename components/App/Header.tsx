@@ -15,7 +15,7 @@ import Button from '../Button/Button';
 function Logo2(){
     return (
         <Link href="/">
-            <img src="/logo.png" className="aspect-auto md:w-[170px] xs:w-[130px]"/>
+            <img src="/logo.png" className="aspect-auto xl:w-[170px] xs:w-[130px]"/>
         </Link>
     );
 }
@@ -54,14 +54,14 @@ export default function Header({variant = 'black'}: HeaderProps){
         else if(userIsLoggedIn){
             return (
                 <>
-                    <div className="md:flex gap-4 text-white items-center xs:hidden">
+                    <div className="xl:flex gap-4 text-white items-center xs:hidden">
                         <Link href="/" className="xs:hidden">Etusivu</Link>
                         <Link href="/dashboard/properties">Oma Sivu</Link>
-                        <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
+                        <div className="h-4 border-l border-gray-100 mx-4 xs:hidden xl:block"></div>
                         <Link href="/logout" className="font-semibold">Kirjaudu Ulos</Link>
                     </div>
 
-                    <div className="xm:block md:hidden">
+                    <div className="xm:block xl:hidden">
                         <MobileMenu>
                             <nav className="flex flex-col gap-8 text-4xl">
                                 <Link href="/dashboard/properties">Oma sivu</Link>
@@ -77,10 +77,10 @@ export default function Header({variant = 'black'}: HeaderProps){
 
             return (
                 <>
-                    <nav className="text-white xs:text-base md:flex gap-4 items-center xs:hidden font-semibold">
+                    <nav className="text-white xs:text-base xl:flex gap-4 items-center xs:hidden font-semibold">
                         <Link href="/about" className={linkClassName}>Tietoa Meistä</Link>
                         <Link href="/tos" className={linkClassName}>Käyttöehdot</Link>
-                        <div className="h-4 border-l border-gray-100 mx-4 xs:hidden md:block"></div>
+                        <div className="h-4 border-l border-gray-100 mx-4 xs:hidden xl:block"></div>
                         <Link href="/register" className={linkClassName}>Rekisteröidy</Link>
 
                         <Link href="/login" className="ml-8">
@@ -91,7 +91,7 @@ export default function Header({variant = 'black'}: HeaderProps){
                         
                     </nav>
 
-                    <div className="xs:block md:hidden">
+                    <div className="xs:block xl:hidden">
                         <MobileMenu>
                             <nav className="flex flex-col gap-8 text-4xl z-50">
                                 <Link href="/">Etusivulle</Link>

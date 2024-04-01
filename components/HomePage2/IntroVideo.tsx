@@ -1,7 +1,7 @@
 export function IntroVideo(){
     return (
         <iframe 
-            className="z-10 aspect-video lg:w-[900px] xs:w-full" 
+            className="z-10 aspect-video lg:w-[80%] xs:w-full" 
             src="https://www.youtube.com/embed/Zz_DBq4yfng?si=whgsgc43ZVWBWwl_" 
             title="YouTube video player" 
             frameBorder="0" 

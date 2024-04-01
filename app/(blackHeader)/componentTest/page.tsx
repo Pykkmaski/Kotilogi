@@ -20,7 +20,7 @@ export default function ComponentTestPage(){
                 <span className="mx-8">Avaa Lomake</span>
             </Button>
             <Modal ref={testModalRef}>
-                <div className="flex flex-col gap-4 md:min-w-[500px] rounded-md shadow-lg">
+                <div className="flex flex-col gap-4 xl:min-w-[500px] rounded-md shadow-lg">
                     {/**Header */}
                     <Modal.Header>
                         <h1 className="text-xl">Testilomake</h1>

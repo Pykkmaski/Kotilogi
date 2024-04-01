@@ -14,7 +14,7 @@ export function CallToActionSection(){
                 <Background/>
 
                 <div className="flex flex-col z-10 items-center bg-[#0005] py-8">
-                    <h1 className="md:text-8xl xs:text-4xl text-center md:mb-20 xs:mb-20 z-10">Perusta sinäkin kodillesi<br/> sähköinen huoltokirja</h1>
+                    <h1 className="xl:text-8xl xs:text-4xl text-center xl:mb-20 xs:mb-20 z-10">Perusta sinäkin kodillesi<br/> sähköinen huoltokirja</h1>
 
                     <Link href="/register">
                         <Button variant="primary">

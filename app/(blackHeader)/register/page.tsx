@@ -34,17 +34,17 @@ export default function RegisterPage(){
     const loading = status === 'loading';
    
     return (
-        <main className="flex flex-col flex-1 justify-center xs:items-[none] md:items-center">
+        <main className="flex flex-col flex-1 justify-center xs:items-[none] xl:items-center">
             <Padding>
                 <ContentCard title={'Rekisteröidy'}>
-                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col md:gap-8 xs:gap-4 xs:w-full">
+                    <form onSubmit={registerHandler} data-testid="register-form" className="flex flex-col xl:gap-8 xs:gap-4 xs:w-full">
                         <div className="flex flex-col gap-2">
                             <Input data-testid="register-email-input" label="Sähköpostiosoite" description="Anna sähköpostiosoitteesi." onChange={updateData} required
                                 placeholder="Kirjoita sähköpostiosoite..." type="email" name="email"/>
 
                             {
                                 status === 'user_exists' ? (
-                                    <div className="w-full flex flex-row xs:justify-normal md:justify-end text-sm">
+                                    <div className="w-full flex flex-row xs:justify-normal xl:justify-end text-sm">
                                         <ErrorText data-testid="email-error-text">Tili annetulla osoitteella on jo olemassa!</ErrorText>
                                     </div>
                                 )
@@ -55,7 +55,7 @@ export default function RegisterPage(){
                         </div>
                     
                         <div className="flex flex-col gap-2">
-                            <div className="flex flex-col md:gap-8 xs:gap-4">
+                            <div className="flex flex-col xl:gap-8 xs:gap-4">
                                 <Input data-testid="register-password1-input" label="Salasana" description="Anna tilille salasana." type="password" onChange={updateData} required
                                     placeholder="Kirjoita salasana..." autoComplete='new-password' name="password" minLength={MIN_PASSWORD_LENGTH}/>
 
@@ -66,7 +66,7 @@ export default function RegisterPage(){
                             {/**Align the error to the right if on a bigger than mobile device */}
                             {
                                 status === 'password_mismatch' ? (
-                                    <div className="w-full flex xs:justify-normal md:justify-end text-sm">
+                                    <div className="w-full flex xs:justify-normal xl:justify-end text-sm">
                                         <ErrorText>Salasanat eivät täsmää</ErrorText>
                                     </div>
                                 )
