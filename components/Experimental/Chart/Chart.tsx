@@ -129,7 +129,7 @@ export function UsageColumnChart(props: UsageColumnChartProps){
         series: [
             {
                 name: 'data',
-                data: data.map(d => parseFloat(d.toFixed(2))),
+                data: data.map(d => d ? parseFloat(d.toFixed(2)) : d),
             }
         ],
 

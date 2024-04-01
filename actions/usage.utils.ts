@@ -17,6 +17,7 @@ export function mergeByMonth(data: Kotilogi.UsageType[], accumulate: boolean = f
         merged.push(priceToSave);
     }
 
+    
     for(let i = merged.length - 1; i >= 0; --i){
         if(merged[i] === 0){
             merged[i] = null;
@@ -25,8 +26,7 @@ export function mergeByMonth(data: Kotilogi.UsageType[], accumulate: boolean = f
             break;
         }
     }
-
-    console.log(merged);
+    
 
     return merged;
 }
