@@ -14,7 +14,7 @@ export function PaymentButton({children, ...props}: React.ComponentProps<'button
     }
 
     return (
-        <Button {...props} variant="primary" onClick={makePayment}>
+        <Button {...props} variant="primary-dashboard" onClick={makePayment}>
             {children}
         </Button>
     )
