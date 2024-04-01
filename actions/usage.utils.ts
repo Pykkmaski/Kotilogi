@@ -26,6 +26,8 @@ export function mergeByMonth(data: Kotilogi.UsageType[], accumulate: boolean = f
         }
     }
 
+    console.log(merged);
+
     return merged;
 }
 
