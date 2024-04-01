@@ -7,6 +7,7 @@ import db from "kotilogi-app/dbconfig";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
 import { PaymentButton } from "./PaymentButton";
 import { Receipts } from "./Receipts";
+import Link from "next/link";
 
 const BillItem = ({bill}) => {
     return (
@@ -72,6 +73,8 @@ export default async function CartPage(){
                     Kotidok ei suorita maksujen palautuksia.<br/>
                     Ongelmatilanteissa <a href="mailto:kotidok.service@gmail.com" className="text-orange-500">ota yhteyttä.</a>
                 </small>
+
+                <Link target="_blank" href="/tos/payments" className="text-orange-500 mt-4">Maksuehdot</Link>
             </div>
 
             <img src="https://static.vismapay.com/pay_banners/row.png"/>
