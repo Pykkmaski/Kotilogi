@@ -5,6 +5,7 @@ import style from './style.module.css';
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { CallbackOnClickProvider } from '@/components/Util/CallbackOnClickProvider';
+import React from 'react';
 
 type MobileMenuContextProps = {
     open: boolean;
@@ -13,28 +14,33 @@ type MobileMenuContextProps = {
 
 const MobileMenuContext = createContext<MobileMenuContextProps | null>(null);
 
-function MenuButton(){
+function Button({children}){
     const {open, toggleState} = useMobileMenuContext();
-
-    //const toggle = () => console.log('Toggling...');
 
     return (
         <OpenProvider open={open} openClassName={style.open}>
-            <div className={style.button} onClick={() => toggleState()}>
-                <div className={style.line}></div>
-                <div className={style.line}></div>
-                <div className={style.line}></div>
-            </div>
+            {
+                React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
+                    ...child.props,
+                    onClick: () => {
+                        if(child.props.onClick){
+                            child.props.onClick();
+                        }
+
+                        toggleState();
+                    }
+                }))
+            }
         </OpenProvider>
     );
 }
 
-function MenuBody({children}){
+function Body({children}){
     const {open, toggleState} = useMobileMenuContext();
 
     const bodyClassName = [
         style.body,
-        'z-70',
+        'z-70 shadow-md border border-slate-500',
     ];
 
     return (
@@ -53,13 +59,13 @@ export function MobileMenu({children}){
 
     return ( 
         <MobileMenuContext.Provider value={{open, toggleState}}>
-            <MenuButton/>
-            <MenuBody>
-                {children}
-            </MenuBody>
+            {children}
         </MobileMenuContext.Provider>
     );
 } 
+
+MobileMenu.Button = Button;
+MobileMenu.Body = Body;
 
 function useMobileMenuContext(){
     const ctx = useContext(MobileMenuContext);

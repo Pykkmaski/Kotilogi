@@ -7,10 +7,10 @@ import { Group } from 'kotilogi-app/components/Group';
 import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../Util/Padding';
-import { LineButton } from '../MenuButton/LineButton';
 import { MobileMenu } from './MobileMenu/MobileMenu';
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
 import Button from '../Button/Button';
+import { LineButton } from '../LineButton';
 
 function Logo2(){
     return (
@@ -63,10 +63,16 @@ export default function Header({variant = 'black'}: HeaderProps){
 
                     <div className="xm:block xl:hidden">
                         <MobileMenu>
-                            <nav className="flex flex-col gap-4 text-base">
-                                <Link href="/dashboard/properties">Oma sivu</Link>
-                                <Link href="/logout">Kirjaudu ulos</Link>
-                            </nav>
+                            <MobileMenu.Button>
+                                <LineButton/>
+                            </MobileMenu.Button>
+
+                            <MobileMenu.Body>
+                                <nav className="flex flex-col gap-4 text-base">
+                                    <Link href="/dashboard/properties">Oma sivu</Link>
+                                    <Link href="/logout">Kirjaudu ulos</Link>
+                                </nav>
+                            </MobileMenu.Body>
                         </MobileMenu>
                     </div>
                 </>
@@ -93,12 +99,19 @@ export default function Header({variant = 'black'}: HeaderProps){
 
                     <div className="xs:block xl:hidden">
                         <MobileMenu>
-                            <nav className="flex flex-col gap-4 text-base z-50">
-                                <Link href="/">Etusivulle</Link>
-                                <Link href="/about">Tietoa Meistä</Link>
-                                <Link href="/register">Rekisteröidy</Link>
-                                <Link href="/login">Kirjaudu Sisään</Link>
-                            </nav>
+                            <MobileMenu.Button>
+                                <LineButton/>
+                            </MobileMenu.Button>
+
+                            <MobileMenu.Body>
+                                <nav className="flex flex-col gap-4 text-base z-50">
+                                    <Link href="/">Etusivulle</Link>
+                                    <Link href="/about">Tietoa Meistä</Link>
+                                    <Link href="/register">Rekisteröidy</Link>
+                                    <Link href="/login">Kirjaudu Sisään</Link>
+                                </nav>
+                            </MobileMenu.Body>
+
                         </MobileMenu>
                     </div>
                 </>
