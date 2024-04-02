@@ -8,6 +8,7 @@ import { formatNumber } from "kotilogi-app/utils/formatNumber";
 import { PaymentButton } from "./PaymentButton";
 import { Receipts } from "./Receipts";
 import Link from "next/link";
+import { CurrentCartItems } from "./CurrentCartItems";
 
 const BillItem = ({bill}) => {
     return (
@@ -19,7 +20,7 @@ const BillItem = ({bill}) => {
 
 export default async function CartPage(){
     const session = await getServerSession(options as any) as {user: UserType};
-    const [cart, bills] = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
+    const [cart, bills, cartItems] = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
         if(!cart){
             return [null, []];
         }
@@ -28,7 +29,7 @@ export default async function CartPage(){
             return [ cart, cartItems.map(item => ({
                 ...item,
                 due: cart.due
-            })) ];
+            })), cartItems ];
         });
     });
 
@@ -79,7 +80,11 @@ export default async function CartPage(){
 
             <img src="https://static.vismapay.com/pay_banners/row.png"/>
 
-            <Receipts receipts={receipts}/>
+            <div className="flex w-full mt-8 gap-2">
+                <CurrentCartItems items={cartItems}/>
+                <Receipts receipts={receipts}/>
+            </div>
+
         </main>
     );
 }

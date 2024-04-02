@@ -44,7 +44,7 @@ type ReceiptsProps = {
 
 export function Receipts({receipts}: ReceiptsProps){
     return (
-        <div className="flex flex-col gap-2 w-full mt-8">
+        <div className="flex flex-col gap-2 w-full flex-1">
             <h2 className="text-xl text-slate-500 font-semibold mb-4">Suoritetut Maksut</h2>
             {
                 receipts.length ?
