@@ -6,7 +6,7 @@ const CustomLink = (props: React.ComponentProps<'a'>) => {
 
 export default async function PaymentTermsPage(){
     return (
-        <main className="text-slate-500 px-32 pt-8 h-full pb-10">
+        <main className="text-slate-500 lg:px-32 xs:px-2 pt-8 h-full pb-10">
             <Heading>Toimitusehdot</Heading>
 
             <p>
