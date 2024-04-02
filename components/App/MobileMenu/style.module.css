@@ -8,27 +8,26 @@
 } 
 
 .body{
+    position: absolute;
     background: white;
 
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
+    top: 4rem;
+    right: 0.5rem;
     
+    border-radius: 10px;
+    padding: 1rem;
     display: flex;
     flex-flow: column;
-    align-items: center;
-    justify-content: center;
+    transform: translateY(10px);
 
     gap: 1rem;
-    transform: translateY(-100%);
-    transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    opacity: 0;
 }
 
 .body.open{
     transform: translateY(0);
+    opacity: 1;
 }
 
 .button{
@@ -36,24 +35,19 @@
     flex-flow: column;
     gap: 0.5rem;
     width: 2rem;
-    position: relative;
     cursor: pointer;
-    z-index: 60;
+    z-index: 70;
 }
 
 .line{
     background: white;
     width: 100%;
     height: 5px;
-    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
-}
-
-.button.open .line{
-    background: black;
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out, opacity 0.2s ease-out;
 }
 
 .button.open .line:nth-child(1){
-    transform: translateY(13px) rotate(45deg);
+    transform: translateY(13px) rotate( calc(45deg * 5));
 }
 
 .button.open .line:nth-child(2){

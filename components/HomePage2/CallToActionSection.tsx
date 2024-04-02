@@ -23,8 +23,7 @@ export function CallToActionSection(){
                     </Link>
                     
                     <p className="text-xl mt-10 w-full text-center text-hero">
-                        30 päivän jälkeen talosi aktivointimaksu on kertamaksuna 9,90€<br/>
-                        Kokeilujakson aikana saat tutustua palveluun ilman rajoituksia.
+                        Palvelun hinta on 9,90€ vuodessa.
                     </p>
                 </div>
             </div>

@@ -51,7 +51,7 @@ function MenuBody({children}){
 export function MobileMenu({children}){
     const {toggled: open, toggleState} = useToggle(false);
 
-    return (
+    return ( 
         <MobileMenuContext.Provider value={{open, toggleState}}>
             <MenuButton/>
             <MenuBody>

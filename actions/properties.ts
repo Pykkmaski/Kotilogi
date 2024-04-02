@@ -58,6 +58,7 @@ export async function add(property: Partial<Kotilogi.PropertyType>, files?: Form
             });
         }
 
+        /*
         //Get the customer cart
         const cart = await trx('carts').where({customer: property.refId})
         .then(async ([cart]) => {
@@ -74,6 +75,7 @@ export async function add(property: Partial<Kotilogi.PropertyType>, files?: Form
         //Create a new bill
         const bill = createBill(cart.id, 990, addedPropertyId, 'add_property');
         await trx('cartItems').insert(bill);
+        */
 
         await trx.commit();
         revalidatePath('/dashboard/properties');
