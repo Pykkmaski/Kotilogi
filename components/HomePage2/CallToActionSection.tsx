@@ -23,7 +23,7 @@ export function CallToActionSection(){
                     </Link>
                     
                     <p className="text-xl mt-10 w-full text-center text-hero">
-                        Palvelun hinta on 9,90€ vuodessa.
+                        Yksittäisen lisätyn talon vuosihinta on 9,90€.
                     </p>
                 </div>
             </div>
