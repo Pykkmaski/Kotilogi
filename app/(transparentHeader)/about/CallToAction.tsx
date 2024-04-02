@@ -13,7 +13,7 @@ export function CallToAction(){
 
             <p className="text-lg mt-10 md:text-left xs:text-center">
                 Saat 30 päivän ajan tutustua palveluun ilmaiseksi.<br/>
-                Talon aktivointi palveluun kertamaksuna 9,90€
+                Yksittäisen talon vuosihinta on 9,90€.
             </p>
         </section>
     );
