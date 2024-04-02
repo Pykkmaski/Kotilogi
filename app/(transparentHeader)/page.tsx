@@ -149,7 +149,6 @@ export default function HomePage(){
             <HeroSection/>
             <Profile2/>
             <DescriptionSection/>
-            <Customers/>
             <CallToActionSection/>
             <ContactSection/>
         </main>
