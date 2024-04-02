@@ -47,8 +47,8 @@ export function Receipts({receipts}: ReceiptsProps){
         <div className="flex flex-col gap-2 w-full flex-1">
             <h2 className="text-xl text-slate-500 font-semibold mb-4">Suoritetut Maksut</h2>
             {
-                receipts.length ?
-                receipts.map(receipt => {
+                receipts?.length ?
+                receipts?.map(receipt => {
                     return (
                         <ReceiptItem receipt={receipt}/>
                     );
