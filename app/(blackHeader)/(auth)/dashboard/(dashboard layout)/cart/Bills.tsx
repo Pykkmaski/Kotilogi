@@ -1,0 +1,76 @@
+'use client';
+
+import { Gallery } from "@/components/new/Gallery/GalleryBase/Gallery";
+import { CartBillItem } from "./CartBillItem";
+import { ImageError } from "@/components/new/Gallery/GalleryBase/Components/Error/ImageError";
+import Button from "@/components/Button/Button";
+import { createContext, useContext, useState } from "react";
+import { formatNumber } from "kotilogi-app/utils/formatNumber";
+import { createPaymentRequest } from "kotilogi-app/actions/payments";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import Link from "next/link";
+
+type StatusType = 'idle' | 'loading';
+type BillsContextProps = {
+    status: StatusType;
+    pay: (bills: TODO) => Promise<void>;
+}
+
+const BillsContext = createContext<BillsContextProps>(null);
+
+export function Bills({bills}){
+
+    const router = useRouter();
+    const [selectedBills, setSelectedBills] = useState([]);
+    const [status, setStatus] = useState<StatusType>('idle');
+
+    const totalPrice = bills.reduce((acc, cur) => acc += cur.amount, 0);
+
+    const pay = async (bills: TODO[]) => {
+        setStatus('loading')
+        createPaymentRequest(bills)
+        .then(async req => {
+            router.push(`https://www.vismapay.com/pbwapi/token/${req.token}`);
+        })
+        .catch(err => toast.error(err.message))
+        .finally(() => setStatus('idle'));
+    }
+
+    const loading = status === 'loading';
+
+    return (
+        <div className="flex flex-col w-full">
+            <div className="flex justify-between items-center">
+                <div className="flex gap-4 items-center">
+                    <h1 className="text-xl text-slate-500">Erääntyvät maksut</h1>
+                    <h2 className="text-xl text-green-700">
+                        {formatNumber(totalPrice / 100)}€ <span className="text-slate-500 text-sm">(+ALV 24%)</span>
+                    </h2>
+                </div>
+                
+                <div className="flex gap-4 items-center">
+                    <Link className="text-orange-500" href="/tos/payments" target="_blank">Maksuehdot</Link>
+                    <Button variant="primary-dashboard" onClick={() => pay(bills)} loading={loading} disabled={loading}>
+                        <span className="mx-8">Maksa kaikki</span>
+                    </Button>
+                </div>
+                
+            </div>
+
+            <BillsContext.Provider value={{status, pay}}>
+                <div className="flex flex-col gap-2 mt-8">
+                    {
+                        bills.map(bill => <CartBillItem bill={bill} onSelect={() => {}}/>)
+                    }
+                </div>
+            </BillsContext.Provider>
+        </div>
+    );
+}
+
+export function useBillsContext(){
+    const ctx = useContext(BillsContext);
+    if(!ctx) throw new Error('useBillsContext must be used within the scope of a BillsContext!');
+    return ctx;
+}

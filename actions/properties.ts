@@ -58,22 +58,9 @@ export async function add(property: Partial<Kotilogi.PropertyType>, files?: Form
             });
         }
 
-        //Get the customer cart
-        const cart = await trx('carts').where({customer: property.refId})
-        .then(async ([cart]) => {
-            if(!cart){
-                //A cart for this customer doesn't exist. Create one.
-                const [newCart] = await trx('carts').insert(createCart(property.refId), '*');
-                return newCart;
-            }
-            else{
-                return cart;
-            }
-        });
-
         //Create a new bill
-        const bill = createBill(cart.id, 990, addedPropertyId, 'add_property');
-        await trx('cartItems').insert(bill);
+        const bill = createBill(990, addedPropertyId, property.refId, 'add_property');
+        await trx('bills').insert(bill);
 
         await trx.commit();
         revalidatePath('/dashboard/properties');

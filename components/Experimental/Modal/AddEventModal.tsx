@@ -1,11 +1,11 @@
 import { MutableRefObject, forwardRef, useRef } from "react";
 import Modal, { ModalRefType } from "./Modal";
 import { useAddDataModal } from "./Modal.hooks";
-import {add as addEvent} from '@/actions/events';
 import { CloseButton } from "@/components/CloseButton";
 import { Input, Textarea } from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import { Group, Label } from "@/components/Util/FormUtils";
+import { addEvent } from "kotilogi-app/actions/experimental/addEvent";
 
 type AddEventModalProps = {
     propertyId: string;

@@ -46,31 +46,18 @@ export default async function CheckoutResultPage({searchParams}){
         const dueDate = new Date(paid);
         dueDate.setMonth(dueDate.getMonth() + 1);
 
-        //Remove the user's cart.
-        //const trx = await db.transaction();
-        await db('carts').where({customer: session.user.email}).del()
-        .then(async () => {
-            //Update the users status to active.
-            await db('users').where({email: payment.customer.email}).update({
-                status: 'active',
-                trial: false,
-            });
+        const newDueDate = new Date();
+        newDueDate.setFullYear(newDueDate.getFullYear() + 1);
 
-            //Add a receipt for the payment.
-            const expiryDate = new Date();
-            expiryDate.setMonth(expiryDate.getMonth() + 12);
+        //Delete the bills that were paid.
+        for(const product of payment.payment_products){
+            await db('bills').where({id: product.id}).del();
+        }
 
-            const receipt = {
-                customer: payment.customer.email,
-                expires: expiryDate.getTime(),
-                paidOn: Date.now(),
-                amount: payment.amount,
-            }
-
-            await db('receipts').insert({
-                id: crypto.createHash('SHA256').update(JSON.stringify(receipt)).digest('hex').toString(),
-                ...receipt,
-            });
+        //Update the users status to active.
+        await db('users').where({email: payment.customer.email}).update({
+            status: 'active',
+            trial: false,
         })
         .catch(async err => {
             console.log(err.message);

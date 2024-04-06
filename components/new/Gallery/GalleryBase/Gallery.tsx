@@ -144,7 +144,7 @@ function DeleteModalTrigger({children}){
 
     return React.Children.map(children, (child: React.ReactElement) => React.cloneElement(child, {
         ...child.props,
-        title: 'Poista valitut kohteet...',
+        title: child.props.title || 'Poista valitut kohteet...',
         hidden: state.selectedItems.length === 0,
         onClick: () => {
             if(child.props.onClick){

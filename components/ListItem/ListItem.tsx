@@ -1,13 +1,13 @@
 'use client';
 
-import { createContext } from 'react';
+import { createContext, useRef } from 'react';
 import style from './style.module.scss';
 import React from 'react';
 import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer, TitleContainer } from './ListItem.components';
 import toast from 'react-hot-toast';
-import * as properties from '@/actions/properties';
-import * as events from '@/actions/events';
-import { DottedButtonMenu } from '../DottedButton';
+import ActivatePropertyModal from '../Experimental/Modal/ActivatePropertyModal';
+import { ModalRefType } from '../Experimental/Modal/Modal';
+import { deleteEvent } from 'kotilogi-app/actions/experimental/deleteEvent';
 
 export type ListItemProps<T extends Kotilogi.ItemType> = React.PropsWithChildren & {
     item: T,
@@ -46,36 +46,46 @@ export function ListItem<T extends Kotilogi.ItemType>({children, ...props}: List
 }
 
 export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
-    const deleteItem = () => {
-        const response = confirm('Olet poistamassa taloa ' + props.item.title + '. Oletko varma?');
-        if(!response) return;
+    const activateModalRef = useRef<ModalRefType>(null);
 
-        const loadingToast = toast.loading('Poistetaan taloa...');
-
-        properties.del(props.item)
-        .then(() => {
-            toast.dismiss(loadingToast);
-            toast.success('Talo poistettu!')
-        })
-        .catch(err => {
-            toast.error(err.message);
-        });
-    }
-    
-    const propertyStatus = props.item.status;
+    const deactivated = props.item.status === 'deactivated';
+    const href = !deactivated ? `/properties/${props.item.id}/info` : '';
 
     return (
-        <ListItem<Kotilogi.PropertyType> {...props}>
-            <InfoContainer href={`/properties/${props.item.id}/info`}>
-                <TitleContainer titleText={props.item.title} icon="fa-home" iconSrc='/icons/house.png'/>
-                <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
-                <small>{props.item.buildingType}</small>
-            </InfoContainer>
+        <>
+            <ActivatePropertyModal property={props.item} ref={activateModalRef}/>
+            <ListItem<Kotilogi.PropertyType> {...props}>
+                <InfoContainer href={href}>
+                    <TitleContainer titleText={props.item.title} icon="fa-home" iconSrc='/icons/house.png'>
+                    {
+                        deactivated ? 
+                        <div className="ml-4 flex justify-between w-full">
+                            <span className="text-red-700 flex gap-2 items-center">
+                                <i className="fa fa-ban"></i>
+                                <span>Poistettu käytöstä</span>
+                            </span>
+                            <span className="text-orange-500 cursor-pointer hover:underline" onClick={() => activateModalRef.current?.toggleOpen(true)}>Ota käyttöön</span>
+                        </div>
+                        :
+                        null
+                    }
+                    </TitleContainer>
+                    <DescriptionContainer text={props.item.description || 'Ei Kuvausta.'}/>
+                    <small>{props.item.buildingType}</small>
+                </InfoContainer>
 
-            <ControlsContainer>
-                <CheckBox checked={props.selected}/>
-            </ControlsContainer>
-        </ListItem>
+                <ControlsContainer>
+                    {
+                        props.item.status !== 'deactivated' ?
+                        <CheckBox checked={props.selected}/>
+                        :
+                        null
+                    }
+                    
+                </ControlsContainer>
+            </ListItem>
+        </>
+       
     );
 }
 
@@ -83,13 +93,13 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
     const timestamp: string | null = props.item.time;
     const date = timestamp !== null ? new Date(timestamp).toLocaleDateString('fi-FI') : 'Ei Päivämäärää.';
 
-    const deleteEvent = () => {
+    const del = () => {
         const response = confirm('Olet poistamassa tapahtumaa ' + props.item.title + '. Oletko varma?');
         if(!response) return;
 
         const loadingToast = toast.loading('Poistetaan tapahtumaa...');
 
-        events.del(props.item)
+        deleteEvent(props.item.id)
         .then(() => {
             toast.success('Tapahtuma poistettu!')
         })
@@ -127,7 +137,7 @@ export function EventListItem(props: ListItemProps<Kotilogi.EventType>){
                 !isConsolidated ? 
                 <ControlsContainer>
                     <CheckBox checked={props.selected}/>
-                    <DeleteButton onClick={deleteEvent} hidden={isConsolidated}/>
+                    <DeleteButton onClick={del} hidden={isConsolidated}/>
                 </ControlsContainer>
                 :
                 null

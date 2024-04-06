@@ -3,6 +3,8 @@ import {NextRequestWithAuth, withAuth} from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
 function handleAuthorized(token: JWT, req: NextRequestWithAuth){
+   const url = new URL(req.url);
+
    if(token.status === 'unconfirmed'){
       const url = req.nextUrl.clone();
       url.pathname = '/user/confirm_email';

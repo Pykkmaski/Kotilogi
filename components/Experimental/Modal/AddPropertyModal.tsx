@@ -7,6 +7,7 @@ import Button from "@/components/Button/Button";
 import { Input, Select, Textarea } from "@/components/Input/Input";
 import { buildingTypes, serviceName } from "kotilogi-app/constants";
 import Link from "next/link";
+import { addProperty } from "kotilogi-app/actions/experimental/addProperty";
 
 function PricingDescription(){
 
@@ -34,9 +35,11 @@ type AddPropertyModalProps = {
 
 function AddPropertyModal({owner}: AddPropertyModalProps, ref: MutableRefObject<ModalRefType>){
     const formRef = useRef<HTMLFormElement>(null);
-    const {onSubmit, cleanup, updateData, status} = useAddDataModal(ref, properties.add, formRef, {refId: owner});
+    const {onSubmit, cleanup, updateData, status} = useAddDataModal(ref, addProperty, formRef, {refId: owner});
     const formId = 'add-property-form';
 
+    const loading = status === 'loading';
+    
     return (
         <Modal ref={ref}>
             <Modal.Header>
@@ -106,12 +109,12 @@ function AddPropertyModal({owner}: AddPropertyModalProps, ref: MutableRefObject<
 
             <Modal.Footer>
                 <Modal.CloseTrigger>
-                    <Button variant="secondary" onClick={() => cleanup()}>
+                    <Button variant="secondary" onClick={() => cleanup()} disabled={loading}>
                         <span>Peruuta</span>
                     </Button>
                 </Modal.CloseTrigger>
 
-                <Button variant="primary-dashboard" loading={status === 'loading'} form={formId}>
+                <Button variant="primary-dashboard" loading={status === 'loading'} form={formId} disabled={loading}>
                     <span className="mx-8">Lähetä</span>
                 </Button>
             </Modal.Footer>

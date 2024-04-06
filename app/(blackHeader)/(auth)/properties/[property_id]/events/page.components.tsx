@@ -6,10 +6,10 @@ import { EventListItem } from "kotilogi-app/components/ListItem/ListItem";
 import {Error} from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error";
 import { SearchBar } from "kotilogi-app/components/SearchBar";
 import { LayoutGroup } from "kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup";
-import {del as deleteEvent} from '@/actions/events';
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
 import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
 import AddEventModal from "@/components/Experimental/Modal/AddEventModal";
+import { deleteEvent } from "kotilogi-app/actions/experimental/deleteEvent";
 
 /**The main content rendering component of the page. */
 export function Content({events, propertyId}){

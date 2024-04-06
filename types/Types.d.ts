@@ -77,6 +77,7 @@ namespace Kotilogi{
         buildingType?: string,
         energyClass?: string,
         otherArea?: number,
+        propertyNumber?: string;
     }
 
     type EventType = ItemType & HasDate & HasRefId & HasMainImageId & {

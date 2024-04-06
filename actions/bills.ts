@@ -1,12 +1,16 @@
 import { Knex } from "knex";
 import db from "kotilogi-app/dbconfig";
 
-export function createBill(cartId: number, amount: number, refId: string, stamp: string){
+export function createBill(amount: number, targetId: string, customer: string, stamp: string){
+    const dueDate = new Date();
+    dueDate.setMonth(dueDate.getMonth() + 1);
+
     return {
-        cartId,
         amount,
         stamp,
-        refId,
+        targetId,
+        customer,
+        due: dueDate.getTime(),
     }
 }
 

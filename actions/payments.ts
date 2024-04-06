@@ -8,6 +8,7 @@ import axios from "axios";
 import { UserPlanType, UserType } from "kotilogi-app/types/UserType";
 import { OrderIdType } from "kotilogi-app/types/OrderIdType";
 import db from "kotilogi-app/dbconfig";
+import { createVismaProductArray } from "kotilogi-app/utils/createVismaProductArray";
 
 function generateAuthCode(orderNumber: string){
     const data = `${process.env.VISMA_API_KEY}|${orderNumber}`;
@@ -15,37 +16,59 @@ function generateAuthCode(orderNumber: string){
 }
 
 function generateOrderNumber(user: UserType){
-    return crypto.createHash('SHA256').update(Date.now() + user.email + user.plan).digest('hex').toUpperCase().substring(-10);
+    return crypto.createHash('SHA256').update(Date.now() + user.email + user.plan).digest('hex').toUpperCase();
 }
 
-/**
- * 
- * @param id The id used in the order.
- */
-function getOrderPrice(id: OrderIdType): number{
-    let price: string | null = null;
-
-    switch(id){
-        case 'add_property':
-            price =  process.env.PRICE_PROPERTY;
-        break;
-        
-        case 'add_event':
-            price = process.env.PRICE_EVENT;
-        break;
-
-        case 'add_usage':
-            price = process.env.PRICE_USAGE;
-        break;
-
-        case 'add_file':
-            price = process.env.PRICE_FILE;
-        break;
-
-       default: price = '0';
+export async function createPaymentRequest(bills: {
+    amount: number;
+    stamp: 'add_property' | 'activate_property' | 'charge_property';
+    id: number;
+}[]){
+    const session = await getServerSession(options as any) as any;
+    if(!session){
+        throw new Error('Could not make the payment, as the user\'s session was not found!');
     }
 
-    return parseInt(price);
+    const products = createVismaProductArray(bills);
+    const amount = products.reduce((acc, cur) => acc += cur.price, 0);
+    const orderNumber = generateOrderNumber(session.user);
+    
+    const VISMA_API_KEY = process.env.VISMA_API_KEY;
+    if(!VISMA_API_KEY) throw new Error('VISMA_API_KEY env variable missing!');
+
+    const paymentRequest = {
+        version: 'w3.1',
+        api_key: VISMA_API_KEY,
+        currency: 'EUR',
+        amount,
+        order_number: orderNumber,
+        authcode: generateAuthCode(orderNumber),
+
+        payment_method: {
+            type: 'e-payment',
+            return_url: `${process.env.SERVICE_DOMAIN}/checkout/result`,
+            notify_url: process.env.SERVICE_DOMAIN,
+            selected: [
+                'banks',
+            ]
+        },
+
+        customer: {
+            email: session.user.email,
+        },
+
+        products,
+    };
+
+    const {data: paymentToken} = await axios.post('https://www.vismapay.com/pbwapi/auth_payment', paymentRequest);
+
+    if(paymentToken.result === 0 && paymentToken.type === 'e-payment' || paymentToken.type === 'terminal'){
+        return paymentToken;
+    }
+    else if(paymentToken.result !== 0){
+        console.log(paymentToken);
+        return null;
+    }
 }
 
 /**
@@ -55,69 +78,15 @@ function getOrderPrice(id: OrderIdType): number{
  */
 export async function makeOrder(){
     try{
-        const session = await getServerSession(options as any) as any;
-        if(!session){
-            throw new Error('Could not make the payment, as the user\'s session was not found!');
-        }
-
-        const price = await db('carts').where({customer: session.user.email}).then(async ([cart]) => {
-            const items = await db('cartItems').where({cartId: cart.id});
-            return items.reduce((acc: number, cur) => acc += cur.amount, 0);
-        });
-
-        const orderNumber = generateOrderNumber(session.user);
         
-        const VISMA_API_KEY = process.env.VISMA_API_KEY;
-        if(!VISMA_API_KEY) throw new Error('VISMA_API_KEY env variable missing!');
-
-        const paymentRequest = {
-            version: 'w3.1',
-            api_key: VISMA_API_KEY,
-            currency: 'EUR',
-            amount: price,
-            order_number: orderNumber,
-            authcode: generateAuthCode(orderNumber),
-
-            payment_method: {
-                type: 'e-payment',
-                register_card_token: 1,
-                return_url: `${process.env.SERVICE_DOMAIN}/checkout/result`,
-                notify_url: 'http://localhost:3000/',
-                selected: [
-                    'banks',
-                ]
-            },
-
-            customer: {
-                email: session.user.email,
-            },
-
-            products: [
-                {
-                    id: 'cart',
-                    title: `Ostoskorin maksu`,
-                    pretax_price: price,
-                    count: 1,
-                    tax: 0,
-                    price: price,
-                    type: 1,
-                },
-            ]
-        };
-
-        console.log(paymentRequest);
-        const {data: paymentToken} = await axios.post('https://www.vismapay.com/pbwapi/auth_payment', paymentRequest);
-
-        if(paymentToken.result === 0 && paymentToken.type === 'e-payment' || paymentToken.type === 'terminal'){
-            return paymentToken;
-        }
-        else if(paymentToken.result !== 0){
-            console.log(paymentToken);
-        }
     }
     catch(err){
         console.log(err.message);
     }
 
     return null;
+}
+
+export async function payBill(bill: TODO){
+    return await createPaymentRequest(bill);
 }

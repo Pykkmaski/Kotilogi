@@ -17,12 +17,12 @@ const ReceiptItem = ({receipt}: ReceiptItemProps) => {
             <div className="flex items-center gap-8">
                 <Group>
                     <SmallText>Päiväys</SmallText>
-                    <span className="text-lg">{new Date(parseInt(receipt.paidOn)).toLocaleDateString('fi')}</span>
+                    <span>{new Date(parseInt(receipt.paidOn)).toLocaleDateString('fi')}</span>
                 </Group>
 
                 <Group>
                     <SmallText>Määrä</SmallText>
-                    <span className="text-lg text-green-700">{formatNumber(receipt.amount / 100)}€</span>
+                    <span className="text-green-700">{formatNumber(receipt.amount / 100)}€</span>
                 </Group>
             </div>
 

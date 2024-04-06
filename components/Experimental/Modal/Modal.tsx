@@ -33,7 +33,7 @@ function CloseTrigger({children}){
 
 function Header({children}){
     return (
-        <div className="border-b border-slate-200 w-full flex items-center justify-between p-2">
+        <div className="border-b border-slate-200 w-full flex items-center justify-between p-2 text-slate-500">
             {children}
         </div>
     )
