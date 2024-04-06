@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { UserType } from "kotilogi-app/types/UserType";
 import db from "kotilogi-app/dbconfig";
 import { Bills } from "./Bills";
+import { Banner } from "./Banner";
 
 export default async function CartPage(){
     const session = await getServerSession(options as any) as {user: UserType};
@@ -15,6 +16,7 @@ export default async function CartPage(){
             <Header>
                 <Heading>Ostoskori</Heading>
             </Header>
+            <Banner/>
             <Bills bills={bills}/>
         </main>
     );

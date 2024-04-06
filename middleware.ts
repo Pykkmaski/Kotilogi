@@ -16,6 +16,10 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth){
       
       return NextResponse.redirect(url);
    }
+   else if(url.pathname.startsWith('properties')){
+      //Check if the property is active, otherwise redirect somewhere else.
+      console.log(url.pathname);
+   }
 }
 
 
