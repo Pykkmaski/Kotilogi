@@ -14,10 +14,16 @@ export default async function CartPage(){
     return (    
         <main className="flex flex-col gap-4 mb-10">
             <Header>
-                <Heading>Ostoskori</Heading>
+                <Heading>Erääntyvät maksut</Heading>
             </Header>
-            <Banner/>
+            <div className="xs:hidden lg:block">
+                <Banner variant="row"/>
+            </div>
             <Bills bills={bills}/>
+
+            <div className="xs:block lg:hidden">
+                <Banner variant="column"/>
+            </div>
         </main>
     );
 }

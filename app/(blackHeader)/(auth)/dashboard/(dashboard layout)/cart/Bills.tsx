@@ -42,20 +42,19 @@ export function Bills({bills}){
     return (
         <div className="flex flex-col w-full">
             <div className="flex justify-between items-center">
-                <div className="flex gap-4 items-center">
-                    <h1 className="text-xl text-slate-500">Erääntyvät maksut</h1>
-                    <h2 className="text-xl text-green-700">
+                <div className="flex flex-col">
+                    <h2 className="lg:text-xl xs:text-lg text-green-700">
                         {formatNumber(totalPrice / 100)}€ <span className="text-slate-500 text-sm">(+ALV 24%)</span>
                     </h2>
+                    <Link className="text-orange-500" href="/tos/payments" target="_blank">Maksuehdot</Link>
                 </div>
                 
                 <div className="flex gap-4 items-center">
-                    <Link className="text-orange-500" href="/tos/payments" target="_blank">Maksuehdot</Link>
+                    
                     <Button variant="primary-dashboard" onClick={() => pay(bills)} loading={loading} disabled={loading}>
-                        <span className="mx-8">Maksa kaikki</span>
+                        <span className="lg:mx-8 xs:mx-2">Maksa kaikki</span>
                     </Button>
                 </div>
-                
             </div>
 
             <BillsContext.Provider value={{status, pay}}>
