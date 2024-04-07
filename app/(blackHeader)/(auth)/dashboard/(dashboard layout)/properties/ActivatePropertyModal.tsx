@@ -1,7 +1,7 @@
 'use client';
 
 import { MutableRefObject, forwardRef, useState } from "react";
-import Modal, { ModalRefType } from "./Modal";
+import Modal, { ModalRefType } from "../../../../../../components/Experimental/Modal/Modal";
 import { CloseButton } from "@/components/CloseButton";
 import Button from "@/components/Button/Button";
 import { activateProperty } from "kotilogi-app/actions/activateProperty";

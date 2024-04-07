@@ -1,6 +1,6 @@
 import { MutableRefObject, forwardRef, useRef } from "react";
-import Modal, { ModalRefType } from "./Modal";
-import { useAddDataModal } from "./Modal.hooks";
+import Modal, { ModalRefType } from "../../../../../../components/Experimental/Modal/Modal";
+import { useAddDataModal } from "../../../../../../components/Experimental/Modal/Modal.hooks";
 import { CloseButton } from "@/components/CloseButton";
 import { Input, Textarea } from "@/components/Input/Input";
 import Button from "@/components/Button/Button";

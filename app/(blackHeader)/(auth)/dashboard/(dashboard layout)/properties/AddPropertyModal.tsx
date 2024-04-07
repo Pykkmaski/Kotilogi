@@ -1,7 +1,7 @@
 import { MutableRefObject, createContext, forwardRef, useContext, useRef, useState } from "react";
-import { useAddDataModal } from "./Modal.hooks";
+import { useAddDataModal } from "../../../../../../components/Experimental/Modal/Modal.hooks";
 import * as properties from '@/actions/properties';
-import Modal, { ModalRefType } from "./Modal";
+import Modal, { ModalRefType } from "../../../../../../components/Experimental/Modal/Modal";
 import { CloseButton } from "@/components/CloseButton";
 import Button from "@/components/Button/Button";
 import { Input, Select, Textarea } from "@/components/Input/Input";
