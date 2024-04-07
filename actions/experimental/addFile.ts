@@ -1,39 +1,7 @@
-import { unlink, writeFile } from "fs/promises";
-import { Knex } from "knex";
-import db from "kotilogi-app/dbconfig";
-import { uploadPath } from "kotilogi-app/uploadsConfig";
-import { fileNameTimestampSeparator } from "kotilogi-app/constants";
-import { addData } from "./addData";
+'use server';
 
-/**
- * Uploads a file to disk and returns an object with the file information and a rollback function.
- * @param file 
- * @returns 
- */
-async function upload(file: File){
-
-    console.log('Uploading a file ' + file.name);
-    
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const fileName = Date.now() + fileNameTimestampSeparator + file.name;
-
-    const rollback = async () => {
-        await unlink(uploadPath + fileName);
-    }
-
-    await writeFile(uploadPath + fileName, buffer);
-
-    return {
-        fileData: {
-            title: file.name,
-            fileName: fileName,
-            mimeType: file.type,
-        },
-
-        rollback,
-    };
-}
+import { Files } from "kotilogi-app/utils/files";
+import { revalidatePath } from "next/cache";
 
 /**
  * Uploads a single file and adds its data into the database.
@@ -42,20 +10,9 @@ async function upload(file: File){
  * @param file 
  * @param trx 
  */
-export async function addFile(tablename: 'propertyFiles' | 'eventFiles', file: File, refId: string, trx?: Knex.Transaction){
-    const dbcon = trx || db;
-    const {fileData, rollback} = await upload(file);
-
-    try{
-        await dbcon(tablename).insert({
-            ...fileData,
-            refId
-        });
-
-        return rollback;
-    }
-    catch(err){
-        await rollback();
-        throw err;
-    }
+export async function addFile(tablename: 'propertyFiles' | 'eventFiles', fileData: FormData, refId: string){
+    const files = new Files();
+    await files.addFile(tablename, fileData.get('file') as unknown as File, refId);
+    const path = tablename === 'propertyFiles' ? '/properties/[property_id]/' : '/events/[event_id]/';
+    revalidatePath(path);
 }

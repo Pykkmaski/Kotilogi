@@ -10,17 +10,22 @@ import * as file from '@/actions/file';
 import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
 import { uploadFile } from "kotilogi-app/actions/uploadFile";
-import { deleteFile } from "kotilogi-app/actions/deleteFile";
+import { addFile } from "kotilogi-app/actions/experimental/addFile";
+import { deleteFile } from "kotilogi-app/actions/experimental/deleteFile";
 
 export function Content({files, propertyId}){
     return (
         <Gallery data={files}>
             <Gallery.AddModal>
-                <AddFilesModal accept="application/pdf" uploadMethod={(fdata: FormData) => uploadFile('propertyFiles', fdata, propertyId)}/>
+                <AddFilesModal accept="application/pdf" uploadMethod={async (fdata: FormData) => {
+                    await addFile('propertyFiles', fdata, propertyId);
+                }}/>
             </Gallery.AddModal>
 
             <Gallery.DeleteModal>
-                <DeleteSelectedItemsModal deleteMethod={(fileData: Kotilogi.FileType) => deleteFile('propertyFiles', fileData)}/>
+                <DeleteSelectedItemsModal deleteMethod={async (fileData: Kotilogi.FileType) => {
+                    await deleteFile('propertyFiles', fileData.fileName);
+                }}/>
             </Gallery.DeleteModal>
 
             <Gallery.Header title="Tiedostot">

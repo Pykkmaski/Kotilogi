@@ -28,7 +28,7 @@ function AddEventModal({propertyId}: AddEventModalProps, ref: MutableRefObject<M
             </Modal.Header>
 
             <Modal.Body>
-                <form onSubmit={onSubmit} ref={formRef} id={formId} className="flex flex-col gap-4 md:w-[700px] xs:w-full">
+                <form onSubmit={onSubmit} ref={formRef} id={formId} className="flex flex-col gap-4 lg:min-w-[700px] xs:w-full">
                 <Input
                 name="title"
                 label="Otsikko"

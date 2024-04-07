@@ -47,6 +47,17 @@ export function Controls({timestamps, currentYear}: ControlsProps){
     );
 }
 
+function DataRing({data, year}){
+    return (
+        <div className="flex justify-center items-center relative">
+            <UsagePieChart data={data}/>
+            <div className="absolute text-2xl text-slate-500">
+                {year}
+            </div>
+        </div>
+    );
+}
+
 type PageContentProps = {
     data: Kotilogi.UsageType[],
     year: string,
@@ -71,21 +82,15 @@ export function PageContent({data, year, type}: PageContentProps){
     }
 
     return (
-        <div className="flex gap-2 w-full max-h-full">
+        <div className="flex xs:flex-col lg:flex-row gap-2 w-full max-h-full">
             <div className="flex-[1]">
                 <ContentCard title="Yhteenveto">
                     <div className="flex flex-col gap-2">
                         {getChart()}
                         
-                        <div className="flex-1 flex justify-center items-center">
+                        <div className="flex-1 lg:flex xs:flex-col lg:flex-row justify-center items-center">
                             <TotalPrice data={data}/>
-                            <div className="flex justify-center items-center relative">
-                                <UsagePieChart data={data}/>
-                                <div className="absolute text-2xl text-slate-500">
-                                    {year}
-                                </div>
-                            </div>
-
+                            <DataRing data={data} year={year}/>
                             {
                                 type === 'all' ? <UsageDataCategorized data={data}/> : null
                             }

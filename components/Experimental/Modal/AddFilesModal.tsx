@@ -25,12 +25,7 @@ function AddFilesModal({accept, uploadMethod}: AddFilesModalProps, ref: React.Mu
         e.preventDefault();
         setStatus('loading');
 
-        const promises: Promise<void>[] = [];
-        for(const fdata of files){
-            promises.push(
-                uploadMethod(fdata)
-            );
-        }
+        const promises = files.map(fdata => uploadMethod(fdata));
         
         Promise.all(promises)
         .catch(err => {

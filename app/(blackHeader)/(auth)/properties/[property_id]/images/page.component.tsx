@@ -7,18 +7,23 @@ import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/Delet
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
 import { FileError } from "@/components/new/Gallery/GalleryBase/Components/Error/FileError";
 import { uploadFile } from "kotilogi-app/actions/uploadFile";
-import { deleteFile } from "kotilogi-app/actions/deleteFile";
 import { ImageError } from "@/components/new/Gallery/GalleryBase/Components/Error/ImageError";
+import { addFile } from "kotilogi-app/actions/experimental/addFile";
+import { deleteFile } from "kotilogi-app/actions/experimental/deleteFile";
 
 export function Content({files, propertyId}){
     return (
         <Gallery data={files}>
             <Gallery.AddModal>
-                <AddFilesModal accept="image/jpeg" uploadMethod={(fdata: FormData) => uploadFile('propertyFiles', fdata, propertyId)}/>
+                <AddFilesModal accept="image/jpeg" uploadMethod={async (fdata: FormData) => {
+                    await addFile('propertyFiles', fdata, propertyId);
+                }}/>
             </Gallery.AddModal>
 
             <Gallery.DeleteModal>
-                <DeleteSelectedItemsModal deleteMethod={(fileData: Kotilogi.FileType) => deleteFile('propertyFiles', fileData)}/>
+                <DeleteSelectedItemsModal deleteMethod={async (fileData: Kotilogi.FileType) => {
+                    await deleteFile('propertyFiles', fileData.fileName);
+                }}/>
             </Gallery.DeleteModal>
 
             <Gallery.Header title="Kuvat">

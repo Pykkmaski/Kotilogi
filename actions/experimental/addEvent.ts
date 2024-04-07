@@ -5,29 +5,10 @@ import { addWithFiles } from "./addWithFiles";
 import { addData } from "./addData";
 import { revalidatePath } from "next/cache";
 import { createDueDate } from "kotilogi-app/utils/createDueDate";
+import { Events } from "kotilogi-app/utils/events";
 
 export async function addEvent(event: Kotilogi.EventType, files?: FormData[]){
-    const trx = await db.transaction();
-    var result = null;
-
-    try{
-        const processedEvent = {
-            ...event,
-            consolidationTime: createDueDate(7),
-        };
-
-        if(files){
-            result = await addWithFiles('propertyEvents', processedEvent, files, trx);
-        }
-        else{
-            await addData('propertyEvents', processedEvent, trx);
-        }
-        
-        await trx.commit();
-        revalidatePath('/properties/[property_id]/events');
-    }
-    catch(err){
-        await trx.rollback();
-        throw err;
-    }
+    const events = new Events();
+    await events.addEvent(event, files?.map(file => file.get('file') as unknown as File));
+    revalidatePath('/properties/[property_id]/events');
 }

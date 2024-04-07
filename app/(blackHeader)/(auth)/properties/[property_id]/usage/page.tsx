@@ -75,12 +75,34 @@ export default async function UsagePage({params, searchParams}){
             <div className="w-full flex bg-white justify-between gap-4 sticky top-0 z-40">
                 <div className="flex gap-4 items-center">
                     <h1 className="text-lg text-slate-500 mr-4">Kulutustiedot</h1>
-                    <TypeNav>
-                        <Link href={`?type=all&year=${year}`}>Kaikki</Link>
-                        <Link href={`?type=heat&year=${year}`}>Lämmitys</Link>
-                        <Link href={`?type=water&year=${year}`}>Vesi</Link>
-                        <Link href={`?type=electric&year=${year}`}>Sähkö</Link>
-                    </TypeNav>
+                    <div className="xs:hidden lg:block">
+                        <TypeNav>
+                            <Link href={`?type=all&year=${year}`}>Kaikki</Link>
+                            <Link href={`?type=heat&year=${year}`}>Lämmitys</Link>
+                            <Link href={`?type=water&year=${year}`}>Vesi</Link>
+                            <Link href={`?type=electric&year=${year}`}>Sähkö</Link>
+                        </TypeNav>
+                    </div>
+
+                    <div className="xs:block lg:hidden">
+                        <select>
+                            <option>
+                                <Link href={`?type=all&year=${year}`}>Kaikki</Link>
+                            </option>
+
+                            <option>
+                                <Link href={`?type=heat&year=${year}`}>Lämmitys</Link>
+                            </option>
+
+                            <option>
+                                <Link href={`?type=water&year=${year}`}>Vesi</Link>
+                            </option>
+
+                            <option>
+                                <Link href={`?type=electric&year=${year}`}>Sähkö</Link>
+                            </option>
+                        </select>
+                    </div>
                 </div>
         
                 <Controls timestamps={timestamps} currentYear={displayYear}/>

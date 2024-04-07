@@ -83,7 +83,7 @@ function Modal({children}: ModalProps, ref: React.Ref<ModalRefType>){
 
     return (
         <ModalContext.Provider value={{open, toggleOpen}}>
-            <dialog ref={dialogRef} className="rounded-md overflow-hidden shadow-lg animate-slideup-fast xs:w-full">{children}</dialog>
+            <dialog ref={dialogRef} className="rounded-md overflow-hidden shadow-lg animate-slideup-fast xs:w-full lg:w-[900px]">{children}</dialog>
         </ModalContext.Provider>
     );
 }
