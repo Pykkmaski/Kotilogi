@@ -8,7 +8,7 @@ function Message({setCookiesAccepted}){
 
     const acceptCookies = () => {
         document.cookie = 'allow_cookies: true';
-        sessionStorage.setItem('kotidok-cookies', 'true');
+        localStorage.setItem('kotidok-cookies', 'true');
         setCookiesAccepted(true);
     }
 
@@ -42,7 +42,7 @@ export function CookieNotice(){
     const [cookiesAccepted, setCookiesAccepted] = useState(true);
     
     useEffect(() => {
-        setCookiesAccepted(() => sessionStorage.getItem('kotidok-cookies') === 'true');
+        setCookiesAccepted(() => localStorage.getItem('kotidok-cookies') === 'true');
     }, []);
     
     return (

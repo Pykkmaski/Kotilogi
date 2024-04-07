@@ -74,7 +74,7 @@ function CreateNewStep(){
     const {modalRef, updateData, formId, onSubmit, formRef} = useAddPropertyModalContext();
     
     return (
-        <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-4" id={formId}>
+        <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-4 xs:w-full" id={formId}>
             <Input 
                 name="propertyNumber"
                 label="Kiinteistötunnus"
@@ -118,15 +118,17 @@ function CreateNewStep(){
                     buildingTypes.map(type => <Select.Option key={type}>{type}</Select.Option>)
                 }
             </Select>
-
-            <Textarea 
-                label="Kuvaus" 
-                description="Talon lyhyt kuvaus." 
-                placeholder="Kirjoita kuvaus..." 
-                spellCheck={false}
-                name="description"
-                onChange={updateData}/>
-
+            
+            <div className="xs:hidden lg:block">
+                <Textarea 
+                    label="Kuvaus" 
+                    description="Talon lyhyt kuvaus." 
+                    placeholder="Kirjoita kuvaus..." 
+                    spellCheck={false}
+                    name="description"
+                    onChange={updateData}/>
+            </div>
+        
             <PricingDescription/>
         </form>
     )
