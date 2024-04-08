@@ -1,6 +1,5 @@
 import db from 'kotilogi-app/dbconfig';
 import PropertyContextProvider from './_util/PropertyContextProvider';
-import { isUserTheOwnerOfProperty } from 'kotilogi-app/actions/property/isUserTheOwnerOfProperty';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
@@ -19,8 +18,7 @@ export default async function PropertyDetailsLayout({children, params}){
     const session = await getServerSession(options as any) as {user: {email: string}};
     if(!session) throw new Error('Failed to fetch user session!');
 
-    const isLoggedInUserTheOwner = await isUserTheOwnerOfProperty(session.user.email, property.id);
-    if(!isLoggedInUserTheOwner) throw new Error('property_unauthorized');
+    if(session.user.email !== property.refId) throw new Error('property_unauthorized');
     
     const contextValue = {
         property,

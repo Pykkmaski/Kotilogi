@@ -1,6 +1,5 @@
 'use server';
 
-import { tablename } from "kotilogi-app/pelican/bills";
 import { Files } from "kotilogi-app/utils/files";
 import { revalidatePath } from "next/cache";
 
