@@ -5,7 +5,7 @@ import { CloseButton } from "@/components/CloseButton";
 import { Input, Textarea } from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import { Group, Label } from "@/components/Util/FormUtils";
-import { addEvent } from "kotilogi-app/actions/experimental/addEvent";
+import { addEvent } from "kotilogi-app/actions/experimental/events";
 
 type AddEventModalProps = {
     propertyId: string;

@@ -5,7 +5,7 @@ import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery
 import {Error} from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error';
 import { AddButton, DeactivateButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import DeactivateSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeactivateSelectedItemsModal';
-import { deactivateProperty } from 'kotilogi-app/actions/deactivateProperties';
+import { deactivateProperty } from 'kotilogi-app/actions/experimental/properties';
 import { PropertyListItem } from './PropertyListItem';
 
 function PropertiesGallery({propertyData, user}){

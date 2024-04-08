@@ -16,3 +16,10 @@ export async function addFile(tablename: 'propertyFiles' | 'eventFiles', fileDat
     const path = tablename === 'propertyFiles' ? '/properties/[property_id]/' : '/events/[event_id]/';
     revalidatePath(path);
 }
+
+export async function deleteFile(tablename: 'propertyFiles' | 'eventFiles', fileName: string){
+    const files = new Files();
+    await files.deleteFile(tablename, fileName);
+    const path = tablename === 'propertyFiles' ? '/properties/[property_id]/' : '/events/[event_id]/';
+    revalidatePath(path);
+}

@@ -7,7 +7,9 @@ import Button from "@/components/Button/Button";
 import { Input, Select, Textarea } from "@/components/Input/Input";
 import { buildingTypes, serviceName } from "kotilogi-app/constants";
 import Link from "next/link";
-import { addProperty } from "kotilogi-app/actions/experimental/addProperty";
+import SubmitDataModal from "@/components/Experimental/Modal/SubmitDataModal";
+import toast from "react-hot-toast";
+import { addProperty } from "kotilogi-app/actions/experimental/properties";
 
 type StepType = 'intro' | 'create_new' | 'add_with_token';
 
@@ -71,18 +73,15 @@ type CreateNewStepProps = {
     ref: MutableRefObject<ModalRefType>;
 }
 function CreateNewStep(){
-    const {modalRef, updateData, formId, onSubmit, formRef} = useAddPropertyModalContext();
-    
     return (
-        <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-4 xs:w-full" id={formId}>
+        <SubmitDataModal.Form className="flex flex-col gap-4 xs:w-full">
             <Input 
                 name="propertyNumber"
                 label="Kiinteistötunnus"
                 description="Talon kiinteistötunnus"
                 placeholder="Kirjoita talon kiinteistötunnus..."
                 required={true}
-                autoComplete="off"
-                onChange={updateData}/>
+                autoComplete="off"/>
         
             <Input
                 name="title"
@@ -90,8 +89,7 @@ function CreateNewStep(){
                 description="Talon katuosoite."
                 placeholder="Kirjoita osoite..."
                 required={true}
-                autoComplete="off"
-                onChange={updateData}/>
+                autoComplete="off"/>
 
             <Input
                 name="zipCode"
@@ -101,8 +99,7 @@ function CreateNewStep(){
                 maxLength={5}
                 minLength={5}
                 required={true}
-                autoComplete="off"
-                onChange={updateData}/>
+                autoComplete="off"/>
 
             <Input
                 name="buildYear"
@@ -110,27 +107,24 @@ function CreateNewStep(){
                 description="Vuosi jona talo valmistui."
                 placeholder="Kirjoita talon rakennusvuosi..."
                 required={true}
-                autoComplete="off"
-                onChange={updateData}/>
+                autoComplete="off"/>
 
-            <Select name="buildingType" label="Talotyyppi" description="Talon tyyppi." onChange={updateData}>
+            <Select name="buildingType" label="Talotyyppi" description="Talon tyyppi.">
                 {
                     buildingTypes.map(type => <Select.Option key={type}>{type}</Select.Option>)
                 }
             </Select>
-            
-            <div className="xs:hidden lg:block">
-                <Textarea 
-                    label="Kuvaus" 
-                    description="Talon lyhyt kuvaus." 
-                    placeholder="Kirjoita kuvaus..." 
-                    spellCheck={false}
-                    name="description"
-                    onChange={updateData}/>
-            </div>
+           
+            <Textarea 
+                label="Kuvaus" 
+                description="Talon lyhyt kuvaus." 
+                placeholder="Kirjoita kuvaus..." 
+                spellCheck={false}
+                name="description"
+                className="xs:hidden lg:block"/>
         
             <PricingDescription/>
-        </form>
+        </SubmitDataModal.Form>
     )
 }
 
@@ -138,62 +132,42 @@ type AddPropertyModalProps = {
     owner: string;
 }
 
-function AddPropertyModal({owner}: AddPropertyModalProps, ref: MutableRefObject<ModalRefType>){
-    const [step, setStep] = useState<StepType>('create_new');
-    const formId = 'add-property-form';
-    const formRef = useRef<HTMLFormElement>(null);
-    const {onSubmit, cleanup, updateData, status} = useAddDataModal(ref, addProperty, formRef, {refId: owner});
-    const loading = status === 'loading';
-    
-    const reset = () => {
-        //setStep('intro');
-        cleanup();
-    }
-
+function AddPropertyModal({owner}: AddPropertyModalProps, ref: React.Ref<ModalRefType>){
+ 
     return (
-        <Modal ref={ref}>
+        <SubmitDataModal ref={ref} submitMethod={async (data) => {
+            const propertyData = {
+                ...data,
+                refId: owner,
+            };
+
+            await addProperty(propertyData as TODO).then(() => toast.success('Talo lisätty onnistuneesti!'));
+        }}>
             <Modal.Header>
                 <h1 className="text-xl text-slate-500">Lisää Talo</h1>
-                <Modal.CloseTrigger>
-                    <CloseButton onClick={() => reset()}/>
-                </Modal.CloseTrigger>
+                <SubmitDataModal.CloseTrigger>
+                    <CloseButton/>
+                </SubmitDataModal.CloseTrigger>
             </Modal.Header>
 
             <Modal.Body>
-                <AddPropertyModalContext.Provider value={{
-                    step, 
-                    owner,
-                    modalRef: ref, 
-                    formRef, 
-                    formId, 
-                    onSubmit,
-                    updateData,
-                    setStep,
-                    }}>
-
-                    {
-                        step === 'intro' ? <IntroStep/>
-                        :
-                        step === 'create_new' ? <CreateNewStep/>
-                        :
-                        null
-                    }
-
-                </AddPropertyModalContext.Provider>
+                <CreateNewStep/>
             </Modal.Body>
 
             <Modal.Footer>
-                <Modal.CloseTrigger>
-                    <Button variant="secondary" onClick={() => reset()} disabled={loading}>
+                <SubmitDataModal.CloseTrigger>
+                    <Button variant="secondary">
                         <span>Peruuta</span>
                     </Button>
-                </Modal.CloseTrigger>
+                </SubmitDataModal.CloseTrigger>
 
-                <Button variant="primary-dashboard" loading={status === 'loading'} form={formId} disabled={loading}>
-                    <span className="mx-8">Lähetä</span>
-                </Button>
+                <SubmitDataModal.SubmitTrigger>
+                    <Button variant="primary-dashboard">
+                        <span className="mx-8">Lähetä</span>
+                    </Button> 
+                </SubmitDataModal.SubmitTrigger>
             </Modal.Footer>
-        </Modal>
+        </SubmitDataModal>
     )
 }
 

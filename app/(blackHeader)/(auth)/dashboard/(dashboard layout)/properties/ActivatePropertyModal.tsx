@@ -1,93 +1,71 @@
 'use client';
 
-import { MutableRefObject, forwardRef, useState } from "react";
-import Modal, { ModalRefType } from "../../../../../../components/Experimental/Modal/Modal";
-import { CloseButton } from "@/components/CloseButton";
 import Button from "@/components/Button/Button";
-import { activateProperty } from "kotilogi-app/actions/activateProperty";
-import toast from "react-hot-toast";
+import { CloseButton } from "@/components/CloseButton";
+import Modal, { ModalRefType } from "@/components/Experimental/Modal/Modal";
+import SubmitDataModal from "@/components/Experimental/Modal/SubmitDataModal";
 import { Input } from "@/components/Input/Input";
-import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
-import { ErrorMessage, Group } from "@/components/Util/FormUtils";
+import { activateProperty } from "kotilogi-app/actions/experimental/properties";
+import { forwardRef } from "react";
+import toast from "react-hot-toast";
 
 type ActivatePropertyModalProps = {
     property: Kotilogi.PropertyType;
 }
 
-function ActivatePropertyModal({property}: ActivatePropertyModalProps, ref: MutableRefObject<ModalRefType>){
-    const [status, setStatus] = useState<'idle' | 'loading' | 'invalid_password'>('idle');
-    const {data, updateData} = useInputData({customer: property.refId})
-    const activate = (e) => {
-        e.preventDefault();
-        
-
-        setStatus('loading');
-        activateProperty({
-            ...data,
-            propertyId: property.id
-        })
-        .then(() => {
-            toast.success(`Talon käyttöönotto onnistui!`);
-            setStatus('idle');
-            ref.current?.toggleOpen(false);
-        })
-        .catch(err => {
-            if(err.message.toLowerCase().includes('password')){
-                setStatus('invalid_password');
-            }
-        });
-    }
-
-    const loading = status === 'loading';
-    const formId = `activate-property-modal-${property.id}`;
+function ActivatePropertyModal({property}: ActivatePropertyModalProps, ref: React.Ref<ModalRefType>){
 
     return (
-        <Modal ref={ref}>
+        <SubmitDataModal ref={ref} submitMethod={async (data: TODO) => {
+            await activateProperty({customer: property.refId, propertyId: property.id, password: data.password})
+            .then(() => {
+                toast.success('Talon käyttöönotto onnistui!');
+            });
+        }}>
+            
             <Modal.Header>
-                <h2 className="text-xl">Ota talo käyttöön</h2>
-                <Modal.CloseTrigger>
+                <h1 className="text-xl text-slate-500">Ota talo käyttöön</h1>
+                <SubmitDataModal.CloseTrigger>
                     <CloseButton/>
-                </Modal.CloseTrigger>
+                </SubmitDataModal.CloseTrigger>
             </Modal.Header>
 
             <Modal.Body>
-                <form className="lg:w-[700px] xs:w-full my-8 flex flex-col gap-4" id={formId} onSubmit={activate}>
+                <div className="flex flex-col gap-2">
+                    <h2 className="text-xl text-slate-500">Talon käyttöönotto</h2>
                     <p>
-                        Olet ottamassa talon <strong className="font-semibold">{property.title}</strong> uudelleen käyttöön. Oletko varma?<br/>
-                        Käyttöönotto maksaa <span className="text-green-700">49,90€.</span>
+                        Ota tällä lomakkeella valittu talo uudelleen käyttöön.<br/>
+                        Huomioi, että jokaisen talon käyttöön otosta veloitetaan <span className="text-green-700">49,90€</span> (+ALV 24%).
                     </p>
-
-                    <Group>
-                        <Input 
+                    <SubmitDataModal.Form className="mt-8">
+                        <Input
                             label="Salasana"
-                            placeholder="Anna salasanasi..."
-                            required
+                            placeholder="Kirjoita salasanasi..."
                             name="password"
-                            onChange={updateData}
                             type="password"
                             autoComplete="new-password"
+                            required
                         />
-                        {
-                            status === 'invalid_password' ? <ErrorMessage>Annettu salasana on väärä!</ErrorMessage> : null
-                        }
-                    </Group>
-                    
-
-                    
-                </form>
+                    </SubmitDataModal.Form>
+                </div>
+                
             </Modal.Body>
 
             <Modal.Footer>
-                <Modal.CloseTrigger>
-                    <Button variant="secondary" disabled={loading}>Sulje</Button>
-                </Modal.CloseTrigger>
+                <SubmitDataModal.CloseTrigger>
+                    <Button variant="secondary">
+                        Peruuta
+                    </Button>
+                </SubmitDataModal.CloseTrigger>
 
-                <Button variant="primary-dashboard" disabled={loading} loading={loading} form={formId} type="submit">
-                    <span className="mx-8">Ota käyttöön</span>
-                </Button>
+                <SubmitDataModal.SubmitTrigger>
+                    <Button variant="primary-dashboard">
+                        <span className="mx-8">Lähetä</span>
+                    </Button>
+                </SubmitDataModal.SubmitTrigger>
             </Modal.Footer>
-        </Modal>
-    );
+        </SubmitDataModal>
+    )
 }
 
 export default forwardRef(ActivatePropertyModal);

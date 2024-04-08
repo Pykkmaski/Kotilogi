@@ -24,4 +24,5 @@ a:hover{
 
 dialog::backdrop{
     backdrop-filter: blur(10px);
+    z-index: 10;
 }

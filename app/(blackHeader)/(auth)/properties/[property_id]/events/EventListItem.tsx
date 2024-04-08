@@ -1,6 +1,6 @@
 import { ListItem, ListItemProps } from "@/components/ListItem/ListItem";
 import { CheckBox, ControlsContainer, DeleteButton, DescriptionContainer, EventTitleContainer, InfoContainer } from "@/components/ListItem/ListItem.components";
-import { deleteEvent } from "kotilogi-app/actions/experimental/deleteEvent";
+import { deleteEvent } from "kotilogi-app/actions/experimental/events";
 import toast from "react-hot-toast";
 
 export function EventListItem(props: ListItemProps<Kotilogi.EventType>){

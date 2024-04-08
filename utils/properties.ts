@@ -63,7 +63,7 @@ export class Properties extends Files{
     async activateProperty(propertyId: string){
         const trx = await db.transaction();
         try{
-            const [{customer}] = await trx('properties').where({id: propertyId}).update({
+            const [{refId: customer}] = await trx('properties').where({id: propertyId}).update({
                 status: 'ok',
             }, 'refId');
     
@@ -71,7 +71,7 @@ export class Properties extends Files{
                 due: createDueDate(30),
                 amount: 4990,
                 stamp: 'activate_property',
-                tragetId: propertyId,
+                targetId: propertyId,
                 customer,
             });
     
