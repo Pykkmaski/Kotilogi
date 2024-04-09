@@ -1,8 +1,9 @@
 import db from "kotilogi-app/dbconfig";
 import { Files } from "./files";
 import bcrypt from 'bcrypt';
+import { DatabaseTable } from "./databaseTable";
 
-export class Users extends Files{
+export class Users extends DatabaseTable{
     async updatePassword(email: string, oldPassword: string, newPassword: string){
         const [{password: encryptedPassword}] = await db('users').where({email}).select('password');
         try{
@@ -12,9 +13,9 @@ export class Users extends Files{
                 }
             });
     
-            await db('users').where({email}).update({
+            await this.update({
                 password: await bcrypt.hash(newPassword, 15),
-            });
+            }, {email});
 
             return 'success';
         }
@@ -30,8 +31,8 @@ export class Users extends Files{
     }
 
     async updateEmail(oldEmail: string, newEmail: string){
-        await db('users').where({email: oldEmail}).update({
+        await this.update({
             email: newEmail,
-        });
+        }, {email: oldEmail});
     }
 }

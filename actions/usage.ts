@@ -1,16 +1,17 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import * as database from './database';
 import db from 'kotilogi-app/dbconfig';
+import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 
 const TABLENAME = 'usage';
 const PATH = '/properties/[property_id]/usage';
 
 const revalidateUsage = () => revalidatePath(PATH, 'page');
+const usageTable = new DatabaseTable(TABLENAME);
 
 export async function getByDateRange(startDate: number, endDate: number, query: Partial<Kotilogi.UsageType>){
-    const data = await database.get(TABLENAME, query);
+    const data = await usageTable.get(query);
     return data.filter(d => {
         const time = parseInt(d.time);
         return time >= startDate && time <= endDate;
@@ -18,7 +19,7 @@ export async function getByDateRange(startDate: number, endDate: number, query: 
 }
 
 export async function getByYear(year: number, query: Partial<Kotilogi.UsageType>){
-    const data = await database.get<Partial<Kotilogi.UsageType>>(TABLENAME, query);
+    const data = await usageTable.get(query);
 
     return data.filter(d => {
         const dataYear = new Date(d.time).getFullYear();
@@ -56,7 +57,7 @@ export async function add(usageData: Kotilogi.UsageType){
     const validationResult = 'valid'//validateUsageData(usageData)
     if(validationResult !== 'valid') throw new Error(validationResult);
     
-    return await database.add('usage', usageData)
+    return await usageTable.add(usageData)
     .then(() => revalidateUsage());
 }
 
@@ -67,11 +68,11 @@ export async function del(usageData: Kotilogi.UsageType){
         throw new Error('deletion_prohibited');
     }
 
-    return await database.del(TABLENAME, {id: usageData.id})
+    return await usageTable.del({id: usageData.id})
     .then(() => revalidateUsage());
 }
 
 export async function update(usageData: Kotilogi.UsageType){
-    return await database.update(TABLENAME, usageData.id, usageData)
+    return await usageTable.update(usageData, {id: usageData.id})
     .then(() => revalidateUsage());
 }

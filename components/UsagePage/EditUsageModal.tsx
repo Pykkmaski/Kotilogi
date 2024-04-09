@@ -1,3 +1,5 @@
+'use client';
+
 import Button from "@/components/Button/Button";
 import { CloseButton } from "@/components/CloseButton";
 import Modal, { ModalRefType } from "@/components/Experimental/Modal/Modal";
@@ -6,42 +8,22 @@ import { Input } from "../Input/Input";
 import { useItemContext } from "./DataList";
 import * as usage from '@/actions/usage';
 import toast from "react-hot-toast";
+import SubmitDataModal from "../Experimental/Modal/SubmitDataModal";
 
 function EditUsageModal(props, ref: MutableRefObject<ModalRefType>){
     const {item} = useItemContext();
-    
-    const initialData = {id: item.id};
-    const formRef = useRef<HTMLFormElement | null>(null);
-    const [status, setStatus] = useState<'loading' | 'idle'>('idle');
-
-    const closeModal = () => {
-        formRef.current?.reset();
-        props.onHide();
-    }
-
-    const update = (e) => {
-        e.preventDefault();
-        setStatus('loading');
-
-        const d = {
-            ...item,
-            price : e.target.price.valueAsNumber,
-        }
-
-        usage.update(d)
-        .catch(err => toast.error(err.message))
-        .finally(() => {
-            closeModal();
-            setStatus('idle');
-        });
-    }
-
-    const loading = status === 'loading';
-
-    const formId = props.id + '-form';
 
     return (
-        <Modal ref={ref}>
+        <SubmitDataModal ref={ref} submitMethod={async (data) => {
+            const d = {
+                ...item,
+               ...data,
+            }
+            
+            console.log(d);
+            await usage.update(d)
+            .catch(err => toast.error(err.message));
+        }}>
             <Modal.Header>
                 <h1 className="text-xl text-slate-500">Muokkaa tietoa</h1>
                 <Modal.CloseTrigger>
@@ -50,7 +32,7 @@ function EditUsageModal(props, ref: MutableRefObject<ModalRefType>){
             </Modal.Header>
 
             <Modal.Body>
-                <form onSubmit={update} id={formId} className="xs:w-full md:w-[600px]">
+                <SubmitDataModal.Form>
                     <Input 
                         label="Hinta"
                         description="Laskun hinta."
@@ -60,19 +42,22 @@ function EditUsageModal(props, ref: MutableRefObject<ModalRefType>){
                         min="0.01"
                         defaultValue={item.price} 
                     />
-                </form>
+                </SubmitDataModal.Form>
             </Modal.Body>
 
             <Modal.Footer>
-                <Modal.CloseTrigger>
+                <SubmitDataModal.CloseTrigger>
                     <Button variant="secondary">Peruuta</Button>
-                </Modal.CloseTrigger>
+                </SubmitDataModal.CloseTrigger>
 
-                <Button variant="primary-dashboard" loading={loading} disabled={loading} form={formId}>
-                    <span className="mx-8">Lähetä</span>
-                </Button>
+                <SubmitDataModal.SubmitTrigger>
+                    <Button variant="primary-dashboard">
+                        <span className="mx-8">Lähetä</span>
+                    </Button>
+                </SubmitDataModal.SubmitTrigger>
+                
             </Modal.Footer>
-        </Modal>
+        </SubmitDataModal>
     )
 }
 

@@ -11,7 +11,6 @@ import {default as ExperimentalModal} from '@/components/Experimental/Modal/Moda
 import { Icon } from "@/components/UsagePage/Icon";
 import { Input, Select } from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
-import { PrimaryButton } from "@/components/Button/PrimaryButton";
 import { CloseButton } from "@/components/CloseButton";
 
 function AddUsageModal(props, ref: MutableRefObject<ModalRefType>){

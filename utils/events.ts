@@ -10,7 +10,7 @@ export class Events{
             throw new Error('event_consolidated');
         }
     }
-
+    
     async addEvent(eventData: Kotilogi.EventType, files?: File[]){
         const trx = await db.transaction();
         const eventsTable = new DatabaseTable('propertyEvents', trx);

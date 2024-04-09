@@ -1,0 +1,3 @@
+A property and its files get added properly. -y
+An event and its files get added properly. -y
+Usage data gets added

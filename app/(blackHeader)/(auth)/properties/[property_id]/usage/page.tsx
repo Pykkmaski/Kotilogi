@@ -1,6 +1,5 @@
 import db from 'kotilogi-app/dbconfig';
 import { Controls, PageContent } from './page.components';
-import * as database from '@/actions/database';
 import * as usage from '@/actions/usage';
 
 import Link from 'next/link';
