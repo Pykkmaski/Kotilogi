@@ -8,7 +8,7 @@ function Backdrop({children, ...props}: React.ComponentProps<'div'>){
 
 function ModalContainer({children, ...props}: React.ComponentProps<'div'>){
     return (
-        <div className="flex items-center justify-center w-full h-full relative z-30">
+        <div className="flex items-center  w-full h-full relative z-30">
             {children}
         </div>
     );
@@ -17,6 +17,14 @@ function ModalContainer({children, ...props}: React.ComponentProps<'div'>){
 function Header({children}){
     return (
         <div className="flex justify-between p-2 border-b border-slate-200">
+            {children}
+        </div>
+    );
+}
+
+function Body({children}){
+    return (
+        <div className="w-full p-2">
             {children}
         </div>
     );
@@ -42,3 +50,4 @@ export function Modal({children, ...props}: React.ComponentProps<'div'>){
 
 Modal.Header = Header;
 Modal.Footer = Footer;
+Modal.Body = Body;

@@ -4,8 +4,8 @@ export function DeleteButton(props: React.ComponentProps<'button'>){
     return (
         <Button variant="secondary" {...props}>
             <div className="flex gap-2 border-slate-500 items-center">
-                <i className="fa fa-trash text-slate-500 text-2xl"/>
-                <span>Poista</span>
+                <i className="fa fa-trash text-black text-2xl"/>
+                <span className="xs:hidden lg:block">Poista</span>
             </div>
         </Button>
     );

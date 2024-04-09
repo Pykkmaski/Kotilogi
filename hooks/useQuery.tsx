@@ -18,9 +18,12 @@ export function useQuery(queryParamName: string, initialQueryValue: string | nul
         setQuery(e.target.value);
     }
 
+    const updateQueryDirectly = (newQuery: string) => {
+        setQuery(newQuery);
+    }
+
     useEffect(() => {
         const timeout = setTimeout(() => {
-            console.log('Query changed ' + query);
             const currentQuery = new URLSearchParams(searchParams);
             currentQuery.set(queryParamName, query);
             router.push(route + `?${currentQuery.toString()}`);
@@ -29,5 +32,5 @@ export function useQuery(queryParamName: string, initialQueryValue: string | nul
         return () => clearTimeout(timeout);
     }, [query]);
 
-    return {updateQuery, currentQuery: query} as const;
+    return {updateQuery, updateQueryDirectly, currentQuery: query} as const;
 }

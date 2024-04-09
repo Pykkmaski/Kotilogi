@@ -10,6 +10,8 @@ import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/Delet
 import { deleteEvent } from "kotilogi-app/actions/experimental/events";
 import AddEventModal from "./AddEventModal";
 import { EventListItem } from "./EventListItem";
+import { VisibilityProvider } from "@/components/Util/VisibilityProvider/VisibilityProvider";
+import { SearchForEventsModal } from "./SearchForEventsModal";
 
 /**The main content rendering component of the page. */
 export function Content({events, propertyId}){
@@ -25,8 +27,21 @@ export function Content({events, propertyId}){
                 </Gallery.DeleteModal>
                 
                 <Gallery.Header title="Tapahtumat">
-                    <div className="flex gap-2 items-center">
-                        <SearchBar/>
+                    <div className="flex gap-4 items-center">
+                        <div className="xs:hidden lg:block">
+                            <SearchBar/>
+                        </div>
+
+                        <VisibilityProvider>
+                            <VisibilityProvider.Trigger>
+                                <i className="fa fa-search text-xl xs:block lg:hidden text-black cursor-pointer"/>
+                            </VisibilityProvider.Trigger>
+
+                            <VisibilityProvider.Target>
+                                <SearchForEventsModal/>
+                            </VisibilityProvider.Target>
+                        </VisibilityProvider>
+                        
                         <Gallery.DeleteModalTrigger>
                             <DeleteButton/>
                         </Gallery.DeleteModalTrigger>
