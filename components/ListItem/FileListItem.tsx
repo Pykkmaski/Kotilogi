@@ -2,8 +2,8 @@
 
 import { ListItem, ListItemProps } from "./ListItem";
 import { CheckBox, ControlsContainer, InfoContainer, TitleContainer } from "./ListItem.components";
-import * as properties from '@/actions/properties';
-import * as events from '@/actions/events';
+import {deleteFile as deletePropertyFile} from '@/actions/experimental/properties';
+import {deleteFile as deleteEventFile} from '@/actions/experimental/events';
 
 export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
     icon: string,
@@ -39,13 +39,13 @@ function PdfListItem(props: PdfListItemProps){
 export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='propertyFiles'
-            deleteMethod={() => properties.deleteFile(props.item)}/>
+            deleteMethod={() => deletePropertyFile(props.item.id)}/>
     );
 }
 
 export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
         <PdfListItem {...props} tablename='eventFiles'
-            deleteMethod={() => events.deleteFile(props.item)}/>
+            deleteMethod={() => deleteEventFile(props.item.id)}/>
     );
 }

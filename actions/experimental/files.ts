@@ -1,5 +1,6 @@
 'use server';
 
+import db from "kotilogi-app/dbconfig";
 import { Files } from "kotilogi-app/utils/files";
 import { revalidatePath } from "next/cache";
 
@@ -13,15 +14,34 @@ const getPath = (tablename: string) => tablename === 'propertyFiles' ? '/propert
  * @param trx 
  */
 
-export async function addFile(tablename: 'propertyFiles' | 'eventFiles', fileData: FormData, refId: string){
-    const files = new Files();
-    await files.addFile(tablename, fileData.get('file') as unknown as File, refId);
-    revalidatePath(getPath(tablename));
+export async function addFiles(tablename: 'propertyFiles' | 'eventFiles', fileData: FormData[], refId: string){
+    
+    const trx = await db.transaction();
+    const files = new Files(tablename, trx);
+
+    try{
+        const promises = fileData.map(fdata => files.addFile(fdata.get('file') as unknown as File, refId));
+        await Promise.all(promises);
+        await trx.commit();
+        revalidatePath(getPath(tablename));
+    }
+    catch(err){
+        await files.rollbackFiles();
+        await trx.rollback();
+        throw err;
+    }
 }
 
-export async function deleteFile(tablename: 'propertyFiles' | 'eventFiles', fileName: string){
-    const files = new Files();
-    await files.deleteFile(tablename, fileName);
-    const path = tablename === 'propertyFiles' ? '/properties/[property_id]/' : '/events/[event_id]/';
-    revalidatePath(getPath(tablename));
+export async function deleteFile(tablename: 'propertyFiles' | 'eventFiles', id: string){
+    const files = new Files(tablename);
+
+    try{
+        await files.deleteFile(id);
+        revalidatePath(getPath(tablename));
+    }
+    catch(err){
+        await files.rollbackFiles();
+        throw err;
+    }
+    
 }

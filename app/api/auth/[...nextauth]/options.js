@@ -1,7 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import * as database from '@/actions/database';
 
 async function verifyUser(email, password){
     return new Promise(async (resolve, reject) => {

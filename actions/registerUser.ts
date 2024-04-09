@@ -2,7 +2,6 @@
 
 import bcrypt from 'bcrypt';
 import db from '@/dbconfig';
-import { RegisterError } from 'kotilogi-app/utils/error';
 
 type RegisterStatusType = 'success' | 'user_exists';
 

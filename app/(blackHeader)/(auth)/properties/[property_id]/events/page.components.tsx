@@ -7,7 +7,7 @@ import { SearchBar } from "kotilogi-app/components/SearchBar";
 import { LayoutGroup } from "kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup";
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
 import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
-import { deleteEvent } from "kotilogi-app/actions/experimental/deleteEvent";
+import { deleteEvent } from "kotilogi-app/actions/experimental/events";
 import AddEventModal from "./AddEventModal";
 import { EventListItem } from "./EventListItem";
 
@@ -23,6 +23,7 @@ export function Content({events, propertyId}){
                 <Gallery.DeleteModal>
                     <DeleteSelectedItemsModal deleteMethod={deleteEvent}/>
                 </Gallery.DeleteModal>
+                
                 <Gallery.Header title="Tapahtumat">
                     <div className="flex gap-2 items-center">
                         <SearchBar/>

@@ -1,6 +1,6 @@
 'use client';
 
-import { updatePropertyEvent } from "kotilogi-app/actions/propertyEvent/updatePropertyEvent";
+import { updateEvent } from "kotilogi-app/actions/experimental/events";
 import { ContentCard } from "kotilogi-app/components/RoundedBox/RoundedBox";
 import { Input, Textarea } from "kotilogi-app/components/Input/Input";
 import { SingleInputForm } from "kotilogi-app/components/SingleInputForm/SingleInputForm";
@@ -11,12 +11,14 @@ type ContentProps = {
 
 export function Content({event}: ContentProps){
     const isConsolidated = Date.now() >= parseInt(event.consolidationTime);
-    const updateEvent = (data: object) => updatePropertyEvent(event.id, data);
+    const update = (data: TODO) => {
+        return updateEvent(event.id, data as TODO);
+    }
 
     return (
         <>
             <ContentCard title="Tiedot">
-                <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Input} initialInputProps={{
+                <SingleInputForm editingDisabled={isConsolidated} submitMethod={update} inputComponent={Input} initialInputProps={{
                     label: 'Otsikko',
                     name: 'title',
                     description: 'Tapahtuman otsikko.',
@@ -25,7 +27,7 @@ export function Content({event}: ContentProps){
                     autoComplete: 'off',
                 }}/>
 
-                <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Textarea} initialInputProps={{
+                <SingleInputForm editingDisabled={isConsolidated} submitMethod={update} inputComponent={Textarea} initialInputProps={{
                     label: 'Kuvaus',
                     name: 'description',
                     description: 'Tapahtuman kuvaus.',
@@ -34,7 +36,7 @@ export function Content({event}: ContentProps){
                     spellCheck: false,
                 }}/>
 
-                <SingleInputForm editingDisabled={isConsolidated} submitMethod={updateEvent} inputComponent={Input} initialInputProps={{
+                <SingleInputForm editingDisabled={isConsolidated} submitMethod={update} inputComponent={Input} initialInputProps={{
                     label: 'Päiväys',
                     name: 'time',
                     description: 'Tapahtuman päiväys.',

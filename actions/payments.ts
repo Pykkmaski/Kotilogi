@@ -1,23 +1,9 @@
 'use server';
 
-import { Prices, serviceName } from "kotilogi-app/constants";
-import crypto from 'crypto';
 import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import axios from "axios";
-import { UserPlanType, UserType } from "kotilogi-app/types/UserType";
-import { OrderIdType } from "kotilogi-app/types/OrderIdType";
-import db from "kotilogi-app/dbconfig";
-import { createVismaProductArray } from "kotilogi-app/utils/createVismaProductArray";
-
-function generateAuthCode(orderNumber: string){
-    const data = `${process.env.VISMA_API_KEY}|${orderNumber}`;
-    return crypto.createHmac('SHA256', process.env.VISMA_MERCHANT_SECRET).update(data).digest('hex').toUpperCase();
-}
-
-function generateOrderNumber(user: UserType){
-    return crypto.createHash('SHA256').update(Date.now() + user.email + user.plan).digest('hex').toUpperCase();
-}
+import { Payment } from "kotilogi-app/utils/payment";
 
 export async function createPaymentRequest(bills: {
     amount: number;
@@ -29,9 +15,11 @@ export async function createPaymentRequest(bills: {
         throw new Error('Could not make the payment, as the user\'s session was not found!');
     }
 
-    const products = createVismaProductArray(bills);
-    const amount = products.reduce((acc, cur) => acc += cur.price, 0);
-    const orderNumber = generateOrderNumber(session.user);
+    const payment       = new Payment();
+    const orderNumber   = payment.generateOrderNumber(session.user);
+    const products      = payment.createVismaProductArray(bills);
+    const authcode      = payment.generateAuthCode(orderNumber);
+    const amount        = products.reduce((acc, cur) => acc += cur.price, 0);
     
     const VISMA_API_KEY = process.env.VISMA_API_KEY;
     if(!VISMA_API_KEY) throw new Error('VISMA_API_KEY env variable missing!');
@@ -42,7 +30,7 @@ export async function createPaymentRequest(bills: {
         currency: 'EUR',
         amount,
         order_number: orderNumber,
-        authcode: generateAuthCode(orderNumber),
+        authcode,
 
         payment_method: {
             type: 'e-payment',
@@ -69,24 +57,4 @@ export async function createPaymentRequest(bills: {
         console.log(paymentToken);
         return null;
     }
-}
-
-/**
- * Creates a visma payment request.
- * @param id 
- * @returns 
- */
-export async function makeOrder(){
-    try{
-        
-    }
-    catch(err){
-        console.log(err.message);
-    }
-
-    return null;
-}
-
-export async function payBill(bill: TODO){
-    return await createPaymentRequest(bill);
 }

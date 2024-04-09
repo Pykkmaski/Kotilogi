@@ -1,7 +1,7 @@
 'use server';
+
 import { revalidatePath } from 'next/cache';
 import * as database from './database';
-import {z} from 'zod';
 import db from 'kotilogi-app/dbconfig';
 
 const TABLENAME = 'usage';

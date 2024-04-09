@@ -2,7 +2,7 @@
 
 import { MutableRefObject, ReactElement, createContext, forwardRef, useContext, useId, useRef, useState } from "react";
 import Modal, { ModalRefType } from "./Modal";
-import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
+import { useInputData, useInputFiles } from "@/components/Modals/BaseAddModal.hooks";
 import React from "react";
 import toast from "react-hot-toast";
 import Button from "@/components/Button/Button";
@@ -16,18 +16,21 @@ type SubmitDataModalContextProps = {
     formRef: MutableRefObject<HTMLFormElement>;
     onSubmit: (e: TODO) => void;
     updateData: (e: TODO) => void;
+    updateFiles: (e: TODO) => void;
     close: () => void;
 }
 
 const SubmitDataModalContext = createContext<SubmitDataModalContextProps>(null);
 
 type SubmitDataModalProps = React.PropsWithChildren & {
-    submitMethod: <T>(data: T) => Promise<void>
+    submitMethod: <T>(data: T, files?: FormData[]) => Promise<void>
 }
 
 function SubmitDataModal({children, submitMethod}: SubmitDataModalProps, ref: React.MutableRefObject<ModalRefType>){
     const [status, setStatus] = useState<StatusType>('idle');
     const {data, updateData, reset} = useInputData({});
+    const {files, updateFiles} = useInputFiles();
+
     const formId = useId();
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -35,7 +38,7 @@ function SubmitDataModal({children, submitMethod}: SubmitDataModalProps, ref: Re
         e.preventDefault();
         setStatus('loading');
 
-        submitMethod(data)
+        submitMethod(data, files)
         .then(() => {
             close();
         })
@@ -59,6 +62,7 @@ function SubmitDataModal({children, submitMethod}: SubmitDataModalProps, ref: Re
                 formRef,
                 onSubmit,
                 updateData,
+                updateFiles,
                 close,
             }}>
                 {children}
@@ -68,16 +72,25 @@ function SubmitDataModal({children, submitMethod}: SubmitDataModalProps, ref: Re
 }
 
 function Form({children, ...props}: React.ComponentProps<'form'>){
-    const {updateData, onSubmit, formId, formRef} = useSubmitDataModalContext();
+    const {updateData, updateFiles, onSubmit, formId, formRef} = useSubmitDataModalContext();
 
     return (
         <form {...props} onSubmit={onSubmit} id={formId} ref={formRef}>
             {
                 React.Children.map(children, (child: ReactElement) => {
-                    return React.cloneElement(child, {
-                        ...child.props,
-                        onInput: updateData,
-                    });
+                    if(child.props.type !== 'file'){
+                        return React.cloneElement(child, {
+                            ...child.props,
+                            onInput: updateData,
+                        });
+                    }
+                    else{
+                        return React.cloneElement(child, {
+                            ...child.props,
+                            onChange: updateFiles,
+                        });
+                    }
+                    
                 })
             }
         </form>

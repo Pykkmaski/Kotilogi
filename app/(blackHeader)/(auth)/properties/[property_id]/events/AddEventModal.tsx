@@ -1,25 +1,23 @@
-import { MutableRefObject, forwardRef, useRef } from "react";
+import { MutableRefObject, forwardRef } from "react";
 import Modal, { ModalRefType } from "../../../../../../components/Experimental/Modal/Modal";
-import { useAddDataModal } from "../../../../../../components/Experimental/Modal/Modal.hooks";
 import { CloseButton } from "@/components/CloseButton";
 import { Input, Textarea } from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
-import { Group, Label } from "@/components/Util/FormUtils";
 import { addEvent } from "kotilogi-app/actions/experimental/events";
+import SubmitDataModal from "@/components/Experimental/Modal/SubmitDataModal";
+import toast from "react-hot-toast";
 
 type AddEventModalProps = {
     propertyId: string;
 }
 
 function AddEventModal({propertyId}: AddEventModalProps, ref: MutableRefObject<ModalRefType>){
-    const formRef = useRef<HTMLFormElement>(null);
-    const {onSubmit, cleanup, updateData, status, updateFiles} = useAddDataModal(ref, addEvent, formRef, {refId: propertyId});
-    const formId = 'add-event-form';
-    
-    const loading = status === 'loading';
-    
+
     return (
-        <Modal ref={ref}>
+        <SubmitDataModal ref={ref} submitMethod={async (data, files?) => {
+            await addEvent({...data, refId: propertyId} as TODO, files)
+            .then(() => toast.success('Tapahtuman lisäys onnistui!'));
+        }}>
             <Modal.Header>
                 <h1 className="text-xl text-slate-500">Lisää Tapahtuma</h1>
                 <Modal.CloseTrigger>
@@ -28,55 +26,53 @@ function AddEventModal({propertyId}: AddEventModalProps, ref: MutableRefObject<M
             </Modal.Header>
 
             <Modal.Body>
-                <form onSubmit={onSubmit} ref={formRef} id={formId} className="flex flex-col gap-4 lg:min-w-[700px] xs:w-full">
-                <Input
-                name="title"
-                label="Otsikko"
-                description="Tapahtuman otsikko."
-                placeholder="Kirjoita otsikko..."
-                required={true}
-                autoComplete="off"
-                onChange={updateData}/>
+                <SubmitDataModal.Form className="flex flex-col gap-4 lg:min-w-[700px] xs:w-full">
+                    <Input
+                        name="title"
+                        label="Otsikko"
+                        description="Tapahtuman otsikko."
+                        placeholder="Kirjoita otsikko..."
+                        required={true}
+                        autoComplete="off"/>
 
-            <Input 
-                name="time"
-                label="Päiväys"
-                description="Tapahtuman päivämäärä."
-                required
-                type="date"
-                onChange={updateData}/>
+                    <Input 
+                        name="time"
+                        label="Päiväys"
+                        description="Tapahtuman päivämäärä."
+                        required
+                        type="date"/>
 
-            <Textarea 
-                label="Kuvaus" 
-                description="Tapahtuman lyhyt kuvaus." 
-                placeholder="Kirjoita kuvaus..." 
-                spellCheck={false}
-                name="description"
-                onChange={updateData}/>
+                    <Textarea 
+                        label="Kuvaus" 
+                        description="Tapahtuman lyhyt kuvaus." 
+                        placeholder="Kirjoita kuvaus..." 
+                        spellCheck={false}
+                        name="description"/>
 
-            <Input
-                name="file"
-                type="file"
-                accept="application/pdf,image/jpeg"
-                label="Tiedostot ja kuvat"
-                description="Lähetä samalla tapahtumaan liittyviä tiedostoja ja kuvia."
-                multiple={true}
-                onInput={updateFiles}/>
-                </form>
+                    <Input
+                        name="file"
+                        type="file"
+                        accept="application/pdf,image/jpeg"
+                        label="Tiedostot ja kuvat"
+                        description="Lähetä samalla tapahtumaan liittyviä tiedostoja ja kuvia."
+                        multiple={true}/>
+                </SubmitDataModal.Form>
             </Modal.Body>
 
             <Modal.Footer>
-                <Modal.CloseTrigger>
-                    <Button variant="secondary" disabled={loading}>
+                <SubmitDataModal.CloseTrigger>
+                    <Button variant="secondary">
                         <span>Peruuta</span>
                     </Button>
-                </Modal.CloseTrigger>
+                </SubmitDataModal.CloseTrigger>
 
-                <Button variant="primary-dashboard" loading={loading} disabled={loading} form={formId}>
-                    <span className="mx-8">Lähetä</span>
-                </Button>
+                <SubmitDataModal.SubmitTrigger>
+                    <Button variant="primary-dashboard">
+                        <span className="mx-8">Lähetä</span>
+                    </Button>
+                </SubmitDataModal.SubmitTrigger>
             </Modal.Footer>
-        </Modal>
+        </SubmitDataModal>
     );
 }
 

@@ -1,15 +1,12 @@
 'use client';
 
 import AddFilesModal from "@/components/Experimental/Modal/AddFilesModal";
-import { PropertyImageListItem } from "@/components/ListItem/ImageListItem";
 import { ListItemProps } from "@/components/ListItem/ListItem";
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
 import { ImageError } from "@/components/new/Gallery/GalleryBase/Components/Error/ImageError";
 import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
 import { Gallery } from "@/components/new/Gallery/GalleryBase/Gallery";
-import { addFile } from "kotilogi-app/actions/experimental/addFile";
-import { deleteFile } from "kotilogi-app/actions/experimental/deleteFile";
-import { uploadFile } from "kotilogi-app/actions/uploadFile";
+import { addFiles, deleteFile } from "kotilogi-app/actions/experimental/files";
 import { FileTableName } from "kotilogi-app/types/FileTableName";
 
 type ImagesGalleryProps = {
@@ -27,14 +24,14 @@ export function ImagesGallery({tablename, images, refId, ImageComponent}: Images
     return (
         <Gallery data={images}>
             <Gallery.AddModal>
-                <AddFilesModal accept="image/jpeg" uploadMethod={async (fdata: FormData) => {
-                    await addFile(tablename, fdata, refId);
+                <AddFilesModal accept="image/jpeg" uploadMethod={async (fdata: FormData[]) => {
+                    await addFiles(tablename, fdata, refId);
                 }}/>
             </Gallery.AddModal>
 
             <Gallery.DeleteModal>
                 <DeleteSelectedItemsModal deleteMethod={async (fileData: Kotilogi.FileType) => {
-                    await deleteFile(tablename, fileData.fileName);
+                    await deleteFile(tablename, fileData.id);
                 }}/>
             </Gallery.DeleteModal>
 

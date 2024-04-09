@@ -1,20 +1,18 @@
 'use client';
 
-import { updateProperty } from "kotilogi-app/actions/property/updateProperty"
 import BuildingSection from "./BuildingSection"
 import ExteriorSection from "./ExteriorSection"
 import GeneralSection from "./GeneralSection"
 import InteriorSection from "./InteriorSection"
 import RoofSection from "./RoofSection"
 import HeatingSection from "./HeatingSection";
-import { updateDataById } from "kotilogi-app/actions/data/updateData";
-import * as properties from '@/actions/properties';
+import { updateProperty } from "kotilogi-app/actions/experimental/properties";
 
 export function Content({propertyData}: {
     propertyData: Kotilogi.PropertyType
 }){
 
-    const update = (data: Kotilogi.ItemType) => properties.update(propertyData.id, data);
+    const update = (data: Kotilogi.ItemType) => updateProperty(propertyData.id, data);
     
     return (
         <>

@@ -10,10 +10,10 @@ import { updateUserPassword } from "kotilogi-app/actions/experimental/users";
 type PasswordSettingStatus = 'idle' | 'invalid_password' | 'password_mismatch' | 'loading' | 'success' | 'unexpected';
 
 export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElement>){
-    const router = useRouter();
-    const [status, setStatus] = useState<PasswordSettingStatus>('idle');
-    const {data, updateData, reset: resetData} = useInputData({});
-    const {user} = useDashboardContext();
+    const router                                = useRouter();
+    const [status, setStatus]                   = useState<PasswordSettingStatus>('idle');
+    const {data, updateData, reset: resetData}  = useInputData({});
+    const {user}                                = useDashboardContext();
 
     const resetForm = () => {
         formRef.current?.reset();
@@ -29,7 +29,7 @@ export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElemen
             setStatus('password_mismatch');
         }
         else{
-            updateUserPassword(user.email, data.password1, data.password3)
+            updateUserPassword(user.email, data.oldPassword, data.password1)
             .then(result => {
                 setStatus(result as PasswordSettingStatus);
 

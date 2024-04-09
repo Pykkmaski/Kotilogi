@@ -7,11 +7,10 @@ import { CloseButton } from "@/components/CloseButton";
 import Button from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import { useInputFiles } from "@/components/Modals/BaseAddModal.hooks";
-import { upload } from "kotilogi-app/actions/file";
 import toast from "react-hot-toast";
 
 type AddFilesModalProps = {
-    uploadMethod: (fdata: FormData) => Promise<void>;
+    uploadMethod: (fdata: FormData[]) => Promise<void>;
     accept: string;
 }
 
@@ -24,10 +23,8 @@ function AddFilesModal({accept, uploadMethod}: AddFilesModalProps, ref: React.Mu
     const uploadFiles = (e) => {
         e.preventDefault();
         setStatus('loading');
-
-        const promises = files.map(fdata => uploadMethod(fdata));
         
-        Promise.all(promises)
+        uploadMethod(files)
         .catch(err => {
             toast.error(err.message);
         })

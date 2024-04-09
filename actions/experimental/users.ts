@@ -11,6 +11,7 @@ export async function updateUserEmail(currentEmail: string, newEmail: string){
 
 export async function updateUserPassword(email: string, oldPassword: string, newPassword: string){
     const users = new Users();
-    await users.updatePassword(email, oldPassword, newPassword);
-    return 'success';
+    console.log(oldPassword, newPassword);
+    const result = await users.updatePassword(email, oldPassword, newPassword);
+    return result;
 }

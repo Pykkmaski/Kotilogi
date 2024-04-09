@@ -1,16 +1,9 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
-import * as db from '@/actions/database';
 import Button from "@/components/Button/Button";
-import { VisibilityProvider } from "@/components/Util/VisibilityProvider/VisibilityProvider";
-import { Modal } from "@/components/Experimental/Modal/PlainModal/Modal";
-import { CloseButton } from "@/components/CloseButton";
-import { createPaymentRequest, payBill } from "kotilogi-app/actions/payments";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { useBillsContext } from "./Bills";
 
 type CartBillItemProps = {
@@ -38,14 +31,6 @@ export function CartBillItem({bill, onSelect}: CartBillItemProps){
             return bill.stamp;
         }
     }
-
-    useEffect(() => {
-        //Fetch the item referred to by the bill.
-        db.get('properties', {
-            id: bill.refId,
-        })
-        .then(property => setProperty(property));
-    }, []);
 
     const isDue = Date.now() >= parseInt(bill.due);
     const amount = formatNumber(bill.amount / 100);

@@ -1,13 +1,11 @@
 'use client';
 
-import { deletePropertyFiles } from "kotilogi-app/actions/property/deletePropertyFiles";
 import { FileListItemProps } from "./FileListItem";
 import { ListItemProps, ListItemProvider } from "./ListItem";
-import { deleteEventFiles } from "kotilogi-app/actions/propertyEvent/deleteEventFiles";
 import Link from "next/link";
 import { CheckBox } from "./ListItem.components";
-import * as properties from '@/actions/properties';
-import * as events from '@/actions/events';
+import {deleteFile as deletePropertyFile} from '@/actions/experimental/properties';
+import {deleteFile as deleteEventFile} from '@/actions/experimental/events';
 
 function ImageListItem(props: Omit<FileListItemProps, 'icon'>){
 
@@ -31,12 +29,12 @@ function ImageListItem(props: Omit<FileListItemProps, 'icon'>){
 
 export function PropertyImageListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
-        <ImageListItem {...props} tablename="propertyFiles" deleteMethod={() => properties.deleteFile(props.item)}/>
+        <ImageListItem {...props} tablename="propertyFiles" deleteMethod={() => deletePropertyFile(props.item.id)}/>
     );
 }
 
 export function EventImageListItem(props: ListItemProps<Kotilogi.FileType>){
     return (
-        <ImageListItem {...props} tablename="eventFiles" deleteMethod={() => events.deleteFile(props.item)} />
+        <ImageListItem {...props} tablename="eventFiles" deleteMethod={() => deleteEventFile(props.item.id)} />
     );
 }

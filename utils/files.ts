@@ -3,18 +3,17 @@ import { Knex } from "knex";
 import { fileNameTimestampSeparator } from "kotilogi-app/constants";
 import db from "kotilogi-app/dbconfig";
 import { uploadPath } from "kotilogi-app/uploadsConfig";
+import { DatabaseTable } from "./databaseTable";
 
 type ModeType = 'save' | 'delete';
 
-export class Files{
-    private fileName: string | null;
-
+export class Files extends DatabaseTable{
     private backups: {
         fileName: string,
         buffer?: Buffer,
+        mode: ModeType,
     }[] = [];
 
-    private mode: ModeType; 
     private success: boolean = false;
 
     private validate(file: File){
@@ -29,26 +28,22 @@ export class Files{
     private reset(){
         this.backups = [];
         this.success = false;
-        this.fileName = null;
     }
 
     async rollbackFiles(){
         if(this.success){
-            try{
-                if(this.mode === 'save'){
-                    const promises = this.backups.map(backup => unlink(uploadPath + backup.fileName));
-                    await Promise.all(promises);
+            const promises = this.backups.map(backup => {
+                if(backup.mode === 'save'){
+                    return unlink(uploadPath + backup.fileName);
                 }
-                else if(this.mode === 'delete'){
-                    const promises = this.backups.map(backup => writeFile(uploadPath + backup.fileName, backup.buffer))
-                    await Promise.all(promises);
+                else if(backup.mode === 'delete'){
+                    return writeFile(uploadPath + backup.fileName, backup.buffer);
                 }
+            });
 
-                this.reset();
-            }
-            catch(err){
-                console.log('File rollback failed!');
-            }
+            await Promise.all(promises)
+            .then(() => this.reset())
+            .catch(err => console.log('File rollback failed to complete!'));
         }
     }
 
@@ -63,9 +58,9 @@ export class Files{
             this.backups.push({
                 buffer,
                 fileName,
+                mode: 'save',
             });
 
-            this.fileName = fileName;
             this.success = true;
         });
 
@@ -76,52 +71,27 @@ export class Files{
         }
     }
 
-    async addFile(tablename: string, file: File, refId: string, trx?: Knex.Transaction){
-        this.mode = 'save';
-        const dbcon = trx || db;
-        
-        try{
-            const data = await this.upload(file);
-            await dbcon(tablename).insert({
-                ...data,
-                refId,
-            });
-        }
-        catch(err){
-            console.log(err.message);
-
-            if(!trx){
-                await this.rollbackFiles();
-            }
-            
-            throw err;
-        }
+    async addFile(file: File, refId: string){
+        const data = await this.upload(file);
+        await this.add({
+            ...data,
+            refId,
+        });
     }
 
-    async deleteFile(tablename: string, fileName: string, trx?: Knex.Transaction){
-        this.mode = 'delete';
-        const dbcon = trx || db;
-        try{
+    async deleteFile(id: string){
+        const [{fileName}] = await this.select('fileName', {id});
+        const backup = await readFile(uploadPath + fileName);
+
+        await unlink(uploadPath + fileName).then(() => {
+            this.success = true;
             this.backups.push({
-                buffer: await readFile(uploadPath + fileName),
+                buffer: backup,
                 fileName,
+                mode: 'delete',
             });
+        });
 
-            await unlink(uploadPath + fileName).then(() => {
-                this.success = true;
-                this.fileName = fileName;
-            });
-
-            await dbcon(tablename).where({fileName}).del();
-        }
-        catch(err){
-            console.log(err.message);
-
-            if(!trx){
-                await this.rollbackFiles();
-            }
-            
-            throw err;
-        }
+        await this.del({id});
     }
 }

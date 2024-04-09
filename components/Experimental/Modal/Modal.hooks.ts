@@ -50,7 +50,7 @@ export function useDeleteDataModal(modalRef: MutableRefObject<ModalRefType>, del
         const promises: Promise<void>[] = [];
         for(const item of itemsToBeDeleted){
             promises.push(
-                deleteMethod(item.id)
+                deleteMethod(item)
             );
         }
         setStatus('loading');

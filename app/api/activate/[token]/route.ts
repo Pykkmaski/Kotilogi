@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 import db from "kotilogi-app/dbconfig";
-import { signOut } from "next-auth/react";
 
 export async function GET(req: NextRequest, {params}){
     try{
@@ -57,7 +56,7 @@ export async function GET(req: NextRequest, {params}){
             });
         }
         else{
-            return new NextResponse('Palvelinvirhe', {
+            return new NextResponse('Palvelinvirhe. Yritä myöhemmin uudelleen.', {
                 status: 500,
             });
         }

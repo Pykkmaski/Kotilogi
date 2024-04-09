@@ -20,10 +20,10 @@ export function PasswordSettingsForm(){
     const {status, data, updateData, resetPasswordHandler, resetForm} = usePasswordSettingsForm(formRef);
     
     const hasAllFieldsFilled = () => {
-        return data.password1 && data.password2 && data.password3;
+        return data.password1 && data.password2 && data.oldPassword;
     }
 
-    const hasSomeInput = () => data.password1 || data.password2 || data.password3;
+    const hasSomeInput = () => data.password1 || data.password2 || data.oldPassword;
 
     const submitDisabled = status === 'loading' || status === 'success';
 
@@ -54,9 +54,8 @@ export function PasswordSettingsForm(){
                     }
                 </div>
                 
-
                 <div className="flex flex-col gap-2">
-                    <Input type="password" placeholder="Kirjoita nykyinen salasanasi..." autoComplete="off" name="password3"
+                    <Input type="password" placeholder="Kirjoita nykyinen salasanasi..." autoComplete="off" name="oldPassword"
                         onChange={updateData}
                         label="Nykyinen salasanasi"
                         description="Vahvista nykyinen salasanasi."

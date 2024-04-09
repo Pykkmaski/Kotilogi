@@ -1,18 +1,12 @@
 import { NavBar } from "kotilogi-app/components/NavBar/NavBar";
 import IconLink from "kotilogi-app/components/IconLink/IconLink";
 import { Header } from "kotilogi-app/components/Header/Header";
-import { Layout, LayoutContentContainer, LayoutNavBarContainer } from "kotilogi-app/components/Layout";
+import { LayoutContentContainer, LayoutNavBarContainer } from "kotilogi-app/components/Layout";
 import { getServerSession } from "next-auth";
 import { options } from "kotilogi-app/app/api/auth/[...nextauth]/options";
 import { DashboardContextProvider } from "./DashboardContextProvider";
-import { SecondaryHeading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";
-import { Padding } from "@/components/Util/Padding";
-import { MediumDevices, SmallDevices } from "@/components/Util/Media";
-import { BackgroundFiller } from "@/components/BackgroundFIller";
 import { DashboardMobileNav } from "./DashboardMobileNav";
-import { FooterNav } from "@/components/FooterNav";
-import Link from "next/link";
 
 export default async function DashboardLayout({children}){
 

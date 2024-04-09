@@ -5,18 +5,16 @@ import { Gallery } from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery
 import { PropertyImageListItem } from "kotilogi-app/components/ListItem/ImageListItem";
 import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
 import { AddButton, DeleteButton } from "@/components/new/Gallery/GalleryBase/Buttons";
-import { FileError } from "@/components/new/Gallery/GalleryBase/Components/Error/FileError";
-import { uploadFile } from "kotilogi-app/actions/uploadFile";
 import { ImageError } from "@/components/new/Gallery/GalleryBase/Components/Error/ImageError";
-import { addFile } from "kotilogi-app/actions/experimental/addFile";
-import { deleteFile } from "kotilogi-app/actions/experimental/deleteFile";
+import { addFiles } from "kotilogi-app/actions/experimental/files";
+import { deleteFile } from "kotilogi-app/actions/experimental/files";
 
 export function Content({files, propertyId}){
     return (
         <Gallery data={files}>
             <Gallery.AddModal>
-                <AddFilesModal accept="image/jpeg" uploadMethod={async (fdata: FormData) => {
-                    await addFile('propertyFiles', fdata, propertyId);
+                <AddFilesModal accept="image/jpeg" uploadMethod={async (fdata: FormData[]) => {
+                    await addFiles('propertyFiles', fdata, propertyId);
                 }}/>
             </Gallery.AddModal>
 
