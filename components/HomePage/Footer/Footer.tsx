@@ -1,6 +1,4 @@
 import ContactForm from "./ContactForm";
-import Link from 'next/link';
-import style from './style.module.scss';
 
 type LinkIconProps = React.ComponentProps<'a'> & {
     variant: 'ig' | 'sc',

@@ -2,15 +2,13 @@
 
 import { CSSProperties, MutableRefObject, createContext, useContext, useRef, useState} from "react";
 import { ActionType } from "./Gallery.reducer";
-import Modal, { ModalProps } from "kotilogi-app/components/Modals/Modal";
+import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import { useGallery, StateType } from "./Gallery.hooks";
 import { Heading } from "kotilogi-app/components/Heading";
 import { Group } from "kotilogi-app/components/Group";
 import { ListItemProps } from "kotilogi-app/components/ListItem/ListItem";
-import { DeleteModal as DeleteModal2 } from "kotilogi-app/components/Modals/DeleteModal";
 import {PrimaryButton} from "kotilogi-app/components/Button/PrimaryButton";
 import {SecondaryButton} from "kotilogi-app/components/Button/SecondaryButton";
-import { AdContainer } from "@/components/AdContainer";
 import React from "react";
 import { ModalRefType } from "@/components/Experimental/Modal/Modal";
 import {default as ExperimentalModal} from '@/components/Experimental/Modal/Modal';
