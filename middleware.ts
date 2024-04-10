@@ -10,12 +10,6 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth){
       url.pathname = '/user/confirm_email';
       return NextResponse.redirect(url);
    }
-   else if(token.status === 'unpaid'){
-      const url = req.nextUrl.clone();
-      url.pathname = '/user/unpaid';
-      
-      return NextResponse.redirect(url);
-   }
    else if(url.pathname.startsWith('properties')){
       //Check if the property is active, otherwise redirect somewhere else.
       console.log(url.pathname);

@@ -44,7 +44,7 @@ export default async function PropertyDetailsLayout({children, params}){
                             <IconLink icon="fa-bolt" imageSrc={'/icons/bolt.png'} href="usage?type=all">Kulutustiedot</IconLink>
                             <IconLink icon="fa-image" imageSrc={'/icons/image.png'} href="images">Kuvat</IconLink>
                             <IconLink icon="fa-copy" imageSrc={'/icons/copy.png'} href="files">Tiedostot</IconLink>
-                            <IconLink icon="fa-angle-double-up" imageSrc={''} href="transfer">Siirä omistajuus</IconLink>
+                            <IconLink hidden={true} icon="fa-angle-double-up" imageSrc={''} href="transfer">Siirä omistajuus</IconLink>
                             <NavDivider/>
                     
                             <IconLink icon="fa-home" imageSrc={'/icons/house.png'} href={`/dashboard/properties/`}>Takaisin Taloihin</IconLink>

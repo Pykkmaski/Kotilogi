@@ -46,8 +46,6 @@ export default async function UsagePage({params, searchParams}){
         type,
     }
 
-    console.log(year);
-
     //Get the data for the selected year, and the timestamps for all data, to render the year selector.
     const [data, timestamps] = await Promise.all([
         usage.get(usageQuery, year || 'all'),

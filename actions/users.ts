@@ -1,16 +1,12 @@
 'use server';
 
 import { MaxProperties } from "kotilogi-app/constants";
-import * as database from './database';
-import { UserType } from "kotilogi-app/types/UserType";
 import db from "kotilogi-app/dbconfig";
 import bcrypt from 'bcrypt';
 import { sendAccountActivationLink } from "./email";
-import { unlink } from "fs/promises";
-import * as files from './file';
-import { uploadPath } from "kotilogi-app/uploadsConfig";
 import { signOut as authSignOut } from "next-auth/react";
 import { revalidatePath } from "next/cache";
+import { DatabaseTable } from "kotilogi-app/utils/databaseTable";
 
 /**Verifies a users password. */
 async function verifyPassword(email: string, password: string){
@@ -73,7 +69,8 @@ export async function getPropertyCount(email: string){
 export async function getMaxProperties(email: string){
     return new Promise<number>(async (resolve, reject) => {
         try{
-            const [user] = await database.get<Partial<UserType>>('users', {email});
+            const propertiesTable = new DatabaseTable('properties');
+            const [user] = await propertiesTable.get({email});
 
             if(!user) throw new Error('invalid_user');
 

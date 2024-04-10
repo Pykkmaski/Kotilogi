@@ -6,8 +6,6 @@ import {Error} from 'kotilogi-app/components/new/Gallery/GalleryBase/Components/
 import { AddButton, DeactivateButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import DeactivateSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeactivateSelectedItemsModal';
 import { deactivateProperty } from 'kotilogi-app/actions/experimental/properties';
-import { PropertyListItem } from './PropertyListItem';
-import { NewPropertyListItem } from './NewPropertyListItem';
 import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryListItem';
 import { ListItem } from '@/components/ListItem/ListItem';
 import ActivatePropertyModal from './ActivatePropertyModal';

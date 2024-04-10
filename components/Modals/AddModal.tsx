@@ -6,17 +6,17 @@ import { buildingTypes, serviceName } from "kotilogi-app/constants";
 import { useInputFiles, useAddModal } from "./BaseAddModal.hooks";
 import { BaseAddModal } from "./BaseAddModal";
 import React from "react";
-import * as properties from '@/actions/properties';
-import * as events from '@/actions/events';
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { addProperty } from "kotilogi-app/actions/experimental/properties";
+import { addEvent } from "kotilogi-app/actions/experimental/events";
 
 type AddModalProps = ModalProps & {
     refId: string,
 }
 
 export function AddPropertyModal({refId, ...props}: AddModalProps){
-    const {onSubmit, updateData, updateFiles} = useAddModal({refId: refId, buildingType: 'Kerrostalo'}, properties.add);
+    const {onSubmit, updateData, updateFiles} = useAddModal({refId: refId, buildingType: 'Kerrostalo'}, addProperty);
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Talo">
@@ -89,7 +89,7 @@ export function AddPropertyModal({refId, ...props}: AddModalProps){
 }
 
 export function AddEventModal({refId, ...props}: AddModalProps){
-    const {updateData, updateFiles, onSubmit} = useAddModal({refId}, events.add);
+    const {updateData, updateFiles, onSubmit} = useAddModal({refId}, addEvent);
 
     return (
         <BaseAddModal {...props} submitMethod={onSubmit} title="Lisää Tapahtuma">

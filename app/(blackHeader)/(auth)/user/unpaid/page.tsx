@@ -3,8 +3,6 @@ import { getServerSession } from "next-auth"
 import { PaymentButton } from "./PaymentButton";
 import db from "kotilogi-app/dbconfig";
 import { formatNumber } from "kotilogi-app/utils/formatNumber";
-import Link from "next/link";
-import Button from "@/components/Button/Button";
 
 export default async function UnpaidCartPage(){
     const session = await getServerSession(options as any) as any;

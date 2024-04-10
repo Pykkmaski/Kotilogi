@@ -1,7 +1,7 @@
 'use client';
 
 import { ListItem, ListItemProps } from "./ListItem";
-import { CheckBox, ControlsContainer, InfoContainer, TitleContainer } from "./ListItem.components";
+import { ControlsContainer, InfoContainer, TitleContainer } from "./ListItem.components";
 import {deleteFile as deletePropertyFile} from '@/actions/experimental/properties';
 import {deleteFile as deleteEventFile} from '@/actions/experimental/events';
 
@@ -19,7 +19,7 @@ function FileListItem({icon, tablename, ...props}: FileListItemProps){
             </InfoContainer>
 
             <ControlsContainer>
-                <CheckBox/>
+                <ListItem.CheckBox/>
             </ControlsContainer>
         </ListItem>
     );

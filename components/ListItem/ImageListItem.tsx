@@ -1,9 +1,8 @@
 'use client';
 
 import { FileListItemProps } from "./FileListItem";
-import { ListItemProps, ListItemProvider } from "./ListItem";
+import { ListItem, ListItemProps, ListItemProvider } from "./ListItem";
 import Link from "next/link";
-import { CheckBox } from "./ListItem.components";
 import {deleteFile as deletePropertyFile} from '@/actions/experimental/properties';
 import {deleteFile as deleteEventFile} from '@/actions/experimental/events';
 
@@ -19,7 +18,7 @@ function ImageListItem(props: Omit<FileListItemProps, 'icon'>){
                 </Link>
 
                 <div className="absolute top-2 right-2 z-40 aspect-square w-5">
-                    <CheckBox/>
+                    <ListItem.CheckBox/>
                 </div>
             </div>
         </ListItemProvider>

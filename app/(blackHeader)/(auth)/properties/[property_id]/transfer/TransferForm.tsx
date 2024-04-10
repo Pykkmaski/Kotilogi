@@ -2,8 +2,6 @@
 
 import Button from "@/components/Button/Button";
 import { Description, ErrorMessage, Group, Input, Label } from "@/components/Util/FormUtils";
-import axios from "axios";
-import { generateTransferKey } from "kotilogi-app/actions/properties";
 import { isUserValid } from "kotilogi-app/actions/users";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -32,6 +30,7 @@ export function TransferForm({property, user}: TransferFormProps){
         e.preventDefault();
         setStatus('loading');
 
+        /*
         generateTransferKey({
             propertyAddress: property.title,
             receiverEmail: email,
@@ -53,6 +52,7 @@ export function TransferForm({property, user}: TransferFormProps){
             toast.error(err.message.message);
             setStatus('idle');
         });
+        */
     }
 
     const checkUserValidity = async () => {

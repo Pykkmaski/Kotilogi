@@ -3,7 +3,6 @@ import Modal, { ModalRefType } from "@/components/Experimental/Modal/Modal";
 import { MutableRefObject, forwardRef, useState } from "react";
 import { useGalleryContext } from "./Gallery";
 import Button from "@/components/Button/Button";
-import { deactivateProperty } from "kotilogi-app/actions/deactivateProperties";
 import toast from "react-hot-toast";
 import { useInputData } from "@/components/Modals/BaseAddModal.hooks";
 import { ErrorMessage, Group } from "@/components/Util/FormUtils";

@@ -1,7 +1,6 @@
 'use client';
 
 import {Gallery} from "kotilogi-app/components/new/Gallery/GalleryBase/Gallery";
-import { ModalProps } from "kotilogi-app/components/Modals/Modal";
 import {Error} from "kotilogi-app/components/new/Gallery/GalleryBase/Components/Error/Error";
 import { SearchBar } from "kotilogi-app/components/SearchBar";
 import { LayoutGroup } from "kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup";
@@ -11,7 +10,6 @@ import { deleteEvent } from "kotilogi-app/actions/experimental/events";
 import AddEventModal from "./AddEventModal";
 import { VisibilityProvider } from "@/components/Util/VisibilityProvider/VisibilityProvider";
 import { SearchForEventsModal } from "./SearchForEventsModal";
-import { NewEventListItem } from "./NewEventListItem";
 import { GalleryListItem } from "@/components/new/Gallery/GalleryBase/GalleryListItem";
 import { ListItem } from "@/components/ListItem/ListItem";
 
