@@ -4,6 +4,7 @@ import * as usage from '@/actions/usage';
 
 import Link from 'next/link';
 import { TypeNav } from '@/components/UsagePage/TypeNav';
+import { Header } from './Header';
 
 async function getUsageData(propertyId: string, type?: 'heat' | 'water' | 'electric'){
     return new Promise<Kotilogi.UsageType[] | undefined>(async (resolve, reject) => {
@@ -68,43 +69,7 @@ export default async function UsagePage({params, searchParams}){
 
     return (   
         <main className="w-full mb-10 flex flex-col gap-4">
-            {/**The page header */}
-            <div className="w-full flex bg-white justify-between gap-4 sticky top-0 z-40">
-                <div className="flex gap-4 items-center">
-                    <h1 className="text-lg text-slate-500 mr-4">Kulutustiedot</h1>
-                    <div className="xs:hidden lg:block">
-                        <TypeNav>
-                            <Link href={`?type=all&year=${year}`}>Kaikki</Link>
-                            <Link href={`?type=heat&year=${year}`}>Lämmitys</Link>
-                            <Link href={`?type=water&year=${year}`}>Vesi</Link>
-                            <Link href={`?type=electric&year=${year}`}>Sähkö</Link>
-                        </TypeNav>
-                    </div>
-
-                    <div className="xs:block lg:hidden">
-                        <select>
-                            <option>
-                                <Link href={`?type=all&year=${year}`}>Kaikki</Link>
-                            </option>
-
-                            <option>
-                                <Link href={`?type=heat&year=${year}`}>Lämmitys</Link>
-                            </option>
-
-                            <option>
-                                <Link href={`?type=water&year=${year}`}>Vesi</Link>
-                            </option>
-
-                            <option>
-                                <Link href={`?type=electric&year=${year}`}>Sähkö</Link>
-                            </option>
-                        </select>
-                    </div>
-                </div>
-        
-                <Controls timestamps={timestamps} currentYear={displayYear}/>
-            </div>
-
+            <Header timestamps={timestamps} year={year} displayYear={displayYear}/>
             <PageContent data={data} year={displayYear} type={type}/>
         </main>
     );

@@ -31,8 +31,8 @@ export function ListItemProvider<T extends Kotilogi.ItemType>({children, ...prop
 
 export function ListItem<T extends Kotilogi.ItemType>({children, ...props}: ListItemProps<T>){
     const className = [
-        'w-full flex rounded-md shadow-lg p-2 border hover:border-orange-500 bg-white',
-        props.selected ? 'bg-orange-100 border-orange-500' : 'bg-transparent border-slate-200',
+        'w-full flex rounded-md shadow-lg p-2 border hover:border-orange-500',
+        props.selected ? 'bg-orange-100 border-orange-500' : 'bg-transparent border-slate-200 bg-white',
     ];
 
     //const classes = props.selected ? [style.container, style.selected] : [style.container];

@@ -7,7 +7,7 @@ import { useQuery } from "kotilogi-app/hooks/useQuery";
 import { useRef } from "react";
 
 export function SearchForEventsModal({hidden}: React.ComponentProps<'div'>){
-    const {updateQueryDirectly} = useQuery('q', null, 200);
+    const {updateQueryDirectly} = useQuery('q', null, 0);
     const inputRef = useRef<HTMLInputElement>(null);
     
     const search = () => {

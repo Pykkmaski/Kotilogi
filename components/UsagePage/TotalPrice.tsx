@@ -4,8 +4,8 @@ export function TotalPrice({data}){
     
     return (
         <div className="text-slate-500 flex flex-col">
-            <span className="text-sm">Kaikki kulut yhteensä:</span>
-            <h1 className="text-4xl">{totalPrice.toFixed(2)}€</h1>
+            <span className="text-sm xs:text-center lg:text-start">Kaikki kulut yhteensä:</span>
+            <h1 className="text-4xl xs:text-center lg:text-start">{totalPrice.toFixed(2)}€</h1>
         </div>
     );
 }

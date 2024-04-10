@@ -13,7 +13,8 @@ import { DataList } from "@/components/UsagePage/DataList";
 import {ModalRefType} from '@/components/Experimental/Modal/Modal';
 import AddUsageModal from "./AddUsageModal";
 import { AddButton } from "@/components/new/Gallery/GalleryBase/Buttons";
-
+import { VisibilityProvider } from "@/components/Util/VisibilityProvider/VisibilityProvider";
+import { MobileUsageFilterModal } from "./MobileUsageFilterModal";
 type ControlsProps = {
     timestamps: {time: string}[],
     currentYear: string,
@@ -23,14 +24,27 @@ export function Controls({timestamps, currentYear}: ControlsProps){
     const addModalRef = useRef<ModalRefType>(null);
 
     return (
-        <div className="flex gap-4 items-center">
-            <div className="flex gap-2 items-center">
+        <div className="flex xs:gap-8 lg:gap-4 items-center">
+            <div className="flex gap-2 items-center xs:hidden lg:block">
                 <span className="text-slate-500">Suodata:</span>
                 <DateRangeSelector timestamps={timestamps} currentYear={currentYear}/>
             </div>
 
-            <AddUsageModal ref={addModalRef}/>
+            <VisibilityProvider>
+                <VisibilityProvider.Trigger>
+                    <div className="flex gap-2 items-baseline xs:block lg:hidden cursor-pointer">
+                        <span className="text-sm text-slate-500">Suodata: </span>
+                        <i className="fa fa-filter text-2xl"></i>
+                    </div>
+                    
+                </VisibilityProvider.Trigger>
 
+                <VisibilityProvider.Target>
+                    <MobileUsageFilterModal initialYear={currentYear} timestamps={timestamps}/>
+                </VisibilityProvider.Target>
+            </VisibilityProvider>
+
+            <AddUsageModal ref={addModalRef}/>
             <AddButton onClick={() => addModalRef.current?.toggleOpen(true)}/>
         </div>
     );
@@ -75,10 +89,15 @@ export function PageContent({data, year, type}: PageContentProps){
             <div className="flex-[1]">
                 <ContentCard title="Yhteenveto">
                     <div className="flex flex-col gap-2">
-                        {getChart()}
+                        <div className="xs:hidden lg:block">
+                            {getChart()}
+                        </div>
                         
                         <div className="flex-1 lg:flex xs:flex-col lg:flex-row justify-center items-center">
-                            <TotalPrice data={data}/>
+                            <div className="xs:mb-8 lg:m-0">
+                                <TotalPrice data={data}/>
+                            </div>
+
                             <DataRing data={data} year={year}/>
                             {
                                 type === 'all' ? <UsageDataCategorized data={data}/> : null
