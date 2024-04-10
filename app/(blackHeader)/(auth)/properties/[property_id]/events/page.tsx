@@ -22,7 +22,7 @@ export default async function EventsPage({params, searchParams}){
     const events = await getEvents(params.property_id, searchParams.q, searchParams.page);
 
     return (
-        <main>
+        <main className="mb-10">
             <Content events={events} propertyId={params.property_id}/>       
         </main>
     );

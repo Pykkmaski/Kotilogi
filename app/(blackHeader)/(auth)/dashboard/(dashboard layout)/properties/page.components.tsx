@@ -7,6 +7,12 @@ import { AddButton, DeactivateButton } from '@/components/new/Gallery/GalleryBas
 import DeactivateSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeactivateSelectedItemsModal';
 import { deactivateProperty } from 'kotilogi-app/actions/experimental/properties';
 import { PropertyListItem } from './PropertyListItem';
+import { NewPropertyListItem } from './NewPropertyListItem';
+import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryListItem';
+import { ListItem } from '@/components/ListItem/ListItem';
+import ActivatePropertyModal from './ActivatePropertyModal';
+import { useRef } from 'react';
+import { ModalRefType } from '@/components/Experimental/Modal/Modal';
 
 function PropertiesGallery({propertyData, user}){
     return (
@@ -31,7 +37,32 @@ function PropertiesGallery({propertyData, user}){
                 </div>
             </Gallery.Header>
             
-            <Gallery.Body displayStyle='vertical' itemComponent={PropertyListItem} errorElement={
+            <Gallery.Body displayStyle='vertical' itemComponent={(props) => {
+                const activateRef = useRef<ModalRefType>(null);
+                const isActive = props.item.status === 'ok';
+
+                return (
+                    <>
+                    {!isActive ? <ActivatePropertyModal property={props.item} ref={activateRef}/> : null}
+                    <GalleryListItem 
+                        {...props} 
+                        title={props.item.title} 
+                        description={props.item.description} 
+                        faIcon="fa fa-home" 
+                        footerText={props.item.buildingType}
+                        href={isActive ? `/properties/${props.item.id}/info` : ''}
+                        secondaryHeaderContent={
+                            isActive ? <i className="fa fa-check text-green-700" title="Talo on käytössä."/> : <i className="fa fa-ban text-red-700" title="Talo on poistettu käytöstä."/>
+                        }
+
+                        controlsContent={
+                            isActive ? <ListItem.CheckBox/> : <span className="text-orange-500 cursor-pointer" onClick={() => activateRef.current?.toggleOpen(true)}>Ota käyttöön</span>
+                        }
+                        />
+                    </>
+                    
+                );
+            }} errorElement={
                 <Error title="Ei Taloja" message="Et ole vielä lisännyt taloja." icon="/icons/house.png"/>
             }/>
         </Gallery>

@@ -12,14 +12,14 @@ type TitleContainerProps = React.PropsWithChildren & {
 
 export function TitleContainer({children, ...props}: TitleContainerProps){
     return (
-        <div className={style.titleContainer}>
+        <div className="flex justify-between items-center">
             {
                 props.icon ? <i className={`fa ${props.icon} text-base text-black`} /> : (
-                    <img src={props.iconSrc} className={style.icon}/>
+                    <img src={props.iconSrc} className="aspect-square w-[25px]"/>
                 )
             }
             
-            <span className={style.title}>{props.titleText}</span>   
+            <span className="text-black">{props.titleText}</span>   
             {children}
         </div>
     )
@@ -83,22 +83,6 @@ export function InfoContainer({children, href, target}: InfoContainerProps){
             {children}
         </Link>
     );
-}
-
-type CheckBoxProps = {
-    checked?: boolean,
-}
-
-export function CheckBox({checked}: CheckBoxProps){
-    const {dispatch} = useGalleryContext();
-    const {item} = useListItemContext();
-    
-    return (
-        <input className="aspect-square w-full" type="checkbox" onChange={() => dispatch({
-            type: 'select_item',
-            value: item as Kotilogi.ItemType,
-        })} checked={checked}/>
-    )
 }
 
 export function DeleteButton(props: React.ComponentProps<'img'> & {

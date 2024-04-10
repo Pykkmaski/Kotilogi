@@ -2,7 +2,7 @@ import { ModalRefType } from "@/components/Experimental/Modal/Modal";
 import { ListItem, ListItemProps } from "@/components/ListItem/ListItem";
 import { useRef } from "react";
 import ActivatePropertyModal from "./ActivatePropertyModal";
-import { CheckBox, ControlsContainer, DescriptionContainer, InfoContainer, TitleContainer } from "@/components/ListItem/ListItem.components";
+import {ControlsContainer, DescriptionContainer, InfoContainer, TitleContainer } from "@/components/ListItem/ListItem.components";
 
 export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
     const activateModalRef = useRef<ModalRefType>(null);
@@ -36,7 +36,7 @@ export function PropertyListItem(props: ListItemProps<Kotilogi.PropertyType>){
                 <ControlsContainer>
                     {
                         props.item.status !== 'deactivated' ?
-                        <CheckBox checked={props.selected}/>
+                        <ListItem.CheckBox checked={props.selected}/>
                         :
                         null
                     }
