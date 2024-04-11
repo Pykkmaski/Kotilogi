@@ -54,7 +54,7 @@ export default async function UsagePage({ params, searchParams }) {
   }
 
   return (
-    <main className="w-full mb-10 flex flex-col gap-4">
+    <main className="w-full flex flex-col gap-4">
       <Header timestamps={timestamps} displayYear={displayYear} type={type} />
       <PageContent data={data} displayYear={displayYear} type={type} />
     </main>
