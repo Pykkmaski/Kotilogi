@@ -1,24 +1,18 @@
-const select = jest.fn().mockReturnThis();
+const where = jest.fn().mockReturnThis();
+const select = where;
 const insert = jest.fn();
-const from = select;
-const where = select;
+const transaction = jest.fn().mockReturnThis();
 
-const first = jest.fn();
+const db = jest.fn(() => ({
+  select,
+  where,
+  insert,
+  transaction,
+}));
 
-const dbMock = jest.fn(() => {
-    return {
-        select,
-        from,
-        where,
-        first,
-        insert,
-    };
-});
+db.select = select;
+db.where = where;
+db.insert = insert;
+db.transaction = transaction;
 
-dbMock.select = select;
-dbMock.from = from;
-dbMock.where = where;
-dbMock.first = first;
-dbMock.insert = insert;
-
-module.exports = dbMock;
+module.exports = db;

@@ -1,20 +1,20 @@
-import db from "kotilogi-app/dbconfig";
-import { Files } from "./files";
-import { createDueDate } from "./createDueDate";
-import { DatabaseTable } from "./databaseTable";
+import db from 'kotilogi-app/dbconfig';
+import { Files } from './files';
+import { createDueDate } from './createDueDate';
+import { DatabaseTable } from './databaseTable';
 
-export class Events {
+class Events {
   private verifyEdit(consolidationTime: number) {
     const currentDate = Date.now();
     if (currentDate > consolidationTime) {
-      throw new Error("event_consolidated");
+      throw new Error('event_consolidated');
     }
   }
 
   async addEvent(eventData: Kotilogi.EventType, files?: File[]) {
     const trx = await db.transaction();
-    const eventsTable = new DatabaseTable("propertyEvents", trx);
-    const eventFilesTable = new Files("eventFiles", trx);
+    const eventsTable = new DatabaseTable('propertyEvents', trx);
+    const eventFilesTable = new Files('eventFiles', trx);
 
     try {
       const [{ id: eventId }] = await eventsTable.add(
@@ -22,12 +22,10 @@ export class Events {
           ...eventData,
           consolidationTime: createDueDate(7),
         },
-        "id"
+        'id'
       );
 
-      const filePromises = files?.map(file =>
-        eventFilesTable.addFile(file, eventId)
-      );
+      const filePromises = files?.map(file => eventFilesTable.addFile(file, eventId));
       await Promise.all(filePromises);
       await trx.commit();
     } catch (err) {
@@ -40,24 +38,17 @@ export class Events {
 
   async deleteEvent(eventId: string) {
     const trx = await db.transaction();
-    const eventsTable = new DatabaseTable("propertyEvents", trx);
-    const eventFilesTable = new Files("eventFiles", trx);
+    const eventsTable = new DatabaseTable('propertyEvents', trx);
+    const eventFilesTable = new Files('eventFiles', trx);
 
     try {
       console.log(eventId);
 
-      const [{ consolidationTime }] = await eventsTable.select(
-        "consolidationTime",
-        { id: eventId }
-      );
+      const [{ consolidationTime }] = await eventsTable.select('consolidationTime', { id: eventId });
       this.verifyEdit(consolidationTime);
 
-      const fileNames = (await trx("eventFiles")
-        .where({ refId: eventId })
-        .pluck("id")) as string[];
-      const fileDelPromises = fileNames.map(id =>
-        eventFilesTable.deleteFile(id)
-      );
+      const fileNames = (await trx('eventFiles').where({ refId: eventId }).pluck('id')) as string[];
+      const fileDelPromises = fileNames.map(id => eventFilesTable.deleteFile(id));
       await Promise.all(fileDelPromises);
 
       await eventsTable.del({ id: eventId });
@@ -69,12 +60,9 @@ export class Events {
     }
   }
 
-  async updateEvent(
-    eventId: string,
-    newEventData: Partial<Kotilogi.EventType>
-  ) {
-    const table = new DatabaseTable("propertyEvents");
-    const [{ consolidationTime }] = await table.select("consolidationTime", {
+  async updateEvent(eventId: string, newEventData: Partial<Kotilogi.EventType>) {
+    const table = new DatabaseTable('propertyEvents');
+    const [{ consolidationTime }] = await table.select('consolidationTime', {
       id: eventId,
     });
     this.verifyEdit(consolidationTime);
@@ -83,3 +71,5 @@ export class Events {
     await table.update(newEventData, { id: eventId });
   }
 }
+
+export const events = new Events();
