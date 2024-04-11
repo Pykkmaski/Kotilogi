@@ -66,6 +66,13 @@ class Users {
       }
     }
   }
+
+  /**Returns the number of properties a user has. */
+  async getPropertyCount(email: string) {
+    const [{ count }] = (await db('properties').where({ refId: email }).count('*', { as: 'count' })) as [{ count: number }];
+    console.log(count);
+    return count;
+  }
 }
 
 export const users = new Users();
