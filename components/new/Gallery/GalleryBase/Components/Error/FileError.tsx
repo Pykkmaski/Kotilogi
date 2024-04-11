@@ -1,13 +1,7 @@
-import {Error} from "./Error";
+import { GalleryError } from "./GalleryError";
 
-export function FileError(props: {
-    message: string,
-}){
-    return (
-        <Error
-            {...props}
-            title="Ei Tiedostoja"
-            icon={'/icons/copy.png'}
-        />
-    );
+export function FileError(props: { message: string }) {
+  return (
+    <GalleryError {...props} title="Ei Tiedostoja" icon={"/icons/copy.png"} />
+  );
 }
