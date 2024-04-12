@@ -1,36 +1,34 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useChangeInput } from "./useChangeInput";
-import { useEffect, useState } from "react";
-import { useInputData } from "kotilogi-app/components/Modals/BaseAddModal.hooks";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 /**
- * 
- * @param queryParamName 
+ *
+ * @param queryParamName
  * @returns The onChange function to be used by the input performing the query.
  */
-export function useQuery(queryParamName: string, initialQueryValue: string | null, queryDelay: number = 0){
-    const router = useRouter();
-    const route = usePathname();
-    const searchParams = useSearchParams();
-    const [query, setQuery] = useState(initialQueryValue);
-    
-    const updateQuery = (e) => {
-        setQuery(e.target.value);
-    }
+export function useQuery(queryParamName: string, initialQueryValue: string | null, queryDelay: number = 0) {
+  const router = useRouter();
+  const route = usePathname();
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(initialQueryValue);
 
-    const updateQueryDirectly = (newQuery: string) => {
-        setQuery(newQuery);
-    }
+  const updateQuery = e => {
+    setQuery(e.target.value);
+  };
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            const currentQuery = new URLSearchParams(searchParams);
-            currentQuery.set(queryParamName, query);
-            router.push(route + `?${currentQuery.toString()}`);
-        }, queryDelay);
+  const updateQueryDirectly = (newQuery: string) => {
+    setQuery(newQuery);
+  };
 
-        return () => clearTimeout(timeout);
-    }, [query]);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const currentQuery = new URLSearchParams(searchParams);
+      currentQuery.set(queryParamName, query);
+      router.push(route + `?${currentQuery.toString()}`);
+    }, queryDelay);
 
-    return {updateQuery, updateQueryDirectly, currentQuery: query} as const;
+    return () => clearTimeout(timeout);
+  }, [query]);
+
+  return { updateQuery, updateQueryDirectly, currentQuery: query } as const;
 }
