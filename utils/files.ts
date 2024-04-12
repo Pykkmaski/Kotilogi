@@ -1,8 +1,8 @@
-import { readFile, unlink, writeFile } from 'fs/promises';
+import { readFile, readdir, unlink, writeFile } from 'fs/promises';
 import { Knex } from 'knex';
 import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
 import db from 'kotilogi-app/dbconfig';
-import { uploadPath } from 'kotilogi-app/uploadsConfig';
+import { limit, uploadPath } from 'kotilogi-app/uploadsConfig';
 import { DatabaseTable } from './databaseTable';
 
 type ModeType = 'save' | 'delete';
@@ -22,6 +22,8 @@ export class Files extends DatabaseTable {
 
     if (type !== 'application/pdf' && type !== 'image/jpeg') {
       throw new Error('Received file of invalid type! ' + type);
+    } else if (size > limit) {
+      throw new Error('Received file of invalid size! ' + size);
     }
   }
 
@@ -92,5 +94,21 @@ export class Files extends DatabaseTable {
     });
 
     await this.del({ id });
+  }
+
+  /**Will delete all files from disk that do not have a database entry. */
+  static async removeUnpaired() {
+    const checkFileInTable = async (fileTableName: string, fileName: string) => {
+      return (await db(fileTableName).where({ fileName })).length;
+    };
+
+    const files = await readdir(uploadPath);
+    const unlinkPromises = files.map(fileName => {
+      if (!checkFileInTable('propertyFiles', fileName) || !checkFileInTable('eventFiles', fileName)) {
+        return unlink(uploadPath + fileName);
+      }
+    });
+
+    await Promise.all(unlinkPromises);
   }
 }

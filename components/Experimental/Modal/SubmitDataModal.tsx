@@ -135,7 +135,7 @@ SubmitDataModal.Form = Form;
 SubmitDataModal.SubmitTrigger = SubmitTrigger;
 SubmitDataModal.CloseTrigger = CloseTrigger;
 
-function useSubmitDataModalContext() {
+export function useSubmitDataModalContext() {
   const ctx = useContext(SubmitDataModalContext);
   if (!ctx) throw new Error('useSubmitDataModalContext must be used within the scope of a SubmitDataModalContext!');
   return ctx;

@@ -5,6 +5,12 @@ import { DatabaseTable } from './databaseTable';
 import { bills } from './bills';
 
 class Properties {
+  private async canAddFiles(propertyId: string) {
+    const table = new DatabaseTable('propertyFiles');
+    const currentFileCount = await table.count({ refId: propertyId });
+    return currentFileCount < parseInt(process.env.MAX_FILES);
+  }
+
   async addProperty(propertyData: Kotilogi.PropertyType, files?: File[]) {
     const trx = await db.transaction();
     const propertiesTable = new DatabaseTable('properties', trx);
@@ -12,8 +18,15 @@ class Properties {
 
     try {
       const [{ id: propertyId }] = await propertiesTable.add(propertyData, 'id');
-      const filePromises = files?.map(file => filesTable.addFile(file, propertyId));
-      await Promise.all(filePromises);
+
+      if (files) {
+        if (files.length <= parseInt(process.env.MAX_FILES)) {
+          const filePromises = files.map(file => filesTable.addFile(file, propertyId));
+          await Promise.all(filePromises);
+        } else {
+          throw new Error('file_limit');
+        }
+      }
 
       const bill = {
         amount: 990,

@@ -1,5 +1,5 @@
-import { Knex } from "knex";
-import db from "kotilogi-app/dbconfig";
+import { Knex } from 'knex';
+import db from 'kotilogi-app/dbconfig';
 
 export class DatabaseTable {
   protected tablename: string;
@@ -36,5 +36,10 @@ export class DatabaseTable {
 
   del(query: TODO) {
     return this.dbcon(this.tablename).where(query).del();
+  }
+
+  async count(query: TODO) {
+    const [{ count }] = await this.dbcon(this.tablename).where(query).count('*', { as: 'count' });
+    return count as number;
   }
 }

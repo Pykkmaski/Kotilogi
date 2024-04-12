@@ -73,6 +73,16 @@ class Users {
     console.log(count);
     return count;
   }
+
+  async deleteUser(email: string) {
+    const trx = await db.transaction();
+    const usersTable = new DatabaseTable('users', trx);
+
+    //Deletes all properties, their events, usage data and file info from the db, but not bills.
+    await usersTable.del({ email });
+
+    await Files.removeUnpaired();
+  }
 }
 
 export const users = new Users();

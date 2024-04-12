@@ -15,29 +15,31 @@ const getPath = (tablename: string) => (tablename === 'propertyFiles' ? '/proper
  */
 
 export async function addFiles(tablename: 'propertyFiles' | 'eventFiles', fileData: FormData[], refId: string) {
-    const trx = await db.transaction();
-    const files = new Files(tablename, trx);
+  const trx = await db.transaction();
+  const files = new Files(tablename, trx);
 
-    try {
-        const promises = fileData.map(fdata => files.addFile(fdata.get('file') as unknown as File, refId));
-        await Promise.all(promises);
-        await trx.commit();
-        revalidatePath(getPath(tablename));
-    } catch (err) {
-        await files.rollbackFiles();
-        await trx.rollback();
-        throw err;
-    }
+  try {
+    const promises = fileData.map(fdata => {
+      files.addFile(fdata.get('file') as unknown as File, refId);
+    });
+    await Promise.all(promises);
+    await trx.commit();
+    revalidatePath(getPath(tablename));
+  } catch (err) {
+    await files.rollbackFiles();
+    await trx.rollback();
+    throw err;
+  }
 }
 
 export async function deleteFile(tablename: 'propertyFiles' | 'eventFiles', id: string) {
-    const files = new Files(tablename);
+  const files = new Files(tablename);
 
-    try {
-        await files.deleteFile(id);
-        revalidatePath(getPath(tablename));
-    } catch (err) {
-        await files.rollbackFiles();
-        throw err;
-    }
+  try {
+    await files.deleteFile(id);
+    revalidatePath(getPath(tablename));
+  } catch (err) {
+    await files.rollbackFiles();
+    throw err;
+  }
 }
