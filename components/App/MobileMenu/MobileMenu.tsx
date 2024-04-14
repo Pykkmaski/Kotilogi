@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { OpenProvider } from "@/components/Util/ToggleProvider";
-import style from "./style.module.css";
-import { useToggle } from "kotilogi-app/hooks/useToggle";
-import { createContext, useContext, useEffect, useRef } from "react";
-import { CallbackOnClickProvider } from "@/components/Util/CallbackOnClickProvider";
-import React from "react";
+import { OpenProvider } from '@/components/Util/ToggleProvider';
+import style from './style.module.css';
+import { useToggle } from 'kotilogi-app/hooks/useToggle';
+import { createContext, useContext, useEffect, useRef } from 'react';
+import { CallbackOnClickProvider } from '@/components/Util/CallbackOnClickProvider';
+import React from 'react';
 
 type MobileMenuContextProps = {
   open: boolean;
@@ -38,14 +38,12 @@ function Button({ children }) {
 function Body({ children }) {
   const { open, toggleState } = useMobileMenuContext();
 
-  const bodyClassName = [style.body, "z-70 shadow-md border border-slate-500"];
+  const bodyClassName = [style.body, 'z-70 shadow-md border border-slate-500'];
 
   return (
     <OpenProvider open={open} openClassName={style.open}>
-      <div className={bodyClassName.join(" ")}>
-        <CallbackOnClickProvider callback={() => toggleState(false)}>
-          {children}
-        </CallbackOnClickProvider>
+      <div className={bodyClassName.join(' ')}>
+        <CallbackOnClickProvider callback={() => toggleState(false)}>{children}</CallbackOnClickProvider>
       </div>
     </OpenProvider>
   );
@@ -54,11 +52,7 @@ function Body({ children }) {
 export function MobileMenu({ children }) {
   const { toggled: open, toggleState } = useToggle(false);
 
-  return (
-    <MobileMenuContext.Provider value={{ open, toggleState }}>
-      {children}
-    </MobileMenuContext.Provider>
-  );
+  return <MobileMenuContext.Provider value={{ open, toggleState }}>{children}</MobileMenuContext.Provider>;
 }
 
 MobileMenu.Button = Button;
@@ -66,9 +60,6 @@ MobileMenu.Body = Body;
 
 function useMobileMenuContext() {
   const ctx = useContext(MobileMenuContext);
-  if (!ctx)
-    throw new Error(
-      "useMobileMenuContext must be used within the scope of a MobileMenuContext!"
-    );
+  if (!ctx) throw new Error('useMobileMenuContext must be used within the scope of a MobileMenuContext!');
   return ctx;
 }

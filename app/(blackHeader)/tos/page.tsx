@@ -21,7 +21,7 @@ export default function TOS() {
           Palveluntarjoajan tietoturva seloste ovat luettavissa Palveluntarjoajan kotisivuilla ja/tai muutoin Palvelun yhteydessä. Palvelu on palveluntarjoajan tietoverkon
           välityksellä tarjoama tietokoneohjelmistoon perustuva palvelu, jolla asiakas voi tallentaa omistamansa talon/kiinteistön tietoja kuten korjaushistorian, kulutustiedot,
           kuvat sekä tiedostot. palveluntarjoaja voi tarjota palvelussa tai sen yhteydessä lisäpalveluita, joista peritään erillinen maksu. Sopimus syntyy, kun asiakas
-          rekisteröityy palveluun {serviceName}.com-sivuston kautta ja hyväksyy sopimusehdot. Rekisteröityessään Palveluun ja luodessaan sinne käyttäjätilin asiakas saa oikeuden
+          rekisteröityy palveluun {serviceName}.fi-sivuston kautta ja hyväksyy sopimusehdot. Rekisteröityessään Palveluun ja luodessaan sinne käyttäjätilin asiakas saa oikeuden
           käyttää palvelua sisäisessä toiminnassaan sopimusehtojen sekä muiden palvelun käyttöä koskevien ohjeiden mukaisesti.
         </p>
 
