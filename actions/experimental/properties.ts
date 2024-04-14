@@ -60,6 +60,7 @@ export async function deleteFile(id: string) {
   }
 }
 
+/**Creates a transfer token containing information on whom the property is coming from, to whom it is intended, and the id of the property. */
 export async function createTransferToken(from: string, to: string, propertyId: string, password: string) {
   const usersTable = new DatabaseTable('users');
   const [{ password: encryptedPassword }] = usersTable.select('password', { email: from });

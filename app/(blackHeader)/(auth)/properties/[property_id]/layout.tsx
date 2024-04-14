@@ -10,20 +10,30 @@ import { Group } from 'kotilogi-app/components/Group';
 import { SecondaryHeading } from 'kotilogi-app/components/Heading';
 import { FooterNav } from '@/components/FooterNav';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export default async function PropertyDetailsLayout({ children, params }) {
   const property = await db('properties').where({ id: params.property_id }).first();
   if (!property) throw new Error('Failed to load property!');
-  if (property.status == 'deactivated') {
-    throw new Error('Talo ei ole käytössä!');
-  }
 
   const session = (await getServerSession(options as any)) as {
     user: { email: string };
   };
+
   if (!session) throw new Error('Failed to fetch user session!');
 
   if (session.user.email !== property.refId) throw new Error('property_unauthorized');
+
+  if (property.status == 'deactivated') {
+    throw new Error('Talo ei ole käytössä!');
+  }
+
+  const currentDate = Date.now();
+  const bills = await db('bills').where({ targetId: property.id }).andWhere('due', '<=', currentDate);
+
+  if (bills.length) {
+    redirect('/dashboard/cart');
+  }
 
   const contextValue = {
     property,
