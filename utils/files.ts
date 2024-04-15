@@ -1,4 +1,4 @@
-import { readFile, readdir, unlink, writeFile } from 'fs/promises';
+import { opendir, readFile, readdir, unlink, writeFile } from 'fs/promises';
 import { Knex } from 'knex';
 import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
 import db from 'kotilogi-app/dbconfig';
@@ -98,17 +98,31 @@ export class Files extends DatabaseTable {
 
   /**Will delete all files from disk that do not have a database entry. */
   static async removeUnpaired() {
-    const checkFileInTable = async (fileTableName: string, fileName: string) => {
-      return (await db(fileTableName).where({ fileName })).length;
-    };
+    var filesDeleted = 0;
 
-    const files = await readdir(uploadPath);
-    const unlinkPromises = files.map(fileName => {
-      if (!checkFileInTable('propertyFiles', fileName) || !checkFileInTable('eventFiles', fileName)) {
-        return unlink(uploadPath + fileName);
+    const dirstream = await opendir(uploadPath);
+    for await (const entry of dirstream) {
+      const filename = entry.name;
+
+      //Check if the file is in the database.
+      const dbEntry = await db('propertyFiles')
+        .where({ fileName: filename })
+        .then(async ([file]) => {
+          if (!file) {
+            //The file is not in the propertyFiles table. Look in the eventFiles.
+            const [file] = await db('eventFiles').where({ fileName: filename });
+            return file;
+          } else {
+            return file;
+          }
+        });
+
+      if (!dbEntry) {
+        //There is no database entry for the file. Delete the file.
+        await unlink(uploadPath + filename).then(() => filesDeleted++);
       }
-    });
+    }
 
-    await Promise.all(unlinkPromises);
+    return filesDeleted;
   }
 }
