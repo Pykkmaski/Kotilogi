@@ -11,7 +11,7 @@ class Properties {
     return currentFileCount < parseInt(process.env.MAX_FILES);
   }
 
-  async addProperty(propertyData: Kotilogi.PropertyType, files?: File[]) {
+  async addProperty(propertyData: Kotidok.PropertyType, files?: File[]) {
     const trx = await db.transaction();
     const propertiesTable = new DatabaseTable('properties', trx);
     const filesTable = new Files('propertyFiles', trx);
@@ -46,7 +46,7 @@ class Properties {
     }
   }
 
-  async updateProperty(propertyId: string, newPropertyData: Partial<Kotilogi.PropertyType>) {
+  async updateProperty(propertyId: string, newPropertyData: Partial<Kotidok.PropertyType>) {
     const propertiesTable = new DatabaseTable('properties');
     await propertiesTable.update(newPropertyData, { id: propertyId });
   }

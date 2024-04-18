@@ -19,7 +19,7 @@ function AddUsageModal(props, ref: MutableRefObject<ModalRefType>) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const type = searchParams.get('type') as Kotilogi.UsageTypeType | 'all';
+  const type = searchParams.get('type') as Kotidok.UsageTypeType | 'all';
 
   const initialData = { refId: property.id, type: type !== 'all' ? type : 'heat' };
   const { updateData, data, reset: resetInputData } = useInputData(initialData);

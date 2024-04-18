@@ -4,7 +4,6 @@ import { Input, Select, Textarea } from 'kotilogi-app/components/Input/Input';
 import { buildingTypes, energyClasses } from 'kotilogi-app/constants';
 import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
 import { SingleInputForm, SingleSelectForm } from 'kotilogi-app/components/SingleInputForm/SingleInputForm';
-import { SingleInputFormProvider as NewSingleInputForm } from '@/components/Util/SingleInputFormProvider';
 import { Margin } from 'kotilogi-app/components/Util/Margin';
 import { Group } from 'kotilogi-app/components/Group';
 import Button from '@/components/Button/Button';

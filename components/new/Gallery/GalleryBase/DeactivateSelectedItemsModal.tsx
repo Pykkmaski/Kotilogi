@@ -9,7 +9,7 @@ import { Input } from '@/components/Input/Input';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 
 type DeactivateSelectedItemsModal = {
-  deactivationMethod: <T extends Kotilogi.ItemType>(item: T, password: string) => Promise<void>;
+  deactivationMethod: <T extends Kotidok.ItemType>(item: T, password: string) => Promise<void>;
 };
 
 function DeactivateSelectedItemsModal({ deactivationMethod }: DeactivateSelectedItemsModal, ref: MutableRefObject<ModalRefType>) {

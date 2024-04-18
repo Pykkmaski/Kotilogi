@@ -1,37 +1,30 @@
-import db from "kotilogi-app/dbconfig";
-import { Content } from "./page.components";
-import { ContentCard, RoundedBox } from "@/components/RoundedBox/RoundedBox";
+import db from 'kotilogi-app/dbconfig';
+import { Content } from './page.components';
+import { ContentCard, RoundedBox } from '@/components/RoundedBox/RoundedBox';
+import { getServerSession } from 'next-auth';
 
 const eventsPerPage = 10;
 
-async function getEvents(
-  propertyId: string,
-  q: string | undefined,
-  page?: number
-) {
+async function getEvents(propertyId: string, q: string | undefined, page?: number) {
   const query = `%${q}%`;
-  const events: Kotilogi.EventType[] = await db("propertyEvents")
+  const events: Kotidok.EventType[] = await db('propertyEvents')
     .where(function () {
-      this.whereLike("time", query)
-        .orWhereLike("title", query)
-        .orWhereLike("description", query);
+      this.whereLike('time', query).orWhereLike('title', query).orWhereLike('description', query);
     })
     .andWhere({ refId: propertyId })
-    .orderBy("time", "desc");
+    .orderBy('time', 'desc');
 
   return events;
 }
 
 export default async function EventsPage({ params, searchParams }) {
-  const events = await getEvents(
-    params.property_id,
-    searchParams.q,
-    searchParams.page
-  );
+  const events = await getEvents(params.property_id, searchParams.q, searchParams.page);
+
+  const session = await getServerSession();
 
   return (
     <main>
-      <Content events={events} propertyId={params.property_id} />
+      <Content events={events} propertyId={params.property_id} userEmail={session?.user.email} />
     </main>
   );
 }

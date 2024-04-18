@@ -41,7 +41,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
   const userIsLoggedIn = status === 'authenticated';
 
   const userEmail = data?.user?.email;
-  //<Image src={Logo} alt="Kotilogi logo"/>
+  //<Image src={Logo} alt="Kotidok logo"/>
 
   const getNavContent = () => {
     if (status === 'loading') {

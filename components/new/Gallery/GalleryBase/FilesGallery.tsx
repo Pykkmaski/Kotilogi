@@ -10,14 +10,14 @@ import { FileError } from './Components/Error/FileError';
 import { addFiles, deleteFile } from 'kotilogi-app/actions/experimental/files';
 
 type FilesGalleryProps = {
-  files: Kotilogi.FileType[];
+  files: Kotidok.FileType[];
 
   /**The id of the resource the images belong to, eg. the id of a property. */
   refId: string;
 
   tablename: FileTableName;
 
-  FileComponent: React.FC<ListItemProps<Kotilogi.FileType>>;
+  FileComponent: React.FC<ListItemProps<Kotidok.FileType>>;
 };
 
 export function FilesGallery({ tablename, files, refId, FileComponent }: FilesGalleryProps) {
@@ -34,7 +34,7 @@ export function FilesGallery({ tablename, files, refId, FileComponent }: FilesGa
 
       <Gallery.DeleteModal>
         <DeleteSelectedItemsModal
-          deleteMethod={async (fileData: Kotilogi.FileType) => {
+          deleteMethod={async (fileData: Kotidok.FileType) => {
             await deleteFile(tablename, fileData.id);
           }}
         />

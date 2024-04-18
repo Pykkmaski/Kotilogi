@@ -1,39 +1,31 @@
-"use client";
+'use client';
 
-import AddFilesModal from "@/components/Experimental/Modal/AddFilesModal";
-import { ListItemProps } from "@/components/ListItem/ListItem";
-import {
-  AddButton,
-  DeleteButton,
-} from "@/components/new/Gallery/GalleryBase/Buttons";
-import { ImageError } from "@/components/new/Gallery/GalleryBase/Components/Error/ImageError";
-import DeleteSelectedItemsModal from "@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal";
-import { Gallery } from "@/components/new/Gallery/GalleryBase/Gallery";
-import { addFiles, deleteFile } from "kotilogi-app/actions/experimental/files";
-import { FileTableName } from "kotilogi-app/types/FileTableName";
+import AddFilesModal from '@/components/Experimental/Modal/AddFilesModal';
+import { ListItemProps } from '@/components/ListItem/ListItem';
+import { AddButton, DeleteButton } from '@/components/new/Gallery/GalleryBase/Buttons';
+import { ImageError } from '@/components/new/Gallery/GalleryBase/Components/Error/ImageError';
+import DeleteSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal';
+import { Gallery } from '@/components/new/Gallery/GalleryBase/Gallery';
+import { addFiles, deleteFile } from 'kotilogi-app/actions/experimental/files';
+import { FileTableName } from 'kotilogi-app/types/FileTableName';
 
 type ImagesGalleryProps = {
-  images: Kotilogi.FileType[];
+  images: Kotidok.FileType[];
 
   /**The id of the resource the images belong to, eg. the id of a property. */
   refId: string;
 
   tablename: FileTableName;
 
-  ImageComponent: React.FC<ListItemProps<Kotilogi.FileType>>;
+  ImageComponent: React.FC<ListItemProps<Kotidok.FileType>>;
 };
 
-export function ImagesGallery({
-  tablename,
-  images,
-  refId,
-  ImageComponent,
-}: ImagesGalleryProps) {
+export function ImagesGallery({ tablename, images, refId, ImageComponent }: ImagesGalleryProps) {
   return (
     <Gallery data={images}>
       <Gallery.AddModal>
         <AddFilesModal
-          accept="image/jpeg"
+          accept='image/jpeg'
           uploadMethod={async (fdata: FormData[]) => {
             await addFiles(tablename, fdata, refId);
           }}
@@ -42,13 +34,13 @@ export function ImagesGallery({
 
       <Gallery.DeleteModal>
         <DeleteSelectedItemsModal
-          deleteMethod={async (fileData: Kotilogi.FileType) => {
+          deleteMethod={async (fileData: Kotidok.FileType) => {
             await deleteFile(tablename, fileData.id);
           }}
         />
       </Gallery.DeleteModal>
 
-      <Gallery.Header title="Kuvat">
+      <Gallery.Header title='Kuvat'>
         <Gallery.DeleteModalTrigger>
           <DeleteButton />
         </Gallery.DeleteModalTrigger>
@@ -59,11 +51,9 @@ export function ImagesGallery({
       </Gallery.Header>
 
       <Gallery.Body
-        displayStyle="horizontal"
+        displayStyle='horizontal'
         itemComponent={ImageComponent}
-        errorElement={
-          <ImageError message="Et ole vielä lisännyt kohteelle kuvia. Aloita painamalla Lisää-Uusi painiketta." />
-        }
+        errorElement={<ImageError message='Et ole vielä lisännyt kohteelle kuvia. Aloita painamalla Lisää-Uusi painiketta.' />}
       />
     </Gallery>
   );

@@ -4,14 +4,13 @@ import { createDueDate } from './createDueDate';
 import { DatabaseTable } from './databaseTable';
 
 class Events {
-  private verifyEdit(consolidationTime: number) {
-    const currentDate = Date.now();
-    if (currentDate > consolidationTime) {
-      throw new Error('event_consolidated');
+  private verifyEdit(editor: string, createdBy: string) {
+    if (editor !== createdBy) {
+      throw new Error('unauthorized');
     }
   }
 
-  async addEvent(eventData: Kotilogi.EventType, files?: File[]) {
+  async addEvent(eventData: Kotidok.EventType, createdBy: string, files?: File[]) {
     const trx = await db.transaction();
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
@@ -21,6 +20,7 @@ class Events {
         {
           ...eventData,
           consolidationTime: createDueDate(7),
+          createdBy,
         },
         'id'
       );
@@ -36,7 +36,7 @@ class Events {
     }
   }
 
-  async deleteEvent(eventId: string) {
+  async deleteEvent(eventId: string, editor: string) {
     const trx = await db.transaction();
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
@@ -44,8 +44,8 @@ class Events {
     try {
       console.log(eventId);
 
-      const [{ consolidationTime }] = await eventsTable.select('consolidationTime', { id: eventId });
-      this.verifyEdit(consolidationTime);
+      const [{ createdBy }] = await trx('propertyEvents').where({ id: eventId }).select('createdBy');
+      this.verifyEdit(editor, createdBy);
 
       const fileNames = (await trx('eventFiles').where({ refId: eventId }).pluck('id')) as string[];
       const fileDelPromises = fileNames.map(id => eventFilesTable.deleteFile(id));
@@ -60,12 +60,10 @@ class Events {
     }
   }
 
-  async updateEvent(eventId: string, newEventData: Partial<Kotilogi.EventType>) {
+  async updateEvent(eventId: string, newEventData: Partial<Kotidok.EventType>, editor: string) {
     const table = new DatabaseTable('propertyEvents');
-    const [{ consolidationTime }] = await table.select('consolidationTime', {
-      id: eventId,
-    });
-    this.verifyEdit(consolidationTime);
+    const [{ createdBy }] = await table.select('createdBy', { id: eventId });
+    this.verifyEdit(editor, createdBy);
 
     console.log(eventId);
     await table.update(newEventData, { id: eventId });

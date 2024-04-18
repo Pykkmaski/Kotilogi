@@ -45,6 +45,8 @@ class Users {
   }
 
   async registerUser(credentials: { email: string; password: string; plan: string }) {
+    const trx = await db.transaction();
+
     try {
       const user = {
         email: credentials.email,
@@ -52,12 +54,13 @@ class Users {
         plan: credentials.plan,
       };
 
-      await db('users').insert(user);
+      await trx('users').insert(user);
       await sendAccountActivationLink(user.email);
+      await trx.commit();
       return 'success';
     } catch (err) {
       const msg = err.message.toUpperCase();
-
+      await trx.rollback();
       if (msg.includes('UNIQUE') || msg.includes('DUPLICATE')) {
         return 'user_exists';
       } else {

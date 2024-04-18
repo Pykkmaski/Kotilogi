@@ -6,7 +6,7 @@ import { deleteFile as deletePropertyFile } from '@/actions/experimental/propert
 import { deleteFile as deleteEventFile } from '@/actions/experimental/events';
 import Link from 'next/link';
 
-export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
+export type FileListItemProps = ListItemProps<Kotidok.FileType> & {
   icon: string;
   tablename: 'propertyFiles' | 'eventFiles';
   deleteMethod: () => Promise<void>;
@@ -14,7 +14,7 @@ export type FileListItemProps = ListItemProps<Kotilogi.FileType> & {
 
 function FileListItem({ icon, tablename, ...props }: FileListItemProps) {
   return (
-    <ListItem<Kotilogi.FileType> {...props}>
+    <ListItem<Kotidok.FileType> {...props}>
       <Link target='_blank' href={`/api/files/${props.item.id}?tableName=${tablename}`} className='flex-1 items-center flex'>
         <ListItem.Body>
           <ListItem.Header>
@@ -33,7 +33,7 @@ function FileListItem({ icon, tablename, ...props }: FileListItemProps) {
   );
 }
 
-type PdfListItemProps = ListItemProps<Kotilogi.FileType> & {
+type PdfListItemProps = ListItemProps<Kotidok.FileType> & {
   tablename: 'propertyFiles' | 'eventFiles';
   deleteMethod: () => Promise<void>;
 };
@@ -42,10 +42,10 @@ function PdfListItem(props: PdfListItemProps) {
   return <FileListItem {...props} icon='/icons/copy.png' />;
 }
 
-export function PropertyFileListItem(props: ListItemProps<Kotilogi.FileType>) {
+export function PropertyFileListItem(props: ListItemProps<Kotidok.FileType>) {
   return <PdfListItem {...props} tablename='propertyFiles' deleteMethod={() => deletePropertyFile(props.item.id)} />;
 }
 
-export function EventFileListItem(props: ListItemProps<Kotilogi.FileType>) {
+export function EventFileListItem(props: ListItemProps<Kotidok.FileType>) {
   return <PdfListItem {...props} tablename='eventFiles' deleteMethod={() => deleteEventFile(props.item.id)} />;
 }

@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 type TransferFormProps = {
-  property: Kotilogi.PropertyType;
+  property: Kotidok.PropertyType;
   user: {
     email: string;
   };

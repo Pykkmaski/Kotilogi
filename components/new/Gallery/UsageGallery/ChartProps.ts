@@ -1,3 +1,3 @@
 export type ChartProps = {
-    data: Kotilogi.UsageType[],
-}
+  data: Kotidok.UsageType[];
+};

@@ -7,7 +7,7 @@ import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 
 type AddDataModalProps = ModalProps & {
   title: string;
-  initialData: Kotilogi.IdType;
+  initialData: Kotidok.IdType;
   submitMethod: (value: object) => Promise<object>;
 };
 

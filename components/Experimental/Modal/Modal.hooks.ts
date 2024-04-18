@@ -43,7 +43,7 @@ export function useAddDataModal(modalRef: MutableRefObject<ModalRefType>, submit
 /**
  * A hook to include in modals that preform a deletion on multiple items at once.
  */
-export function useDeleteDataModal(modalRef: MutableRefObject<ModalRefType>, deleteMethod: Function, itemsToBeDeleted: Kotilogi.ItemType[]) {
+export function useDeleteDataModal(modalRef: MutableRefObject<ModalRefType>, deleteMethod: Function, itemsToBeDeleted: Kotidok.ItemType[]) {
   const [status, setStatus] = useState<'idle' | 'loading'>('idle');
 
   const executeDelete = () => {

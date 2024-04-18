@@ -1,113 +1,101 @@
 'use client';
 
-import React, { useEffect } from "react";
-import { useRef, useState } from "react";
-import { InputProps, SelectProps, TextAreaProps } from "../Input/Input";
+import React, { useEffect } from 'react';
+import { useRef, useState } from 'react';
+import { InputProps, SelectProps, TextAreaProps } from '../Input/Input';
 
 type StatusType = 'idle' | 'success' | 'error' | 'loading';
 
-export function useInputComponent<PropsT extends InputProps | SelectProps | TextAreaProps>(
-    InputComponent: React.FC<PropsT>, 
-    initialInputProps: PropsT){
+export function useInputComponent<PropsT extends InputProps | SelectProps | TextAreaProps>(InputComponent: React.FC<PropsT>, initialInputProps: PropsT) {
+  const [renderedElement, setRenderedElement] = useState(<InputComponent {...initialInputProps} />);
 
-    const [renderedElement, setRenderedElement] = useState(
-        <InputComponent {...initialInputProps}/>
-    );
-
-    return [renderedElement, setRenderedElement] as const;
+  return [renderedElement, setRenderedElement] as const;
 }
 
-function useSharedState<PropsT extends InputProps | SelectProps | TextAreaProps>(initialInputProps: PropsT){
-    const [status, setStatus] = useState<StatusType>('idle');
+function useSharedState<PropsT extends InputProps | SelectProps | TextAreaProps>(initialInputProps: PropsT) {
+  const [status, setStatus] = useState<StatusType>('idle');
 
-    /**The value the input is reset to if canceling an edit*/
-    const cancelFallbackValue = useRef(initialInputProps.defaultValue);
+  /**The value the input is reset to if canceling an edit*/
+  const cancelFallbackValue = useRef(initialInputProps.defaultValue);
 
-    /**A ref to the current value of the input. Changes when the input is changed. */
-    const inputValue = useRef(initialInputProps.defaultValue);
+  /**A ref to the current value of the input. Changes when the input is changed. */
+  const inputValue = useRef(initialInputProps.defaultValue);
 
-    return {
-        status, 
-        setStatus, 
-        cancelFallbackValue,
-        inputValue,
-    };
+  return {
+    status,
+    setStatus,
+    cancelFallbackValue,
+    inputValue,
+  };
 }
 
 /**
- * 
+ *
  * @param callback Method called when canceling an edit.
- * @returns 
+ * @returns
  */
-function useEdit(){
-    const [editing, setEditing] = useState(false);
+function useEdit() {
+  const [editing, setEditing] = useState(false);
 
-    /**Method to call when initiating editing of the input. */
-    const edit = () => {
-        setEditing(true);
-    }
+  /**Method to call when initiating editing of the input. */
+  const edit = () => {
+    setEditing(true);
+  };
 
-    /**Method to call when canceling the editing of the input. */
-    const cancelEdit = () => {
-        //Revert the input back to the state it was in before editing.
-        setEditing(false);
-    }
+  /**Method to call when canceling the editing of the input. */
+  const cancelEdit = () => {
+    //Revert the input back to the state it was in before editing.
+    setEditing(false);
+  };
 
-    return {
-        editing,
-        setEditing,
-        edit,
-        cancelEdit,
-    }
+  return {
+    editing,
+    setEditing,
+    edit,
+    cancelEdit,
+  };
 }
 
-export function useSingleInputForm<PropsT extends InputProps | SelectProps | TextAreaProps>(initialInputProps: PropsT){
-    const {
-        status, 
-        setStatus, 
-        cancelFallbackValue,
-        inputValue,
-    } = useSharedState<PropsT>(initialInputProps);
+export function useSingleInputForm<PropsT extends InputProps | SelectProps | TextAreaProps>(initialInputProps: PropsT) {
+  const { status, setStatus, cancelFallbackValue, inputValue } = useSharedState<PropsT>(initialInputProps);
 
-    const {editing, setEditing, edit, cancelEdit} = useEdit();
-     
+  const { editing, setEditing, edit, cancelEdit } = useEdit();
 
-    /**
-     * Method to call when submitting the input data. Calls the passed method within.
-     * @param method The actual implementation used for submitting.
-     */
-    const onSubmit = (method: (data: object) => Promise<object | void>) => {
-        const dataToSubmit = {
-            [initialInputProps.name!] : inputValue.current,
-        }
+  /**
+   * Method to call when submitting the input data. Calls the passed method within.
+   * @param method The actual implementation used for submitting.
+   */
+  const onSubmit = (method: (data: object) => Promise<object | void>) => {
+    const dataToSubmit = {
+      [initialInputProps.name!]: inputValue.current,
+    };
 
-        //In case of an error, use this to revert the input's value.
-        const oldCancelFallbackValue = cancelFallbackValue.current;
+    //In case of an error, use this to revert the input's value.
+    const oldCancelFallbackValue = cancelFallbackValue.current;
 
-        //Prevent the input from flashing the old fallback value when setting the loading state.
-        cancelFallbackValue.current = inputValue.current;
+    //Prevent the input from flashing the old fallback value when setting the loading state.
+    cancelFallbackValue.current = inputValue.current;
 
-        setStatus('loading');
-        method(dataToSubmit)
-        .then(() => {
-           
-            setStatus('success');
-            setEditing(false);
-        })
-        .catch(err => {
-            setStatus('error');
-            console.log(err.message);
-            cancelFallbackValue.current = oldCancelFallbackValue;
-        });
-    } 
+    setStatus('loading');
+    method(dataToSubmit)
+      .then(() => {
+        setStatus('success');
+        setEditing(false);
+      })
+      .catch(err => {
+        setStatus('error');
+        console.log(err.message);
+        cancelFallbackValue.current = oldCancelFallbackValue;
+      });
+  };
 
-    return {
-        editing,
-        status,
-        edit,
-        cancelEdit,
-        onSubmit,
-        cancelFallbackValue,
-        inputValue,
-    }
+  return {
+    editing,
+    status,
+    edit,
+    cancelEdit,
+    onSubmit,
+    cancelFallbackValue,
+    inputValue,
+  };
 }

@@ -22,7 +22,7 @@ export function Content({ files, propertyId }) {
 
       <Gallery.DeleteModal>
         <DeleteSelectedItemsModal
-          deleteMethod={async (fileData: Kotilogi.FileType) => {
+          deleteMethod={async (fileData: Kotidok.FileType) => {
             await deleteFile('propertyFiles', fileData.id);
           }}
         />

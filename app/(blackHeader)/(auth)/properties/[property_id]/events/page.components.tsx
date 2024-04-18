@@ -14,9 +14,9 @@ import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryLis
 import { ListItem } from '@/components/ListItem/ListItem';
 
 /**The main content rendering component of the page. */
-export function Content({ events, propertyId }) {
+export function Content({ events, propertyId, userEmail }) {
   return (
-    <Gallery<Kotilogi.EventType> data={events}>
+    <Gallery<Kotidok.EventType> data={events}>
       <Gallery.AddModal>
         <AddEventModal propertyId={propertyId} />
       </Gallery.AddModal>
@@ -55,7 +55,7 @@ export function Content({ events, propertyId }) {
         displayStyle='vertical'
         itemComponent={props => {
           const consolidationDate = new Date(parseInt(props.item.consolidationTime));
-          const isConsolidated = consolidationDate.getTime() <= Date.now();
+          const isConsolidated = props.item.createdBy !== userEmail;
 
           return (
             <GalleryListItem
@@ -66,13 +66,7 @@ export function Content({ events, propertyId }) {
               footerText={new Date(props.item.createdAt).toLocaleDateString('fi-FI') || 'Ei päivämäärää.'}
               faIcon='fa fa-history'
               secondaryHeaderContent={
-                isConsolidated ? (
-                  <i className='fa fa-lock text-red-700' title='Tapahtuma on vakiintunut, eikä sitä voi muokata.' />
-                ) : (
-                  <span className='text-orange-500' title='Tapahtumaa ei ole vielä vakiinnutettu, ja on muokattavissa.'>
-                    Vakiintuu {consolidationDate.toLocaleDateString('fi-FI')}
-                  </span>
-                )
+                isConsolidated ? <i className='fa fa-lock text-red-700' title='Tapahtuma on vakiintunut, eikä sitä voi muokata.' /> : <i className='fa fa-check text-green-700' />
               }
               controlsContent={!isConsolidated ? <ListItem.CheckBox /> : null}
             />

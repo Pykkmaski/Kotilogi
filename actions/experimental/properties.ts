@@ -11,12 +11,12 @@ import bcrypt from 'bcrypt';
 
 const PATH = '/dashboard/properties';
 
-export async function addProperty(property: Kotilogi.PropertyType, files?: FormData[]) {
+export async function addProperty(property: Kotidok.PropertyType, files?: FormData[]) {
   await properties.addProperty(property, files?.map(file => file.get('file') as unknown as File) || []);
   revalidatePath(PATH);
 }
 
-export async function updateProperty(propertyId: string, newPropertyData: Kotilogi.PropertyType) {
+export async function updateProperty(propertyId: string, newPropertyData: Kotidok.PropertyType) {
   await properties.updateProperty(propertyId, newPropertyData);
   revalidatePath(PATH);
 }
@@ -35,7 +35,7 @@ export async function activateProperty(data: { customer: string; password: strin
   revalidatePath(PATH);
 }
 
-export async function deactivateProperty(property: Kotilogi.PropertyType, password: string) {
+export async function deactivateProperty(property: Kotidok.PropertyType, password: string) {
   await checkUserPassword(property.refId, password).then(result => {
     if (!result) {
       throw new Error('Invalid password');

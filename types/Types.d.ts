@@ -1,100 +1,108 @@
-namespace Kotilogi{
-    type IdType = string;
+namespace Kotidok {
+  type IdType = string;
 
-    type HasId = {
-        id: IdType,
-    }
+  type HasId = {
+    id: IdType;
+  };
 
-    type HasRefId = {
-        refId: IdType,
-    }
+  type HasRefId = {
+    refId: IdType;
+  };
 
-    type HasTimeStamp = {
-        createdAt?: string,
-        updatedAt?: string,
-    }
+  type HasTimeStamp = {
+    createdAt?: string;
+    updatedAt?: string;
+  };
 
-    type HasMainImageFilename = {
-        mainImageFilename?: string,
-    }
+  type HasMainImageFilename = {
+    mainImageFilename?: string;
+  };
 
-    type HasTitle = {
-        title: string,
-    }
+  type HasTitle = {
+    title: string;
+  };
 
-    type HasDescription = {
-        description: string,
-    }
+  type HasDescription = {
+    description: string;
+  };
 
-    type HasDate = {
-        time: string,
-    }
+  type HasDate = {
+    time: string;
+  };
 
-    type MimeType = 'image/jpeg' | 'application/pdf';
+  type MimeType = 'image/jpeg' | 'application/pdf';
 
-    type Error = {
-        message: string | null,
-        code: number,
-    }
+  type Error = {
+    message: string | null;
+    code: number;
+  };
 
-    type Plans = 'regular' | 'pro';
-    
-    declare type HasMimeType = {
-        mimeType?: MimeType,
-    }
+  type Plans = 'regular' | 'pro';
 
-    type UsageTypeType = 'heat' | 'electric' | 'water';
+  declare type HasMimeType = {
+    mimeType?: MimeType;
+  };
 
-    type UsageType = HasId & HasRefId & HasDate & HasTimeStamp & {
-        type: UsageTypeType,
-        price: number,
-    }
+  type UsageTypeType = 'heat' | 'electric' | 'water';
 
-    type HasMainImageId = {
-        mainImageId?: IdType,
-    }
-    
-    type ItemType = HasTitle & HasDescription & HasId & HasTimeStamp & HasRefId;
+  type UsageType = HasId &
+    HasRefId &
+    HasDate &
+    HasTimeStamp & {
+      type: UsageTypeType;
+      price: number;
+    };
 
-    type PropertyType = ItemType & HasMainImageId & {
-        status?: string,
-        roomCount?: number,
-        floorCount?: number,
-        wcCount?: number,  
-        livingArea?: number,
-        yardArea?: number,
-        buildYear?: number,
-    
-        yardOwnership?: string,
-        buildingMaterial?: string,
-        roofMaterial?: string,
-        roofType?: string,
-        primaryHeatingSystem?: string,
-        secondaryHeatingSystem?: string,
-        color?: string,
-        title: string,
-        zipCode?: string,
-        buildingType?: string,
-        energyClass?: string,
-        otherArea?: number,
-        propertyNumber?: string;
-    }
+  type HasMainImageId = {
+    mainImageId?: IdType;
+  };
 
-    type EventType = ItemType & HasDate & HasRefId & HasMainImageId & {
-        consolidationTime: string,
-    }
+  type ItemType = HasTitle & HasDescription & HasId & HasTimeStamp & HasRefId;
 
-    type FileType = ItemType & {
-        fileName: string,
-        mimeType: 'image/jpeg' | 'application/pdf',
-    }
+  type PropertyType = ItemType &
+    HasMainImageId & {
+      status?: string;
+      roomCount?: number;
+      floorCount?: number;
+      wcCount?: number;
+      livingArea?: number;
+      yardArea?: number;
+      buildYear?: number;
 
-    type UserType = HasId & {
-        email: string,
-        password: string,
-    }
+      yardOwnership?: string;
+      buildingMaterial?: string;
+      roofMaterial?: string;
+      roofType?: string;
+      primaryHeatingSystem?: string;
+      secondaryHeatingSystem?: string;
+      color?: string;
+      title: string;
+      zipCode?: string;
+      buildingType?: string;
+      energyClass?: string;
+      otherArea?: number;
+      propertyNumber?: string;
+    };
 
-    type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage' | 'files';
+  type EventType = ItemType &
+    HasDate &
+    HasRefId &
+    HasMainImageId & {
+      consolidationTime: string;
+      createdBy: string;
+    };
+
+  type FileType = ItemType & {
+    fileName: string;
+    mimeType: 'image/jpeg' | 'application/pdf';
+  };
+
+  type UserType = HasId & {
+    email: string;
+    password: string;
+  };
+
+  type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage' | 'files';
 }
 
 declare type TODO = any;
