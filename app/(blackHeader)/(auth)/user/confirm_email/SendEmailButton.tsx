@@ -31,7 +31,7 @@ export function SendEmailButton({ children, session }) {
   const linkDisabled = status === 'loading' || status === 'success';
 
   return (
-    <Button variant='primary' onClick={handleSend} disabled={linkDisabled}>
+    <Button variant='primary-dashboard' onClick={handleSend} disabled={linkDisabled}>
       <span className='mx-8 font-semibold'>{children}</span>
     </Button>
   );

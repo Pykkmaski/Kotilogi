@@ -17,7 +17,13 @@ class Properties {
     const filesTable = new Files('propertyFiles', trx);
 
     try {
-      const [{ id: propertyId }] = await propertiesTable.add(propertyData, 'id');
+      const [{ id: propertyId }] = await propertiesTable.add(
+        {
+          ...propertyData,
+          createdAt: Date.now(),
+        },
+        'id'
+      );
 
       if (files) {
         if (files.length <= parseInt(process.env.MAX_FILES)) {

@@ -7,7 +7,7 @@ function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
 }
 
 function ModalContainer({ children, ...props }: React.ComponentProps<'div'>) {
-  return <div className='flex items-center  w-full h-full relative z-30 animate-slideup-fast'>{children}</div>;
+  return <div className='flex items-center  w-full h-full relative z-30 animate-slideup-slow'>{children}</div>;
 }
 
 function Header({ children }) {
@@ -25,7 +25,7 @@ function Footer({ children }) {
 export function Modal({ children, ...props }: React.ComponentProps<'div'>) {
   return (
     <Backdrop {...props}>
-      <ModalContainer>{children}</ModalContainer>
+      <ModalContainer hidden={props.hidden}>{children}</ModalContainer>
     </Backdrop>
   );
 }

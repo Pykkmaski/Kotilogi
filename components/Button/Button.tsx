@@ -2,20 +2,22 @@ import Spinner from '../Spinner/Spinner';
 
 export type ButtonProps = React.ComponentProps<'button'> & {
   loading?: boolean;
-  variant?: 'primary' | 'primary-dashboard' | 'secondary' | 'secondary-filled';
+  variant?: 'primary' | 'primary-dashboard' | 'secondary' | 'tertiary' | 'secondary-filled';
 };
 
 export default function Button({ children, variant = 'primary', ...props }: ButtonProps) {
   const className = [
     props.className,
     props.hidden ? 'hidden' : '',
-    'rounded-md p-2 flex flex-row gap-4',
+    'rounded-md p-2 flex flex-row gap-4 disabled:bg-slate-500',
     variant === 'primary'
-      ? 'bg-primary disabled:bg-slate-500'
+      ? 'bg-primary'
       : variant === 'secondary-filled'
-      ? 'bg-secondary disabled:bg-slate-500'
+      ? 'bg-secondary'
       : variant === 'primary-dashboard'
-      ? 'bg-orange-300 disabled:bg-slate-500'
+      ? 'bg-tertiary '
+      : variant === 'tertiary'
+      ? 'bg-tertiary'
       : 'bg-transparent text-black',
   ];
 

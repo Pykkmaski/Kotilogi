@@ -94,7 +94,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
             </Link>
 
             <Link href='/login' className='ml-8'>
-              <Button variant='primary'>
+              <Button variant='tertiary'>
                 <span className='mx-8 text-black'>Kirjaudu Sisään</span>
               </Button>
             </Link>

@@ -61,6 +61,7 @@ module.exports = {
         hero: '#feffe9',
         primary: '#96beb3',
         secondary: '#518577',
+        tertiary: '#E3B505',
         'primary-text': '#fcfcfc',
         heat: chartColors.heat,
         electric: chartColors.electric,
