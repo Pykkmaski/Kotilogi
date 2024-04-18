@@ -25,6 +25,7 @@ class Properties {
         'id'
       );
 
+      /*
       if (files) {
         if (files.length <= parseInt(process.env.MAX_FILES)) {
           const filePromises = files.map(file => filesTable.addFile(file, propertyId));
@@ -33,6 +34,7 @@ class Properties {
           throw new Error('file_limit');
         }
       }
+      */
 
       const bill = {
         amount: 990,
