@@ -28,7 +28,7 @@ export default function ExteriorSection({ propertyData, updateProperty }) {
             label: 'Tontin Omistajuus',
             description: 'Tontin omistajuuden tyyppi.',
             name: 'yardOwnership',
-            defaultValue: propertyData.yardOwnership,
+            defaultValue: propertyData.yardOwnership || yardOwnershipTypes.at(-1),
           }}
           childProps={yardOwnershipTypes.map(type => {
             return {

@@ -15,7 +15,7 @@ export default function HeatingSection({ propertyData, updateProperty }) {
             label: 'Ensisijainen',
             description: 'Ensisijainen lämmitysmenetelmä.',
             name: 'primaryHeatingSystem',
-            defaultValue: propertyData.primaryHeatingSystem,
+            defaultValue: propertyData.primaryHeatingSystem || primaryHeatingSystems[0],
           }}
           childProps={primaryHeatingSystems.map(type => {
             return {
@@ -33,7 +33,7 @@ export default function HeatingSection({ propertyData, updateProperty }) {
             label: 'Toissijainen',
             description: 'Toissijainen lämmitysmenetelmä.',
             name: 'secondaryHeatingSystem',
-            defaultValue: propertyData.secondaryHeatingSystem,
+            defaultValue: propertyData.secondaryHeatingSystem || secondaryHeatingSystems[0],
           }}
           childProps={secondaryHeatingSystems.map(type => {
             return {

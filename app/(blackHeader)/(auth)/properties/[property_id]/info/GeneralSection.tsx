@@ -89,7 +89,7 @@ export default function GeneralSection({ propertyData, updateProperty }) {
                 label: 'Talotyyppi',
                 description: 'Talon tyyppi.',
                 name: 'buildingType',
-                defaultValue: propertyData.buildingType,
+                defaultValue: propertyData.buildingType || buildingTypes.at(-1),
               }}
               childProps={[
                 ...buildingTypes.map(type => {
@@ -111,7 +111,7 @@ export default function GeneralSection({ propertyData, updateProperty }) {
             label: 'Energialuokka',
             description: 'Talon energialuokitus.',
             name: 'energyClass',
-            defaultValue: propertyData.energyClass,
+            defaultValue: propertyData.energyClass || energyClasses.at(-1),
           }}
           childProps={energyClasses.map(type => {
             return {
@@ -129,7 +129,7 @@ export default function GeneralSection({ propertyData, updateProperty }) {
             label: 'Autotalli',
             description: 'Onko talolla autotallia?',
             name: 'hasGarage',
-            defaultValue: propertyData.hasGarage,
+            defaultValue: propertyData.hasGarage || 'Ei',
           }}
           childProps={[
             {

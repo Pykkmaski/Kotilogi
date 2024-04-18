@@ -21,7 +21,7 @@ export default function RoofSection({ propertyData, updateProperty }) {
             label: 'Kattotyyppi',
             description: 'Katon tyyppi.',
             name: 'roofType',
-            defaultValue: propertyData.roofType,
+            defaultValue: propertyData.roofType || roofTypes.at(-1),
           }}
         />
 
@@ -39,7 +39,7 @@ export default function RoofSection({ propertyData, updateProperty }) {
             label: 'Kattomateriaali',
             description: 'Katon materiaali.',
             name: 'roofMaterial',
-            defaultValue: propertyData.roofMaterial,
+            defaultValue: propertyData.roofMaterial || roofMaterials.at(-1),
           }}
         />
       </ContentCard>
