@@ -15,7 +15,9 @@ export function VisibilityProvider({ children, ...props }: VisibilityProviderPro
   const { toggled: visible, toggleState } = useToggle(props.visible !== undefined ? props.visible : false);
 
   useEffect(() => {
-    toggleState(props.visible);
+    if (props.visible !== undefined) {
+      toggleState(props.visible);
+    }
   }, [props.visible]);
 
   return <VisibilityContext.Provider value={{ visible, toggleState }}>{children}</VisibilityContext.Provider>;
