@@ -162,6 +162,8 @@ function AddPropertyModal({ owner }: AddPropertyModalProps, ref: React.Ref<Modal
               toast.error('Jokin tiedostoista on liian suuri!');
             } else if (msg.includes('TYPE')) {
               toast.error('Jonkin tiedoston muotoa ei tueta!');
+            } else {
+              throw err;
             }
           });
       }}>
