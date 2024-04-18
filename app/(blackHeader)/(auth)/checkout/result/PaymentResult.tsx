@@ -18,9 +18,9 @@ const Paragraph = ({ children }) => {
 const FailureHeading = () => <Heading>Maksu Epäonnistui!</Heading>;
 const BackToCheckout = () => (
   <div className='mt-4'>
-    <Link href='/dashboard/plan'>
+    <Link href='/dashboard/cart'>
       <Button variant='primary-dashboard'>
-        <span className='mx-4'>Takaisin laskuun</span>
+        <span className='mx-4'>Takaisin ostoskoriin</span>
       </Button>
     </Link>
   </div>

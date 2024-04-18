@@ -11,6 +11,9 @@ import ActivatePropertyModal from './ActivatePropertyModal';
 import { useRef } from 'react';
 import { ModalRefType } from '@/components/Experimental/Modal/Modal';
 import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Error/GalleryError';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
+import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
+import { CloseButton } from '@/components/CloseButton';
 
 function PropertiesGallery({ propertyData, user }) {
   return (

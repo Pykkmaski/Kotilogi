@@ -25,16 +25,15 @@ class Properties {
         'id'
       );
 
-      /*
       if (files) {
-        if (files.length <= parseInt(process.env.MAX_FILES)) {
+        if (files.length >= parseInt(process.env.MAX_FILES)) {
+          //Only allow uploading of a specific number of files at once.
+          throw new Error('file_limit');
+        } else {
           const filePromises = files.map(file => filesTable.addFile(file, propertyId));
           await Promise.all(filePromises);
-        } else {
-          throw new Error('file_limit');
         }
       }
-      */
 
       const bill = {
         amount: 990,
