@@ -31,15 +31,17 @@ export function Content({ events, propertyId, userEmail }) {
             <SearchBar />
           </div>
 
-          <VisibilityProvider>
-            <VisibilityProvider.Trigger>
-              <i className='fa fa-search text-xl xs:block lg:hidden text-black cursor-pointer' />
-            </VisibilityProvider.Trigger>
+          <div className='xs:block lg:hidden'>
+            <VisibilityProvider>
+              <VisibilityProvider.Trigger>
+                <i className='fa fa-search text-xl xs:block lg:hidden text-black cursor-pointer' />
+              </VisibilityProvider.Trigger>
 
-            <VisibilityProvider.Target>
-              <SearchForEventsModal />
-            </VisibilityProvider.Target>
-          </VisibilityProvider>
+              <VisibilityProvider.Target>
+                <SearchForEventsModal />
+              </VisibilityProvider.Target>
+            </VisibilityProvider>
+          </div>
 
           <Gallery.DeleteModalTrigger>
             <DeleteButton />
@@ -54,7 +56,6 @@ export function Content({ events, propertyId, userEmail }) {
       <Gallery.Body
         displayStyle='vertical'
         itemComponent={props => {
-          const consolidationDate = new Date(parseInt(props.item.consolidationTime));
           const isConsolidated = props.item.createdBy !== userEmail;
 
           return (

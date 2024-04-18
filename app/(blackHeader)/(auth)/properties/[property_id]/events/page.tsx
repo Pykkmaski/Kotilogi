@@ -6,6 +6,10 @@ import { getServerSession } from 'next-auth';
 const eventsPerPage = 10;
 
 async function getEvents(propertyId: string, q: string | undefined, page?: number) {
+  if (!q || q == 'null') {
+    return await db('propertyEvents').where({ refId: propertyId });
+  }
+
   const query = `%${q}%`;
   const events: Kotidok.EventType[] = await db('propertyEvents')
     .where(function () {
