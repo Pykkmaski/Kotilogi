@@ -14,6 +14,7 @@ type SubmitDataModalContextProps = {
   formId: string;
   status: StatusType;
   formRef: MutableRefObject<HTMLFormElement>;
+  data: any;
   onSubmit: (e: TODO) => void;
   updateData: (e: TODO) => void;
   updateFiles: (e: TODO) => void;
@@ -61,6 +62,7 @@ function SubmitDataModal({ children, submitMethod }: SubmitDataModalProps, ref: 
           status,
           formId,
           formRef,
+          data,
           onSubmit,
           updateData,
           updateFiles,
@@ -73,20 +75,28 @@ function SubmitDataModal({ children, submitMethod }: SubmitDataModalProps, ref: 
 }
 
 function Form({ children, ...props }: React.ComponentProps<'form'>) {
-  const { updateData, updateFiles, onSubmit, formId, formRef } = useSubmitDataModalContext();
+  const { updateData, updateFiles, onSubmit, formId, formRef, data } = useSubmitDataModalContext();
 
   return (
     <form {...props} onSubmit={onSubmit} id={formId} ref={formRef}>
       {React.Children.map(children, (child: ReactElement) => {
-        if (child.props.type !== 'file') {
-          return React.cloneElement(child, {
-            ...child.props,
-            onInput: updateData,
-          });
+        console.log(child.props.name);
+        if (child.type === 'input' || child.type === 'textarea') {
+          if (child.props.type === 'file') {
+            return React.cloneElement(child, {
+              ...child.props,
+              onChange: updateFiles,
+            });
+          } else {
+            return React.cloneElement(child, {
+              ...child.props,
+              onInput: updateData,
+            });
+          }
         } else {
           return React.cloneElement(child, {
             ...child.props,
-            onChange: updateFiles,
+            onChange: updateData,
           });
         }
       })}

@@ -104,9 +104,11 @@ function CreateNewStep() {
 
       <Input name='buildYear' label='Rakennusvuosi' description='Vuosi jona talo valmistui.' placeholder='Kirjoita talon rakennusvuosi...' required={true} autoComplete='off' />
 
-      <Select name='buildingType' label='Talotyyppi' description='Talon tyyppi.'>
+      <Select name='buildingType' label='Talotyyppi' description='Talon tyyppi.' required defaultValue={'Muu'}>
         {buildingTypes.map(type => (
-          <Select.Option key={type}>{type}</Select.Option>
+          <Select.Option key={type} selected={type === 'Muu'}>
+            {type}
+          </Select.Option>
         ))}
       </Select>
 
