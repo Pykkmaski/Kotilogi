@@ -10,13 +10,13 @@ export function DashboardMobileNav() {
         <i className='fa fa-cog' />
       </FooterNav.Link>
 
-      <Link href='/dashboard/properties'>
+      <FooterNav.Link href='/dashboard/properties'>
         <i className='fa fa-home' />
-      </Link>
+      </FooterNav.Link>
 
-      <Link href='/dashboard/cart'>
+      <FooterNav.Link href='/dashboard/cart'>
         <i className='fa fa-shopping-cart' />
-      </Link>
+      </FooterNav.Link>
     </FooterNav>
   );
 }

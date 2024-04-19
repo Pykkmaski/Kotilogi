@@ -6,6 +6,7 @@ import { CSSProperties } from 'react';
 import { Profile2 } from '@/components/HomePage2/Profile2';
 import { DescriptionSection } from '@/components/HomePage2/DescriptionSection';
 import { CallToActionSection } from '@/components/HomePage2/CallToActionSection';
+import { MobileMainPrimary, MobileMainWhite } from '@/components/Main';
 
 const Logo = () => <img src='/hero_logo.png' className='aspect-auto w-[90%]' />;
 const LogoText = () => <img src='/logo_text.png' />;
@@ -126,12 +127,14 @@ function Customers() {
 
 export default function HomePage() {
   return (
-    <main className='flex flex-col'>
-      <HeroSection />
-      <Profile2 />
-      <DescriptionSection />
-      <CallToActionSection />
-      <ContactSection />
-    </main>
+    <>
+      <main className='flex-col flex'>
+        <HeroSection />
+        <Profile2 />
+        <DescriptionSection />
+        <CallToActionSection />
+        <ContactSection />
+      </main>
+    </>
   );
 }

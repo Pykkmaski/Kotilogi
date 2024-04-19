@@ -1,29 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import React, { useEffect, useRef } from 'react';
 
 type FooterNavProps = React.ComponentProps<'a'>;
-
-function Link({ children, ...props }) {
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const pathname = usePathname();
-  const currentPath = pathname.split('/').at(-1);
-
-  useEffect(() => {
-    if (linkRef.current) {
-      if (linkRef.current.href.split('/').at(-1) === currentPath) {
-        linkRef.current;
-      }
-    }
-  }, [pathname]);
-
-  return (
-    <a {...props} ref={linkRef}>
-      {children}
-    </a>
-  );
-}
 
 export function FooterNav({ children }: FooterNavProps) {
   return (
@@ -33,4 +14,26 @@ export function FooterNav({ children }: FooterNavProps) {
   );
 }
 
-FooterNav.Link = Link;
+FooterNav.Link = function ({ children, ...props }: React.ComponentProps<typeof Link>) {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const pathname = usePathname();
+  const currentPath = pathname.split('/').at(-1);
+
+  useEffect(() => {
+    if (linkRef.current) {
+      const href = linkRef.current.href.split('/').at(-1).split('?')[0];
+
+      if (href === currentPath) {
+        linkRef.current.classList.add('text-orange-400');
+      } else {
+        linkRef.current.classList.remove('text-orange-400');
+      }
+    }
+  }, [pathname]);
+
+  return (
+    <Link {...props} ref={linkRef}>
+      {children}
+    </Link>
+  );
+};

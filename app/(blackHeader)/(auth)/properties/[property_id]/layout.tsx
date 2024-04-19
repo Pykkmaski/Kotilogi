@@ -11,6 +11,7 @@ import { SecondaryHeading } from 'kotilogi-app/components/Heading';
 import { FooterNav } from '@/components/FooterNav';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { MobileNavBar } from './MobileNavBar';
 
 export default async function PropertyDetailsLayout({ children, params }) {
   const property = await db('properties').where({ id: params.property_id }).first();
@@ -85,27 +86,7 @@ export default async function PropertyDetailsLayout({ children, params }) {
           </div>
 
           <div className='xs:mb-8 lg:mb-0'>{children}</div>
-          <FooterNav>
-            <Link href='info'>
-              <i className='fa fa-info-circle' />
-            </Link>
-
-            <Link href='events'>
-              <i className='fa fa-history' />
-            </Link>
-
-            <Link href='usage?type=all'>
-              <i className='fa fa-bolt' />
-            </Link>
-
-            <Link href='images'>
-              <i className='fa fa-image' />
-            </Link>
-
-            <Link href='files'>
-              <i className='fa fa-copy' />
-            </Link>
-          </FooterNav>
+          <MobileNavBar />
         </LayoutContentContainer>
       </div>
     </PropertyContextProvider>
