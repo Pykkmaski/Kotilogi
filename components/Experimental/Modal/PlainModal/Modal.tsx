@@ -7,11 +7,11 @@ function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
 }
 
 function ModalContainer({ children, ...props }: React.ComponentProps<'div'>) {
-  return <div className='flex items-center  w-full h-full relative z-30 animate-slideup-slow'>{children}</div>;
+  return <div className='flex items-center justify-center w-full h-full relative z-30 animate-slideup-fast overflow-hidden'>{children}</div>;
 }
 
 function Header({ children }) {
-  return <div className='flex justify-between p-2 border-b border-slate-200'>{children}</div>;
+  return <div className='flex justify-between p-2 border-b border-slate-200 items-center'>{children}</div>;
 }
 
 function Body({ children }) {

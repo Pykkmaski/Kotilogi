@@ -51,6 +51,7 @@ namespace Kotidok {
     HasTimeStamp & {
       type: UsageTypeType;
       price: number;
+      unitAmount?: number;
     };
 
   type HasMainImageId = {

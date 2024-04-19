@@ -14,6 +14,7 @@ import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Er
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
 import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
 import { CloseButton } from '@/components/CloseButton';
+import { AddPropertyModal2 } from './AddPropertyModal2';
 
 function PropertiesGallery({ propertyData, user }) {
   return (

@@ -93,6 +93,7 @@ function Item({ item }: ListItemProps) {
       .finally(() => toast.dismiss(loadingToast));
   };
 
+  const getUnits = () => (item.type === 'heat' || item.type === 'water' ? 'L' : 'kw/h');
   return (
     <ListItemContext.Provider value={{ item }}>
       <EditUsageModal ref={editModalRef} />
@@ -100,15 +101,19 @@ function Item({ item }: ListItemProps) {
         <div className='flex gap-4 items-center'>
           <Icon type={item.type} />
           <h1 className='text-slate-500 font-semibold flex-1'>{item.price.toFixed(2)}€</h1>
-          <span className='text-sm flex-1'>{item.time}</span>
+          <span className='text-black'>
+            {item.unitAmount}
+            <span className='text-sm text-slate-500'>{getUnits()}</span>
+          </span>
+          <span className='text-sm flex-1 xs:hidden lg:hidden'>{item.time}</span>
         </div>
 
         <div className='flex gap-4 items-center'>
           <span className='cursor-pointer' onClick={() => editModalRef.current?.toggleOpen(true)}>
-            Muokkaa
+            <i className='fa fa-pencil' title='Muokkaa...' />
           </span>
           <span className='font-semibold cursor-pointer' onClick={deleteItem}>
-            Poista
+            <i className='fa fa-trash' title='Poista...' />
           </span>
         </div>
       </span>

@@ -80,7 +80,6 @@ function Form({ children, ...props }: React.ComponentProps<'form'>) {
   return (
     <form {...props} onSubmit={onSubmit} id={formId} ref={formRef}>
       {React.Children.map(children, (child: ReactElement) => {
-        console.log(child.props.name);
         if (child.type === 'input' || child.type === 'textarea') {
           if (child.props.type === 'file') {
             return React.cloneElement(child, {

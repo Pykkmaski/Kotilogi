@@ -81,7 +81,7 @@ function AddUsageModal(props, ref: MutableRefObject<ModalRefType>) {
       </ExperimentalModal.Header>
 
       <ExperimentalModal.Body>
-        <form id={formId} onSubmit={submitUsageData} className='flex flex-col gap-4 md:w-[800px] xs:w-full' ref={formRef}>
+        <form id={formId} onSubmit={submitUsageData} className='flex flex-col gap-4 w-full' ref={formRef}>
           {type === 'all' ? (
             <Select
               label='Tyyppi'
@@ -99,9 +99,21 @@ function AddUsageModal(props, ref: MutableRefObject<ModalRefType>) {
             </Select>
           ) : null}
 
-          <Input name='price' label='Laskun Hinta' description='Laskun hinta euroissa.' onChange={updateData} placeholder='Kirjoita laskun hinta...' type='number' required />
+          <Input name='unitAmount' label='Määrä' description='Määrä yksiköissä, esim kwh.' type='number' step={0.01} min={0.01} onInput={updateData} required />
 
-          <Input name='time' label='Laskun päiväys' description='Laskun päivämäärä.' placeholder='Kirjoita laskun päivämäärä...' onChange={updateData} type='date' required />
+          <Input
+            min={0.01}
+            step={0.01}
+            name='price'
+            label='Laskun Hinta'
+            description='Laskun hinta euroissa.'
+            onInput={updateData}
+            placeholder='Kirjoita laskun hinta...'
+            type='number'
+            required
+          />
+
+          <Input name='time' label='Laskun päiväys' description='Laskun päivämäärä.' placeholder='Kirjoita laskun päivämäärä...' onInput={updateData} type='date' required />
         </form>
       </ExperimentalModal.Body>
 
