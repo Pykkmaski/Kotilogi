@@ -20,7 +20,9 @@ export async function GET(req: NextRequest, { params }) {
       }
     });
 
-    const [{ status: userStatus }] = await db('users').where({ email: emailToActivate }).select('status');
+    const [{ status: userStatus }] = await db('users')
+      .where({ email: emailToActivate })
+      .select('status');
 
     if (userStatus !== 'unconfirmed') {
       throw new Error('user_activated');
@@ -31,7 +33,12 @@ export async function GET(req: NextRequest, { params }) {
       activatedOn: Date.now(),
     });
 
-    return new NextResponse('Tilisi on aktivoitu! Jos olet tällä hetkellä kirjautuneena sisään, tulee sinun kirjautua ulos, että muutokset tulevat voimaan.');
+    return new NextResponse(
+      'Tilisi on aktivoitu! Jos olet tällä hetkellä kirjautuneena sisään, tulee sinun kirjautua ulos, että muutokset tulevat voimaan.',
+      {
+        status: 200,
+      }
+    );
   } catch (err) {
     console.log(err.message);
     if (err.message === 'token_invalid') {
@@ -47,7 +54,7 @@ export async function GET(req: NextRequest, { params }) {
         status: 400,
       });
     } else {
-      return new NextResponse('Palvelinvirhe. Yritä myöhemmin uudelleen.', {
+      return new NextResponse('Palvelinvirhe.', {
         status: 500,
       });
     }

@@ -11,6 +11,7 @@ export function useQuery(queryParamName: string, initialQueryValue: string | nul
   const route = usePathname();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(initialQueryValue);
+  const [status, setStatus] = useState<'idle' | 'loading'>('idle');
 
   const updateQuery = e => {
     setQuery(e.target.value);
@@ -21,14 +22,16 @@ export function useQuery(queryParamName: string, initialQueryValue: string | nul
   };
 
   useEffect(() => {
+    setStatus('loading');
     const timeout = setTimeout(() => {
       const currentQuery = new URLSearchParams(searchParams);
       currentQuery.set(queryParamName, query);
       router.push(route + `?${currentQuery.toString()}`);
+      setStatus('idle');
     }, queryDelay);
 
     return () => clearTimeout(timeout);
   }, [query]);
 
-  return { updateQuery, updateQueryDirectly, currentQuery: query } as const;
+  return { updateQuery, updateQueryDirectly, currentQuery: query, status } as const;
 }

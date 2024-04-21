@@ -14,7 +14,7 @@ export function DeleteButton(props: React.ComponentProps<'button'>) {
 export function AddButton(props: React.ComponentProps<'button'>) {
   return (
     <Button variant='primary-dashboard' {...props}>
-      <i className='fa fa-plus text-white text-2xl m-2' />
+      <i className='fa fa-plus text-white text-2xl m-1' />
     </Button>
   );
 }
