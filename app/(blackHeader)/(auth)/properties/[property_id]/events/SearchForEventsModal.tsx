@@ -2,7 +2,7 @@
 import Button from '@/components/Button/Button';
 import { CloseButton } from '@/components/CloseButton';
 import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { useQuery } from 'kotilogi-app/hooks/useQuery';
 import { useRef } from 'react';
 
@@ -25,7 +25,12 @@ export function SearchForEventsModal({ hidden }: React.ComponentProps<'div'>) {
           </VisibilityProvider.Trigger>
         </Modal.Header>
         <Modal.Body>
-          <input className='w-full text-black' type='search' placeholder='Etsi tapahtumista...' ref={inputRef} />
+          <input
+            className='w-full text-black'
+            type='search'
+            placeholder='Etsi tapahtumista...'
+            ref={inputRef}
+          />
         </Modal.Body>
 
         <Modal.Footer>

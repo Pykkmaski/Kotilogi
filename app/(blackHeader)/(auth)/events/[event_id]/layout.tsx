@@ -1,13 +1,14 @@
-import { BackgroundFiller } from '@/components/BackgroundFIller';
 import { FooterNav } from '@/components/FooterNav';
-import { Padding } from '@/components/Util/Padding';
 import { Group } from 'kotilogi-app/components/Group';
 import { Header } from 'kotilogi-app/components/Header/Header';
 import { SecondaryHeading } from 'kotilogi-app/components/Heading';
 import IconLink from 'kotilogi-app/components/IconLink/IconLink';
-import { Layout, LayoutContentContainer, LayoutNavBarContainer, NavDivider } from 'kotilogi-app/components/Layout';
+import {
+  LayoutContentContainer,
+  LayoutNavBarContainer,
+  NavDivider,
+} from 'kotilogi-app/components/Layout';
 import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
-import { SplitScreen } from 'kotilogi-app/components/SplitScreen/SplitScreen';
 import db from 'kotilogi-app/dbconfig';
 import Link from 'next/link';
 
@@ -28,7 +29,9 @@ export default async function EventLayout({ children, params }) {
             <SecondaryHeading>
               <span className='text-white'>Tapahtuma</span>
             </SecondaryHeading>
-            <span className='text-white text-xl max-w-[50%] overflow-hidden text-ellipsis whitespace-nowrap'>{event.title}</span>
+            <span className='text-white text-xl max-w-[50%] overflow-hidden text-ellipsis whitespace-nowrap'>
+              {event.title}
+            </span>
           </Group>
         </Header>
 
@@ -44,7 +47,10 @@ export default async function EventLayout({ children, params }) {
               Tiedostot
             </IconLink>
             <NavDivider />
-            <IconLink href={`/properties/${event.refId}/events`} imageSrc='/icons/history.png' icon='fa-history'>
+            <IconLink
+              href={`/properties/${event.refId}/events`}
+              imageSrc='/icons/history.png'
+              icon='fa-history'>
               Takaisin Tapahtumiin
             </IconLink>
           </div>

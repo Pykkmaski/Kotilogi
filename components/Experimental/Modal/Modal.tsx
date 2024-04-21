@@ -2,7 +2,14 @@
 
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
 import React from 'react';
-import { createContext, forwardRef, useContext, useEffect, useImperativeHandle, useRef } from 'react';
+import {
+  createContext,
+  forwardRef,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 
 type ModalContextProps = {
   open: boolean;
@@ -34,11 +41,19 @@ function CloseTrigger({ children }) {
 }
 
 function Header({ children }) {
-  return <div className='border-b border-slate-200 w-full flex items-center justify-between p-2 text-slate-500'>{children}</div>;
+  return (
+    <div className='border-b border-slate-200 w-full flex items-center justify-between p-2 text-slate-500'>
+      {children}
+    </div>
+  );
 }
 
 function Footer({ children }) {
-  return <div className='border-t border-slate-200 w-full flex items-center justify-end p-2 gap-4'>{children}</div>;
+  return (
+    <div className='border-t border-slate-200 w-full flex items-center justify-end p-2 gap-4'>
+      {children}
+    </div>
+  );
 }
 
 function Body({ children }) {
@@ -52,7 +67,7 @@ export type ModalRefType = {
 };
 
 function Modal({ children }: ModalProps, ref: React.Ref<ModalRefType>) {
-  const { toggled: open, toggleState: toggleOpen } = useToggle(false);
+  const { state: open, toggleState: toggleOpen } = useToggle(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useImperativeHandle(ref, () => ({
@@ -72,7 +87,9 @@ function Modal({ children }: ModalProps, ref: React.Ref<ModalRefType>) {
 
   return (
     <ModalContext.Provider value={{ open, toggleOpen }}>
-      <dialog ref={dialogRef} className='rounded-md overflow-hidden shadow-lg animate-slideup-fast xs:w-full lg:w-[900px] max-h-full overflow-y-scroll'>
+      <dialog
+        ref={dialogRef}
+        className='rounded-md overflow-hidden shadow-lg animate-slideup-fast xs:w-full lg:w-[900px] max-h-full overflow-y-scroll'>
         {children}
       </dialog>
     </ModalContext.Provider>

@@ -11,10 +11,6 @@ import ActivatePropertyModal from './ActivatePropertyModal';
 import { useRef } from 'react';
 import { ModalRefType } from '@/components/Experimental/Modal/Modal';
 import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Error/GalleryError';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
-import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
-import { CloseButton } from '@/components/CloseButton';
-import { AddPropertyModal2 } from './AddPropertyModal2';
 
 function PropertiesGallery({ propertyData, user }) {
   return (
@@ -56,13 +52,19 @@ function PropertiesGallery({ propertyData, user }) {
                 footerText={props.item.buildingType}
                 href={isActive ? `/properties/${props.item.id}/info` : ''}
                 secondaryHeaderContent={
-                  isActive ? <i className='fa fa-check text-green-700' title='Talo on käytössä.' /> : <i className='fa fa-ban text-red-700' title='Talo on poistettu käytöstä.' />
+                  isActive ? (
+                    <i className='fa fa-check text-green-700' title='Talo on käytössä.' />
+                  ) : (
+                    <i className='fa fa-ban text-red-700' title='Talo on poistettu käytöstä.' />
+                  )
                 }
                 controlsContent={
                   isActive ? (
                     <ListItem.CheckBox />
                   ) : (
-                    <span className='text-orange-500 cursor-pointer' onClick={() => activateRef.current?.toggleOpen(true)}>
+                    <span
+                      className='text-orange-500 cursor-pointer'
+                      onClick={() => activateRef.current?.toggleOpen(true)}>
                       Ota käyttöön
                     </span>
                   )
@@ -71,13 +73,25 @@ function PropertiesGallery({ propertyData, user }) {
             </>
           );
         }}
-        errorElement={<GalleryError title='Ei Taloja' message='Et ole vielä lisännyt taloja.' icon='/icons/house.png' />}
+        errorElement={
+          <GalleryError
+            title='Ei Taloja'
+            message='Et ole vielä lisännyt taloja.'
+            icon='/icons/house.png'
+          />
+        }
       />
     </Gallery>
   );
 }
 
-export function Content({ propertyData, user }: { propertyData: Kotidok.PropertyType[]; user: { email: string } }) {
+export function Content({
+  propertyData,
+  user,
+}: {
+  propertyData: Kotidok.PropertyType[];
+  user: { email: string };
+}) {
   return (
     <main className='mb-4 flex-1 h-full'>
       <PropertiesGallery propertyData={propertyData} user={user} />

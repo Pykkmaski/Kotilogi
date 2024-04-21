@@ -1,6 +1,13 @@
 'use client';
 
-import { CSSProperties, MutableRefObject, createContext, useContext, useRef, useState } from 'react';
+import {
+  CSSProperties,
+  MutableRefObject,
+  createContext,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import { ActionType } from './Gallery.reducer';
 import { ModalProps } from 'kotilogi-app/components/Modals/Modal';
 import { useGallery, StateType } from './Gallery.hooks';
@@ -36,7 +43,9 @@ function Header(
 
     if (DeleteModal) {
       buttons.push(
-        <SecondaryButton onClick={() => setShowDeleteModal(true)} hidden={!state.selectedItems.length}>
+        <SecondaryButton
+          onClick={() => setShowDeleteModal(true)}
+          hidden={!state.selectedItems.length}>
           Poista
         </SecondaryButton>
       );
@@ -44,7 +53,9 @@ function Header(
 
     if (addModalRef.current) {
       buttons.push(
-        <PrimaryButton onClick={() => addModalRef.current.toggleOpen(true)} className='shadow-md min-h-8'>
+        <PrimaryButton
+          onClick={() => addModalRef.current.toggleOpen(true)}
+          className='shadow-md min-h-8'>
           <Group direction='row' gap={4}>
             <img src='/icons/plus.png' className='invert aspect-square w-[25px]' />
           </Group>
@@ -212,7 +223,9 @@ type DeleteSelectedItemsModalProps<T extends Kotidok.ItemType> = {
 };
 
 /**The global modal displayed when deleting multiple selected items at once. */
-Gallery.DeleteSelectedItemsModal = function <T extends Kotidok.ItemType>({ deleteMethod }: DeleteSelectedItemsModalProps<T>) {
+Gallery.DeleteSelectedItemsModal = function <T extends Kotidok.ItemType>({
+  deleteMethod,
+}: DeleteSelectedItemsModalProps<T>) {
   const { state, dispatch } = useGalleryContext();
   const [status, setStatus] = useState<'idle' | 'loading'>('idle');
 
@@ -256,7 +269,11 @@ Gallery.DeleteSelectedItemsModal = function <T extends Kotidok.ItemType>({ delet
           </Button>
         </ExperimentalModal.CloseTrigger>
 
-        <Button variant='primary-dashboard' disabled={loading} loading={loading} onClick={executeDelete}>
+        <Button
+          variant='primary-dashboard'
+          disabled={loading}
+          loading={loading}
+          onClick={executeDelete}>
           <span className='mx-8'>Poista</span>
         </Button>
       </ExperimentalModal.Footer>
@@ -277,6 +294,7 @@ Gallery.DeleteSelectedItemsModal = function <T extends Kotidok.ItemType>({ delet
 
 export function useGalleryContext() {
   const context = useContext(GalleryContext);
-  if (!context) throw new Error('useGalleryContext must be used within the scope of a GalleryContext!');
+  if (!context)
+    throw new Error('useGalleryContext must be used within the scope of a GalleryContext!');
   return context;
 }

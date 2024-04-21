@@ -53,7 +53,15 @@ function EditModal(props: ModalProps) {
       <Modal.Header>Muokkaa kulutustietoa</Modal.Header>
       <Modal.Body>
         <form onSubmit={update} id={formId}>
-          <Input label='Hinta' description='Laskun hinta.' name='price' type='number' step='0.01' min='0.01' defaultValue={item.price} />
+          <Input
+            label='Hinta'
+            description='Laskun hinta.'
+            name='price'
+            type='number'
+            step='0.01'
+            min='0.01'
+            defaultValue={item.price}
+          />
         </form>
       </Modal.Body>
 
@@ -93,7 +101,7 @@ function Item({ item }: ListItemProps) {
       .finally(() => toast.dismiss(loadingToast));
   };
 
-  const getUnits = () => (item.type === 'heat' || item.type === 'water' ? 'L' : 'kw/h');
+  const getUnits = () => (item.type === 'heat' ? 'mw/h' : item.type === 'water' ? 'L' : 'kw/h');
   return (
     <ListItemContext.Provider value={{ item }}>
       <EditUsageModal ref={editModalRef} />
@@ -161,7 +169,11 @@ export function DataList({ data }: DataListProps) {
     return elements;
   };
 
-  return <div className='flex flex-col gap-2 max-h-full overflow-hidden'>{getElementsSortedByMonth(dataSorted)}</div>;
+  return (
+    <div className='flex flex-col gap-2 max-h-full overflow-hidden'>
+      {getElementsSortedByMonth(dataSorted)}
+    </div>
+  );
 }
 
 export function useItemContext() {

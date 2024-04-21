@@ -1,41 +1,47 @@
 'use client';
 
-import { useQuery } from "kotilogi-app/hooks/useQuery";
+import { useQuery } from 'kotilogi-app/hooks/useQuery';
 
 type DateRangeSelectorProps = {
-    timestamps: {time: string}[],
-    currentYear: string,
-}
+  timestamps: { time: string }[];
+  currentYear: string;
+};
 
-export function DateRangeSelector({timestamps, currentYear}: DateRangeSelectorProps){
-    const {updateQuery, currentQuery} = useQuery('year', currentYear.toString());
+export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelectorProps) {
+  const { updateQuery, currentQuery } = useQuery('year', currentYear.toString());
 
-    const years: number[] = [];
-    for(const stamp of timestamps){
-        const year = new Date(stamp.time).getFullYear();
-        if(!years.includes(year)){
-            years.push(year);
-        }
+  const years: number[] = [];
+  for (const stamp of timestamps) {
+    const year = new Date(stamp.time).getFullYear();
+    if (!years.includes(year)) {
+      years.push(year);
+    }
+  }
+
+  years.sort((a, b) => a - b);
+
+  const getOptions = () => {
+    const opts: JSX.Element[] = [];
+
+    for (let i = years.length - 1; i >= 0; --i) {
+      const selected = years[i] === parseInt(currentYear);
+      opts.push(
+        <option value={years[i]} selected={selected}>
+          {years[i]}
+        </option>
+      );
     }
 
-    years.sort((a, b) => a - b);
-    
-    const getOptions = () => {
-        const opts: JSX.Element[] = [];
+    return opts;
+  };
 
-        for(let i = years.length - 1; i >= 0; --i){
-            const selected = years[i] === parseInt(currentYear);
-            opts.push(
-                <option value={years[i]} selected={selected}>{years[i]}</option>
-            );
-        }
-
-        return opts;
-    }
-
-    return (
-        <select name="year" onChange={(e) => updateQuery(e)} className="w-[100px]" defaultValue={parseInt(currentQuery)}>
-           {getOptions()}
-        </select>
-    )
+  return (
+    <select
+      name='year'
+      onChange={e => updateQuery(e)}
+      className='w-[100px]'
+      defaultValue={parseInt(currentQuery)}>
+      {getOptions()}
+    </select>
+  );
 }

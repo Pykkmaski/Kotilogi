@@ -1,10 +1,14 @@
 import { filterIntoObject } from 'kotilogi-app/utils/array';
 
-const Label = ({ children }: React.PropsWithChildren) => <div className='text-lg font-semibold'>{children}</div>;
+const Label = ({ children }: React.PropsWithChildren) => (
+  <div className='text-lg font-semibold'>{children}</div>
+);
 
-const Item = ({ children }: React.PropsWithChildren) => <div className='flex gap-8 items-center justify-between'>{children}</div>;
+const Item = ({ children }: React.PropsWithChildren) => (
+  <div className='flex gap-8 items-center justify-between'>{children}</div>
+);
 
-const Total = ({ data, units }: { data: Kotidok.UsageType[]; units: 'L' | 'kw/h' }) => {
+const Total = ({ data, units }: { data: Kotidok.UsageType[]; units: 'L' | 'kw/h' | 'mw/h' }) => {
   const total = data.map(d => d.price).reduce((acc, cur) => acc + cur, 0);
   const totalUnits = data.map(d => d.unitAmount).reduce((acc, cur) => acc + cur, 0);
 
@@ -27,7 +31,7 @@ export function UsageDataCategorized({ data }: UsageDataCategorizedProps) {
     <div className='flex flex-col gap-4 text-slate-500'>
       {Object.keys(dataFiltered).map(key => {
         const displayKey = key === 'heat' ? 'Lämmitys' : key === 'water' ? 'Vesi' : 'Sähkö';
-        const units = key === 'heat' || key === 'water' ? 'L' : 'kw/h';
+        const units = key === 'heat' ? 'mw/h' : key === 'water' ? 'L' : 'kw/h';
 
         return (
           <Item>

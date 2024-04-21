@@ -1,18 +1,7 @@
-'use client';
+import { useEffect, useState } from 'react';
 
-import { useState } from "react";
-
-export function useToggle(initialState: boolean){
-    const [toggled, setToggled] = useState(initialState);
-
-    const toggleState = (state?: boolean) => {
-        if(state !== undefined){
-            setToggled(state);
-        }
-        else{
-            setToggled(prev => !prev);
-        }
-    }
-
-    return {toggled, toggleState};
+export function useToggle(initialState: boolean | (() => boolean)) {
+  const [state, setState] = useState(initialState);
+  const toggleState = (state?: boolean) => setState(prev => state || !prev);
+  return { state, toggleState } as const;
 }

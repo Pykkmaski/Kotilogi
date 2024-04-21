@@ -5,7 +5,9 @@ import Button from '@/components/Button/Button';
 import { Input, Select, Textarea } from '@/components/Input/Input';
 import { buildingTypes, serviceName } from 'kotilogi-app/constants';
 import Link from 'next/link';
-import SubmitDataModal, { useSubmitDataModalContext } from '@/components/Experimental/Modal/SubmitDataModal';
+import SubmitDataModal, {
+  useSubmitDataModalContext,
+} from '@/components/Experimental/Modal/SubmitDataModal';
 import toast from 'react-hot-toast';
 import { addProperty, transferOwnership } from 'kotilogi-app/actions/experimental/properties';
 
@@ -54,7 +56,9 @@ function IntroStep() {
 
   const SelectorButton = ({ children, ...props }: React.ComponentProps<'div'>) => {
     return (
-      <div {...props} className='aspect-square rounded-lg bg-gray-200 flex items-center justify-center text-lg p-4 cursor-pointer'>
+      <div
+        {...props}
+        className='aspect-square rounded-lg bg-gray-200 flex items-center justify-center text-lg p-4 cursor-pointer'>
         {children}
       </div>
     );
@@ -89,7 +93,14 @@ function CreateNewStep() {
         autoComplete='off'
       />
 
-      <Input name='title' label='Osoite' description='Talon katuosoite.' placeholder='Kirjoita osoite...' required={true} autoComplete='off' />
+      <Input
+        name='title'
+        label='Osoite'
+        description='Talon katuosoite.'
+        placeholder='Kirjoita osoite...'
+        required={true}
+        autoComplete='off'
+      />
 
       <Input
         name='zipCode'
@@ -102,9 +113,21 @@ function CreateNewStep() {
         autoComplete='off'
       />
 
-      <Input name='buildYear' label='Rakennusvuosi' description='Vuosi jona talo valmistui.' placeholder='Kirjoita talon rakennusvuosi...' required={true} autoComplete='off' />
+      <Input
+        name='buildYear'
+        label='Rakennusvuosi'
+        description='Vuosi jona talo valmistui.'
+        placeholder='Kirjoita talon rakennusvuosi...'
+        required={true}
+        autoComplete='off'
+      />
 
-      <Select name='buildingType' label='Talotyyppi' description='Talon tyyppi.' required defaultValue={'Muu'}>
+      <Select
+        name='buildingType'
+        label='Talotyyppi'
+        description='Talon tyyppi.'
+        required
+        defaultValue={'Muu'}>
         {buildingTypes.map(type => (
           <Select.Option key={type} selected={type === 'Muu'}>
             {type}
@@ -112,7 +135,14 @@ function CreateNewStep() {
         ))}
       </Select>
 
-      <Textarea label='Kuvaus' description='Talon lyhyt kuvaus.' placeholder='Kirjoita kuvaus...' spellCheck={false} name='description' className='xs:hidden lg:block' />
+      <Textarea
+        label='Kuvaus'
+        description='Talon lyhyt kuvaus.'
+        placeholder='Kirjoita kuvaus...'
+        spellCheck={false}
+        name='description'
+        className='xs:hidden lg:block'
+      />
 
       <PricingDescription />
     </SubmitDataModal.Form>
@@ -135,7 +165,11 @@ function CreateFromTokenStep() {
     <div className='flex flex-col'>
       <h1 className='text-xl'>Luo varmenteella</h1>
       <input ref={tokenInputRef} />
-      <Button variant='primary-dashboard' loading={loading} disabled={loading || !tokenInputRef.current} onClick={checkToken}>
+      <Button
+        variant='primary-dashboard'
+        loading={loading}
+        disabled={loading || !tokenInputRef.current}
+        onClick={checkToken}>
         <span className='mx-8'>Luo</span>
       </Button>
     </div>
@@ -199,7 +233,10 @@ function AddPropertyModal({ owner }: AddPropertyModalProps, ref: React.Ref<Modal
 
 function useAddPropertyModalContext() {
   const ctx = useContext(AddPropertyModalContext);
-  if (!ctx) throw new Error('useAddPropertyModalContext must be used within the scope of an AddPropertyModalContext!');
+  if (!ctx)
+    throw new Error(
+      'useAddPropertyModalContext must be used within the scope of an AddPropertyModalContext!'
+    );
   return ctx;
 }
 export default forwardRef(AddPropertyModal);

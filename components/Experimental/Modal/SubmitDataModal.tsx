@@ -1,6 +1,15 @@
 'use client';
 
-import { MutableRefObject, ReactElement, createContext, forwardRef, useContext, useId, useRef, useState } from 'react';
+import {
+  MutableRefObject,
+  ReactElement,
+  createContext,
+  forwardRef,
+  useContext,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import Modal, { ModalRefType } from './Modal';
 import React from 'react';
 import toast from 'react-hot-toast';
@@ -27,7 +36,10 @@ type SubmitDataModalProps = React.PropsWithChildren & {
   submitMethod: <T>(data: T, files?: FormData[]) => Promise<void>;
 };
 
-function SubmitDataModal({ children, submitMethod }: SubmitDataModalProps, ref: React.MutableRefObject<ModalRefType>) {
+function SubmitDataModal(
+  { children, submitMethod }: SubmitDataModalProps,
+  ref: React.MutableRefObject<ModalRefType>
+) {
   const [status, setStatus] = useState<StatusType>('idle');
   const { data, updateData, reset } = useInputData({});
   const { files, updateFiles } = useInputFiles();
@@ -146,7 +158,10 @@ SubmitDataModal.CloseTrigger = CloseTrigger;
 
 export function useSubmitDataModalContext() {
   const ctx = useContext(SubmitDataModalContext);
-  if (!ctx) throw new Error('useSubmitDataModalContext must be used within the scope of a SubmitDataModalContext!');
+  if (!ctx)
+    throw new Error(
+      'useSubmitDataModalContext must be used within the scope of a SubmitDataModalContext!'
+    );
   return ctx;
 }
 

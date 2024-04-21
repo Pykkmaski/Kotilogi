@@ -8,7 +8,7 @@ import { AddButton, DeleteButton } from '@/components/new/Gallery/GalleryBase/Bu
 import DeleteSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal';
 import { deleteEvent } from 'kotilogi-app/actions/experimental/events';
 import AddEventModal from './AddEventModal';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { SearchForEventsModal } from './SearchForEventsModal';
 import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryListItem';
 import { ListItem } from '@/components/ListItem/ListItem';
@@ -64,16 +64,31 @@ export function Content({ events, propertyId, userEmail }) {
               title={props.item.title}
               description={props.item.description}
               href={`/events/${props.item.id}/info`}
-              footerText={new Date(props.item.createdAt).toLocaleDateString('fi-FI') || 'Ei päivämäärää.'}
+              footerText={
+                new Date(props.item.createdAt).toLocaleDateString('fi-FI') || 'Ei päivämäärää.'
+              }
               faIcon='fa fa-history'
               secondaryHeaderContent={
-                isConsolidated ? <i className='fa fa-lock text-red-700' title='Tapahtuma on vakiintunut, eikä sitä voi muokata.' /> : <i className='fa fa-check text-green-700' />
+                isConsolidated ? (
+                  <i
+                    className='fa fa-lock text-red-700'
+                    title='Tapahtuma on vakiintunut, eikä sitä voi muokata.'
+                  />
+                ) : (
+                  <i className='fa fa-check text-green-700' />
+                )
               }
               controlsContent={!isConsolidated ? <ListItem.CheckBox /> : null}
             />
           );
         }}
-        errorElement={<GalleryError title='Ei Tapahtumia' message='Et ole vielä lisännyt tapahtumia. Aloita painamalla Lisää-Uusi painiketta.' icon='/icons/history.png' />}
+        errorElement={
+          <GalleryError
+            title='Ei Tapahtumia'
+            message='Et ole vielä lisännyt tapahtumia. Aloita painamalla Lisää-Uusi painiketta.'
+            icon='/icons/history.png'
+          />
+        }
       />
     </Gallery>
   );
