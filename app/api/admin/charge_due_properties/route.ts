@@ -21,6 +21,12 @@ async function createCharges() {
       console.log(creationMonth, creationYear, currentDate.getMonth());
       if (currentDate.getMonth() == creationMonth && currentDate.getFullYear() > creationYear) {
         //TODO: Do not create duplicate bills for the same property.
+        const [previousBill] = await trx('bills').where({
+          stamp: 'charge_property',
+          targetId: property.id,
+        });
+
+        if (previousBill) continue;
 
         await trx('bills').insert({
           due: createDueDate(30),
