@@ -3,7 +3,7 @@
 import Button from '@/components/Button/Button';
 import { CloseButton } from '@/components/CloseButton';
 import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { useQuery } from 'kotilogi-app/hooks/useQuery';
 import { useEffect, useRef } from 'react';
 

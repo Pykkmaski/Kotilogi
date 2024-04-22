@@ -3,7 +3,6 @@
 import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Error/GalleryError';
 import { SearchBar } from 'kotilogi-app/components/SearchBar';
-import { LayoutGroup } from 'kotilogi-app/components/Experimental/LayoutGroup/LayoutGroup';
 import { AddButton, DeleteButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import DeleteSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal';
 import { deleteEvent } from 'kotilogi-app/actions/experimental/events';

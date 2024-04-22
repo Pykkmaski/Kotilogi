@@ -13,15 +13,12 @@ import { getServerSession } from 'next-auth';
 
 const PATH = '/dashboard/properties';
 
-export async function addProperty(property: Kotidok.PropertyType, files?: FormData[]) {
+export async function addProperty(property: Kotidok.PropertyType) {
   const session = (await getServerSession(options as any)) as any;
-  await properties.addProperty(
-    {
-      ...property,
-      refId: session.user.email,
-    },
-    files?.map(file => file.get('file') as unknown as File) || []
-  );
+  await properties.addProperty({
+    ...property,
+    refId: session.user.email,
+  });
   revalidatePath(PATH);
 }
 

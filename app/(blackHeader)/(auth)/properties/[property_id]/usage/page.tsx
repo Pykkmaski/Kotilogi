@@ -10,7 +10,10 @@ export default async function UsagePage({ params, searchParams }) {
 
   if (!year) {
     //Fetch all usage data for this property, and assign the year as the most recent year with usage-data.
-    const dates = await db('usage').where({ refId: params.property_id }).select('time').orderBy('time', 'desc');
+    const dates = await db('usage')
+      .where({ refId: params.property_id })
+      .select('time')
+      .orderBy('time', 'desc');
     if (dates.length) {
       year = new Date(dates.at(0).time).getFullYear().toString();
     } else {
@@ -30,7 +33,10 @@ export default async function UsagePage({ params, searchParams }) {
         };
 
   //Get the data for the selected year, and the timestamps for all data, to render the year selector.
-  const [data, timestamps] = await Promise.all([usage.get(usageQuery, year || 'all'), db('usage').select('time')]);
+  const [data, timestamps] = await Promise.all([
+    usage.get(usageQuery, year || 'all'),
+    db('usage').select('time'),
+  ]);
 
   if (!data || !timestamps) throw new Error('Kulutustietojen lataus epäonnistui!');
 

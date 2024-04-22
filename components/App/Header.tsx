@@ -2,13 +2,11 @@
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
 import { Group } from 'kotilogi-app/components/Group';
 import Spinner from '../Spinner/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../Util/Padding';
 import { MobileMenu } from './MobileMenu/MobileMenu';
-import { useToggle } from 'kotilogi-app/hooks/useToggle';
 import Button from '../Button/Button';
 import { LineButton } from '../LineButton';
 
@@ -23,7 +21,10 @@ function Logo2() {
 export function Logo() {
   return (
     <div className='z-40' id='app-logo' title='Etusivulle'>
-      <Link href='/' id='app-logo-link' className='w-[50px] aspect-auto object-contain font-semibold'>
+      <Link
+        href='/'
+        id='app-logo-link'
+        className='w-[50px] aspect-auto object-contain font-semibold'>
         <span className='text-orange-300 text-[1.7rem]'>{serviceName[0]}</span>
         <span className='text-white text-[1.2rem]'>{serviceName.slice(1)}</span>
       </Link>
@@ -37,7 +38,6 @@ type HeaderProps = {
 
 export default function Header({ variant = 'black' }: HeaderProps) {
   const { data, status } = useSession();
-  const { toggled: menuVisible, toggleState: toggleMenu } = useToggle(false);
   const userIsLoggedIn = status === 'authenticated';
 
   const userEmail = data?.user?.email;
@@ -121,7 +121,12 @@ export default function Header({ variant = 'black' }: HeaderProps) {
     }
   };
 
-  const className = ['w-full py-2 h-[4em] items-center flex z-20', variant === 'black' ? 'bg-black' : 'bg-gradient-to-l from-[#0005] to-transparent to-60% absolute top-0 left-0'];
+  const className = [
+    'w-full py-2 h-[4em] items-center flex z-20',
+    variant === 'black'
+      ? 'bg-black'
+      : 'bg-gradient-to-l from-[#0005] to-transparent to-60% absolute top-0 left-0',
+  ];
 
   return (
     <header className={className.join(' ')} id='main-header'>

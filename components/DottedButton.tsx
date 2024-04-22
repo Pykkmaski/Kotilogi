@@ -1,4 +1,4 @@
-import { VisibilityProvider } from './Util/VisibilityProvider/VisibilityProvider';
+import { VisibilityProvider } from './Util/VisibilityProvider';
 
 function DottedButton() {
   return (

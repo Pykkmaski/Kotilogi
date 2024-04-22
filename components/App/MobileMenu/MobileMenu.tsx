@@ -43,16 +43,22 @@ function Body({ children }) {
   return (
     <OpenProvider open={open} openClassName={style.open}>
       <div className={bodyClassName.join(' ')}>
-        <CallbackOnClickProvider callback={() => toggleState(false)}>{children}</CallbackOnClickProvider>
+        <CallbackOnClickProvider callback={() => toggleState(false)}>
+          {children}
+        </CallbackOnClickProvider>
       </div>
     </OpenProvider>
   );
 }
 
 export function MobileMenu({ children }) {
-  const { toggled: open, toggleState } = useToggle(false);
+  const { state: open, toggleState } = useToggle(false);
 
-  return <MobileMenuContext.Provider value={{ open, toggleState }}>{children}</MobileMenuContext.Provider>;
+  return (
+    <MobileMenuContext.Provider value={{ open, toggleState }}>
+      {children}
+    </MobileMenuContext.Provider>
+  );
 }
 
 MobileMenu.Button = Button;
@@ -60,6 +66,7 @@ MobileMenu.Body = Body;
 
 function useMobileMenuContext() {
   const ctx = useContext(MobileMenuContext);
-  if (!ctx) throw new Error('useMobileMenuContext must be used within the scope of a MobileMenuContext!');
+  if (!ctx)
+    throw new Error('useMobileMenuContext must be used within the scope of a MobileMenuContext!');
   return ctx;
 }

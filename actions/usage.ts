@@ -10,7 +10,11 @@ const PATH = '/properties/[property_id]/usage';
 const revalidateUsage = () => revalidatePath(PATH, 'page');
 const usageTable = new DatabaseTable(TABLENAME);
 
-export async function getByDateRange(startDate: number, endDate: number, query: Partial<Kotidok.UsageType>) {
+export async function getByDateRange(
+  startDate: number,
+  endDate: number,
+  query: Partial<Kotidok.UsageType>
+) {
   const data = await usageTable.get(query);
   return data.filter(d => {
     const time = parseInt(d.time);
@@ -34,7 +38,10 @@ type UsageValidationResult = 'valid' | 'invalid_date';
 function validateUsageData(data: Kotidok.UsageType) {
   const currentTime = Date.now();
   const dataTime = new Date(data.time).getTime();
-  if (Number.isNaN(dataTime)) throw new Error('Error validating usage data! Passed data time parses to NaN ' + `(${data.time})`);
+  if (Number.isNaN(dataTime))
+    throw new Error(
+      'Error validating usage data! Passed data time parses to NaN ' + `(${data.time})`
+    );
   if (dataTime > currentTime) {
     return 'invalid_date';
   } else {
@@ -47,7 +54,9 @@ export async function get(query: Partial<Kotidok.UsageType>, year: string = 'all
     //Return all data.
     return db(TABLENAME).where(query) as unknown as Kotidok.UsageType[];
   } else {
-    return db(TABLENAME).where(query).whereLike('time', `%${year}%`) as unknown as Kotidok.UsageType[];
+    return db(TABLENAME)
+      .where(query)
+      .whereLike('time', `%${year}%`) as unknown as Kotidok.UsageType[];
   }
 }
 
@@ -68,6 +77,6 @@ export async function del(usageData: Kotidok.UsageType) {
   return await usageTable.del({ id: usageData.id }).then(() => revalidateUsage());
 }
 
-export async function update(usageData: Kotidok.UsageType) {
+export async function update(id: Kotidok.IdType, usageData: Kotidok.UsageType) {
   return await usageTable.update(usageData, { id: usageData.id }).then(() => revalidateUsage());
 }

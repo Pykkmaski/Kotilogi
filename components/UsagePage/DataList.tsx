@@ -11,72 +11,9 @@ import { splitByMonth } from 'kotilogi-app/actions/usage.utils';
 import { monthNameToLang } from 'kotilogi-app/utils/translate/planNameToLang';
 import { Icon } from './Icon';
 import { ModalRefType } from '../Experimental/Modal/Modal';
-import EditUsageModal from './EditUsageModal';
+import { EditUsageTrigger } from './EditUsageTrigger';
 
 const ListItemContext = createContext<any>(null);
-
-function EditModal(props: ModalProps) {
-  const { item } = useItemContext();
-
-  const initialData = { id: item.id };
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const [status, setStatus] = useState<'loading' | 'idle'>('idle');
-
-  const closeModal = () => {
-    formRef.current?.reset();
-    props.onHide();
-  };
-
-  const update = e => {
-    e.preventDefault();
-    setStatus('loading');
-
-    const d = {
-      ...item,
-      price: e.target.price.valueAsNumber,
-    };
-
-    usage
-      .update(d)
-      .catch(err => toast.error(err.message))
-      .finally(() => {
-        closeModal();
-        setStatus('idle');
-      });
-  };
-
-  const loading = status === 'loading';
-
-  const formId = props.id + '-form';
-  return (
-    <Modal {...props}>
-      <Modal.Header>Muokkaa kulutustietoa</Modal.Header>
-      <Modal.Body>
-        <form onSubmit={update} id={formId}>
-          <Input
-            label='Hinta'
-            description='Laskun hinta.'
-            name='price'
-            type='number'
-            step='0.01'
-            min='0.01'
-            defaultValue={item.price}
-          />
-        </form>
-      </Modal.Body>
-
-      <Modal.Footer>
-        <SecondaryButton disabled={loading} onClick={() => props.onHide()}>
-          Peruuta
-        </SecondaryButton>
-
-        <PrimaryButton loading={loading} disabled={loading} form={formId}>
-          Päivitä
-        </PrimaryButton>
-      </Modal.Footer>
-    </Modal>
-  );
-}
 
 type ListItemProps = {
   item: Kotidok.UsageType;
@@ -104,7 +41,6 @@ function Item({ item }: ListItemProps) {
   const getUnits = () => (item.type === 'heat' ? 'mw/h' : item.type === 'water' ? 'L' : 'kw/h');
   return (
     <ListItemContext.Provider value={{ item }}>
-      <EditUsageModal ref={editModalRef} />
       <span className='flex p-2 rounded-lg shadow-lg text-slate-500 justify-between border-gray-100 border hover:bg-orange-100'>
         <div className='flex gap-4 items-center'>
           <Icon type={item.type} />
@@ -117,9 +53,7 @@ function Item({ item }: ListItemProps) {
         </div>
 
         <div className='flex gap-4 items-center'>
-          <span className='cursor-pointer' onClick={() => editModalRef.current?.toggleOpen(true)}>
-            <i className='fa fa-pencil' title='Muokkaa...' />
-          </span>
+          <EditUsageTrigger />
           <span className='font-semibold cursor-pointer' onClick={deleteItem}>
             <i className='fa fa-trash' title='Poista...' />
           </span>

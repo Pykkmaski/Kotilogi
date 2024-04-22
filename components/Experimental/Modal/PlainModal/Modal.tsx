@@ -1,3 +1,6 @@
+import { CloseButton } from '@/components/CloseButton';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+
 function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
@@ -16,26 +19,6 @@ function ModalContainer({ children, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function Header({ children }) {
-  return (
-    <div className='flex justify-between p-2 border-b border-slate-200 items-center'>
-      {children}
-    </div>
-  );
-}
-
-function Body({ children }) {
-  return <div className='w-full p-2'>{children}</div>;
-}
-
-function Footer({ children }) {
-  return (
-    <div className='flex justify-end gap-4 items-center p-2 border-t border-slate-200'>
-      {children}
-    </div>
-  );
-}
-
 export function Modal({ children, ...props }: React.ComponentProps<'div'>) {
   return (
     <Backdrop {...props}>
@@ -44,6 +27,41 @@ export function Modal({ children, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-Modal.Header = Header;
-Modal.Footer = Footer;
-Modal.Body = Body;
+Modal.Header = function ({ children }) {
+  return (
+    <div className='flex justify-between p-2 border-b border-slate-200 items-center'>
+      {children}
+    </div>
+  );
+};
+
+Modal.HeaderWithTitle = function ({ title }) {
+  return (
+    <Modal.Header>
+      <h1 className='text-lg text-slate-500'>{title}</h1>
+      <VisibilityProvider.Trigger>
+        <CloseButton />
+      </VisibilityProvider.Trigger>
+    </Modal.Header>
+  );
+};
+
+Modal.Footer = function ({ children }) {
+  return (
+    <div className='flex justify-end gap-4 items-center p-2 border-t border-slate-200'>
+      {children}
+    </div>
+  );
+};
+
+Modal.Body = function ({ children }) {
+  return <div className='w-full p-2'>{children}</div>;
+};
+
+Modal.DefaultContentContainer = function ({ children }) {
+  return (
+    <div className='flex flex-col bg-white rounded-lg overflow-hidden shadow-lg text-black'>
+      {children}
+    </div>
+  );
+};

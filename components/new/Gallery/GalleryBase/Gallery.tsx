@@ -26,61 +26,18 @@ import toast from 'react-hot-toast';
 function Header(
   props: React.PropsWithChildren & {
     title: string;
-    AddModal?: React.FC<ModalProps>;
-
-    /**The modal displayed when deleting multiple items at once. */
-    DeleteModal?: React.FC<ModalProps>;
   }
 ) {
-  const { state, addModalRef } = useGalleryContext();
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const { AddModal, DeleteModal } = props;
-
-  const getButtons = () => {
-    const buttons: JSX.Element[] = [];
-
-    if (DeleteModal) {
-      buttons.push(
-        <SecondaryButton
-          onClick={() => setShowDeleteModal(true)}
-          hidden={!state.selectedItems.length}>
-          Poista
-        </SecondaryButton>
-      );
-    }
-
-    if (addModalRef.current) {
-      buttons.push(
-        <PrimaryButton
-          onClick={() => addModalRef.current.toggleOpen(true)}
-          className='shadow-md min-h-8'>
-          <Group direction='row' gap={4}>
-            <img src='/icons/plus.png' className='invert aspect-square w-[25px]' />
-          </Group>
-        </PrimaryButton>
-      );
-    }
-
-    return buttons;
-  };
-
   return (
-    <>
-      {/**AddModal ? <AddModal id="gallery-add-modal" show={showAddModal} onHide={() => setShowAddModal(false)}/> : null*/}
-      {/**DeleteModal ? <DeleteModal id="gallery-delete-modal" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}/> : null*/}
+    <div className='mb-4 w-full'>
+      <Group direction='row' justify='between' align='center'>
+        <Heading>{props.title}</Heading>
 
-      <div className='mb-4 w-full'>
-        <Group direction='row' justify='between' align='center'>
-          <Heading>{props.title}</Heading>
-
-          <Group direction='row' gap={4} align='center' justify='center'>
-            {props.children}
-          </Group>
+        <Group direction='row' gap={4} align='center' justify='center'>
+          {props.children}
         </Group>
-      </div>
-    </>
+      </Group>
+    </div>
   );
 }
 

@@ -13,7 +13,7 @@ import { DataList } from '@/components/UsagePage/DataList';
 import { ModalRefType } from '@/components/Experimental/Modal/Modal';
 import AddUsageModal from './AddUsageModal';
 import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider/VisibilityProvider';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { MobileUsageFilterModal } from './MobileUsageFilterModal';
 type ControlsProps = {
   timestamps: { time: string }[];

@@ -15,7 +15,7 @@ const SubmitDataModalProviderContext = createContext<{
 
 type SubmitDataModalProviderProps = React.PropsWithChildren & {
   hidden?: boolean;
-  submitMethod: (data: any) => Promise<void>;
+  submitMethod: (data: any, files?: File[]) => Promise<void>;
   inputValidator?: (e: TODO) => void;
 };
 
@@ -54,7 +54,7 @@ SubmitDataModalProvider.Form = ({ children }: React.PropsWithChildren) => {
   return (
     <form
       id={formId}
-      className='xs:p-2 flex flex-col gap-4 overflow-y-scroll'
+      className='xs:p-2 flex flex-col gap-4 overflow-y-scroll overflow-hidden'
       onInput={onInput}
       ref={formRef}
       onSubmit={submit}>
@@ -76,7 +76,12 @@ SubmitDataModalProvider.Footer = ({ cancelText = 'Cancel', submitText = 'Submit'
           </Button>
         </VisibilityProvider.Trigger>
 
-        <Button variant='primary' type='submit' form={formId} loading={loading} disabled={loading}>
+        <Button
+          variant='primary-dashboard'
+          type='submit'
+          form={formId}
+          loading={loading}
+          disabled={loading}>
           <span className='mx-4 text-slate-100'>{submitText}</span>
         </Button>
       </div>
