@@ -10,7 +10,7 @@ import {
 } from 'kotilogi-app/components/Layout';
 import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
 import db from 'kotilogi-app/dbconfig';
-import Link from 'next/link';
+import { MobileNavbar } from './MobileNavbar';
 
 export default async function EventLayout({ children, params }) {
   const event = await db('propertyEvents').where({ id: params.event_id }).first();
@@ -25,7 +25,9 @@ export default async function EventLayout({ children, params }) {
     <div className='flex gap-4 w-full flex-1'>
       <LayoutNavBarContainer>
         <Header>
-          <Group direction='col' gap={0}>
+          <Group
+            direction='col'
+            gap={0}>
             <SecondaryHeading>
               <span className='text-white'>Tapahtuma</span>
             </SecondaryHeading>
@@ -37,13 +39,22 @@ export default async function EventLayout({ children, params }) {
 
         <NavBar>
           <div className='text-white'>
-            <IconLink href={`info`} imageSrc='/icons/info.png' icon='fa-info-circle'>
+            <IconLink
+              href={`info`}
+              imageSrc='/icons/info.png'
+              icon='fa-info-circle'>
               Tiedot
             </IconLink>
-            <IconLink href={'images'} imageSrc='/icons/image.png' icon='fa-image'>
+            <IconLink
+              href={'images'}
+              imageSrc='/icons/image.png'
+              icon='fa-image'>
               Kuvat
             </IconLink>
-            <IconLink href={'files'} imageSrc='/icons/copy.png' icon='fa-copy'>
+            <IconLink
+              href={'files'}
+              imageSrc='/icons/copy.png'
+              icon='fa-copy'>
               Tiedostot
             </IconLink>
             <NavDivider />
@@ -65,23 +76,7 @@ export default async function EventLayout({ children, params }) {
 
         <div className='xs:mb-8 lg:mb-0'>{children}</div>
 
-        <FooterNav>
-          <Link href='info'>
-            <i className='fa fa-info-circle' />
-          </Link>
-
-          <Link href='images'>
-            <i className='fa fa-image' />
-          </Link>
-
-          <Link href='files'>
-            <i className='fa fa-copy' />
-          </Link>
-
-          <Link href={`/properties/${event.refId}/events`}>
-            <i className='fa fa-history' />
-          </Link>
-        </FooterNav>
+        <MobileNavbar propertyId={event.refId} />
       </LayoutContentContainer>
     </div>
   );

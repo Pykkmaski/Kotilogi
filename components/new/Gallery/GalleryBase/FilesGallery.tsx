@@ -18,6 +18,7 @@ import {
 } from '@/components/Prefabs/List.prefabs';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { ImageError } from './Components/Error/ImageError';
 
 type FilesGalleryProps = {
   files: Kotidok.FileType[];
@@ -25,15 +26,39 @@ type FilesGalleryProps = {
   /**The id of the resource the images belong to, eg. the id of a property. */
   refId: string;
 
+  variant: 'image' | 'pdf';
+
   tablename: FileTableName;
 
   FileComponent: React.FC<ListItemProps<Kotidok.FileType>>;
 };
 
-export function FilesGallery({ tablename, files, refId, FileComponent }: FilesGalleryProps) {
+export function FilesGallery({
+  tablename,
+  files,
+  refId,
+  variant,
+  FileComponent,
+}: FilesGalleryProps) {
+  const getErrorComponent = () => {
+    if (variant === 'image') {
+      return <ImageError message='Et ole vielä lisännyt kohteelle kuvia.' />;
+    } else {
+      return <FileError message='Et ole vielä lisännyt kohteelle tiedostoja.' />;
+    }
+  };
+
+  const getSuccessMessage = (afterAction: 'delete' | 'add') => {
+    if (variant === 'image') {
+      return afterAction === 'add' ? 'Kuva(t) lisätty!' : 'Kuva(t) poistettu!';
+    } else {
+      return afterAction === 'add' ? 'Tiedosto(t) lisätty!' : 'Tiedosto(t) poistettu!';
+    }
+  };
+
   return (
     <Gallery data={files}>
-      <Gallery.Header title='Tiedostot'>
+      <Gallery.Header title={variant === 'image' ? 'Kuvat' : 'Tiedostot'}>
         <SelectablesProvider.HideIfNoneSelected>
           <div className='animate-slideup-fast'>
             <ListHeaderControlButtons>
@@ -47,9 +72,11 @@ export function FilesGallery({ tablename, files, refId, FileComponent }: FilesGa
 
                 <VisibilityProvider.Target>
                   <Gallery.ConfirmDeleteModal
-                    successMessage='Tiedostojen poisto onnistui!'
-                    title='Poista valitut tiedostot'
-                    bodyText='Olet poistamassa seuraavia tiedostoja:'
+                    successMessage={getSuccessMessage('delete')}
+                    title={'Poista valitut ' + variant === 'image' ? 'kuvat' : 'tiedostot'}
+                    bodyText={
+                      'Olet poistamassa seuraavia ' + variant === 'image' ? 'kuvia:' : 'tiedostoja:'
+                    }
                     deleteMethod={async id => {
                       await deleteFile(tablename, id);
                     }}></Gallery.ConfirmDeleteModal>
@@ -60,10 +87,10 @@ export function FilesGallery({ tablename, files, refId, FileComponent }: FilesGa
         </SelectablesProvider.HideIfNoneSelected>
         <SubmitModalPrefab
           trigger={<AddButton />}
-          modalTitle='Lisää tiedostoja'
+          modalTitle={'Lisää ' + variant === 'image' ? 'kuvia' : 'tiedostoja'}
           submitMethod={async (data, files?) => {
             await addFiles(tablename, files, refId)
-              .then(() => toast.success('Tiedosto(t) lisätty!'))
+              .then(() => toast.success(getSuccessMessage('add')))
               .catch(err => console.log(err.message));
           }}>
           <Input
@@ -71,19 +98,17 @@ export function FilesGallery({ tablename, files, refId, FileComponent }: FilesGa
             type='file'
             multiple={true}
             required
-            label='Tiedostot'
-            description='PDF'
-            accept='application/pdf'
+            label={variant === 'image' ? 'Kuvat' : 'Tiedostot'}
+            description={variant === 'image' ? 'JPG' : 'PDF'}
+            accept={variant === 'image' ? 'image/jpeg' : 'application/pdf'}
           />
         </SubmitModalPrefab>
       </Gallery.Header>
 
       <Gallery.Body
-        displayStyle='vertical'
+        displayStyle={variant === 'image' ? 'horizontal' : 'vertical'}
         itemComponent={FileComponent}
-        errorElement={
-          <FileError message='Et ole vielä lisännyt kohteelle tiedostoja. Aloita painamalla Lisää-Uusi painiketta.' />
-        }
+        errorElement={getErrorComponent()}
       />
     </Gallery>
   );

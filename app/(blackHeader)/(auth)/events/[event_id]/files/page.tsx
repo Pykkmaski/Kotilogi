@@ -11,6 +11,7 @@ export default async function Page({ params }) {
 
   return (
     <FilesGallery
+      variant='pdf'
       tablename='eventFiles'
       refId={params.event_id}
       files={files}

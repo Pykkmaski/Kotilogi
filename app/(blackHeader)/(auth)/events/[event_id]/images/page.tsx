@@ -1,16 +1,17 @@
 import db from 'kotilogi-app/dbconfig';
 import { EventImageListItem } from '@/components/ListItem/ImageListItem';
-import { ImagesGallery } from '@/components/new/Gallery/GalleryBase/ImagesGallery';
+import { FilesGallery } from '@/components/new/Gallery/GalleryBase/FilesGallery';
 
 export default async function Page({ params }) {
   const images = await db('eventFiles').where({ refId: params.event_id, mimeType: 'image/jpeg' });
 
   return (
-    <ImagesGallery
+    <FilesGallery
+      variant='image'
       tablename='eventFiles'
       refId={params.event_id}
       files={images}
-      ImageComponent={EventImageListItem}
+      FileComponent={EventImageListItem}
     />
   );
 }

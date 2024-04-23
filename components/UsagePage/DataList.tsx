@@ -13,6 +13,7 @@ import { Icon } from './Icon';
 import { ModalRefType } from '../Experimental/Modal/Modal';
 import { EditUsageTrigger } from './EditUsageTrigger';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
+import { SelectablesProvider } from '../Util/SelectablesProvider';
 
 const ListItemContext = createContext<any>(null);
 
@@ -68,6 +69,12 @@ function Item({ item }: ListItemProps) {
             </VisibilityProvider.Trigger>
             <VisibilityProvider.Target></VisibilityProvider.Target>
           </VisibilityProvider>
+          <SelectablesProvider.SelectTrigger item={item}>
+            <input
+              type='checkbox'
+              className='w-4 aspect-square'
+            />
+          </SelectablesProvider.SelectTrigger>
         </div>
       </span>
     </ListItemContext.Provider>
@@ -117,8 +124,6 @@ export function DataList({ data }: DataListProps) {
         );
       }
     }
-
-    console.log(splitData);
     return elements;
   };
 

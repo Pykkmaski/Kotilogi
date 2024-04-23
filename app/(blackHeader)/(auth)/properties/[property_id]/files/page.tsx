@@ -14,6 +14,7 @@ export default async function FilesPage({ params }) {
   return (
     <main>
       <FilesGallery
+        variant='pdf'
         tablename='propertyFiles'
         refId={params.property_id}
         files={files}

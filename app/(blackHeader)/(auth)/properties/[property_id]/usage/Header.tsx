@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export function Header({ timestamps, displayYear, type }) {
   return (
-    <div className='w-full flex bg-white justify-between gap-4'>
+    <div className='w-full flex justify-between gap-4'>
       <div className='flex gap-4 items-center'>
         <h1 className='text-lg text-slate-500 mr-4'>Kulutustiedot</h1>
         <div className='xs:hidden lg:block'>
@@ -17,7 +17,11 @@ export function Header({ timestamps, displayYear, type }) {
         </div>
       </div>
 
-      <Controls timestamps={timestamps} currentYear={displayYear} type={type} />
+      <Controls
+        timestamps={timestamps}
+        currentYear={displayYear}
+        type={type}
+      />
     </div>
   );
 }

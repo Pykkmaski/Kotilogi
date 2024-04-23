@@ -15,6 +15,17 @@ import AddUsageModal from './AddUsageModal';
 import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { MobileUsageFilterModal } from './MobileUsageFilterModal';
+import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import {
+  CancelSelectionButton,
+  DeleteButton,
+  ListHeaderControlButtons,
+} from '@/components/Prefabs/List.prefabs';
+import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
+import Button from '@/components/Button/Button';
+import toast from 'react-hot-toast';
+import { del as deleteUsage } from '@/actions/usage';
+
 type ControlsProps = {
   timestamps: { time: string }[];
   currentYear: string;
@@ -28,7 +39,10 @@ export function Controls({ timestamps, currentYear, type }: ControlsProps) {
     <div className='flex xs:gap-8 lg:gap-4 items-center'>
       <div className='flex gap-2 items-center xs:hidden lg:block'>
         <span className='text-slate-500'>Suodata:</span>
-        <DateRangeSelector timestamps={timestamps} currentYear={currentYear} />
+        <DateRangeSelector
+          timestamps={timestamps}
+          currentYear={currentYear}
+        />
       </div>
 
       <VisibilityProvider>
@@ -40,11 +54,54 @@ export function Controls({ timestamps, currentYear, type }: ControlsProps) {
         </VisibilityProvider.Trigger>
 
         <VisibilityProvider.Target>
-          <MobileUsageFilterModal type={type} initialYear={currentYear} timestamps={timestamps} />
+          <MobileUsageFilterModal
+            type={type}
+            initialYear={currentYear}
+            timestamps={timestamps}
+          />
         </VisibilityProvider.Target>
       </VisibilityProvider>
 
       <AddUsageModal ref={addModalRef} />
+      <SelectablesProvider.HideIfNoneSelected>
+        <div className='animate-slideup-fast'>
+          <ListHeaderControlButtons>
+            <CancelSelectionButton />
+
+            <VisibilityProvider>
+              <VisibilityProvider.Trigger>
+                <DeleteButton />
+              </VisibilityProvider.Trigger>
+
+              <VisibilityProvider.Target>
+                <Modal>
+                  <Modal.DefaultContentContainer>
+                    <Modal.HeaderWithTitle title='Poista valitut tiedot' />
+                    <Modal.Body>Haluatko varmasti poistaa valitsemasi tiedot?</Modal.Body>
+                    <Modal.Footer>
+                      <VisibilityProvider.Trigger>
+                        <Button variant='secondary'>Ei</Button>
+                      </VisibilityProvider.Trigger>
+
+                      <SelectablesProvider.ActionTrigger
+                        action={async selectedItems => {
+                          const promises = selectedItems.map(item => deleteUsage(item));
+                          await Promise.all(promises)
+                            .then(() => toast.success('Tiedot poistettu!'))
+                            .catch(err => toast.error(err.message));
+                        }}>
+                        <Button variant='primary-dashboard'>
+                          <span className='mx-4'>Kyllä</span>
+                        </Button>
+                      </SelectablesProvider.ActionTrigger>
+                    </Modal.Footer>
+                  </Modal.DefaultContentContainer>
+                </Modal>
+              </VisibilityProvider.Target>
+            </VisibilityProvider>
+          </ListHeaderControlButtons>
+        </div>
+      </SelectablesProvider.HideIfNoneSelected>
       <AddButton onClick={() => addModalRef.current?.toggleOpen(true)} />
     </div>
   );
@@ -99,7 +156,10 @@ export function PageContent({ data, displayYear, type }: PageContentProps) {
                 <TotalPrice data={data} />
               </div>
 
-              <DataRing data={data} year={displayYear} />
+              <DataRing
+                data={data}
+                year={displayYear}
+              />
               {type === 'all' ? <UsageDataCategorized data={data} /> : null}
             </div>
           </div>
