@@ -21,25 +21,35 @@ export default async function DashboardLayout({ children }) {
       <div className='lg:flex xs:flex w-full flex-1'>
         <LayoutNavBarContainer>
           <Header>
-            <Group direction='col' gap={0}>
+            <Group
+              direction='col'
+              gap={0}>
               <span className='text-white text-sm'>{session.user.email}</span>
               <h3 className='text-xl text-white'>Hallintapaneeli</h3>
             </Group>
           </Header>
-
-          <NavBar>
-            <div className='text-white'>
-              <IconLink imageSrc='/icons/house.png' icon='fa-home' href='/dashboard/properties'>
+          <div className='text-white'>
+            <NavBar>
+              <IconLink
+                imageSrc='/icons/house.png'
+                icon='fa-home'
+                href='/dashboard/properties'>
                 Talot
               </IconLink>
-              <IconLink imageSrc='/icons/settings.png' icon='fa-cog' href='/dashboard/settings'>
+              <IconLink
+                imageSrc='/icons/settings.png'
+                icon='fa-cog'
+                href='/dashboard/settings'>
                 Asetukset
               </IconLink>
-              <IconLink imageSrc='/icons/cart.png' icon='fa-shopping-cart' href='/dashboard/cart'>
+              <IconLink
+                imageSrc='/icons/cart.png'
+                icon='fa-shopping-cart'
+                href='/dashboard/cart'>
                 Ostoskori
               </IconLink>
-            </div>
-          </NavBar>
+            </NavBar>
+          </div>
         </LayoutNavBarContainer>
 
         <DashboardContextProvider user={session.user}>

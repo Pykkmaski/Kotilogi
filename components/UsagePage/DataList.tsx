@@ -54,7 +54,7 @@ function Item({ item }: ListItemProps) {
           <span className='text-sm flex-1 xs:hidden lg:hidden'>{item.time}</span>
         </div>
 
-        <div className='flex gap-4 items-center'>
+        <div className='flex gap-2 items-center'>
           <EditUsageTrigger />
           <VisibilityProvider>
             <VisibilityProvider.Trigger>
@@ -69,12 +69,6 @@ function Item({ item }: ListItemProps) {
             </VisibilityProvider.Trigger>
             <VisibilityProvider.Target></VisibilityProvider.Target>
           </VisibilityProvider>
-          <SelectablesProvider.SelectTrigger item={item}>
-            <input
-              type='checkbox'
-              className='w-4 aspect-square'
-            />
-          </SelectablesProvider.SelectTrigger>
         </div>
       </span>
     </ListItemContext.Provider>

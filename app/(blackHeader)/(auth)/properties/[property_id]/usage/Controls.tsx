@@ -32,7 +32,7 @@ export function Controls() {
 
       <VisibilityProvider>
         <VisibilityProvider.Trigger>
-          <div className='flex gap-2 items-baseline xs:block lg:hidden cursor-pointer'>
+          <div className='flex items-baseline xs:block lg:hidden cursor-pointer'>
             <span className='text-sm text-slate-500'>Suodata: </span>
             <i className='fa fa-filter text-2xl'></i>
           </div>

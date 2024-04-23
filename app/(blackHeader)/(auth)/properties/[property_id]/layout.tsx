@@ -54,8 +54,8 @@ export default async function PropertyDetailsLayout({ children, params }) {
           </Group>
         </Header>
 
-        <NavBar>
-          <div className='text-white'>
+        <div className='text-white'>
+          <NavBar>
             <IconLink
               icon='fa-info-circle'
               imageSrc={'/icons/info.png'}
@@ -94,8 +94,8 @@ export default async function PropertyDetailsLayout({ children, params }) {
               href={`/dashboard/properties/`}>
               Takaisin Taloihin
             </IconLink>
-          </div>
-        </NavBar>
+          </NavBar>
+        </div>
       </LayoutNavBarContainer>
 
       <LayoutContentContainer>

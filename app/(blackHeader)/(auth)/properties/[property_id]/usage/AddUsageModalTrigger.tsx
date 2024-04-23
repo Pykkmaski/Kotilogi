@@ -40,6 +40,7 @@ export function AddUsageModalTrigger() {
         name='unitAmount'
         label='Määrä'
         description='Määrä yksiköissä, esim kwh.'
+        placeholder='Kirjoita laskun yksikkömäärä...'
         type='number'
         step={0.01}
         min={0.01}

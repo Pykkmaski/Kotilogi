@@ -17,54 +17,40 @@ function SelectedIndicator() {
   return <div className={style.selectedIndicator} />;
 }
 
-export default function IconLink(
-  props: React.ComponentProps<'a'> & {
-    imageSrc: string;
-    href: string;
+type IconLinkProps = React.ComponentProps<typeof Link> & {
+  imageSrc: string;
+  selected?: boolean;
+  /**Use a font awesome icon. */
+  icon?: string;
+};
 
-    /**Use a font awesome icon. */
-    icon?: string;
-  }
-) {
-  const pathName = usePathname().split('/').at(-1);
-  const ref = useRef<HTMLAnchorElement | null>(null);
-  const [isSelected, setIsSelected] = useState(false);
+export default function IconLink({ imageSrc, selected, icon, ...props }: IconLinkProps) {
+  const className = selected ? `${style.container} ${style.selected}` : style.container;
+  const textClassName = ['z-10 decoration-none', selected ? 'text-black' : 'text-white'];
 
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const url = new URL(ref.current.href);
-    if (url.pathname.split('/').at(-1) === pathName) {
-      setIsSelected(true);
-    } else {
-      setIsSelected(false);
-    }
-  }, [pathName]);
-
-  const className = isSelected ? `${style.container} ${style.selected}` : style.container;
-  const textClassName = ['z-10 decoration-none', isSelected ? 'text-black' : 'text-white'];
-
-  const imageClassName = [props.icon, isSelected ? 'filter-none' : 'invert'];
+  const imageClassName = [icon, selected ? 'filter-none' : 'invert'];
 
   return (
-    <Link {...props} className={className.toString()} ref={ref}>
-      {isSelected ? (
+    <Link
+      {...props}
+      className={className.toString()}>
+      {selected ? (
         <>
           <SelectedIndicator />
           <SelectedBackground />
         </>
       ) : null}
 
-      {props.icon ? (
+      {icon ? (
         <i
-          className={`z-10 fa ${props.icon} text-center text-base ${
-            isSelected ? 'text-black' : 'text-white'
+          className={`z-10 fa ${icon} text-center text-base ${
+            selected ? 'text-black' : 'text-white'
           }`}
         />
       ) : (
         <img
           className={imageClassName.join(' ')}
-          src={props.imageSrc}
+          src={imageSrc}
           alt='Link Icon'
           width={17}
           height={17}
