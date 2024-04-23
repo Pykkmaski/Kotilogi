@@ -1,8 +1,13 @@
-import { TypeNav } from '@/components/UsagePage/TypeNav';
-import { Controls } from './page.components';
-import Link from 'next/link';
+'use client';
 
-export function Header({ timestamps, displayYear, type }) {
+import { TypeNav } from '@/components/UsagePage/TypeNav';
+import { Controls } from './Controls';
+import Link from 'next/link';
+import { useUsageProviderContext } from './UsageProvider';
+
+export function Header() {
+  const { displayYear } = useUsageProviderContext();
+
   return (
     <div className='w-full flex justify-between gap-4'>
       <div className='flex gap-4 items-center'>
@@ -17,11 +22,7 @@ export function Header({ timestamps, displayYear, type }) {
         </div>
       </div>
 
-      <Controls
-        timestamps={timestamps}
-        currentYear={displayYear}
-        type={type}
-      />
+      <Controls />
     </div>
   );
 }

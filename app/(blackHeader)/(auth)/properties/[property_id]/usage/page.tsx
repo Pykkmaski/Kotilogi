@@ -4,6 +4,7 @@ import * as usage from '@/actions/usage';
 
 import { Header } from './Header';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import { UsageProvider } from './UsageProvider';
 
 export default async function UsagePage({ params, searchParams }) {
   const type = searchParams.type as Kotidok.UsageTypeType | 'all';
@@ -55,18 +56,17 @@ export default async function UsagePage({ params, searchParams }) {
 
   return (
     <main className='w-full flex flex-col gap-4'>
-      <SelectablesProvider>
-        <Header
-          timestamps={timestamps}
-          displayYear={displayYear}
-          type={type}
-        />
-        <PageContent
-          data={data}
-          displayYear={displayYear}
-          type={type}
-        />
-      </SelectablesProvider>
+      <UsageProvider
+        propertyId={params.property_id}
+        timestamps={timestamps}
+        displayYear={displayYear}
+        type={type}
+        data={data}>
+        <SelectablesProvider>
+          <Header />
+          <PageContent />
+        </SelectablesProvider>
+      </UsageProvider>
     </main>
   );
 }
