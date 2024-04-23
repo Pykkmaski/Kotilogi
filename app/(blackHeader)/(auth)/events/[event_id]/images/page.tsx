@@ -5,5 +5,12 @@ import { ImagesGallery } from '@/components/new/Gallery/GalleryBase/ImagesGaller
 export default async function Page({ params }) {
   const images = await db('eventFiles').where({ refId: params.event_id, mimeType: 'image/jpeg' });
 
-  return <ImagesGallery tablename='eventFiles' refId={params.event_id} images={images} ImageComponent={EventImageListItem} />;
+  return (
+    <ImagesGallery
+      tablename='eventFiles'
+      refId={params.event_id}
+      files={images}
+      ImageComponent={EventImageListItem}
+    />
+  );
 }

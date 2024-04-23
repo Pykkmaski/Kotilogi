@@ -10,6 +10,7 @@ import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 import bcrypt from 'bcrypt';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
+import { users } from 'kotilogi-app/utils/users';
 
 const PATH = '/dashboard/properties';
 
@@ -27,7 +28,12 @@ export async function updateProperty(propertyId: string, newPropertyData: Kotido
   revalidatePath(PATH);
 }
 
-export async function deleteProperty(propertyId: string) {
+export async function deleteProperty(propertyId: string, password: string) {
+  const session = (await getServerSession(options as any)) as any;
+  const passwordOk = await users.verifyCredentials(session.user.email, password);
+  if (!passwordOk) {
+    throw new Error('invalid_password');
+  }
   await properties.deleteProperty(propertyId);
   revalidatePath(PATH);
 }

@@ -3,7 +3,7 @@
 import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Error/GalleryError';
 import { SearchBar } from 'kotilogi-app/components/SearchBar';
-import { AddButton, DeleteButton } from '@/components/new/Gallery/GalleryBase/Buttons';
+import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import DeleteSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal';
 import { deleteEvent } from 'kotilogi-app/actions/experimental/events';
 import AddEventModal from './AddEventModal';
@@ -11,19 +11,23 @@ import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { SearchForEventsModal } from './SearchForEventsModal';
 import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryListItem';
 import { ListItem } from '@/components/ListItem/ListItem';
+import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import { SubmitModalPrefab } from '@/components/SubmitModalPrefab';
+import { AddEventModalPrefab } from './AddEventModalPrefab';
+import {
+  CancelSelectionButton,
+  DeleteButton,
+  ListHeaderControlButtons,
+} from '@/components/Prefabs/List.prefabs';
+import { ConfirmModal } from '@/components/ConfirmModal';
+import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
+import Button from '@/components/Button/Button';
+import toast from 'react-hot-toast';
 
 /**The main content rendering component of the page. */
-export function Content({ events, propertyId, userEmail }) {
+export function EventsGallery({ events, propertyId, userEmail }) {
   return (
     <Gallery<Kotidok.EventType> data={events}>
-      <Gallery.AddModal>
-        <AddEventModal propertyId={propertyId} />
-      </Gallery.AddModal>
-
-      <Gallery.DeleteModal>
-        <DeleteSelectedItemsModal deleteMethod={item => deleteEvent(item.id)} />
-      </Gallery.DeleteModal>
-
       <Gallery.Header title='Tapahtumat'>
         <div className='flex gap-4 items-center'>
           <div className='xs:hidden lg:block'>
@@ -42,13 +46,30 @@ export function Content({ events, propertyId, userEmail }) {
             </VisibilityProvider>
           </div>
 
-          <Gallery.DeleteModalTrigger>
-            <DeleteButton />
-          </Gallery.DeleteModalTrigger>
+          <SelectablesProvider.HideIfNoneSelected>
+            <div className='animate-slideup-fast'>
+              <ListHeaderControlButtons>
+                <SelectablesProvider.ResetSelectedTrigger>
+                  <CancelSelectionButton />
+                </SelectablesProvider.ResetSelectedTrigger>
+                <VisibilityProvider>
+                  <VisibilityProvider.Trigger>
+                    <DeleteButton />
+                  </VisibilityProvider.Trigger>
 
-          <Gallery.AddModalTrigger>
-            <AddButton />
-          </Gallery.AddModalTrigger>
+                  <VisibilityProvider.Target>
+                    <Gallery.ConfirmDeleteModal
+                      title='Poista valitut tapahtumat'
+                      bodyText='Olet poistamassa seuraavia tapahtumia:'
+                      successMessage='Tapahtuma(t) poistettu!'
+                      deleteMethod={deleteEvent}
+                    />
+                  </VisibilityProvider.Target>
+                </VisibilityProvider>
+              </ListHeaderControlButtons>
+            </div>
+          </SelectablesProvider.HideIfNoneSelected>
+          <AddEventModalPrefab propertyId={propertyId} />
         </div>
       </Gallery.Header>
 
@@ -77,7 +98,16 @@ export function Content({ events, propertyId, userEmail }) {
                   <i className='fa fa-check text-green-700' />
                 )
               }
-              controlsContent={!isConsolidated ? <ListItem.CheckBox /> : null}
+              controlsContent={
+                !isConsolidated ? (
+                  <SelectablesProvider.SelectTrigger item={props.item}>
+                    <input
+                      type='checkbox'
+                      className='w-[20px] aspect-square'
+                    />
+                  </SelectablesProvider.SelectTrigger>
+                ) : null
+              }
             />
           );
         }}

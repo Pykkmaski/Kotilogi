@@ -6,7 +6,7 @@ import { VisibilityProvider } from './Util/VisibilityProvider';
 type SubmitModalPrefabProps<T> = React.PropsWithChildren & {
   trigger: JSX.Element;
   modalTitle: string;
-  submitMethod: (data: T) => Promise<void>;
+  submitMethod: (data: T, files?: FormData[]) => Promise<void>;
   submitText?: string;
   cancelText?: string;
 };
@@ -22,21 +22,26 @@ export function SubmitModalPrefab<T>({
 }: SubmitModalPrefabProps<T>) {
   const { state: visible, toggleState } = useToggle(false);
 
-  const submit = async (data: T) => {
-    await submitMethod(data).then(() => {
+  const submit = async (data: T, files?: FormData[]) => {
+    await submitMethod(data, files).then(() => {
       toggleState(false);
     });
   };
 
   return (
-    <VisibilityProvider visible={visible} toggleOverride={toggleState}>
+    <VisibilityProvider
+      visible={visible}
+      toggleOverride={toggleState}>
       <VisibilityProvider.Trigger>{trigger}</VisibilityProvider.Trigger>
       <VisibilityProvider.Target>
         <SubmitDataModalProvider submitMethod={submit}>
           <Modal.DefaultContentContainer>
             <Modal.HeaderWithTitle title={modalTitle} />
             <SubmitDataModalProvider.Form>{children}</SubmitDataModalProvider.Form>
-            <SubmitDataModalProvider.Footer submitText={submitText} cancelText={cancelText} />
+            <SubmitDataModalProvider.Footer
+              submitText={submitText}
+              cancelText={cancelText}
+            />
           </Modal.DefaultContentContainer>
         </SubmitDataModalProvider>
       </VisibilityProvider.Target>

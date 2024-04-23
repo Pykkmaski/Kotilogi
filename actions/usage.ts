@@ -78,5 +78,5 @@ export async function del(usageData: Kotidok.UsageType) {
 }
 
 export async function update(id: Kotidok.IdType, usageData: Kotidok.UsageType) {
-  return await usageTable.update(usageData, { id: usageData.id }).then(() => revalidateUsage());
+  return await usageTable.update(usageData, { id }).then(() => revalidateUsage());
 }

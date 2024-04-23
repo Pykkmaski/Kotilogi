@@ -26,7 +26,10 @@ class Events {
       );
 
       const filePromises = files?.map(file => eventFilesTable.addFile(file, eventId));
-      await Promise.all(filePromises);
+      if (filePromises) {
+        await Promise.all(filePromises);
+      }
+
       await trx.commit();
     } catch (err) {
       console.log(err.message);
@@ -44,7 +47,9 @@ class Events {
     try {
       console.log(eventId);
 
-      const [{ createdBy }] = await trx('propertyEvents').where({ id: eventId }).select('createdBy');
+      const [{ createdBy }] = await trx('propertyEvents')
+        .where({ id: eventId })
+        .select('createdBy');
       this.verifyEdit(editor, createdBy);
 
       const fileNames = (await trx('eventFiles').where({ refId: eventId }).pluck('id')) as string[];

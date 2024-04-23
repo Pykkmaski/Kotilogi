@@ -1,7 +1,7 @@
 import db from 'kotilogi-app/dbconfig';
-import { Content } from './page.components';
-import { ContentCard, RoundedBox } from '@/components/RoundedBox/RoundedBox';
 import { getServerSession } from 'next-auth';
+import { EventsList } from './EventsList';
+import { EventsGallery } from './page.components';
 
 const eventsPerPage = 10;
 
@@ -28,7 +28,11 @@ export default async function EventsPage({ params, searchParams }) {
 
   return (
     <main>
-      <Content events={events} propertyId={params.property_id} userEmail={session?.user.email} />
+      <EventsGallery
+        events={events}
+        propertyId={params.property_id}
+        userEmail={session.user.email}
+      />
     </main>
   );
 }

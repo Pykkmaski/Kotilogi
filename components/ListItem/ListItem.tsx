@@ -5,6 +5,7 @@ import style from './style.module.scss';
 import React from 'react';
 import { useGalleryContext } from '../new/Gallery/GalleryBase/Gallery';
 import { useListItemContext } from './ListItem.hooks';
+import { useSelectablesProviderContext } from '../Util/SelectablesProvider';
 
 export type ListItemProps<T extends Kotidok.ItemType> = React.PropsWithChildren & {
   item: T;
@@ -18,7 +19,10 @@ type ListItemContextProps = {
 
 export const ListItemContext = createContext<ListItemContextProps | null>(null);
 
-export function ListItemProvider<T extends Kotidok.ItemType>({ children, ...props }: ListItemProps<T>) {
+export function ListItemProvider<T extends Kotidok.ItemType>({
+  children,
+  ...props
+}: ListItemProps<T>) {
   return (
     <ListItemContext.Provider
       value={{
@@ -73,19 +77,16 @@ type CheckBoxProps = {
 };
 
 ListItem.CheckBox = function ({ checked }: CheckBoxProps) {
-  const { dispatch } = useGalleryContext();
-  const { item, selected } = useListItemContext();
+  const { selectItem, selectedItems } = useSelectablesProviderContext();
+  const { item } = useListItemContext();
+  const selected = selectedItems.includes(item);
 
+  console.log(selected);
   return (
     <input
       className='aspect-square xs:w-[1.5rem] lg:w-4'
       type='checkbox'
-      onChange={() =>
-        dispatch({
-          type: 'select_item',
-          value: item as Kotidok.ItemType,
-        })
-      }
+      onChange={() => selectItem(item)}
       checked={selected}
     />
   );

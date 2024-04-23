@@ -28,6 +28,16 @@ export function EditUsageTrigger() {
         min='0.01'
         defaultValue={item.price}
       />
+
+      <Input
+        label='Määrä'
+        description='Määrä yksiköissä'
+        name='unitAmount'
+        type='number'
+        step='0.01'
+        min='0.01'
+        defaultValue={item.unitAmount}
+      />
     </SubmitModalPrefab>
   );
 }

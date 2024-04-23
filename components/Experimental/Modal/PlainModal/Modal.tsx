@@ -60,7 +60,7 @@ Modal.Body = function ({ children }) {
 
 Modal.DefaultContentContainer = function ({ children }) {
   return (
-    <div className='flex flex-col bg-white rounded-lg overflow-hidden shadow-lg text-black'>
+    <div className='flex flex-col bg-white rounded-lg overflow-hidden shadow-lg text-black lg:w-[800px] xs:w-full xs:mx-2'>
       {children}
     </div>
   );

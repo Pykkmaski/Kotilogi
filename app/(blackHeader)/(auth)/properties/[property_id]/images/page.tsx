@@ -12,7 +12,12 @@ export default async function FilesPage({ params }) {
 
   return (
     <main>
-      <ImagesGallery tablename='propertyFiles' images={images} refId={params.property_id} ImageComponent={PropertyImageListItem} />
+      <ImagesGallery
+        tablename='propertyFiles'
+        files={images}
+        refId={params.property_id}
+        ImageComponent={PropertyImageListItem}
+      />
     </main>
   );
 }

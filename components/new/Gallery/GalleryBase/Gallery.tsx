@@ -22,6 +22,10 @@ import { default as ExperimentalModal } from '@/components/Experimental/Modal/Mo
 import { CloseButton } from '@/components/CloseButton';
 import Button from '@/components/Button/Button';
 import toast from 'react-hot-toast';
+import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import { List } from '@/components/List';
+import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 
 function Header(
   props: React.PropsWithChildren & {
@@ -30,10 +34,17 @@ function Header(
 ) {
   return (
     <div className='mb-4 w-full'>
-      <Group direction='row' justify='between' align='center'>
+      <Group
+        direction='row'
+        justify='between'
+        align='center'>
         <Heading>{props.title}</Heading>
 
-        <Group direction='row' gap={4} align='center' justify='center'>
+        <Group
+          direction='row'
+          gap={4}
+          align='center'
+          justify='center'>
           {props.children}
         </Group>
       </Group>
@@ -48,20 +59,22 @@ type BodyProps = {
 };
 
 function Body({ displayStyle = 'vertical', itemComponent: ItemComponent, ...props }: BodyProps) {
-  const { state, data } = useGalleryContext();
+  const { data } = useGalleryContext();
 
   const bodyStyle: CSSProperties = {
     display: 'flex',
-    flexFlow: displayStyle === 'vertical' ? 'column' : 'row wrap',
+    flexFlow: displayStyle === 'vertical' ? 'column' : 'row',
     gap: '0.5rem',
   };
 
   return data.length ? (
     <div style={bodyStyle}>
-      {data.map((item, index: number) => {
-        const isSelected = state.selectedItems.includes(item);
-        return <ItemComponent selected={isSelected} item={item} key={`gallery-item-${index}`} />;
-      })}
+      <List
+        data={data}
+        Component={({ item }) => {
+          return <ItemComponent item={item} />;
+        }}
+      />
     </div>
   ) : (
     props.errorElement
@@ -163,10 +176,81 @@ export function Gallery<T extends Kotidok.ItemType>(props: GalleryProps<T>) {
 
   return (
     <GalleryContext.Provider value={contextValue}>
-      <div className='relative flex flex-col flex-1 text-white z-[2] w-full'>{props.children}</div>
+      <SelectablesProvider>
+        <div className='relative flex flex-col flex-1 text-white z-[2] w-full'>
+          {props.children}
+        </div>
+      </SelectablesProvider>
     </GalleryContext.Provider>
   );
 }
+
+type ConfirmDeleteModalProps = {
+  bodyText: string;
+  title: string;
+  successMessage: string;
+  deleteMethod: (item: TODO) => Promise<void>;
+  hidden?: boolean;
+};
+Gallery.ConfirmDeleteModal = function ({
+  bodyText,
+  title,
+  successMessage,
+  deleteMethod,
+  ...props
+}: ConfirmDeleteModalProps) {
+  const [status, setStatus] = useState<'idle' | 'loading'>('idle');
+  const loading = status === 'loading';
+
+  return (
+    <Modal hidden={props.hidden}>
+      <Modal.DefaultContentContainer>
+        <Modal.HeaderWithTitle title={title} />
+        <Modal.Body>
+          {bodyText}
+          <br />
+          <br />
+          <ul className='flex flex-col'>
+            <SelectablesProvider.SelectedItems
+              Component={props => {
+                return <li>{props.item.title}</li>;
+              }}
+            />
+          </ul>
+          <br />
+          Oletko varma?
+        </Modal.Body>
+
+        <Modal.Footer>
+          <VisibilityProvider.Trigger>
+            <Button
+              variant='secondary'
+              disabled={loading}>
+              Ei
+            </Button>
+          </VisibilityProvider.Trigger>
+
+          <SelectablesProvider.ActionTrigger
+            action={async selectedItems => {
+              setStatus('loading');
+              const promises = selectedItems.map(item => deleteMethod(item.id));
+              await Promise.all(promises)
+                .then(() => toast.success(successMessage))
+                .catch(err => toast.error(err.message))
+                .finally(() => setStatus('idle'));
+            }}>
+            <Button
+              variant='primary-dashboard'
+              loading={loading}
+              disabled={loading}>
+              <span className='mx-4'>Kyllä</span>
+            </Button>
+          </SelectablesProvider.ActionTrigger>
+        </Modal.Footer>
+      </Modal.DefaultContentContainer>
+    </Modal>
+  );
+};
 
 Gallery.Header = Header;
 Gallery.Body = Body;
@@ -221,7 +305,9 @@ Gallery.DeleteSelectedItemsModal = function <T extends Kotidok.ItemType>({
 
       <ExperimentalModal.Footer>
         <ExperimentalModal.CloseTrigger>
-          <Button variant='secondary' disabled={loading}>
+          <Button
+            variant='secondary'
+            disabled={loading}>
             <span>Peruuta</span>
           </Button>
         </ExperimentalModal.CloseTrigger>

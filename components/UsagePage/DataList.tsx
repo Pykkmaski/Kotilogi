@@ -12,6 +12,7 @@ import { monthNameToLang } from 'kotilogi-app/utils/translate/planNameToLang';
 import { Icon } from './Icon';
 import { ModalRefType } from '../Experimental/Modal/Modal';
 import { EditUsageTrigger } from './EditUsageTrigger';
+import { VisibilityProvider } from '../Util/VisibilityProvider';
 
 const ListItemContext = createContext<any>(null);
 
@@ -54,9 +55,19 @@ function Item({ item }: ListItemProps) {
 
         <div className='flex gap-4 items-center'>
           <EditUsageTrigger />
-          <span className='font-semibold cursor-pointer' onClick={deleteItem}>
-            <i className='fa fa-trash' title='Poista...' />
-          </span>
+          <VisibilityProvider>
+            <VisibilityProvider.Trigger>
+              <span
+                className='font-semibold cursor-pointer'
+                onClick={deleteItem}>
+                <i
+                  className='fa fa-trash'
+                  title='Poista...'
+                />
+              </span>
+            </VisibilityProvider.Trigger>
+            <VisibilityProvider.Target></VisibilityProvider.Target>
+          </VisibilityProvider>
         </div>
       </span>
     </ListItemContext.Provider>
@@ -76,7 +87,9 @@ export function DataList({ data }: DataListProps) {
   });
 
   const Divider = ({ month, margin }) => (
-    <div className={`w-full border-b border-slate-200 mt-${margin}`} key={`divider-${month}`}>
+    <div
+      className={`w-full border-b border-slate-200 mt-${margin}`}
+      key={`divider-${month}`}>
       {month}
     </div>
   );
@@ -90,9 +103,15 @@ export function DataList({ data }: DataListProps) {
       if (currentMonthData.length) {
         elements.push(
           <>
-            <Divider month={monthNameToLang(month, 'fi')} margin={elements.length === 0 ? 0 : 4} />
+            <Divider
+              month={monthNameToLang(month, 'fi')}
+              margin={elements.length === 0 ? 0 : 4}
+            />
             {currentMonthData.map(d => (
-              <Item item={d} key={d.toString()} />
+              <Item
+                item={d}
+                key={d.toString()}
+              />
             ))}
           </>
         );

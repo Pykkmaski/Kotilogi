@@ -5,6 +5,7 @@ import { ControlsContainer, InfoContainer, TitleContainer } from './ListItem.com
 import { deleteFile as deletePropertyFile } from '@/actions/experimental/properties';
 import { deleteFile as deleteEventFile } from '@/actions/experimental/events';
 import Link from 'next/link';
+import { SelectablesProvider } from '../Util/SelectablesProvider';
 
 export type FileListItemProps = ListItemProps<Kotidok.FileType> & {
   icon: string;
@@ -15,7 +16,10 @@ export type FileListItemProps = ListItemProps<Kotidok.FileType> & {
 function FileListItem({ icon, tablename, ...props }: FileListItemProps) {
   return (
     <ListItem<Kotidok.FileType> {...props}>
-      <Link target='_blank' href={`/api/files/${props.item.id}?tableName=${tablename}`} className='flex-1 items-center flex'>
+      <Link
+        target='_blank'
+        href={`/api/files/${props.item.id}?tableName=${tablename}`}
+        className='flex-1 items-center flex'>
         <ListItem.Body>
           <ListItem.Header>
             <div className='flex gap-4 items-center'>
@@ -27,7 +31,12 @@ function FileListItem({ icon, tablename, ...props }: FileListItemProps) {
       </Link>
 
       <ListItem.Controls>
-        <ListItem.CheckBox />
+        <SelectablesProvider.SelectTrigger item={props.item}>
+          <input
+            type='checkbox'
+            className='w-[20px] aspect-square'
+          />
+        </SelectablesProvider.SelectTrigger>
       </ListItem.Controls>
     </ListItem>
   );
@@ -39,13 +48,30 @@ type PdfListItemProps = ListItemProps<Kotidok.FileType> & {
 };
 
 function PdfListItem(props: PdfListItemProps) {
-  return <FileListItem {...props} icon='/icons/copy.png' />;
+  return (
+    <FileListItem
+      {...props}
+      icon='/icons/copy.png'
+    />
+  );
 }
 
 export function PropertyFileListItem(props: ListItemProps<Kotidok.FileType>) {
-  return <PdfListItem {...props} tablename='propertyFiles' deleteMethod={() => deletePropertyFile(props.item.id)} />;
+  return (
+    <PdfListItem
+      {...props}
+      tablename='propertyFiles'
+      deleteMethod={() => deletePropertyFile(props.item.id)}
+    />
+  );
 }
 
 export function EventFileListItem(props: ListItemProps<Kotidok.FileType>) {
-  return <PdfListItem {...props} tablename='eventFiles' deleteMethod={() => deleteEventFile(props.item.id)} />;
+  return (
+    <PdfListItem
+      {...props}
+      tablename='eventFiles'
+      deleteMethod={() => deleteEventFile(props.item.id)}
+    />
+  );
 }

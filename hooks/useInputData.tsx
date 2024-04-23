@@ -18,6 +18,13 @@ export function useInputData<T extends {}>(initialData: T) {
     }));
   };
 
+  const updateDataViaProperty = (name: string, value: string | number) => {
+    setData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   /**Resets the stored data back to what was passed as the initial data. */
   const resetData = () => {
     setData(initialData);
@@ -26,6 +33,7 @@ export function useInputData<T extends {}>(initialData: T) {
   return {
     data,
     updateData,
+    updateDataViaProperty,
     resetData,
   };
 }

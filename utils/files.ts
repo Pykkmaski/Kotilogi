@@ -73,11 +73,16 @@ export class Files extends DatabaseTable {
   }
 
   async addFile(file: File, refId: string) {
-    const data = await this.upload(file);
-    await this.add({
-      ...data,
-      refId,
-    });
+    try {
+      const data = await this.upload(file);
+      await super.add({
+        ...data,
+        refId,
+      });
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
   }
 
   async deleteFile(id: string) {

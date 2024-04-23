@@ -15,20 +15,30 @@ import { SubmitModalPrefab } from '@/components/SubmitModalPrefab';
 import { Input, Select } from '@/components/Input/Input';
 import toast from 'react-hot-toast';
 import { buildingTypes } from 'kotilogi-app/constants';
+import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import {
+  CancelSelectionButton,
+  DeleteButton,
+  ListHeaderControlButtons,
+} from '@/components/Prefabs/List.prefabs';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { DeletePropertiesModalTrigger } from './DeletePropertiesModal';
 
-function PropertiesGallery({ propertyData, user }) {
+export function PropertiesGallery({ properties }) {
   return (
-    <Gallery<Kotidok.PropertyType> data={propertyData}>
-      <Gallery.AddModal>
-        <AddPropertyModal owner={user.email} />
-      </Gallery.AddModal>
-
-      <Gallery.DeleteModal>
-        <DeactivateSelectedItemsModal deactivationMethod={deactivateProperty} />
-      </Gallery.DeleteModal>
-
+    <Gallery<Kotidok.PropertyType> data={properties}>
       <Gallery.Header title='Talot'>
         <div className='flex gap-4 items-center'>
+          <SelectablesProvider.HideIfNoneSelected>
+            <div className='animate-slideup-fast'>
+              <ListHeaderControlButtons>
+                <SelectablesProvider.ResetSelectedTrigger>
+                  <CancelSelectionButton />
+                </SelectablesProvider.ResetSelectedTrigger>
+                <DeletePropertiesModalTrigger />
+              </ListHeaderControlButtons>
+            </div>
+          </SelectablesProvider.HideIfNoneSelected>
           <SubmitModalPrefab
             trigger={<AddButton />}
             modalTitle='Lisää Talo'
@@ -82,7 +92,9 @@ function PropertiesGallery({ propertyData, user }) {
               required
               defaultValue={'Muu'}>
               {buildingTypes.map(type => (
-                <Select.Option key={type} selected={type === 'Muu'}>
+                <Select.Option
+                  key={type}
+                  selected={type === 'Muu'}>
                   {type}
                 </Select.Option>
               ))}
@@ -99,7 +111,12 @@ function PropertiesGallery({ propertyData, user }) {
 
           return (
             <>
-              {!isActive ? <ActivatePropertyModal property={props.item} ref={activateRef} /> : null}
+              {!isActive ? (
+                <ActivatePropertyModal
+                  property={props.item}
+                  ref={activateRef}
+                />
+              ) : null}
               <GalleryListItem
                 {...props}
                 title={props.item.title}
@@ -109,14 +126,25 @@ function PropertiesGallery({ propertyData, user }) {
                 href={isActive ? `/properties/${props.item.id}/events` : ''}
                 secondaryHeaderContent={
                   isActive ? (
-                    <i className='fa fa-check text-green-700' title='Talo on käytössä.' />
+                    <i
+                      className='fa fa-check text-green-700'
+                      title='Talo on käytössä.'
+                    />
                   ) : (
-                    <i className='fa fa-ban text-red-700' title='Talo on poistettu käytöstä.' />
+                    <i
+                      className='fa fa-ban text-red-700'
+                      title='Talo on poistettu käytöstä.'
+                    />
                   )
                 }
                 controlsContent={
                   isActive ? (
-                    <ListItem.CheckBox />
+                    <SelectablesProvider.SelectTrigger item={props.item}>
+                      <input
+                        type='checkbox'
+                        className='w-[20px] aspect-square'
+                      />
+                    </SelectablesProvider.SelectTrigger>
                   ) : (
                     <span
                       className='text-orange-500 cursor-pointer'
@@ -150,7 +178,7 @@ export function Content({
 }) {
   return (
     <main className='mb-4 flex-1 h-full'>
-      <PropertiesGallery propertyData={propertyData} user={user} />
+      <PropertiesGallery properties={propertyData} />
     </main>
   );
 }

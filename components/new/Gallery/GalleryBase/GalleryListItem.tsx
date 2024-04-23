@@ -1,7 +1,5 @@
 import { ListItem, ListItemProps } from '@/components/ListItem/ListItem';
-import { ControlsContainer } from '@/components/ListItem/ListItem.components';
 import Link from 'next/link';
-import { useRef } from 'react';
 
 type GalleryListItemProps<T extends Kotidok.ItemType> = ListItemProps<T> & {
   title: string;
@@ -30,7 +28,7 @@ export function GalleryListItem<T extends Kotidok.ItemType>({
   return (
     <ListItem {...props}>
       <ListItem.Body>
-        <Link href={href} className='flex-1 w-full cursor-pointer no-underline'>
+        <Link href={href} className='flex-1 w-full cursor-pointer hover:no-underline'>
           <ListItem.Header>
             <div className='flex items-center gap-2'>
               <i className={`${faIcon} text-black`} />

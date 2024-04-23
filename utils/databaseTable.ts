@@ -22,8 +22,13 @@ export class DatabaseTable {
     return this.dbcon(this.tablename).where(query);
   }
 
-  add<T>(data: T, returns?: string | string[]) {
-    return this.dbcon(this.tablename).insert(data, returns);
+  async add<T>(data: T, returns?: string | string[]) {
+    try {
+      return this.dbcon(this.tablename).insert(data, returns);
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
   }
 
   update<T>(data: T, query: TODO, returns?: string | string[]) {

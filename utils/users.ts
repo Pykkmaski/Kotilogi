@@ -6,10 +6,17 @@ import { RegisterStatusType } from 'kotilogi-app/app/(blackHeader)/register/useR
 import { sendAccountActivationLink } from 'kotilogi-app/actions/email';
 
 class Users {
+  async verifyCredentials(email: string, password: string) {
+    const [{ password: encryptedPassword }] = await db('users').where({ email }).select('password');
+    return await bcrypt.compare(password, encryptedPassword);
+  }
+
   async updatePassword(email: string, oldPassword: string, newPassword: string) {
     const usersTable = new DatabaseTable('users');
 
-    const [{ password: encryptedPassword }] = await usersTable.select('password', { email: oldPassword });
+    const [{ password: encryptedPassword }] = await usersTable.select('password', {
+      email: oldPassword,
+    });
     try {
       await bcrypt.compare(oldPassword, encryptedPassword).then(ok => {
         if (!ok) {
@@ -72,7 +79,9 @@ class Users {
 
   /**Returns the number of properties a user has. */
   async getPropertyCount(email: string) {
-    const [{ count }] = (await db('properties').where({ refId: email }).count('*', { as: 'count' })) as [{ count: number }];
+    const [{ count }] = (await db('properties')
+      .where({ refId: email })
+      .count('*', { as: 'count' })) as [{ count: number }];
     console.log(count);
     return count;
   }
