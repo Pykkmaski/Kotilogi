@@ -46,7 +46,8 @@
     "jest.setup.js",
     "jest.config.js",
     "utils/__tests__/properties.test.js",
-    "components/new/Gallery/GalleryBase/Components/Error/GalleryError.test.jsx"
+    "components/new/Gallery/GalleryBase/Components/Error/GalleryError.test.jsx",
+    "components/Util/HighlightingNavbar.Providertsx"
   ],
   "exclude": ["node_modules"],
   "types": ["@testing-library/jest-dom"]

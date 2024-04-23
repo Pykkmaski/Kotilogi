@@ -6,8 +6,11 @@ import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { useQuery } from 'kotilogi-app/hooks/useQuery';
 import { useEffect, useRef } from 'react';
+import { useUsageProviderContext } from './UsageProvider';
 
-export function MobileUsageFilterModal({ initialYear, type, timestamps, ...props }) {
+export function MobileUsageFilterModal({ ...props }) {
+  const { type, timestamps, displayYear: initialYear } = useUsageProviderContext();
+
   const { updateQueryDirectly: updateYearQuery } = useQuery('year', initialYear, 0);
   const { updateQueryDirectly: updateTypeQuery } = useQuery('type', type, 0);
 
@@ -56,17 +59,25 @@ export function MobileUsageFilterModal({ initialYear, type, timestamps, ...props
 
         <Modal.Body>
           <div className='flex flex-col gap-2'>
-            <select className='w-full' ref={yearSelectorRef}>
+            <select
+              className='w-full'
+              ref={yearSelectorRef}>
               {years.map(year => (
-                <option key={year} value={year}>
+                <option
+                  key={year}
+                  value={year}>
                   {year}
                 </option>
               ))}
             </select>
 
-            <select className='w-full' ref={typeSelectorRef}>
+            <select
+              className='w-full'
+              ref={typeSelectorRef}>
               {types.map(type => (
-                <option key={type.value} value={type.value}>
+                <option
+                  key={type.value}
+                  value={type.value}>
                   {type.text}
                 </option>
               ))}

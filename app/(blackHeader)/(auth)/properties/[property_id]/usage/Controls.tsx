@@ -39,11 +39,7 @@ export function Controls() {
         </VisibilityProvider.Trigger>
 
         <VisibilityProvider.Target>
-          <MobileUsageFilterModal
-            type={type}
-            initialYear={currentYear}
-            timestamps={timestamps}
-          />
+          <MobileUsageFilterModal />
         </VisibilityProvider.Target>
       </VisibilityProvider>
 

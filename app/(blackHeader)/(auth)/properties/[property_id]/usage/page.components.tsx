@@ -19,12 +19,6 @@ function DataRing({ data, year }) {
   );
 }
 
-type PageContentProps = {
-  data: Kotidok.UsageType[];
-  displayYear: string;
-  type: Kotidok.UsageTypeType | 'all';
-};
-
 export function PageContent() {
   const { data, displayYear, type } = useUsageProviderContext();
 

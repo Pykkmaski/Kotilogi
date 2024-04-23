@@ -3,26 +3,17 @@
 import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
 import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Error/GalleryError';
 import { SearchBar } from 'kotilogi-app/components/SearchBar';
-import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
-import DeleteSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeleteSelectedItemsModal';
 import { deleteEvent } from 'kotilogi-app/actions/experimental/events';
-import AddEventModal from './AddEventModal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { SearchForEventsModal } from './SearchForEventsModal';
 import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryListItem';
-import { ListItem } from '@/components/ListItem/ListItem';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
-import { SubmitModalPrefab } from '@/components/SubmitModalPrefab';
 import { AddEventModalPrefab } from './AddEventModalPrefab';
 import {
   CancelSelectionButton,
   DeleteButton,
   ListHeaderControlButtons,
 } from '@/components/Prefabs/List.prefabs';
-import { ConfirmModal } from '@/components/ConfirmModal';
-import { Modal } from '@/components/Experimental/Modal/PlainModal/Modal';
-import Button from '@/components/Button/Button';
-import toast from 'react-hot-toast';
 
 /**The main content rendering component of the page. */
 export function EventsGallery({ events, propertyId, userEmail }) {

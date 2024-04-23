@@ -1,6 +1,5 @@
 import db from 'kotilogi-app/dbconfig';
 import { getServerSession } from 'next-auth';
-import { EventsList } from './EventsList';
 import { EventsGallery } from './page.components';
 
 const eventsPerPage = 10;
