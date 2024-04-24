@@ -13,14 +13,20 @@ import { LineButton } from '../LineButton';
 function Logo2() {
   return (
     <Link href='/'>
-      <img src='/logo_text.png' className='aspect-auto xl:w-[120px] xs:w-[130px]' />
+      <img
+        src='/logo_text.png'
+        className='aspect-auto xs:w-[100px] lg:w-[130px]'
+      />
     </Link>
   );
 }
 
 export function Logo() {
   return (
-    <div className='z-40' id='app-logo' title='Etusivulle'>
+    <div
+      className='z-40'
+      id='app-logo'
+      title='Etusivulle'>
       <Link
         href='/'
         id='app-logo-link'
@@ -50,12 +56,16 @@ export default function Header({ variant = 'black' }: HeaderProps) {
       return (
         <>
           <div className='xl:flex gap-4 text-white items-center xs:hidden'>
-            <Link href='/' className='xs:hidden'>
+            <Link
+              href='/'
+              className='xs:hidden'>
               Etusivu
             </Link>
             <Link href='/dashboard/properties'>Oma Sivu</Link>
             <div className='h-4 border-l border-gray-100 mx-4 xs:hidden xl:block'></div>
-            <Link href='/logout' className='font-semibold'>
+            <Link
+              href='/logout'
+              className='font-semibold'>
               Kirjaudu Ulos
             </Link>
           </div>
@@ -82,18 +92,26 @@ export default function Header({ variant = 'black' }: HeaderProps) {
       return (
         <>
           <nav className='text-white xs:text-base xl:flex gap-4 items-center xs:hidden font-semibold z-70'>
-            <Link href='/about' className={linkClassName}>
+            <Link
+              href='/about'
+              className={linkClassName}>
               Tietoa Meistä
             </Link>
-            <Link href='/tos' className={linkClassName}>
+            <Link
+              href='/tos'
+              className={linkClassName}>
               Käyttöehdot
             </Link>
             <div className='h-4 border-l border-gray-100 mx-4 xs:hidden xl:block'></div>
-            <Link href='/register' className={linkClassName}>
+            <Link
+              href='/register'
+              className={linkClassName}>
               Rekisteröidy
             </Link>
 
-            <Link href='/login' className='ml-8'>
+            <Link
+              href='/login'
+              className='ml-8'>
               <Button variant='tertiary'>
                 <span className='mx-8 text-black'>Kirjaudu Sisään</span>
               </Button>
@@ -129,10 +147,15 @@ export default function Header({ variant = 'black' }: HeaderProps) {
   ];
 
   return (
-    <header className={className.join(' ')} id='main-header'>
+    <header
+      className={className.join(' ')}
+      id='main-header'>
       <div className='w-full '>
         <Padding>
-          <Group direction='row' justify='between' align='center'>
+          <Group
+            direction='row'
+            justify='between'
+            align='center'>
             <Logo2 />
             {getNavContent()}
           </Group>
