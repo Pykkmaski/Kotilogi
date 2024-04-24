@@ -1,11 +1,9 @@
 import db from 'kotilogi-app/dbconfig';
 import { PageContent } from './page.components';
-import * as usage from '@/actions/usage';
 
 import { Header } from './Header';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { UsageProvider } from './UsageProvider';
-import { Knex } from 'knex';
 
 function getUsageData(query: any, year?: string) {
   if (!year || year === 'all') {

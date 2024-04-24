@@ -21,12 +21,7 @@ export function VisibilityProvider({
   toggleOverride,
   ...props
 }: VisibilityProviderProps) {
-  const { state: visible, toggleState: toggle } = useToggle(
-    props.visible !== undefined ? props.visible : false
-  );
-
-  const overrideVisible = props.visible;
-
+  const { state: visible, toggleState: toggle } = useToggle(false);
   const toggleState = (state?: boolean) => {
     if (toggleOverride) {
       toggleOverride(state);
@@ -35,17 +30,9 @@ export function VisibilityProvider({
     }
   };
 
-  useEffect(() => {
-    /*
-    if (props.visible !== undefined) {
-      toggle(props.visible);
-    }
-    */
-  }, [props.visible]);
-
   return (
     <VisibilityProviderContext.Provider
-      value={{ visible: overrideVisible !== undefined ? overrideVisible : visible, toggleState }}>
+      value={{ visible: props.visible !== undefined ? props.visible : visible, toggleState }}>
       {children}
     </VisibilityProviderContext.Provider>
   );
