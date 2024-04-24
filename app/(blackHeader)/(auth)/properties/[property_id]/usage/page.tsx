@@ -57,7 +57,6 @@ export default async function UsagePage({ params, searchParams }) {
 
   //Display data for the first year in the timestamps array by default.
   const displayYear = year || (timestamps.length ? timestamps[0] : new Date().getFullYear());
-  console.log(displayYear);
   return (
     <main className='w-full flex flex-col gap-4'>
       <UsageProvider
