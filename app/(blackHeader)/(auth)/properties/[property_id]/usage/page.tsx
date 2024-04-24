@@ -56,7 +56,7 @@ export default async function UsagePage({ params, searchParams }) {
   if (!data) throw new Error('Kulutustietojen lataus epäonnistui!');
 
   //Display data for the first year in the timestamps array by default.
-  const displayYear = timestamps.length ? timestamps[0] : new Date().getFullYear();
+  const displayYear = year || (timestamps.length ? timestamps[0] : new Date().getFullYear());
 
   return (
     <main className='w-full flex flex-col gap-4'>

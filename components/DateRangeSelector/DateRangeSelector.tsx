@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from 'kotilogi-app/hooks/useQuery';
+import { useEffect } from 'react';
 
 type DateRangeSelectorProps = {
   timestamps: number[];
@@ -8,13 +9,11 @@ type DateRangeSelectorProps = {
 };
 
 export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelectorProps) {
-  const { updateQuery, currentQuery } = useQuery('year', currentYear.toString());
+  const { updateQuery, updateQueryDirectly } = useQuery('year', currentYear.toString());
 
   const getOptions = () => {
     const opts: JSX.Element[] = [];
-
     for (const stamp of timestamps) {
-      console.log(currentYear);
       const selected = stamp === parseInt(currentYear);
       opts.push(
         <option
@@ -28,12 +27,16 @@ export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelector
     return opts;
   };
 
+  useEffect(() => {
+    updateQueryDirectly(currentYear);
+  }, [currentYear]);
+
   return (
     <select
       name='year'
       onChange={e => updateQuery(e)}
       className='w-[100px]'
-      defaultValue={parseInt(currentQuery)}>
+      defaultValue={parseInt(currentYear)}>
       {getOptions()}
     </select>
   );

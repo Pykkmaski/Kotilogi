@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react';
  * @param queryParamName
  * @returns The onChange function to be used by the input performing the query.
  */
-export function useQuery(queryParamName: string, initialQueryValue: string | null, queryDelay: number = 0) {
+export function useQuery(
+  queryParamName: string,
+  initialQueryValue: string | null,
+  queryDelay: number = 0
+) {
   const router = useRouter();
   const route = usePathname();
   const searchParams = useSearchParams();
@@ -17,6 +21,7 @@ export function useQuery(queryParamName: string, initialQueryValue: string | nul
     setQuery(e.target.value);
   };
 
+  /**Instead of taking the query value from an event, updates it with a direct value. */
   const updateQueryDirectly = (newQuery: string) => {
     setQuery(newQuery);
   };

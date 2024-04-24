@@ -4,9 +4,13 @@ import { add as addUsage } from '@/actions/usage';
 import toast from 'react-hot-toast';
 import { Input, Select } from '@/components/Input/Input';
 import { useUsageProviderContext } from './UsageProvider';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export function AddUsageModalTrigger() {
   const { propertyId, type } = useUsageProviderContext();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   return (
     <SubmitModalPrefab
@@ -14,13 +18,17 @@ export function AddUsageModalTrigger() {
       modalTitle='Lisää kulutustieto'
       submitMethod={async (data: Kotidok.UsageType, files?) => {
         /**Make sure the submit data modal correctly sets default values for select elements! Otherwise this doesn't work */
-        console.log(data.type);
         await addUsage({
           ...data,
           type: data.type || (type !== 'all' ? type : 'heat'),
           refId: propertyId,
         })
-          .then(() => toast.success('Tieto lisätty!'))
+          .then(() => {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.set('year', data.time.split('-')[0]);
+            router.push(`${pathname}?${newSearchParams.toString()}`);
+            toast.success('Tieto lisätty!');
+          })
           .catch(err => {
             console.log(err.message);
             toast.error(err.message);
