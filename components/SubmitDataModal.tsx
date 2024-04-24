@@ -2,11 +2,10 @@
 
 import { Modal } from './Experimental/Modal/PlainModal/Modal';
 import { VisibilityProvider } from './Util/VisibilityProvider';
-import { MutableRefObject, createContext, useContext, useEffect, useId, useRef } from 'react';
+import { MutableRefObject, createContext, useEffect, useId, useRef } from 'react';
 import Button from './Button/Button';
 import { useSubmitData } from 'hooks/useSubmitData';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import { useInputFiles } from 'kotilogi-app/hooks/useInputFiles';
 import React from 'react';
 
 const SubmitDataModalProviderContext = createContext<{

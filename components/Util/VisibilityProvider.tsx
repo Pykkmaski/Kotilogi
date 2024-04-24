@@ -1,7 +1,7 @@
 'use client';
 
 import { useToggle } from 'hooks/useToggle';
-import React, { forwardRef, useContext, useEffect, useImperativeHandle, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createContext } from 'react';
 
 type VisibilityProviderContextProps = {
@@ -21,9 +21,11 @@ export function VisibilityProvider({
   toggleOverride,
   ...props
 }: VisibilityProviderProps) {
-  const { state: visible, toggleState: toggle } = useToggle(() => {
-    return props.visible !== undefined ? props.visible : false;
-  });
+  const { state: visible, toggleState: toggle } = useToggle(
+    props.visible !== undefined ? props.visible : false
+  );
+
+  const overrideVisible = props.visible;
 
   const toggleState = (state?: boolean) => {
     if (toggleOverride) {
@@ -34,13 +36,16 @@ export function VisibilityProvider({
   };
 
   useEffect(() => {
+    /*
     if (props.visible !== undefined) {
       toggle(props.visible);
     }
+    */
   }, [props.visible]);
 
   return (
-    <VisibilityProviderContext.Provider value={{ visible, toggleState }}>
+    <VisibilityProviderContext.Provider
+      value={{ visible: overrideVisible !== undefined ? overrideVisible : visible, toggleState }}>
       {children}
     </VisibilityProviderContext.Provider>
   );

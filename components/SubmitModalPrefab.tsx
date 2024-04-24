@@ -1,7 +1,10 @@
+'use client';
+
 import { useToggle } from 'kotilogi-app/hooks/useToggle';
 import { Modal } from './Experimental/Modal/PlainModal/Modal';
 import { SubmitDataModalProvider } from './SubmitDataModal';
 import { VisibilityProvider } from './Util/VisibilityProvider';
+import { useEffect } from 'react';
 
 type SubmitModalPrefabProps<T> = React.PropsWithChildren & {
   trigger: JSX.Element;

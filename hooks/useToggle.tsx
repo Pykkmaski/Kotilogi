@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function useToggle(initialState: boolean | (() => boolean)) {
   const [state, setState] = useState(initialState);

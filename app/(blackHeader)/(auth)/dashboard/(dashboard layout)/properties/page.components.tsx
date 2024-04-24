@@ -45,8 +45,7 @@ export function PropertiesGallery({ properties }) {
             modalTitle='Lisää Talo'
             submitText='Lähetä'
             submitMethod={async (data: Kotidok.PropertyType) => {
-              console.log(data);
-              addProperty(data)
+              await addProperty(data)
                 .then(() => toast.success('Talon lsäys onnistui!'))
                 .catch(err => toast.error(err.message));
             }}>
