@@ -22,7 +22,7 @@ export function Controls() {
 
   return (
     <div className='flex xs:gap-8 lg:gap-4 items-center'>
-      <div className='flex gap-2 items-center xs:hidden lg:block'>
+      <div className='flex gap-3 items-center xs:hidden lg:block'>
         <span className='text-slate-500'>Suodata:</span>
         <DateRangeSelector
           timestamps={timestamps}

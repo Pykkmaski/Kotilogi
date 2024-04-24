@@ -10,23 +10,23 @@ type DateRangeSelectorProps = {
 export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelectorProps) {
   const { updateQuery, currentQuery } = useQuery('year', currentYear.toString());
 
-  const years: number[] = [];
+  const yearsSet = new Set<number>();
   for (const stamp of timestamps) {
     const year = new Date(stamp.time).getFullYear();
-    if (!years.includes(year)) {
-      years.push(year);
-    }
+    yearsSet.add(year);
   }
 
-  years.sort((a, b) => a - b);
+  const years = Array.from(yearsSet).sort((a, b) => a - b);
 
   const getOptions = () => {
     const opts: JSX.Element[] = [];
 
-    for (let i = years.length - 1; i >= 0; --i) {
+    for (let i = years.length - 1; i > 0; --i) {
       const selected = years[i] === parseInt(currentYear);
       opts.push(
-        <option value={years[i]} selected={selected}>
+        <option
+          value={years[i]}
+          selected={selected}>
           {years[i]}
         </option>
       );

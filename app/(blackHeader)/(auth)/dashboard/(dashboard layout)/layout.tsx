@@ -7,7 +7,6 @@ import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { DashboardContextProvider } from './DashboardContextProvider';
 import { Group } from 'kotilogi-app/components/Group';
 import { DashboardMobileNav } from './DashboardMobileNav';
-import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 import MobileDashboardLayout from './_mobile/MobileDashboardLayout';
 
 export default async function DashboardLayout({ children }) {

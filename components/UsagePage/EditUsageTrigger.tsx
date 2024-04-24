@@ -11,7 +11,12 @@ export function EditUsageTrigger() {
 
   return (
     <SubmitModalPrefab<Kotidok.UsageType>
-      trigger={<i className='fa fa-pencil text-slate-500 cursor-pointer' />}
+      trigger={
+        <i
+          className='fa fa-pencil text-slate-500 cursor-pointer'
+          title='Muokkaa...'
+        />
+      }
       modalTitle='Muokkaa tietoa'
       submitText='Hyväksy'
       submitMethod={async data => {

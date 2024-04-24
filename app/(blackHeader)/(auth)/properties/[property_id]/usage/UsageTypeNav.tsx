@@ -2,7 +2,7 @@ import { TypeNav } from '@/components/UsagePage/TypeNav';
 import { useUsageProviderContext } from './UsageProvider';
 import Link from 'next/link';
 
-export function UsageTypeNav() {
+export function UsageTypeSelector() {
   const { displayYear } = useUsageProviderContext();
 
   return (

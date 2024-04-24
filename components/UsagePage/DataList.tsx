@@ -22,9 +22,6 @@ type ListItemProps = {
 };
 
 function Item({ item }: ListItemProps) {
-  //const [showEditModal, setShowEditModal] = useState(false);
-  const editModalRef = useRef<ModalRefType>(null);
-
   const deleteItem = () => {
     const c = confirm('Olet poistamassa tietoa. Oletko varma?');
     if (!c) return;
