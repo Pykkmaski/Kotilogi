@@ -1,5 +1,4 @@
 import db from 'kotilogi-app/dbconfig';
-import { Content } from './page.components';
 import { FilesGallery } from '@/components/new/Gallery/GalleryBase/FilesGallery';
 import { EventFileListItem } from '@/components/ListItem/FileListItem';
 

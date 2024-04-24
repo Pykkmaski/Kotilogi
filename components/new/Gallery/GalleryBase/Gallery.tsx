@@ -205,7 +205,10 @@ Gallery.ConfirmDeleteModal = function ({
   return (
     <Modal hidden={props.hidden}>
       <Modal.DefaultContentContainer>
-        <Modal.HeaderWithTitle title={title} />
+        <Modal.HeaderWithTitle
+          title={title}
+          icon='fa-trash'
+        />
         <Modal.Body>
           {bodyText}
           <br />

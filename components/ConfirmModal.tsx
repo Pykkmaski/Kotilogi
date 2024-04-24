@@ -6,12 +6,16 @@ type ConfirmModalProps = React.PropsWithChildren & {
   title: string;
   onConfirm: () => Promise<void> | void;
   hidden?: boolean;
+  icon: string;
 };
 
-export function ConfirmModal({ children, title, hidden, onConfirm }: ConfirmModalProps) {
+export function ConfirmModal({ children, title, icon, hidden, onConfirm }: ConfirmModalProps) {
   return (
     <Modal hidden={hidden}>
-      <Modal.HeaderWithTitle title={title} />
+      <Modal.HeaderWithTitle
+        title={title}
+        icon={icon}
+      />
       <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
         <VisibilityProvider.Trigger>
