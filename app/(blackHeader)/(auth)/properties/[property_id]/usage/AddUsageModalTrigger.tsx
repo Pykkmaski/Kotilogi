@@ -14,6 +14,7 @@ export function AddUsageModalTrigger() {
 
   return (
     <SubmitModalPrefab
+      icon={type === 'heat' ? 'fa-fire' : type === 'water' ? 'fa-tint' : 'fa-bolt'}
       trigger={<AddButton />}
       modalTitle='Lisää kulutustieto'
       submitMethod={async (data: Kotidok.UsageType, files?) => {

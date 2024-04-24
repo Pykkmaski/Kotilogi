@@ -8,6 +8,7 @@ export function AddEventModalPrefab({ propertyId }) {
   return (
     <SubmitModalPrefab
       trigger={<AddButton />}
+      icon='fa-history'
       modalTitle='Lisää Tapahtuma'
       submitText='Lähetä'
       submitMethod={async (data: Kotidok.EventType) => {

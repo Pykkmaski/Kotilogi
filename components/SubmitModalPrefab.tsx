@@ -9,6 +9,7 @@ type SubmitModalPrefabProps<T> = React.PropsWithChildren & {
   submitMethod: (data: T, files?: FormData[]) => Promise<void>;
   submitText?: string;
   cancelText?: string;
+  icon: string;
 };
 
 /**Renders a trigger, that when pressed, reveals a SubmitDataModal, containing the passed children in its form. */
@@ -18,6 +19,7 @@ export function SubmitModalPrefab<T>({
   modalTitle,
   cancelText = 'Peruuta',
   submitText = 'Lähetä',
+  icon,
   submitMethod,
 }: SubmitModalPrefabProps<T>) {
   const { state: visible, toggleState } = useToggle(false);
@@ -36,7 +38,10 @@ export function SubmitModalPrefab<T>({
       <VisibilityProvider.Target>
         <SubmitDataModalProvider submitMethod={submit}>
           <Modal.DefaultContentContainer>
-            <Modal.HeaderWithTitle title={modalTitle} />
+            <Modal.HeaderWithTitle
+              title={modalTitle}
+              icon={icon}
+            />
             <SubmitDataModalProvider.Form>{children}</SubmitDataModalProvider.Form>
             <SubmitDataModalProvider.Footer
               submitText={submitText}

@@ -11,6 +11,7 @@ export function EditUsageTrigger() {
 
   return (
     <SubmitModalPrefab<Kotidok.UsageType>
+      icon={item.type === 'heat' ? 'fa-fire' : item.type === 'water' ? 'fa-tint' : 'fa-bolt'}
       trigger={
         <i
           className='fa fa-pencil text-slate-500 cursor-pointer'

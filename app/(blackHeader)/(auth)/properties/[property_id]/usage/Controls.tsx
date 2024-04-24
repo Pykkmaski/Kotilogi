@@ -22,8 +22,7 @@ export function Controls() {
 
   return (
     <div className='flex xs:gap-8 lg:gap-4 items-center'>
-      <div className='flex gap-3 items-center xs:hidden lg:block'>
-        <span className='text-slate-500'>Suodata:</span>
+      <div className='flex gap-4 items-center xs:hidden lg:block'>
         <DateRangeSelector
           timestamps={timestamps}
           currentYear={currentYear}
@@ -58,7 +57,10 @@ export function Controls() {
               <VisibilityProvider.Target>
                 <Modal>
                   <Modal.DefaultContentContainer>
-                    <Modal.HeaderWithTitle title='Poista valitut tiedot' />
+                    <Modal.HeaderWithTitle
+                      title='Poista valitut tiedot'
+                      icon='fa-trash'
+                    />
                     <Modal.Body>Haluatko varmasti poistaa valitsemasi tiedot?</Modal.Body>
                     <Modal.Footer>
                       <VisibilityProvider.Trigger>

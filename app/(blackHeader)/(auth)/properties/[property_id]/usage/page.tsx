@@ -24,17 +24,6 @@ export default async function UsagePage({ params, searchParams }) {
   const type = searchParams.type as Kotidok.UsageTypeType | 'all';
   const year = searchParams.year as string | undefined;
 
-  //The query to use when fetching the usage data.
-  var query =
-    type === 'all'
-      ? {
-          refId: params.property_id,
-        }
-      : {
-          refId: params.property_id,
-          type,
-        };
-
   //Get the data for the selected year, and the timestamps for all data, to render the year selector.
   const timestampStream = await db('usage')
     .where({ refId: params.property_id })
@@ -48,16 +37,27 @@ export default async function UsagePage({ params, searchParams }) {
   }
   const timestamps = Array.from(timestampsSet);
 
+  //The query to use when fetching the usage data.
+  var query =
+    type === 'all'
+      ? {
+          refId: params.property_id,
+        }
+      : {
+          refId: params.property_id,
+          type,
+        };
+
   const data = await getUsageData(
     query,
     year || (timestamps.length ? timestamps[0].toString() : new Date().getFullYear().toString())
   );
 
-  if (!data) throw new Error('Kulutustietojen lataus epäonnistui!');
+  if (!data) throw new Error('Kulutustietojen lataus epäonnistui! Kokeile päivittää sivu.');
 
   //Display data for the first year in the timestamps array by default.
   const displayYear = year || (timestamps.length ? timestamps[0] : new Date().getFullYear());
-
+  console.log(displayYear);
   return (
     <main className='w-full flex flex-col gap-4'>
       <UsageProvider

@@ -35,10 +35,14 @@ Modal.Header = function ({ children }) {
   );
 };
 
-Modal.HeaderWithTitle = function ({ title }) {
+Modal.HeaderWithTitle = function ({ title, icon }) {
   return (
     <Modal.Header>
-      <h1 className='text-lg text-slate-500'>{title}</h1>
+      <div className='flex items-center gap-2 text-lg text-slate-500'>
+        <i className={`fa ${icon}`} />
+        <h1 className='text-lg text-slate-500'>{title}</h1>
+      </div>
+
       <VisibilityProvider.Trigger>
         <CloseButton />
       </VisibilityProvider.Trigger>
