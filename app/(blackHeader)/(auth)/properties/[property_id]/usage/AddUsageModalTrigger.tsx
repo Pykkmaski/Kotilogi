@@ -15,6 +15,7 @@ export function AddUsageModalTrigger() {
       submitMethod={async (data: Kotidok.UsageType, files?) => {
         await addUsage({
           ...data,
+          type: type !== 'all' ? type : data.type,
           refId: propertyId,
         })
           .then(() => toast.success('Tieto lisätty!'))

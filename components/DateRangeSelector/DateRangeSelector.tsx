@@ -21,7 +21,7 @@ export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelector
   const getOptions = () => {
     const opts: JSX.Element[] = [];
 
-    for (let i = years.length - 1; i > 0; --i) {
+    for (let i = years.length - 1; i >= 0; --i) {
       const selected = years[i] === parseInt(currentYear);
       opts.push(
         <option
