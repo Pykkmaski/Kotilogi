@@ -13,19 +13,25 @@ export function AddUsageModalTrigger() {
       trigger={<AddButton />}
       modalTitle='Lisää kulutustieto'
       submitMethod={async (data: Kotidok.UsageType, files?) => {
+        /**Make sure the submit data modal correctly sets default values for select elements! Otherwise this doesn't work */
+        console.log(data.type);
         await addUsage({
           ...data,
-          type: type !== 'all' ? type : data.type,
+          type: data.type || (type !== 'all' ? type : 'heat'),
           refId: propertyId,
         })
           .then(() => toast.success('Tieto lisätty!'))
-          .catch(err => toast.error(err.message));
+          .catch(err => {
+            console.log(err.message);
+            toast.error(err.message);
+          });
       }}>
       {type === 'all' ? (
         <Select
           label='Tyyppi'
           description='Kulutustiedon tyyppi.'
           name='type'
+          defaultValue={'heat'}
           required={true}>
           <option
             value='heat'

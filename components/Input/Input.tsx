@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Group } from '../Group';
 import { MediumDevices, SmallDevices } from '../Util/Media';
 
-const containerClassName = 'md:grid md:grid-cols-inputComponentColumns xs:flex xs:flex-col xs:gap-1 w-full md:min-h-[2rem] md:gap-1';
-const inputClassName = 'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE] w-full';
+const containerClassName =
+  'md:grid md:grid-cols-inputComponentColumns xs:flex xs:flex-col xs:gap-1 w-full md:min-h-[2rem] md:gap-1';
+const inputClassName =
+  'flex-1 px-[0.5rem] rounded-[10px] w-full border bg-white border-[#DDD] disabled:bg-[#EEE] w-full';
 
 function Label(props: { text: string; description?: string; required?: boolean }) {
   const getRequiredBadge = () => {
@@ -25,7 +27,9 @@ function Label(props: { text: string; description?: string; required?: boolean }
   };
 
   return (
-    <Group direction='col' justify='center'>
+    <Group
+      direction='col'
+      justify='center'>
       <span className='text-[1.1rem] text-black'>
         {props.text} {getRequiredBadge()}
       </span>
@@ -52,7 +56,11 @@ export function Input({ label, description, ...props }: InputProps) {
   return (
     <div className={containerClassName}>
       <MediumDevices>
-        <Label text={label} required={props.required} description={description} />
+        <Label
+          text={label}
+          required={props.required}
+          description={description}
+        />
       </MediumDevices>
 
       <SmallDevices>
@@ -62,7 +70,11 @@ export function Input({ label, description, ...props }: InputProps) {
         </MobileLabel>
       </SmallDevices>
 
-      <input {...props} className={inputClassName} ref={props.ref} />
+      <input
+        {...props}
+        className={inputClassName}
+        ref={props.ref}
+      />
     </div>
   );
 }
@@ -74,7 +86,11 @@ export function InputGroup({ children, ...props }: InputGroupProps) {
   return (
     <div className={containerClassName}>
       <MediumDevices>
-        <Label text={props.label} required={props.required} description={props.description} />
+        <Label
+          text={props.label}
+          required={props.required}
+          description={props.description}
+        />
       </MediumDevices>
 
       <SmallDevices>
@@ -103,7 +119,11 @@ export function Select(props: SelectProps) {
   return (
     <div className={containerClassName}>
       <MediumDevices>
-        <Label text={props.label} description={props.description} required={props.required} />
+        <Label
+          text={props.label}
+          description={props.description}
+          required={props.required}
+        />
       </MediumDevices>
 
       <SmallDevices>
@@ -113,7 +133,9 @@ export function Select(props: SelectProps) {
         </MobileLabel>
       </SmallDevices>
 
-      <select className={inputClassName} {...props}>
+      <select
+        className={inputClassName}
+        {...props}>
         {props.children}
       </select>
     </div>
@@ -126,9 +148,17 @@ function Option({ children, ...props }: React.ComponentProps<'option'>) {
 
 Select.Option = Option;
 
-function TextareaCharacterCounter({ currentLength, max }: { currentLength: number | undefined; max: number | undefined }) {
+function TextareaCharacterCounter({
+  currentLength,
+  max,
+}: {
+  currentLength: number | undefined;
+  max: number | undefined;
+}) {
   return (
-    <Group direction='row' gap={4}>
+    <Group
+      direction='row'
+      gap={4}>
       <span>
         {currentLength} / {max}
       </span>
@@ -151,7 +181,10 @@ export function Textarea({ label, description, ...props }: TextAreaProps) {
   return (
     <div className={containerClassName}>
       <MediumDevices>
-        <Label text={label} {...props} />
+        <Label
+          text={label}
+          {...props}
+        />
       </MediumDevices>
 
       <SmallDevices>
@@ -161,7 +194,9 @@ export function Textarea({ label, description, ...props }: TextAreaProps) {
         </MobileLabel>
       </SmallDevices>
 
-      <Group direction='col' gap={2}>
+      <Group
+        direction='col'
+        gap={2}>
         <textarea
           {...props}
           className={textareaClassName.join(' ')}

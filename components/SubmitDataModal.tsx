@@ -76,6 +76,7 @@ SubmitDataModalProvider.Form = ({ children }: React.PropsWithChildren) => {
       } else {
         if (child.props.defaultValue) {
           const { name, defaultValue } = child.props;
+          console.log('Setting default value: ', defaultValue, name);
           updateDataViaProperty(name, defaultValue);
         }
       }

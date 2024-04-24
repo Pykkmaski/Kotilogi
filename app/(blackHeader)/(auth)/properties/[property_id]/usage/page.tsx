@@ -36,22 +36,34 @@ export default async function UsagePage({ params, searchParams }) {
         };
 
   //Get the data for the selected year, and the timestamps for all data, to render the year selector.
-  const data = await getUsageData(query, year);
-  const timestamps = await db('usage')
+  const timestampStream = await db('usage')
     .where({ refId: params.property_id })
     .select('time')
-    .orderBy('time', 'desc');
+    .orderBy('time', 'desc')
+    .stream();
 
-  if (!data || !timestamps) throw new Error('Kulutustietojen lataus epäonnistui!');
+  const timestampsSet = new Set<number>([]);
+  for await (const timestamp of timestampStream) {
+    timestampsSet.add(parseInt(timestamp.time));
+  }
+  const timestamps = Array.from(timestampsSet);
 
-  const displayYear = data.length ? new Date(data.at(-1).time).getFullYear().toString() : 'all';
+  const data = await getUsageData(
+    query,
+    year || (timestamps.length ? timestamps[0].toString() : new Date().getFullYear().toString())
+  );
+
+  if (!data) throw new Error('Kulutustietojen lataus epäonnistui!');
+
+  //Display data for the first year in the timestamps array by default.
+  const displayYear = timestamps.length ? timestamps[0] : new Date().getFullYear();
 
   return (
     <main className='w-full flex flex-col gap-4'>
       <UsageProvider
         propertyId={params.property_id}
         timestamps={timestamps}
-        displayYear={displayYear}
+        displayYear={displayYear.toString()}
         type={type}
         data={data}>
         <SelectablesProvider>
