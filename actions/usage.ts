@@ -52,11 +52,9 @@ function validateUsageData(data: Kotidok.UsageType) {
 export async function get(query: Partial<Kotidok.UsageType>, year: string = 'all') {
   if (year === 'all') {
     //Return all data.
-    return db(TABLENAME).where(query) as unknown as Kotidok.UsageType[];
+    return db(TABLENAME).where(query);
   } else {
-    return db(TABLENAME)
-      .where(query)
-      .whereLike('time', `%${year}%`) as unknown as Kotidok.UsageType[];
+    return db(TABLENAME).where(query).whereLike('time', `%${year}%`);
   }
 }
 

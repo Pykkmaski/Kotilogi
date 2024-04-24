@@ -5,6 +5,20 @@ import * as usage from '@/actions/usage';
 import { Header } from './Header';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { UsageProvider } from './UsageProvider';
+import { Knex } from 'knex';
+
+function getUsageData(query: any, year: string) {
+  if (year === 'all') {
+    return db('usage').where(query).orderBy('time', 'desc');
+  } else {
+    return db('usage')
+      .where(function () {
+        this.whereLike('time', `%${year}%`);
+      })
+      .andWhere(query)
+      .orderBy('time', 'desc');
+  }
+}
 
 export default async function UsagePage({ params, searchParams }) {
   const type = searchParams.type as Kotidok.UsageTypeType | 'all';
@@ -24,7 +38,8 @@ export default async function UsagePage({ params, searchParams }) {
     }
   }
 
-  var usageQuery =
+  //The query to use when fetching the usage data.
+  var query =
     type === 'all'
       ? {
           refId: params.property_id,
@@ -35,19 +50,11 @@ export default async function UsagePage({ params, searchParams }) {
         };
 
   //Get the data for the selected year, and the timestamps for all data, to render the year selector.
-  const [data, timestamps] = await Promise.all([
-    usage.get(usageQuery, year || 'all'),
-    db('usage').select('time'),
-  ]);
+  const dataPromise = getUsageData(query, year);
+  const timestampsPromise = db('usage').select('time');
+  const [data, timestamps] = await Promise.all([dataPromise, timestampsPromise]);
 
   if (!data || !timestamps) throw new Error('Kulutustietojen lataus epäonnistui!');
-
-  data.sort((a, b) => {
-    const timeA = new Date(a.time).getTime();
-    const timeB = new Date(b.time).getTime();
-
-    return timeA - timeB;
-  });
 
   var displayYear = 'all';
   if (data.length) {
