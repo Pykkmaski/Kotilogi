@@ -11,7 +11,7 @@ export function AddPropertyModalPrefab() {
   return (
     <SubmitModalPrefab
       trigger={<AddButton />}
-      icon='fa-home'
+      icon='fa-house'
       modalTitle='Lisää Talo'
       submitText='Lähetä'
       submitMethod={async (data: Kotidok.PropertyType, files?) => {

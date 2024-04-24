@@ -86,8 +86,9 @@ export function FilesGallery({
           </div>
         </SelectablesProvider.HideIfNoneSelected>
         <SubmitModalPrefab
+          icon={variant === 'pdf' ? 'fa-copy' : 'fa-image'}
           trigger={<AddButton />}
-          modalTitle={'Lisää ' + variant === 'image' ? 'kuvia' : 'tiedostoja'}
+          modalTitle={'Lisää ' + (variant === 'image' ? 'kuvia' : 'tiedostoja')}
           submitMethod={async (data, files?) => {
             await addFiles(tablename, files, refId)
               .then(() => toast.success(getSuccessMessage('add')))

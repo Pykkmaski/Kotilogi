@@ -40,6 +40,7 @@ export function PropertiesGallery({ properties }) {
             </div>
           </SelectablesProvider.HideIfNoneSelected>
           <SubmitModalPrefab
+            icon='fa-home'
             trigger={<AddButton />}
             modalTitle='Lisää Talo'
             submitText='Lähetä'

@@ -10,6 +10,7 @@ export function DeletePropertiesModalTrigger() {
 
   return (
     <SubmitModalPrefab
+      icon='fa-trash'
       trigger={<DeleteButton />}
       modalTitle='Poista valitut talot'
       submitMethod={async (data: { password: string }) => {
