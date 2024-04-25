@@ -39,14 +39,6 @@ export function MobileUsageFilterModal({ ...props }) {
     },
   ];
 
-  const yearsSet = new Set<number>();
-  for (const stamp of timestamps) {
-    const year = new Date(stamp.time).getFullYear();
-    yearsSet.add(year);
-  }
-
-  const years = Array.from(yearsSet);
-
   return (
     <Modal {...props}>
       <div className='flex flex-col rounded-lg bg-white w-full mx-2'>
@@ -62,7 +54,7 @@ export function MobileUsageFilterModal({ ...props }) {
             <select
               className='w-full'
               ref={yearSelectorRef}>
-              {years.map(year => (
+              {timestamps.map(year => (
                 <option
                   key={year}
                   value={year}>
