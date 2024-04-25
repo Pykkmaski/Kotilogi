@@ -24,7 +24,7 @@ function FileListItem({ icon, tablename, ...props }: FileListItemProps) {
           <ListItem.Header>
             <div className='flex gap-4 items-center'>
               <i className='fa fa-copy' />
-              <h1>{props.item.title}</h1>
+              <h1>{props.item.title.split('--')[1]}</h1>
             </div>
           </ListItem.Header>
         </ListItem.Body>

@@ -1,5 +1,7 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import style from './styles/NavBar.module.scss';
 import { HighlightingNavbarProvider } from '../Util/HighlightingNavbarProvider';
 import React from 'react';

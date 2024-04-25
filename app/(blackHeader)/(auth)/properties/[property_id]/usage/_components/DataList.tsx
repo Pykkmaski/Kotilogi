@@ -1,19 +1,13 @@
 'use client';
 
 import { createContext, useContext, useRef, useState } from 'react';
-import Modal, { ModalProps } from '../Modals/Modal';
-import { Input } from '../../../../../../../components/Feature/Input';
-import { PrimaryButton } from '../../../../../../../components/UI/Button/PrimaryButton';
-import { SecondaryButton } from '../../../../../../../components/UI/Button/SecondaryButton';
 import toast from 'react-hot-toast';
 import * as usage from '@/actions/usage';
 import { splitByMonth } from 'kotilogi-app/actions/usage.utils';
 import { monthNameToLang } from 'kotilogi-app/utils/translate/planNameToLang';
 import { Icon } from './Icon';
-import { ModalRefType } from '../Experimental/Modal/Modal';
 import { EditUsageTrigger } from './EditUsageTrigger';
 import { VisibilityProvider } from '../../../../../../../components/Util/VisibilityProvider';
-import { SelectablesProvider } from '../../../../../../../components/Util/SelectablesProvider';
 
 const ListItemContext = createContext<any>(null);
 
@@ -117,7 +111,7 @@ export function DataList({ data }: DataListProps) {
   };
 
   return (
-    <div className='flex flex-col gap-2 max-h-full overflow-hidden'>
+    <div className='flex flex-col gap-2 max-h-full overflow-hidden pb-4'>
       {getElementsSortedByMonth(dataSorted)}
     </div>
   );

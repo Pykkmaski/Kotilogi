@@ -13,8 +13,8 @@ export async function addEvent(event: Kotidok.EventType, files?: FormData[]) {
   const session = await getServerSession();
   await events.addEvent(
     event,
-    session?.user.email
-    //files?.map(file => file.get('file') as unknown as File)
+    session?.user.email,
+    files?.map(file => file.get('file') as unknown as File)
   );
   revalidatePath(PROPERTY_EVENTS_PATH);
 }

@@ -1,5 +1,11 @@
-import { GalleryError } from "./GalleryError";
+import { GalleryError } from './GalleryError';
 
 export function ImageError(props: { message: string }) {
-  return <GalleryError {...props} title="Ei Kuvia" icon={"/icons/image.png"} />;
+  return (
+    <GalleryError
+      {...props}
+      title='Ei Kuvia'
+      icon={'fa-image'}
+    />
+  );
 }

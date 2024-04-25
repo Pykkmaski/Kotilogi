@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }) {
               <h3 className='text-xl text-white'>Hallintapaneeli</h3>
             </Group>
           </Header>
-          <div className='text-white'>
+          <nav className='text-white flex flex-col gap-2'>
             <NavBar>
               <IconLink
                 imageSrc='/icons/house.png'
@@ -48,7 +48,7 @@ export default async function DashboardLayout({ children }) {
                 Ostoskori
               </IconLink>
             </NavBar>
-          </div>
+          </nav>
         </LayoutNavBarContainer>
 
         <DashboardContextProvider user={session.user}>

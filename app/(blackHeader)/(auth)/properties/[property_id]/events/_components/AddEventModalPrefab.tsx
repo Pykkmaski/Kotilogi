@@ -11,11 +11,14 @@ export function AddEventModalTrigger({ propertyId }) {
       icon='fa-history'
       modalTitle='Lisää Tapahtuma'
       submitText='Lähetä'
-      submitMethod={async (data: Kotidok.EventType) => {
-        await addEvent({
-          ...data,
-          refId: propertyId,
-        })
+      submitMethod={async (data: Kotidok.EventType, files?) => {
+        await addEvent(
+          {
+            ...data,
+            refId: propertyId,
+          },
+          files
+        )
           .then(() => toast.success('Tapahtuma lisätty!'))
           .catch(err => toast.error(err.message));
       }}>

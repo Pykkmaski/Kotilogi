@@ -106,7 +106,7 @@ export function EventsGallery({ events, propertyId, userEmail }) {
           <GalleryError
             title='Ei Tapahtumia'
             message='Et ole vielä lisännyt tapahtumia. Aloita painamalla Lisää-Uusi painiketta.'
-            icon='/icons/history.png'
+            icon='fa-history'
           />
         }
       />

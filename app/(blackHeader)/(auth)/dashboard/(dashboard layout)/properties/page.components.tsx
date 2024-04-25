@@ -138,7 +138,7 @@ export function PropertiesGallery({ properties }) {
           <GalleryError
             title='Ei Taloja'
             message='Et ole vielä lisännyt taloja.'
-            icon='/icons/house.png'
+            icon='fa-home'
           />
         }
       />
