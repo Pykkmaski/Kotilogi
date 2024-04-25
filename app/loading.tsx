@@ -1,4 +1,4 @@
-import Spinner from 'kotilogi-app/components/Spinner/Spinner';
+import Spinner from '@/components/UI/Spinner';
 
 export default function Loading() {
   return (

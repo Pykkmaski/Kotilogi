@@ -1,7 +1,7 @@
 'use client';
 
-import { Input, Select } from '@/components/Input/Input';
-import { SubmitModalPrefab } from '@/components/SubmitModalPrefab';
+import { Input, Select } from '@/components/Feature/Input';
+import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import { addProperty } from 'kotilogi-app/actions/experimental/properties';
 import { buildingTypes } from 'kotilogi-app/constants';

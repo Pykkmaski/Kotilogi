@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { formatNumber } from 'kotilogi-app/utils/formatNumber';
-import Button from '@/components/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { useRouter } from 'next/navigation';
 import { useBillsContext } from './Bills';
 
@@ -46,7 +46,13 @@ export function CartBillItem({ bill, onSelect }: CartBillItemProps) {
         <div className='flex gap-8 items-center'>
           <div className='flex flex-col'>
             <small className='text-slate-500 text-right'>Eräpäivä</small>
-            <span className='text-base'>{isDue ? <span className='text-red-700'>Heti!</span> : new Date(parseInt(bill.due)).toLocaleDateString('fi-FI')}</span>
+            <span className='text-base'>
+              {isDue ? (
+                <span className='text-red-700'>Heti!</span>
+              ) : (
+                new Date(parseInt(bill.due)).toLocaleDateString('fi-FI')
+              )}
+            </span>
           </div>
 
           <div className='flex flex-col'>
@@ -57,7 +63,10 @@ export function CartBillItem({ bill, onSelect }: CartBillItemProps) {
       </div>
 
       <div className='flex w-full items-center justify-end border-t border-slate-200 pt-2 mt-4'>
-        <Button variant='primary-dashboard' disabled={loading} onClick={() => pay([bill])}>
+        <Button
+          variant='primary-dashboard'
+          disabled={loading}
+          onClick={() => pay([bill])}>
           <span className='mx-4'>Maksa</span>
         </Button>
       </div>

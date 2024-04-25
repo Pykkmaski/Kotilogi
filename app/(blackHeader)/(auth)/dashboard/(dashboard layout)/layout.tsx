@@ -1,11 +1,11 @@
-import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
-import IconLink from 'kotilogi-app/components/IconLink/IconLink';
-import { Header } from 'kotilogi-app/components/Header/Header';
-import { LayoutContentContainer, LayoutNavBarContainer } from 'kotilogi-app/components/Layout';
+import { NavBar } from '@/components/UI/NavBar';
+import IconLink from '@/components/UI/IconLink';
+import { Header } from '@/components/UI/Header/Header';
+import { LayoutContentContainer, LayoutNavBarContainer } from '@/components/UI/Layout';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { DashboardContextProvider } from './DashboardContextProvider';
-import { Group } from 'kotilogi-app/components/Group';
+import { Group } from '@/components/UI/Group';
 import { DashboardMobileNav } from './DashboardMobileNav';
 import MobileDashboardLayout from './_mobile/MobileDashboardLayout';
 
@@ -16,7 +16,7 @@ export default async function DashboardLayout({ children }) {
   if (!session) throw new Error('Käyttäjän lataaminen epäonnistui!');
 
   return (
-    <>
+    <div className='bg-gray-600'>
       <div className='lg:flex xs:flex w-full flex-1'>
         <LayoutNavBarContainer>
           <Header>
@@ -67,6 +67,6 @@ export default async function DashboardLayout({ children }) {
       <div className='xs:hidden lg:hidden'>
         <MobileDashboardLayout>{children}</MobileDashboardLayout>
       </div>
-    </>
+    </div>
   );
 }

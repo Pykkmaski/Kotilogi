@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -17,7 +17,11 @@ export function ReloginButton({ children }) {
   const loading = status === 'loading';
 
   return (
-    <Button variant='primary' onClick={relogin} loading={loading} disabled={loading}>
+    <Button
+      variant='primary'
+      onClick={relogin}
+      loading={loading}
+      disabled={loading}>
       {children}
     </Button>
   );

@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/components/Button/Button';
-import Spinner from '@/components/Spinner/Spinner';
+import Button from '@/components/UI/Button/Button';
+import Spinner from '@/components/UI/Spinner';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -62,7 +62,9 @@ export default function PaymentResult({ returnCode, paymentStatusCode }) {
         return (
           <>
             <FailureHeading />
-            <Paragraph>Käyttämäsi kortti on ilmoitettu varastetuksi, eikä sitä voi veloittaa.</Paragraph>
+            <Paragraph>
+              Käyttämäsi kortti on ilmoitettu varastetuksi, eikä sitä voi veloittaa.
+            </Paragraph>
           </>
         );
       } else if (paymentStatusCode === '05') {
@@ -102,7 +104,10 @@ export default function PaymentResult({ returnCode, paymentStatusCode }) {
         return (
           <>
             <FailureHeading />
-            <Paragraph>Kortin sallittuja maksuja on rajoitettu. Tarkista että kortilla voi tehdä verkkomaksuja.</Paragraph>
+            <Paragraph>
+              Kortin sallittuja maksuja on rajoitettu. Tarkista että kortilla voi tehdä
+              verkkomaksuja.
+            </Paragraph>
           </>
         );
       } else if (paymentStatusCode === '1000') {
@@ -125,5 +130,7 @@ export default function PaymentResult({ returnCode, paymentStatusCode }) {
     }
   }, []);
 
-  return <main className='flex flex-col w-full flex-1 items-center justify-center'>{getContent()}</main>;
+  return (
+    <main className='flex flex-col w-full flex-1 items-center justify-center'>{getContent()}</main>
+  );
 }

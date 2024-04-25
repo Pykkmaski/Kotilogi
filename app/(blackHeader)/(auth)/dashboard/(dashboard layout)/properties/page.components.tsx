@@ -1,28 +1,18 @@
 'use client';
 
-import AddPropertyModal from './AddPropertyModal';
-import { Gallery } from 'kotilogi-app/components/new/Gallery/GalleryBase/Gallery';
-import { AddButton, DeactivateButton } from '@/components/new/Gallery/GalleryBase/Buttons';
-import DeactivateSelectedItemsModal from '@/components/new/Gallery/GalleryBase/DeactivateSelectedItemsModal';
-import { addProperty, deactivateProperty } from 'kotilogi-app/actions/experimental/properties';
-import { GalleryListItem } from '@/components/new/Gallery/GalleryBase/GalleryListItem';
-import { ListItem } from '@/components/ListItem/ListItem';
-import ActivatePropertyModal from './ActivatePropertyModal';
-import { useRef } from 'react';
-import { ModalRefType } from '@/components/Experimental/Modal/Modal';
-import { GalleryError } from '@/components/new/Gallery/GalleryBase/Components/Error/GalleryError';
-import { SubmitModalPrefab } from '@/components/SubmitModalPrefab';
-import { Input, Select } from '@/components/Input/Input';
+import { addProperty } from 'kotilogi-app/actions/experimental/properties';
+
+import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
+import { Input, Select } from '@/components/Feature/Input';
 import toast from 'react-hot-toast';
 import { buildingTypes } from 'kotilogi-app/constants';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
-import {
-  CancelSelectionButton,
-  DeleteButton,
-  ListHeaderControlButtons,
-} from '@/components/Prefabs/List.prefabs';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { CancelSelectionButton, ListHeaderControlButtons } from '@/components/Prefabs/List.prefabs';
 import { DeletePropertiesModalTrigger } from './DeletePropertiesModal';
+import { Gallery } from '@/components/Feature/GalleryBase/Gallery';
+import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
+import { GalleryListItem } from '@/components/Feature/GalleryBase/GalleryListItem';
+import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 
 export function PropertiesGallery({ properties }) {
   return (
@@ -106,17 +96,10 @@ export function PropertiesGallery({ properties }) {
       <Gallery.Body
         displayStyle='vertical'
         itemComponent={props => {
-          const activateRef = useRef<ModalRefType>(null);
           const isActive = props.item.status === 'ok';
 
           return (
             <>
-              {!isActive ? (
-                <ActivatePropertyModal
-                  property={props.item}
-                  ref={activateRef}
-                />
-              ) : null}
               <GalleryListItem
                 {...props}
                 title={props.item.title}
@@ -145,13 +128,7 @@ export function PropertiesGallery({ properties }) {
                         className='w-[20px] aspect-square'
                       />
                     </SelectablesProvider.SelectTrigger>
-                  ) : (
-                    <span
-                      className='text-orange-500 cursor-pointer'
-                      onClick={() => activateRef.current?.toggleOpen(true)}>
-                      Ota käyttöön
-                    </span>
-                  )
+                  ) : null
                 }
               />
             </>

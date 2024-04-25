@@ -1,8 +1,8 @@
 import { MutableRefObject, createContext, forwardRef, useContext, useRef } from 'react';
 import Modal, { ModalRefType } from '../../../../../../components/Experimental/Modal/Modal';
-import { CloseButton } from '@/components/CloseButton';
-import Button from '@/components/Button/Button';
-import { Input, Select, Textarea } from '@/components/Input/Input';
+import { CloseButton } from '@/components/UI/CloseButton';
+import Button from '@/components/UI/Button/Button';
+import { Input, Select, Textarea } from '@/components/Feature/Input';
 import { buildingTypes, serviceName } from 'kotilogi-app/constants';
 import Link from 'next/link';
 import SubmitDataModal, {
@@ -32,7 +32,10 @@ function PricingDescription() {
       Jos maksua ei makseta kuukauden sisällä, lukkiutuu tilisi, ja avautuu kun maksu on suoritettu.
       <br />
       Tapahtuman hinta lisätään nykyiseen ostoskoriisi, joka löytyy{' '}
-      <Link href='/dashboard/cart' target='_blank' className='text-orange-500'>
+      <Link
+        href='/dashboard/cart'
+        target='_blank'
+        className='text-orange-500'>
         täältä.
       </Link>
       <br />
@@ -129,7 +132,9 @@ function CreateNewStep() {
         required
         defaultValue={'Muu'}>
         {buildingTypes.map(type => (
-          <Select.Option key={type} selected={type === 'Muu'}>
+          <Select.Option
+            key={type}
+            selected={type === 'Muu'}>
             {type}
           </Select.Option>
         ))}

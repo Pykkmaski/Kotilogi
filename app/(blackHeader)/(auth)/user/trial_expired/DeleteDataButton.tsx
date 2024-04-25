@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import * as users from '@/actions/users';
 import { signOut } from 'next-auth/react';
 import toast from 'react-hot-toast';
@@ -22,7 +22,9 @@ export function DeleteDataButton({ children, session }) {
   };
 
   return (
-    <Button variant='secondary' onClick={deleteData}>
+    <Button
+      variant='secondary'
+      onClick={deleteData}>
       {children}
     </Button>
   );

@@ -1,10 +1,10 @@
 'use server';
 
-import { Header } from '@/components/Header/Header';
-import { Group } from 'kotilogi-app/components/Group';
+import { Header } from '@/components/UI/Header/Header';
+import { Group } from '@/components/UI/Group';
 import db from 'kotilogi-app/dbconfig';
-import { Content } from './Content';
-import { Heading } from 'kotilogi-app/components/Heading';
+import { Content } from './_components/Content';
+import { Heading } from '@/components/UI/Heading';
 
 export default async function InfoPage({ params }) {
   const property = await db('properties').where({ id: params.property_id }).first();
@@ -17,7 +17,9 @@ export default async function InfoPage({ params }) {
       </Header>
 
       <div className='w-full'>
-        <Group direction='col' gap={4}>
+        <Group
+          direction='col'
+          gap={4}>
           <Content propertyData={property} />
         </Group>
       </div>

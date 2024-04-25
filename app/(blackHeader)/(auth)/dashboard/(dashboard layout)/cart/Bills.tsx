@@ -3,7 +3,7 @@
 import { Gallery } from '@/components/new/Gallery/GalleryBase/Gallery';
 import { CartBillItem } from './CartBillItem';
 import { ImageError } from '@/components/new/Gallery/GalleryBase/Components/Error/ImageError';
-import Button from '@/components/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { formatNumber } from 'kotilogi-app/utils/formatNumber';
 import { createPaymentRequest } from 'kotilogi-app/actions/payments';
@@ -52,15 +52,23 @@ export function Bills({ bills }) {
       <div className='flex justify-between items-center'>
         <div className='flex flex-col'>
           <h2 className='lg:text-xl xs:text-lg text-green-700'>
-            {formatNumber(totalPrice / 100)}€ <span className='text-slate-500 text-sm'>(+ALV 24%)</span>
+            {formatNumber(totalPrice / 100)}€{' '}
+            <span className='text-slate-500 text-sm'>(+ALV 24%)</span>
           </h2>
-          <Link className='text-orange-500' href='/tos/payments' target='_blank'>
+          <Link
+            className='text-orange-500'
+            href='/tos/payments'
+            target='_blank'>
             Maksuehdot
           </Link>
         </div>
 
         <div className='flex gap-4 items-center'>
-          <Button variant='primary-dashboard' onClick={() => pay(bills)} loading={loading} disabled={loading}>
+          <Button
+            variant='primary-dashboard'
+            onClick={() => pay(bills)}
+            loading={loading}
+            disabled={loading}>
             <span className='lg:mx-8 xs:mx-2'>Maksa kaikki</span>
           </Button>
         </div>
@@ -69,7 +77,10 @@ export function Bills({ bills }) {
       <BillsContext.Provider value={{ status, pay }}>
         <div className='flex flex-col gap-2 mt-8'>
           {bills.map(bill => (
-            <CartBillItem bill={bill} onSelect={() => {}} />
+            <CartBillItem
+              bill={bill}
+              onSelect={() => {}}
+            />
           ))}
         </div>
       </BillsContext.Provider>

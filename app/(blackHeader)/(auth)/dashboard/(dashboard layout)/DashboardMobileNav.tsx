@@ -1,6 +1,6 @@
 'use client';
 
-import { FooterNav } from '@/components/FooterNav';
+import { FooterNav } from '@/components/Feature/FooterNav';
 import Link from 'next/link';
 
 export function DashboardMobileNav() {

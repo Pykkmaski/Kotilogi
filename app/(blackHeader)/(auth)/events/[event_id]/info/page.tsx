@@ -1,5 +1,5 @@
-import { Header } from 'kotilogi-app/components/Header/Header';
-import { Heading } from 'kotilogi-app/components/Heading';
+import { Header } from '@/components/UI/Header/Header';
+import { Heading } from '@/components/UI/Heading';
 import db from 'kotilogi-app/dbconfig';
 import { Content } from './page.components';
 import { getServerSession } from 'next-auth';
@@ -14,7 +14,10 @@ export default async function EventInfoPage({ params }) {
       <Header>
         <Heading>Tapahtuman tiedot</Heading>
       </Header>
-      <Content event={event} userEmail={session?.user.email} />
+      <Content
+        event={event}
+        userEmail={session?.user.email}
+      />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { sendAccountActivationLink } from 'kotilogi-app/actions/email';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -31,7 +31,10 @@ export function SendEmailButton({ children, session }) {
   const linkDisabled = status === 'loading' || status === 'success';
 
   return (
-    <Button variant='primary-dashboard' onClick={handleSend} disabled={linkDisabled}>
+    <Button
+      variant='primary-dashboard'
+      onClick={handleSend}
+      disabled={linkDisabled}>
       <span className='mx-8 font-semibold'>{children}</span>
     </Button>
   );

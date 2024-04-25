@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PrimaryButton } from '../Button/PrimaryButton';
-import { RoundedBox } from '../RoundedBox/RoundedBox';
+import { PrimaryButton } from '../UI/Button/PrimaryButton';
+import { RoundedBox } from '../UI/RoundedBox';
 
 function Message({ setCookiesAccepted }) {
   const acceptCookies = () => {
@@ -15,9 +15,12 @@ function Message({ setCookiesAccepted }) {
     <RoundedBox>
       <div className='flex flex-col gap-4 items-center'>
         <div className='flex w-full justify-between gap-4 xs:items-start md:items-center'>
-          <img src='/icons/cookie.png' className='aspect-square xs:w-[30px] md:w-[80px] xs:mt-4 md:mt-0'></img>
+          <img
+            src='/icons/cookie.png'
+            className='aspect-square xs:w-[30px] md:w-[80px] xs:mt-4 md:mt-0'></img>
           <span className='text-lg text-slate-500'>
-            Käytämme evästeitä. Kaikki evästeet ovat sovelluksen toiminnan kannalta välttämättömiä, eikä niitä käytetä yksityisten tietojen keräämiseen.
+            Käytämme evästeitä. Kaikki evästeet ovat sovelluksen toiminnan kannalta välttämättömiä,
+            eikä niitä käytetä yksityisten tietojen keräämiseen.
             <br />
             Jatkamalla sivuston käyttöä, hyväksyt evästeiden tallennuksen laitteellesi.
           </span>

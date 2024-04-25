@@ -2,17 +2,13 @@ import db from 'kotilogi-app/dbconfig';
 import { PropertyProvider } from './PropertyContextProvider';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
-import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
-import IconLink from 'kotilogi-app/components/IconLink/IconLink';
-import { Header } from 'kotilogi-app/components/Header/Header';
-import {
-  LayoutContentContainer,
-  LayoutNavBarContainer,
-  NavDivider,
-} from 'kotilogi-app/components/Layout';
-import { Group } from 'kotilogi-app/components/Group';
-import { SecondaryHeading } from 'kotilogi-app/components/Heading';
-import { FooterNav } from '@/components/FooterNav';
+import { NavBar } from '@/components/UI/NavBar';
+import IconLink from '@/components/UI/IconLink';
+import { Header } from '@/components/UI/Header/Header';
+import { LayoutContentContainer, LayoutNavBarContainer, NavDivider } from '@/components/UI/Layout';
+import { Group } from '@/components/UI/Group';
+import { SecondaryHeading } from '@/components/UI/Heading';
+import { FooterNav } from '@/components/Feature/FooterNav';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { MobileNavBar } from './MobileNavBar';
@@ -43,7 +39,7 @@ export default async function PropertyDetailsLayout({ children, params }) {
   }
 
   return (
-    <div className='flex flex-row gap-2 w-full flex-1'>
+    <div className='flex flex-row gap-2 w-full flex-1 bg-gray-600'>
       <LayoutNavBarContainer>
         <Header>
           <Group direction='col'>

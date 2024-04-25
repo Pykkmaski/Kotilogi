@@ -1,10 +1,10 @@
 'use client';
 
-import Button from '@/components/Button/Button';
-import { CloseButton } from '@/components/CloseButton';
+import Button from '@/components/UI/Button/Button';
+import { CloseButton } from '@/components/UI/CloseButton';
 import Modal, { ModalRefType } from '@/components/Experimental/Modal/Modal';
 import SubmitDataModal from '@/components/Experimental/Modal/SubmitDataModal';
-import { Input } from '@/components/Input/Input';
+import { Input } from '@/components/Feature/Input';
 import { activateProperty } from 'kotilogi-app/actions/experimental/properties';
 import { forwardRef } from 'react';
 import toast from 'react-hot-toast';
@@ -13,12 +13,19 @@ type ActivatePropertyModalProps = {
   property: Kotidok.PropertyType;
 };
 
-function ActivatePropertyModal({ property }: ActivatePropertyModalProps, ref: React.Ref<ModalRefType>) {
+function ActivatePropertyModal(
+  { property }: ActivatePropertyModalProps,
+  ref: React.Ref<ModalRefType>
+) {
   return (
     <SubmitDataModal
       ref={ref}
       submitMethod={async (data: TODO) => {
-        await activateProperty({ customer: property.refId, propertyId: property.id, password: data.password }).then(() => {
+        await activateProperty({
+          customer: property.refId,
+          propertyId: property.id,
+          password: data.password,
+        }).then(() => {
           toast.success('Talon käyttöönotto onnistui!');
         });
       }}>
@@ -35,10 +42,18 @@ function ActivatePropertyModal({ property }: ActivatePropertyModalProps, ref: Re
           <p>
             Ota tällä lomakkeella valittu talo uudelleen käyttöön.
             <br />
-            Huomioi, että jokaisen talon käyttöön otosta veloitetaan <span className='text-green-700'>49,90€</span> (+ALV 24%).
+            Huomioi, että jokaisen talon käyttöön otosta veloitetaan{' '}
+            <span className='text-green-700'>49,90€</span> (+ALV 24%).
           </p>
           <SubmitDataModal.Form className='mt-8'>
-            <Input label='Salasana' placeholder='Kirjoita salasanasi...' name='password' type='password' autoComplete='new-password' required />
+            <Input
+              label='Salasana'
+              placeholder='Kirjoita salasanasi...'
+              name='password'
+              type='password'
+              autoComplete='new-password'
+              required
+            />
           </SubmitDataModal.Form>
         </div>
       </Modal.Body>

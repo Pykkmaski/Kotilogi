@@ -1,14 +1,10 @@
-import { FooterNav } from '@/components/FooterNav';
-import { Group } from 'kotilogi-app/components/Group';
-import { Header } from 'kotilogi-app/components/Header/Header';
-import { SecondaryHeading } from 'kotilogi-app/components/Heading';
-import IconLink from 'kotilogi-app/components/IconLink/IconLink';
-import {
-  LayoutContentContainer,
-  LayoutNavBarContainer,
-  NavDivider,
-} from 'kotilogi-app/components/Layout';
-import { NavBar } from 'kotilogi-app/components/NavBar/NavBar';
+import { FooterNav } from '@/components/Feature/FooterNav';
+import { Group } from '@/components/UI/Group';
+import { Header } from '@/components/UI/Header/Header';
+import { SecondaryHeading } from '@/components/UI/Heading';
+import IconLink from '@/components/UI/IconLink';
+import { LayoutContentContainer, LayoutNavBarContainer, NavDivider } from '@/components/UI/Layout';
+import { NavBar } from '@/components/UI/NavBar';
 import db from 'kotilogi-app/dbconfig';
 import { MobileNavbar } from './MobileNavbar';
 
@@ -22,7 +18,7 @@ export default async function EventLayout({ children, params }) {
   }
 
   return (
-    <div className='flex gap-4 w-full flex-1'>
+    <div className='flex gap-4 w-full flex-1 bg-gray-600'>
       <LayoutNavBarContainer>
         <Header>
           <Group

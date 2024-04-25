@@ -1,6 +1,6 @@
-import { Input } from '@/components/Input/Input';
+import { Input } from '@/components/Feature/Input';
 import { DeleteButton } from '@/components/Prefabs/List.prefabs';
-import { SubmitModalPrefab } from '@/components/SubmitModalPrefab';
+import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import { useSelectablesProviderContext } from '@/components/Util/SelectablesProvider';
 import { deleteProperty } from 'kotilogi-app/actions/experimental/properties';
 import toast from 'react-hot-toast';

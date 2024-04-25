@@ -2,20 +2,20 @@
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { Group } from 'kotilogi-app/components/Group';
-import Spinner from '../Spinner/Spinner';
+import { Group } from '@/components/UI/Group';
+import Spinner from '../UI/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
-import { Padding } from '../Util/Padding';
+import { Padding } from '../UI/Padding';
 import { MobileMenu } from './MobileMenu/MobileMenu';
-import Button from '../Button/Button';
-import { LineButton } from '../LineButton';
+import Button from '../UI/Button/Button';
+import { LineButton } from '../UI/LineButton';
 
 function Logo2() {
   return (
     <Link href='/'>
       <img
         src='/logo_text.png'
-        className='aspect-auto xs:w-[100px] lg:w-[130px]'
+        className='aspect-auto xs:w-[100px] lg:w-[120px]'
       />
     </Link>
   );
@@ -143,14 +143,14 @@ export default function Header({ variant = 'black' }: HeaderProps) {
     'w-full py-2 h-[4em] items-center flex z-20',
     variant === 'black'
       ? 'bg-black'
-      : 'bg-gradient-to-l from-[#0005] to-transparent to-60% absolute top-0 left-0',
+      : 'bg-gradient-to-l from-secondary to-transparent to-60% absolute top-0 left-0',
   ];
 
   return (
     <header
       className={className.join(' ')}
       id='main-header'>
-      <div className='w-full '>
+      <div className='w-full'>
         <Padding>
           <Group
             direction='row'

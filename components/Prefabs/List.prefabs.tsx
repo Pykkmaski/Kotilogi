@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
-import Button from '../Button/Button';
-import { Modal } from '../Experimental/Modal/PlainModal/Modal';
+import Button from '../UI/Button/Button';
+import { Modal } from '../UI/Modal';
 import { SelectablesProvider } from '../Util/SelectablesProvider';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
 import { useToggle } from 'kotilogi-app/hooks/useToggle';

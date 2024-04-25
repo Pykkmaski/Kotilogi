@@ -1,5 +1,8 @@
-import Button from '@/components/Button/Button';
-import { ProPlanCard, RegularPlanCard } from '@/components/HomePage/ProfileText';
+import Button from '@/components/UI/Button/Button';
+import {
+  ProPlanCard,
+  RegularPlanCard,
+} from 'kotilogi-app/app/(transparentHeader)/(index)/_components/ProfileTextContent';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
@@ -14,9 +17,11 @@ export default async function TrialExpredPage() {
         <div className='flex flex-col gap-4 flex-3'>
           <h1 className='text-2xl text-slate-500 font-semibold'>Kokeilujaksosi on päättynyt.</h1>
           <p className='text-lg'>
-            Kiitämme kiinnostuksestasi Kotidok:iin. Kotidok:iin tallentamasi talotiedot säilyvät palvelussa, ellet pyydä niiden poistoa.
+            Kiitämme kiinnostuksestasi Kotidok:iin. Kotidok:iin tallentamasi talotiedot säilyvät
+            palvelussa, ellet pyydä niiden poistoa.
             <br />
-            Jos haluat jatkaa palvelun käyttöä, sinun tulee aloittaa rekisteröityessäsi valitsemasi tilaus.
+            Jos haluat jatkaa palvelun käyttöä, sinun tulee aloittaa rekisteröityessäsi valitsemasi
+            tilaus.
             <br />
           </p>
 

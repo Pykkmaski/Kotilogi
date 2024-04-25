@@ -1,6 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
-import { FilesGallery } from '@/components/new/Gallery/GalleryBase/FilesGallery';
-import { PropertyFileListItem } from '@/components/ListItem/FileListItem';
+import { PropertyFileListItem } from '@/components/Feature/ListItem/FileListItem';
+import { FilesGallery } from '@/components/Feature/FilesGallery';
 
 async function getFiles(propertyId) {
   return await db('propertyFiles').where({ refId: propertyId, mimeType: 'application/pdf' });

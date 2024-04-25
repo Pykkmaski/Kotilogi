@@ -1,12 +1,12 @@
 'use client';
 
-import { PrimaryButton } from 'kotilogi-app/components/Button/PrimaryButton';
-import { SecondaryButton } from 'kotilogi-app/components/Button/SecondaryButton';
-import { Group } from 'kotilogi-app/components/Group';
-import { Input } from 'kotilogi-app/components/Input/Input';
+import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
+import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
+import { Group } from '@/components/UI/Group';
+import { Input } from '@/components/Feature/Input';
 import { useRef } from 'react';
 import { z } from 'zod';
-import { ErrorText } from '@/components/Util/Text';
+import { ErrorText } from '@/components/UI/Text';
 import { usePasswordSettingsForm } from './usePasswordSettingsForm';
 
 const PasswordSchema = z.object({
@@ -17,7 +17,8 @@ const PasswordSchema = z.object({
 
 export function PasswordSettingsForm() {
   const formRef = useRef<HTMLFormElement | null>(null);
-  const { status, data, updateData, resetPasswordHandler, resetForm } = usePasswordSettingsForm(formRef);
+  const { status, data, updateData, resetPasswordHandler, resetForm } =
+    usePasswordSettingsForm(formRef);
 
   const hasAllFieldsFilled = () => {
     return data.password1 && data.password2 && data.oldPassword;
@@ -28,7 +29,9 @@ export function PasswordSettingsForm() {
   const submitDisabled = status === 'loading' || status === 'success';
 
   return (
-    <form onSubmit={resetPasswordHandler} ref={formRef}>
+    <form
+      onSubmit={resetPasswordHandler}
+      ref={formRef}>
       <div className='flex flex-col gap-4'>
         <Input
           type='password'
@@ -80,11 +83,20 @@ export function PasswordSettingsForm() {
         </div>
 
         <div className='w-full'>
-          <Group direction='row' justify='end' gap={4}>
-            <SecondaryButton hidden={!hasSomeInput() || status === 'loading'} onClick={resetForm} type='button'>
+          <Group
+            direction='row'
+            justify='end'
+            gap={4}>
+            <SecondaryButton
+              hidden={!hasSomeInput() || status === 'loading'}
+              onClick={resetForm}
+              type='button'>
               Tyhjennä
             </SecondaryButton>
-            <PrimaryButton type='submit' disabled={submitDisabled || !hasAllFieldsFilled()} loading={status === 'loading'}>
+            <PrimaryButton
+              type='submit'
+              disabled={submitDisabled || !hasAllFieldsFilled()}
+              loading={status === 'loading'}>
               Päivitä Salasana
             </PrimaryButton>
           </Group>

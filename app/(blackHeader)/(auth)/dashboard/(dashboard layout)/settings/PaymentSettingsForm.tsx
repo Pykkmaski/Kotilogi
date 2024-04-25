@@ -1,12 +1,14 @@
-import { Group } from 'kotilogi-app/components/Group';
-import { Select } from 'kotilogi-app/components/Input/Input';
-import { SingleSelectForm } from 'kotilogi-app/components/SingleInputForm/SingleInputForm';
+import { Group } from '@/components/UI/Group';
+import { Select } from '@/components/Feature/Input';
+import { SingleSelectForm } from '@/components/Feature/SingleInputForm/SingleInputForm';
 
 type PaymentSettingsFormProps = {};
 
 export function PaymentSettingsForm(props: PaymentSettingsFormProps) {
   return (
-    <Group direction='col' gap={4}>
+    <Group
+      direction='col'
+      gap={4}>
       <SingleSelectForm
         inputComponent={Select}
         childComponent={Select.Option}

@@ -1,6 +1,6 @@
 'use client';
 
-import { FooterNav } from '@/components/FooterNav';
+import { FooterNav } from '@/components/Feature/FooterNav';
 
 export function MobileNavBar() {
   return (

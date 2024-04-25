@@ -1,6 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
-import { FilesGallery } from '@/components/new/Gallery/GalleryBase/FilesGallery';
-import { EventFileListItem } from '@/components/ListItem/FileListItem';
+import { EventFileListItem } from '@/components/Feature/ListItem/FileListItem';
+import { FilesGallery } from '@/components/Feature/FilesGallery';
 
 export default async function Page({ params }) {
   const files = await db('eventFiles').where({

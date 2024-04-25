@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { useRouter } from 'next/navigation';
 
 export function PaymentButton({ children }) {
@@ -12,7 +12,9 @@ export function PaymentButton({ children }) {
   };
 
   return (
-    <Button variant='primary' onClick={handlePayment}>
+    <Button
+      variant='primary'
+      onClick={handlePayment}>
       {children}
     </Button>
   );

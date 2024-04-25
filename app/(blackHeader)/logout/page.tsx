@@ -1,6 +1,6 @@
 'use client';
 
-import Spinner from '@/components/Spinner/Spinner';
+import Spinner from '@/components/UI/Spinner';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';

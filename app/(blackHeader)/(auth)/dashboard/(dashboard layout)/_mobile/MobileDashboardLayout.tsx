@@ -1,5 +1,5 @@
-import { SearchBar } from '@/components/SearchBar';
-import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
+import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
+import { SearchBar } from '@/components/Feature/SearchBar';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 

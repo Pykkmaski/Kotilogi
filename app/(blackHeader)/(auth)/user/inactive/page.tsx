@@ -1,5 +1,8 @@
-import Button from '@/components/Button/Button';
-import { ProPlanCard, RegularPlanCard } from '@/components/HomePage/ProfileText';
+import Button from '@/components/UI/Button/Button';
+import {
+  ProPlanCard,
+  RegularPlanCard,
+} from 'kotilogi-app/app/(transparentHeader)/(index)/_components/ProfileTextContent';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
@@ -13,9 +16,11 @@ export default async function TrialExpredPage() {
         <div className='flex flex-col gap-4 flex-3'>
           <h1 className='text-2xl text-slate-500 font-semibold'>Tilisi on poistettu käytöstä.</h1>
           <p className='text-lg'>
-            Olet poistanut tilisi käytöstä. Käytöstä poistetut tilit poistetaan pysyvästi kuukauden kuluttua.
+            Olet poistanut tilisi käytöstä. Käytöstä poistetut tilit poistetaan pysyvästi kuukauden
+            kuluttua.
             <br />
-            Jos muutit mielesi ja haluatkin jatkaa Kotidokin käyttöä, voit vielä aloittaa uuden tilauksen.
+            Jos muutit mielesi ja haluatkin jatkaa Kotidokin käyttöä, voit vielä aloittaa uuden
+            tilauksen.
           </p>
 
           <div className='mt-4 flex gap-4 items-center font-semibold'>

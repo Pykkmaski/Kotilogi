@@ -1,9 +1,9 @@
 'use client';
 
 import { updateEvent } from 'kotilogi-app/actions/experimental/events';
-import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
-import { Input, Textarea } from 'kotilogi-app/components/Input/Input';
-import { SingleInputForm } from 'kotilogi-app/components/SingleInputForm/SingleInputForm';
+import { ContentCard } from '@/components/UI/RoundedBox';
+import { Input, Textarea } from '@/components/Feature/Input';
+import { SingleInputForm } from '@/components/Feature/SingleInputForm/SingleInputForm';
 
 type ContentProps = {
   event: Kotidok.EventType;

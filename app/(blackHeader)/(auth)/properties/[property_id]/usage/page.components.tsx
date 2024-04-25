@@ -1,23 +1,14 @@
 'use client';
 
-import { ContentCard } from 'kotilogi-app/components/RoundedBox/RoundedBox';
-import { UsageColumnChart } from 'kotilogi-app/components/Experimental/Chart/Chart';
-import { UsagePieChart } from '@/components/UsagePage/PieChart';
+import { ContentCard } from '@/components/UI/RoundedBox';
+import { UsageColumnChart } from '@/components/UI/Chart';
 import { colors } from 'kotilogi-app/apex.config';
-import { UsageDataCategorized } from '@/components/UsagePage/UsageDataCategorized';
-import { TotalPrice } from '@/components/UsagePage/TotalPrice';
-import { AllUsageDataChart } from '@/components/UsagePage/AllUsageDataChart';
-import { DataList } from '@/components/UsagePage/DataList';
-import { useUsageProviderContext } from './UsageProvider';
-
-function DataRing({ data, year }) {
-  return (
-    <div className='flex justify-center items-center relative'>
-      <UsagePieChart data={data} />
-      <div className='absolute text-2xl text-slate-500'>{year}</div>
-    </div>
-  );
-}
+import { UsageDataCategorized } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/UsageDataCategorized';
+import { TotalPrice } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/TotalPrice';
+import { AllUsageDataChart } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/AllUsageDataChart';
+import { DataList } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/DataList';
+import { useUsageProviderContext } from './_components/UsageProvider';
+import { DataRing } from './_components/DataRing';
 
 export function PageContent() {
   const { data, displayYear, type } = useUsageProviderContext();
