@@ -1,8 +1,8 @@
 'use client';
 
+import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { Input, Select } from '@/components/Feature/Input';
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
-import { AddButton } from '@/components/new/Gallery/GalleryBase/Buttons';
 import { addProperty } from 'kotilogi-app/actions/experimental/properties';
 import { buildingTypes } from 'kotilogi-app/constants';
 import toast from 'react-hot-toast';
@@ -69,6 +69,10 @@ export function AddPropertyModalPrefab() {
           </Select.Option>
         ))}
       </Select>
+
+      <span className='text-slate-500'>
+        Yksittäisen talon vuosihinta on <span className='text-green-700'>9,90€</span>
+      </span>
     </SubmitModalPrefab>
   );
 }

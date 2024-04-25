@@ -89,6 +89,10 @@ export function PropertiesGallery({ properties }) {
                 </Select.Option>
               ))}
             </Select>
+
+            <span className='text-slate-500 w-full text-right'>
+              Yksittäisen talon vuosihinta on <span className='text-green-700'>9,90€</span>
+            </span>
           </SubmitModalPrefab>
         </div>
       </Gallery.Header>

@@ -1,8 +1,4 @@
 import Button from '@/components/UI/Button/Button';
-import {
-  ProPlanCard,
-  RegularPlanCard,
-} from 'kotilogi-app/app/(transparentHeader)/(index)/_components/ProfileTextContent';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';

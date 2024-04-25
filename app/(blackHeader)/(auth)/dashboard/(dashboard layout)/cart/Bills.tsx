@@ -1,8 +1,6 @@
 'use client';
 
-import { Gallery } from '@/components/new/Gallery/GalleryBase/Gallery';
 import { CartBillItem } from './CartBillItem';
-import { ImageError } from '@/components/new/Gallery/GalleryBase/Components/Error/ImageError';
 import Button from '@/components/UI/Button/Button';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { formatNumber } from 'kotilogi-app/utils/formatNumber';

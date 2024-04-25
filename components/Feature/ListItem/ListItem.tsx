@@ -3,7 +3,7 @@
 import { createContext } from 'react';
 import style from './style.module.scss';
 import React from 'react';
-import { useGalleryContext } from '../../new/Gallery/GalleryBase/Gallery';
+
 import { useListItemContext } from './ListItem.hooks';
 import { useSelectablesProviderContext } from '../../Util/SelectablesProvider';
 

@@ -12,10 +12,7 @@ type CartBillItemProps = {
 };
 
 export function CartBillItem({ bill, onSelect }: CartBillItemProps) {
-  const [property, setProperty] = useState(null);
-  const { status, pay, dueBillIds } = useBillsContext();
-
-  const router = useRouter();
+  const { status, pay } = useBillsContext();
 
   const getType = () => {
     if (bill.stamp === 'activate_property') {

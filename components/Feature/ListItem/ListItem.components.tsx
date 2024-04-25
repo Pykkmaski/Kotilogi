@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import style from './style.module.scss';
-import { useListItemContext } from './ListItem.hooks';
 import { Group } from '../../UI/Group';
-import { useGalleryContext } from '../../new/Gallery/GalleryBase/Gallery';
 
 type TitleContainerProps = React.PropsWithChildren & {
   titleText: string;
