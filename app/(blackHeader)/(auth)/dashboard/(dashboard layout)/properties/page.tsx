@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import db from 'kotilogi-app/dbconfig';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
-import { Content, PropertiesGallery } from './page.components';
+import { PropertiesGallery } from './_components/PropertiesGallery';
 
 /**A page-component fetching property data for the logged in user and renders a
  * header containing controls as well as a Gallery-component to render the properties.
@@ -14,5 +14,9 @@ export default async function PropertiesPage({ searchParams }: any) {
     refId: session.user.email,
   })) as unknown as Kotidok.PropertyType[];
 
-  return <PropertiesGallery properties={propertyData} />;
+  return (
+    <main className='flex-1 h-full'>
+      <PropertiesGallery properties={propertyData} />
+    </main>
+  );
 }

@@ -18,7 +18,7 @@ export default async function EventLayout({ children, params }) {
   }
 
   return (
-    <div className='flex gap-4 w-full flex-1 bg-gray-600'>
+    <div className='flex gap-4 w-full flex-1 lg:bg-gray-600 xs:bg-black'>
       <LayoutNavBarContainer>
         <Header>
           <Group

@@ -18,7 +18,7 @@ export function MobileNavbar({ propertyId }) {
       </FooterNav.Link>
 
       <FooterNav.Link href={`/properties/${propertyId}/events`}>
-        <i className='fa fa-history' />
+        <i className='fa fa-chevron-left' />
       </FooterNav.Link>
     </FooterNav>
   );

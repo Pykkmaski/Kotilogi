@@ -24,6 +24,10 @@ export function MobileNavBar() {
       <FooterNav.Link href='files'>
         <i className='fa fa-copy' />
       </FooterNav.Link>
+
+      <FooterNav.Link href='/dashboard/properties'>
+        <i className='fa fa-chevron-left' />
+      </FooterNav.Link>
     </FooterNav>
   );
 }

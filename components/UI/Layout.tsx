@@ -13,7 +13,7 @@ export function LayoutNavBarContainer({ children }) {
 
 export function LayoutContentContainer({ children }) {
   return (
-    <div className='flex-[9] xs:ml-0 md:pr-32 xs:px-4 py-8 bg-gradient-to-b from-white to-slate-200 rounded-tl-2xl shadow-lg'>
+    <div className='lg:flex-[9] xs:flex-1 xs:ml-0 md:pr-32 xs:px-4 py-8 bg-gradient-to-b from-white to-slate-200 xs:rounded-t-2xl lg:rounded-tl-2xl shadow-lg'>
       {children}
     </div>
   );

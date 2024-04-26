@@ -16,8 +16,8 @@ export default async function DashboardLayout({ children }) {
   if (!session) throw new Error('Käyttäjän lataaminen epäonnistui!');
 
   return (
-    <div className='bg-gray-600'>
-      <div className='lg:flex xs:flex w-full flex-1'>
+    <div className='lg:bg-gray-600 xs:bg-black xs:h-screen lg:h-auto'>
+      <div className='lg:flex xs:flex w-full flex-1 h-full'>
         <LayoutNavBarContainer>
           <Header>
             <Group

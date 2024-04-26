@@ -149,17 +149,3 @@ export function PropertiesGallery({ properties }) {
     </Gallery>
   );
 }
-
-export function Content({
-  propertyData,
-  user,
-}: {
-  propertyData: Kotidok.PropertyType[];
-  user: { email: string };
-}) {
-  return (
-    <main className='mb-4 flex-1 h-full'>
-      <PropertiesGallery properties={propertyData} />
-    </main>
-  );
-}

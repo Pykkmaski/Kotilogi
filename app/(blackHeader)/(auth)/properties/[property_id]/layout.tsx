@@ -39,7 +39,7 @@ export default async function PropertyDetailsLayout({ children, params }) {
   }
 
   return (
-    <div className='flex flex-row gap-2 w-full flex-1 bg-gray-600'>
+    <div className='flex flex-row gap-2 w-full flex-1 lg:bg-gray-600 xs:bg-black'>
       <LayoutNavBarContainer>
         <Header>
           <Group direction='col'>
