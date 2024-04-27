@@ -33,12 +33,9 @@ export async function GET(req: NextRequest, { params }) {
       activatedOn: Date.now(),
     });
 
-    return new NextResponse(
-      'Tilisi on aktivoitu! Jos olet tällä hetkellä kirjautuneena sisään, tulee sinun kirjautua ulos, että muutokset tulevat voimaan.',
-      {
-        status: 200,
-      }
-    );
+    const url = req.nextUrl.clone();
+    url.pathname = '/activated';
+    return NextResponse.redirect(url);
   } catch (err) {
     console.log(err.message);
     if (err.message === 'token_invalid') {

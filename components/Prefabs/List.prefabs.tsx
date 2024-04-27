@@ -44,7 +44,7 @@ export function DeleteButton(props) {
   return (
     <i
       {...props}
-      className='fa fa-trash text-red-700 cursor-pointer'
+      className='fa fa-trash text-red-700 cursor-pointer hover:underline'
     />
   );
 }
@@ -53,7 +53,7 @@ export function CancelSelectionButton(props) {
   return (
     <i
       {...props}
-      className='fa fa-times text-slate-500 text-lg cursor-pointer'
+      className='fa fa-times text-slate-500 text-lg cursor-pointer hover:underline'
       title='Kumoa valinnat...'
     />
   );

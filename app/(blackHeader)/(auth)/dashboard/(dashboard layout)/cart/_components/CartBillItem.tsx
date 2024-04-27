@@ -5,6 +5,8 @@ import { formatNumber } from 'kotilogi-app/utils/formatNumber';
 import Button from '@/components/UI/Button/Button';
 import { useRouter } from 'next/navigation';
 import { useBillsContext } from './Bills';
+import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import { CheckboxWithCursorPointer } from '@/components/UI/CheckboxWithCursorPointer';
 
 type CartBillItemProps = {
   bill: TODO;
@@ -60,12 +62,12 @@ export function CartBillItem({ bill, onSelect }: CartBillItemProps) {
       </div>
 
       <div className='flex w-full items-center justify-end border-t border-slate-200 pt-2 mt-4'>
-        <Button
-          variant='primary-dashboard'
-          disabled={loading}
-          onClick={() => pay([bill])}>
-          <span className='mx-4'>Maksa</span>
-        </Button>
+        <SelectablesProvider.SelectTrigger item={bill}>
+          <input
+            type='checkbox'
+            className='w-[20px] aspect-square'
+          />
+        </SelectablesProvider.SelectTrigger>
       </div>
     </div>
   );

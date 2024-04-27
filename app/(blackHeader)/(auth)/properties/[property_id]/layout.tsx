@@ -1,5 +1,4 @@
 import db from 'kotilogi-app/dbconfig';
-import { PropertyProvider } from './PropertyContextProvider';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { NavBar } from '@/components/UI/NavBar';
@@ -8,10 +7,8 @@ import { Header } from '@/components/UI/Header/Header';
 import { LayoutContentContainer, LayoutNavBarContainer, NavDivider } from '@/components/UI/Layout';
 import { Group } from '@/components/UI/Group';
 import { SecondaryHeading } from '@/components/UI/Heading';
-import { FooterNav } from '@/components/Feature/FooterNav';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { MobileNavBar } from './MobileNavBar';
+import { MobileNavBar } from './_components/MobileNavBar';
 
 export default async function PropertyDetailsLayout({ children, params }) {
   const property = await db('properties').where({ id: params.property_id }).first();

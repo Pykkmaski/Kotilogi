@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,12 +15,13 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "types": ["@testing-library/jest-dom"],
     "paths": {
       "@/components/*": ["components/*"],
+      "@/hooks/*": ["hooks/*"],
       "@/pages/*": ["pages/*"],
       "@/styles/*": ["styles/*"],
       "kotilogi-app/*": ["./*"],
-      "@/*": ["./*"],
       "@/utils/*": ["utils/*"]
     },
     "plugins": [
@@ -47,8 +48,8 @@
     "jest.config.js",
     "utils/__tests__/properties.test.js",
     "components/new/Gallery/GalleryBase/Components/Error/GalleryError.test.jsx",
-    "components/Util/HighlightingNavbar.Providertsx"
+    "components/Util/HighlightingNavbar.Providertsx",
+    "components/Util/__tests__/VisibilityProvider.test.tsx"
   ],
-  "exclude": ["node_modules"],
-  "types": ["@testing-library/jest-dom"]
+  "exclude": ["node_modules"]
 }

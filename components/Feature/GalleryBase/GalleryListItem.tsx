@@ -34,7 +34,7 @@ export function GalleryListItem<T extends Kotidok.ItemType>({
           className='flex-1 w-full cursor-pointer hover:no-underline'>
           <ListItem.Header>
             <div className='flex items-center gap-2'>
-              <i className={`${faIcon} text-black`} />
+              <i className={`${faIcon} text-slate-500`} />
               <h1 className='text-lg text-black'>{title}</h1>
               {secondaryHeaderContent}
             </div>

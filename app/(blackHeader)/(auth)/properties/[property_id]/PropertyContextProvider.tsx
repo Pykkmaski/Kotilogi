@@ -1,7 +1,7 @@
 'use client';
 
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 
 const PropertyProviderContext = createContext<{
   property: Kotidok.PropertyType;
@@ -20,4 +20,7 @@ export function PropertyProvider({ children, property }: PropertyProviderProps) 
   );
 }
 
-export const usePropertyContext = createUseContextHook('PropertyProvider', PropertyProviderContext);
+export const usePropertyProviderContext = createUseContextHook(
+  'PropertyProviderContext',
+  PropertyProviderContext
+);

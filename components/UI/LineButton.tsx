@@ -7,7 +7,7 @@ type LineButtonProps = React.ComponentProps<'div'> & {
 export function LineButton({ open, ...props }: LineButtonProps) {
   return (
     <div
-      className='flex flex-col gap-2 w-8'
+      className='flex flex-col gap-2 w-5'
       {...props}>
       <div className='bg-white h-1 w-full' />
       <div className='bg-white h-1 w-[70%]' />

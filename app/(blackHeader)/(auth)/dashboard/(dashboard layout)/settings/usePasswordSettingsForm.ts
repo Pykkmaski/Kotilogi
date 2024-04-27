@@ -3,17 +3,23 @@ import { MutableRefObject, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import * as users from '@/actions/users';
-import { useDashboardContext } from '../DashboardContextProvider';
+import { useUserProvider } from '../UserProvider';
 import { updateUserPassword } from 'kotilogi-app/actions/experimental/users';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 
-type PasswordSettingStatus = 'idle' | 'invalid_password' | 'password_mismatch' | 'loading' | 'success' | 'unexpected';
+type PasswordSettingStatus =
+  | 'idle'
+  | 'invalid_password'
+  | 'password_mismatch'
+  | 'loading'
+  | 'success'
+  | 'unexpected';
 
 export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElement>) {
   const router = useRouter();
   const [status, setStatus] = useState<PasswordSettingStatus>('idle');
   const { data, updateData, reset: resetData } = useInputData({});
-  const { user } = useDashboardContext();
+  const { user } = useUserProvider();
 
   const resetForm = () => {
     formRef.current?.reset();

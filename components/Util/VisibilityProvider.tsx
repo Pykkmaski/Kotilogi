@@ -1,6 +1,6 @@
 'use client';
 
-import { useToggle } from 'hooks/useToggle';
+import { useToggle } from '@/hooks/useToggle';
 import React, { useContext, useEffect } from 'react';
 import { createContext } from 'react';
 

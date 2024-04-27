@@ -11,6 +11,12 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
     return NextResponse.redirect(url);
   }
 
+  if (token.status === 'unpaid' && req.nextUrl.pathname !== '/dashboard/cart') {
+    const url = req.nextUrl.clone();
+    url.pathname = '/dashboard/cart';
+    return NextResponse.redirect(url);
+  }
+
   if (url.pathname === 'dashboard') {
     const url = req.nextUrl.clone();
     url.pathname = '/dashboard/properties';

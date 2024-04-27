@@ -28,7 +28,7 @@ const BackToCheckout = () => (
 
 export default function PaymentResult({ returnCode, paymentStatusCode }) {
   const [signingOut, setSigningOut] = useState(false);
-  const { update } = useSession();
+  const { update: updateSession } = useSession();
 
   const getContent = () => {
     if (signingOut) {
@@ -126,7 +126,7 @@ export default function PaymentResult({ returnCode, paymentStatusCode }) {
   useEffect(() => {
     if (returnCode === 0) {
       const data = { status: 'active' };
-      update(data).catch(err => toast.error(err.message));
+      updateSession(data).catch(err => toast.error(err.message));
     }
   }, []);
 

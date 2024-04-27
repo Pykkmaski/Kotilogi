@@ -39,6 +39,7 @@ export const options = {
   callbacks: {
     async jwt({ token, trigger, user, session }) {
       if (trigger === 'update' && session?.status) {
+        console.log('Updating session status...');
         token.status = session.status;
         return token;
       }
@@ -64,6 +65,7 @@ export const options = {
 
     async session({ session, token, trigger }) {
       if (trigger === 'update') {
+        console.log('Returning new session');
         return { ...token, user: { ...session.user } };
       }
 

@@ -7,6 +7,7 @@ import { createContext, useState } from 'react';
 const SelectablesProviderContext = createContext<{
   selectedItems: TODO[];
   selectItem: (item: unknown) => void;
+  selectAll: (items: unknown) => void;
   resetSelected: () => void;
 }>(null);
 
@@ -26,12 +27,17 @@ export function SelectablesProvider<T>({ children }) {
     });
   };
 
+  const selectAll = (items: T[]) => {
+    setSelectedItems(items);
+  };
+
   const resetSelected = () => {
     setSelectedItems([]);
   };
 
   return (
-    <SelectablesProviderContext.Provider value={{ selectedItems, selectItem, resetSelected }}>
+    <SelectablesProviderContext.Provider
+      value={{ selectedItems, selectItem, selectAll, resetSelected }}>
       {children}
     </SelectablesProviderContext.Provider>
   );
@@ -90,6 +96,17 @@ SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
   );
 };
 
+SelectablesProvider.SelectAllTrigger = function ({ children, itemsToSelect, ...props }) {
+  const { selectAll } = useSelectablesProviderContext();
+  return React.Children.map(children as React.ReactElement, child =>
+    React.cloneElement(child, {
+      ...child.props,
+      ...props,
+      onClick: () => selectAll(itemsToSelect),
+    })
+  );
+};
+
 SelectablesProvider.HideIfNoneSelected = function ({ children, ...props }) {
   const { selectedItems } = useSelectablesProviderContext();
   return React.Children.map(children as React.ReactElement, child =>
@@ -97,6 +114,17 @@ SelectablesProvider.HideIfNoneSelected = function ({ children, ...props }) {
       ...child.props,
       ...props,
       hidden: !selectedItems.length,
+    })
+  );
+};
+
+SelectablesProvider.DisabledIfNoneSelected = function ({ children, ...props }) {
+  const { selectedItems } = useSelectablesProviderContext();
+  return React.Children.map(children as React.ReactElement, child =>
+    React.cloneElement(child, {
+      ...child.props,
+      ...props,
+      disabled: !selectedItems.length,
     })
   );
 };

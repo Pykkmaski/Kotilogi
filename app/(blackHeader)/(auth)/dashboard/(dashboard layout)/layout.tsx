@@ -4,7 +4,7 @@ import { Header } from '@/components/UI/Header/Header';
 import { LayoutContentContainer, LayoutNavBarContainer } from '@/components/UI/Layout';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
-import { DashboardContextProvider } from './DashboardContextProvider';
+import { UserProvider } from './UserProvider';
 import { Group } from '@/components/UI/Group';
 import { DashboardMobileNav } from './DashboardMobileNav';
 import MobileDashboardLayout from './_mobile/MobileDashboardLayout';
@@ -51,7 +51,7 @@ export default async function DashboardLayout({ children }) {
           </nav>
         </LayoutNavBarContainer>
 
-        <DashboardContextProvider user={session.user}>
+        <UserProvider user={session.user}>
           <LayoutContentContainer>
             <div className='xs:block lg:hidden flex flex-col mb-10'>
               <small className='text-slate-500 text-sm'>Hallintapaneeli</small>
@@ -61,7 +61,7 @@ export default async function DashboardLayout({ children }) {
             <div className='xs:pb-8 lg:pb-0'>{children}</div>
             <DashboardMobileNav />
           </LayoutContentContainer>
-        </DashboardContextProvider>
+        </UserProvider>
       </div>
 
       <div className='xs:hidden lg:hidden'>
