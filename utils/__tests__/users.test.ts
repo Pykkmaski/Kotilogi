@@ -30,22 +30,19 @@ describe('Testing successful user registration.', () => {
 
 describe('Testing unsuccessful user registration.', () => {
   test('Resolves with user_exists, when trying to register with an email already in use, while using the dev db.', async () => {
-    const mockedAdd = jest.spyOn(DatabaseTable.prototype, 'add');
-    mockedAdd.mockRejectedValueOnce(new Error('unique'));
+    (DatabaseTable.prototype.add as jest.Mock).mockRejectedValueOnce(new Error('unique'));
     const res = await users.registerUser(testUser);
     expect(res).toBe('user_exists');
   });
 
   test('Resolves with user_exists, when trying to register with an email already in use, while using the prod db.', async () => {
-    const mockedAdd = jest.spyOn(DatabaseTable.prototype, 'add');
-    mockedAdd.mockRejectedValueOnce(new Error('duplicate'));
+    (DatabaseTable.prototype.add as jest.Mock).mockRejectedValueOnce(new Error('duplicate'));
     const res = await users.registerUser(testUser);
     expect(res).toBe('user_exists');
   });
 
   test('Resolves with unexpected, when some other error occurs.', async () => {
-    const mockedAdd = jest.spyOn(DatabaseTable.prototype, 'add');
-    mockedAdd.mockRejectedValueOnce(new Error('unexpected'));
+    (DatabaseTable.prototype.add as jest.Mock).mockRejectedValueOnce(new Error('unexpected'));
     const res = await users.registerUser(testUser);
     expect(res).toBe('unexpected');
   });
