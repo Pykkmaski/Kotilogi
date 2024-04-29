@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import db from 'kotilogi-app/dbconfig';
 import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 
 export async function GET(req: NextRequest, { params }) {
@@ -14,7 +13,6 @@ export async function GET(req: NextRequest, { params }) {
     var decodedToken = null;
     jwt.verify(params.token, activationSecret, (err, decoded) => {
       if (err) {
-        console.log(err.message);
         //Throw error on invalid token.
         throw new Error('token_invalid');
       }
