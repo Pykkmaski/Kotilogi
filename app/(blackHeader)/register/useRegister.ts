@@ -4,7 +4,13 @@ import toast from 'react-hot-toast';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { registerUser } from 'kotilogi-app/actions/experimental/users';
 
-export type RegisterStatusType = 'idle' | 'unexpected' | 'user_exists' | 'password_mismatch' | 'loading' | 'success';
+export type RegisterStatusType =
+  | 'idle'
+  | 'unexpected'
+  | 'user_exists'
+  | 'password_mismatch'
+  | 'loading'
+  | 'success';
 
 export type RegisterDataType = {
   email?: string;
@@ -36,7 +42,7 @@ export function useRegister() {
 
           if (status === 'success') {
             toast.success('Rekisteröityminen onnistui!');
-            router.replace('/login');
+            router.replace('/register/success');
           }
         })
         .catch(err => {

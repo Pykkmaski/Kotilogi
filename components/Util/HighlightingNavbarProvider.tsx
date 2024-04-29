@@ -35,6 +35,7 @@ HighlightingNavbarProvider.Link = function ({ children, href }) {
   return React.Children.map(children as React.ReactElement, child =>
     React.cloneElement(child, {
       ...child.props,
+      href,
       selected,
     })
   );

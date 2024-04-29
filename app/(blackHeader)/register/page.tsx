@@ -8,29 +8,8 @@ import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { Padding } from '@/components/UI/Padding';
 import Link from 'next/link';
 import { ErrorText } from '@/components/UI/Text';
-import { MIN_PASSWORD_LENGTH, Prices, serviceName } from 'kotilogi-app/constants';
-import { getBasePrice, getFullPrice } from 'kotilogi-app/utils/getFullPrice';
+import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
 import { useRegister } from './useRegister';
-
-function IncludesVATNotice() {
-  return <span>(Sis. ALV {Prices.TAX * 100}%)</span>;
-}
-
-function RegularPlanInfo() {
-  return (
-    <span className='text-slate-500'>
-      Perustilin vuosihinta on <span className='text-orange-500'>{getBasePrice('regular')}€</span>
-    </span>
-  );
-}
-
-function ProPlanInfo() {
-  return (
-    <span className='text-slate-500'>
-      Pro-tilin vuosihinta on <span className='text-orange-500'>{getBasePrice('pro')}€</span>
-    </span>
-  );
-}
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
@@ -96,7 +75,7 @@ export default function RegisterPage() {
               {/**Align the error to the right if on a bigger than mobile device */}
               {status === 'password_mismatch' ? (
                 <div className='w-full flex xs:justify-normal xl:justify-end text-sm'>
-                  <ErrorText>Salasanat eivät täsmää</ErrorText>
+                  <ErrorText data-testid='password-error-text'>Salasanat eivät täsmää</ErrorText>
                 </div>
               ) : null}
             </div>

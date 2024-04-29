@@ -1,6 +1,6 @@
 'use client';
 
-import { DateRangeSelector } from '@/components/Feature/DateRangeSelector/DateRangeSelector';
+import { DateRangeSelector } from '@/components/Feature/DateRangeSelector';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { MobileUsageFilterModal } from './MobileUsageFilterModal';
 

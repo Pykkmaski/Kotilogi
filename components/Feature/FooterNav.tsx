@@ -22,26 +22,30 @@ export function FooterNav({ children }: FooterNavProps) {
   );
 }
 
-type LinkProps = React.ComponentProps<typeof Link> & {
+type LinkProps = React.PropsWithChildren & {
   selected?: boolean;
+  href?: string;
 };
 
-FooterNav.Link = function ({ children, selected, ...props }: LinkProps) {
+FooterNav.Link = function ({ children, selected, href, ...props }: LinkProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const cn = 'text-orange-300';
-
-    if (selected) {
-      linkRef.current?.classList.add(cn);
-    } else {
-      linkRef.current?.classList.remove(cn);
+    if (linkRef.current) {
+      const classList = linkRef.current.classList;
+      if (selected === true) {
+        classList.add(cn);
+      } else {
+        classList.remove(cn);
+      }
     }
   }, [selected]);
 
   return (
     <Link
       {...props}
+      href={href}
       ref={linkRef}>
       {children}
     </Link>

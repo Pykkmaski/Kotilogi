@@ -32,11 +32,7 @@ export class DatabaseTable {
   }
 
   update<T>(data: T, query: TODO, returns?: string | string[]) {
-    try {
-      return this.dbcon(this.tablename).where(query).update(data, returns);
-    } catch (err) {
-      console.log(err.message);
-    }
+    return this.dbcon(this.tablename).where(query).update(data, returns);
   }
 
   del(query: TODO) {

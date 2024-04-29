@@ -62,7 +62,7 @@ export default function LoginPage() {
                   ) : status === 'trial_expired' ? (
                     <ErrorText>Kokeilujaksosi on päättynyt!</ErrorText>
                   ) : (
-                    <ErrorText>
+                    <ErrorText data-testid='inactive-user-error'>
                       Käyttäjätili on poistettu käytöstä!{' '}
                       <Link
                         href='/'
@@ -98,7 +98,7 @@ export default function LoginPage() {
               <div className='w-full flex justify-end gap-2'>
                 <span style={{ color: 'gray' }}>Unohditko salasanasi? </span>
                 <Link
-                  data-testid='login-reset-link'
+                  data-testid='password-reset-link'
                   href='/login/reset'
                   className='text-orange-400'>
                   Klikkaa tähän.

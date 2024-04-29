@@ -18,13 +18,13 @@ test('It toggles the hidden property of its target', () => {
 
   const trigger = screen.getByTestId('trigger');
   const target = screen.getByTestId('target');
-  expect(target).toHaveAttribute('hidden', true);
+  expect(target).toHaveAttribute('hidden');
 
   fireEvent.click(trigger);
 
-  expect(target).toHaveAttribute('hidden', false);
+  expect(target).not.toHaveAttribute('hidden');
 
   fireEvent.click(trigger);
 
-  expect(target).toHaveAttribute('hidden', true);
+  expect(target).toHaveAttribute('hidden');
 });

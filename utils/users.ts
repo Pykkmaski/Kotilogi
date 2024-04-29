@@ -53,7 +53,7 @@ class Users {
 
   async registerUser(credentials: { email: string; password: string; plan: string }) {
     const trx = await db.transaction();
-
+    const usersTable = new DatabaseTable('users', trx);
     try {
       const user = {
         email: credentials.email,
@@ -61,7 +61,7 @@ class Users {
         plan: credentials.plan,
       };
 
-      await trx('users').insert(user);
+      await usersTable.add(user);
       await sendAccountActivationLink(user.email);
       await trx.commit();
       return 'success';

@@ -6,10 +6,16 @@ export const Group = ({ children }: React.PropsWithChildren) => {
   return <div className='flex flex-col gap-1'>{children}</div>;
 };
 
-export const Input = ({ children, ...props }: React.ComponentProps<'input'> & React.PropsWithChildren) => {
+export const Input = ({
+  children,
+  ...props
+}: React.ComponentProps<'input'> & React.PropsWithChildren) => {
   return (
     <div className='relative flex w-full items-center'>
-      <input {...props} className='w-full' />
+      <input
+        {...props}
+        className='w-full'
+      />
       <div className='absolute right-2'>{children}</div>
     </div>
   );
@@ -27,10 +33,14 @@ export const Description = ({ children }: React.PropsWithChildren) => {
   );
 };
 
-export const ErrorMessage = ({ children }: React.PropsWithChildren) => {
+export const ErrorMessage = ({ children, ...props }: React.PropsWithChildren) => {
   return (
     <SubLabel>
-      <div className='text-red-500'>{children}</div>
+      <div
+        className='text-red-500'
+        {...props}>
+        {children}
+      </div>
     </SubLabel>
   );
 };

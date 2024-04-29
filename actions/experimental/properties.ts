@@ -2,7 +2,6 @@
 
 import { properties } from 'kotilogi-app/utils/properties';
 import { revalidatePath } from 'next/cache';
-import { checkUserPassword } from '../util/checkUserPassword';
 import db from 'kotilogi-app/dbconfig';
 import { Files } from 'kotilogi-app/utils/files';
 import jwt from 'jsonwebtoken';
@@ -35,30 +34,6 @@ export async function deleteProperty(propertyId: string, password: string) {
     throw new Error('invalid_password');
   }
   await properties.deleteProperty(propertyId);
-  revalidatePath(PATH);
-}
-
-export async function activateProperty(data: {
-  customer: string;
-  password: string;
-  propertyId: string;
-}) {
-  await checkUserPassword(data.customer, data.password).then(result => {
-    if (!result) throw new Error('Incorrect password!');
-  });
-
-  await properties.activateProperty(data.propertyId);
-  revalidatePath(PATH);
-}
-
-export async function deactivateProperty(property: Kotidok.PropertyType, password: string) {
-  await checkUserPassword(property.refId, password).then(result => {
-    if (!result) {
-      throw new Error('Invalid password');
-    }
-  });
-
-  await properties.deactivateProperty(property.id);
   revalidatePath(PATH);
 }
 

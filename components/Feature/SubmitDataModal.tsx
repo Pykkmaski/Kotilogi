@@ -4,7 +4,7 @@ import { Modal } from '../UI/Modal';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
 import { MutableRefObject, createContext, useEffect, useId, useRef } from 'react';
 import Button from '../UI/Button/Button';
-import { useSubmitData } from 'hooks/useSubmitData';
+import { useSubmitData } from '@/hooks/useSubmitData';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import React from 'react';
 
@@ -95,6 +95,17 @@ SubmitDataModalProvider.Form = ({ children }: React.PropsWithChildren) => {
       onSubmit={submit}>
       {children}
     </form>
+  );
+};
+
+SubmitDataModalProvider.SubmitTrigger = function ({ children, ...props }) {
+  const { formId } = useSubmitDataModalProviderContext();
+  return React.Children.map(children as React.ReactElement, child =>
+    React.cloneElement(child, {
+      ...child.props,
+      ...props,
+      form: formId,
+    })
   );
 };
 

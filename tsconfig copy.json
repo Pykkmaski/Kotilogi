@@ -21,11 +21,8 @@
       "@/hooks/*": ["hooks/*"],
       "@/pages/*": ["pages/*"],
       "@/styles/*": ["styles/*"],
-      "@/actions/*": ["actions/*"],
       "kotilogi-app/*": ["./*"],
-      "@/utils/*": ["utils/*"],
-      "@/*": ["./*"],
-      "~/*": ["*"]
+      "@/utils/*": ["utils/*"]
     },
     "plugins": [
       {

@@ -1,9 +1,0 @@
-Index
-    -WelcomeText, style.module.scss
-    -AppDescription, ProfileText, both have a style.module.scss
-    -Footer, Has its own scss module.
-
-Gallery, has its own scss module
-    Cards, uses the _card.scss style file.
-
-    

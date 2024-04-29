@@ -18,6 +18,7 @@ export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelector
 
       opts.push(
         <option
+          data-testid={`option-${stamp}`}
           value={stamp}
           selected={selected}>
           {stamp}
@@ -34,6 +35,7 @@ export function DateRangeSelector({ timestamps, currentYear }: DateRangeSelector
 
   return (
     <select
+      data-testid='date-range-selector'
       name='year'
       onChange={e => updateQuery(e)}
       className='w-[100px]'
