@@ -1,5 +1,6 @@
 'use client';
 
+import { TitleWithParagraphLayout } from '@/components/UI/TitleWithParagraphLayout';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -17,8 +18,10 @@ export default function ActivatedPage({ searchParams }) {
 
   return (
     <main className='flex flex-col items-center justify-center w-full h-full'>
-      <h1 className='text-2xl'>Tilin aktivointi onnistui!</h1>
-      <p>Käyttäjätilisi {searchParams.email} on nyt käytössä.</p>
+      <TitleWithParagraphLayout>
+        <>Tilin aktivointi onnistui!</>
+        <>Käyttäjätilisi {searchParams.email} on nyt käytössä.</>
+      </TitleWithParagraphLayout>
     </main>
   );
 }

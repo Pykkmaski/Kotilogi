@@ -17,13 +17,7 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
     return NextResponse.redirect(url);
   }
 
-  if (url.pathname === 'dashboard') {
-    const url = req.nextUrl.clone();
-    url.pathname = '/dashboard/properties';
-    return NextResponse.redirect(url);
-  }
-
-  if (url.pathname === 'login') {
+  if (url.pathname === '/dashboard') {
     const url = req.nextUrl.clone();
     url.pathname = '/dashboard/properties';
     return NextResponse.redirect(url);
@@ -32,14 +26,16 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
 
 async function middleware(req: NextRequestWithAuth) {
   const { token } = req.nextauth;
-
   if (token) {
     return handleAuthorized(token, req);
+  } else {
+    console.log('Not logged in');
+    return NextResponse.next();
   }
 }
 
 export default withAuth(middleware);
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/properties/:path*', '/events/:path*'],
+  matcher: ['/dashboard/:path*'],
 };

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import db from 'kotilogi-app/dbconfig';
+import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 
 export async function GET(req: NextRequest, { params }) {
   try {
@@ -10,34 +11,36 @@ export async function GET(req: NextRequest, { params }) {
 
     const activationSecret = process.env.ACTIVATION_SECRET;
 
-    const emailToActivate = jwt.verify(params.token, activationSecret, (err, decoded) => {
+    var decodedToken = null;
+    jwt.verify(params.token, activationSecret, (err, decoded) => {
       if (err) {
         console.log(err.message);
         //Throw error on invalid token.
         throw new Error('token_invalid');
-      } else {
-        return decoded;
       }
+      decodedToken = decoded;
     });
 
-    const [{ status: userStatus }] = await db('users')
-      .where({ email: emailToActivate })
-      .select('status');
+    const usersTable = new DatabaseTable('users');
+
+    const [{ status: userStatus }] = await usersTable.select('status', {
+      email: decodedToken.email,
+    });
 
     if (userStatus !== 'unconfirmed') {
       throw new Error('user_activated');
     }
 
-    await db('users').where({ email: emailToActivate }).update({
-      status: 'active',
-      activatedOn: Date.now(),
-    });
+    await usersTable.update(
+      {
+        status: 'active',
+        activatedOn: Date.now(),
+      },
+      { email: decodedToken.email }
+    );
 
-    const url = req.nextUrl.clone();
-    url.pathname = '/activated';
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(process.env.SERVICE_DOMAIN + '/activated');
   } catch (err) {
-    console.log(err.message);
     if (err.message === 'token_invalid') {
       return new NextResponse('Annettu varmenne on väärä.', {
         status: 403,
@@ -51,6 +54,7 @@ export async function GET(req: NextRequest, { params }) {
         status: 400,
       });
     } else {
+      console.log(err.message);
       return new NextResponse('Palvelinvirhe.', {
         status: 500,
       });

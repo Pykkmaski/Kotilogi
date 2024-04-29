@@ -2,12 +2,13 @@ import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import { SendEmailButton } from './SendEmailButton';
 import { TitleWithParagraphLayout } from '@/components/UI/TitleWithParagraphLayout';
+import { MainAllCentered } from '@/components/UI/Main';
 
 export default async function ConfirmEmailPage() {
   const session = await getServerSession(options as any);
 
   return (
-    <main className='flex flex-col justify-center items-center flex-1 text-slate-600 px-2'>
+    <MainAllCentered id='confirm-email-page'>
       <TitleWithParagraphLayout>
         <>Tilin Vahvistus</>
         <>
@@ -22,6 +23,6 @@ export default async function ConfirmEmailPage() {
           <SendEmailButton session={session}>Lähetä uudelleen</SendEmailButton>
         </>
       </TitleWithParagraphLayout>
-    </main>
+    </MainAllCentered>
   );
 }
