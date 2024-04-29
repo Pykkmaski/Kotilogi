@@ -21,8 +21,12 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
     const url = req.nextUrl.clone();
     url.pathname = '/dashboard/properties';
     return NextResponse.redirect(url);
-  } else if (url.pathname.startsWith('properties')) {
-    //Check if the property is active, otherwise redirect somewhere else.
+  }
+
+  if (url.pathname === 'login') {
+    const url = req.nextUrl.clone();
+    url.pathname = '/dashboard/properties';
+    return NextResponse.redirect(url);
   }
 }
 
