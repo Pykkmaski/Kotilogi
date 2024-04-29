@@ -3,7 +3,6 @@
 import { ApexOptions } from 'apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
 import ApexChart from 'react-apexcharts';
-import { isWindowDefined } from 'swr/_internal';
 
 type TakesDataOfType<T> = {
   data: T[];
@@ -30,7 +29,13 @@ export function Chart(props: ChartProps) {
       },
     },
   };
-  return <ApexChart options={options} series={options.series} type={options.chart?.type} />;
+  return (
+    <ApexChart
+      options={options}
+      series={options.series}
+      type={options.chart?.type}
+    />
+  );
 }
 
 export function ColumnChart(props: ChartProps) {
@@ -52,7 +57,12 @@ export function ColumnChart(props: ChartProps) {
     },
   };
 
-  return <Chart {...props} options={options} />;
+  return (
+    <Chart
+      {...props}
+      options={options}
+    />
+  );
 }
 
 export function PieChart(props: ChartProps) {
@@ -63,7 +73,12 @@ export function PieChart(props: ChartProps) {
     },
   };
 
-  return <Chart {...props} options={options} />;
+  return (
+    <Chart
+      {...props}
+      options={options}
+    />
+  );
 }
 
 type UsageColumnChartProps = ChartProps &
@@ -129,5 +144,10 @@ export function UsageColumnChart(props: UsageColumnChartProps) {
     colors: [props.columnColor],
   };
 
-  return <ColumnChart {...props} options={options} />;
+  return (
+    <ColumnChart
+      {...props}
+      options={options}
+    />
+  );
 }

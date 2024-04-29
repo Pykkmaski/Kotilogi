@@ -59,6 +59,18 @@ describe('Testing requests with valid token.', () => {
       expect(response.status).toBe(409);
     });
   });
+
+  describe('A user with the email in the token does not exist.', () => {
+    beforeAll(async () => {
+      const dbSelectMock = jest.spyOn(DatabaseTable.prototype, 'select');
+      dbSelectMock.mockResolvedValueOnce([]);
+      response = await GET({} as any, { params: { token: validToken } } as any);
+    });
+
+    it('Responds with status code 500.', () => {
+      expect(response.status).toBe(500);
+    });
+  });
 });
 
 describe('Testing requests with a correctly signed token, but it has been tampered with.', () => {
