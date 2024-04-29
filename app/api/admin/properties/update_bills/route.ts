@@ -10,6 +10,7 @@ import { DatabaseTable } from '@/utils/databaseTable';
  */
 export async function POST(req: NextRequest) {
   try {
+    console.log('Hitting the update_bill route...');
     const authorized = verifyAuthorization(req);
     if (!authorized) {
       return new NextResponse('Request unauthorized!', {
@@ -43,8 +44,6 @@ export async function POST(req: NextRequest) {
       status: 200,
     });
   } catch (err) {
-    console.log(err.message);
-
     return new NextResponse(err.message, {
       status: 500,
     });

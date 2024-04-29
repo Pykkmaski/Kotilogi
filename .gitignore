@@ -46,5 +46,5 @@ pelican/
 /pelican
 /autobiller.db.config
 dbtest.js
-homeboy.*
+homeboy.js
 
