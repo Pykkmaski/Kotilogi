@@ -40,7 +40,7 @@ class Properties {
         targetId: propertyId,
         customer: propertyData.refId,
         due: createDueDate(30),
-        stamp: 'add_property',
+        stamp: 'property',
       };
 
       await bills.addBill(bill, trx);
@@ -67,7 +67,9 @@ class Properties {
 
     try {
       //Fetch all file database entries for the property and its events.
-      const propertyFileIds = (await propertyFilesTable.pluck('id', { refId: propertyId })) as string[];
+      const propertyFileIds = (await propertyFilesTable.pluck('id', {
+        refId: propertyId,
+      })) as string[];
       const eventFileIds = (await eventsTable.get({ refId: propertyId }).then(async events => {
         return events.map(async event => await eventFilesTable.pluck('id', { refId: event.id }));
       })) as string[];
@@ -82,8 +84,14 @@ class Properties {
       await trx.commit();
     } catch (err) {
       console.log(err.message);
-      const promises = [trx.rollback, propertyFilesTable.rollbackFiles, eventFilesTable.rollbackFiles];
-      await Promise.all(promises).catch(err => console.log('Property rollback failed to complete!'));
+      const promises = [
+        trx.rollback,
+        propertyFilesTable.rollbackFiles,
+        eventFilesTable.rollbackFiles,
+      ];
+      await Promise.all(promises).catch(err =>
+        console.log('Property rollback failed to complete!')
+      );
 
       throw err;
     }

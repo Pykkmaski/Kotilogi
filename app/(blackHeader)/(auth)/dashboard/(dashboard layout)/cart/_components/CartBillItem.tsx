@@ -17,11 +17,7 @@ export function CartBillItem({ bill, onSelect }: CartBillItemProps) {
   const { status, pay } = useBillsContext();
 
   const getType = () => {
-    if (bill.stamp === 'activate_property') {
-      return 'Talon käyttöönotto';
-    } else if (bill.stamp === 'add_property') {
-      return 'Talon lisäys';
-    } else if (bill.stamp === 'charge_property') {
+    if (bill.stamp === 'property') {
       return 'Talon vuosimaksu';
     } else {
       return bill.stamp;

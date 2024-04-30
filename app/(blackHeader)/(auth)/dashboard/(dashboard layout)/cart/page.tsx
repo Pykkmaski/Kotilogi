@@ -3,28 +3,9 @@ import { Header } from '@/components/UI/Header/Header';
 import { Heading } from '@/components/UI/Heading';
 import { getServerSession } from 'next-auth';
 import { UserType } from 'kotilogi-app/types/UserType';
-import db from 'kotilogi-app/dbconfig';
 import { Bills } from './_components/Bills';
 import { Banner } from './_components/Banner';
-
-async function getBills(session, dueInMonths: number = 1) {
-  const billStream = await db('bills').where({ customer: session.user.email }).stream();
-  const bills = [];
-
-  for await (const bill of billStream) {
-    const dueDate = new Date(bill.due);
-    const currentDate = new Date();
-
-    if (
-      dueDate.getMonth() - currentDate.getMonth() <= dueInMonths &&
-      currentDate.getFullYear() >= dueDate.getFullYear()
-    ) {
-      bills.push(bill);
-    }
-  }
-
-  return bills;
-}
+import { getBills } from './_actions/getBills';
 
 export default async function CartPage() {
   const session = (await getServerSession(options as any)) as { user: UserType };

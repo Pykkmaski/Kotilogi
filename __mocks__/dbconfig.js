@@ -36,5 +36,6 @@ db.transaction.stream = jest.fn();
 db.del = del;
 db.update = update;
 db.pluck = pluck;
+db.stream = jest.fn();
 
 module.exports = db;
