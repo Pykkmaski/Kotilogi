@@ -16,13 +16,17 @@ export default async function CartPage() {
       <Header>
         <Heading>Erääntyvät maksut</Heading>
       </Header>
-      <div className='xs:hidden lg:block'>
+      <div
+        className='xs:hidden lg:block'
+        data-testid='horizontal-pay-banner'>
         <Banner variant='row' />
       </div>
 
       <Bills bills={bills} />
 
-      <div className='xs:block lg:hidden'>
+      <div
+        className='xs:block lg:hidden'
+        data-testid='vertical-pay-banner'>
         <Banner variant='column' />
       </div>
     </main>

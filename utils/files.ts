@@ -16,9 +16,8 @@ export class Files extends DatabaseTable {
 
   private success: boolean = false;
 
-  private validate(file: File) {
-    const size = file.size;
-    const type = file.type;
+  public validate(file: File) {
+    const { size, type } = file;
 
     if (type !== 'application/pdf' && type !== 'image/jpeg') {
       throw new Error('Received file of invalid type! ' + type);

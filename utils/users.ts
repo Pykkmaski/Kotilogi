@@ -12,17 +12,16 @@ class Users {
   }
 
   async updatePassword(email: string, oldPassword: string, newPassword: string) {
-    const usersTable = new DatabaseTable('users');
-
-    const [{ password: encryptedPassword }] = await usersTable.select('password', {
-      email: oldPassword,
-    });
     try {
-      await bcrypt.compare(oldPassword, encryptedPassword).then(ok => {
-        if (!ok) {
-          throw new Error('invalid_password');
-        }
+      const usersTable = new DatabaseTable('users');
+
+      const [{ password: encryptedPassword }] = await usersTable.select('password', {
+        email,
       });
+      const ok = await bcrypt.compare(oldPassword, encryptedPassword);
+      if (!ok) {
+        throw new Error('invalid_password');
+      }
 
       await usersTable.update(
         {
@@ -36,6 +35,7 @@ class Users {
       if (err.message === 'invalid_password') {
         return 'invalid_password';
       } else {
+        console.log(err.message);
         return 'unexpected';
       }
     }

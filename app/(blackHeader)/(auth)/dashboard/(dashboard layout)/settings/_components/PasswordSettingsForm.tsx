@@ -7,7 +7,7 @@ import { Input } from '@/components/Feature/Input';
 import { useRef } from 'react';
 import { z } from 'zod';
 import { ErrorText } from '@/components/UI/Text';
-import { usePasswordSettingsForm } from './usePasswordSettingsForm';
+import { usePasswordSettingsForm } from '../_hooks/usePasswordSettingsForm';
 
 const PasswordSchema = z.object({
   password1: z.string(),
@@ -31,14 +31,14 @@ export function PasswordSettingsForm() {
   return (
     <form
       onSubmit={resetPasswordHandler}
-      ref={formRef}>
+      ref={formRef}
+      onChange={updateData}>
       <div className='flex flex-col gap-4'>
         <Input
           type='password'
           placeholder='Kirjoita uusi salasana...'
           autoComplete='new-password'
           name='password1'
-          onChange={updateData}
           label='Uusi Salasana'
           description='Päivitä salasanasi.'
           required={true}
@@ -50,7 +50,6 @@ export function PasswordSettingsForm() {
             placeholder='Kirjoita uusi salasana uudelleen...'
             autoComplete='off'
             name='password2'
-            onChange={updateData}
             label='Salasanan Vahvistus'
             description='Vahvista uusi salasana.'
             required={true}
@@ -69,7 +68,6 @@ export function PasswordSettingsForm() {
             placeholder='Kirjoita nykyinen salasanasi...'
             autoComplete='off'
             name='oldPassword'
-            onChange={updateData}
             label='Nykyinen salasanasi'
             description='Vahvista nykyinen salasanasi.'
             required={true}

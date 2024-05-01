@@ -4,8 +4,12 @@ import { updateEmail } from 'kotilogi-app/actions/user/updateEmail';
 import { Input } from '@/components/Feature/Input';
 import { SingleInputForm } from '@/components/Feature/SingleInputForm/SingleInputForm';
 import toast from 'react-hot-toast';
+import { useUserProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/UserProvider';
 
-export function EmailSettingsForm({ email }) {
+export function EmailSettingsForm() {
+  const {
+    user: { email },
+  } = useUserProviderContext();
   const submitMethod = async (newData: { email: string }) => {
     return updateEmail(email, newData.email);
   };

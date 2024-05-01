@@ -3,9 +3,9 @@ import { MutableRefObject, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import * as users from '@/actions/users';
-import { useUserProvider } from '../UserProvider';
 import { updateUserPassword } from 'kotilogi-app/actions/experimental/users';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
+import { useUserProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/UserProvider';
 
 type PasswordSettingStatus =
   | 'idle'
@@ -19,7 +19,7 @@ export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElemen
   const router = useRouter();
   const [status, setStatus] = useState<PasswordSettingStatus>('idle');
   const { data, updateData, reset: resetData } = useInputData({});
-  const { user } = useUserProvider();
+  const { user } = useUserProviderContext();
 
   const resetForm = () => {
     formRef.current?.reset();

@@ -17,4 +17,7 @@ export function UserProvider({ children, user }: UserProviderProps) {
   return <UserProviderContext.Provider value={{ user }}>{children}</UserProviderContext.Provider>;
 }
 
-export const useUserProvider = createUseContextHook('UserProviderContext', UserProviderContext);
+export const useUserProviderContext = createUseContextHook(
+  'UserProviderContext',
+  UserProviderContext
+);

@@ -1,5 +1,4 @@
 'use server';
-import db from '@/dbconfig';
 import { DatabaseTable } from '@/utils/databaseTable';
 
 export async function getBills(session, dueInMonths: number = 1) {
