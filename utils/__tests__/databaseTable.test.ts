@@ -96,3 +96,13 @@ describe('Testing the pluck method.', () => {
     expect(db.pluck).toHaveBeenCalledWith(colName);
   });
 });
+
+describe('Testing the static transaction-method.', () => {
+  it('Returns a callable function when mocked.', () => {
+    (DatabaseTable.transaction as jest.Mock) = jest.fn().mockReturnValue({
+      rollback: () => 'rollback',
+    });
+
+    expect(typeof DatabaseTable.transaction).toBe('function');
+  });
+});

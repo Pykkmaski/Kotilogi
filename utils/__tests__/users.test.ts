@@ -98,3 +98,11 @@ describe('Testing password update.', () => {
     });
   });
 });
+
+describe('Testing email update', () => {
+  it('The DatabaseTable update-method gets called with the correct arguments.', async () => {
+    const updateMock = jest.spyOn(DatabaseTable.prototype, 'update');
+    await users.updateEmail('old_email', 'new_email');
+    expect(updateMock).toHaveBeenCalledWith({ email: 'new_email' }, { email: 'old_email' });
+  });
+});

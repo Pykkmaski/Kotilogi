@@ -82,7 +82,6 @@ class Users {
     const [{ count }] = (await db('properties')
       .where({ refId: email })
       .count('*', { as: 'count' })) as [{ count: number }];
-    console.log(count);
     return count;
   }
 

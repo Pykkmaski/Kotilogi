@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import db from 'kotilogi-app/dbconfig';
+import db from '@/dbconfig';
 
 export class DatabaseTable {
   protected tablename: string;
@@ -37,6 +37,10 @@ export class DatabaseTable {
 
   del(query: TODO) {
     return this.connection(this.tablename).where(query).del();
+  }
+
+  static async transaction() {
+    return db.transaction();
   }
 
   async count(query: TODO) {

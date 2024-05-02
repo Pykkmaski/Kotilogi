@@ -11,7 +11,7 @@ class Events {
   }
 
   async addEvent(eventData: Kotidok.EventType, createdBy: string, files?: File[]) {
-    const trx = await db.transaction();
+    const trx = await DatabaseTable.transaction();
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
 
@@ -40,7 +40,7 @@ class Events {
   }
 
   async deleteEvent(eventId: string, editor: string) {
-    const trx = await db.transaction();
+    const trx = await DatabaseTable.transaction();
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
 

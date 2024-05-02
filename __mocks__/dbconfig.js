@@ -5,7 +5,7 @@ const del = jest.fn();
 const update = jest.fn();
 const pluck = jest.fn();
 
-const transaction = jest.fn(async () => ({
+const transaction = jest.fn(() => ({
   commit: jest.fn(),
   rollback: jest.fn(),
   where,
