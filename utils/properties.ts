@@ -35,14 +35,10 @@ class Properties {
         }
       }
 
-      const [{ email }] = await new DatabaseTable('users', trx).select('email', {
-        id: propertyData.refId,
-      });
-
       const bill = {
         amount: 990,
         targetId: propertyId,
-        customer: email,
+        customer: propertyData.refId,
         due: createDueDate(30),
         stamp: 'property',
       };
@@ -85,6 +81,10 @@ class Properties {
       await Promise.all(eventFileDelPromises);
 
       await propertiesTable.del({ id: propertyId });
+
+      //Delete any bills associated with the property
+      await new DatabaseTable('bills', trx).del({ targetId: propertyId });
+
       await trx.commit();
     } catch (err) {
       console.log(err.message);

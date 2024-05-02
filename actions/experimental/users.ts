@@ -3,13 +3,13 @@
 import { users } from 'kotilogi-app/utils/users';
 import { revalidatePath } from 'next/cache';
 
-export async function updateUserEmail(userId: number, newEmail: string) {
-  await users.updateEmail(userId, newEmail);
+export async function updateUserEmail(oldEmail: string, newEmail: string) {
+  await users.updateEmail(oldEmail, newEmail);
   revalidatePath('/dashboard/settings');
 }
 
-export async function updateUserPassword(userId: number, oldPassword: string, newPassword: string) {
-  const result = await users.updatePassword(userId, oldPassword, newPassword);
+export async function updateUserPassword(email: string, oldPassword: string, newPassword: string) {
+  const result = await users.updatePassword(email, oldPassword, newPassword);
   return result;
 }
 

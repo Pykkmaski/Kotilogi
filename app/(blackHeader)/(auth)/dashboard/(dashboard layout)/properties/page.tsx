@@ -12,7 +12,7 @@ export default async function PropertiesPage({ searchParams }: any) {
   if (!session) throw new Error('Pääsy evätty!');
 
   const propertyData = (await db('properties').where({
-    refId: session.user.id,
+    refId: session.user.email,
   })) as unknown as Kotidok.PropertyType[];
 
   return (

@@ -6,17 +6,17 @@ import { RegisterStatusType } from 'kotilogi-app/app/(blackHeader)/register/useR
 import { sendAccountActivationLink } from 'kotilogi-app/actions/email';
 
 class Users {
-  async verifyCredentials(id: number, password: string) {
-    const [{ password: encryptedPassword }] = await db('users').where({ id }).select('password');
+  async verifyCredentials(email: string, password: string) {
+    const [{ password: encryptedPassword }] = await db('users').where({ email }).select('password');
     return await bcrypt.compare(password, encryptedPassword);
   }
 
-  async updatePassword(id: number, oldPassword: string, newPassword: string) {
+  async updatePassword(email: string, oldPassword: string, newPassword: string) {
     try {
       const usersTable = new DatabaseTable('users');
 
       const [{ password: encryptedPassword }] = await usersTable.select('password', {
-        id,
+        email,
       });
       const ok = await bcrypt.compare(oldPassword, encryptedPassword);
       if (!ok) {
@@ -27,7 +27,7 @@ class Users {
         {
           password: await bcrypt.hash(newPassword, 15),
         },
-        { id }
+        { email }
       );
 
       return 'success';
@@ -41,13 +41,13 @@ class Users {
     }
   }
 
-  async updateEmail(id: number, newEmail: string) {
+  async updateEmail(email: string, newEmail: string) {
     const usersTable = new DatabaseTable('users');
     await usersTable.update(
       {
         email: newEmail,
       },
-      { id }
+      { email }
     );
   }
 

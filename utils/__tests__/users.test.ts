@@ -51,7 +51,7 @@ describe('Testing unsuccessful user registration.', () => {
 });
 
 describe('Testing password update.', () => {
-  const testUserId = 0;
+  const testEmail = 'test@email.com';
   const testPassword = '123';
 
   it('Succesfully updates a password for an existing user.', async () => {
@@ -65,15 +65,15 @@ describe('Testing password update.', () => {
     (bcrypt.hash as jest.Mock).mockResolvedValueOnce(testPassword);
     (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
 
-    await users.updatePassword(0, testPassword, testPassword).then(result => {
+    await users.updatePassword(testEmail, testPassword, testPassword).then(result => {
       expect(result).toBe('success');
-      expect(DatabaseTable.prototype.select).toHaveBeenCalledWith('password', { id: testUserId });
+      expect(DatabaseTable.prototype.select).toHaveBeenCalledWith('password', { email: testEmail });
       expect(bcrypt.compare).toHaveBeenCalledWith(testPassword, testPassword);
 
       //Hashes the new password
       expect(bcrypt.hash).toHaveBeenCalledWith(testPassword, 15);
 
-      expect(updateMock).toHaveBeenCalledWith({ password: testPassword }, { id: testUserId });
+      expect(updateMock).toHaveBeenCalledWith({ password: testPassword }, { email: testEmail });
     });
   });
 
@@ -86,14 +86,14 @@ describe('Testing password update.', () => {
 
     (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
 
-    users.updatePassword(0, testPassword, testPassword).then(result => {
+    users.updatePassword(testEmail, testPassword, testPassword).then(result => {
       expect(result).toBe('invalid_password');
     });
   });
 
   it('Fails with unexpected, when some other error occurs.', async () => {
     (DatabaseTable.prototype.select as jest.Mock).mockResolvedValueOnce([]);
-    await users.updatePassword(testUserId, testPassword, testPassword).then(result => {
+    await users.updatePassword(testEmail, testPassword, testPassword).then(result => {
       expect(result).toBe('unexpected');
     });
   });
@@ -102,7 +102,7 @@ describe('Testing password update.', () => {
 describe('Testing email update', () => {
   it('The DatabaseTable update-method gets called with the correct arguments.', async () => {
     const updateMock = jest.spyOn(DatabaseTable.prototype, 'update');
-    await users.updateEmail(0, 'new_email');
-    expect(updateMock).toHaveBeenCalledWith({ email: 'new_email' }, { id: 0 });
+    await users.updateEmail('old_email', 'new_email');
+    expect(updateMock).toHaveBeenCalledWith({ email: 'new_email' }, { email: 'old_email' });
   });
 });

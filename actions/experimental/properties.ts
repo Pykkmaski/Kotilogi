@@ -10,14 +10,15 @@ import bcrypt from 'bcrypt';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import { users } from 'kotilogi-app/utils/users';
+import { UserType } from 'kotilogi-app/types/UserType';
 
 const PATH = '/dashboard/properties';
 
 export async function addProperty(property: Kotidok.PropertyType) {
-  const session = (await getServerSession(options as any)) as any;
+  const session = (await getServerSession(options as any)) as { user: UserType };
   await properties.addProperty({
     ...property,
-    refId: session.user.id,
+    refId: session.user.email,
   });
   revalidatePath(PATH);
 }
@@ -28,8 +29,8 @@ export async function updateProperty(propertyId: string, newPropertyData: Kotido
 }
 
 export async function deleteProperty(propertyId: string, password: string) {
-  const session = (await getServerSession(options as any)) as any;
-  const passwordOk = await users.verifyCredentials(session.user.id, password);
+  const session = (await getServerSession(options as any)) as { user: UserType };
+  const passwordOk = await users.verifyCredentials(session.user.email, password);
   if (!passwordOk) {
     throw new Error('invalid_password');
   }

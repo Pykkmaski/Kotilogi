@@ -17,7 +17,7 @@ export async function addEvent(event: Kotidok.EventType, files?: FormData[]) {
 
   await events.addEvent(
     event,
-    session?.user.id,
+    session?.user.email,
     files?.map(file => file.get('file') as unknown as File)
   );
   revalidatePath(PROPERTY_EVENTS_PATH);
@@ -25,13 +25,13 @@ export async function addEvent(event: Kotidok.EventType, files?: FormData[]) {
 
 export async function deleteEvent(eventId: string) {
   const session = (await getServerSession()) as { user: UserType };
-  await events.deleteEvent(eventId, session?.user.id);
+  await events.deleteEvent(eventId, session?.user.email);
   revalidatePath(PROPERTY_EVENTS_PATH);
 }
 
 export async function updateEvent(eventId: string, newEventData: Partial<Kotidok.EventType>) {
   const session = (await getServerSession()) as { user: UserType };
-  await events.updateEvent(eventId, newEventData, session?.user.id);
+  await events.updateEvent(eventId, newEventData, session?.user.email);
   revalidatePath(EVENTS_PATH);
 }
 

@@ -9,18 +9,19 @@ import { Group } from '@/components/UI/Group';
 import { SecondaryHeading } from '@/components/UI/Heading';
 import { redirect } from 'next/navigation';
 import { MobileNavBar } from './_components/MobileNavBar';
+import { UserType } from 'kotilogi-app/types/UserType';
 
 export default async function PropertyDetailsLayout({ children, params }) {
   const property = await db('properties').where({ id: params.property_id }).first();
   if (!property) throw new Error('Failed to load property!');
 
   const session = (await getServerSession(options as any)) as {
-    user: { id: string };
+    user: UserType;
   };
 
   if (!session) throw new Error('Failed to fetch user session!');
 
-  if (session.user.id != property.refId) throw new Error('property_unauthorized');
+  if (session.user.email != property.refId) throw new Error('property_unauthorized');
 
   if (property.status == 'deactivated') {
     throw new Error('Talo ei ole käytössä!');

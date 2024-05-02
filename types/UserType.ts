@@ -13,5 +13,4 @@ export type UserType = {
   plan: UserPlanType;
   nextPayment: string | null;
   createdAt: string;
-  id: number;
 };
