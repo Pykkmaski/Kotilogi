@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
   return knex.schema.alterTable('properties', tbl => {
-    tbl.dropForeign('refId');
+    tbl.dropForeign('refId').alter();
   });
 };
 
@@ -19,6 +19,7 @@ exports.down = function (knex) {
       .references('email')
       .inTable('users')
       .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .onDelete('CASCADE')
+      .alter();
   });
 };
