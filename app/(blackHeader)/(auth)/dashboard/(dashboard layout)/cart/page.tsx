@@ -9,7 +9,7 @@ import { getBills } from './_actions/getBills';
 
 export default async function CartPage() {
   const session = (await getServerSession(options as any)) as { user: UserType };
-  const bills = await getBills(session, 1);
+  const bills = await getBills(session, 31);
 
   return (
     <main className='flex flex-col gap-4 mb-10'>

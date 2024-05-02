@@ -17,7 +17,7 @@ export async function addProperty(property: Kotidok.PropertyType) {
   const session = (await getServerSession(options as any)) as any;
   await properties.addProperty({
     ...property,
-    refId: session.user.email,
+    refId: session.user.id,
   });
   revalidatePath(PATH);
 }
@@ -29,7 +29,7 @@ export async function updateProperty(propertyId: string, newPropertyData: Kotido
 
 export async function deleteProperty(propertyId: string, password: string) {
   const session = (await getServerSession(options as any)) as any;
-  const passwordOk = await users.verifyCredentials(session.user.email, password);
+  const passwordOk = await users.verifyCredentials(session.user.id, password);
   if (!passwordOk) {
     throw new Error('invalid_password');
   }

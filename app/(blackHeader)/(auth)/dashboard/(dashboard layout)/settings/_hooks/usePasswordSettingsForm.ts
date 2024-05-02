@@ -2,7 +2,6 @@ import { updatePassword } from 'kotilogi-app/actions/user/updatePassword';
 import { MutableRefObject, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import * as users from '@/actions/users';
 import { updateUserPassword } from 'kotilogi-app/actions/experimental/users';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { useUserProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/UserProvider';
@@ -34,7 +33,7 @@ export function usePasswordSettingsForm(formRef: MutableRefObject<HTMLFormElemen
     if (data.password1 !== data.password2) {
       setStatus('password_mismatch');
     } else {
-      updateUserPassword(user.email, data.oldPassword, data.password1)
+      updateUserPassword(user.id, data.oldPassword, data.password1)
         .then(result => {
           setStatus(result as PasswordSettingStatus);
 

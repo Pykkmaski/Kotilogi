@@ -43,7 +43,7 @@ async function processProducts(payment) {
   for (const product of payment.payment_products) {
     const [bill] = await db('bills').where({ id: product.id });
 
-    if (bill.stamp === 'add_property') {
+    if (bill.stamp === 'property') {
       //Update the due date of bills relating to properties.
       const paid = Date.now();
       const dueDate = new Date(paid);

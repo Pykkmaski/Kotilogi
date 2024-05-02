@@ -59,6 +59,7 @@ export const options = {
         token.plan = user.plan;
         token.status = user.status;
         token.createdAt = user.createdAt;
+        token.id = user.id;
       }
       return token;
     },

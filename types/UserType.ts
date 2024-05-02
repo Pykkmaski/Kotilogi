@@ -8,9 +8,10 @@ type UserStatusType = 'active' | 'inactive' | 'pending' | 'trial';
 export type UserPlanType = 'regular' | 'pro';
 
 export type UserType = {
-    email: string,
-    status: UserStatusType,
-    plan: UserPlanType,
-    nextPayment: string | null,
-    createdAt: string,
-}
+  email: string;
+  status: UserStatusType;
+  plan: UserPlanType;
+  nextPayment: string | null;
+  createdAt: string;
+  id: number;
+};

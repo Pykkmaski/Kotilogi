@@ -15,12 +15,12 @@ export default async function PropertyDetailsLayout({ children, params }) {
   if (!property) throw new Error('Failed to load property!');
 
   const session = (await getServerSession(options as any)) as {
-    user: { email: string };
+    user: { id: string };
   };
 
   if (!session) throw new Error('Failed to fetch user session!');
 
-  if (session.user.email !== property.refId) throw new Error('property_unauthorized');
+  if (session.user.id != property.refId) throw new Error('property_unauthorized');
 
   if (property.status == 'deactivated') {
     throw new Error('Talo ei ole käytössä!');

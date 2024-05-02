@@ -1,35 +1,38 @@
+import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { getBills } from '../getBills';
 import { DatabaseTable } from '@/utils/databaseTable';
 
 const currentDate = Date.now();
-const dueInMonthDate = new Date(currentDate);
-dueInMonthDate.setMonth(dueInMonthDate.getMonth() + 1);
-
+const dueInTime = getDaysInMilliseconds(30);
 const testBills = [
   {
     id: 'expected',
-    due: dueInMonthDate.getTime(),
+    due: currentDate + dueInTime,
   },
 
   {
     id: 'expected',
-    due: dueInMonthDate.getTime(),
+    due: currentDate + dueInTime,
   },
 
   {
     id: 'unexpected',
-    due: dueInMonthDate.getTime() * 2,
+    due: currentDate + dueInTime * 2,
   },
 ];
 
+(DatabaseTable.prototype.get as jest.Mock).mockReturnValue({
+  stream: jest.fn(jest.fn().mockResolvedValue(testBills)),
+});
 jest.mock('@/utils/databaseTable');
 
-test('Returns only bills that are due in no more than the specified months.', async () => {
-  (DatabaseTable.prototype.get as jest.Mock).mockReturnValue({
-    stream: jest.fn(jest.fn().mockResolvedValue(testBills)),
-  });
-
-  const bills = await getBills({ user: { email: 'test@email.com' } }, 1);
+test('Returns only bills that are due in no more than the specified number of days.', async () => {
+  const bills = await getBills({ user: { id: 0 } }, 30);
   expect(bills.length).toBe(2);
   bills.forEach(bill => expect(bill.id).toBe('expected'));
+});
+
+test('Does not return any bills if they are outside the range.', async () => {
+  const bills = await getBills({ user: { id: 0 } }, 1);
+  expect(bills.length).toBe(0);
 });

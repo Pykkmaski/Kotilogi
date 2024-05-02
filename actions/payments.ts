@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import axios from 'axios';
 import { Payment } from 'kotilogi-app/utils/payment';
+import { UserType } from '@/types/UserType';
 
 export async function createPaymentRequest(
   bills: {
@@ -12,7 +13,7 @@ export async function createPaymentRequest(
     id: number;
   }[]
 ) {
-  const session = (await getServerSession(options as any)) as any;
+  const session = (await getServerSession(options as any)) as { user: UserType };
   if (!session) {
     throw new Error("Could not make the payment, as the user's session was not found!");
   }
@@ -25,8 +26,6 @@ export async function createPaymentRequest(
 
   const VISMA_API_KEY = process.env.VISMA_API_KEY;
   if (!VISMA_API_KEY) throw new Error('VISMA_API_KEY env variable missing!');
-
-  console.log(process.env.SERVICE_DOMAIN);
 
   const paymentRequest = {
     version: 'w3.1',
@@ -50,9 +49,15 @@ export async function createPaymentRequest(
     products,
   };
 
-  const { data: paymentToken } = await axios.post('https://www.vismapay.com/pbwapi/auth_payment', paymentRequest);
+  const { data: paymentToken } = await axios.post(
+    'https://www.vismapay.com/pbwapi/auth_payment',
+    paymentRequest
+  );
 
-  if ((paymentToken.result === 0 && paymentToken.type === 'e-payment') || paymentToken.type === 'terminal') {
+  if (
+    (paymentToken.result === 0 && paymentToken.type === 'e-payment') ||
+    paymentToken.type === 'terminal'
+  ) {
     return paymentToken;
   } else if (paymentToken.result !== 0) {
     console.log(paymentToken);

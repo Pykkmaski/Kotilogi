@@ -4,13 +4,13 @@ import { createDueDate } from './createDueDate';
 import { DatabaseTable } from './databaseTable';
 
 class Events {
-  private verifyEdit(editor: string, createdBy: string) {
-    if (editor !== createdBy) {
+  private verifyEdit(editorId: number, createdBy: number) {
+    if (editorId !== createdBy) {
       throw new Error('unauthorized');
     }
   }
 
-  async addEvent(eventData: Kotidok.EventType, createdBy: string, files?: File[]) {
+  async addEvent(eventData: Kotidok.EventType, createdBy: number, files?: File[]) {
     const trx = await DatabaseTable.transaction();
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
@@ -39,7 +39,7 @@ class Events {
     }
   }
 
-  async deleteEvent(eventId: string, editor: string) {
+  async deleteEvent(eventId: string, editorId: number) {
     const trx = await DatabaseTable.transaction();
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
@@ -50,7 +50,7 @@ class Events {
       const [{ createdBy }] = await trx('propertyEvents')
         .where({ id: eventId })
         .select('createdBy');
-      this.verifyEdit(editor, createdBy);
+      this.verifyEdit(editorId, createdBy);
 
       const fileNames = (await trx('eventFiles').where({ refId: eventId }).pluck('id')) as string[];
       const fileDelPromises = fileNames.map(id => eventFilesTable.deleteFile(id));
@@ -65,10 +65,10 @@ class Events {
     }
   }
 
-  async updateEvent(eventId: string, newEventData: Partial<Kotidok.EventType>, editor: string) {
+  async updateEvent(eventId: string, newEventData: Partial<Kotidok.EventType>, editorId: number) {
     const table = new DatabaseTable('propertyEvents');
     const [{ createdBy }] = await table.select('createdBy', { id: eventId });
-    this.verifyEdit(editor, createdBy);
+    this.verifyEdit(editorId, createdBy);
 
     console.log(eventId);
     await table.update(newEventData, { id: eventId });

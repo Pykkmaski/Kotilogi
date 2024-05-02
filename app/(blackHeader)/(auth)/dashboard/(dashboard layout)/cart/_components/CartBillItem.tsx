@@ -15,6 +15,7 @@ type CartBillItemProps = {
 
 export function CartBillItem({ bill, onSelect }: CartBillItemProps) {
   const { status, pay } = useBillsContext();
+  const [target, setTarget] = useState(null);
 
   const getType = () => {
     if (bill.stamp === 'property') {
