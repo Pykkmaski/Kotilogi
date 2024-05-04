@@ -2,10 +2,13 @@
 
 import { users } from 'kotilogi-app/utils/users';
 import { revalidatePath } from 'next/cache';
+import jwt from 'jsonwebtoken';
+import { sendEmail } from '../email/sendEmail';
+import { sendEmailResetLink } from '../email';
 
 export async function updateUserEmail(oldEmail: string, newEmail: string) {
-  await users.updateEmail(oldEmail, newEmail);
-  revalidatePath('/dashboard/settings');
+  //Should send an email to the current address containing a link with a token, which when visited, triggers the change of the email.
+  await sendEmailResetLink({ oldEmail, newEmail });
 }
 
 export async function updateUserPassword(email: string, oldPassword: string, newPassword: string) {
