@@ -42,7 +42,7 @@ export default async function PropertyDetailsLayout({ children, params }) {
         <Header>
           <Group direction='col'>
             <SecondaryHeading>
-              <span className='text-white'>Talo</span>
+              <span className='text-white'>Kohde</span>
             </SecondaryHeading>
             <span className='text-white text-xl'>{property.title}</span>
           </Group>

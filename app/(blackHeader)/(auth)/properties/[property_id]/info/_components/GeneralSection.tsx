@@ -30,18 +30,20 @@ export default function GeneralSection({ propertyData, updateProperty }) {
           <Group
             direction='col'
             gap={4}>
-            <SingleInputForm
-              submitMethod={updateProperty}
-              inputComponent={Input}
-              editingDisabled={propertyData.propertyNumber ? true : false}
-              initialInputProps={{
-                label: 'Kiinteistötunnus',
-                description: 'Talon kiinteistötunnus',
-                autoComplete: 'off',
-                name: 'propertyNumber',
-                defaultValue: propertyData.propertyNumber,
-              }}
-            />
+            {propertyData.propertyNumber === 'Kiinteistö' ? (
+              <SingleInputForm
+                submitMethod={updateProperty}
+                inputComponent={Input}
+                editingDisabled={propertyData.propertyNumber ? true : false}
+                initialInputProps={{
+                  label: 'Kiinteistötunnus',
+                  description: 'Talon kiinteistötunnus',
+                  autoComplete: 'off',
+                  name: 'propertyNumber',
+                  defaultValue: propertyData.propertyNumber,
+                }}
+              />
+            ) : null}
 
             <SingleInputForm
               submitMethod={updateProperty}

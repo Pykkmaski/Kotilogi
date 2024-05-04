@@ -1,6 +1,12 @@
 'use client';
 
-type ActionType = 'step_forward' | 'step_backwards' | 'set_token' | 'set_status' | 'reset' | 'set_loading';
+type ActionType =
+  | 'step_forward'
+  | 'step_backwards'
+  | 'set_token'
+  | 'set_status'
+  | 'reset'
+  | 'set_loading';
 
 export type Action = {
   type: ActionType;
@@ -9,7 +15,7 @@ export type Action = {
 
 export type State = {
   token: string | null;
-  step: number;
+  step: string;
   status: string | number | null;
   isLoading: boolean;
 };
@@ -18,18 +24,6 @@ export const emailKey: string = 'kotilogi-pass-reset-email';
 
 export default function resetFormReducer(state: State, action: Action) {
   switch (action.type) {
-    case 'step_forward':
-      return {
-        ...state,
-        step: state.step + 1,
-      };
-
-    case 'step_backwards':
-      return {
-        ...state,
-        step: state.step - 1,
-      };
-
     case 'set_token': {
       if (!action.value) {
         throw new Error('resetFormReducer: Email cannot be null!');

@@ -55,7 +55,7 @@ function Controls(props: ControlsProps) {
   );
 }
 
-export type SingleInputFormProps = {
+export type SingleInputFormProps = React.ComponentProps<'div'> & {
   submitMethod: (value: object) => Promise<object | void>;
   inputComponent: React.FC<InputProps | TextAreaProps>;
   initialInputProps: InputProps | TextAreaProps;
@@ -72,7 +72,9 @@ export function SingleInputForm({
     useSingleInputForm(props.initialInputProps);
 
   return (
-    <div className='w-full'>
+    <div
+      className='w-full'
+      hidden={props.hidden}>
       <Group
         direction='col'
         gap={4}>

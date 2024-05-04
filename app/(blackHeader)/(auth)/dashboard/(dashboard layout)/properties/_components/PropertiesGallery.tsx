@@ -13,6 +13,8 @@ import { Gallery } from '@/components/Feature/GalleryBase/Gallery';
 import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { GalleryListItem } from '@/components/Feature/GalleryBase/GalleryListItem';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
+import { AddPropertyModalPrefab } from './AddPropertyModalPrefab';
+import { NewAddPropertyModalTrigger } from './NewAddPropertyModal';
 
 export function PropertiesGallery({ properties }) {
   return (
@@ -29,71 +31,7 @@ export function PropertiesGallery({ properties }) {
               </ListHeaderControlButtons>
             </div>
           </SelectablesProvider.HideIfNoneSelected>
-          <SubmitModalPrefab
-            icon='fa-home'
-            trigger={<AddButton />}
-            modalTitle='Lisää Talo'
-            submitText='Lähetä'
-            submitMethod={async (data: Kotidok.PropertyType) => {
-              await addProperty(data)
-                .then(() => toast.success('Talon lsäys onnistui!'))
-                .catch(err => toast.error(err.message));
-            }}>
-            <Input
-              name='propertyNumber'
-              label='Kiinteistötunnus'
-              description='Talon ainutlaatuinen tunnus.'
-              required
-              placeholder='Kirjoita kiinteistötunnus...'
-            />
-
-            <Input
-              name='title'
-              label='Osoite'
-              description='Talon osoite.'
-              placeholder='Kirjoita talon osoite...'
-              required
-            />
-
-            <Input
-              name='zipCode'
-              label='Postinumero'
-              description='Talon viisinumeroinen postinumero.'
-              placeholder='Kirjoita postinumero...'
-              maxLength={5}
-              minLength={5}
-              required={true}
-              autoComplete='off'
-            />
-
-            <Input
-              name='buildYear'
-              label='Rakennusvuosi'
-              description='Vuosi jona talo valmistui.'
-              placeholder='Kirjoita talon rakennusvuosi...'
-              required={true}
-              autoComplete='off'
-            />
-
-            <Select
-              name='buildingType'
-              label='Talotyyppi'
-              description='Talon tyyppi.'
-              required
-              defaultValue={'Muu'}>
-              {buildingTypes.map(type => (
-                <Select.Option
-                  key={type}
-                  selected={type === 'Muu'}>
-                  {type}
-                </Select.Option>
-              ))}
-            </Select>
-
-            <span className='text-slate-500 w-full text-right'>
-              Yksittäisen talon vuosihinta on <span className='text-green-700'>9,90€</span>
-            </span>
-          </SubmitModalPrefab>
+          <AddPropertyModalPrefab />
         </div>
       </Gallery.Header>
 

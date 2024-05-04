@@ -10,7 +10,6 @@ import { useResetFormProvider } from './ResetFormContext';
 
 export function StepTwo() {
   const { data, status, resetStepTwoHandler, updateData } = useResetStepTwo();
-  const { previous } = useResetFormProvider();
 
   const loading = status === 'loading';
 
@@ -59,11 +58,7 @@ export function StepTwo() {
             direction='row'
             justify='end'>
             <Link href='/login/reset'>
-              <SecondaryButton
-                disabled={loading}
-                onClick={previous}>
-                Takaisin
-              </SecondaryButton>
+              <SecondaryButton disabled={loading}>Takaisin</SecondaryButton>
             </Link>
 
             <PrimaryButton
