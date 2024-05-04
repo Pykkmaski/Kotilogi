@@ -11,20 +11,15 @@ export function FooterNav({ children }: FooterNavProps) {
     <nav className='rounded-t-[30%] z-20 overflow-x-scroll flex-row gap-10 items-center justify-center w-full fixed bottom-0 xs:flex md:hidden left-0 bg-gray-600 py-2 text-2xl text-white'>
       <HighlightingNavbarProvider>
         {React.Children.map(children as React.ReactElement, child => {
-          return (
-            <HighlightingNavbarProvider.Link href={child.props.href}>
-              {child}
-            </HighlightingNavbarProvider.Link>
-          );
+          return <HighlightingNavbarProvider.Link>{child}</HighlightingNavbarProvider.Link>;
         })}
       </HighlightingNavbarProvider>
     </nav>
   );
 }
 
-type LinkProps = React.PropsWithChildren & {
+type LinkProps = React.ComponentProps<typeof Link> & {
   selected?: boolean;
-  href?: string;
 };
 
 FooterNav.Link = function ({ children, selected, href, ...props }: LinkProps) {
