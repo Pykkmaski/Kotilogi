@@ -41,7 +41,7 @@ export default function PaymentResult({ returnCode, paymentStatusCode }) {
           <Paragraph>Olet maksanut laskusi onnistuneesti!</Paragraph>
           <div className='mt-4'>
             <Link href='/dashboard/properties'>
-              <Button variant='primary'>
+              <Button variant='primary-dashboard'>
                 <span className='mx-8'>Takaisin hallintapaneeliin</span>
               </Button>
             </Link>
