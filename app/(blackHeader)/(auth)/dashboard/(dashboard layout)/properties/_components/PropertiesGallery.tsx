@@ -44,7 +44,11 @@ export function PropertiesGallery({ properties }) {
             <>
               <GalleryListItem
                 {...props}
-                title={props.item.title}
+                title={
+                  props.item.title +
+                  ' ' +
+                  (props.item.targetType === 'Huoneisto' ? props.item.appartmentNumber : '')
+                }
                 description={props.item.description}
                 faIcon='fa fa-home'
                 footerText={props.item.buildingType}

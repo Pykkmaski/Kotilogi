@@ -19,12 +19,18 @@ export function HighlightingNavbarProvider({ children }) {
   );
 }
 
-HighlightingNavbarProvider.Link = function ({ children, href }) {
+HighlightingNavbarProvider.Link = function ({ children }) {
+  if (React.Children.count(children) !== 1) {
+    throw new Error('Only one child can be passed to a HighlightingNavbarProvider.Link!');
+  }
+
+  const [child] = React.Children.toArray(children) as React.ReactElement[];
   const { currentPath } = useHighlightingNavbarProviderContext();
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {
-    const hrefPath = href.split('/').at(-1).split('?')[0];
+    const hrefPath = child.props.href.split('/').at(-1).split('?')[0];
+    console.log(hrefPath, currentPath);
     if (hrefPath === currentPath) {
       setSelected(true);
     } else {
@@ -35,7 +41,6 @@ HighlightingNavbarProvider.Link = function ({ children, href }) {
   return React.Children.map(children as React.ReactElement, child =>
     React.cloneElement(child, {
       ...child.props,
-      href,
       selected,
     })
   );

@@ -30,7 +30,7 @@ export default function GeneralSection({ propertyData, updateProperty }) {
           <Group
             direction='col'
             gap={4}>
-            {propertyData.propertyNumber === 'Kiinteistö' ? (
+            {propertyData.targetType === 'Kiinteistö' ? (
               <SingleInputForm
                 submitMethod={updateProperty}
                 inputComponent={Input}
@@ -57,6 +57,19 @@ export default function GeneralSection({ propertyData, updateProperty }) {
                 defaultValue: propertyData.title,
               }}
             />
+
+            {propertyData.targetType === 'Huoneisto' ? (
+              <SingleInputForm
+                submitMethod={updateProperty}
+                inputComponent={Input}
+                initialInputProps={{
+                  label: 'Huoneiston numero',
+                  autoComplete: 'off',
+                  name: 'appartmentNumber',
+                  defaultValue: propertyData.appartmentNumber,
+                }}
+              />
+            ) : null}
 
             <SingleInputForm
               submitMethod={updateProperty}

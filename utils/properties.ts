@@ -17,12 +17,12 @@ class Properties {
     const filesTable = new Files('propertyFiles', trx);
 
     try {
-      const [{ id: propertyId }] = await propertiesTable.add(
+      const [{ id: propertyId, title: propertyAddress }] = await propertiesTable.add(
         {
           ...propertyData,
           createdAt: Date.now(),
         },
-        'id'
+        ['id', 'title']
       );
 
       if (files) {
@@ -45,6 +45,11 @@ class Properties {
 
       await bills.addBill(bill, trx);
       await trx.commit();
+
+      return {
+        numProperties: await new DatabaseTable('properties').count({ refId: propertyData.refId }),
+        address: propertyAddress,
+      };
     } catch (err) {
       console.log(err.message);
       await trx.rollback();
@@ -59,20 +64,29 @@ class Properties {
   }
 
   async deleteProperty(propertyId: string) {
-    const trx = await db.transaction();
+    const trx = await DatabaseTable.transaction();
     const propertiesTable = new DatabaseTable('properties', trx);
     const propertyFilesTable = new Files('propertyFiles', trx);
     const eventsTable = new DatabaseTable('propertyEvents', trx);
     const eventFilesTable = new Files('eventFiles', trx);
 
     try {
-      //Fetch all file database entries for the property and its events.
-      const propertyFileIds = (await propertyFilesTable.pluck('id', {
-        refId: propertyId,
-      })) as string[];
-      const eventFileIds = (await eventsTable.get({ refId: propertyId }).then(async events => {
-        return events.map(async event => await eventFilesTable.pluck('id', { refId: event.id }));
-      })) as string[];
+      //Delete all files of the property.
+      const propertyFileStream = propertyFilesTable.pluck('id', { refId: propertyId }).stream();
+      const propertyFileIds = [];
+      for await (const fileId of propertyFileStream) {
+        propertyFileIds.push(fileId);
+      }
+
+      //Delete all files of each event.
+      const propertyEventStream = eventsTable.get({ refId: propertyId }).stream();
+      const eventFileIds = [];
+      for await (const event of propertyEventStream) {
+        const fileIds = await eventFilesTable.pluck('id', { refId: event.id });
+        for (const fileId of fileIds) {
+          eventFileIds.push(fileId);
+        }
+      }
 
       const propertyFileDelPromises = propertyFileIds.map(id => propertyFilesTable.deleteFile(id));
       const eventFileDelPromises = eventFileIds.map(id => eventFilesTable.deleteFile(id));
@@ -82,8 +96,8 @@ class Properties {
 
       await propertiesTable.del({ id: propertyId });
 
-      //Delete any bills associated with the property
-      await new DatabaseTable('bills', trx).del({ targetId: propertyId });
+      //Delete any bills associated with the property, if they are paid.
+      await new DatabaseTable('bills', trx).del({ targetId: propertyId, status: 'unpaid' });
 
       await trx.commit();
     } catch (err) {

@@ -9,10 +9,22 @@ jest.mock('next/navigation', () => ({
   usePathname: () => testpath,
 }));
 
+test('Throws an error if more than one child is passed to a link.', () => {
+  expect(() =>
+    render(
+      <HighlightingNavbarProvider>
+        <HighlightingNavbarProvider.Link>
+          <a href='' />
+          <a href='' />
+        </HighlightingNavbarProvider.Link>
+      </HighlightingNavbarProvider>
+    )
+  ).toThrow(/Only one child/);
+});
 test('A .Link adds the selected-prop it its child when on the same path as the childs href.', () => {
   const component = (
     <HighlightingNavbarProvider>
-      <HighlightingNavbarProvider.Link href={testpath}>
+      <HighlightingNavbarProvider.Link>
         <FooterNav.Link
           data-testid='link'
           href={testpath}
@@ -30,8 +42,11 @@ test('A .Link adds the selected-prop it its child when on the same path as the c
 test('A .Link does not add the selected-prop to its child when not on the same path as the childs href.', () => {
   const component = (
     <HighlightingNavbarProvider>
-      <HighlightingNavbarProvider.Link href={'someotherpath'}>
-        <FooterNav.Link data-testid='link2' />
+      <HighlightingNavbarProvider.Link>
+        <FooterNav.Link
+          data-testid='link2'
+          href='otherpath'
+        />
       </HighlightingNavbarProvider.Link>
     </HighlightingNavbarProvider>
   );

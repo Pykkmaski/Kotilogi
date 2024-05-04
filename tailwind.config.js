@@ -22,6 +22,7 @@ module.exports = {
         'about-profile': "url('/img/about_page/portrait.jpg')",
         'about-house': "url('/img/about_page/house.jpg')",
         'hero-logo': "url('/img/hero_logo.png')",
+        balloons: "url('/img/balloons.jpg')",
       },
 
       keyframes: {

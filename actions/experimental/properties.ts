@@ -16,11 +16,12 @@ const PATH = '/dashboard/properties';
 
 export async function addProperty(property: Kotidok.PropertyType) {
   const session = (await getServerSession(options as any)) as { user: UserType };
-  await properties.addProperty({
+  const propertyData = await properties.addProperty({
     ...property,
     refId: session.user.email,
   });
   revalidatePath(PATH);
+  return propertyData;
 }
 
 export async function updateProperty(propertyId: string, newPropertyData: Kotidok.PropertyType) {
