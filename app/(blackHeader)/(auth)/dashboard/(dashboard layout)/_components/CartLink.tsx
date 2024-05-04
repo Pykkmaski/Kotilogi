@@ -35,7 +35,9 @@ export function CartLink({
       </div>
     </IconLink>
   ) : (
-    <FooterNav.Link href={props.href}>
+    <FooterNav.Link
+      href={props.href}
+      selected={selected}>
       <div className='relative'>
         <i className='fa fa-shopping-cart' />
         <div className='absolute top-0 left-4'>
