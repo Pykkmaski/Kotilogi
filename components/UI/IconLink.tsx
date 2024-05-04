@@ -26,7 +26,10 @@ type IconLinkProps = React.ComponentProps<typeof Link> & {
 
 export default function IconLink({ imageSrc, selected, icon, ...props }: IconLinkProps) {
   const className = selected ? `${style.container} ${style.selected}` : style.container;
-  const textClassName = ['z-10 decoration-none w-full', selected ? 'text-black' : 'text-white'];
+  const textClassName = [
+    'z-10 decoration-none hover:no-underline w-full',
+    selected ? 'text-black' : 'text-white',
+  ];
 
   const imageClassName = [icon, selected ? 'filter-none' : 'invert'];
 
