@@ -9,11 +9,12 @@ import { Modal } from '@/components/UI/Modal';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import toast from 'react-hot-toast';
+import { Form } from './Form';
 
 function IconBox({ children, subtitle, bgColor, ...props }) {
   const className = [
-    `flex flex-col items-center justify-center aspect-square rounded-lg shadow-lg p-4 text-4xl cursor-pointer text-white`,
-    `bg-${bgColor}`,
+    `flex flex-col items-center justify-center aspect-square rounded-lg shadow-lg p-4 lg:text-8xl xs:text-4xl cursor-pointer text-white lg:w-[500px] xs:w-[100px]`,
+    `bg-blue-500`,
   ];
   return (
     <div
@@ -50,14 +51,11 @@ export function NewAddPropertyModalTrigger() {
 
               <Modal.Body>
                 <CarouselProvider.Slot slotName='start'>
-                  <div className='w-full flex flex-col gap-2'>
-                    <h1 className='text-xl'>Lisää talo</h1>
-                    <div className='flex flex-row gap-4 border-b border-b-slate-200 pb-4'>
-                      <p className='mr-auto'>
-                        Voit lisätä kahden eri tyyppisen kohteen. Kiinteistöt ovat omistuksessasi
-                        olevia rakennuksia, huoneistot taas jonkun toisen omistuksessa olevan
-                        rakennuksen osia.
-                      </p>
+                  <div className='flex flex-col'>
+                    <h1 className='text-2xl w-full text-center mb-8'>
+                      Aloita valitsemalla seuraavista
+                    </h1>
+                    <div className='flex lg:flex-row xs:flex-row gap-4 border-b border-b-slate-200 pb-4 justify-center xs:items-center'>
                       <CarouselProvider.SelectSlotTrigger slotToSelect='building'>
                         <IconBox
                           bgColor='blue-500'
@@ -75,13 +73,7 @@ export function NewAddPropertyModalTrigger() {
                           <i className='fa fa-square text-white' />
                         </IconBox>
                       </CarouselProvider.SelectSlotTrigger>
-                    </div>
 
-                    <h1 className='text-xl'>Onko sinulla varmenne?</h1>
-                    <div className='flex flex-row'>
-                      <p className='mr-auto'>
-                        Siirrä kohde itsellesi käyttäen sinulle annettua varmennetta.
-                      </p>
                       <CarouselProvider.SelectSlotTrigger slotToSelect='transfer'>
                         <IconBox
                           bgColor='yellow-500'
@@ -91,7 +83,24 @@ export function NewAddPropertyModalTrigger() {
                         </IconBox>
                       </CarouselProvider.SelectSlotTrigger>
                     </div>
+
+                    <p className='lg:text-xl xs:text-lg text-slate-500 w-full text-center'>
+                      Mikäli olet lisäämässä itsellesi jo olemassa olevaa kohdetta, käytä saamaasi
+                      varmennetta.
+                    </p>
                   </div>
+                </CarouselProvider.Slot>
+
+                <CarouselProvider.Slot slotName='building'>
+                  <Form
+                    onSubmit={async data => {
+                      addProperty({
+                        ...data,
+                        propertyType: 'Kiinteistö',
+                      });
+                    }}>
+                    <Input label='Test' />
+                  </Form>
                 </CarouselProvider.Slot>
               </Modal.Body>
 

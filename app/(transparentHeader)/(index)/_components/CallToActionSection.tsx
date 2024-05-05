@@ -26,7 +26,8 @@ export function CallToActionSection() {
           </Link>
 
           <p className='text-xl mt-10 w-full text-center text-hero'>
-            Yksittäisen lisätyn talon vuosihinta on 9,90€.
+            Yksittäisen lisätyn talon vuosihinta on 9,90€{' '}
+            <span className='text-sm'>(+ALV 24%)</span>.
           </p>
         </div>
       </div>

@@ -125,7 +125,10 @@ export function AddPropertyModalPrefab() {
         </Select>
 
         <span className='text-slate-500 w-full text-right'>
-          Yksittäisen talon vuosihinta on <span className='text-green-700'>9,90€</span>
+          Yksittäisen talon vuosihinta on{' '}
+          <span className='text-green-700'>
+            9,90€<span className='text-sm text-slate-500'>(+ALV 24%)</span>
+          </span>
         </span>
       </SubmitModalPrefab>
     </>

@@ -5,7 +5,7 @@ function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       {...props}
-      className='fixed top-0 left-0 bg-[#0005] w-screen h-screen backdrop-blur-sm z-20'>
+      className='fixed top-0 left-0 bg-[#0005] w-screen h-screen backdrop-blur-sm z-90'>
       {children}
     </div>
   );
@@ -13,7 +13,7 @@ function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
 
 function ModalContainer({ children, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div className='flex items-center justify-center w-full h-full relative z-30 animate-slideup-fast overflow-hidden'>
+    <div className='flex items-center justify-center w-full h-full relative z-90 animate-slideup-fast overflow-hidden'>
       {children}
     </div>
   );

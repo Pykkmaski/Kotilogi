@@ -14,14 +14,14 @@ export function AddPropertySuccessModal(props) {
         />
         <Modal.Body>
           <div className='flex h-[400px] relative'>
-            <div className='bg-balloons absolute top-0 right-0 w-[70%] h-full bg-center opacity-20' />
+            <div className='bg-balloons absolute top-0 right-0 w-[70%] h-full bg-center opacity-10' />
             <div className='flex flex-col gap-4 text-slate-600 z-10'>
               <h1 className='text-2xl mb-4'>
                 Onneksi olkoon! Olet lisännyt ensimmäisen kohteesi Kotidok:iin!
               </h1>
 
               <div className='flex justify-between w-full'>
-                <p>
+                <p className='xs:text-base lg:text-lg'>
                   Tapahtumasta on luotu lasku ostoskoriisi. <br />
                   Sinulla on 30 päivää aikaa maksaa tapahtuma. Kohde lukitaan, mikäli laskua ei
                   makseta eräpäivään mennessä.
