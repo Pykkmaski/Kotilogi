@@ -14,7 +14,7 @@ import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { GalleryListItem } from '@/components/Feature/GalleryBase/GalleryListItem';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import { AddPropertyModalPrefab } from './AddPropertyModalPrefab';
-import { NewAddPropertyModalTrigger } from './NewAddPropertyModal';
+import { NewAddPropertyModalTrigger } from './NewAddPropertyModal/NewAddPropertyModal';
 
 export function PropertiesGallery({ properties }) {
   return (
@@ -31,7 +31,7 @@ export function PropertiesGallery({ properties }) {
               </ListHeaderControlButtons>
             </div>
           </SelectablesProvider.HideIfNoneSelected>
-          <AddPropertyModalPrefab />
+          <NewAddPropertyModalTrigger />
         </div>
       </Gallery.Header>
 

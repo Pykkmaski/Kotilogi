@@ -140,7 +140,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
   };
 
   const className = [
-    'w-full py-2 h-[4em] items-center flex z-20',
+    'w-full py-2 h-[4em] items-center flex z-0',
     variant === 'black'
       ? 'bg-black'
       : 'bg-gradient-to-l from-secondary to-transparent to-60% absolute top-0 left-0',

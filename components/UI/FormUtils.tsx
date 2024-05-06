@@ -22,7 +22,7 @@ export const Input = ({
 };
 
 export const SubLabel = ({ children }: React.PropsWithChildren) => {
-  return <div className='text-sm w-full text-right'>{children}</div>;
+  return <div className='text-sm w-full text-right text-slate-500'>{children}</div>;
 };
 
 export const Description = ({ children }: React.PropsWithChildren) => {

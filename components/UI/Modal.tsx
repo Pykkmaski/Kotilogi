@@ -2,29 +2,22 @@ import { CloseButton } from '@/components/UI/CloseButton';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 
 function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
+  const className = [
+    !props.hidden ? 'flex' : '',
+    'absolute top-0 left-0 bg-[#0005] w-screen h-full backdrop-blur-sm z-90 items-center justify-center',
+  ];
+
   return (
     <div
-      {...props}
-      className='fixed top-0 left-0 bg-[#0005] w-screen h-screen backdrop-blur-sm z-90'>
-      {children}
-    </div>
-  );
-}
-
-function ModalContainer({ children, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className='flex items-center justify-center w-full h-full relative z-90 animate-slideup-fast overflow-hidden'>
+      className={className.join(' ')}
+      {...props}>
       {children}
     </div>
   );
 }
 
 export function Modal({ children, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <Backdrop {...props}>
-      <ModalContainer hidden={props.hidden}>{children}</ModalContainer>
-    </Backdrop>
-  );
+  return <Backdrop {...props}>{children}</Backdrop>;
 }
 
 Modal.Header = function ({ children }) {
@@ -59,12 +52,12 @@ Modal.Footer = function ({ children }) {
 };
 
 Modal.Body = function ({ children }) {
-  return <div className='w-full p-2'>{children}</div>;
+  return <div className='w-full p-2 overflow-y-scroll'>{children}</div>;
 };
 
 Modal.DefaultContentContainer = function ({ children }) {
   return (
-    <div className='flex flex-col bg-white rounded-lg overflow-hidden shadow-lg text-black lg:w-[900px] xs:w-full xs:mx-2'>
+    <div className='justify-self-center flex flex-col bg-white max-h-full rounded-lg shadow-lg text-black lg:w-[900px] xs:w-full xs:mx-2 overflow-y-scroll overflow-hidden'>
       {children}
     </div>
   );

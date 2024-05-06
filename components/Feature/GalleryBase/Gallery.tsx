@@ -95,9 +95,7 @@ export function Gallery<T extends Kotidok.ItemType>(props: GalleryProps<T>) {
   return (
     <GalleryContext.Provider value={contextValue}>
       <SelectablesProvider>
-        <div className='relative flex flex-col flex-1 text-white z-[2] w-full'>
-          {props.children}
-        </div>
+        <div className='flex flex-col flex-1 text-white z-[2] w-full'>{props.children}</div>
       </SelectablesProvider>
     </GalleryContext.Provider>
   );
