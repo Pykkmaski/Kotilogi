@@ -102,6 +102,7 @@ CarouselProvider.Slot = function ({ children, slotName }: SlotProps) {
 type SelectSlotTriggerProps = React.PropsWithChildren & {
   slotToSelect: string;
 };
+
 CarouselProvider.SelectSlotTrigger = function ({
   children,
   slotToSelect,

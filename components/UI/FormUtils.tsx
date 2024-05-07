@@ -1,5 +1,13 @@
-export const Label = ({ children }: React.ComponentProps<'label'>) => {
-  return <label>{children}</label>;
+export const Label = ({
+  children,
+  required,
+}: React.ComponentProps<'label'> & { required?: boolean }) => {
+  return (
+    <label>
+      {children}
+      {required ? <span className='text-red-700 text-sm'> Pakollinen</span> : null}
+    </label>
+  );
 };
 
 export const Group = ({ children }: React.PropsWithChildren) => {

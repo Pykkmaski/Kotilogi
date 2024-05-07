@@ -69,7 +69,7 @@ namespace Kotidok {
       livingArea?: number;
       yardArea?: number;
       buildYear?: number;
-
+      targetType?: 'Huoneisto' | 'Kiinteistö';
       yardOwnership?: string;
       buildingMaterial?: string;
       roofMaterial?: string;
@@ -83,6 +83,8 @@ namespace Kotidok {
       energyClass?: string;
       otherArea?: number;
       propertyNumber?: string;
+      appartmentNumber?: number;
+      hasGarage?: boolean;
     };
 
   type EventType = ItemType &
@@ -103,7 +105,15 @@ namespace Kotidok {
     password: string;
   };
 
-  type Table = 'propertyFiles' | 'eventFiles' | 'propertyImages' | 'eventImages' | 'properties' | 'propertyEvents' | 'usage' | 'files';
+  type Table =
+    | 'propertyFiles'
+    | 'eventFiles'
+    | 'propertyImages'
+    | 'eventImages'
+    | 'properties'
+    | 'propertyEvents'
+    | 'usage'
+    | 'files';
 }
 
 declare type TODO = any;

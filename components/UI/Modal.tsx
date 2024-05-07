@@ -4,13 +4,13 @@ import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
   const className = [
     !props.hidden ? 'flex' : '',
-    'absolute top-0 left-0 bg-[#0005] w-screen h-full backdrop-blur-sm z-90 items-center justify-center',
+    'fixed top-0 left-0 bg-[#0005] w-screen h-screen backdrop-blur-sm z-90 items-center justify-center py-4',
   ];
 
   return (
     <div
-      className={className.join(' ')}
-      {...props}>
+      hidden={props.hidden}
+      className={className.join(' ')}>
       {children}
     </div>
   );
@@ -57,7 +57,7 @@ Modal.Body = function ({ children }) {
 
 Modal.DefaultContentContainer = function ({ children }) {
   return (
-    <div className='justify-self-center flex flex-col bg-white max-h-full rounded-lg shadow-lg text-black lg:w-[900px] xs:w-full xs:mx-2 overflow-y-scroll overflow-hidden'>
+    <div className='animate-slideup-fast justify-self-center flex flex-col bg-white max-h-full rounded-lg shadow-lg text-black lg:w-[900px] xs:w-full xs:mx-2 overflow-y-scroll overflow-hidden'>
       {children}
     </div>
   );
