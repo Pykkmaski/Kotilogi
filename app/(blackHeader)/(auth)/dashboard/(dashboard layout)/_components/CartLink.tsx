@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 function Token({ n }) {
   return n !== 0 ? (
-    <div className='flex items-center justify-center rounded-full bg-orange-500 shadow-md text-white right-2 w-6 h-6 font-semibold mr-2 xs:text-sm lg:text-lg'>
+    <div className='text-center rounded-full bg-orange-500 shadow-md text-white right-2 w-6 h-6 font-semibold mr-2 xs:text-sm lg:text-base'>
       {n}
     </div>
   ) : null;

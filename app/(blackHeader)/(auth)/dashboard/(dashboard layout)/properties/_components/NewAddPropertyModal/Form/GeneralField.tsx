@@ -21,6 +21,7 @@ export function GeneralField() {
               <input
                 type='radio'
                 value='Kiinteistö'
+                required
                 onChange={e => {
                   const { checked } = e.target;
                   if (checked) {
@@ -64,19 +65,21 @@ export function GeneralField() {
           </div>
         </div>
 
-        <div className='flex flex-col w-full gap-4 mt-8'>
+        <div className='flex flex-col w-[50%] gap-4 mt-8'>
           <Label>
             <span className='font-semibold'>Energialuokka</span>
           </Label>
 
-          <RadioGroup groupName='energyClass'>
-            {energyClasses.map(ec => (
-              <input
-                value={ec}
-                type='radio'
-              />
-            ))}
-          </RadioGroup>
+          <div className='grid grid-flow-row grid-cols-2 gap-4'>
+            <RadioGroup groupName='energyClass'>
+              {energyClasses.map(ec => (
+                <input
+                  value={ec}
+                  type='radio'
+                />
+              ))}
+            </RadioGroup>
+          </div>
         </div>
       </div>
 
