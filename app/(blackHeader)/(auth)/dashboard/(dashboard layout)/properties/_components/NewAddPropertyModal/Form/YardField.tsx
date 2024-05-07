@@ -30,7 +30,7 @@ export function YardField() {
         ))}
       </RadioGroup>
 
-      {data && data.yardOwnership !== 'Ei Mitään' ? (
+      {data && data.yardOwnership !== undefined && data.yardOwnership !== 'Ei Mitään' ? (
         <Group>
           <Label>
             Pinta-ala <sup className='text-super'>m2</sup>
