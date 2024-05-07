@@ -9,9 +9,9 @@ export function HeatingField() {
   const { obj: data } = useObjectProviderContext() as { obj: Kotidok.PropertyType };
 
   return (
-    <div className='flex flex-row w-full gap-2 [&>*]:w-full'>
+    <div className='flex w-full gap-2 [&>*]:w-full'>
       <Fieldset legend='Lämmitys'>
-        <div className='flex flex-row gap-4 w-full'>
+        <div className='flex xs:flex-col lg:flex-row gap-4 w-full'>
           <div className='flex flex-col gap-4 w-full'>
             <Label>
               <span className='font-semibold'>Ensijainen</span>
@@ -28,7 +28,7 @@ export function HeatingField() {
             </RadioGroup>
           </div>
 
-          <div className='flex flex-col gap-4 w-full'>
+          <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
             <Label>
               <span className='font-semibold'>Toissijainen</span>
             </Label>

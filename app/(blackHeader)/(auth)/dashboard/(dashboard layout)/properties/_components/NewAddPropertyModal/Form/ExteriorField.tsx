@@ -6,7 +6,7 @@ import { buildingMaterials, colors, roofMaterials, roofTypes } from 'kotilogi-ap
 export function ExteriorField() {
   return (
     <Fieldset legend='Ulkopuoli'>
-      <div className='flex flex-row w-full'>
+      <div className='flex lg:flex-row xs:flex-col w-full'>
         <div className='flex flex-col gap-4 w-full'>
           <Label>
             <span className='font-semibold'>Rakennusmateriaali</span>
@@ -21,7 +21,7 @@ export function ExteriorField() {
           </RadioGroup>
         </div>
 
-        <div className='flex flex-col gap-4 w-full'>
+        <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
           <Label>
             <span className='font-semibold'>Väri</span>
           </Label>

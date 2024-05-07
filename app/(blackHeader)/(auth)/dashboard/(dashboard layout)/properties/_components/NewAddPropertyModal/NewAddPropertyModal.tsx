@@ -65,7 +65,7 @@ export function NewAddPropertyModalTrigger({
                       onSubmit={async e => {
                         e.preventDefault();
                         setStatus('loading');
-                        console.log(data);
+
                         onSubmit(data)
                           .then(() => {
                             setStatus('idle');

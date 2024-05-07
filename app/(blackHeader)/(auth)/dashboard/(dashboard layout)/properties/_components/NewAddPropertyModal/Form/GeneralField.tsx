@@ -12,7 +12,7 @@ export function GeneralField() {
   return (
     <Fieldset legend='Yleistiedot'>
       <div className='flex flex-col gap-4 w-full'>
-        <div className='flex flex-row w-full'>
+        <div className='flex lg:flex-row xs:flex-col w-full'>
           <div className='flex flex-col gap-4 w-full'>
             <Label required>
               <span className='font-semibold'>Kohdetyyppi</span>
@@ -47,7 +47,7 @@ export function GeneralField() {
             </RadioGroup>
           </div>
 
-          <div className='flex flex-col gap-4 w-full'>
+          <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
             <Label required>
               <span className='font-semibold'>Talotyyppi</span>
             </Label>
@@ -65,7 +65,7 @@ export function GeneralField() {
           </div>
         </div>
 
-        <div className='flex flex-col w-[50%] gap-4 mt-8'>
+        <div className='flex flex-col lg:w-[50%] xs:w-full gap-4 mt-8'>
           <Label>
             <span className='font-semibold'>Energialuokka</span>
           </Label>
