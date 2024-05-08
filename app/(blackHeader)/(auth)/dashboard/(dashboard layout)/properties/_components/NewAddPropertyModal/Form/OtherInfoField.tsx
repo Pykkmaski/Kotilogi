@@ -1,9 +1,11 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
+import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { Label } from '@/components/UI/FormUtils';
 
 export function OtherInfoField() {
-  const { obj: data } = useObjectProviderContext() as { obj: Kotidok.PropertyType };
+  const { property: data, updateData } = useAddPropertyModalContext();
 
   return (
     <Fieldset legend='Muut tiedot'>
@@ -14,7 +16,7 @@ export function OtherInfoField() {
           className='aspect-square w-5'
           defaultChecked={data.hasGarage}
         />
-        <label>Autotalli</label>
+        <Label>Autotalli</Label>
       </div>
     </Fieldset>
   );

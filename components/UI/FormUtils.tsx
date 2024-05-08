@@ -1,9 +1,13 @@
-export const Label = ({
-  children,
-  required,
-}: React.ComponentProps<'label'> & { required?: boolean }) => {
+type LabelProps = React.ComponentProps<'label'> & {
+  required?: boolean;
+  boldText?: boolean;
+};
+export const Label = ({ children, required, boldText }: LabelProps) => {
   return (
-    <label>
+    <label
+      className={`
+      ${boldText ? 'font-semibold' : 'font-normal'}
+    `}>
       {children}
       {required ? <span className='text-red-700 text-sm'> Pakollinen</span> : null}
     </label>

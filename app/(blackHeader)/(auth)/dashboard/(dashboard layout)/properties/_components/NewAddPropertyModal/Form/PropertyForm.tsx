@@ -10,7 +10,7 @@ import { ExteriorField } from './ExteriorField';
 
 type SubmitFormProps = {
   id: string;
-  onChange: (e) => void;
+  onChange: (e: TODO) => void;
   onSubmit: (e: FormEvent) => Promise<void>;
 };
 

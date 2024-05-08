@@ -146,6 +146,9 @@ SelectablesProvider.ResetSelectedTrigger = function ({ children, ...props }) {
       ...child.props,
       ...props,
       onClick: () => {
+        if (child.props.onClick) {
+          child.props.onClick();
+        }
         resetSelected();
       },
     })

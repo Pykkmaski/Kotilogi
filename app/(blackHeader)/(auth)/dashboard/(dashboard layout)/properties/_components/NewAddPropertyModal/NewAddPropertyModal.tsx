@@ -3,19 +3,21 @@
 import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { Modal } from '@/components/UI/Modal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
-import style from './style.module.css';
 import { useInputData } from '@/hooks/useInputData';
-import { useEffect, useId, useState } from 'react';
+import { createContext, useId, useState } from 'react';
 import Button from '@/components/UI/Button/Button';
-import { TargetTypeField } from './Form/TargetTypeField';
-import { GeneralField } from './Form/GeneralField';
-import { InteriorField } from './Form/InteriorField';
-import { HeatingField } from './Form/HeatingField';
-import { OtherInfoField } from './Form/OtherInfoField';
-import { ObjectProvider } from '@/components/Util/ObjectProvider';
 import { SubmitForm } from './Form/PropertyForm';
-import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import toast from 'react-hot-toast';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+
+const AddPropertyModalContext = createContext<{
+  property: Kotidok.PropertyType;
+  updateData: (data: Kotidok.PropertyType) => void;
+} | null>(null);
+export const useAddPropertyModalContext = createUseContextHook(
+  'AddPropertyModalContext',
+  AddPropertyModalContext
+);
 
 export function NewAddPropertyModalTrigger({
   property,
@@ -56,49 +58,54 @@ export function NewAddPropertyModalTrigger({
               title={property ? 'Muokkaa kohdetta' : 'Lisää kohde'}
               icon='fa-home'
             />
-            <CarouselProvider defaultSlot='form'>
-              <ObjectProvider obj={data}>
-                <Modal.Body>
-                  <CarouselProvider.Slot slotName='form'>
-                    <SubmitForm
-                      onChange={updateData}
-                      onSubmit={async e => {
-                        e.preventDefault();
-                        setStatus('loading');
 
-                        onSubmit(data)
-                          .then(() => {
-                            setStatus('idle');
-                            displayModal(false);
-                          })
-                          .catch(err => toast.error(err.message));
-                      }}
-                      id={formId}
-                    />
-                  </CarouselProvider.Slot>
+            <AddPropertyModalContext.Provider
+              value={{
+                property: data,
+                updateData,
+              }}>
+              <Modal.Body>
+                <SubmitForm
+                  onChange={updateData}
+                  onSubmit={async e => {
+                    e.preventDefault();
+                    setStatus('loading');
 
-                  <CarouselProvider.Slot slotName='confirmation'>
-                    <h1>Vahviastus</h1>
-                    <CarouselProvider.PreviousTrigger>Takaisin</CarouselProvider.PreviousTrigger>
-                  </CarouselProvider.Slot>
-                </Modal.Body>
-              </ObjectProvider>
+                    const dataToSubmit = {
+                      ...data,
+                      propertyNumber:
+                        data.targetType === 'Kiinteistö' ? data.propertyNumber : undefined,
+                      appartmentNumber:
+                        data.targetType === 'Huoneisto' ? data.appartmentNumber : undefined,
+                      yardArea: data.yardOwnership !== 'Ei Mitään' ? data.yardArea : undefined,
+                    };
 
-              <Modal.Footer>
-                <VisibilityProvider.Trigger>
-                  <Button variant='secondary'>Peruuta</Button>
-                </VisibilityProvider.Trigger>
+                    onSubmit(dataToSubmit)
+                      .then(() => {
+                        setStatus('idle');
+                        displayModal(false);
+                      })
+                      .catch(err => toast.error(err.message));
+                  }}
+                  id={formId}
+                />
+              </Modal.Body>
+            </AddPropertyModalContext.Provider>
 
-                <Button
-                  variant='primary-dashboard'
-                  type='submit'
-                  form={formId}
-                  loading={loading}
-                  disabled={loading}>
-                  <span className='mx-2'>Vahvista</span>
-                </Button>
-              </Modal.Footer>
-            </CarouselProvider>
+            <Modal.Footer>
+              <VisibilityProvider.Trigger>
+                <Button variant='secondary'>Peruuta</Button>
+              </VisibilityProvider.Trigger>
+
+              <Button
+                variant='primary-dashboard'
+                type='submit'
+                form={formId}
+                loading={loading}
+                disabled={loading}>
+                <span className='mx-2'>Vahvista</span>
+              </Button>
+            </Modal.Footer>
           </Modal.DefaultContentContainer>
         </Modal>
       </VisibilityProvider.Target>

@@ -1,16 +1,22 @@
 import './globals.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
 import { serviceName } from 'kotilogi-app/constants';
 import { CookieNotice } from '@/components/App/CookieNotice';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 export const metadata = {
   title: 'Kotidok',
   description: 'Talosi huoltokirja',
 };
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html lang='en'>
       <head>
@@ -26,6 +32,7 @@ export default async function RootLayout({ children }) {
       <AuthProvider>
         <body className='flex flex-col min-h-screen'>
           {children}
+
           <Toaster
             position='bottom-right'
             toastOptions={{
@@ -35,7 +42,6 @@ export default async function RootLayout({ children }) {
               },
             }}
           />
-
           <CookieNotice />
           <div className='md:hidden xs:hidden'>
             <Notice text={'Sovelluksen mobiiliversio on työn alla! Kokeile uudelleen myöhemmin.'} />

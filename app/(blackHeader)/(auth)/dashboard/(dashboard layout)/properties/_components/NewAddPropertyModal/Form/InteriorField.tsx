@@ -1,17 +1,18 @@
 import { Fieldset } from '@/components/UI/Fieldset';
-import { Input, Group } from '@/components/UI/FormUtils';
+import { Input, Group, Label } from '@/components/UI/FormUtils';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
+import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 
 export function InteriorField() {
-  const { obj: data } = useObjectProviderContext() as { obj: Kotidok.PropertyType };
+  const { property: data, updateData } = useAddPropertyModalContext();
 
   return (
     <Fieldset legend='Sisätilat'>
       <Group>
-        <label>
+        <Label>
           Pinta-ala <sup className='text-super'>m2</sup>
-        </label>
+        </Label>
         <Input
           name='livingArea'
           placeholder='Anna kohteen sisätilojen pinta-ala...'
@@ -22,9 +23,9 @@ export function InteriorField() {
       </Group>
 
       <Group>
-        <label>
+        <Label>
           Muut tilat <sup className='text-super'>m2</sup>
-        </label>
+        </Label>
         <Input
           name='otherArea'
           placeholder='Anna muiden tilojen pinta-ala...'
@@ -35,7 +36,7 @@ export function InteriorField() {
       </Group>
 
       <Group>
-        <label>Huoneiden lukumäärä</label>
+        <Label>Huoneiden lukumäärä</Label>
         <Input
           type='number'
           name='roomCount'
@@ -47,7 +48,7 @@ export function InteriorField() {
       </Group>
 
       <Group>
-        <label>{data.buildingType === 'Kerrostalo' ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}</label>
+        <Label>{data.buildingType === 'Kerrostalo' ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}</Label>
         <Input
           name='floorCount'
           step='1'
@@ -59,7 +60,7 @@ export function InteriorField() {
       </Group>
 
       <Group>
-        <label>Vessojen lukumäärä</label>
+        <Label>Vessojen lukumäärä</Label>
         <Input
           name='wcCount'
           placeholder='Anna vessojen lukumäärä'

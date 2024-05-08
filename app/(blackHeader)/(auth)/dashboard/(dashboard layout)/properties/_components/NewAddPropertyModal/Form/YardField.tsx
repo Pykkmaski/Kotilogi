@@ -3,29 +3,19 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { Group, Input, Label } from '@/components/UI/FormUtils';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { yardOwnershipTypes } from 'kotilogi-app/constants';
+import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 
 export function YardField() {
-  const { obj: data } = useObjectProviderContext() as { obj: Kotidok.PropertyType };
+  const { property: data, updateData } = useAddPropertyModalContext();
+
   return (
     <Fieldset legend='Tontti'>
-      <Label>
-        <span className='font-semibold'>Omistus</span>
-      </Label>
+      <Label boldText>Omistus</Label>
       <RadioGroup groupName='yardOwnership'>
         {yardOwnershipTypes.map(type => (
           <input
             value={type}
             type='radio'
-            onChange={
-              type === 'Ei Mitään'
-                ? e => {
-                    const { checked } = e.target;
-                    if (checked) {
-                      delete data.yardArea;
-                    }
-                  }
-                : null
-            }
           />
         ))}
       </RadioGroup>

@@ -4,18 +4,17 @@ import { Label } from '@/components/UI/FormUtils';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { primaryHeatingSystems, secondaryHeatingSystems } from 'kotilogi-app/constants';
+import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 
 export function HeatingField() {
-  const { obj: data } = useObjectProviderContext() as { obj: Kotidok.PropertyType };
+  const { property: data } = useAddPropertyModalContext();
 
   return (
     <div className='flex w-full gap-2 [&>*]:w-full'>
       <Fieldset legend='Lämmitys'>
         <div className='flex xs:flex-col lg:flex-row gap-4 w-full'>
           <div className='flex flex-col gap-4 w-full'>
-            <Label>
-              <span className='font-semibold'>Ensijainen</span>
-            </Label>
+            <Label boldText>Ensisijainen</Label>
 
             <RadioGroup groupName='primaryHeatingSystem'>
               {primaryHeatingSystems.map(type => (
@@ -29,9 +28,7 @@ export function HeatingField() {
           </div>
 
           <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
-            <Label>
-              <span className='font-semibold'>Toissijainen</span>
-            </Label>
+            <Label boldText>Toissijainen</Label>
             <RadioGroup groupName='secondaryHeatingSystem'>
               {secondaryHeatingSystems.map(type => (
                 <input

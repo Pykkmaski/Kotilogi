@@ -8,9 +8,7 @@ export function ExteriorField() {
     <Fieldset legend='Ulkopuoli'>
       <div className='flex lg:flex-row xs:flex-col w-full'>
         <div className='flex flex-col gap-4 w-full'>
-          <Label>
-            <span className='font-semibold'>Rakennusmateriaali</span>
-          </Label>
+          <Label boldText>Rakennusmateriaali</Label>
           <RadioGroup groupName='buildingMaterial'>
             {buildingMaterials.map(type => (
               <input
@@ -22,9 +20,7 @@ export function ExteriorField() {
         </div>
 
         <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
-          <Label>
-            <span className='font-semibold'>Väri</span>
-          </Label>
+          <Label boldText>Väri</Label>
           <div className='grid grid-flow-row gap-4 grid-cols-2'>
             <RadioGroup groupName='color'>
               {colors.map(color => (
@@ -40,9 +36,7 @@ export function ExteriorField() {
 
       <div className='flex flex-row w-full mt-8'>
         <div className='flex flex-col gap-4 w-full'>
-          <Label>
-            <span className='font-semibold'>Kattotyyppi</span>
-          </Label>
+          <Label boldText>Katon tyyppi</Label>
 
           <RadioGroup groupName='roofType'>
             {roofTypes.map(type => (
@@ -55,9 +49,7 @@ export function ExteriorField() {
         </div>
 
         <div className='flex flex-col gap-4 w-full'>
-          <Label>
-            <span className='font-semibold'>Katon materiaali</span>
-          </Label>
+          <Label boldText>Katon materiaali</Label>
 
           <RadioGroup groupName='roofMaterial'>
             {roofMaterials.map(mat => (

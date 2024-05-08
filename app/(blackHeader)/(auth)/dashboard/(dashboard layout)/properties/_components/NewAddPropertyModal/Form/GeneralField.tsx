@@ -5,51 +5,42 @@ import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { colors, energyClasses } from 'kotilogi-app/constants';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { buildingMaterials, buildingTypes } from 'kotilogi-app/constants';
+import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 
 export function GeneralField() {
-  const { obj: data } = useObjectProviderContext() as { obj: Kotidok.PropertyType };
+  const { property: data, updateData } = useAddPropertyModalContext();
 
   return (
     <Fieldset legend='Yleistiedot'>
       <div className='flex flex-col gap-4 w-full'>
         <div className='flex lg:flex-row xs:flex-col w-full'>
           <div className='flex flex-col gap-4 w-full'>
-            <Label required>
-              <span className='font-semibold'>Kohdetyyppi</span>
+            <Label
+              required
+              boldText>
+              Kohdetyyppi
             </Label>
             <RadioGroup groupName='targetType'>
               <input
                 type='radio'
                 value='Kiinteistö'
                 required
-                onChange={e => {
-                  const { checked } = e.target;
-                  if (checked) {
-                    //Clear the value of the appartmentNumber-property in the data.
-                    delete data.appartmentNumber;
-                  }
-                }}
                 defaultChecked={data.targetType === 'Kiinteistö'}
               />
 
               <input
                 type='radio'
                 value='Huoneisto'
-                onChange={e => {
-                  const { checked } = e.target;
-                  if (checked) {
-                    //Clear the propertyNumber-property in the data.
-                    delete data.propertyNumber;
-                  }
-                }}
                 defaultChecked={data.targetType === 'Huoneisto'}
               />
             </RadioGroup>
           </div>
 
           <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
-            <Label required>
-              <span className='font-semibold'>Talotyyppi</span>
+            <Label
+              required
+              boldText>
+              Talotyyppi
             </Label>
             <div className='grid grid-flow-row grid-cols-2 gap-4'>
               <RadioGroup groupName='buildingType'>
@@ -65,10 +56,8 @@ export function GeneralField() {
           </div>
         </div>
 
-        <div className='flex flex-col lg:w-[50%] xs:w-full gap-4 mt-8'>
-          <Label>
-            <span className='font-semibold'>Energialuokka</span>
-          </Label>
+        <div className='flex flex-col lg:w-[35%] xs:w-full gap-4 mt-8'>
+          <Label boldText>Energialuokka</Label>
 
           <div className='grid grid-flow-row grid-cols-2 gap-4'>
             <RadioGroup groupName='energyClass'>
