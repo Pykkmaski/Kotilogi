@@ -4,9 +4,9 @@ import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { Modal } from '@/components/UI/Modal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { useInputData } from '@/hooks/useInputData';
-import { createContext, useId, useState } from 'react';
+import { createContext, useId, useRef, useState } from 'react';
 import Button from '@/components/UI/Button/Button';
-import { SubmitForm } from './Form/PropertyForm';
+import { PropertyForm } from './Form/PropertyForm';
 import toast from 'react-hot-toast';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 
@@ -26,13 +26,14 @@ export function NewAddPropertyModalTrigger({
   property?: Kotidok.PropertyType;
   onSubmit: (data: Kotidok.PropertyType) => Promise<void>;
 }) {
-  const { data, updateData } = useInputData(property || ({} as Kotidok.PropertyType));
+  const { data, updateData, resetData } = useInputData(property || ({} as Kotidok.PropertyType));
 
   const [status, setStatus] = useState<'idle' | 'loading'>('idle');
   const [showModal, setShowModal] = useState(false);
 
   const formId = useId();
   const loading = status === 'loading';
+  const formRef = useRef<HTMLFormElement>(null);
 
   const displayModal = (state?: boolean) => {
     setShowModal(prev => {
@@ -65,7 +66,8 @@ export function NewAddPropertyModalTrigger({
                 updateData,
               }}>
               <Modal.Body>
-                <SubmitForm
+                <PropertyForm
+                  ref={formRef}
                   onChange={updateData}
                   onSubmit={async e => {
                     e.preventDefault();
@@ -93,18 +95,36 @@ export function NewAddPropertyModalTrigger({
             </AddPropertyModalContext.Provider>
 
             <Modal.Footer>
-              <VisibilityProvider.Trigger>
-                <Button variant='secondary'>Peruuta</Button>
-              </VisibilityProvider.Trigger>
+              <div className='w-full justify-between items-center'>
+                <Button
+                  variant='secondary'
+                  onClick={() => {
+                    const c = confirm('Haluatko varmasti nollata lomakkeen?');
+                    if (!c) return;
 
-              <Button
-                variant='primary-dashboard'
-                type='submit'
-                form={formId}
-                loading={loading}
-                disabled={loading}>
-                <span className='mx-2'>Vahvista</span>
-              </Button>
+                    resetData();
+                    formRef.current?.reset();
+                  }}>
+                  <div className='flex items-center gap-2'>
+                    <i className='fa fa-warning text-slate-500'></i>
+                    <span>Nollaa lomake</span>
+                  </div>
+                </Button>
+              </div>
+              <div className='flex gap-4 items-center'>
+                <VisibilityProvider.Trigger>
+                  <Button variant='secondary'>Peruuta</Button>
+                </VisibilityProvider.Trigger>
+
+                <Button
+                  variant='primary-dashboard'
+                  type='submit'
+                  form={formId}
+                  loading={loading}
+                  disabled={loading}>
+                  <span className='mx-2'>Vahvista</span>
+                </Button>
+              </div>
             </Modal.Footer>
           </Modal.DefaultContentContainer>
         </Modal>

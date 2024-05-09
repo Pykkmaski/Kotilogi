@@ -48,8 +48,8 @@ export function PropertiesGallery({ properties }) {
                 <ListHeaderControlButtons>
                   <SelectablesProvider.ResetSelectedTrigger>
                     <CancelSelectionButton />
+                    <DeletePropertiesModalTrigger />
                   </SelectablesProvider.ResetSelectedTrigger>
-                  <DeletePropertiesModalTrigger />
                 </ListHeaderControlButtons>
               </div>
             </SelectablesProvider.HideIfNoneSelected>

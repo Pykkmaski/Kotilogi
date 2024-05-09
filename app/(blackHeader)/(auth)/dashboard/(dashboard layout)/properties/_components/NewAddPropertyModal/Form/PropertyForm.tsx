@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, forwardRef, useRef } from 'react';
 import style from '../style.module.css';
 import { TargetTypeField } from './TargetTypeField';
 import { GeneralField } from './GeneralField';
@@ -14,16 +14,15 @@ type SubmitFormProps = {
   onSubmit: (e: FormEvent) => Promise<void>;
 };
 
-export function SubmitForm({ onChange, onSubmit, id }: SubmitFormProps) {
-  const ref = useRef<HTMLFormElement>(null);
+function Component({ onChange, onSubmit, id }: SubmitFormProps, ref: React.Ref<HTMLFormElement>) {
   return (
     <form
       ref={ref}
       id={id}
       className={style.container}
       onChange={onChange}
-      onSubmit={async e => {
-        onSubmit(e).then(() => ref.current?.reset());
+      onSubmit={async (e: TODO) => {
+        onSubmit(e).then(() => e.target.reset());
       }}>
       <GeneralField />
       <ExteriorField />
@@ -35,3 +34,5 @@ export function SubmitForm({ onChange, onSubmit, id }: SubmitFormProps) {
     </form>
   );
 }
+
+export const PropertyForm = forwardRef(Component);

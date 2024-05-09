@@ -29,14 +29,28 @@ export async function updateProperty(propertyId: string, newPropertyData: Kotido
   revalidatePath(PATH);
 }
 
-export async function deleteProperty(propertyId: string, password: string) {
-  const session = (await getServerSession(options as any)) as { user: UserType };
-  const passwordOk = await users.verifyCredentials(session.user.email, password);
-  if (!passwordOk) {
-    throw new Error('invalid_password');
+export async function deleteProperty(
+  propertyId: string,
+  password: string
+): Promise<'success' | 'invalid_password'> {
+  try {
+    const session = (await getServerSession(options as any)) as { user: UserType };
+    const passwordOk = await users.verifyCredentials(session.user.email, password);
+    if (!passwordOk) {
+      throw new Error('invalid_password');
+    }
+    await properties.deleteProperty(propertyId);
+    revalidatePath(PATH);
+    return 'success';
+  } catch (err) {
+    const msg = err.message;
+    if (msg === 'invalid_password') {
+      return msg;
+    } else {
+      console.log(msg);
+      throw err;
+    }
   }
-  await properties.deleteProperty(propertyId);
-  revalidatePath(PATH);
 }
 
 export async function deleteFile(id: string) {
