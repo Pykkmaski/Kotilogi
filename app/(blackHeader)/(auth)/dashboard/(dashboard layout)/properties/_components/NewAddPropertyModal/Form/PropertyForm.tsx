@@ -24,6 +24,7 @@ function Component({ onChange, onSubmit, id }: SubmitFormProps, ref: React.Ref<H
       onSubmit={async (e: TODO) => {
         onSubmit(e).then(() => e.target.reset());
       }}>
+      <TargetTypeField />
       <GeneralField />
       <ExteriorField />
       <YardField />

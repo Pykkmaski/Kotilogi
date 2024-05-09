@@ -6,6 +6,7 @@ import { colors, energyClasses } from 'kotilogi-app/constants';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { buildingMaterials, buildingTypes } from 'kotilogi-app/constants';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { DisableIfFieldMissing } from './DisableIfFieldMissing';
 
 export function GeneralField() {
   const { property: data, updateData } = useAddPropertyModalContext();
@@ -14,29 +15,7 @@ export function GeneralField() {
     <Fieldset legend='Yleistiedot'>
       <div className='flex flex-col gap-4 w-full'>
         <div className='flex lg:flex-row xs:flex-col w-full'>
-          <div className='flex flex-col gap-4 w-full'>
-            <Label
-              required
-              boldText>
-              Kohdetyyppi
-            </Label>
-            <RadioGroup groupName='targetType'>
-              <input
-                type='radio'
-                value='Kiinteistö'
-                required
-                defaultChecked={data.targetType === 'Kiinteistö'}
-              />
-
-              <input
-                type='radio'
-                value='Huoneisto'
-                defaultChecked={data.targetType === 'Huoneisto'}
-              />
-            </RadioGroup>
-          </div>
-
-          <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
+          <div className='flex flex-col gap-4 xs:w-full lg:w-[40%] xs:mt-8 lg:mt-0'>
             <Label
               required
               boldText>
