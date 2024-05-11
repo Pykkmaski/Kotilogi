@@ -31,13 +31,15 @@ export function SubmitDataModalProvider({
   submitMethod,
   inputValidator,
 }: SubmitDataModalProviderProps) {
-  const { updateData, updateDataViaProperty, updateFiles, submit, status } = useSubmitData(
-    {},
-    submitMethod
-  );
-
   const formRef = useRef<HTMLFormElement>(null);
   const formId = useId();
+
+  const { updateData, updateDataViaProperty, updateFiles, submit, status } = useSubmitData(
+    {},
+    async (data, files) => {
+      submitMethod(data, files).then(() => formRef.current?.reset());
+    }
+  );
 
   const onInput = (e: TODO) => {
     if (inputValidator) {

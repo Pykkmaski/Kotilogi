@@ -31,6 +31,10 @@ export class Files extends DatabaseTable {
     this.success = false;
   }
 
+  private addBackup(backup: { fileName: string; buffer?: Buffer; mode: ModeType }) {
+    this.backups.push(backup);
+  }
+
   async rollbackFiles() {
     if (this.success) {
       const promises = this.backups.map(backup => {
@@ -55,7 +59,7 @@ export class Files extends DatabaseTable {
     const fileName = Date.now() + fileNameTimestampSeparator + file.name;
 
     await writeFile(uploadPath + fileName, buffer).then(() => {
-      this.backups.push({
+      this.addBackup({
         buffer,
         fileName,
         mode: 'save',

@@ -76,7 +76,7 @@ export function EventsGallery({ events, propertyId, userEmail }) {
               description={props.item.description}
               href={`/events/${props.item.id}/info`}
               footerText={
-                new Date(props.item.createdAt).toLocaleDateString('fi-FI') || 'Ei päivämäärää.'
+                new Date(props.item.time).toLocaleDateString('fi-FI') || 'Ei päivämäärää.'
               }
               faIcon='fa fa-history'
               secondaryHeaderContent={

@@ -60,3 +60,19 @@ describe('Testing the validation method.', () => {
     }).not.toThrow();
   });
 });
+
+describe('Testing the upload method.', () => {
+  jest.mock('fs/promises', () => ({
+    writeFile: jest.fn().mockImplementation(() => Promise.resolve()),
+  }));
+
+  it('Uploads supported files.', async () => {
+    const arrayBufferMock = jest.spyOn(global.File.prototype, 'arrayBuffer');
+    const bufferFromMock = jest.spyOn(global.Buffer.prototype, 'from');
+    const filesAddBackupMock = jest.spyOn(Files.prototype as any, 'addBackup');
+
+    const files = new Files('test');
+    await (files as any).upload({ name: 'testFile', type: 'application/pdf', size: 100 } as File);
+    expect(arrayBufferMock).toHaveBeenCalled();
+  });
+});
