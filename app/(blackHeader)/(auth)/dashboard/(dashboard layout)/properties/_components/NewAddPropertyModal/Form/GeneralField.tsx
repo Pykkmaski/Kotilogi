@@ -1,6 +1,6 @@
 import { RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
-import { Group, Input, Label, SubLabel } from '@/components/UI/FormUtils';
+import { Description, FormControl, Group, Input, Label, SubLabel } from '@/components/UI/FormUtils';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { colors, energyClasses } from 'kotilogi-app/constants';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
@@ -53,66 +53,76 @@ export function GeneralField() {
 
       {data.targetType === 'Kiinteistö' ? (
         <div className='w-full'>
-          <Group>
-            <Label required>Kiinteistötunnus</Label>
-            <Input
-              name='propertyNumber'
-              required
-              placeholder='Kirjoita kiinteistötunnus...'
-              defaultValue={data.propertyNumber}
-            />
-          </Group>
+          <FormControl
+            label='Kiinteistötunnus'
+            required
+            control={
+              <Input
+                name='propertyNumber'
+                placeholder='Kirjoita kiinteistötunnus...'
+                defaultValue={data.propertyNumber}
+              />
+            }
+          />
         </div>
       ) : null}
 
       <div className='flex flex-row gap-2 w-full'>
         <div className='w-full'>
-          <Group>
-            <Label required>Osoite</Label>
-            <Input
-              name='title'
-              placeholder='Kirjoita talon osoite...'
-              defaultValue={data.title}
-              required></Input>
-          </Group>
+          <FormControl
+            label='Osoite'
+            required
+            control={
+              <Input
+                name='title'
+                placeholder='Kirjoita talon osoite...'
+                defaultValue={data.title}></Input>
+            }
+          />
         </div>
 
         <div className='w-full'>
-          <Group>
-            <Label required>Postinumero</Label>
-            <Input
-              name='zipCode'
-              maxLength={5}
-              placeholder='Kirjoita talon postinumero...'
-              defaultValue={data.zipCode}
-              required></Input>
-          </Group>
+          <FormControl
+            label='Postinumero'
+            required
+            control={
+              <Input
+                name='zipCode'
+                maxLength={5}
+                placeholder='Kirjoita talon postinumero...'
+                defaultValue={data.zipCode}></Input>
+            }
+          />
         </div>
       </div>
 
-      <Group>
-        <label>Rakennusvuosi</label>
-        <Input
-          name='buildYear'
-          type='number'
-          placeholder='Anna rakennusvuosi...'
-          defaultValue={data.buildYear}
-        />
-      </Group>
+      <FormControl
+        label='Rakennusvuosi'
+        control={
+          <Input
+            name='buildYear'
+            type='number'
+            placeholder='Anna rakennusvuosi...'
+            defaultValue={data.buildYear}
+          />
+        }
+      />
 
       {data.targetType === 'Huoneisto' ? (
         <div className='w-full'>
-          <Group>
-            <label>Huoneiston numero</label>
-            <Input
-              type='number'
-              name='appartmentNumber'
-              min='0'
-              step='1'
-              defaultValue={data.appartmentNumber}
-              placeholder='Anna huoneiston numero...'
-            />
-          </Group>
+          <FormControl
+            label='Huoneiston numero'
+            control={
+              <Input
+                type='number'
+                name='appartmentNumber'
+                min='0'
+                step='1'
+                defaultValue={data.appartmentNumber}
+                placeholder='Anna huoneiston numero...'
+              />
+            }
+          />
         </div>
       ) : null}
     </Fieldset>

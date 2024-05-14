@@ -37,7 +37,9 @@ export function NewAddPropertyModalTrigger({
   property?: Kotidok.PropertyType;
   onSubmit: (data: Kotidok.PropertyType) => Promise<void>;
 }) {
-  const { data, updateData, resetData } = useInputData(property || ({} as Kotidok.PropertyType));
+  const { data, updateData, resetData } = useInputData(
+    property || ({ targetType: 'Kiinteistö' } as Kotidok.PropertyType)
+  );
 
   const [status, setStatus] = useState<'idle' | 'loading'>('idle');
   const [showModal, setShowModal] = useState(false);

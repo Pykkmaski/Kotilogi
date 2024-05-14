@@ -1,3 +1,5 @@
+import React from 'react';
+
 type LabelProps = React.ComponentProps<'label'> & {
   required?: boolean;
   boldText?: boolean;
@@ -34,7 +36,7 @@ export const Input = ({
 };
 
 export const SubLabel = ({ children }: React.PropsWithChildren) => {
-  return <div className='text-sm w-full text-right text-slate-500'>{children}</div>;
+  return <div className='text-sm w-full text-left text-slate-500'>{children}</div>;
 };
 
 export const Description = ({ children }: React.PropsWithChildren) => {
@@ -54,5 +56,36 @@ export const ErrorMessage = ({ children, ...props }: React.PropsWithChildren) =>
         {children}
       </div>
     </SubLabel>
+  );
+};
+
+type FormControlProps = {
+  control: React.ReactNode;
+  label: React.ReactNode;
+  helper?: React.ReactNode;
+  required?: boolean;
+  boldLabelText?: boolean;
+};
+
+export const FormControl = ({
+  control,
+  label,
+  helper,
+  boldLabelText = false,
+  required = false,
+}: FormControlProps) => {
+  return (
+    <div className='flex flex-col gap-1'>
+      <Label
+        boldText={boldLabelText}
+        required={required}>
+        {label}
+      </Label>
+      {React.cloneElement(control as React.ReactElement, {
+        ...(control as React.ReactElement).props,
+        required: required,
+      })}
+      {helper}
+    </div>
   );
 };

@@ -19,12 +19,14 @@ export function TargetTypeField() {
         <input
           type='radio'
           value='Kiinteistö'
+          required
           defaultChecked={data.targetType === 'Kiinteistö'}
         />
 
         <input
           type='radio'
           value='Huoneisto'
+          required
           defaultChecked={data.targetType === 'Huoneisto'}
         />
       </RadioGroup>

@@ -1,6 +1,6 @@
 import { RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
-import { Label } from '@/components/UI/FormUtils';
+import { FormControl, Label } from '@/components/UI/FormUtils';
 import { buildingMaterials, colors, roofMaterials, roofTypes } from 'kotilogi-app/constants';
 
 export function ExteriorField() {
