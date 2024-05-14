@@ -22,19 +22,15 @@ export function DeletePropertiesModalTrigger() {
           deleteProperty(property.id, data.password)
         );
 
-        await Promise.all(promises)
-          .then(results => {
-            const failure = results.find(result => result !== 'success');
-            if (failure && failure === 'invalid_password') {
-              setStatus(failure);
-              throw new Error(failure);
-            } else {
-              toast.success('Talo(t) poistettu!');
-            }
-          })
-          .catch(err => {
-            toast.error(err.message);
-          });
+        await Promise.all(promises).then(results => {
+          const failure = results.find(result => result !== 'success');
+          if (failure && failure === 'invalid_password') {
+            setStatus(failure);
+            throw new Error(failure);
+          } else {
+            toast.success('Talo(t) poistettu!');
+          }
+        });
       }}>
       <FormControl
         label='Salasana'
