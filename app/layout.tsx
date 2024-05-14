@@ -7,9 +7,7 @@ import '@fontsource/roboto/700.css';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
-import { serviceName } from 'kotilogi-app/constants';
 import { CookieNotice } from '@/components/App/CookieNotice';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 export const metadata = {
   title: 'Kotidok',
