@@ -7,7 +7,7 @@ const oldTable = 'editHistory';
 const newTable = 'history';
 
 exports.up = function (knex) {
-  return knex.schema.dropTableIfExists(table).createTable(newTable, tbl => {
+  return knex.schema.dropTableIfExists(oldTable).createTable(newTable, tbl => {
     tbl.increments('id');
     tbl.string('author').references('email').inTable('users').onUpdate('CASCADE');
     tbl.bigint('timestamp');
