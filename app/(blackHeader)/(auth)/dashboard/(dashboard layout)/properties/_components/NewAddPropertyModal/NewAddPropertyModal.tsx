@@ -19,6 +19,17 @@ export const useAddPropertyModalContext = createUseContextHook(
   AddPropertyModalContext
 );
 
+function PriceDisclaimer() {
+  return (
+    <span className='text-slate-500 text-sm'>
+      Yksittäisen talon vuosihinta on{' '}
+      <span className='text-green-700'>
+        9,90€<span className='text-sm text-slate-500'>(+ALV 24%)</span>
+      </span>
+    </span>
+  );
+}
+
 export function NewAddPropertyModalTrigger({
   property,
   onSubmit,
@@ -95,7 +106,7 @@ export function NewAddPropertyModalTrigger({
             </AddPropertyModalContext.Provider>
 
             <Modal.Footer>
-              <div className='w-full justify-between items-center'>
+              <div className='flex-1 items-center flex gap-4'>
                 <Button
                   variant='secondary'
                   onClick={() => {
@@ -111,7 +122,9 @@ export function NewAddPropertyModalTrigger({
                   </div>
                 </Button>
               </div>
-              <div className='flex gap-4 items-center'>
+
+              <div className='flex gap-4 items-center flex-3'>
+                <PriceDisclaimer />
                 <VisibilityProvider.Trigger>
                   <Button variant='secondary'>Peruuta</Button>
                 </VisibilityProvider.Trigger>
