@@ -59,7 +59,7 @@ export const ErrorMessage = ({ children, ...props }: React.PropsWithChildren) =>
   );
 };
 
-type FormControlProps = {
+type FormControlProps = React.ComponentProps<'div'> & {
   control: React.ReactNode;
   label: React.ReactNode;
   helper?: React.ReactNode;
@@ -73,9 +73,11 @@ export const FormControl = ({
   helper,
   boldLabelText = false,
   required = false,
+  ...props
 }: FormControlProps) => {
   return (
-    <div className='flex flex-col gap-1'>
+    <div
+      className={[props.className ? props.className.split(' ') : '' + 'flex flex-col'].join(' ')}>
       <Label
         boldText={boldLabelText}
         required={required}>
