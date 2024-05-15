@@ -292,6 +292,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
             name='hasGarage'
             type='checkbox'
             defaultChecked={property.hasGarage}
+            onChange={e => console.log(e.target.checked)}
           />
           <Label>Autotalli</Label>
         </div>

@@ -14,7 +14,12 @@ export function useInputData<T extends {}>(initialData: T) {
   const updateData = (e: TODO) => {
     setData(prev => ({
       ...prev,
-      [e.target.name]: e.target.type === 'number' ? e.target.valueAsNumber : e.target.value,
+      [e.target.name]:
+        e.target.type === 'number'
+          ? e.target.valueAsNumber
+          : e.target.type === 'checkbox'
+          ? e.target.checked
+          : e.target.value,
     }));
   };
 

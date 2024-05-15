@@ -19,7 +19,7 @@ export function Profile() {
         </div>
 
         <div className='flex-1 object-contain items-center justify-center flex'>
-          <IntroVideo />
+          <img src='/image.png' />
         </div>
       </div>
     </section>
