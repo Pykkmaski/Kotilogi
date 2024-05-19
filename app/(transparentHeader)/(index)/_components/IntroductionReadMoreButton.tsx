@@ -1,7 +1,7 @@
 import Button from '@/components/UI/Button/Button';
 import Link from 'next/link';
 
-export function ProfileReadMoreButton() {
+export function IntroductionReadMoreButton() {
   return (
     <Link
       href='/about'

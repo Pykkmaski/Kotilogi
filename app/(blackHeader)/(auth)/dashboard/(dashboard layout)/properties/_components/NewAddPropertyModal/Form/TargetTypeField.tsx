@@ -17,6 +17,7 @@ export function TargetTypeField() {
       </Label>
       <RadioGroup groupName='targetType'>
         <input
+          data-testid='target-property-input'
           type='radio'
           value='Kiinteistö'
           required
@@ -24,6 +25,7 @@ export function TargetTypeField() {
         />
 
         <input
+          data-testid='target-appartment-input'
           type='radio'
           value='Huoneisto'
           required

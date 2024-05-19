@@ -14,7 +14,8 @@ export function CallToAction() {
       </Link>
 
       <p className='text-lg mt-10 text-center'>
-        Yksittäisen talon vuosihinta on 9,90€. <br />
+        Yksittäisen talon vuosihinta on 9,90€ (+ALV 24%).
+        <br />
         Taloja ei tarvitse maksaa heti. Tutustu palveluun rauhassa ja maksa vasta kuukauden päästä.
       </p>
     </section>

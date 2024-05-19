@@ -1,9 +1,9 @@
 import Footer from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Footer';
 import { Hero } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Hero';
 import { Padding } from '@/components/UI/Padding';
-import { DescriptionSection } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/DescriptionSection';
+import { FeaturesSection } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/FeaturesSection';
 import { CallToActionSection } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/CallToActionSection';
-import { Profile } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Profile';
+import { Introduction } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Profile';
 const Logo = () => (
   <img
     src='/hero_logo.png'
@@ -126,8 +126,8 @@ export default function HomePage() {
   return (
     <main className='flex-col flex bg-secondary'>
       <HeroSection />
-      <Profile />
-      <DescriptionSection />
+      <Introduction />
+      <FeaturesSection />
       <CallToActionSection />
       <ContactSection />
     </main>

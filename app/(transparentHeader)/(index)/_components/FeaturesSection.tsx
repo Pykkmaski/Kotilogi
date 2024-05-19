@@ -1,4 +1,4 @@
-export function DescriptionSection() {
+export function FeaturesSection() {
   const FeaturesList = () => {
     const FeatureCard = ({ title, description }) => (
       <div className='flex flex-col text-center'>

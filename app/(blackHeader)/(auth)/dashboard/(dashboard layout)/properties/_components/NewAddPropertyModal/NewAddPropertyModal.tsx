@@ -9,11 +9,14 @@ import Button from '@/components/UI/Button/Button';
 import { PropertyForm } from './Form/PropertyForm';
 import toast from 'react-hot-toast';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import MuiButton from '@mui/material/Button';
+import { Add } from '@mui/icons-material';
 
 const AddPropertyModalContext = createContext<{
   property: Kotidok.PropertyType;
   updateData: (data: Kotidok.PropertyType) => void;
 } | null>(null);
+
 export const useAddPropertyModalContext = createUseContextHook(
   'AddPropertyModalContext',
   AddPropertyModalContext
@@ -62,7 +65,9 @@ export function NewAddPropertyModalTrigger({
       visible={showModal}
       toggleOverride={displayModal}>
       <VisibilityProvider.Trigger>
-        <AddButton />
+        <MuiButton variant='text'>
+          <Add />
+        </MuiButton>
       </VisibilityProvider.Trigger>
 
       <VisibilityProvider.Target>

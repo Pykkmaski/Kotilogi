@@ -3,7 +3,7 @@ import { serviceName } from 'kotilogi-app/constants';
 export function HeroTitleText() {
   return <>Talosi Huoltokirja</>;
 }
-export function ProfileText() {
+export function IntroductionText() {
   return (
     <>
       Kuvitellaanpa hetkeksi, että olet tehnyt kotiisi erilaisia remontteja ja ylläpitotoimenpiteitä

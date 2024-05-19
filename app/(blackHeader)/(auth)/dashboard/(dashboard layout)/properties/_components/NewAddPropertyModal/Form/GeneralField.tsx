@@ -25,6 +25,7 @@ export function GeneralField() {
               <RadioGroup groupName='buildingType'>
                 {buildingTypes.map(type => (
                   <input
+                    data-testid={`${type}-input`}
                     required
                     type='radio'
                     value={type}
@@ -42,6 +43,7 @@ export function GeneralField() {
             <RadioGroup groupName='energyClass'>
               {energyClasses.map(ec => (
                 <input
+                  data-testid={`${ec}-input`}
                   value={ec}
                   type='radio'
                 />
@@ -58,6 +60,7 @@ export function GeneralField() {
             required
             control={
               <Input
+                data-testid='propertyNumber-input'
                 name='propertyNumber'
                 placeholder='Kirjoita kiinteistötunnus...'
                 defaultValue={data.propertyNumber}
@@ -103,6 +106,7 @@ export function GeneralField() {
             name='buildYear'
             type='number'
             placeholder='Anna rakennusvuosi...'
+            data-testid='buildYear-input'
             defaultValue={data.buildYear}
           />
         }
@@ -114,6 +118,7 @@ export function GeneralField() {
             label='Huoneiston numero'
             control={
               <Input
+                data-testid='appartmentNumber-input'
                 type='number'
                 name='appartmentNumber'
                 min='0'
