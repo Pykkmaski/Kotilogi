@@ -86,7 +86,7 @@ export function PropertiesGallery({ properties }) {
                   description={props.item.description}
                   faIcon='fa fa-home'
                   footerText={props.item.buildingType}
-                  href={isActive ? `/properties/${props.item.id}/events` : ''}
+                  href={isActive ? `/properties/${props.item.id}/info` : ''}
                   secondaryHeaderContent={
                     isActive ? (
                       <i
