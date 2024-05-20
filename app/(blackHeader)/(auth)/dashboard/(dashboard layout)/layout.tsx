@@ -13,7 +13,7 @@ export default async function DashboardLayout({ children }) {
         </LayoutNavBarContainer>
 
         <LayoutContentContainer>
-          <div className='xs:pb-8 lg:pb-0 h-full'>{children}</div>
+          <div className='xs:pb-8 lg:pb-0 min-h-full'>{children}</div>
           <DashboardMobileNav />
         </LayoutContentContainer>
       </div>

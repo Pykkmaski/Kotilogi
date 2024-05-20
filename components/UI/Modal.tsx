@@ -4,7 +4,7 @@ import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
   const className = [
     !props.hidden ? 'flex' : '',
-    'fixed top-0 left-0 bg-[#0005] w-screen h-screen backdrop-blur-sm z-100 items-center justify-center  lg:py-4 xs:pb-14',
+    'fixed top-0 left-0 bg-[#0005] w-screen h-screen backdrop-blur-sm z-100 items-center justify-center lg:py-4 xs:pb-14',
   ];
 
   return (

@@ -29,7 +29,11 @@ export function PropertyOverview({ selectedProperty }: PropertyOverviewProps) {
             )}
           </div>
 
-          <Typography className='text-slate-500'>{selectedProperty.buildingType}</Typography>
+          <Typography
+            className='text-slate-500'
+            variant='subtitle1'>
+            {selectedProperty.buildingType}
+          </Typography>
         </div>
       </div>
     </section>

@@ -18,6 +18,9 @@ import { NewAddPropertyModalTrigger } from './NewAddPropertyModal/NewAddProperty
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { useState } from 'react';
 import { AddPropertySuccessModal } from './AddPropertySuccessModal';
+import { DialogControl } from '@/components/Util/DialogControl';
+import { Dialog } from '@mui/material';
+import { MuiAddPropertyDialog } from './MuiAddPropertyDialog';
 
 export function PropertiesGallery({ properties }) {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -32,6 +35,7 @@ export function PropertiesGallery({ properties }) {
 
   return (
     <>
+      {/**The dialog displayed after a user adds their first property */}
       <VisibilityProvider
         visible={showSuccessModal}
         toggleOverride={displaySuccessModal}>
@@ -53,17 +57,17 @@ export function PropertiesGallery({ properties }) {
                 </ListHeaderControlButtons>
               </div>
             </SelectablesProvider.HideIfNoneSelected>
-            <NewAddPropertyModalTrigger
-              onSubmit={async data => {
-                await addProperty(data)
-                  .then(({ numProperties, address }) => {
-                    if (numProperties === 1) {
-                      displaySuccessModal(true);
-                    } else {
-                      toast.success(`Kohde ${address} lisätty onnistuneesti!`);
-                    }
-                  })
-                  .catch(err => toast.error(err.message));
+            <DialogControl
+              trigger={params => {
+                return <AddButton {...params} />;
+              }}
+              control={({ show, handleClose }) => {
+                return (
+                  <MuiAddPropertyDialog
+                    show={show}
+                    handleClose={handleClose}
+                  />
+                );
               }}
             />
           </div>
