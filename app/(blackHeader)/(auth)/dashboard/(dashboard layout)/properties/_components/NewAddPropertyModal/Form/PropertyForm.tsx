@@ -1,4 +1,6 @@
-import { FormEvent, forwardRef, useRef } from 'react';
+'use client';
+
+import { FormEvent, createContext, forwardRef, useRef } from 'react';
 import style from '../style.module.css';
 import { TargetTypeField } from './TargetTypeField';
 import { GeneralField } from './GeneralField';
@@ -7,14 +9,23 @@ import { HeatingField } from './HeatingField';
 import { OtherInfoField } from './OtherInfoField';
 import { YardField } from './YardField';
 import { ExteriorField } from './ExteriorField';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+
+export const PropertyFormContext = createContext<{
+  property?: Kotidok.PropertyType;
+} | null>(null);
 
 type SubmitFormProps = {
   id: string;
   onChange: (e: TODO) => void;
   onSubmit: (e: FormEvent) => Promise<void>;
+  property?: Kotidok.PropertyType;
 };
 
-function Component({ onChange, onSubmit, id }: SubmitFormProps, ref: React.Ref<HTMLFormElement>) {
+function Component(
+  { onChange, onSubmit, id, property }: SubmitFormProps,
+  ref: React.Ref<HTMLFormElement>
+) {
   return (
     <form
       ref={ref}
@@ -24,16 +35,23 @@ function Component({ onChange, onSubmit, id }: SubmitFormProps, ref: React.Ref<H
       onSubmit={async (e: TODO) => {
         onSubmit(e).then(() => e.target.reset());
       }}>
-      <TargetTypeField />
-      <GeneralField />
-      <ExteriorField />
-      <YardField />
-      <InteriorField />
+      <PropertyFormContext.Provider value={{ property }}>
+        <TargetTypeField />
+        <GeneralField />
+        <ExteriorField />
+        <YardField />
+        <InteriorField />
 
-      <HeatingField />
-      <OtherInfoField />
+        <HeatingField />
+        <OtherInfoField />
+      </PropertyFormContext.Provider>
     </form>
   );
 }
+
+export const usePropertyFormContext = createUseContextHook(
+  'PropertyFormContext',
+  PropertyFormContext
+);
 
 export const PropertyForm = forwardRef(Component);

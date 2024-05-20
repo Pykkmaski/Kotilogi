@@ -24,6 +24,13 @@ export async function addProperty(property: Kotidok.PropertyType) {
   return propertyData;
 }
 
+export async function getFirstPropertyOfUser(email: string) {
+  return await new DatabaseTable('properties')
+    .get({ refId: email })
+    .orderBy('createdAt', 'asc')
+    .first();
+}
+
 export async function updateProperty(propertyId: string, newPropertyData: Kotidok.PropertyType) {
   await properties.updateProperty(propertyId, newPropertyData);
   revalidatePath(PATH);

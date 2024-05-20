@@ -4,9 +4,10 @@ import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 import { Label } from '@/components/UI/FormUtils';
+import { usePropertyFormContext } from './PropertyForm';
 
 export function TargetTypeField() {
-  const { property: data } = useAddPropertyModalContext();
+  const { property: data } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Kohde'>

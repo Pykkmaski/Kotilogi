@@ -6,9 +6,10 @@ import { Group } from '@/components/UI/Group';
 import Spinner from '../UI/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../UI/Padding';
-import { MobileMenu } from './MobileMenu/MobileMenu';
+
 import Button from '../UI/Button/Button';
-import { LineButton } from '../UI/LineButton';
+import { HamburgerButton } from '../UI/HamburgerButton';
+import { MobileMenu } from './MobileMenu';
 
 function Logo2() {
   return (
@@ -71,18 +72,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
           </div>
 
           <div className='xm:block xl:hidden flex'>
-            <MobileMenu>
-              <MobileMenu.Button>
-                <LineButton />
-              </MobileMenu.Button>
-
-              <MobileMenu.Body>
-                <nav className='flex flex-col gap-4 text-base'>
-                  <Link href='/dashboard/properties'>Oma sivu</Link>
-                  <Link href='/logout'>Kirjaudu ulos</Link>
-                </nav>
-              </MobileMenu.Body>
-            </MobileMenu>
+            <MobileMenu variant='signedin' />
           </div>
         </>
       );
@@ -119,20 +109,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
           </nav>
 
           <div className='xs:block xl:hidden z-50'>
-            <MobileMenu>
-              <MobileMenu.Button>
-                <LineButton />
-              </MobileMenu.Button>
-
-              <MobileMenu.Body>
-                <nav className='flex flex-col gap-4 text-base'>
-                  <Link href='/'>Etusivulle</Link>
-                  <Link href='/about'>Tietoa Meistä</Link>
-                  <Link href='/register'>Rekisteröidy</Link>
-                  <Link href='/login'>Kirjaudu Sisään</Link>
-                </nav>
-              </MobileMenu.Body>
-            </MobileMenu>
+            <MobileMenu variant='signedout' />
           </div>
         </>
       );

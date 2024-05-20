@@ -65,9 +65,7 @@ export function NewAddPropertyModalTrigger({
       visible={showModal}
       toggleOverride={displayModal}>
       <VisibilityProvider.Trigger>
-        <MuiButton variant='text'>
-          <Add />
-        </MuiButton>
+        <AddButton />
       </VisibilityProvider.Trigger>
 
       <VisibilityProvider.Target>
@@ -78,39 +76,34 @@ export function NewAddPropertyModalTrigger({
               icon='fa-home'
             />
 
-            <AddPropertyModalContext.Provider
-              value={{
-                property: data,
-                updateData,
-              }}>
-              <Modal.Body>
-                <PropertyForm
-                  ref={formRef}
-                  onChange={updateData}
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    setStatus('loading');
+            <Modal.Body>
+              <PropertyForm
+                property={data}
+                ref={formRef}
+                onChange={updateData}
+                onSubmit={async e => {
+                  e.preventDefault();
+                  setStatus('loading');
 
-                    const dataToSubmit = {
-                      ...data,
-                      propertyNumber:
-                        data.targetType === 'Kiinteistö' ? data.propertyNumber : undefined,
-                      appartmentNumber:
-                        data.targetType === 'Huoneisto' ? data.appartmentNumber : undefined,
-                      yardArea: data.yardOwnership !== 'Ei Mitään' ? data.yardArea : undefined,
-                    };
+                  const dataToSubmit = {
+                    ...data,
+                    propertyNumber:
+                      data.targetType === 'Kiinteistö' ? data.propertyNumber : undefined,
+                    appartmentNumber:
+                      data.targetType === 'Huoneisto' ? data.appartmentNumber : undefined,
+                    yardArea: data.yardOwnership !== 'Ei Mitään' ? data.yardArea : undefined,
+                  };
 
-                    onSubmit(dataToSubmit)
-                      .then(() => {
-                        setStatus('idle');
-                        displayModal(false);
-                      })
-                      .catch(err => toast.error(err.message));
-                  }}
-                  id={formId}
-                />
-              </Modal.Body>
-            </AddPropertyModalContext.Provider>
+                  onSubmit(dataToSubmit)
+                    .then(() => {
+                      setStatus('idle');
+                      displayModal(false);
+                    })
+                    .catch(err => toast.error(err.message));
+                }}
+                id={formId}
+              />
+            </Modal.Body>
 
             <Modal.Footer>
               <div className='flex-1 items-center flex gap-4'>

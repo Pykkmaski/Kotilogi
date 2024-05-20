@@ -1,21 +1,19 @@
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { createContext } from 'react';
 
-const ObjectProviderContext = createContext<{
-  obj: unknown;
+const ValueProviderContext = createContext<{
+  val: unknown;
 } | null>(null);
 
-type ObjectProviderProps<T> = React.PropsWithChildren & {
-  obj: T;
+type ValueProviderProps<T> = React.PropsWithChildren & {
+  val: T;
 };
 
-export function ObjectProvider<T extends object>({ children, obj }: ObjectProviderProps<T>) {
-  return (
-    <ObjectProviderContext.Provider value={{ obj }}>{children}</ObjectProviderContext.Provider>
-  );
+export function ValueProvider<T>({ children, val }: ValueProviderProps<T>) {
+  return <ValueProviderContext.Provider value={{ val }}>{children}</ValueProviderContext.Provider>;
 }
 
 export const useObjectProviderContext = createUseContextHook(
-  'ObjectProviderContext',
-  ObjectProviderContext
+  'ValueProviderContext',
+  ValueProviderContext
 );

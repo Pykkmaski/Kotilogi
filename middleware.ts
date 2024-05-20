@@ -2,7 +2,9 @@ import { JWT } from 'next-auth/jwt';
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
-function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
+import { getFirstPropertyOfUser } from './actions/experimental/properties';
+
+async function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
   const url = new URL(req.url);
 
   if (token.status === 'unconfirmed') {
@@ -19,7 +21,8 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
 
   if (url.pathname === '/dashboard') {
     const url = req.nextUrl.clone();
-    url.pathname = '/dashboard/properties';
+
+    url.pathname = `/dashboard/properties/`;
     return NextResponse.redirect(url);
   }
 }
@@ -27,7 +30,7 @@ function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
 async function middleware(req: NextRequestWithAuth) {
   const { token } = req.nextauth;
   if (token) {
-    return handleAuthorized(token, req);
+    return await handleAuthorized(token, req);
   } else {
     console.log('Not logged in');
     return NextResponse.next();

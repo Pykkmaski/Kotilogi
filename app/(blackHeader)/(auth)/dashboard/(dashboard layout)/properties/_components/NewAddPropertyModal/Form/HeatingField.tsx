@@ -5,10 +5,10 @@ import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { primaryHeatingSystems, secondaryHeatingSystems } from 'kotilogi-app/constants';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { usePropertyFormContext } from './PropertyForm';
 
 export function HeatingField() {
-  const { property: data } = useAddPropertyModalContext();
-
+  const { property: data } = usePropertyFormContext();
   return (
     <div className='flex w-full gap-2 [&>*]:w-full'>
       <Fieldset legend='Lämmitys'>

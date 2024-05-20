@@ -19,7 +19,6 @@ export default async function PropertiesPage({ searchParams }: any) {
 
   return (
     <main className='flex-1 h-full'>
-      <PropertyTabs properties={propertyData} />
       <PropertiesGallery properties={propertyData} />
     </main>
   );

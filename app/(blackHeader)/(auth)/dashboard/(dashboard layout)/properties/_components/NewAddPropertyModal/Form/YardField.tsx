@@ -4,9 +4,10 @@ import { Group, Input, Label } from '@/components/UI/FormUtils';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { yardOwnershipTypes } from 'kotilogi-app/constants';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { usePropertyFormContext } from './PropertyForm';
 
 export function YardField() {
-  const { property: data, updateData } = useAddPropertyModalContext();
+  const { property: data } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Tontti'>

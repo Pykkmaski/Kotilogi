@@ -3,6 +3,14 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
 import { CookieNotice } from '@/components/App/CookieNotice';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { ThemeProvider } from '@mui/material';
+import { theme } from 'kotilogi-app/muiTheme';
 
 export const metadata = {
   title: 'Kotidok',
@@ -22,25 +30,29 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
           crossOrigin='anonymous'></script>
       </head>
 
-      <AuthProvider>
-        <body className='flex flex-col min-h-screen'>
-          {children}
+      <AppRouterCacheProvider>
+        <AuthProvider>
+          <body className='flex flex-col min-h-screen'>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
 
-          <Toaster
-            position='bottom-right'
-            toastOptions={{
-              duration: 5000,
-              style: {
-                fontSize: '1.2rem',
-              },
-            }}
-          />
-          <CookieNotice />
-          <div className='md:hidden xs:hidden'>
-            <Notice text={'Sovelluksen mobiiliversio on työn alla! Kokeile uudelleen myöhemmin.'} />
-          </div>
-        </body>
-      </AuthProvider>
+            <Toaster
+              position='bottom-right'
+              toastOptions={{
+                duration: 5000,
+                style: {
+                  fontSize: '1.2rem',
+                },
+              }}
+            />
+            <CookieNotice />
+            <div className='md:hidden xs:hidden'>
+              <Notice
+                text={'Sovelluksen mobiiliversio on työn alla! Kokeile uudelleen myöhemmin.'}
+              />
+            </div>
+          </body>
+        </AuthProvider>
+      </AppRouterCacheProvider>
     </html>
   );
 }

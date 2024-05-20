@@ -7,9 +7,10 @@ import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth
 import { buildingMaterials, buildingTypes } from 'kotilogi-app/constants';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 import { DisableIfFieldMissing } from './DisableIfFieldMissing';
+import { usePropertyFormContext } from './PropertyForm';
 
 export function GeneralField() {
-  const { property: data, updateData } = useAddPropertyModalContext();
+  const { property: data } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Yleistiedot'>

@@ -3,9 +3,10 @@ import { Input, Group, Label, FormControl } from '@/components/UI/FormUtils';
 import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { usePropertyFormContext } from './PropertyForm';
 
 export function InteriorField() {
-  const { property: data, updateData } = useAddPropertyModalContext();
+  const { property: data } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Sisätilat'>

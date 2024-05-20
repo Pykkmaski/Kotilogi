@@ -5,7 +5,7 @@ import { DesktopNav } from './_components/DesktopNav';
 
 export default async function DashboardLayout({ children }) {
   return (
-    <div className='lg:bg-gray-600 xs:bg-black xs:h-screen lg:h-auto'>
+    <div className='lg:bg-gray-600 xs:bg-black xs:h-screen'>
       <div className='lg:flex xs:flex w-full flex-1 h-full'>
         <LayoutNavBarContainer>
           <DesktopNavbarHeader />
@@ -13,7 +13,7 @@ export default async function DashboardLayout({ children }) {
         </LayoutNavBarContainer>
 
         <LayoutContentContainer>
-          <div className='xs:pb-8 lg:pb-0'>{children}</div>
+          <div className='xs:pb-8 lg:pb-0 h-full'>{children}</div>
           <DashboardMobileNav />
         </LayoutContentContainer>
       </div>
