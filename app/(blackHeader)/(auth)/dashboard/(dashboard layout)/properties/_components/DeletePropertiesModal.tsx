@@ -17,20 +17,33 @@ export function DeletePropertiesModalTrigger() {
       icon='fa-trash'
       trigger={<DeleteButton />}
       modalTitle='Poista valitut talot'
+      submitText='Vahvista'
       submitMethod={async (data: { password: string }) => {
         const promises = selectedProperties.map(property =>
           deleteProperty(property.id, data.password)
         );
 
-        await Promise.all(promises).then(results => {
-          const failure = results.find(result => result !== 'success');
-          if (failure && failure === 'invalid_password') {
-            setStatus(failure);
-            throw new Error(failure);
-          } else {
-            toast.success('Talo(t) poistettu!');
-          }
-        });
+        const loadingToast = toast.loading('Poistetaan valittuja taloja...');
+        await Promise.all(promises)
+          .then(results => {
+            toast.dismiss(loadingToast);
+
+            const failure = results.find(result => result !== 'success');
+            if (failure && failure === 'invalid_password') {
+              setStatus(failure);
+              throw new Error(failure);
+            } else {
+              toast.success('Talo(t) poistettu!');
+            }
+          })
+          .catch(err => {
+            const msg = err.message;
+            if (msg.includes('invalid_password')) {
+              toast.error('Antamasi salasana on väärä! Taloja ei poistettu.');
+            } else {
+              toast.error(err.message);
+            }
+          });
       }}>
       <FormControl
         label='Salasana'

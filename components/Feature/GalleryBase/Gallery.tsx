@@ -14,6 +14,15 @@ import { List } from '@/components/Feature/List';
 import { Modal } from '@/components/UI/Modal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import Image from 'next/image';
+import Link from 'next/link';
+import { DialogControl } from '@/components/Util/DialogControl';
+import { Delete } from '@mui/icons-material';
+import MuiButton from '@mui/material/Button';
+import { ConfirmDialog } from '../ConfirmDialog';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 function Header(
   props: React.PropsWithChildren & {
@@ -41,12 +50,18 @@ function Header(
 }
 
 type BodyProps = {
+  contentType?: 'image' | 'other';
   displayStyle?: 'vertical' | 'horizontal';
   itemComponent: React.FC<ListItemProps<any>>;
   errorElement: JSX.Element;
 };
 
-function Body({ displayStyle = 'vertical', itemComponent: ItemComponent, ...props }: BodyProps) {
+function Body({
+  displayStyle = 'vertical',
+  itemComponent: ItemComponent,
+  contentType = 'other',
+  ...props
+}: BodyProps) {
   const { data } = useGalleryContext();
 
   const bodyStyle: CSSProperties = {
@@ -55,18 +70,49 @@ function Body({ displayStyle = 'vertical', itemComponent: ItemComponent, ...prop
     gap: '0.5rem',
   };
 
-  return data.length ? (
-    <div style={bodyStyle}>
-      <List
-        data={data}
-        Component={({ item }) => {
-          return <ItemComponent item={item} />;
-        }}
-      />
-    </div>
-  ) : (
-    props.errorElement
-  );
+  const getBodyByContentType = () => {
+    if (contentType === 'image') {
+      return (
+        <ImageList cols={4}>
+          {data.map(image => (
+            <div className='relative'>
+              <SelectablesProvider.SelectTrigger item={image}>
+                <input
+                  type='checkbox'
+                  className='absolute top-2 right-2 z-10 aspect-square h-8'
+                />
+              </SelectablesProvider.SelectTrigger>
+
+              <Link
+                href={`/api/files/${image.id}?tableName=propertyFiles`}
+                target='_blank'>
+                <ImageListItem key={image.id}>
+                  <img
+                    src={`/api/files/${image.id}?tableName=propertyFiles`}
+                    loading='lazy'
+                    alt={image.id}
+                  />
+                </ImageListItem>
+              </Link>
+            </div>
+          ))}
+        </ImageList>
+      );
+    } else {
+      return (
+        <div style={bodyStyle}>
+          <List
+            data={data}
+            Component={({ item }) => {
+              return <ItemComponent item={item} />;
+            }}
+          />
+        </div>
+      );
+    }
+  };
+
+  return data.length ? getBodyByContentType() : props.errorElement;
 }
 
 type GalleryProps<T extends Kotidok.ItemType> = React.PropsWithChildren & {
@@ -168,6 +214,43 @@ Gallery.ConfirmDeleteModal = function ({
         </Modal.Footer>
       </Modal.DefaultContentContainer>
     </Modal>
+  );
+};
+
+Gallery.ConfirmDeleteDialogControl = () => {
+  return (
+    <DialogControl
+      trigger={({ onClick }) => (
+        <Button
+          type='button'
+          onClick={onClick}>
+          <Delete />
+        </Button>
+      )}
+      control={({ show, handleClose }) => {
+        return (
+          <Dialog
+            open={show}
+            onClose={handleClose}>
+            <DialogTitle>Olet poistamassa seuraavia kohteita. Oletko varma?</DialogTitle>
+            <DialogContent>
+              <ul className='flex flex-col gap-2'>
+                <SelectablesProvider.SelectedItems Component={item => <li>{item.title}</li>} />
+              </ul>
+            </DialogContent>
+            <DialogActions>
+              <SelectablesProvider.ResetSelectedTrigger>
+                <Button type='button'>Peruuta</Button>
+              </SelectablesProvider.ResetSelectedTrigger>
+
+              <SelectablesProvider.ActionTrigger action={async items => {}}>
+                <Button type='button'>Vahvista</Button>
+              </SelectablesProvider.ActionTrigger>
+            </DialogActions>
+          </Dialog>
+        );
+      }}
+    />
   );
 };
 

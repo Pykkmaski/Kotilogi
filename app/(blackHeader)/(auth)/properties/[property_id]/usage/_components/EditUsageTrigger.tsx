@@ -1,10 +1,10 @@
 'use client';
 
-import { Input } from '../../../../../../../components/Feature/Input';
 import { useItemContext } from './DataList';
 import { SubmitModalPrefab } from '../../../../../../../components/Feature/SubmitModalPrefab';
 import { update as updateUsage } from '@/actions/usage';
 import toast from 'react-hot-toast';
+import { FormControl, Input } from '@/components/UI/FormUtils';
 
 export function EditUsageTrigger() {
   const { item } = useItemContext();
@@ -25,24 +25,31 @@ export function EditUsageTrigger() {
           .then(() => toast.success('Tiedon päivitys onnistui!'))
           .catch(err => toast.error(err.message));
       }}>
-      <Input
+      <FormControl
         label='Hinta'
-        description='Laskun hinta.'
-        name='price'
-        type='number'
-        step='0.01'
-        min='0.01'
-        defaultValue={item.price}
+        control={
+          <Input
+            name='price'
+            type='number'
+            step='0.01'
+            min='0.01'
+            defaultValue={item.price}
+          />
+        }
       />
 
-      <Input
+      <FormControl
         label='Määrä'
-        description='Määrä yksiköissä'
-        name='unitAmount'
-        type='number'
-        step='0.01'
-        min='0.01'
-        defaultValue={item.unitAmount}
+        helper='Määrä yksiköissä'
+        control={
+          <Input
+            name='unitAmount'
+            type='number'
+            step='0.01'
+            min='0.01'
+            defaultValue={item.unitAmount}
+          />
+        }
       />
     </SubmitModalPrefab>
   );

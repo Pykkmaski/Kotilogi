@@ -18,18 +18,17 @@ import { ImageError } from './GalleryBase/Components/Error/ImageError';
 import { Gallery } from './GalleryBase/Gallery';
 import { AddButton } from './GalleryBase/Buttons';
 import { FormControl, Input } from '../UI/FormUtils';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 
 type FilesGalleryProps = {
   files: Kotidok.FileType[];
 
-  /**The id of the resource the images belong to, eg. the id of a property. */
+  /**The id of the resource the files belong to, eg. the id of a property. */
   refId: string;
-
   variant: 'image' | 'pdf';
-
   tablename: FileTableName;
-
-  FileComponent: React.FC<ListItemProps<Kotidok.FileType>>;
+  FileComponent?: React.FC<any>;
 };
 
 export function FilesGallery({
@@ -110,7 +109,8 @@ export function FilesGallery({
       </Gallery.Header>
 
       <Gallery.Body
-        displayStyle={variant === 'image' ? 'horizontal' : 'vertical'}
+        contentType={variant === 'image' ? 'image' : 'other'}
+        displayStyle={variant === 'pdf' ? 'vertical' : 'horizontal'}
         itemComponent={FileComponent}
         errorElement={getErrorComponent()}
       />
