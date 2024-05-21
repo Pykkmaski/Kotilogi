@@ -51,12 +51,17 @@ export function MuiAddPropertyDialog({ show, handleClose }) {
             yardArea: data.yardOwnership !== 'Ei Mitään' ? data.yardArea : undefined,
           };
 
+          const loadingToast = toast.loading('Luodaan kohdetta...');
           addProperty(dataToSubmit)
             .then(() => {
+              toast.success('Kohde luotu!');
               setStatus('idle');
               handleClose();
             })
-            .catch(err => toast.error(err.message));
+            .catch(err => {
+              toast.error(err.message);
+            })
+            .finally(() => toast.dismiss(loadingToast));
         },
       }}>
       <DialogTitle className='flex items-center justify-between gap-4'>

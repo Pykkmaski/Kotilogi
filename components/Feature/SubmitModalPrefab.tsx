@@ -10,10 +10,15 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import { useSubmitData } from '@/hooks/useSubmitData';
 import { DialogControl } from '../Util/DialogControl';
 import { Check } from '@mui/icons-material';
+import toast from 'react-hot-toast';
 
 type SubmitModalPrefabProps<T extends {}> = React.PropsWithChildren & {
   trigger: JSX.Element;
   modalTitle: string;
+  loadingText?: string;
+  successText?: string;
+  errorText?: string;
+
   submitMethod: (data: T, files?: FormData[]) => Promise<void>;
   submitText?: string;
   cancelText?: string;
@@ -27,6 +32,9 @@ export function SubmitModalPrefab<T extends {}>({
   modalTitle,
   cancelText = 'Peruuta',
   submitText = 'Lähetä',
+  successText,
+  errorText,
+  loadingText,
   icon,
   submitMethod,
 }: SubmitModalPrefabProps<T>) {
@@ -53,7 +61,13 @@ export function SubmitModalPrefab<T extends {}>({
 
           const { updateData, updateDataViaProperty, updateFiles, submit, status } =
             useSubmitData<T>({} as any, async (data, files) => {
-              submitMethod(data, files).then(() => formRef.current?.reset());
+              const loadingToast = toast.loading(loadingText);
+              submitMethod(data, files)
+                .then(() => {
+                  toast.success(successText);
+                  formRef.current?.reset();
+                })
+                .finally(() => toast.dismiss(loadingToast));
             });
           const loading = status === 'loading';
 

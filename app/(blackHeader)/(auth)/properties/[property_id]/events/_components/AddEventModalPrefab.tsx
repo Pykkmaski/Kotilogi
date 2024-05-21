@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 export function AddEventModalTrigger({ propertyId }) {
   return (
     <SubmitModalPrefab
+      loadingText='Luodaan tapahtumaa...'
+      successText='Tapahtuma luotu!'
       trigger={<AddButton />}
       icon='fa-history'
       modalTitle='Lisää Tapahtuma'
@@ -19,9 +21,7 @@ export function AddEventModalTrigger({ propertyId }) {
             refId: propertyId,
           },
           files
-        )
-          .then(() => toast.success('Tapahtuma lisätty!'))
-          .catch(err => toast.error(err.message));
+        ).catch(err => toast.error(err.message));
       }}>
       <FormControl
         label='Otsikko'
