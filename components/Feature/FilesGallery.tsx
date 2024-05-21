@@ -6,7 +6,7 @@ import { FileError } from './GalleryBase/Components/Error/FileError';
 import { addFiles, deleteFile } from 'kotilogi-app/actions/experimental/files';
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import toast from 'react-hot-toast';
-import { Input } from '@/components/Feature/Input';
+
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import {
   CancelSelectionButton,
@@ -17,6 +17,7 @@ import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { ImageError } from './GalleryBase/Components/Error/ImageError';
 import { Gallery } from './GalleryBase/Gallery';
 import { AddButton } from './GalleryBase/Buttons';
+import { FormControl, Input } from '../UI/FormUtils';
 
 type FilesGalleryProps = {
   files: Kotidok.FileType[];
@@ -92,14 +93,18 @@ export function FilesGallery({
               .then(() => toast.success(getSuccessMessage('add')))
               .catch(err => console.log(err.message));
           }}>
-          <Input
-            name='file'
-            type='file'
-            multiple={true}
+          <FormControl
             required
             label={variant === 'image' ? 'Kuvat' : 'Tiedostot'}
-            description={variant === 'image' ? 'JPG' : 'PDF'}
-            accept={variant === 'image' ? 'image/jpeg' : 'application/pdf'}
+            helper={variant === 'image' ? 'JPG' : 'PDF'}
+            control={
+              <Input
+                name='file'
+                type='file'
+                multiple={true}
+                accept={variant === 'image' ? 'image/jpeg' : 'application/pdf'}
+              />
+            }
           />
         </SubmitModalPrefab>
       </Gallery.Header>

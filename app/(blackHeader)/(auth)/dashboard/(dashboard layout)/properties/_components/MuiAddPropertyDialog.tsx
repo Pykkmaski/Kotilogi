@@ -16,6 +16,7 @@ import { HeatingField } from './NewAddPropertyModal/Form/HeatingField';
 import { OtherInfoField } from './NewAddPropertyModal/Form/OtherInfoField';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { PriceDisclaimer } from './NewAddPropertyModal/NewAddPropertyModal';
 
 export function MuiAddPropertyDialog({ show, handleClose }) {
   const { data, updateData } = useInputData({} as Kotidok.PropertyType);
@@ -58,8 +59,9 @@ export function MuiAddPropertyDialog({ show, handleClose }) {
             .catch(err => toast.error(err.message));
         },
       }}>
-      <DialogTitle className='text-slate-500 flex items-center gap-4'>
-        <Home /> Lisää Uusi Kohde
+      <DialogTitle className='flex items-center justify-between gap-4'>
+        <span>Lisää Uusi Kohde</span>
+        <PriceDisclaimer />
       </DialogTitle>
       <DialogContent>
         <PropertyFormContext.Provider value={{ property: data }}>

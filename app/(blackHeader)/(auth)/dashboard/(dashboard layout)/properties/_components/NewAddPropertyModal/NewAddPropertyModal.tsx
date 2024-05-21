@@ -22,7 +22,7 @@ export const useAddPropertyModalContext = createUseContextHook(
   AddPropertyModalContext
 );
 
-function PriceDisclaimer() {
+export function PriceDisclaimer() {
   return (
     <span className='text-slate-500 text-sm'>
       Yksittäisen talon vuosihinta on{' '}

@@ -1,10 +1,13 @@
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import { add as addUsage } from '@/actions/usage';
 import toast from 'react-hot-toast';
-import { Input, Select } from '@/components/Feature/Input';
+
 import { useUsageProviderContext } from './UsageProvider';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
+import { FormControl, Group, Input, Label } from '@/components/UI/FormUtils';
+import { RadioGroup } from '@/components/Feature/RadioGroup';
+import { Divider, MenuItem, Select } from '@mui/material';
 
 export function AddUsageModalTrigger() {
   const { propertyId, type } = useUsageProviderContext();
@@ -25,9 +28,18 @@ export function AddUsageModalTrigger() {
     <SubmitModalPrefab
       icon={type === 'heat' ? 'fa-fire' : type === 'water' ? 'fa-tint' : 'fa-bolt'}
       trigger={<AddButton />}
-      modalTitle='Lisää kulutustieto'
+      modalTitle={
+        type === 'heat'
+          ? 'Lisää lämmityskulu'
+          : type === 'water'
+          ? 'Lisää vesikulu'
+          : type === 'electric'
+          ? 'Lisää sähkökulu'
+          : 'Lisää kulutustieto'
+      }
       submitMethod={async (data: Kotidok.UsageType, files?) => {
         /**Make sure the submit data modal correctly sets default values for select elements! Otherwise this doesn't work */
+        console.log(data);
         await addUsage({
           ...data,
           type: data.type || (type !== 'all' ? type : 'heat'),
@@ -44,53 +56,68 @@ export function AddUsageModalTrigger() {
             toast.error(err.message);
           });
       }}>
-      {type === 'all' ? (
-        <Select
-          label='Tyyppi'
-          description='Kulutustiedon tyyppi.'
-          name='type'
-          defaultValue={'heat'}
-          required={true}>
-          <option
-            value='heat'
-            selected={true}>
-            Lämmityskulu
-          </option>
-          <option value='water'>Vesikulu</option>
-          <option value='electric'>Sähkökulu</option>
-        </Select>
-      ) : null}
+      <div className='flex flex-col gap-4'>
+        {type === 'all' ? (
+          <Group>
+            <Label required>Tyyppi</Label>
+            <select
+              defaultValue={'heat'}
+              name='type'
+              required>
+              <option
+                value='heat'
+                selected>
+                Lämmitys
+              </option>
+              <option value='water'>Vesi</option>
+              <option value='electric'>Sähkö</option>
+            </select>
+          </Group>
+        ) : null}
 
-      <Input
-        name='unitAmount'
-        label='Määrä'
-        description={'Määrä yksiköissä ' + getUnits()}
-        placeholder='Kirjoita laskun yksikkömäärä...'
-        type='number'
-        step={0.01}
-        min={0.01}
-        required
-      />
+        <FormControl
+          label='Määrä'
+          required
+          helper={'Määrä yksiköissä ' + getUnits()}
+          control={
+            <Input
+              name='unitAmount'
+              placeholder='Kirjoita laskun yksikkömäärä...'
+              type='number'
+              step={0.01}
+              min={0.01}
+            />
+          }
+        />
 
-      <Input
-        min={0.01}
-        step={0.01}
-        name='price'
-        label='Laskun Hinta'
-        description='Laskun hinta euroissa.'
-        placeholder='Kirjoita laskun hinta...'
-        type='number'
-        required
-      />
+        <FormControl
+          required
+          label='Laskun Hinta'
+          helper='Laskun hinta euroissa.'
+          control={
+            <Input
+              min={0.01}
+              step={0.01}
+              name='price'
+              placeholder='Kirjoita laskun hinta...'
+              type='number'
+            />
+          }
+        />
 
-      <Input
-        name='time'
-        label='Laskun päiväys'
-        description='Laskun päivämäärä.'
-        placeholder='Kirjoita laskun päivämäärä...'
-        type='date'
-        required
-      />
+        <FormControl
+          required
+          label='Laskun Päiväys'
+          helper='Laskun päivämäärä.'
+          control={
+            <Input
+              name='time'
+              placeholder='Kirjoita laskun päivämäärä...'
+              type='date'
+            />
+          }
+        />
+      </div>
     </SubmitModalPrefab>
   );
 }

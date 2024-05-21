@@ -1,3 +1,5 @@
+import { DialogProps } from '@mui/material';
+import React from 'react';
 import { ReactElement, useState } from 'react';
 
 type DialogControlProps = {

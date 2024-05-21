@@ -1,6 +1,7 @@
 import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
-import { Input, Textarea } from '@/components/Feature/Input';
+import { Textarea } from '@/components/Feature/Input';
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
+import { FormControl, Input } from '@/components/UI/FormUtils';
 import { addEvent } from 'kotilogi-app/actions/experimental/events';
 import toast from 'react-hot-toast';
 
@@ -22,38 +23,53 @@ export function AddEventModalTrigger({ propertyId }) {
           .then(() => toast.success('Tapahtuma lisätty!'))
           .catch(err => toast.error(err.message));
       }}>
-      <Input
-        name='title'
+      <FormControl
         label='Otsikko'
-        description='Tapahtuman otsikko.'
-        placeholder='Kirjoita otsikko...'
-        required={true}
-        autoComplete='off'
-      />
-
-      <Input
-        name='time'
-        label='Päiväys'
-        description='Tapahtuman päivämäärä.'
         required
-        type='date'
+        control={
+          <Input
+            name='title'
+            placeholder='Kirjoita otsikko...'
+            autoComplete='off'
+          />
+        }
       />
 
-      <Input
+      <FormControl
+        label='Päiväys'
+        required
+        control={
+          <Input
+            name='time'
+            required
+            type='date'
+          />
+        }
+      />
+
+      <FormControl
         label='Kuvat ja tiedostot'
-        description='PDF/JPG'
-        name='file'
-        type='file'
-        accept='application/pdf,image/jpeg'
-        multiple
+        helper='JPG tai PDF'
+        control={
+          <Input
+            name='file'
+            type='file'
+            accept='application/pdf,image/jpeg'
+            multiple
+          />
+        }
       />
 
-      <Textarea
+      <FormControl
         label='Kuvaus'
-        description='Tapahtuman lyhyt kuvaus.'
-        placeholder='Kirjoita kuvaus...'
-        spellCheck={false}
-        name='description'
+        control={
+          <Input
+            variant='textarea'
+            placeholder='Kirjoita kuvaus...'
+            spellCheck={false}
+            name='description'
+          />
+        }
       />
     </SubmitModalPrefab>
   );

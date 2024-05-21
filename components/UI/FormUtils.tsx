@@ -1,4 +1,5 @@
 import React from 'react';
+import { SublabelText } from './Text';
 
 type LabelProps = React.ComponentProps<'label'> & {
   required?: boolean;
@@ -20,17 +21,28 @@ export const Group = ({ children }: React.PropsWithChildren) => {
   return <div className='flex flex-col gap-1'>{children}</div>;
 };
 
-export const Input = ({
-  children,
-  ...props
-}: React.ComponentProps<'input'> & React.PropsWithChildren) => {
+type InputProps = (
+  | ({
+      variant?: 'input';
+    } & React.ComponentProps<'input'>)
+  | ({
+      variant?: 'textarea';
+    } & React.ComponentProps<'textarea'>)
+) & { icon?: React.ReactElement };
+
+export const Input = ({ icon, children, variant = 'input', ...props }: InputProps) => {
+  const getInput = props => {
+    if (variant === 'input') {
+      return <input {...props} />;
+    } else {
+      return <textarea {...props} />;
+    }
+  };
+
   return (
     <div className='relative flex w-full items-center'>
-      <input
-        {...props}
-        className='w-full'
-      />
-      <div className='absolute right-2'>{children}</div>
+      {getInput({ className: 'w-full', ...props })}
+      <div className='absolute right-2'>{icon}</div>
     </div>
   );
 };
@@ -87,7 +99,25 @@ export const FormControl = ({
         ...(control as React.ReactElement).props,
         required: required,
       })}
-      {helper}
+      <SublabelText>{helper}</SublabelText>
+    </div>
+  );
+};
+
+type FormControlLabel = {
+  label: string;
+  control: React.ReactElement<React.ComponentProps<'input'>>;
+  required?: boolean;
+};
+
+export const FormControlLabel = ({ label, control, required = false }: FormControlLabel) => {
+  return (
+    <div className='flex gap-4 items-center'>
+      {label}
+      {React.cloneElement(control, {
+        ...control.props,
+        required,
+      })}
     </div>
   );
 };

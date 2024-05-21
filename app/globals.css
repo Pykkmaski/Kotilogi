@@ -14,6 +14,11 @@ select {
   padding: 0.5rem;
   border-color: #ddd;
   border-width: 1px;
+  background: none;
+}
+
+select option {
+  background: none;
 }
 
 textarea {
