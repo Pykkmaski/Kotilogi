@@ -28,6 +28,7 @@ export function AddUsageModalTrigger() {
     <SubmitModalPrefab
       icon={type === 'heat' ? 'fa-fire' : type === 'water' ? 'fa-tint' : 'fa-bolt'}
       trigger={<AddButton />}
+      loadingText='Luodaan kulutustietoa...'
       modalTitle={
         type === 'heat'
           ? 'Lisää lämmityskulu'
@@ -39,7 +40,7 @@ export function AddUsageModalTrigger() {
       }
       submitMethod={async (data: Kotidok.UsageType, files?) => {
         /**Make sure the submit data modal correctly sets default values for select elements! Otherwise this doesn't work */
-        console.log(data);
+
         await addUsage({
           ...data,
           type: data.type || (type !== 'all' ? type : 'heat'),

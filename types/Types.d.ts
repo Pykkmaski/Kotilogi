@@ -85,6 +85,7 @@ namespace Kotidok {
       propertyNumber?: string;
       appartmentNumber?: number;
       hasGarage?: boolean;
+      hasBalcony?: boolean;
     };
 
   type EventType = ItemType &

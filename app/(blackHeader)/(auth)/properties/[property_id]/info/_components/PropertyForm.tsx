@@ -3,7 +3,14 @@
 import { updateProperty } from '@/actions/experimental/properties';
 import { RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
-import { FormControl, Group, Input, Label } from '@/components/UI/FormUtils';
+import {
+  Checkbox,
+  CheckboxLabel,
+  FormControl,
+  Group,
+  Input,
+  Label,
+} from '@/components/UI/FormUtils';
 import { SideBySide } from '@/components/UI/SideBySide';
 import { useInputData } from '@/hooks/useInputData';
 import {
@@ -287,15 +294,27 @@ export function PropertyForm({ property }: PropertyFormProps) {
       </Fieldset>
 
       <Fieldset legend='Muut tiedot'>
-        <div className='flex items-center gap-4'>
-          <input
-            name='hasGarage'
-            type='checkbox'
-            defaultChecked={property.hasGarage}
-            onChange={e => console.log(e.target.checked)}
+        <CheckboxLabel
+          label='Autotalli'
+          control={
+            <Checkbox
+              name='hasGarage'
+              defaultChecked={property.hasGarage}
+            />
+          }
+        />
+
+        {property.targetType === 'Huoneisto' ? (
+          <CheckboxLabel
+            label='Parveke'
+            control={
+              <Checkbox
+                name='hasBalcony'
+                defaultChecked={property.hasBalcony}
+              />
+            }
           />
-          <Label>Autotalli</Label>
-        </div>
+        ) : null}
       </Fieldset>
     </form>
   );

@@ -41,7 +41,7 @@ export function SubmitModalPrefab<T extends {}>({
   trigger,
   modalTitle,
   cancelText = 'Peruuta',
-  submitText = 'Lähetä',
+  submitText = 'Vahvista',
   successText,
   errorText,
   loadingText,
@@ -49,116 +49,90 @@ export function SubmitModalPrefab<T extends {}>({
   submitMethod,
   onClose,
 }: SubmitModalPrefabProps<T>) {
-  const { state: visible, toggleState } = useToggle(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const mediaQueryMatches = useMediaQuery(theme.breakpoints.down('sm'));
+  const { updateData, updateFiles, submit, status } = useSubmitData<T>(
+    {} as any,
+    async (data, files) => {
+      const loadingToast = toast.loading(loadingText);
+
+      submitMethod(data, files)
+        .then(() => {
+          if (successText) {
+            toast.success(successText);
+          }
+
+          formRef.current?.reset();
+        })
+        .catch(err => console.log(err.message))
+        .finally(() => toast.dismiss(loadingToast));
+    }
+  );
 
   return (
-    <>
-      <DialogControl
-        trigger={({ onClick }) => {
-          return React.cloneElement(trigger, {
-            ...trigger.props,
-            onClick,
-          });
-        }}
-        control={({ show, handleClose }) => {
-          const formRef = useRef<HTMLFormElement>(null);
-          //const formId = useId();
+    <DialogControl
+      trigger={({ onClick }) => {
+        return React.cloneElement(trigger, {
+          ...trigger.props,
+          onClick,
+        });
+      }}
+      control={({ show, handleClose }) => {
+        //const formId = useId();
 
-          const { updateData, updateFiles, submit, status } = useSubmitData<T>(
-            {} as any,
-            async (data, files) => {
-              const loadingToast = toast.loading(loadingText);
+        const loading = status === 'loading';
+        console.log(status);
+        return (
+          <Dialog
+            fullScreen={mediaQueryMatches}
+            fullWidth
+            maxWidth='md'
+            open={show}
+            onClose={() => {
+              if (onClose) {
+                onClose();
+              }
 
-              submitMethod(data, files)
-                .then(() => {
-                  if (successText) {
-                    toast.success(successText);
+              handleClose();
+            }}
+            PaperProps={{
+              component: 'form',
+              onSubmit: async e => {
+                await submit(e).then(() => {
+                  //handleClose();
+                });
+              },
+              onChange: e => (e.target.type === 'file' ? updateFiles(e) : updateData(e)),
+              ref: formRef,
+            }}>
+            <DialogTitle>{modalTitle}</DialogTitle>
+            <DialogContent className='flex flex-col gap-4'>{children}</DialogContent>
+            <DialogActions>
+              <Button
+                type='button'
+                variant='text'
+                onClick={() => {
+                  if (onClose) {
+                    onClose();
                   }
 
-                  formRef.current?.reset();
-                })
-                .catch(err => console.log(err.message))
-                .finally(() => toast.dismiss(loadingToast));
-            }
-          );
+                  handleClose();
+                }}
+                disabled={loading}>
+                {cancelText}
+              </Button>
 
-          const loading = status === 'loading';
-
-          return (
-            <Dialog
-              fullScreen={mediaQueryMatches}
-              fullWidth
-              maxWidth='md'
-              open={show}
-              onClose={() => {
-                if (onClose) {
-                  onClose();
-                }
-
-                handleClose();
-              }}
-              PaperProps={{
-                component: 'form',
-                onSubmit: async e => {
-                  submit(e).then(() => {
-                    // handleClose();
-                  });
-                },
-                onChange: e => (e.target.type === 'file' ? updateFiles(e) : updateData(e)),
-                ref: formRef,
-              }}>
-              <DialogTitle>{modalTitle}</DialogTitle>
-              <DialogContent className='flex flex-col gap-4'>{children}</DialogContent>
-              <DialogActions>
-                <Button
-                  type='button'
-                  variant='text'
-                  onClick={() => {
-                    if (onClose) {
-                      onClose();
-                    }
-
-                    handleClose();
-                  }}
-                  disabled={loading}>
-                  {cancelText}
-                </Button>
-
-                <Button
-                  type='submit'
-                  variant='text'
-                  startIcon={!loading ? <Check /> : <Spinner size='1rem' />}
-                  disabled={loading}>
-                  {submitText}
-                </Button>
-              </DialogActions>
-            </Dialog>
-          );
-        }}
-      />
-      {/**
-       * <VisibilityProvider
-        visible={visible}
-        toggleOverride={toggleState}>
-        <VisibilityProvider.Trigger>{trigger}</VisibilityProvider.Trigger>
-        <VisibilityProvider.Target>
-          <SubmitDataModalProvider submitMethod={submit}>
-            <Modal.DefaultContentContainer>
-              <Modal.HeaderWithTitle
-                title={modalTitle}
-                icon={icon}
-              />
-              <SubmitDataModalProvider.Form>{children}</SubmitDataModalProvider.Form>
-              <SubmitDataModalProvider.Footer
-                submitText={submitText}
-                cancelText={cancelText}
-              />
-            </Modal.DefaultContentContainer>
-          </SubmitDataModalProvider>
-        </VisibilityProvider.Target>
-      </VisibilityProvider>
-       */}
-    </>
+              <Button
+                type='submit'
+                variant='text'
+                startIcon={!loading ? <Check /> : <Spinner size='1rem' />}
+                disabled={loading}>
+                {submitText}
+              </Button>
+            </DialogActions>
+          </Dialog>
+        );
+      }}
+    />
   );
 }

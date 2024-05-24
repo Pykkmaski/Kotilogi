@@ -47,6 +47,16 @@ export const Input = ({ icon, children, variant = 'input', ...props }: InputProp
   );
 };
 
+export const Checkbox = (props: React.ComponentProps<'input'>) => {
+  return (
+    <input
+      {...props}
+      type='checkbox'
+      className='aspect-square w-5'
+    />
+  );
+};
+
 export const SubLabel = ({ children }: React.PropsWithChildren) => {
   return <div className='text-sm w-full text-left text-slate-500'>{children}</div>;
 };
@@ -104,20 +114,16 @@ export const FormControl = ({
   );
 };
 
-type FormControlLabel = {
+type CheckboxLabelProps = {
   label: string;
-  control: React.ReactElement<React.ComponentProps<'input'>>;
-  required?: boolean;
+  control: JSX.Element;
 };
 
-export const FormControlLabel = ({ label, control, required = false }: FormControlLabel) => {
+export const CheckboxLabel = ({ label, control }: CheckboxLabelProps) => {
   return (
-    <div className='flex gap-4 items-center'>
+    <div className='flex flex-row gap-4'>
+      {control}
       {label}
-      {React.cloneElement(control, {
-        ...control.props,
-        required,
-      })}
     </div>
   );
 };
