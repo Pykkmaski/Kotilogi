@@ -43,6 +43,7 @@ export function EventsGallery({ events, propertyId, userEmail }) {
                 <SelectablesProvider.ResetSelectedTrigger>
                   <CancelSelectionButton />
                 </SelectablesProvider.ResetSelectedTrigger>
+
                 <VisibilityProvider>
                   <VisibilityProvider.Trigger>
                     <DeleteButton />

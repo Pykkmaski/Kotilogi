@@ -5,6 +5,6 @@ import { blueGrey, green, grey, orange } from '@mui/material/colors';
 
 export const theme: Theme = createTheme({
   palette: {
-    primary: blueGrey,
+    primary: orange,
   },
 });

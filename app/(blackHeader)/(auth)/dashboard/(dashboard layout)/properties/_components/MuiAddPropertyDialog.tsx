@@ -1,3 +1,5 @@
+'use client';
+
 import { addProperty } from '@/actions/experimental/properties';
 import { useInputData } from '@/hooks/useInputData';
 import { Check, Home } from '@mui/icons-material';
@@ -17,14 +19,19 @@ import { OtherInfoField } from './NewAddPropertyModal/Form/OtherInfoField';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { PriceDisclaimer } from './NewAddPropertyModal/NewAddPropertyModal';
+import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
+import { useMediaQuery } from '@mui/material';
+import { theme } from 'kotilogi-app/muiTheme';
 
 export function MuiAddPropertyDialog({ show, handleClose }) {
   const { data, updateData } = useInputData({} as Kotidok.PropertyType);
   const [status, setStatus] = useState<'idle' | 'loading'>('idle');
+  const matchesMediaQuery = useMediaQuery(theme.breakpoints.down('sm'));
   const loading = status === 'loading';
 
   return (
     <Dialog
+      fullScreen={matchesMediaQuery}
       open={show}
       onClose={handleClose}
       fullWidth

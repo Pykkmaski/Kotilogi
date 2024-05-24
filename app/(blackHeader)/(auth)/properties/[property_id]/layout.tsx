@@ -8,8 +8,12 @@ import { LayoutContentContainer, LayoutNavBarContainer, NavDivider } from '@/com
 import { Group } from '@/components/UI/Group';
 import { SecondaryHeading } from '@/components/UI/Heading';
 import { redirect } from 'next/navigation';
-import { MobileNavBar } from './_components/MobileNavBar';
+import { MobileNavBar, MobileNavBar2 } from './_components/MobileNavBar';
 import { UserType } from 'kotilogi-app/types/UserType';
+import { BottomNavigationAction, Typography } from '@mui/material';
+import Link from 'next/link';
+import { BottomNav, NavAction } from '@/components/App/BottomNav';
+import { Info, Event, Bolt, Image, FileCopy } from '@mui/icons-material';
 
 export default async function PropertyDetailsLayout({ children, params }) {
   const property = await db('properties').where({ id: params.property_id }).first();
@@ -93,9 +97,17 @@ export default async function PropertyDetailsLayout({ children, params }) {
       </LayoutNavBarContainer>
 
       <LayoutContentContainer>
-        <div className='xs:block lg:hidden flex flex-col mb-10'>
-          <small className='text-slate-500 text-sm'>Talo</small>
-          <h1 className='text-lg'>{property.title}</h1>
+        <div className='xs:flex lg:hidden mb-4 justify-between items-center'>
+          <div>
+            <small className='text-slate-500 text-sm'>Kohde</small>
+            <h1 className='text-lg'>{property.title}</h1>
+          </div>
+
+          <Link
+            href='/dashboard/properties'
+            className='text-orange-500'>
+            Takaisin taloihin
+          </Link>
         </div>
 
         <div className='xs:mb-8 lg:mb-0'>{children}</div>

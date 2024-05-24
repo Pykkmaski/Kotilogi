@@ -6,11 +6,20 @@ import { SubmitDataModalProvider } from './SubmitDataModal';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
 import { useEffect, useRef } from 'react';
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  useMediaQuery,
+} from '@mui/material';
 import { useSubmitData } from '@/hooks/useSubmitData';
 import { DialogControl } from '../Util/DialogControl';
 import { Check } from '@mui/icons-material';
 import toast from 'react-hot-toast';
+import { theme } from 'kotilogi-app/muiTheme';
+import Spinner from '../UI/Spinner';
 
 type SubmitModalPrefabProps<T extends {}> = React.PropsWithChildren & {
   trigger: JSX.Element;
@@ -20,6 +29,7 @@ type SubmitModalPrefabProps<T extends {}> = React.PropsWithChildren & {
   errorText?: string;
 
   submitMethod: (data: T, files?: FormData[]) => Promise<void>;
+  onClose?: () => void;
   submitText?: string;
   cancelText?: string;
   icon: string;
@@ -37,14 +47,10 @@ export function SubmitModalPrefab<T extends {}>({
   loadingText,
   icon,
   submitMethod,
+  onClose,
 }: SubmitModalPrefabProps<T>) {
   const { state: visible, toggleState } = useToggle(false);
-
-  const submit = async (data: T, files?: FormData[]) => {
-    await submitMethod(data, files).then(() => {
-      toggleState(false);
-    });
-  };
+  const mediaQueryMatches = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <>
@@ -59,29 +65,45 @@ export function SubmitModalPrefab<T extends {}>({
           const formRef = useRef<HTMLFormElement>(null);
           //const formId = useId();
 
-          const { updateData, updateDataViaProperty, updateFiles, submit, status } =
-            useSubmitData<T>({} as any, async (data, files) => {
+          const { updateData, updateFiles, submit, status } = useSubmitData<T>(
+            {} as any,
+            async (data, files) => {
               const loadingToast = toast.loading(loadingText);
+
               submitMethod(data, files)
                 .then(() => {
-                  toast.success(successText);
+                  if (successText) {
+                    toast.success(successText);
+                  }
+
                   formRef.current?.reset();
                 })
+                .catch(err => console.log(err.message))
                 .finally(() => toast.dismiss(loadingToast));
-            });
+            }
+          );
+
           const loading = status === 'loading';
 
           return (
             <Dialog
+              fullScreen={mediaQueryMatches}
               fullWidth
               maxWidth='md'
               open={show}
-              onClose={handleClose}
+              onClose={() => {
+                if (onClose) {
+                  onClose();
+                }
+
+                handleClose();
+              }}
               PaperProps={{
                 component: 'form',
                 onSubmit: async e => {
-                  await submit(e);
-                  handleClose();
+                  submit(e).then(() => {
+                    // handleClose();
+                  });
                 },
                 onChange: e => (e.target.type === 'file' ? updateFiles(e) : updateData(e)),
                 ref: formRef,
@@ -92,7 +114,13 @@ export function SubmitModalPrefab<T extends {}>({
                 <Button
                   type='button'
                   variant='text'
-                  onClick={handleClose}
+                  onClick={() => {
+                    if (onClose) {
+                      onClose();
+                    }
+
+                    handleClose();
+                  }}
                   disabled={loading}>
                   {cancelText}
                 </Button>
@@ -100,7 +128,7 @@ export function SubmitModalPrefab<T extends {}>({
                 <Button
                   type='submit'
                   variant='text'
-                  startIcon={<Check />}
+                  startIcon={!loading ? <Check /> : <Spinner size='1rem' />}
                   disabled={loading}>
                   {submitText}
                 </Button>

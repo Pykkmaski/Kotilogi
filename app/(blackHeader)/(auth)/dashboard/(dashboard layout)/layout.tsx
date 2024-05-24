@@ -2,6 +2,9 @@ import { LayoutContentContainer, LayoutNavBarContainer } from '@/components/UI/L
 import { DashboardMobileNav } from './DashboardMobileNav';
 import { DesktopNavbarHeader } from './_components/DesktopNavbarHeader';
 import { DesktopNav } from './_components/DesktopNav';
+import { BottomNav, NavAction } from '@/components/App/BottomNav';
+import { Home, Settings, ShoppingCart } from '@mui/icons-material';
+import { Badge } from '@mui/material';
 
 export default async function DashboardLayout({ children }) {
   return (

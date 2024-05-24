@@ -16,7 +16,7 @@ export function useSubmitData<DataT extends {}>(
   const submit = async (e: TODO) => {
     e.preventDefault();
     setStatus('loading');
-    submitMethod(data, files)
+    await submitMethod(data, files)
       .catch(err => toast.error(err.message))
       .finally(() => setStatus('idle'));
   };

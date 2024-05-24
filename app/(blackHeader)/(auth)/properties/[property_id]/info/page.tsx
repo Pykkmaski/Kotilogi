@@ -14,10 +14,6 @@ export default async function InfoPage({ params }) {
 
   return (
     <main className='flex-col flex gap-4 w-full'>
-      <Header>
-        <Heading>Tiedot</Heading>
-      </Header>
-
       <Paper
         sx={{
           padding: '1rem',

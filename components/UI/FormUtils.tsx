@@ -12,7 +12,7 @@ export const Label = ({ children, required, boldText }: LabelProps) => {
       ${boldText ? 'font-semibold' : 'font-normal'}
     `}>
       {children}
-      {required ? <span className='text-red-700 text-sm'> Pakollinen</span> : null}
+      {required ? <span className='text-red-700 text-sm'> *</span> : null}
     </label>
   );
 };
