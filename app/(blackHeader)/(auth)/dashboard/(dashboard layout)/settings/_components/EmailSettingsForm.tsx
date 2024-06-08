@@ -1,10 +1,11 @@
 'use client';
 
 import { updateEmail } from 'kotilogi-app/actions/user/updateEmail';
-import { Input } from '@/components/Feature/Input';
+
 import { SingleInputForm } from '@/components/Feature/SingleInputForm/SingleInputForm';
 import toast from 'react-hot-toast';
 import { useUserProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/UserProvider';
+import { FormControl, Input } from '@/components/UI/FormUtils';
 
 export function EmailSettingsForm() {
   const {
@@ -15,17 +16,16 @@ export function EmailSettingsForm() {
   };
 
   return (
-    <SingleInputForm
-      submitMethod={submitMethod}
-      editingDisabled={true}
-      inputComponent={Input}
-      initialInputProps={{
-        name: 'email',
-        label: 'Sähköpostiosoite',
-        description: 'Tilisi sähköpostiosoite.',
-        defaultValue: email,
-        type: 'email',
-      }}
+    <FormControl
+      label='Sähköpostiosoite'
+      control={
+        <Input
+          name='email'
+          defaultValue={email}
+          disabled
+        />
+      }
+      helper='Sähköpostiosoitteita ei voi tällä hetkellä vaihtaa.'
     />
   );
 }

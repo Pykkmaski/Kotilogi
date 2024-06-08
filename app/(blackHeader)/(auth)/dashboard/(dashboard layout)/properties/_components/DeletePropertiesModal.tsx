@@ -1,4 +1,3 @@
-import { DeleteButton } from '@/components/Prefabs/List.prefabs';
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import { useSelectablesProviderContext } from '@/components/Util/SelectablesProvider';
 import { deleteProperty } from 'kotilogi-app/actions/experimental/properties';
@@ -7,9 +6,12 @@ import { useState } from 'react';
 import { ErrorMessage, FormControl, Group } from '@/components/UI/FormUtils';
 import { ErrorText } from '@/components/UI/Text';
 import { Input } from '@/components/UI/FormUtils';
+import { IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
+import { DeleteButton } from '@/components/Feature/GalleryBase/Buttons';
 
 export function DeletePropertiesModalTrigger() {
-  const { selectedItems: selectedProperties } = useSelectablesProviderContext();
+  const { selectedItems: selectedProperties, resetSelected } = useSelectablesProviderContext();
   const [status, setStatus] = useState<'idle' | 'invalid_password'>('idle');
 
   return (
@@ -36,6 +38,8 @@ export function DeletePropertiesModalTrigger() {
               setStatus(failure);
               throw new Error(failure);
             }
+
+            resetSelected();
           })
           .catch(err => {
             const msg = err.message;

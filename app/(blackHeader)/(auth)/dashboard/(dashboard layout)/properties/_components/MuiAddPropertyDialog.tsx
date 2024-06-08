@@ -22,8 +22,10 @@ import { PriceDisclaimer } from './NewAddPropertyModal/NewAddPropertyModal';
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import { useMediaQuery } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
+import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
+import { DialogControl } from '@/components/Util/DialogControl';
 
-export function MuiAddPropertyDialog({ show, handleClose }) {
+export const OldDialog = ({ handleClose, show }) => {
   const { data, updateData } = useInputData({} as Kotidok.PropertyType);
   const [status, setStatus] = useState<'idle' | 'loading'>('idle');
   const matchesMediaQuery = useMediaQuery(theme.breakpoints.down('sm'));
@@ -101,5 +103,19 @@ export function MuiAddPropertyDialog({ show, handleClose }) {
         </Button>
       </DialogActions>
     </Dialog>
+  );
+};
+
+export function MuiAddPropertyDialog({ show, handleClose }) {
+  return (
+    <SubmitModalPrefab
+      modalTitle='Lisää uusi kohde'
+      trigger={<AddButton />}
+      submitMethod={async (data: Kotidok.PropertyType) => {
+        await addProperty(data).then(res => {
+          toast.success(`Kohde ${res.address} luotu!`);
+        });
+      }}
+      errorText='Kohteen luominen epäonnistui!'></SubmitModalPrefab>
   );
 }

@@ -20,7 +20,8 @@ import { useState } from 'react';
 import { AddPropertySuccessModal } from './AddPropertySuccessModal';
 import { DialogControl } from '@/components/Util/DialogControl';
 import { Dialog } from '@mui/material';
-import { MuiAddPropertyDialog } from './MuiAddPropertyDialog';
+import { MuiAddPropertyDialog, OldDialog } from './MuiAddPropertyDialog';
+import { Card } from '@/components/UI/Card';
 
 export function PropertiesGallery({ properties }) {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -63,7 +64,7 @@ export function PropertiesGallery({ properties }) {
               }}
               control={({ show, handleClose }) => {
                 return (
-                  <MuiAddPropertyDialog
+                  <OldDialog
                     show={show}
                     handleClose={handleClose}
                   />

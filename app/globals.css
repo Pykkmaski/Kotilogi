@@ -17,6 +17,11 @@ select {
   background: none;
 }
 
+input,
+textarea {
+  background: white;
+}
+
 select option {
   background: none;
 }
@@ -52,4 +57,8 @@ input[type='checkbox'] {
 
 input[type='radio']:checked:before {
   accent-color: orange;
+}
+
+input:disabled {
+  background-color: #fffa;
 }

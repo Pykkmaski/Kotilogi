@@ -1,5 +1,11 @@
+import { deleteEvent } from '@/actions/experimental/events';
+import { DeleteButton } from '@/components/Feature/GalleryBase/Buttons';
+import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import { DialogControl } from '@/components/Util/DialogControl';
-import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import {
+  SelectablesProvider,
+  useSelectablesProviderContext,
+} from '@/components/Util/SelectablesProvider';
 import { Check, Delete } from '@mui/icons-material';
 import {
   Button,
@@ -7,43 +13,33 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
+import toast from 'react-hot-toast';
 
 export function DeleteEventsDialog() {
-  return (
-    <DialogControl
-      trigger={({ onClick }) => {
-        return (
-          <Button
-            variant='text'
-            onClick={onClick}>
-            <Delete />
-          </Button>
-        );
-      }}
-      control={({ show, handleClose }) => {
-        return (
-          <Dialog
-            open={show}
-            onClose={handleClose}>
-            <DialogTitle>Poista valitut tapahtumat</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Olet poistamassa seuraavia tapahtumia. Oletko varma?
-              </DialogContentText>
-              <ul className='flex flex-col gap-2'>
-                <SelectablesProvider.SelectedItems Component={item => <li>{item.title}</li>} />
-              </ul>
-            </DialogContent>
+  const { selectedItems, resetSelected } = useSelectablesProviderContext();
 
-            <DialogActions>
-              <Button onClick={handleClose}>Peruuta</Button>
-              <Button startIcon={<Check />}>Vahvista</Button>
-            </DialogActions>
-          </Dialog>
-        );
+  return (
+    <SubmitModalPrefab
+      trigger={<DeleteButton title='Poista valitut tapahtumat...' />}
+      modalTitle='Poista valitut tapahtumat'
+      submitMethod={async data => {
+        const promises = selectedItems.map(item => deleteEvent(item.id));
+        await Promise.all(promises).then(() => {
+          toast.success('Tapahtumat poistettu!');
+          resetSelected();
+        });
       }}
-    />
+      submitText='Vahvista'
+      cancelText='Peruuta'>
+      Olet poistamassa seuraavia tapahtumia:
+      <ul>
+        {selectedItems.map(item => (
+          <li>{item.title}</li>
+        ))}
+      </ul>
+    </SubmitModalPrefab>
   );
 }

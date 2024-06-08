@@ -1,10 +1,6 @@
 'use client';
 
-import { useToggle } from 'kotilogi-app/hooks/useToggle';
-import { Modal } from '../UI/Modal';
-import { SubmitDataModalProvider } from './SubmitDataModal';
-import { VisibilityProvider } from '../Util/VisibilityProvider';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import React from 'react';
 import {
   Button,
@@ -32,10 +28,10 @@ type SubmitModalPrefabProps<T extends {}> = React.PropsWithChildren & {
   onClose?: () => void;
   submitText?: string;
   cancelText?: string;
-  icon: string;
+  icon?: string;
 };
 
-/**Renders a trigger, that when pressed, reveals a SubmitDataModal, containing the passed children in its form. */
+/**Renders a trigger, that when pressed, reveals a Dialog for submitting data, containing the passed children in its form. */
 export function SubmitModalPrefab<T extends {}>({
   children,
   trigger,
@@ -56,7 +52,7 @@ export function SubmitModalPrefab<T extends {}>({
     async (data, files) => {
       const loadingToast = toast.loading(loadingText);
 
-      submitMethod(data, files)
+      await submitMethod(data, files)
         .then(() => {
           if (successText) {
             toast.success(successText);
@@ -81,7 +77,7 @@ export function SubmitModalPrefab<T extends {}>({
         //const formId = useId();
 
         const loading = status === 'loading';
-        console.log(status);
+
         return (
           <Dialog
             fullScreen={mediaQueryMatches}
@@ -99,7 +95,7 @@ export function SubmitModalPrefab<T extends {}>({
               component: 'form',
               onSubmit: async e => {
                 await submit(e).then(() => {
-                  //handleClose();
+                  handleClose();
                 });
               },
               onChange: e => (e.target.type === 'file' ? updateFiles(e) : updateData(e)),

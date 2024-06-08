@@ -3,11 +3,12 @@
 import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
 import { Group } from '@/components/UI/Group';
-import { Input } from '@/components/Feature/Input';
+import { Input } from '@/components/UI/FormUtils';
 import { useRef } from 'react';
 import { z } from 'zod';
 import { ErrorText } from '@/components/UI/Text';
 import { usePasswordSettingsForm } from '../_hooks/usePasswordSettingsForm';
+import { FormControl } from '@/components/UI/FormUtils';
 
 const PasswordSchema = z.object({
   password1: z.string(),
@@ -34,25 +35,31 @@ export function PasswordSettingsForm() {
       ref={formRef}
       onChange={updateData}>
       <div className='flex flex-col gap-4'>
-        <Input
-          type='password'
-          placeholder='Kirjoita uusi salasana...'
-          autoComplete='new-password'
-          name='password1'
-          label='Uusi Salasana'
-          description='Päivitä salasanasi.'
-          required={true}
+        <FormControl
+          label='Uusi salasana'
+          control={
+            <Input
+              type='password'
+              placeholder='Kirjoita uusi salasana...'
+              autoComplete='new-password'
+              name='password1'
+              required={true}
+            />
+          }
         />
 
         <div className='flex flex-col gap-2'>
-          <Input
-            type='password'
-            placeholder='Kirjoita uusi salasana uudelleen...'
-            autoComplete='off'
-            name='password2'
-            label='Salasanan Vahvistus'
-            description='Vahvista uusi salasana.'
-            required={true}
+          <FormControl
+            label='Salasanan vahvistus'
+            control={
+              <Input
+                type='password'
+                placeholder='Kirjoita uusi salasana uudelleen...'
+                autoComplete='off'
+                name='password2'
+                required={true}
+              />
+            }
           />
 
           {status === 'password_mismatch' ? (
@@ -63,14 +70,17 @@ export function PasswordSettingsForm() {
         </div>
 
         <div className='flex flex-col gap-2'>
-          <Input
-            type='password'
-            placeholder='Kirjoita nykyinen salasanasi...'
-            autoComplete='off'
-            name='oldPassword'
+          <FormControl
             label='Nykyinen salasanasi'
-            description='Vahvista nykyinen salasanasi.'
-            required={true}
+            control={
+              <Input
+                type='password'
+                placeholder='Kirjoita nykyinen salasanasi...'
+                autoComplete='off'
+                name='oldPassword'
+                required={true}
+              />
+            }
           />
 
           {status === 'invalid_password' ? (

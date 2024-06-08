@@ -1,25 +1,26 @@
 import Button from '@/components/UI/Button/Button';
+import { Add, Delete, PropaneTankSharp } from '@mui/icons-material';
+import { IconButton, IconButtonProps } from '@mui/material';
+import MuiButton, { ButtonProps } from '@mui/material/Button';
 
-export function DeleteButton(props: React.ComponentProps<'button'>) {
+export function DeleteButton(props: IconButtonProps) {
   return (
-    <Button
-      variant='secondary'
+    <IconButton
+      color='warning'
       {...props}>
-      <div className='flex gap-2 border-slate-500 items-center'>
-        <i className='fa fa-trash text-black text-2xl' />
-        <span className='xs:hidden lg:block'>Poista</span>
-      </div>
-    </Button>
+      <Delete />
+    </IconButton>
   );
 }
 
-export function AddButton(props: React.ComponentProps<'button'>) {
+export function AddButton({ children, ...props }: ButtonProps) {
   return (
-    <Button
-      variant='primary-dashboard'
-      {...props}>
-      <i className='fa fa-plus text-white text-2xl m-1' />
-    </Button>
+    <MuiButton
+      {...props}
+      startIcon={<Add />}
+      variant='text'>
+      Lisää Uusi
+    </MuiButton>
   );
 }
 

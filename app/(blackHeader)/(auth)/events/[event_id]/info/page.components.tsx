@@ -2,8 +2,11 @@
 
 import { updateEvent } from 'kotilogi-app/actions/experimental/events';
 import { ContentCard } from '@/components/UI/RoundedBox';
-import { Input, Textarea } from '@/components/Feature/Input';
 import { SingleInputForm } from '@/components/Feature/SingleInputForm/SingleInputForm';
+import { FormControl, Input } from '@/components/UI/FormUtils';
+import { useInputData } from '@/hooks/useInputData';
+import { useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
 
 type ContentProps = {
   event: Kotidok.EventType;
@@ -11,55 +14,70 @@ type ContentProps = {
 };
 
 export function Content({ event, userEmail }: ContentProps) {
-  const isConsolidated = event.createdBy !== userEmail;
+  const isEditable = event.createdBy === userEmail;
+  const initialRender = useRef(true);
 
-  const update = (data: TODO) => {
+  const { updateData, data } = useInputData(event);
+
+  const update = () => {
     return updateEvent(event.id, data as TODO);
   };
+
+  useEffect(() => {
+    if (initialRender.current === true) {
+      initialRender.current = false;
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      update().catch(err => toast.error('Tietojen päivitys epäonnistui!'));
+    }, 250);
+
+    return () => clearTimeout(timeout);
+  }, [data]);
 
   return (
     <>
       <ContentCard title='Tiedot'>
-        <SingleInputForm
-          editingDisabled={isConsolidated}
-          submitMethod={update}
-          inputComponent={Input}
-          initialInputProps={{
-            label: 'Otsikko',
-            name: 'title',
-            description: 'Tapahtuman otsikko.',
-            placeholder: 'Kirjoita tapahtuman otsikko...',
-            defaultValue: event.title,
-            autoComplete: 'off',
-          }}
-        />
+        <form onChange={updateData}>
+          <FormControl
+            label='Otsikko'
+            control={
+              <Input
+                name='title'
+                placeholder='Kirjoita tapahtuman otsikko...'
+                defaultValue={event.title}
+                autoComplete='off'
+                disabled={!isEditable}
+              />
+            }
+          />
 
-        <SingleInputForm
-          editingDisabled={isConsolidated}
-          submitMethod={update}
-          inputComponent={Textarea}
-          initialInputProps={{
-            label: 'Kuvaus',
-            name: 'description',
-            description: 'Tapahtuman kuvaus.',
-            placeholder: 'Kirjoita tapahtuman kuvaus...',
-            defaultValue: event.description,
-            spellCheck: false,
-          }}
-        />
+          <FormControl
+            label='Kuvaus'
+            control={
+              <textarea
+                name='description'
+                placeholder='Kirjoita tapahtuman kuvaus...'
+                defaultValue={event.description}
+                spellCheck={false}
+                disabled={!isEditable}
+              />
+            }
+          />
 
-        <SingleInputForm
-          editingDisabled={isConsolidated}
-          submitMethod={update}
-          inputComponent={Input}
-          initialInputProps={{
-            label: 'Päiväys',
-            name: 'time',
-            description: 'Tapahtuman päiväys.',
-            type: 'date',
-            defaultValue: event.time,
-          }}
-        />
+          <FormControl
+            label='Päiväys'
+            control={
+              <Input
+                name='time'
+                type='date'
+                defaultValue={event.time}
+                disabled={!isEditable}
+              />
+            }
+          />
+        </form>
       </ContentCard>
     </>
   );

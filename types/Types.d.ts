@@ -90,7 +90,6 @@ namespace Kotidok {
 
   type EventType = ItemType &
     HasDate &
-    HasRefId &
     HasMainImageId & {
       consolidationTime: string;
       createdBy: string;

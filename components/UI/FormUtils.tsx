@@ -109,7 +109,7 @@ export const FormControl = ({
         ...(control as React.ReactElement).props,
         required: required,
       })}
-      <SublabelText>{helper}</SublabelText>
+      <SubLabel>{helper}</SubLabel>
     </div>
   );
 };

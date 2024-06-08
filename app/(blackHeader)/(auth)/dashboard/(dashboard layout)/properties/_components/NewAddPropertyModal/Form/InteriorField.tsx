@@ -59,7 +59,7 @@ export function InteriorField() {
       />
 
       <FormControl
-        label={data.buildingType === 'Kerrostalo' ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}
+        label={data.targetType === 'Huoneisto' ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}
         control={
           <Input
             name='floorCount'

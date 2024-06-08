@@ -13,11 +13,15 @@ import { MobileMenu } from './MobileMenu';
 
 function Logo2() {
   return (
-    <Link href='/'>
+    <Link
+      href='/'
+      className='flex gap-2 items-baseline'>
       <img
         src='/logo_text.png'
         className='aspect-auto xs:w-[100px] lg:w-[120px]'
       />
+
+      <span className='text-sm font-semibold text-white'>Beta</span>
     </Link>
   );
 }

@@ -14,6 +14,7 @@ import {
 import { Gallery } from '@/components/Feature/GalleryBase/Gallery';
 import { GalleryListItem } from '@/components/Feature/GalleryBase/GalleryListItem';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
+import { DeleteEventsDialog } from './DeleteEventsDialog';
 
 /**The main content rendering component of the page. */
 export function EventsGallery({ events, propertyId, userEmail }) {
@@ -44,20 +45,7 @@ export function EventsGallery({ events, propertyId, userEmail }) {
                   <CancelSelectionButton />
                 </SelectablesProvider.ResetSelectedTrigger>
 
-                <VisibilityProvider>
-                  <VisibilityProvider.Trigger>
-                    <DeleteButton />
-                  </VisibilityProvider.Trigger>
-
-                  <VisibilityProvider.Target>
-                    <Gallery.ConfirmDeleteModal
-                      title='Poista valitut tapahtumat'
-                      bodyText='Olet poistamassa seuraavia tapahtumia:'
-                      successMessage='Tapahtuma(t) poistettu!'
-                      deleteMethod={deleteEvent}
-                    />
-                  </VisibilityProvider.Target>
-                </VisibilityProvider>
+                <DeleteEventsDialog />
               </ListHeaderControlButtons>
             </div>
           </SelectablesProvider.HideIfNoneSelected>

@@ -3,12 +3,14 @@ import { Heading } from '@/components/UI/Heading';
 import db from 'kotilogi-app/dbconfig';
 import { Content } from './page.components';
 import { getServerSession } from 'next-auth';
+import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 
 export default async function EventInfoPage({ params }) {
   const event = await db('propertyEvents').where({ id: params.event_id }).first();
   if (!event) throw new Error('Tapahtuman lataaminen epäonnistui! Kokeile päivittää sivu.');
 
   const session = await getServerSession();
+
   return (
     <main>
       <Header>
