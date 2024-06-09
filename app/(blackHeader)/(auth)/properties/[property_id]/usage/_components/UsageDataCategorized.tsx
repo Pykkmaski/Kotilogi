@@ -8,7 +8,7 @@ const Item = ({ children }: React.PropsWithChildren) => (
   <div className='flex gap-8 items-center justify-between'>{children}</div>
 );
 
-const Total = ({ data, units }: { data: Kotidok.UsageType[]; units: 'L' | 'kw/h' | 'mw/h' }) => {
+const Total = ({ data, units }: { data: Kotidok.UsageType[]; units: 'L' | 'kWh' | 'mWh' }) => {
   const total = data.map(d => d.price).reduce((acc, cur) => acc + cur, 0);
   const totalUnits = data.map(d => d.unitAmount).reduce((acc, cur) => acc + cur, 0);
 
@@ -31,12 +31,15 @@ export function UsageDataCategorized({ data }: UsageDataCategorizedProps) {
     <div className='flex flex-col gap-4 text-slate-500'>
       {Object.keys(dataFiltered).map(key => {
         const displayKey = key === 'heat' ? 'Lämmitys' : key === 'water' ? 'Vesi' : 'Sähkö';
-        const units = key === 'heat' ? 'mw/h' : key === 'water' ? 'L' : 'kw/h';
+        const units = key === 'heat' ? 'mWh' : key === 'water' ? 'L' : 'kWh';
 
         return (
           <Item>
             <Label>{displayKey}:</Label>
-            <Total data={dataFiltered[key]} units={units} />
+            <Total
+              data={dataFiltered[key]}
+              units={units}
+            />
           </Item>
         );
       })}
