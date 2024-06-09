@@ -29,7 +29,7 @@ function Item({ item }: ListItemProps) {
       .finally(() => toast.dismiss(loadingToast));
   };
 
-  const getUnits = () => (item.type === 'heat' ? 'mw/h' : item.type === 'water' ? 'L' : 'kw/h');
+  const getUnits = () => (item.type === 'heat' ? 'mWh' : item.type === 'water' ? 'L' : 'kWh');
   return (
     <ListItemContext.Provider value={{ item }}>
       <span className='flex p-2 rounded-lg shadow-lg text-slate-500 justify-between border-gray-100 border hover:bg-orange-100'>

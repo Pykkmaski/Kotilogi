@@ -24,6 +24,7 @@ import { useMediaQuery } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
 import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { DialogControl } from '@/components/Util/DialogControl';
+import Spinner from '@/components/UI/Spinner';
 
 export const OldDialog = ({ handleClose, show }) => {
   const { data, updateData } = useInputData({} as Kotidok.PropertyType);
@@ -97,7 +98,7 @@ export const OldDialog = ({ handleClose, show }) => {
         </Button>
         <Button
           type='submit'
-          startIcon={<Check />}
+          startIcon={!loading ? <Check /> : <Spinner size='1rem' />}
           disabled={loading}>
           Vahvista
         </Button>

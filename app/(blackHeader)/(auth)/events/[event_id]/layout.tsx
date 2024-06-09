@@ -34,33 +34,31 @@ export default async function EventLayout({ children, params }) {
         </Header>
 
         <NavBar>
-          <div className='text-white'>
-            <IconLink
-              href={`info`}
-              imageSrc='/icons/info.png'
-              icon='fa-info-circle'>
-              Tiedot
-            </IconLink>
-            <IconLink
-              href={'images'}
-              imageSrc='/icons/image.png'
-              icon='fa-image'>
-              Kuvat
-            </IconLink>
-            <IconLink
-              href={'files'}
-              imageSrc='/icons/copy.png'
-              icon='fa-copy'>
-              Tiedostot
-            </IconLink>
-            <NavDivider />
-            <IconLink
-              href={`/properties/${event.refId}/events`}
-              imageSrc='/icons/history.png'
-              icon='fa-history'>
-              Takaisin Tapahtumiin
-            </IconLink>
-          </div>
+          <IconLink
+            href={`info`}
+            imageSrc='/icons/info.png'
+            icon='fa-info-circle'>
+            Tiedot
+          </IconLink>
+          <IconLink
+            href={'images'}
+            imageSrc='/icons/image.png'
+            icon='fa-image'>
+            Kuvat
+          </IconLink>
+          <IconLink
+            href={'files'}
+            imageSrc='/icons/copy.png'
+            icon='fa-copy'>
+            Tiedostot
+          </IconLink>
+          <NavDivider />
+          <IconLink
+            href={`/properties/${event.refId}/events`}
+            imageSrc='/icons/history.png'
+            icon='fa-history'>
+            Takaisin Tapahtumiin
+          </IconLink>
         </NavBar>
       </LayoutNavBarContainer>
 
