@@ -54,7 +54,7 @@ export function TransferForm({ property, user }: TransferFormProps) {
     if (receiverEmail.length === 0) {
       setEmailValid('undetermined');
     } else {
-      isUserValid(receiverEmail).then(result => {
+      await isUserValid(receiverEmail).then(result => {
         if (result === true) {
           setEmailValid(() => 'valid');
         } else {
@@ -65,7 +65,9 @@ export function TransferForm({ property, user }: TransferFormProps) {
   };
 
   useEffect(() => {
-    const timeout = setTimeout(() => checkUserValidity(), 100);
+    const timeout = setTimeout(() => {
+      checkUserValidity();
+    }, 100);
     return () => clearTimeout(timeout);
   }, [receiverEmail]);
 
@@ -79,23 +81,24 @@ export function TransferForm({ property, user }: TransferFormProps) {
         <Group>
           <Label>Vastaanottaja</Label>
           <Input
+            icon={
+              emailValid === 'valid' ? (
+                <i
+                  className='fa fa-check text-green-500'
+                  title='Käyttäjä annetulla osoitteella on olemassa.'></i>
+              ) : emailValid === 'invalid' ? (
+                <i
+                  className='fa fa-times text-red-500 z-10'
+                  title='Käyttäjää annetulla osoitteella ei ole!'></i>
+              ) : null
+            }
             required
             type='email'
             name='receiver'
             placeholder='Kirjoita vastaanottajan sähköpostiosoite...'
             onChange={e => {
               setReceiverEmail(e.target.value);
-            }}>
-            {emailValid === 'valid' ? (
-              <i
-                className='fa fa-check text-green-500'
-                title='Käyttäjä annetulla osoitteella on olemassa.'></i>
-            ) : emailValid === 'invalid' ? (
-              <i
-                className='fa fa-times text-red-500'
-                title='Käyttäjää annetulla osoitteella ei ole!'></i>
-            ) : null}
-          </Input>
+            }}></Input>
           <Description>
             Osoitteen tulee olla Kotidokiin rekisteröidyn käyttäjän sähköpostiosoite.
           </Description>

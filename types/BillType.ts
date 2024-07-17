@@ -1,9 +1,10 @@
 export type BillType = {
-  id: number;
+  id?: number;
   refId: string;
   amount: number;
   customer: string;
   stamp: 'add_property';
-  status: 'unpaid' | 'paid' | 'refunded';
+  status?: 'unpaid' | 'paid' | 'refunded';
   due: number;
+  timestamp?: number;
 };

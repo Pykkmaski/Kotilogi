@@ -4,6 +4,7 @@ import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
 import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
 import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 import { usePropertyFormContext } from './PropertyForm';
+import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
 export function InteriorField() {
   const { property: data } = usePropertyFormContext();
@@ -59,7 +60,7 @@ export function InteriorField() {
       />
 
       <FormControl
-        label={data.targetType === 'Huoneisto' ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}
+        label={data.propertyType === PropertyType.APT ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}
         control={
           <Input
             name='floorCount'

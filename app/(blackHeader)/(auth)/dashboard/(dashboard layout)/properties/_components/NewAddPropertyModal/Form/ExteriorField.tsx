@@ -1,21 +1,36 @@
-import { RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Label } from '@/components/UI/FormUtils';
 import { buildingMaterials, colors, roofMaterials, roofTypes } from 'kotilogi-app/constants';
+import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { usePropertyFormContext } from './PropertyForm';
+import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
+import { getTranslation, lang } from 'kotilogi-app/lang';
+import { BuildingMaterial } from 'kotilogi-app/models/enums/BuildingMaterial';
+import { Color } from 'kotilogi-app/models/enums/Color';
+import { RoofType } from 'kotilogi-app/models/enums/RoofType';
+import { RoofMaterial } from 'kotilogi-app/models/enums/RoofMaterial';
 
 export function ExteriorField() {
+  const { property } = usePropertyFormContext();
+
   return (
     <Fieldset legend='Ulkopuoli'>
       <div className='flex lg:flex-row xs:flex-col w-full'>
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Rakennusmateriaali</Label>
           <RadioGroup groupName='buildingMaterial'>
-            {buildingMaterials.map(type => (
-              <input
-                type='radio'
-                value={type}
-              />
-            ))}
+            {getEnumAsDigits(BuildingMaterial).map(type => {
+              const label = getTranslation('buildingMaterial', type);
+              return (
+                <RadioButton
+                  label={label}
+                  type='radio'
+                  value={type}
+                  defaultChecked={type === property.buildingMaterial}
+                />
+              );
+            })}
           </RadioGroup>
         </div>
 
@@ -23,12 +38,18 @@ export function ExteriorField() {
           <Label boldText>Väri</Label>
           <div className='grid grid-flow-row gap-4 grid-cols-2'>
             <RadioGroup groupName='color'>
-              {colors.map(color => (
-                <input
-                  value={color}
-                  type='radio'
-                />
-              ))}
+              {getEnumAsDigits(Color).map(color => {
+                const label = getTranslation('color', color);
+
+                return (
+                  <RadioButton
+                    label={label}
+                    value={color}
+                    type='radio'
+                    defaultChecked={color === property.color}
+                  />
+                );
+              })}
             </RadioGroup>
           </div>
         </div>
@@ -39,12 +60,17 @@ export function ExteriorField() {
           <Label boldText>Katon tyyppi</Label>
 
           <RadioGroup groupName='roofType'>
-            {roofTypes.map(type => (
-              <input
-                value={type}
-                type='radio'
-              />
-            ))}
+            {getEnumAsDigits(RoofType).map(type => {
+              const label = getTranslation('roofType', type);
+              return (
+                <RadioButton
+                  label={label}
+                  value={type}
+                  type='radio'
+                  defaultChecked={type === property.roofType}
+                />
+              );
+            })}
           </RadioGroup>
         </div>
 
@@ -52,10 +78,12 @@ export function ExteriorField() {
           <Label boldText>Katon materiaali</Label>
 
           <RadioGroup groupName='roofMaterial'>
-            {roofMaterials.map(mat => (
-              <input
+            {getEnumAsDigits(RoofMaterial).map(mat => (
+              <RadioButton
+                label={getTranslation('roofMaterial', mat)}
                 value={mat}
                 type='radio'
+                defaultChecked={mat === property.roofMaterial}
               />
             ))}
           </RadioGroup>

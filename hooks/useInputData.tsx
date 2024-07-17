@@ -12,6 +12,8 @@ export function useInputData<T extends {}>(initialData: T) {
 
   /**Updates the property with the name of the event in the stored data.*/
   const updateData = (e: TODO) => {
+    if (!e.target.name) return;
+
     setData(prev => ({
       ...prev,
       [e.target.name]:
@@ -31,8 +33,12 @@ export function useInputData<T extends {}>(initialData: T) {
   };
 
   /**Resets the stored data back to what was passed as the initial data. */
-  const resetData = () => {
-    setData(initialData);
+  const resetData = (data?: T) => {
+    if (data) {
+      setData(data);
+    } else {
+      setData(initialData);
+    }
   };
 
   return {

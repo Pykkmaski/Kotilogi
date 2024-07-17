@@ -1,14 +1,14 @@
-import { RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
-import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
-import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
-import { primaryHeatingSystems, secondaryHeatingSystems } from 'kotilogi-app/constants';
-import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 import { usePropertyFormContext } from './PropertyForm';
+import { HeatingType } from 'kotilogi-app/models/enums/HeatingType';
+import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
+import { lang } from 'kotilogi-app/lang';
 
 export function HeatingField() {
   const { property: data } = usePropertyFormContext();
+
   return (
     <div className='flex w-full gap-2 [&>*]:w-full'>
       <Fieldset legend='Lämmitys'>
@@ -17,26 +17,38 @@ export function HeatingField() {
             <Label boldText>Ensisijainen</Label>
 
             <RadioGroup groupName='primaryHeatingSystem'>
-              {primaryHeatingSystems.map(type => (
-                <input
-                  type='radio'
-                  value={type}
-                  checked={type === data.primaryHeatingSystem}
-                />
-              ))}
+              {getEnumAsDigits(HeatingType)
+                .filter(val => val != HeatingType.NONE)
+                .map(type => (
+                  <RadioButton
+                    value={type}
+                    defaultChecked={type == data.primaryHeatingSystem}
+                    label={lang.heatingType[type]['fi']}
+                  />
+                ))}
             </RadioGroup>
           </div>
 
           <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
             <Label boldText>Toissijainen</Label>
             <RadioGroup groupName='secondaryHeatingSystem'>
-              {secondaryHeatingSystems.map(type => (
-                <input
-                  type='radio'
-                  value={type}
-                  checked={type === data.secondaryHeatingSystem}
-                />
-              ))}
+              {getEnumAsDigits(HeatingType)
+                .filter(
+                  val =>
+                    val != HeatingType.DISTRICT &&
+                    val != HeatingType.ELECTRIC &&
+                    val != HeatingType.GROUND &&
+                    val != HeatingType.OIL
+                )
+                .map(type => {
+                  return (
+                    <RadioButton
+                      value={type}
+                      defaultChecked={type == data.secondaryHeatingSystem}
+                      label={lang.heatingType[type]['fi']}
+                    />
+                  );
+                })}
             </RadioGroup>
           </div>
         </div>

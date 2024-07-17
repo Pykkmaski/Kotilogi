@@ -1,7 +1,8 @@
 'use client';
 
 import { updateProperty } from '@/actions/experimental/properties';
-import { RadioGroup } from '@/components/Feature/RadioGroup';
+import { AUpdateProperty } from '@/actions/properties';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import {
   Checkbox,
@@ -22,11 +23,21 @@ import {
   roofTypes,
   yardOwnershipTypes,
 } from 'kotilogi-app/constants';
+import { getTranslation } from 'kotilogi-app/lang';
+import { BuildingMaterial } from 'kotilogi-app/models/enums/BuildingMaterial';
+import { BuildingType } from 'kotilogi-app/models/enums/BuildingType';
+import { Color } from 'kotilogi-app/models/enums/Color';
+import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
+import { RoofMaterial } from 'kotilogi-app/models/enums/RoofMaterial';
+import { RoofType } from 'kotilogi-app/models/enums/RoofType';
+import { YardOwnershipType } from 'kotilogi-app/models/enums/YardOwnershipType';
+import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
+import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
 import { useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 
 type PropertyFormProps = {
-  property: Kotidok.PropertyType;
+  property: HouseDataType | AppartmentDataType;
 };
 
 export function PropertyForm({ property }: PropertyFormProps) {
@@ -36,7 +47,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
   useEffect(() => {
     if (firstRender.current === false) {
       const timeout = setTimeout(async () => {
-        updateProperty(property.id, data).catch(err => toast.error(err.message));
+        AUpdateProperty(data).catch(err => toast.error(err.message));
       }, 500);
 
       return () => clearTimeout(timeout);
@@ -45,6 +56,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
     }
   }, [data]);
 
+  console.log(typeof property.livingArea);
   return (
     <form
       onChange={updateData}
@@ -58,7 +70,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
             control={
               <Input
                 name='title'
-                defaultValue={property.title}
+                defaultValue={property.streetAddress}
               />
             }
           />
@@ -75,7 +87,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
           />
         </div>
 
-        {property.targetType === 'Kiinteistö' ? (
+        {property.propertyType == PropertyType.HOUSE ? (
           <FormControl
             className='w-full'
             label='Kiinteistötunnus'
@@ -86,7 +98,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
               />
             }
           />
-        ) : property.targetType === 'Huoneisto' ? (
+        ) : property.propertyType === PropertyType.APT ? (
           <FormControl
             label='Huoneiston numero'
             control={
@@ -112,11 +124,12 @@ export function PropertyForm({ property }: PropertyFormProps) {
           <Group>
             <Label boldText>Talotyyppi</Label>
             <RadioGroup groupName='buildingType'>
-              {buildingTypes.map(type => (
-                <input
+              {getEnumAsDigits(BuildingType).map(type => (
+                <RadioButton
+                  label={getTranslation('buildingType', type)}
                   type='radio'
                   value={type}
-                  defaultChecked={property.buildingType === type}
+                  defaultChecked={property.buildingType == type}
                 />
               ))}
             </RadioGroup>
@@ -126,7 +139,8 @@ export function PropertyForm({ property }: PropertyFormProps) {
             <Label boldText>Energialuokka</Label>
             <RadioGroup groupName='energyClass'>
               {energyClasses.map(c => (
-                <input
+                <RadioButton
+                  label={c}
                   type='radio'
                   value={c}
                   defaultChecked={property.energyClass === c}
@@ -142,11 +156,12 @@ export function PropertyForm({ property }: PropertyFormProps) {
           <Group>
             <Label boldText>Väri</Label>
             <RadioGroup groupName='color'>
-              {colors.map(color => (
-                <input
+              {getEnumAsDigits(Color).map(color => (
+                <RadioButton
+                  label={getTranslation('color', color)}
                   type='radio'
                   value={color}
-                  defaultChecked={property.color === color}
+                  defaultChecked={property.color == color}
                 />
               ))}
             </RadioGroup>
@@ -155,11 +170,12 @@ export function PropertyForm({ property }: PropertyFormProps) {
           <Group>
             <Label boldText>Rakennusmateriaali</Label>
             <RadioGroup groupName='buildingMaterial'>
-              {buildingMaterials.map(mat => (
-                <input
+              {getEnumAsDigits(BuildingMaterial).map(mat => (
+                <RadioButton
+                  label={getTranslation('buildingMaterial', mat)}
                   type='radio'
                   value={mat}
-                  defaultChecked={property.buildingMaterial === mat}
+                  defaultChecked={property.buildingMaterial == mat}
                 />
               ))}
             </RadioGroup>
@@ -170,11 +186,12 @@ export function PropertyForm({ property }: PropertyFormProps) {
           <Group>
             <Label boldText>Katon tyyppi</Label>
             <RadioGroup groupName='roofType'>
-              {roofTypes.map(type => (
-                <input
+              {getEnumAsDigits(RoofType).map(type => (
+                <RadioButton
+                  label={getTranslation('roofType', type)}
                   type='radio'
                   value={type}
-                  defaultChecked={property.roofType === type}
+                  defaultChecked={property.roofType == type}
                 />
               ))}
             </RadioGroup>
@@ -183,11 +200,12 @@ export function PropertyForm({ property }: PropertyFormProps) {
           <Group>
             <Label boldText>Katon materiaali</Label>
             <RadioGroup groupName='roofMaterial'>
-              {roofMaterials.map(type => (
-                <input
+              {getEnumAsDigits(RoofMaterial).map(type => (
+                <RadioButton
+                  label={getTranslation('roofMaterial', type)}
                   type='radio'
                   value={type}
-                  defaultChecked={property.roofMaterial === type}
+                  defaultChecked={property.roofMaterial == type}
                 />
               ))}
             </RadioGroup>
@@ -206,7 +224,8 @@ export function PropertyForm({ property }: PropertyFormProps) {
             <Input
               name='livingArea'
               type='number'
-              defaultValue={property.livingArea}
+              step={0.1}
+              defaultValue={property.livingArea / 100}
             />
           }
         />
@@ -221,7 +240,8 @@ export function PropertyForm({ property }: PropertyFormProps) {
             <Input
               name='otherArea'
               type='number'
-              defaultValue={property.otherArea}
+              step={0.1}
+              defaultValue={property.otherArea / 100}
             />
           }
         />
@@ -238,7 +258,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
         />
 
         <FormControl
-          label={property.buildingType === 'Kerrostalo' ? 'Kerros' : 'Kerrosten lukumäärä'}
+          label={property.buildingType == BuildingType.APT ? 'Kerros' : 'Kerrosten lukumäärä'}
           control={
             <Input
               name='floorCount'
@@ -260,38 +280,41 @@ export function PropertyForm({ property }: PropertyFormProps) {
         />
       </Fieldset>
 
-      <Fieldset legend='Tontti'>
-        <Group>
-          <Label boldText>Tontin omistus</Label>
-          <RadioGroup groupName='yardOwnership'>
-            {yardOwnershipTypes.map(type => (
-              <input
-                type='radio'
-                value={type}
-                defaultChecked={type === property.yardOwnership}
-              />
-            ))}
-          </RadioGroup>
-        </Group>
+      {property.propertyType == PropertyType.HOUSE ? (
+        <Fieldset legend='Tontti'>
+          <Group>
+            <Label boldText>Tontin omistus</Label>
+            <RadioGroup groupName='yardOwnership'>
+              {getEnumAsDigits(YardOwnershipType).map(type => (
+                <RadioButton
+                  label={getTranslation('yardOwnershipType', type)}
+                  type='radio'
+                  value={type}
+                  defaultChecked={type === property.yardOwnershipType}
+                />
+              ))}
+            </RadioGroup>
+          </Group>
 
-        {property.yardOwnership !== 'Ei Mitään' ? (
-          <FormControl
-            label={
-              <>
-                Pinta-ala <sup className='text-super'>m2</sup>
-              </>
-            }
-            control={
-              <Input
-                name='yardArea'
-                type='number'
-                min='1'
-                defaultValue={property.yardArea}
-              />
-            }
-          />
-        ) : null}
-      </Fieldset>
+          {property.yardOwnershipType !== YardOwnershipType.NONE ? (
+            <FormControl
+              label={
+                <>
+                  Pinta-ala <sup className='text-super'>m2</sup>
+                </>
+              }
+              control={
+                <Input
+                  name='yardArea'
+                  type='number'
+                  min='1'
+                  defaultValue={property.yardArea / 100}
+                />
+              }
+            />
+          ) : null}
+        </Fieldset>
+      ) : null}
 
       <Fieldset legend='Muut tiedot'>
         <CheckboxLabel
@@ -304,7 +327,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
           }
         />
 
-        {property.targetType === 'Huoneisto' ? (
+        {property.propertyType === PropertyType.APT ? (
           <CheckboxLabel
             label='Parveke'
             control={

@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 async function verifyUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await db('users').where({ email }).first();
+      const user = await db('userData').where({ email }).first();
       if (!user) throw new Error('invalid_user');
 
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -55,10 +55,9 @@ export const options = {
           token.nextPayment = nextPaymentDate.toLocaleDateString('fi');
         }
 
-        token.trial = user.trial;
-        token.plan = user.plan;
         token.status = user.status;
         token.createdAt = user.createdAt;
+        token.id = user.id;
       }
       return token;
     },

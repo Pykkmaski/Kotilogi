@@ -1,12 +1,13 @@
 import { useReducer } from 'react';
 import { reducer } from './Gallery.reducer';
+import { AppObjectType } from 'kotilogi-app/models/types';
 
-export type StateType<T extends Kotidok.ItemType> = {
+export type StateType<T extends AppObjectType> = {
   data: T[];
   selectedItems: T[];
 };
 
-export function useGallery<T extends Kotidok.ItemType>(initialData: T[]) {
+export function useGallery<T extends AppObjectType>(initialData: T[]) {
   const initialState: StateType<T> = {
     data: initialData,
     selectedItems: [],

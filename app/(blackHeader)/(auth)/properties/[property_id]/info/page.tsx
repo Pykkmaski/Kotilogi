@@ -7,9 +7,10 @@ import { Content } from './_components/Content';
 import { Heading } from '@/components/UI/Heading';
 import { Paper } from '@mui/material';
 import { PropertyForm } from './_components/PropertyForm';
+import { getProperty } from 'kotilogi-app/models/propertyData';
 
 export default async function InfoPage({ params }) {
-  const property = await db('properties').where({ id: params.property_id }).first();
+  const property = await getProperty(params.property_id);
   if (!property) throw new Error('Talon lataaminen epäonnistui!');
 
   return (

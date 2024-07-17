@@ -14,9 +14,16 @@ import { BottomNavigationAction, Typography } from '@mui/material';
 import Link from 'next/link';
 import { BottomNav, NavAction } from '@/components/App/BottomNav';
 import { Info, Event, Bolt, Image, FileCopy } from '@mui/icons-material';
+import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
+import { getHouse, getUserHouses } from 'kotilogi-app/models/houseData';
+import { getAppartment } from 'kotilogi-app/models/appartmentData';
+import { getOwners, getProperty } from 'kotilogi-app/models/propertyData';
 
 export default async function PropertyDetailsLayout({ children, params }) {
-  const property = await db('properties').where({ id: params.property_id }).first();
+  const propertyId = params.property_id;
+
+  const property = await getProperty(propertyId);
+
   if (!property) throw new Error('Failed to load property!');
 
   const session = (await getServerSession(options as any)) as {
@@ -25,7 +32,8 @@ export default async function PropertyDetailsLayout({ children, params }) {
 
   if (!session) throw new Error('Failed to fetch user session!');
 
-  if (session.user.email != property.refId) throw new Error('property_unauthorized');
+  const owners = await getOwners(propertyId);
+  if (!owners.includes(session.user.id)) throw new Error('property_unauthorized');
 
   if (property.status == 'deactivated') {
     throw new Error('Talo ei ole käytössä!');

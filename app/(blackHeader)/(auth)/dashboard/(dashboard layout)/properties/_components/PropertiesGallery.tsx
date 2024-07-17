@@ -1,11 +1,5 @@
 'use client';
 
-import { addProperty } from 'kotilogi-app/actions/experimental/properties';
-
-import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
-import { Input, Select } from '@/components/Feature/Input';
-import toast from 'react-hot-toast';
-import { buildingTypes } from 'kotilogi-app/constants';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { CancelSelectionButton, ListHeaderControlButtons } from '@/components/Prefabs/List.prefabs';
 import { DeletePropertiesModalTrigger } from './DeletePropertiesModal';
@@ -13,17 +7,17 @@ import { Gallery } from '@/components/Feature/GalleryBase/Gallery';
 import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { GalleryListItem } from '@/components/Feature/GalleryBase/GalleryListItem';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
-import { AddPropertyModalPrefab } from './AddPropertyModalPrefab';
-import { NewAddPropertyModalTrigger } from './NewAddPropertyModal/NewAddPropertyModal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { useState } from 'react';
 import { AddPropertySuccessModal } from './AddPropertySuccessModal';
 import { DialogControl } from '@/components/Util/DialogControl';
-import { Dialog } from '@mui/material';
-import { MuiAddPropertyDialog, OldDialog } from './MuiAddPropertyDialog';
-import { Card } from '@/components/UI/Card';
+import { OldDialog as AddPropertyDialog } from './MuiAddPropertyDialog';
+import { PropertyDataType } from 'kotilogi-app/models/types';
+import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
-export function PropertiesGallery({ properties }) {
+import { lang } from 'kotilogi-app/lang';
+
+export function PropertiesGallery({ properties }: { properties: PropertyDataType[] }) {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const displaySuccessModal = (state?: boolean) =>
     setShowSuccessModal(prev => {
@@ -45,7 +39,7 @@ export function PropertiesGallery({ properties }) {
         </VisibilityProvider.Target>
       </VisibilityProvider>
 
-      <Gallery<Kotidok.PropertyType> data={properties}>
+      <Gallery<PropertyDataType> data={properties}>
         <Gallery.Header title='Talot'>
           <div className='flex gap-4 items-center'>
             <SelectablesProvider.HideIfNoneSelected>
@@ -64,7 +58,7 @@ export function PropertiesGallery({ properties }) {
               }}
               control={({ show, handleClose }) => {
                 return (
-                  <OldDialog
+                  <AddPropertyDialog
                     show={show}
                     handleClose={handleClose}
                   />
@@ -77,20 +71,20 @@ export function PropertiesGallery({ properties }) {
         <Gallery.Body
           displayStyle='vertical'
           itemComponent={props => {
-            const isActive = props.item.status === 'ok';
+            const isActive = true;
 
             return (
               <>
                 <GalleryListItem
                   {...props}
                   title={
-                    props.item.title +
+                    props.item.streetAddress +
                     ' ' +
-                    (props.item.targetType === 'Huoneisto' ? props.item.appartmentNumber : '')
+                    (props.item.propertyType == PropertyType.APT ? props.item.appartmentNumber : '')
                   }
                   description={props.item.description}
                   faIcon='fa fa-home'
-                  footerText={props.item.buildingType}
+                  footerText={lang.buildingType[props.item.buildingType]['fi']}
                   href={isActive ? `/properties/${props.item.id}/info` : ''}
                   secondaryHeaderContent={
                     isActive ? (

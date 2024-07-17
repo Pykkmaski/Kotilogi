@@ -5,9 +5,11 @@ import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 import { Checkbox, CheckboxLabel, Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
 import { FormControlLabel } from '@mui/material';
+import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
+import { AppartmentDataType } from 'kotilogi-app/models/types';
 
 export function OtherInfoField() {
-  const { property: data } = usePropertyFormContext();
+  const { property: data } = usePropertyFormContext() as { property: AppartmentDataType };
 
   return (
     <Fieldset legend='Muut tiedot'>
@@ -21,7 +23,7 @@ export function OtherInfoField() {
         }
       />
 
-      {data.targetType === 'Huoneisto' ? (
+      {data.propertyType == PropertyType.APT ? (
         <CheckboxLabel
           label='Parveke'
           control={

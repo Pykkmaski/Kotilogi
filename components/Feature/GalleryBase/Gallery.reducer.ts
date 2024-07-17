@@ -1,6 +1,7 @@
+import { AppObjectType } from 'kotilogi-app/models/types';
 import { StateType } from './Gallery.hooks';
 
-export type ActionType<T extends Kotidok.ItemType> =
+export type ActionType<T extends AppObjectType> =
   | {
       type: 'select_item';
       value: T;
@@ -17,7 +18,7 @@ export type ActionType<T extends Kotidok.ItemType> =
       value: any[];
     };
 
-export function reducer<T extends Kotidok.ItemType>(
+export function reducer<T extends AppObjectType>(
   state: StateType<T>,
   action: ActionType<T>
 ): StateType<T> {

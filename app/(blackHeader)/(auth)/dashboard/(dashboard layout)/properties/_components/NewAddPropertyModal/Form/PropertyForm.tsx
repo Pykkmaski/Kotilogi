@@ -10,16 +10,17 @@ import { OtherInfoField } from './OtherInfoField';
 import { YardField } from './YardField';
 import { ExteriorField } from './ExteriorField';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { PropertyDataType } from 'kotilogi-app/models/types';
 
 export const PropertyFormContext = createContext<{
-  property?: Kotidok.PropertyType;
+  property?: PropertyDataType;
 } | null>(null);
 
 type SubmitFormProps = {
   id: string;
   onChange: (e: TODO) => void;
   onSubmit: (e: FormEvent) => Promise<void>;
-  property?: Kotidok.PropertyType;
+  property?: PropertyDataType;
 };
 
 function Component(
