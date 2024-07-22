@@ -4,57 +4,90 @@ import { PageContent } from './page.components';
 import { Header } from './_components/Header';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { UsageProvider } from './_components/UsageProvider';
+import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
+import { getUtilityData } from 'kotilogi-app/models/utilityData';
 
-function getUsageData(query: any, year?: string) {
-  if (!year || year === 'all') {
-    return db('usage').where(query).orderBy('time', 'desc');
+async function getUsageData(query: any, year?: number) {
+  const table = 'utilityData';
+  const { type, ...restOfQuery } = query;
+
+  if (!year || year == UtilityType.ALL) {
+    return db(table)
+      .join('objectData', 'objectData.id', '=', 'utilityData.id')
+      .join('ref_utilityTypeData', { 'ref_utilityTypeData.id': 'utilityData.type' })
+      .whereILike('label', `%${type}%`)
+      .andWhere(restOfQuery)
+      .select(
+        `${table}.*`,
+        'objectData.*',
+        'ref_utilityTypeData.unitSymbol',
+        'ref_utilityTypeData.label'
+      )
+      .orderBy('time', 'desc');
   } else {
-    return db('usage')
+    return db(table)
+      .join('objectData', 'objectData.id', '=', 'utilityData.id')
+      .join('ref_utilityTypeData', { 'ref_utilityTypeData.id': `${table}.type` })
       .where(function () {
-        this.whereLike('time', `%${year}%`);
+        //The timestamps are stored as integers. Filter by values that fall within the same year.
+        const time = new Date(0);
+        time.setFullYear(year);
+
+        const endTime = new Date(time);
+        endTime.setFullYear(endTime.getFullYear() + 1);
+
+        this.where('time', '>=', time.getTime()).andWhere('time', '<', endTime.getTime());
       })
-      .andWhere(query)
+      .andWhereILike('label', `%${type}%`)
+      .andWhere(restOfQuery)
+      .select(
+        `${table}.*`,
+        'objectData.*',
+        'ref_utilityTypeData.unitSymbol',
+        'ref_utilityTypeData.label'
+      )
       .orderBy('time', 'desc');
   }
 }
 
 export default async function UsagePage({ params, searchParams }) {
-  const type = searchParams.type as Kotidok.UsageTypeType | 'all';
-  const year = searchParams.year as string | undefined;
+  const type = parseInt(searchParams.type) as number | undefined;
+  const year = parseInt(searchParams.year) as number | undefined;
 
   //Get the data for the selected year, and the timestamps for all data, to render the year selector.
-  const timestampStream = await db('usage')
-    .where({ refId: params.property_id })
+  const timestampStream = await db('utilityData')
+    .join('objectData', 'objectData.id', '=', 'utilityData.id')
+    .where({ parentId: params.property_id })
     .select('time')
     .orderBy('time', 'desc')
     .stream();
 
   const timestampsSet = new Set<number>([]);
   for await (const timestamp of timestampStream) {
-    timestampsSet.add(parseInt(timestamp.time));
+    timestampsSet.add(new Date(parseInt(timestamp.time)).getFullYear());
   }
   const timestamps = Array.from(timestampsSet);
 
   //The query to use when fetching the usage data.
   var query =
-    type === 'all'
+    type == UtilityType.ALL
       ? {
-          refId: params.property_id,
+          parentId: params.property_id,
         }
       : {
-          refId: params.property_id,
+          parentId: params.property_id,
           type,
         };
 
-  const data = await getUsageData(
-    query,
-    year || (timestamps.length ? timestamps[0].toString() : new Date().getFullYear().toString())
-  );
+  //Display data for the first year in the timestamps array by default.
+  const displayYear =
+    year || (timestamps.length ? new Date(timestamps[0]).getFullYear() : new Date().getFullYear());
 
+  const data = await getUtilityData(query, year);
+
+  console.log(data);
   if (!data) throw new Error('Kulutustietojen lataus epäonnistui! Kokeile päivittää sivu.');
 
-  //Display data for the first year in the timestamps array by default.
-  const displayYear = year || (timestamps.length ? timestamps[0] : new Date().getFullYear());
   return (
     <main className='w-full flex flex-col gap-4'>
       <UsageProvider

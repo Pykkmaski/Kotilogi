@@ -4,16 +4,18 @@ import { ColumnChart, UsageColumnChart } from '../../../../../../../components/U
 import { MutableRefObject } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
+import { UtilityDataType } from 'kotilogi-app/models/types';
 
 type ChartBoxProps = {
   title: string;
-  data: Kotidok.UsageType[];
+  data: UtilityDataType[];
   columnColor: string;
   ref?: MutableRefObject<HTMLDivElement | null>;
 };
 
 export function ChartBox(props: ChartBoxProps) {
   const mergedData = mergeByMonth(props.data);
+
   return (
     <div
       className='flex w-full gap-2'
@@ -36,7 +38,7 @@ export function ChartBox(props: ChartBoxProps) {
         <RoundedBox>
           <div className='flex flex-col gap-2'>
             {props.data.map((item, index) => {
-              return <span key={`water-data-${index}`}>{item.price}</span>;
+              return <span key={`water-data-${index}`}>{item.monetaryAmount}</span>;
             })}
           </div>
         </RoundedBox>

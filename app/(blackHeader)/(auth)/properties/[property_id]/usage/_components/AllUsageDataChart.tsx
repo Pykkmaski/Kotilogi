@@ -6,13 +6,20 @@ import { Chart, ColumnChart, UsageColumnChart } from '../../../../../../../compo
 import { colors } from 'kotilogi-app/apex.config';
 import ApexChart from 'react-apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
+import { UtilityDataType } from 'kotilogi-app/models/types';
+import { getUtilityTypeLabel, UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 
 type AllUsageDataChartProps = {
-  data: Kotidok.UsageType[];
+  data: UtilityDataType[];
 };
 
+/**Responsible for displaying all utility data overlayed on each other. */
 export function AllUsageDataChart({ data }: AllUsageDataChartProps) {
-  const dataFiltered = filterIntoObject(data, 'type', ['heat', 'water', 'electric']);
+  const dataFiltered = filterIntoObject(data, 'type', [
+    UtilityType.HEAT,
+    UtilityType.WATER,
+    UtilityType.ELECTRIC,
+  ]);
 
   const options: ApexOptions = {
     chart: {
@@ -63,7 +70,7 @@ export function AllUsageDataChart({ data }: AllUsageDataChartProps) {
       //data.unshift(0);
 
       return {
-        name: key,
+        name: getUtilityTypeLabel(parseInt(key)),
         data,
         color: colors[key],
       };

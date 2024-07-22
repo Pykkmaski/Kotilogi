@@ -2,6 +2,7 @@
 
 import { ApexOptions } from 'apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
+import { UtilityDataType } from 'kotilogi-app/models/types';
 import ApexChart from 'react-apexcharts';
 
 type TakesDataOfType<T> = {
@@ -82,12 +83,13 @@ export function PieChart(props: ChartProps) {
 }
 
 type UsageColumnChartProps = ChartProps &
-  TakesDataOfType<Kotidok.UsageType> & {
+  TakesDataOfType<UtilityDataType> & {
     columnColor: string;
   };
 
 export function UsageColumnChart(props: UsageColumnChartProps) {
   const data = mergeByMonth(props.data);
+  console.log(data);
 
   const options: ApexOptions = {
     ...props.options,
@@ -137,7 +139,7 @@ export function UsageColumnChart(props: UsageColumnChartProps) {
     series: [
       {
         name: 'data',
-        data: data.map(d => (d ? parseFloat(d.toFixed(2)) : d)),
+        data: data.map(d => (d ? d / 100 : d)),
       },
     ],
 

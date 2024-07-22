@@ -77,7 +77,7 @@ export default async function PropertyDetailsLayout({ children, params }) {
             <IconLink
               icon='fa-bolt'
               imageSrc={'/icons/bolt.png'}
-              href='usage?type=all'>
+              href='usage?type=0'>
               Kulutustiedot
             </IconLink>
             <IconLink

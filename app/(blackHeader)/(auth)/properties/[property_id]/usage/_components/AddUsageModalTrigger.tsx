@@ -8,6 +8,9 @@ import { AddButton } from '@/components/Feature/GalleryBase/Buttons';
 import { FormControl, Group, Input, Label } from '@/components/UI/FormUtils';
 import { RadioGroup } from '@/components/Feature/RadioGroup';
 import { Divider, MenuItem, Select } from '@mui/material';
+import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
+import { ACreateUtilityData } from '@/actions/utilityData';
+import { UtilityDataType } from 'kotilogi-app/models/types';
 
 export function AddUsageModalTrigger() {
   const { propertyId, type } = useUsageProviderContext();
@@ -16,35 +19,44 @@ export function AddUsageModalTrigger() {
   const searchParams = useSearchParams();
 
   const getUnits = () => {
-    if (type !== 'all') {
+    if (type != UtilityType.ALL) {
       return `(${
-        type === 'heat' ? 'mw/h' : type === 'water' ? 'L' : type === 'electric' ? 'kw/h' : null
+        type == UtilityType.HEAT
+          ? 'mw/h'
+          : type == UtilityType.WATER
+          ? 'L'
+          : type == UtilityType.ELECTRIC
+          ? 'kw/h'
+          : null
       })`;
     } else {
       return '';
     }
   };
+
   return (
     <SubmitModalPrefab
-      icon={type === 'heat' ? 'fa-fire' : type === 'water' ? 'fa-tint' : 'fa-bolt'}
+      icon={
+        type == UtilityType.HEAT ? 'fa-fire' : type == UtilityType.WATER ? 'fa-tint' : 'fa-bolt'
+      }
       trigger={<AddButton />}
       loadingText='Luodaan kulutustietoa...'
       modalTitle={
-        type === 'heat'
+        type == UtilityType.HEAT
           ? 'Lisää lämmityskulu'
-          : type === 'water'
+          : type == UtilityType.WATER
           ? 'Lisää vesikulu'
-          : type === 'electric'
+          : type == UtilityType.ELECTRIC
           ? 'Lisää sähkökulu'
           : 'Lisää kulutustieto'
       }
-      submitMethod={async (data: Kotidok.UsageType, files?) => {
+      submitMethod={async (data: UtilityDataType, files?) => {
         /**Make sure the submit data modal correctly sets default values for select elements! Otherwise this doesn't work */
 
-        await addUsage({
+        await ACreateUtilityData({
           ...data,
-          type: data.type || (type !== 'all' ? type : 'heat'),
-          refId: propertyId,
+          type: data.type || (type != UtilityType.ALL ? type : UtilityType.HEAT),
+          parentId: propertyId,
         })
           .then(() => {
             const newSearchParams = new URLSearchParams(searchParams);
@@ -58,20 +70,20 @@ export function AddUsageModalTrigger() {
           });
       }}>
       <div className='flex flex-col gap-4'>
-        {type === 'all' ? (
+        {type == UtilityType.ALL ? (
           <Group>
             <Label required>Tyyppi</Label>
             <select
-              defaultValue={'heat'}
+              defaultValue={UtilityType.HEAT}
               name='type'
               required>
               <option
-                value='heat'
+                value={UtilityType.HEAT}
                 selected>
                 Lämmitys
               </option>
-              <option value='water'>Vesi</option>
-              <option value='electric'>Sähkö</option>
+              <option value={UtilityType.WATER}>Vesi</option>
+              <option value={UtilityType.ELECTRIC}>Sähkö</option>
             </select>
           </Group>
         ) : null}

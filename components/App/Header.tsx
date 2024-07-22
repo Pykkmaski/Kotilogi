@@ -11,7 +11,7 @@ import Button from '../UI/Button/Button';
 import { HamburgerButton } from '../UI/HamburgerButton';
 import { MobileMenu } from './MobileMenu';
 
-function Logo2() {
+export function Logo2() {
   return (
     <Link
       href='/'
@@ -22,6 +22,21 @@ function Logo2() {
       />
 
       <span className='text-sm font-semibold text-white'>Beta</span>
+    </Link>
+  );
+}
+
+export function Logo3() {
+  return (
+    <Link
+      href='/'
+      className='flex gap-2 items-baseline'>
+      <img
+        src='/logo_text_black.png'
+        className='aspect-auto xs:w-[100px] lg:w-[120px]'
+      />
+
+      <span className='text-sm font-semibold text-black'>Beta</span>
     </Link>
   );
 }

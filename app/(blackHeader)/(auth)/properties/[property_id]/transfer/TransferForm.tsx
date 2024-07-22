@@ -2,7 +2,7 @@
 
 import Button from '@/components/UI/Button/Button';
 import { Description, ErrorMessage, Group, Input, Label } from '@/components/UI/FormUtils';
-import { createTransferToken } from 'kotilogi-app/actions/experimental/properties';
+import { ACreateTransferToken } from 'kotilogi-app/actions/experimental/properties';
 import { isUserValid } from 'kotilogi-app/actions/users';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -34,20 +34,6 @@ export function TransferForm({ property, user }: TransferFormProps) {
   const generateKey = async e => {
     e.preventDefault();
     setStatus('loading');
-
-    createTransferToken(user.email, receiverEmail, property.id, e.target.password)
-      .then(token => {
-        setKey(token);
-        setStatus('success');
-        toast.success('Varmenne luotu!');
-      })
-      .catch(err => {
-        const error = err.message.split(' ')[1];
-        setStatus(error);
-
-        toast.error(err.message);
-        setStatus('idle');
-      });
   };
 
   const checkUserValidity = async () => {

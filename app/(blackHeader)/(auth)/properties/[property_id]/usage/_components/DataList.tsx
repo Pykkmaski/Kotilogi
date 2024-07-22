@@ -8,11 +8,14 @@ import { monthNameToLang } from 'kotilogi-app/utils/translate/planNameToLang';
 import { Icon } from './Icon';
 import { EditUsageTrigger } from './EditUsageTrigger';
 import { VisibilityProvider } from '../../../../../../../components/Util/VisibilityProvider';
+import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
+import { ADeleteUtilityData } from '@/actions/utilityData';
 
 const ListItemContext = createContext<any>(null);
 
 type ListItemProps = {
-  item: Kotidok.UsageType;
+  item: UtilityDataType;
 };
 
 function Item({ item }: ListItemProps) {
@@ -22,23 +25,23 @@ function Item({ item }: ListItemProps) {
 
     const loadingToast = toast.loading('Poistetaan tietoa...');
 
-    usage
-      .del(item)
+    ADeleteUtilityData(item.id)
       .then(() => toast.success('Tieto poistettu.'))
       .catch(err => toast.error(err.message))
       .finally(() => toast.dismiss(loadingToast));
   };
 
-  const getUnits = () => (item.type === 'heat' ? 'mWh' : item.type === 'water' ? 'L' : 'kWh');
   return (
     <ListItemContext.Provider value={{ item }}>
       <span className='flex p-2 rounded-lg shadow-lg text-slate-500 justify-between border-gray-100 border hover:bg-orange-100'>
         <div className='flex gap-4 items-center'>
           <Icon type={item.type} />
-          <h1 className='text-slate-500 font-semibold flex-1'>{item.price.toFixed(2)}€</h1>
+          <h1 className='text-slate-500 font-semibold flex-1'>
+            {(item.monetaryAmount / 100).toFixed(2)}€
+          </h1>
           <span className='text-black'>
             {item.unitAmount}
-            <span className='text-sm text-slate-500'>{getUnits()}</span>
+            <span className='text-sm text-slate-500'>{item.unitSymbol}</span>
           </span>
           <span className='text-sm flex-1 xs:hidden lg:hidden'>{item.time}</span>
         </div>
@@ -65,7 +68,7 @@ function Item({ item }: ListItemProps) {
 }
 
 type DataListProps = {
-  data: Kotidok.UsageType[];
+  data: UtilityDataType[];
 };
 
 export function DataList({ data }: DataListProps) {
@@ -84,7 +87,7 @@ export function DataList({ data }: DataListProps) {
     </div>
   );
 
-  const getElementsSortedByMonth = (data: Kotidok.UsageType[]) => {
+  const getElementsSortedByMonth = (data: UtilityDataType[]) => {
     const splitData = splitByMonth(data);
     const elements: JSX.Element[] = [];
 

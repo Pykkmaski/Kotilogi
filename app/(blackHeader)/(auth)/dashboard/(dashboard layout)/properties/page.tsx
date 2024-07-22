@@ -1,10 +1,7 @@
 import { getServerSession } from 'next-auth';
-import db from 'kotilogi-app/dbconfig';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { PropertiesGallery } from './_components/PropertiesGallery';
 import { UserType } from 'kotilogi-app/types/UserType';
-import { Tabs } from '@mui/material';
-import { PropertyTabs } from './_components/PropertyTabs';
 import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
 import { getUserHouses } from 'kotilogi-app/models/houseData';
 

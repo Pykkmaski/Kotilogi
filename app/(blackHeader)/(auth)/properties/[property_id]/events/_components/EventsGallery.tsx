@@ -17,7 +17,7 @@ import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/
 import { DeleteEventsDialog } from './DeleteEventsDialog';
 
 /**The main content rendering component of the page. */
-export function EventsGallery({ events, propertyId, userEmail }) {
+export function EventsGallery({ events, propertyId, userId }) {
   return (
     <Gallery<Kotidok.EventType> data={events}>
       <Gallery.Header title='Tapahtumat'>
@@ -56,7 +56,7 @@ export function EventsGallery({ events, propertyId, userEmail }) {
       <Gallery.Body
         displayStyle='vertical'
         itemComponent={props => {
-          const isConsolidated = props.item.createdBy !== userEmail;
+          const isConsolidated = props.item.authorId != userId;
 
           return (
             <GalleryListItem

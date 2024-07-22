@@ -12,12 +12,6 @@ export function CallToAction() {
           <span className='mx-8'>Rekisteröidy</span>
         </Button>
       </Link>
-
-      <p className='text-lg mt-10 text-center'>
-        Yksittäisen talon vuosihinta on 9,90€ (+ALV 24%).
-        <br />
-        Taloja ei tarvitse maksaa heti. Tutustu palveluun rauhassa ja maksa vasta kuukauden päästä.
-      </p>
     </section>
   );
 }

@@ -19,10 +19,10 @@ async function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
     return NextResponse.redirect(url);
   }
 
-  if (url.pathname === '/dashboard') {
+  if (url.pathname.startsWith('/dashboard')) {
     const url = req.nextUrl.clone();
 
-    url.pathname = `/dashboard/properties/`;
+    url.pathname = `/newDashboard`;
     return NextResponse.redirect(url);
   }
 }

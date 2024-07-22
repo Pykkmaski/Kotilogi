@@ -38,6 +38,7 @@ export async function createAppartment(data: Partial<AppartmentDataType>) {
 export async function updateAppartment(data: Partial<AppartmentDataType>) {
   return updateProperty(data, async trx => {
     const updateObject = filterValidColumns(data, await getTableColumns('appartmentData', trx));
+    console.log(updateObject);
     await trx('appartmentData').where({ id: data.id }).update(updateObject);
   });
 }

@@ -5,6 +5,7 @@ import { Group } from '../../../../../../../components/UI/Group';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { colors } from 'kotilogi-app/apex.config';
+import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 
 export function TypeNav({ children }) {
   const searchParams = useSearchParams();
@@ -15,16 +16,16 @@ export function TypeNav({ children }) {
       <div className='flex flex-row gap-1 items-center'>
         {React.Children.map(children, (child: React.ReactElement<HTMLAnchorElement>) => {
           const params = new URLSearchParams(child.props.href);
-          const typeName = params.get('type');
+          const typeName = parseInt(params.get('type'));
           const baseClassName =
             'p-1 flex justify-center items-center rounded-lg min-w-[70px] text-black text-sm no-underline cursor-pointer [&>*]:w-full [&>*]:h-full [&>*]:flex [&>*]:justify-center';
 
-          if (params.get('type') === currentParam) {
+          if (params.get('type') == currentParam) {
             const selectedClassName = [
               'font-semibold shadow-md',
-              typeName === 'heat'
+              typeName == UtilityType.HEAT
                 ? `bg-heat text-white`
-                : typeName === 'water'
+                : typeName == UtilityType.WATER
                 ? `bg-water text-white`
                 : `bg-electric text-black`,
               baseClassName,

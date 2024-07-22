@@ -24,11 +24,6 @@ export function CallToActionSection() {
               <span className='mx-8 my-2 text-black'>Rekisteröidy nyt</span>
             </Button>
           </Link>
-
-          <p className='text-xl mt-10 w-full text-center text-hero'>
-            Yksittäisen lisätyn talon vuosihinta on 9,90€{' '}
-            <span className='text-sm'>(+ALV 24%)</span>.
-          </p>
         </div>
       </div>
     </section>

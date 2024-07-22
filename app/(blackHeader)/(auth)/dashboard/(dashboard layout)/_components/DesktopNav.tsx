@@ -35,10 +35,6 @@ export async function DesktopNav() {
           href='/dashboard/settings'>
           Asetukset
         </IconLink>
-        <CartLink
-          numDueBills={dueBills}
-          href='/dashboard/cart'
-        />
       </NavBar>
     </nav>
   );

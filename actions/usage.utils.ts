@@ -1,8 +1,10 @@
+import { UtilityDataType } from 'kotilogi-app/models/types';
+
 //Merges the passed usage data into an array of 12 items corresponding to each month of the year.
-export function mergeByMonth(data: Kotidok.UsageType[], accumulate: boolean = false) {
+export function mergeByMonth(data: UtilityDataType[], accumulate: boolean = false) {
   const merged: number[] = [];
 
-  const getDataForMonth = (month: number, data: Kotidok.UsageType[]) =>
+  const getDataForMonth = (month: number, data: UtilityDataType[]) =>
     data.filter(d => {
       const dataMonth = new Date(d.time).getMonth();
       return dataMonth === month;
@@ -11,7 +13,7 @@ export function mergeByMonth(data: Kotidok.UsageType[], accumulate: boolean = fa
   for (var month = 0; month < 12; ++month) {
     const dataOnMonth = getDataForMonth(month, data);
 
-    const priceOnMonth = dataOnMonth.reduce((acc, cur) => acc + cur.price, 0);
+    const priceOnMonth = dataOnMonth.reduce((acc, cur) => acc + cur.monetaryAmount, 0);
     const previousPrice = month > 0 ? merged[month - 1] : 0;
 
     const priceToSave = accumulate ? previousPrice + priceOnMonth : priceOnMonth;
@@ -33,8 +35,8 @@ export function mergeByMonth(data: Kotidok.UsageType[], accumulate: boolean = fa
  * Returns an array of 12 elements. Each element is an array of usage data corresponding to the month represented by the parent array index (0: January - 12: December)
  * @param data
  */
-export function splitByMonth(data: Kotidok.UsageType[]) {
-  const newData: Kotidok.UsageType[][] = Array(12).fill([]);
+export function splitByMonth(data: UtilityDataType[]) {
+  const newData: UtilityDataType[][] = Array(12).fill([]);
 
   for (let month = 0; month < 12; ++month) {
     const dataOnMonth = data.filter(d => new Date(d.time).getMonth() === month);
@@ -44,7 +46,7 @@ export function splitByMonth(data: Kotidok.UsageType[]) {
   return newData;
 }
 
-export function getYears(data: Kotidok.UsageType[]): number[] {
+export function getYears(data: UtilityDataType[]): number[] {
   const years: number[] = [];
 
   for (const entry of data) {

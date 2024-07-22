@@ -1,5 +1,5 @@
 export function TotalPrice({ data }) {
-  const totalPrice = data.map(d => d.price).reduce((acc, cur) => acc + cur, 0);
+  const totalPrice = data.map(d => d.monetaryAmount).reduce((acc, cur) => acc + cur, 0) / 100;
 
   return (
     <div className='text-slate-500 flex flex-col'>

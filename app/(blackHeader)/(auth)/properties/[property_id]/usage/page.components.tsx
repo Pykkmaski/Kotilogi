@@ -9,12 +9,13 @@ import { AllUsageDataChart } from 'kotilogi-app/app/(blackHeader)/(auth)/propert
 import { DataList } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/DataList';
 import { useUsageProviderContext } from './_components/UsageProvider';
 import { DataRing } from './_components/DataRing';
+import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 
 export function PageContent() {
   const { data, displayYear, type } = useUsageProviderContext();
 
   const getChart = () => {
-    if (type === 'all') {
+    if (type === UtilityType.ALL) {
       return <AllUsageDataChart data={data} />;
     } else {
       return (
@@ -50,7 +51,7 @@ export function PageContent() {
                 data={data}
                 year={displayYear}
               />
-              {type === 'all' ? <UsageDataCategorized data={data} /> : null}
+              {type === UtilityType.ALL ? <UsageDataCategorized data={data} /> : null}
             </div>
           </div>
         </ContentCard>

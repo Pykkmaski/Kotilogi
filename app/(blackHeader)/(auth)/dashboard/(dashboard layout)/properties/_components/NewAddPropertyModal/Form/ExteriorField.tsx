@@ -1,11 +1,9 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
-import { FormControl, Label } from '@/components/UI/FormUtils';
-import { buildingMaterials, colors, roofMaterials, roofTypes } from 'kotilogi-app/constants';
-import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
 import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
-import { getTranslation, lang } from 'kotilogi-app/lang';
+import { getTranslation } from 'kotilogi-app/lang';
 import { BuildingMaterial } from 'kotilogi-app/models/enums/BuildingMaterial';
 import { Color } from 'kotilogi-app/models/enums/Color';
 import { RoofType } from 'kotilogi-app/models/enums/RoofType';
@@ -27,7 +25,7 @@ export function ExteriorField() {
                   label={label}
                   type='radio'
                   value={type}
-                  defaultChecked={type === property.buildingMaterial}
+                  defaultChecked={type == property.buildingMaterial}
                 />
               );
             })}
@@ -46,7 +44,7 @@ export function ExteriorField() {
                     label={label}
                     value={color}
                     type='radio'
-                    defaultChecked={color === property.color}
+                    defaultChecked={color == property.color}
                   />
                 );
               })}
@@ -67,7 +65,7 @@ export function ExteriorField() {
                   label={label}
                   value={type}
                   type='radio'
-                  defaultChecked={type === property.roofType}
+                  defaultChecked={type == property.roofType}
                 />
               );
             })}
@@ -83,7 +81,7 @@ export function ExteriorField() {
                 label={getTranslation('roofMaterial', mat)}
                 value={mat}
                 type='radio'
-                defaultChecked={mat === property.roofMaterial}
+                defaultChecked={mat == property.roofMaterial}
               />
             ))}
           </RadioGroup>

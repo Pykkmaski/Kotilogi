@@ -7,5 +7,5 @@ export function filterValidColumns<T extends {}>(insertObj: T, validColumns: str
     .reduce((obj, key) => {
       obj[key] = insertObj[key];
       return obj;
-    }, {});
+    }, {}) as T;
 }

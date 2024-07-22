@@ -2,6 +2,7 @@ import { Select } from '@/components/Feature/Input';
 import { roofMaterials, roofTypes } from 'kotilogi-app/constants';
 import { ContentCard } from '@/components/UI/RoundedBox';
 import { SingleSelectForm } from '@/components/Feature/SingleInputForm/SingleInputForm';
+import { RoofType } from 'kotilogi-app/models/enums/RoofType';
 
 export default function RoofSection({ propertyData, updateProperty }) {
   return (
@@ -21,7 +22,7 @@ export default function RoofSection({ propertyData, updateProperty }) {
             label: 'Kattotyyppi',
             description: 'Katon tyyppi.',
             name: 'roofType',
-            defaultValue: propertyData.roofType || roofTypes.at(-1),
+            defaultValue: propertyData.roofType || RoofType.OTHER,
           }}
         />
 

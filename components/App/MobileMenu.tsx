@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { DialogControl } from '../Util/DialogControl';
 import { useRef, useState } from 'react';
 import { HamburgerButton } from '../UI/HamburgerButton';
+import { ProfileCircle } from '../New/ProfileCircle';
 
 type MobileMenuProps = {
-  variant?: 'signedout' | 'signedin';
+  session?: TODO;
 };
 
-export function MobileMenu({ variant = 'signedout' }: MobileMenuProps) {
+export function MobileMenu({ session }: MobileMenuProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement>(null);
 
   return (
@@ -21,30 +22,27 @@ export function MobileMenu({ variant = 'signedout' }: MobileMenuProps) {
           onClick();
         };
 
-        return (
+        return !session ? (
           <Button
             sx={{
-              color: 'white',
+              color: 'black',
             }}
             variant='text'
             onClick={handleClick}>
             <HamburgerButton />
           </Button>
+        ) : (
+          <ProfileCircle
+            onClick={handleClick}
+            email={session.user.email}
+          />
         );
       }}
       control={({ show, handleClose }) => {
         const getContent = () => {
-          if (variant === 'signedin') {
+          if (session) {
             return (
               <>
-                <MenuItem onClick={handleClose}>
-                  <Link href='/'>Etusivu</Link>
-                </MenuItem>
-
-                <MenuItem onClick={handleClose}>
-                  <Link href='/dashboard/properties'>Oma Sivu</Link>
-                </MenuItem>
-
                 <MenuItem onClick={handleClose}>
                   <Link href='/logout'>Kirjaudu Ulos</Link>
                 </MenuItem>

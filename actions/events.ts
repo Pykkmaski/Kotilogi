@@ -1,0 +1,40 @@
+'use server';
+
+import db from 'kotilogi-app/dbconfig';
+import { deleteObject } from 'kotilogi-app/models/objectData';
+import { createPropertyEvent, updatePropertyEvent } from 'kotilogi-app/models/propertyEventData';
+import { EventDataType } from 'kotilogi-app/models/types';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
+import { revalidatePath } from 'next/cache';
+
+const path = '/newDashboard/properties';
+
+export async function AGetEventData(query) {
+  return await db('propertyEventData')
+    .join('objectData', { 'objectData.id': 'propertyEventData.id' })
+    .where(query);
+}
+
+export async function ACreatePropertyEvent<T extends EventDataType>(
+  data: T & Required<Pick<T, 'parentId'>>
+) {
+  await createPropertyEvent(data);
+  revalidatePath(path);
+  return 0;
+}
+
+export async function AUpdatePropertyEvent<T extends EventDataType>(
+  data: T & Required<Pick<T, 'id'>>
+) {
+  await updatePropertyEvent(data);
+  revalidatePath(path);
+  return 0;
+}
+
+export async function ADeletePropertyEvent(id: string) {
+  const session = await loadSession();
+  const [authorId] = await db('objectData').where({ id }).pluck('authorId');
+  if (session.user.id != authorId) return -1;
+  await deleteObject(id);
+  return 0;
+}

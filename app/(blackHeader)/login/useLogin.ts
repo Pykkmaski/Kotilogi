@@ -4,7 +4,15 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-export type LoginStatusType = 'idle' | 'success' | 'unexpected' | 'password_mismatch' | 'invalid_user' | 'loading' | 'trial_expired' | 'user_inactive';
+export type LoginStatusType =
+  | 'idle'
+  | 'success'
+  | 'unexpected'
+  | 'password_mismatch'
+  | 'invalid_user'
+  | 'loading'
+  | 'trial_expired'
+  | 'user_inactive';
 
 export function useLogin() {
   const router = useRouter();
@@ -32,7 +40,7 @@ export function useLogin() {
             setStatus(res.error as any);
           } else {
             setStatus('success');
-            router.push('/dashboard/properties');
+            router.push('/newDashboard');
           }
         }
       })

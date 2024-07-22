@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
 
       <AppRouterCacheProvider>
         <AuthProvider>
-          <body className='flex flex-col min-h-screen'>
+          <body className='flex flex-col min-h-screen bg-slate-100'>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
 
             <Toaster

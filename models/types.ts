@@ -1,3 +1,4 @@
+import { AppObjectType } from 'kotilogi-app/utils/classes/AppObject';
 import { PropertyType } from './enums/PropertyType';
 
 export type ObjectDataType = {
@@ -48,7 +49,9 @@ export type AppartmentDataType = PropertyDataType & {
 export type UtilityDataType = ObjectDataType & {
   monetaryAmount: number;
   unitAmount: number;
+  label: string;
   type: number;
+  unitSymbol: string;
   time: number;
 };
 
@@ -59,4 +62,16 @@ export type HistoryDataType = {
   oldValue: string;
   newValue: string;
   reason?: string;
+};
+
+export type EventDataType = ObjectDataType & {
+  propertyId: string;
+  startTime: number;
+  endTime: number;
+};
+
+export type EventMomentDataType = ObjectDataType & {
+  eventId: string;
+  time: number;
+  finished?: boolean;
 };

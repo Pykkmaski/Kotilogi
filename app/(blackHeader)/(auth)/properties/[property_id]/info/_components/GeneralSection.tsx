@@ -53,8 +53,8 @@ export default function GeneralSection({ propertyData, updateProperty }) {
                 label: 'Osoite',
                 description: 'Talon katuosoite.',
                 autoComplete: 'off',
-                name: 'title',
-                defaultValue: propertyData.title,
+                name: 'streetAddress',
+                defaultValue: propertyData.streetAddress,
               }}
             />
 
@@ -94,6 +94,8 @@ export default function GeneralSection({ propertyData, updateProperty }) {
                 description: 'Talon valmistumisvuosi.',
                 autoComplete: 'off',
                 required: false,
+                type: 'number',
+                step: 1,
                 defaultValue: propertyData.buildYear,
               }}
             />

@@ -1,21 +1,23 @@
 'use client';
 
+import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
+import { UtilityDataType } from 'kotilogi-app/models/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { createContext } from 'react';
 
 const UsageProviderContext = createContext<{
   propertyId: string;
-  timestamps: TODO[];
-  data: Kotidok.UsageType[];
-  type: Kotidok.UsageTypeType | 'all';
+  timestamps: number[];
+  data: UtilityDataType[];
+  type: UtilityType;
   displayYear: string;
 }>(null);
 
 type UsageProviderProps = React.PropsWithChildren & {
   propertyId: string;
-  data: Kotidok.UsageType[];
-  timestamps: TODO[];
-  type: Kotidok.UsageTypeType | 'all';
+  data: UtilityDataType[];
+  timestamps: number[];
+  type: UtilityType;
   displayYear: string;
 };
 

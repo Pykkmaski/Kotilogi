@@ -1,8 +1,5 @@
 import { Fieldset } from '@/components/UI/Fieldset';
-import { Input, Group, Label, FormControl } from '@/components/UI/FormUtils';
-import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
-import { usePropertyProviderContext } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/PropertyContextProvider';
-import { useAddPropertyModalContext } from '../NewAddPropertyModal';
+import { Input, FormControl } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
@@ -23,7 +20,8 @@ export function InteriorField() {
             placeholder='Anna kohteen sisätilojen pinta-ala...'
             type='number'
             min='1'
-            defaultValue={data.livingArea}
+            step={0.1}
+            defaultValue={data.livingArea / 100}
           />
         }
       />
@@ -40,7 +38,7 @@ export function InteriorField() {
             placeholder='Anna muiden tilojen pinta-ala...'
             type='number'
             min='0'
-            defaultValue={data.otherArea}
+            defaultValue={data.otherArea / 100}
           />
         }
       />

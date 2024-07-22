@@ -38,7 +38,10 @@ export function YardField() {
           <Input
             name='yardArea'
             type='number'
+            step={0.1}
+            min={0.1}
             placeholder='Anna tontin pinta-ala...'
+            defaultValue={data.yardArea / 100}
           />
         </Group>
       ) : null}

@@ -1,13 +1,14 @@
-import db from "kotilogi-app/dbconfig";
-import { NextRequest, NextResponse } from "next/server";
-import {readFileSync} from 'fs';
-import {uploadPath} from 'kotilogi-app/uploadsConfig';
+import db from 'kotilogi-app/dbconfig';
+import { NextRequest, NextResponse } from 'next/server';
+import { readFileSync } from 'fs';
+import { uploadPath } from 'kotilogi-app/uploadsConfig';
 
-export async function GET(req: NextRequest, {params}){
-    /*
+export async function GET(req: NextRequest, { params }) {
+  /*
         Responds with the file mapped to the id.
     */
-    try{
+  try {
+    /*
         const {searchParams} = new URL(req.url);
         const {file_id} = params;
 
@@ -23,12 +24,22 @@ export async function GET(req: NextRequest, {params}){
         return new NextResponse(fileBuffer, {
             status: 200,
         });
-    }   
-    catch(err){
-        console.log(err.message);
-        return new NextResponse(null, {
-            status: 500,
-            statusText: 'Fetching of file failed due to a server error.',
-        })
-    }
+        */
+
+    const [filename] = await db('fileData')
+      .join('objectData', { 'objectData.id': 'fileData.id' })
+      .where({ id: params.file_id })
+      .pluck('name');
+    const filepath = uploadPath + filename;
+    const fileBuffer = readFileSync(filepath);
+    return new NextResponse(fileBuffer, {
+      status: 200,
+    });
+  } catch (err) {
+    console.log(err.message);
+    return new NextResponse(null, {
+      status: 500,
+      statusText: 'Fetching of file failed due to a server error.',
+    });
+  }
 }
