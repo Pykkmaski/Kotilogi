@@ -17,16 +17,16 @@ export function useDataSubmissionForm<T extends Partial<ObjectDataType>>(
   const [status, setStatus] = useState(FormStatus.IDLE);
 
   const onSubmit = async (e: TODO) => {
-    e.preventDefault();
-    setStatus(FormStatus.LOADING);
-    const action = initialData.id ? updateAction : createAction;
+    try {
+      e.preventDefault();
+      setStatus(FormStatus.LOADING);
+      const action = initialData && initialData.id ? updateAction : createAction;
 
-    await action(data)
-      .then(() => setStatus(FormStatus.IDLE))
-      .catch(err => {
-        setStatus(FormStatus.ERROR);
-        toast.error(err.message);
-      });
+      await action(data).then(() => setStatus(FormStatus.IDLE));
+    } catch (err) {
+      setStatus(FormStatus.ERROR);
+      toast.error(err.message);
+    }
   };
 
   return {
