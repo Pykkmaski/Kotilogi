@@ -105,7 +105,7 @@ exports.up = function (knex) {
             wcCount,
             livingArea: livingArea * 100,
             otherArea: otherArea * 100,
-            energyClass,
+
             buildYear: parseInt(buildYear),
           },
           'id'
