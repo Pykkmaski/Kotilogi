@@ -5,7 +5,7 @@ import { Spacer } from '@/components/New/Spacers';
 import { MainHeading, TertiaryHeading } from '@/components/New/Typography/Headings';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Card } from '@/components/UI/Card';
-import { Dvr, Edit, Image, Pin, Tag } from '@mui/icons-material';
+import { Dvr, Edit, Image, Pin, PushPin, Tag } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import db from 'kotilogi-app/dbconfig';
 
@@ -52,7 +52,7 @@ export default async function EventPage({ params }) {
       />
 
       <PreviewContentRow
-        icon={<Pin />}
+        icon={<PushPin />}
         preview
         previewDescription='Vaiheita voidaan sanoa tapahtumien sisällä oleviin tapahtumiin, joiden avulla koko tapahtuman kulkua voidaan seurata.'
         data={[]}

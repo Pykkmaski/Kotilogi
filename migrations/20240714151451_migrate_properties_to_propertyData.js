@@ -101,9 +101,9 @@ exports.up = function (knex) {
                 : 4,
 
             propertyType: targetType === 'Kiinteistö' ? 0 : 1,
-            roomCount,
-            floorCount,
-            wcCount,
+            roomCount: !isNaN(roomCount) ? roomCount : 1,
+            floorCount: !isNaN(floorCount) ? floorCount : 1,
+            wcCount: !isNaN(wcCount) ? wcCount : 1,
             livingArea: livingArea * 100,
             otherArea: otherArea * 100,
 
