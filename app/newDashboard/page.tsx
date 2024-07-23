@@ -61,18 +61,6 @@ export default async function newDashboardPage() {
                         title='Näytä tapahtumat'
                         icon={<History sx={{ color: 'white' }} />}
                       />
-
-                      <IconLink
-                        href={`/newDashboard/properties/${item.id}/files`}
-                        title='Näytä tiedostot'
-                        icon={<Image sx={{ color: 'white' }} />}
-                      />
-
-                      <IconLink
-                        href={`/newDashboard/properties/${item.id}/utility`}
-                        title='Näytä tapahtumat'
-                        icon={<Bolt sx={{ color: 'white' }} />}
-                      />
                     </>
                   );
                 }}

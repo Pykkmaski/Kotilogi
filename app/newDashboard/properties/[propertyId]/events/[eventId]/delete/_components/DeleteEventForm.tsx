@@ -13,6 +13,7 @@ export function DeleteEventForm({ event }) {
     await ADeletePropertyEvent(event.id);
     router.replace(`/newDashboard/properties/${event.parentId}/events`);
   };
+
   return (
     <FormBase className='flex flex-col text-center'>
       Olet poistamassa tapahtumaa {event.title}. Oletko varma?
