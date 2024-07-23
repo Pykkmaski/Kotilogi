@@ -7,10 +7,11 @@ import { splitByMonth } from 'kotilogi-app/actions/usage.utils';
 import { monthNameToLang } from 'kotilogi-app/utils/translate/planNameToLang';
 import { Icon } from './Icon';
 import { EditUsageTrigger } from './EditUsageTrigger';
-import { VisibilityProvider } from '../../../../../../../components/Util/VisibilityProvider';
+
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 import { ADeleteUtilityData } from '@/actions/utilityData';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 
 const ListItemContext = createContext<any>(null);
 

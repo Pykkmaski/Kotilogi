@@ -1,10 +1,9 @@
-import { colors } from 'kotilogi-app/apex.config';
-import { ContentCard, RoundedBox } from '../../../../../../../components/UI/RoundedBox';
-import { ColumnChart, UsageColumnChart } from '../../../../../../../components/UI/Chart';
 import { MutableRefObject } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
 import { UtilityDataType } from 'kotilogi-app/models/types';
+import { ContentCard, RoundedBox } from '@/components/UI/RoundedBox';
+import { UsageColumnChart } from '@/components/UI/Chart';
 
 type ChartBoxProps = {
   title: string;

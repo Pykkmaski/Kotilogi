@@ -1,8 +1,7 @@
 'use client';
 
-import { PrimaryButton } from '../../../../../../../components/UI/Button/PrimaryButton';
-import { DateRangeSelector } from '../../../../../../../components/Feature/DateRangeSelector';
-import { VisibilityProvider } from '../../../../../../../components/Util/VisibilityProvider';
+import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 
 export function SelectTimeSpanButton({ children }) {
   return (

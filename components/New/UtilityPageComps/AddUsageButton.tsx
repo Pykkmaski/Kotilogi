@@ -1,4 +1,4 @@
-import { PrimaryButton } from '../../../../../../../components/UI/Button/PrimaryButton';
+import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 
 export function AddUsageButton() {
   return (

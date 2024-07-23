@@ -1,5 +1,5 @@
-import { UsagePieChart } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/PieChart';
 import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UsagePieChart } from './PieChart';
 
 type DataRingProps<T extends UtilityDataType> = {
   data: T[];

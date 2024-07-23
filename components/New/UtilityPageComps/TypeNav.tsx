@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Group } from '../../../../../../../components/UI/Group';
+
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { colors } from 'kotilogi-app/apex.config';

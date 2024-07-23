@@ -1,11 +1,11 @@
 'use client';
 
 import { filterIntoObject } from 'kotilogi-app/utils/array';
-import { PieChart } from '../../../../../../../components/UI/Chart';
 import { ApexOptions } from 'apexcharts';
 import { colors } from 'kotilogi-app/apex.config';
 import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 import { UtilityDataType } from 'kotilogi-app/models/types';
+import { PieChart } from '@/components/UI/Chart';
 
 type UsagePieChartProps = {
   data: UtilityDataType[];

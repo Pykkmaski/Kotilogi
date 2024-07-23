@@ -2,7 +2,7 @@
 
 import { ApexOptions } from 'apexcharts';
 import { filterIntoObject } from 'kotilogi-app/utils/array';
-import { Chart, ColumnChart, UsageColumnChart } from '../../../../../../../components/UI/Chart';
+
 import { colors } from 'kotilogi-app/apex.config';
 import ApexChart from 'react-apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';

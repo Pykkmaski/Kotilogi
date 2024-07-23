@@ -1,7 +1,7 @@
-import { TypeNav } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/TypeNav';
 import { useUsageProviderContext } from './UsageProvider';
 import Link from 'next/link';
 import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
+import { TypeNav } from './TypeNav';
 
 export function UsageTypeSelector() {
   const { displayYear } = useUsageProviderContext();
