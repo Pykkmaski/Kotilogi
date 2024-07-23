@@ -52,7 +52,7 @@ exports.up = function (knex) {
             id: objId,
             zipCode,
             streetAddress: address,
-            color,
+
             roofType:
               roofType === 'Tasakatto'
                 ? 0
