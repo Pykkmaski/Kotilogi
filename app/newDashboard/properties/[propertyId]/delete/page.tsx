@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import { DeletePropertyForm } from './_components/DeletePropertyForm';
 import db from 'kotilogi-app/dbconfig';
 
-export default async function DeletePropertyPage({ params }) {
+export default async function DeletePropertyPage({ params, searchParams }) {
   const [property] = await db('propertyData').where({ id: params.propertyId });
 
   return (

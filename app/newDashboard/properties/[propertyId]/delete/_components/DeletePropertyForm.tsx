@@ -8,16 +8,16 @@ import { FormStatus, useDataSubmissionForm } from '@/hooks/useDataSubmissionForm
 import { useInputData } from '@/hooks/useInputData';
 import { Delete } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { PropertyDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 type DeletePropertyFormProps = {
-  property: PropertyDataType;
+  property: HouseDataType | AppartmentDataType;
 };
 
-export function DeletePropertyForm({ property }) {
+export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
   const { data, updateData } = useInputData({} as { password: string });
   const [status, setStatus] = useState(FormStatus.IDLE);
 
@@ -46,7 +46,12 @@ export function DeletePropertyForm({ property }) {
       }}>
       <MainHeading>Poista talo</MainHeading>
       <p className='text-lg'>
-        Olet poistamassa taloa {property.streetAddress}.<br />
+        Olet poistamassa taloa{' '}
+        <strong className='font-semibold'>
+          {property.streetAddress} {'appartmentNumber' in property ? property.appartmentNumber : ''}
+          .
+        </strong>
+        <br />
         Sinun on annettava nykyinen salasanasi, että talo voidaan poistaa.
         <br />
         Poiston yhteydessä menetät kaikki taloon liittyvät tapahtuma- ja kulutustiedot, sekä kuvat

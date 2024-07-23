@@ -17,6 +17,7 @@ export default async function EventPage({ params }) {
     <Main>
       <MainHeading>Tapahtuma</MainHeading>
       <OverviewBox
+        deleteUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/delete`}
         title={event.title}
         description={
           <div className='flex flex-col gap-2 h-full'>

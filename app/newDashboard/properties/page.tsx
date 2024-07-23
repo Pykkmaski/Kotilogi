@@ -1,10 +1,14 @@
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
 import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Main } from '@/components/New/Main';
-import { Visibility } from '@mui/icons-material';
+import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import { Add, Visibility } from '@mui/icons-material';
+import { Button } from '@mui/material';
 import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { getUserHouses } from 'kotilogi-app/models/houseData';
+import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import Link from 'next/link';
 
@@ -12,20 +16,22 @@ export default async function PropertiesPage() {
   const session = await loadSession();
   const houses = await getUserHouses(session.user.id);
   const appartments = await getUserAppartments(session.user.id);
-  const properties = [...houses, ...appartments];
+  const properties = [...houses, ...appartments] as (HouseDataType | AppartmentDataType)[];
 
   return (
     <Main>
-      {properties.map((property, i) => (
-        <NoUnderlineLink href={`/newDashboard/properties/${property.id}`}>
-          <OverviewBox
-            key={`property-${i}`}
-            title={property.streetAddress + ' ' + (property.appartmentNumber || '')}
-            description={property.description || 'Ei Kuvausta.'}
-            imageUrl='/img/Properties/default-bg.jpg'
-          />
-        </NoUnderlineLink>
-      ))}
+      <OverviewBoxList
+        items={properties}
+        listTitle='Talot'
+        addButtonUrl='/newDashboard/properties/add'
+        getOverviewBoxUrl={itemId => `/newDashboard/properties/${itemId}`}
+        getOverviewBoxTitle={(item, i) => {
+          return (
+            item.streetAddress + ' ' + (('appartmentNumber' in item && item.appartmentNumber) || '')
+          );
+        }}
+        getOverviewBoxDeleteUrl={itemId => `/newDashboard/properties/${itemId}/delete`}
+      />
     </Main>
   );
 }
