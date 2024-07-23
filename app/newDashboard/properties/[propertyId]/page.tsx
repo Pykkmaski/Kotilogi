@@ -13,10 +13,10 @@ import { getProperty } from 'kotilogi-app/models/propertyData';
 import { EventDataType, UtilityDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { DataRing } from 'kotilogi-app/app/(blackHeader)/(auth)/properties/[property_id]/usage/_components/DataRing';
 import { SpaceBetween } from '@/components/New/Spacers';
 import { EditLink } from '@/components/New/Links/EditLink';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
+import { DataRing } from '@/components/New/UtilityPageComps/DataRing';
 
 const UtilityOverview = ({
   propertyId,
