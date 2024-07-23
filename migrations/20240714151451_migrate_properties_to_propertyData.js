@@ -151,7 +151,7 @@ exports.up = function (knex) {
           );
 
           await trx('utilityData').insert({
-            type,
+            type: type == 'heat' ? 1 : type == 'water' ? 2 : 3,
             monetaryAmount: monetaryAmount * 100,
             unitAmount: unitAmount * 100,
             time: new Date(time).getTime(),
@@ -194,17 +194,25 @@ exports.up = function (knex) {
           //Add the event files
           const fileStream = trx('eventFiles').stream();
           for await (const file of fileStream) {
-            await trx('fileData').insert({
-              parentId: eventId,
-              timestamp: Date.now(),
+            const [{ id: objId }] = await trx('objectData').insert({
+              title: file.title,
+              description: file.description,
+              parentId: file.refId,
               authorId: userId,
+              timestamp: Date.now(),
+            });
+
+            await trx('fileData').insert({
+              id: objId,
+              name: file.fileName,
+              type: file.mimeType,
             });
           }
 
           //Add the event data
           await trx('propertyEventData').insert({
             id: eventId,
-            time: parseInt(new Date(event.time).getTime()),
+            startTime: parseInt(new Date(event.time).getTime()),
           });
         }
       }
