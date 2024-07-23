@@ -208,7 +208,7 @@ exports.up = function (knex) {
               {
                 title: file.title,
                 description: file.description,
-                parentId: file.refId,
+                parentId: eventId,
                 authorId: userId,
                 timestamp: Date.now(),
               },
@@ -233,6 +233,7 @@ exports.up = function (knex) {
       await trx.commit();
       resolve();
     } catch (err) {
+      await trx.rollback();
       reject(err);
     }
   });
