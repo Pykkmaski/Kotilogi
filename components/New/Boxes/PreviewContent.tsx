@@ -11,6 +11,7 @@ import { HideOnMobile } from '../Util/HideOnMobile';
 import { Paragraph } from '../Typography/Paragraph';
 
 type PreviewContentBaseProps = React.PropsWithChildren & {
+  icon?: React.ReactNode;
   headingText: string;
   showAllUrl?: string;
   addNewUrl?: string;
@@ -24,6 +25,7 @@ export function PreviewContentBase({
   showAllUrl,
   addNewUrl,
   preview,
+  icon,
   previewDescription,
 }: PreviewContentBaseProps) {
   return (
@@ -31,7 +33,12 @@ export function PreviewContentBase({
       <Spacer direction='col'>
         <BoxHeader>
           <SpaceBetween
-            firstElement={<SecondaryHeading>{headingText}</SecondaryHeading>}
+            firstElement={
+              <div className='flex gap-2 text-slate-500 items-baseline text-lg'>
+                {icon}
+                <SecondaryHeading>{headingText}</SecondaryHeading>
+              </div>
+            }
             secondElement={
               <div className='flex flex-row gap-1'>
                 {!preview && showAllUrl ? (

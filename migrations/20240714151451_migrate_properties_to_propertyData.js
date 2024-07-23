@@ -47,70 +47,72 @@ exports.up = function (knex) {
           hasGarage,
         } = property;
 
-        const [{ id: propertyId }] = await trx('propertyData').insert(
-          {
-            id: objId,
-            zipCode,
-            streetAddress: address,
-            color,
-            roofType:
-              roofType === 'Tasakatto'
-                ? 0
-                : roofType === 'Harjakatto'
-                ? 1
-                : roofType === 'Pulpettikatto'
-                ? 2
-                : 3,
+        const [{ id: propertyId }] = await trx('propertyData')
+          .insert(
+            {
+              id: objId,
+              zipCode,
+              streetAddress: address,
+              color,
+              roofType:
+                roofType === 'Tasakatto'
+                  ? 0
+                  : roofType === 'Harjakatto'
+                  ? 1
+                  : roofType === 'Pulpettikatto'
+                  ? 2
+                  : 3,
 
-            roofMaterial:
-              roofMaterial === 'Pelti'
-                ? 0
-                : roofMaterial === 'Tiili'
-                ? 1
-                : roofMaterial === 'Huopa'
-                ? 2
-                : 3,
+              roofMaterial:
+                roofMaterial === 'Pelti'
+                  ? 0
+                  : roofMaterial === 'Tiili'
+                  ? 1
+                  : roofMaterial === 'Huopa'
+                  ? 2
+                  : 3,
 
-            buildingType:
-              buildingType === 'Omakotitalo'
-                ? 0
-                : buildingType === 'Kerrostalo'
-                ? 1
-                : buildingType === 'Rivitalo'
-                ? 2
-                : buildingType === 'Paritalo'
-                ? 3
-                : buildingType === 'Erillistalo'
-                ? 4
-                : buildingType === 'Puutalo-osake'
-                ? 5
-                : buildingType === 'Luhtitalo'
-                ? 6
-                : 7,
+              buildingType:
+                buildingType === 'Omakotitalo'
+                  ? 0
+                  : buildingType === 'Kerrostalo'
+                  ? 1
+                  : buildingType === 'Rivitalo'
+                  ? 2
+                  : buildingType === 'Paritalo'
+                  ? 3
+                  : buildingType === 'Erillistalo'
+                  ? 4
+                  : buildingType === 'Puutalo-osake'
+                  ? 5
+                  : buildingType === 'Luhtitalo'
+                  ? 6
+                  : 7,
 
-            buildingMaterial:
-              buildingMaterial === 'Puu'
-                ? 0
-                : buildingMaterial === 'Tiili'
-                ? 1
-                : buildingMaterial === 'Betoni'
-                ? 2
-                : buildingMaterial === 'Hirsi'
-                ? 3
-                : 4,
+              buildingMaterial:
+                buildingMaterial === 'Puu'
+                  ? 0
+                  : buildingMaterial === 'Tiili'
+                  ? 1
+                  : buildingMaterial === 'Betoni'
+                  ? 2
+                  : buildingMaterial === 'Hirsi'
+                  ? 3
+                  : 4,
 
-            propertyType: targetType === 'Kiinteistö' ? 0 : 1,
-            roomCount,
-            floorCount,
-            wcCount,
-            livingArea: livingArea * 100,
-            otherArea: otherArea * 100,
-            energyClass,
-            buildYear: parseInt(buildYear),
-            hasGarage,
-          },
-          'id'
-        );
+              propertyType: targetType === 'Kiinteistö' ? 0 : 1,
+              roomCount,
+              floorCount,
+              wcCount,
+              livingArea: livingArea * 100,
+              otherArea: otherArea * 100,
+              energyClass,
+              buildYear: parseInt(buildYear),
+              hasGarage,
+            },
+            'id'
+          )
+          .catch(err => console.log(err.message));
 
         if (targetType === 'Kiinteistö') {
           const { propertyNumber } = property;

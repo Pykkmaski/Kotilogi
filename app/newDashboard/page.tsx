@@ -1,29 +1,15 @@
-import { BoxHeader } from '@/components/New/Boxes/BoxHeader';
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
-import {
-  PreviewContentRow,
-  PreviewContentBase,
-  PreviewContentBox,
-} from '@/components/New/Boxes/PreviewContent';
+import { PreviewContentRow, PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
 import { IconLink } from '@/components/New/Links/IconLink';
 import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Main } from '@/components/New/Main';
-import { Margin } from '@/components/New/Margin';
-import { SpaceBetween, Spacer } from '@/components/New/Spacers';
-import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import { Spacer } from '@/components/New/Spacers';
 import { Card } from '@/components/UI/Card';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { DialogControl } from '@/components/Util/DialogControl';
-import { Bolt, CopyAll, Delete, History, Image } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import db from 'kotilogi-app/dbconfig';
+import { Delete, History, Home, Settings } from '@mui/icons-material';
 import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
 import { getUserHouses } from 'kotilogi-app/models/houseData';
-import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import Link from 'next/link';
-import { DeletePropertyDialogControl } from './_components/DeletePropertyDialogControl';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
@@ -35,6 +21,7 @@ export default async function newDashboardPage() {
     <Main>
       <Spacer direction='col'>
         <PreviewContentRow<AppartmentDataType | HouseDataType>
+          icon={<Home />}
           headingText='Talot'
           showAllUrl='/newDashboard/properties'
           addNewUrl='/newDashboard/properties/add'
@@ -69,7 +56,9 @@ export default async function newDashboardPage() {
           )}
         />
 
-        <PreviewContentBase headingText='Asetukset'>
+        <PreviewContentBase
+          headingText='Asetukset'
+          icon={<Settings />}>
           <form>
             <Spacer direction='col'>
               <FormControl
