@@ -47,6 +47,7 @@ exports.up = function (knex) {
           hasGarage,
         } = property;
 
+        console.log('Adding general property data...');
         const [{ id: propertyId }] = await trx('propertyData').insert(
           {
             id: objId,
@@ -111,6 +112,7 @@ exports.up = function (knex) {
           'id'
         );
 
+        console.log('Adding specific property data...');
         if (targetType === 'Kiinteistö') {
           const { propertyNumber } = property;
           await trx('houseData').insert({
@@ -130,6 +132,7 @@ exports.up = function (knex) {
           });
         }
 
+        console.log('Adding property owner data...');
         //Add owner data
         await trx('propertyOwnerData').insert({
           userId,
@@ -137,6 +140,7 @@ exports.up = function (knex) {
           timestamp: Date.now(),
         });
 
+        console.log('Adding property utility data...');
         //Add utility data
         const utilityStream = trx('usage').stream();
         for await (const utility of utilityStream) {
@@ -159,6 +163,7 @@ exports.up = function (knex) {
           });
         }
 
+        console.log('Adding property file data...');
         //Add the property files
         const propertyFileStream = trx('propertyFiles').stream();
         for await (const file of propertyFileStream) {
@@ -177,6 +182,7 @@ exports.up = function (knex) {
           });
         }
 
+        console.log('Adding property event data...');
         //Add event data
         const eventStream = trx('propertyEvents').stream();
         for await (const event of eventStream) {
@@ -191,6 +197,7 @@ exports.up = function (knex) {
             'id'
           );
 
+          console.log('Adding event file data...');
           //Add the event files
           const fileStream = trx('eventFiles').stream();
           for await (const file of fileStream) {

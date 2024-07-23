@@ -6,6 +6,7 @@ import { MainHeading, TertiaryHeading } from '@/components/New/Typography/Headin
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Card } from '@/components/UI/Card';
 import { Dvr, Edit, Image, Pin, Tag } from '@mui/icons-material';
+import { Chip } from '@mui/material';
 import db from 'kotilogi-app/dbconfig';
 
 export default async function EventPage({ params }) {
@@ -24,12 +25,21 @@ export default async function EventPage({ params }) {
             <Paragraph>{event.description}</Paragraph>
             <div className='flex flex-col gap-2 mt-auto'>
               <div className='flex gap-4 items-baseline'>
-                <TertiaryHeading>Aloitettu: </TertiaryHeading>
+                <Chip
+                  className='text-lg font-semibold'
+                  label='Aloitettu'
+                  color='primary'
+                />
                 <span>{new Date(event.startTime).toLocaleDateString('fi')}</span>
               </div>
 
               <div className='flex gap-4 items-baseline'>
-                <TertiaryHeading>Valmistunut: </TertiaryHeading>
+                <Chip
+                  className='text-lg font-semibold'
+                  color='primary'
+                  label='Valmistunut'
+                />
+
                 <span>{event.endTime || 'Ei vielä valmistunut...'}</span>
               </div>
             </div>
