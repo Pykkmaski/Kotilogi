@@ -60,7 +60,7 @@ export function AddUsageModalTrigger() {
         })
           .then(() => {
             const newSearchParams = new URLSearchParams(searchParams);
-            newSearchParams.set('year', data.time.split('-')[0]);
+            newSearchParams.set('year', data.time.toString());
             router.push(`${pathname}?${newSearchParams.toString()}`);
             toast.success('Tieto lisätty!');
           })

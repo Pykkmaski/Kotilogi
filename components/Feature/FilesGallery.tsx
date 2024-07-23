@@ -51,7 +51,7 @@ const DeleteModalTrigger = ({ tablename }: DeleteModalTriggerProps) => {
 };
 
 type FilesGalleryProps = {
-  files: Kotidok.FileType[];
+  files: TODO[];
 
   /**The id of the resource the files belong to, eg. the id of a property. */
   refId: string;

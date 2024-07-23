@@ -47,10 +47,7 @@ export function PageContent() {
                 <TotalPrice data={data} />
               </div>
 
-              <DataRing
-                data={data}
-                year={displayYear}
-              />
+              <DataRing data={data} />
               {type === UtilityType.ALL ? <UsageDataCategorized data={data} /> : null}
             </div>
           </div>

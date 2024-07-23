@@ -11,7 +11,6 @@ import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { getServerSession } from 'next-auth';
 import { users } from 'kotilogi-app/utils/users';
 import { UserType } from 'kotilogi-app/types/UserType';
-import { UserError } from 'kotilogi-app/utils/classes/User';
 
 const PATH = '/dashboard/properties';
 
@@ -77,21 +76,4 @@ export async function deleteFile(id: string) {
 
 export async function getPropertyByToken(token: string) {
   return undefined;
-}
-
-/**Creates a transfer token containing information on whom the property is coming from, to whom it is intended, and the id of the property. */
-export async function ACreateTransferToken(to: string, propertyId: string, password: string) {
-  const session = (await getServerSession(options as any)) as any;
-  if (!session) return -1;
-
-  const [{ password: encryptedPassword }] = await db('users')
-    .where({ email: session.user.email })
-    .select('password');
-  const passwordOk = await bcrypt.compare(password, encryptedPassword);
-
-  if (!passwordOk) {
-    return UserError.PASSWORD_MISMATCH;
-  }
-
-  return jwt.sign({ from: session.user.email, to, propertyId }, process.env.TRANSFER_SECRET);
 }

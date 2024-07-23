@@ -7,7 +7,10 @@ import { sendEmail } from '../email/sendEmail';
 import { sendEmailResetLink } from '../email';
 import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
-import { User, UserError } from 'kotilogi-app/utils/classes/User';
+import { updateUser } from 'kotilogi-app/models/userData';
+import db from 'kotilogi-app/dbconfig';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
+import bcrypt from 'bcrypt';
 
 export async function updateUserEmail(oldEmail: string, newEmail: string) {
   //Should send an email to the current address containing a link with a token, which when visited, triggers the change of the email.
@@ -15,15 +18,12 @@ export async function updateUserEmail(oldEmail: string, newEmail: string) {
 }
 
 export async function AUpdatePassword(oldPassword: string, newPassword: string) {
-  const session = (await getServerSession(options as any)) as any;
-  const user = await User.loadUser(session.user.email);
-  if (!user) return UserError.NOT_FOUND;
+  const session = await loadSession();
+  const [encrypted] = await db('userData').where({ id: session.user.id }).pluck('password');
+  if (!(await bcrypt.compare(oldPassword, encrypted))) return -1;
 
-  const result = await user.updatePassword(oldPassword, newPassword);
-  if (result === 0) {
-    await User.saveUser(user);
-  }
-  return result;
+  await updateUser({ password: newPassword });
+  return 0;
 }
 
 export async function registerUser(credentials: { email: string; password: string; plan: string }) {

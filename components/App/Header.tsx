@@ -91,7 +91,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
           </div>
 
           <div className='xm:block xl:hidden flex'>
-            <MobileMenu variant='signedin' />
+            <MobileMenu session={null} />
           </div>
         </>
       );
@@ -128,7 +128,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
           </nav>
 
           <div className='xs:block xl:hidden z-50'>
-            <MobileMenu variant='signedout' />
+            <MobileMenu session={null} />
           </div>
         </>
       );

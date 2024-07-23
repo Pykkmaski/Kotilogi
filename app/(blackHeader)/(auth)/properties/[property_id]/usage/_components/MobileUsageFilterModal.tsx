@@ -12,7 +12,7 @@ export function MobileUsageFilterModal({ ...props }) {
   const { type, timestamps, displayYear: initialYear } = useUsageProviderContext();
 
   const { updateQueryDirectly: updateYearQuery } = useQuery('year', initialYear, 0);
-  const { updateQueryDirectly: updateTypeQuery } = useQuery('type', type, 0);
+  const { updateQueryDirectly: updateTypeQuery } = useQuery('type', type.toString(), 0);
 
   const yearSelectorRef = useRef<HTMLSelectElement>(null);
   const typeSelectorRef = useRef<HTMLSelectElement>(null);

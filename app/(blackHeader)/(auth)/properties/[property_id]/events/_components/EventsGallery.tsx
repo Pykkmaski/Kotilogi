@@ -19,7 +19,7 @@ import { DeleteEventsDialog } from './DeleteEventsDialog';
 /**The main content rendering component of the page. */
 export function EventsGallery({ events, propertyId, userId }) {
   return (
-    <Gallery<Kotidok.EventType> data={events}>
+    <Gallery<TODO> data={events}>
       <Gallery.Header title='Tapahtumat'>
         <div className='flex gap-4 items-center'>
           <div className='xs:hidden lg:block'>

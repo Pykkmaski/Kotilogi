@@ -23,7 +23,7 @@ import { Delete } from '@mui/icons-material';
 import MuiButton from '@mui/material/Button';
 import { ConfirmDialog } from '../ConfirmDialog';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { AppObjectType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/models/types';
 
 function Header(
   props: React.PropsWithChildren & {
@@ -116,21 +116,21 @@ function Body({
   return data.length ? getBodyByContentType() : props.errorElement;
 }
 
-type GalleryProps<T extends AppObjectType> = React.PropsWithChildren & {
+type GalleryProps<T extends ObjectDataType> = React.PropsWithChildren & {
   data: T[];
 };
 
 type GalleryContextValueType = {
-  data: AppObjectType[];
-  state: StateType<AppObjectType>;
-  props: GalleryProps<AppObjectType>;
+  data: ObjectDataType[];
+  state: StateType<ObjectDataType>;
+  props: GalleryProps<ObjectDataType>;
 
-  dispatch: React.Dispatch<ActionType<AppObjectType>>;
+  dispatch: React.Dispatch<ActionType<ObjectDataType>>;
 };
 
 const GalleryContext = createContext<GalleryContextValueType | null>(null);
 
-export function Gallery<T extends AppObjectType>(props: GalleryProps<T>) {
+export function Gallery<T extends ObjectDataType>(props: GalleryProps<T>) {
   const { state, dispatch } = useGallery(props.data);
   const contextValue: GalleryContextValueType = {
     data: props.data,
