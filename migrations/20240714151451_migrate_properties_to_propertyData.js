@@ -225,7 +225,7 @@ exports.up = function (knex) {
           //Add the event data
           await trx('propertyEventData').insert({
             id: eventId,
-            startTime: parseInt(new Date(event.time).getTime()),
+            time: parseInt(new Date(event.time).getTime()),
           });
         }
       }
