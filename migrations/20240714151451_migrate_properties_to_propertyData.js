@@ -152,8 +152,8 @@ exports.up = function (knex) {
 
           await trx('utilityData').insert({
             type: type == 'heat' ? 1 : type == 'water' ? 2 : 3,
-            monetaryAmount: monetaryAmount * 100,
-            unitAmount: unitAmount * 100,
+            monetaryAmount: Math.round(monetaryAmount * 100),
+            unitAmount: Math.round(unitAmount * 100),
             time: new Date(time).getTime(),
             id,
           });

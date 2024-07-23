@@ -7,7 +7,7 @@ import { Main } from '@/components/New/Main';
 import { MainHeading } from '@/components/New/Typography/Headings';
 import { Card } from '@/components/UI/Card';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { Edit, Image } from '@mui/icons-material';
+import { Bolt, Edit, History, Image } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { getProperty } from 'kotilogi-app/models/propertyData';
 import { EventDataType, UtilityDataType } from 'kotilogi-app/models/types';
@@ -27,6 +27,7 @@ const UtilityOverview = ({
 }) => {
   return (
     <PreviewContentBase
+      icon={<Bolt />}
       preview
       previewDescription={
         <>
@@ -91,6 +92,7 @@ export default async function PropertyPage({ params }) {
       />
 
       <PreviewContentRow<EventDataType>
+        icon={<History />}
         headingText='Viimeisimmät tapahtumat'
         itemsToDisplay={3}
         showAllUrl={`/newDashboard/properties/${property.id}/events`}
@@ -128,6 +130,7 @@ export default async function PropertyPage({ params }) {
         utilityData={utility}
       />
       <PreviewContentRow<TODO>
+        icon={<Image />}
         preview
         headingText='Tiedostot ja kuvat'
         itemsToDisplay={3}
