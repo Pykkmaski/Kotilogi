@@ -1,141 +1,60 @@
-import { BoxHeader } from '@/components/New/Boxes/BoxHeader';
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
-import { PreviewContentBase, PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
-import { IconLink } from '@/components/New/Links/IconLink';
 import { Main } from '@/components/New/Main';
-import { MainHeading } from '@/components/New/Typography/Headings';
-import { Card } from '@/components/UI/Card';
-import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { Bolt, Edit, History, Image } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { getProperty } from 'kotilogi-app/models/propertyData';
-import { EventDataType, UtilityDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { SpaceBetween } from '@/components/New/Spacers';
-import { EditLink } from '@/components/New/Links/EditLink';
+import { UtilityPreview } from './_components/UtilityPreview';
+import { EventPreview } from './_components/EventPreview';
+import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
-import { DataRing } from '@/components/New/UtilityPageComps/DataRing';
-
-const UtilityOverview = ({
-  propertyId,
-  utilityData,
-}: {
-  propertyId: string;
-  utilityData: UtilityDataType[];
-}) => {
-  return (
-    <PreviewContentBase
-      icon={<Bolt />}
-      preview
-      previewDescription={
-        <>
-          Kulutustietoja ovat kaikki vesi- lämmitys-, sähkö, sekä muut kulut, joita taloudessa voi
-          olla.
-        </>
-      }
-      headingText='Kulutustiedot'
-      addNewUrl={`/newDashboard/properties/${propertyId}/utility/add`}
-      showAllUrl={`/newDashboard/properties/${propertyId}/utility`}>
-      {!utilityData.length ? (
-        <span className='text-slate-500'>Ei Kulutustietoja.</span>
-      ) : (
-        <div className='flex w-full justify-start gap-4'>
-          <DataRing
-            data={utilityData}
-            label='Kaikki'
-          />
-
-          <Paragraph>
-            Tässä näet talon koko kulutuksen.
-            <br /> Tarkemmat tiedot näet klikkaamalla{' '}
-            <Link
-              className='text-teal-500'
-              href={`/newDashboard/properties/${propertyId}/utility`}>
-              Näytä Lisää.
-            </Link>
-          </Paragraph>
-        </div>
-      )}
-    </PreviewContentBase>
-  );
-};
+import { ChipData } from '@/components/New/ChipData';
+import { PropertyOverview } from './_components/PropertyOverview';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
   const property = await getProperty(id);
 
-  const events = await db('propertyEventData')
-    .join('objectData', { 'objectData.id': 'propertyEventData.id' })
-    .where({ parentId: id });
+  const events = await db('objectData')
+    .join('propertyEventData', { 'propertyEventData.id': 'objectData.id' })
+    .where({ parentId: id })
+    .limit(4);
 
-  const utility = await db('utilityData')
-    .join('objectData', { 'objectData.id': 'utilityData.id' })
-    .where({ parentId: id });
+  const utility = await db('objectData')
+    .join('utilityData', { 'utilityData.id': 'objectData.id' })
+    .where({ parentId: id })
+    .limit(4);
 
-  const images = await db('fileData')
-    .join('objectData', { 'objectData.id': 'fileData.id' })
-    .where({ parentId: id });
+  const images = await db('objectData')
+    .join('fileData', { 'fileData.id': 'objectData.id' })
+    .where({ parentId: id })
+    .limit(4);
 
   return (
     <Main>
-      <OverviewBox
-        title={property.streetAddress + ' ' + (property.appartmentNumber || '')}
-        description={property.description || 'Ei Kuvausta.'}
-        imageUrl='/img/Properties/default-bg.jpg'
-        editUrl={`/newDashboard/properties/${property.id}/edit`}
-        editContentText='Muokkaa Tietoja'
+      <PropertyOverview
+        property={property}
+        editContentText='Muokkaa tietoja'
         editIcon={<Edit />}
+        editUrl={`/newDashboard/properties/${property.id}/edit`}
       />
 
-      <PreviewContentRow<EventDataType>
-        icon={<History />}
-        headingText='Viimeisimmät tapahtumat'
-        itemsToDisplay={3}
-        showAllUrl={`/newDashboard/properties/${property.id}/events`}
-        data={events}
-        addNewUrl={`/newDashboard/properties/${property.id}/events/add`}
-        PreviewComponent={({ item }) => {
-          return (
-            <Link
-              href={`/newDashboard/properties/${property.id}/events/${item.id}`}
-              className='hover:no-underline'>
-              <Card
-                title={item.title}
-                description={item.description || 'Ei Kuvausta.'}
-                imageSrc='/img/Properties/default-bg.jpg'
-                HeaderComponent={() => {
-                  return (
-                    <>
-                      <IconLink
-                        title='Näytä tiedostot'
-                        href=''
-                        icon={<Image sx={{ color: 'white' }} />}
-                      />
-                    </>
-                  );
-                }}
-              />
-            </Link>
-          );
-        }}
-        onEmptyElement={<span className='text-slate-500'>Ei Tapahtumia.</span>}
+      <EventPreview
+        propertyId={property.id}
+        events={events}
       />
 
-      <UtilityOverview
+      <UtilityPreview
         propertyId={property.id}
         utilityData={utility}
       />
-      <PreviewContentRow<TODO>
-        icon={<Image />}
+
+      <FileOverview
         preview
-        headingText='Tiedostot ja kuvat'
-        itemsToDisplay={3}
-        data={images}
+        files={images}
         addNewUrl={`/newDashboard/properties/${property.id}/files/add`}
         showAllUrl={`/newDashboard/properties/${id}/files`}
-        onEmptyElement={<span className='text-slate-500'>Ei tiedostoja.</span>}
         PreviewComponent={({ item }) => {
           return (
             <Link

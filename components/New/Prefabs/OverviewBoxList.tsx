@@ -18,6 +18,7 @@ type OverviewBoxListProps<T extends ObjectDataType> = {
   getOverviewBoxTitle?: (item: T, i: number) => string;
   getOverviewBoxDescription?: (item: T, i: number) => string;
   getOverviewBoxImageUrl?: (itemId: string) => string;
+  OverviewComponent?: ({ item }: { item: T }) => React.ReactNode;
 };
 
 export function OverviewBoxList<T extends ObjectDataType>({
@@ -30,6 +31,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
   getOverviewBoxUrl,
   getOverviewBoxDeleteUrl,
   getOverviewBoxTitle,
+  OverviewComponent,
 }: OverviewBoxListProps<T>) {
   return (
     <div className='flex flex-col gap-4 w-full'>
@@ -60,7 +62,9 @@ export function OverviewBoxList<T extends ObjectDataType>({
           const editUrl = getOverviewBoxUrl(item.id);
           const deleteUrl = getOverviewBoxDeleteUrl && getOverviewBoxDeleteUrl(item.id);
 
-          return (
+          return OverviewComponent ? (
+            <OverviewComponent item={item} />
+          ) : (
             <OverviewBox
               deleteUrl={deleteUrl}
               editUrl={editUrl}

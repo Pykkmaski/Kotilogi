@@ -11,6 +11,7 @@ import { getUserHouses } from 'kotilogi-app/models/houseData';
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import Link from 'next/link';
+import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 
 export default async function PropertiesPage() {
   const session = await loadSession();
@@ -31,6 +32,14 @@ export default async function PropertiesPage() {
           );
         }}
         getOverviewBoxDeleteUrl={itemId => `/newDashboard/properties/${itemId}/delete`}
+        OverviewComponent={({ item }) => (
+          <PropertyOverview
+            property={item}
+            editUrl={`/newDashboard/properties/${item.id}`}
+            editContentText='Näytä'
+            editIcon={<Visibility />}
+          />
+        )}
       />
     </Main>
   );

@@ -6,6 +6,7 @@ import { Visibility } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
+import { EventOverview } from './_components/EventOverview';
 
 async function getEvents(propertyId: string, q: string | undefined, page?: number) {
   const table = 'propertyEventData';
@@ -44,6 +45,7 @@ export default async function EventsPage({ params }) {
         items={events}
         addButtonUrl={`/newDashboard/properties/${propertyId}/events/add`}
         getOverviewBoxUrl={itemId => `/newDashboard/properties/${propertyId}/events/${itemId}`}
+        OverviewComponent={({ item }) => <EventOverview event={item} />}
       />
     </Main>
   );
