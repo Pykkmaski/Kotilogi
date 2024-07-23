@@ -20,10 +20,6 @@ exports.up = function (knex) {
         });
       }
 
-      await knex.schema.alterTable(table, tbl => {
-        tbl.dropColumn(column);
-      });
-
       resolve();
     } catch (err) {
       reject(err);
