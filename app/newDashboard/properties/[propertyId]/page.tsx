@@ -68,8 +68,7 @@ export default async function PropertyPage({ params }) {
 
   const events = await db('propertyEventData')
     .join('objectData', { 'objectData.id': 'propertyEventData.id' })
-    .where({ parentId: id })
-    .limit(3);
+    .where({ parentId: id });
 
   const utility = await db('utilityData')
     .join('objectData', { 'objectData.id': 'utilityData.id' })
@@ -77,8 +76,7 @@ export default async function PropertyPage({ params }) {
 
   const images = await db('fileData')
     .join('objectData', { 'objectData.id': 'fileData.id' })
-    .where({ parentId: id })
-    .limit(3);
+    .where({ parentId: id });
 
   return (
     <Main>
