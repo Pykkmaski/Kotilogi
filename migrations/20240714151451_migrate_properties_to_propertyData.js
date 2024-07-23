@@ -167,13 +167,16 @@ exports.up = function (knex) {
         //Add the property files
         const propertyFileStream = trx('propertyFiles').stream();
         for await (const file of propertyFileStream) {
-          const [{ id: fileId }] = await trx('objectData').insert({
-            title: file.title,
-            description: file.description,
-            parentId: propertyId,
-            authorId: userId,
-            timestamp: Date.now(),
-          });
+          const [{ id: fileId }] = await trx('objectData').insert(
+            {
+              title: file.title,
+              description: file.description,
+              parentId: propertyId,
+              authorId: userId,
+              timestamp: Date.now(),
+            },
+            'id'
+          );
 
           await trx('fileData').insert({
             id: fileId,
@@ -201,13 +204,16 @@ exports.up = function (knex) {
           //Add the event files
           const fileStream = trx('eventFiles').stream();
           for await (const file of fileStream) {
-            const [{ id: objId }] = await trx('objectData').insert({
-              title: file.title,
-              description: file.description,
-              parentId: file.refId,
-              authorId: userId,
-              timestamp: Date.now(),
-            });
+            const [{ id: objId }] = await trx('objectData').insert(
+              {
+                title: file.title,
+                description: file.description,
+                parentId: file.refId,
+                authorId: userId,
+                timestamp: Date.now(),
+              },
+              'id'
+            );
 
             await trx('fileData').insert({
               id: objId,
