@@ -115,7 +115,7 @@ exports.up = function (knex) {
           const { propertyNumber } = property;
           await trx('houseData').insert({
             id: propertyId,
-            propertyNumber,
+            propertyNumber: propertyNumber || '0',
             yardOwnershipType:
               yardOwnershipType === 'Ei Mitään' ? 0 : yardOwnershipType === 'Oma' ? 1 : 2,
             yardArea: yardArea * 100,
