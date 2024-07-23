@@ -21,8 +21,8 @@ export async function getUserAppartments(userId: string) {
   const userPropertyIds = await db('propertyOwnerData').where({ userId }).pluck('propertyId');
   return db('propertyData')
     .whereIn('propertyData.id', userPropertyIds)
-    .join('appartmentData', 'appartmentData.id', '=', 'propertyData.id')
-    .join('objectData', 'objectData.id', '=', 'propertyData.id');
+    .join('appartmentData', { 'appartmentData.id': 'propertyData.id' })
+    .join('objectData', { 'objectData.id': 'propertyData.id' });
 }
 
 export async function createAppartment(data: Partial<AppartmentDataType>) {
