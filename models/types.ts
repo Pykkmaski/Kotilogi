@@ -1,4 +1,3 @@
-import { AppObjectType } from 'kotilogi-app/utils/classes/AppObject';
 import { PropertyType } from './enums/PropertyType';
 
 export type ObjectDataType = {

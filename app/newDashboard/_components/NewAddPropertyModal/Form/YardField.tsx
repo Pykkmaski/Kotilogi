@@ -1,9 +1,6 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Group, Input, Label } from '@/components/UI/FormUtils';
-import { useObjectProviderContext } from '@/components/Util/ObjectProvider';
-import { yardOwnershipTypes } from 'kotilogi-app/constants';
-import { useAddPropertyModalContext } from '../NewAddPropertyModal';
 import { usePropertyFormContext } from './PropertyForm';
 import { HouseDataType } from 'kotilogi-app/models/types';
 import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
