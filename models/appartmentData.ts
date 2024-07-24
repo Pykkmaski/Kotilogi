@@ -5,10 +5,10 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 
 export async function getAppartment(id: string) {
-  const [apt] = await db('propertyData')
-    .where('propertyData.id', '=', id)
-    .join('appartmentData', 'appartmentData.id', '=', 'propertyData.id')
-    .join('objectData', 'objectData.id', '=', 'propertyData.id');
+  const [apt] = await db('data_properties')
+    .where('data_properties.id', '=', id)
+    .join('data_appartments', 'data_appartments.id', '=', 'data_properties.id')
+    .join('data_objects', 'data_objects.id', '=', 'data_properties.id');
 
   const owners = await getOwners(id);
   return {
@@ -18,17 +18,17 @@ export async function getAppartment(id: string) {
 }
 
 export async function getUserAppartments(userId: string) {
-  const userPropertyIds = await db('propertyOwnerData').where({ userId }).pluck('propertyId');
-  return db('propertyData')
-    .whereIn('propertyData.id', userPropertyIds)
-    .join('appartmentData', { 'appartmentData.id': 'propertyData.id' })
-    .join('objectData', { 'objectData.id': 'propertyData.id' });
+  const userPropertyIds = await db('data_propertyOwners').where({ userId }).pluck('propertyId');
+  return db('data_properties')
+    .whereIn('data_properties.id', userPropertyIds)
+    .join('data_appartments', { 'data_appartments.id': 'data_properties.id' })
+    .join('data_objects', { 'data_objects.id': 'data_properties.id' });
 }
 
 export async function createAppartment(data: Partial<AppartmentDataType>) {
   return createProperty(data, async (obj, trx) => {
-    const insertObject = filterValidColumns(data, await getTableColumns('appartmentData', trx));
-    await trx('appartmentData').insert({
+    const insertObject = filterValidColumns(data, await getTableColumns('data_appartments', trx));
+    await trx('data_appartments').insert({
       id: obj.id,
       ...insertObject,
     });
@@ -37,8 +37,8 @@ export async function createAppartment(data: Partial<AppartmentDataType>) {
 
 export async function updateAppartment(data: Partial<AppartmentDataType>) {
   return updateProperty(data, async trx => {
-    const updateObject = filterValidColumns(data, await getTableColumns('appartmentData', trx));
+    const updateObject = filterValidColumns(data, await getTableColumns('data_appartments', trx));
     console.log(updateObject);
-    await trx('appartmentData').where({ id: data.id }).update(updateObject);
+    await trx('data_appartments').where({ id: data.id }).update(updateObject);
   });
 }

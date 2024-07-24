@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 async function verifyUser(email, password) {
   return new Promise(async (resolve, reject) => {
     try {
-      const user = await db('userData').where({ email }).first();
+      const user = await db('data_users').where({ email }).first();
       if (!user) throw new Error('invalid_user');
 
       const isPasswordCorrect = await bcrypt.compare(password, user.password);

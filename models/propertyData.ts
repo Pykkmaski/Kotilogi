@@ -12,7 +12,7 @@ import { getAppartment } from './appartmentData';
 import { EnergyClass } from './enums/EnergyClass';
 
 export async function getProperty(id: string) {
-  const [type] = await db('propertyData').where({ id }).pluck('propertyType');
+  const [type] = await db('data_properties').where({ id }).pluck('propertyType');
   if (type == PropertyType.HOUSE) {
     return await getHouse(id);
   } else if (type == PropertyType.APT) {
@@ -27,15 +27,15 @@ export async function createProperty(
   callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>
 ) {
   return createObject(data, async (obj, trx) => {
-    const propertyData = {
+    const data_properties = {
       id: obj.id,
-      ...filterValidColumns(data, await getTableColumns('propertyData', trx)),
+      ...filterValidColumns(data, await getTableColumns('data_properties', trx)),
       energyClass: EnergyClass[data.energyClass != 'Ei Mitään' ? data.energyClass : 'NONE'],
     };
 
-    await trx('propertyData').insert(propertyData);
+    await trx('data_properties').insert(data_properties);
 
-    await trx('propertyOwnerData').insert({
+    await trx('data_propertyOwners').insert({
       propertyId: obj.id,
       userId: obj.authorId,
       timestamp: Date.now(),
@@ -50,13 +50,13 @@ export async function updateProperty(
   callback: (trx: Knex.Transaction) => Promise<void>
 ) {
   return updateObject(data, async trx => {
-    const updateObject = filterValidColumns(data, await getTableColumns('propertyData', trx));
+    const updateObject = filterValidColumns(data, await getTableColumns('data_properties', trx));
     console.log(updateObject);
-    await trx('propertyData').where({ id: data.id }).update(updateObject);
+    await trx('data_properties').where({ id: data.id }).update(updateObject);
     await callback(trx);
   });
 }
 
 export async function getOwners(propertyId: string) {
-  return await db('propertyOwnerData').where({ propertyId }).pluck('userId');
+  return await db('data_propertyOwners').where({ propertyId }).pluck('userId');
 }

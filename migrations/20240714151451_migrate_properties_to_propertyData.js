@@ -233,17 +233,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return new Promise(async (resolve, reject) => {
-    const trx = await knex.transaction();
-    try {
-      const propertyDataStream = trx('propertyData').stream();
-      for await (const property of propertyDataStream) {
-        await trx('objectData').where({ id: property.id }).del();
-      }
-      await trx.commit();
-      resolve();
-    } catch (err) {
-      reject(err);
-    }
-  });
+  return Promise.resolve();
 };

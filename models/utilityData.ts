@@ -8,7 +8,7 @@ import { UtilityType } from './enums/UtilityType';
 /**Creates utility data. */
 export async function createUtilityData(data: Partial<UtilityDataType>) {
   return createObject(data, async (obj, trx) => {
-    await trx('utilityData').insert({
+    await trx('data_utilities').insert({
       id: obj.id,
       time: data.time,
       monetaryAmount: data.monetaryAmount * 100,
@@ -19,8 +19,8 @@ export async function createUtilityData(data: Partial<UtilityDataType>) {
 }
 
 export async function getUtilityData(query: TODO, year?: number) {
-  return db('utilityData')
-    .join('objectData', { 'objectData.id': 'utilityData.id' })
+  return db('data_utilities')
+    .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
     .where(function () {
       if (!year) return;
 
@@ -38,7 +38,7 @@ export async function getUtilityData(query: TODO, year?: number) {
 
 export async function updateUtilityData(data: Partial<UtilityDataType>) {
   return updateObject(data, async trx => {
-    const updateObject = filterValidColumns(data, await getTableColumns('utilityData', trx));
-    await trx('utilityData').where({ id: data.id }).update(updateObject);
+    const updateObject = filterValidColumns(data, await getTableColumns('data_utilities', trx));
+    await trx('data_utilities').where({ id: data.id }).update(updateObject);
   });
 }

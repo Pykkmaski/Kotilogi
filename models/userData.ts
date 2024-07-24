@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export async function createUser(data: TODO) {
-  await db('userData').insert({
+  await db('data_users').insert({
     email: data.email,
     password: await bcrypt.hash(data.password, 15),
   });
@@ -11,5 +11,5 @@ export async function createUser(data: TODO) {
 
 export async function updateUser(data: TODO) {
   const session = await loadSession();
-  await db('userData').where({ id: session.user.id }).update(data);
+  await db('data_users').where({ id: session.user.id }).update(data);
 }

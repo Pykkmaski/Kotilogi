@@ -13,8 +13,8 @@ export async function createObject<T extends ObjectDataType>(
   const trx = await db.transaction();
   try {
     const session = (await getServerSession(options as any)) as any;
-    const dataToInsert = filterValidColumns(data, await getTableColumns('objectData', trx));
-    const [obj] = (await trx('objectData').insert(
+    const dataToInsert = filterValidColumns(data, await getTableColumns('data_objects', trx));
+    const [obj] = (await trx('data_objects').insert(
       { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
       '*'
     )) as [ObjectDataType];
@@ -36,8 +36,8 @@ export async function updateObject<T extends ObjectDataType>(
     if (!data.id)
       throw new Error('The id of the object to be updated must be defined in the data-argument!');
 
-    const validColumns = await getTableColumns('objectData', trx);
-    await trx('objectData')
+    const validColumns = await getTableColumns('data_objects', trx);
+    await trx('data_objects')
       .where({ id: data.id })
       .update({
         ...filterValidColumns(data, validColumns),
@@ -51,5 +51,5 @@ export async function updateObject<T extends ObjectDataType>(
 }
 
 export async function deleteObject(id: string) {
-  return db('objectData').where({ id }).del();
+  return db('data_objects').where({ id }).del();
 }

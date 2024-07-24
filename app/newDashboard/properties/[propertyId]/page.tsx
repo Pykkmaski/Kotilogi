@@ -16,18 +16,18 @@ export default async function PropertyPage({ params }) {
   const id = params.propertyId;
   const property = await getProperty(id);
 
-  const events = await db('objectData')
-    .join('propertyEventData', 'propertyEventData.id', '=', 'objectData.id')
-    .where({ 'objectData.parentId': id })
+  const events = await db('data_objects')
+    .join('data_propertyEvents', 'data_propertyEvents.id', '=', 'data_objects.id')
+    .where({ 'data_objects.parentId': id })
     .limit(4);
 
-  const utility = await db('objectData')
-    .join('utilityData', { 'utilityData.id': 'objectData.id' })
+  const utility = await db('data_objects')
+    .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
     .where({ parentId: id })
     .limit(4);
 
-  const images = await db('objectData')
-    .join('fileData', { 'fileData.id': 'objectData.id' })
+  const images = await db('data_objects')
+    .join('data_files', { 'data_files.id': 'data_objects.id' })
     .where({ parentId: id })
     .limit(4);
 

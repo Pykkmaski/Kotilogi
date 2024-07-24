@@ -6,10 +6,10 @@ import { getTableColumns } from './utils/getTableColumns';
 import { preparePropertyForClient, preparePropertyForDb } from './utils/preparePropertyForDb';
 
 export async function getHouse(id: string) {
-  const [house] = await db('houseData')
-    .where('houseData.id', '=', id)
-    .join('objectData', 'objectData.id', '=', 'houseData.id')
-    .join('propertyData', 'propertyData.id', '=', 'houseData.id');
+  const [house] = await db('data_houses')
+    .where('data_houses.id', '=', id)
+    .join('data_objects', 'data_objects.id', '=', 'data_houses.id')
+    .join('data_properties', 'data_properties.id', '=', 'data_houses.id');
 
   const owners = await getOwners(id);
   return {
@@ -19,11 +19,11 @@ export async function getHouse(id: string) {
 }
 
 export async function getUserHouses(userId: string): Promise<HouseDataType[]> {
-  const userPropertyIds = await db('propertyOwnerData').where({ userId }).pluck('propertyId');
-  const data = await db('propertyData')
-    .whereIn('propertyData.id', userPropertyIds)
-    .join('objectData', 'objectData.id', '=', 'propertyData.id')
-    .join('houseData', 'houseData.id', '=', 'propertyData.id');
+  const userPropertyIds = await db('data_propertyOwners').where({ userId }).pluck('propertyId');
+  const data = await db('data_properties')
+    .whereIn('data_properties.id', userPropertyIds)
+    .join('data_objects', 'data_objects.id', '=', 'data_properties.id')
+    .join('data_houses', 'data_houses.id', '=', 'data_properties.id');
 
   return data;
 }
@@ -31,9 +31,9 @@ export async function getUserHouses(userId: string): Promise<HouseDataType[]> {
 export async function createHouse(data: Partial<HouseDataType>) {
   return createProperty(data, async (obj, trx) => {
     const insertObject = preparePropertyForDb(
-      filterValidColumns(data, await getTableColumns('houseData', trx))
+      filterValidColumns(data, await getTableColumns('data_houses', trx))
     );
-    await trx('houseData').insert({
+    await trx('data_houses').insert({
       id: obj.id,
       ...insertObject,
     });
@@ -43,9 +43,9 @@ export async function createHouse(data: Partial<HouseDataType>) {
 export async function updateHouse(data: Partial<HouseDataType>) {
   return updateProperty(data, async trx => {
     const updateObject = preparePropertyForDb(
-      filterValidColumns(data, await getTableColumns('houseData', trx))
+      filterValidColumns(data, await getTableColumns('data_houses', trx))
     );
 
-    await trx('houseData').where({ id: data.id }).update(updateObject);
+    await trx('data_houses').where({ id: data.id }).update(updateObject);
   });
 }

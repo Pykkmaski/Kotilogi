@@ -13,11 +13,11 @@ import Link from 'next/link';
 
 export default async function UtilityPage({ params }) {
   const propertyId = params.propertyId;
-  const utilityData = await db('utilityData')
-    .join('objectData', { 'objectData.id': 'utilityData.id' })
+  const data_utilities = await db('data_utilities')
+    .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
     .where({ parentId: propertyId });
 
-  const utilityObj = filterIntoObject(utilityData, 'type', getEnumAsDigits(UtilityType));
+  const utilityObj = filterIntoObject(data_utilities, 'type', getEnumAsDigits(UtilityType));
   return (
     <Main>
       <div className='w-full p-4 bg-gray-800'>
@@ -39,7 +39,7 @@ export default async function UtilityPage({ params }) {
           }
         />
         <div className='flex w-full gap-4'>
-          <DataRing data={utilityData} />
+          <DataRing data={data_utilities} />
           <div className='flex flex-col gap-4 text-white'>
             <span>
               LÄMMITYS:{' '}
