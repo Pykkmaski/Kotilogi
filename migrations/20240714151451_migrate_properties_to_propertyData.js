@@ -50,7 +50,7 @@ exports.up = function (knex) {
         console.log('Adding general property data...');
         await trx('propertyData').insert(
           {
-            id: propertyObjId,
+            id: propertyId,
             zipCode,
             streetAddress: address,
 
