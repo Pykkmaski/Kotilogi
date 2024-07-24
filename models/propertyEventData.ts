@@ -5,9 +5,9 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 
 export async function getEvents(propertyId: string) {
-  return db('propertyEventData')
-    .where({ propertyId })
-    .join('objectData', 'objectData.id', '=', 'propertyEventData.id');
+  return db('objectData')
+    .where({ 'objectData.parentId': propertyId })
+    .join('propertyEventData', { 'propertyEventData.id': 'objectData.id' });
 }
 
 export async function createPropertyEvent(data: Partial<EventDataType>) {

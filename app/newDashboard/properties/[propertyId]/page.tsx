@@ -18,7 +18,7 @@ export default async function PropertyPage({ params }) {
 
   const events = await db('objectData')
     .join('propertyEventData', 'propertyEventData.id', '=', 'objectData.id')
-    .where({ parentId: id })
+    .where({ 'objectData.parentId': id })
     .limit(4);
 
   const utility = await db('objectData')

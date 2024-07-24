@@ -12,9 +12,9 @@ exports.up = function (knex) {
       const stream = trx('properties').stream();
       for await (const property of stream) {
         //Add object data
-        const { title, description, refId } = property;
+        const { title, description, refId, id: oldPropertyId } = property;
         const [userId] = await trx('userData').where({ email: refId }).select('id').pluck('id');
-        const [{ id: objId }] = await trx('objectData').insert(
+        const [{ id: propertyId }] = await trx('objectData').insert(
           {
             title,
             description,
@@ -23,7 +23,7 @@ exports.up = function (knex) {
           },
           'id'
         );
-        console.log(objId);
+
         //Add global property data
         const {
           zipCode,
@@ -48,9 +48,9 @@ exports.up = function (knex) {
         } = property;
 
         console.log('Adding general property data...');
-        const [{ id: propertyId }] = await trx('propertyData').insert(
+        await trx('propertyData').insert(
           {
-            id: objId,
+            id: propertyObjId,
             zipCode,
             streetAddress: address,
 
@@ -138,10 +138,10 @@ exports.up = function (knex) {
 
         console.log('Adding property utility data...');
         //Add utility data
-        const utilityStream = trx('usage').stream();
+        const utilityStream = trx('usage').where({ refId: oldPropertyId }).stream();
         for await (const utility of utilityStream) {
           const { type, time, price: monetaryAmount, unitAmount } = utility;
-          const [{ id }] = await trx('objectData').insert(
+          const [{ id: utilityId }] = await trx('objectData').insert(
             {
               parentId: propertyId,
               authorId: userId,
@@ -155,13 +155,13 @@ exports.up = function (knex) {
             monetaryAmount: Math.round(monetaryAmount * 100),
             unitAmount: Math.round(unitAmount * 100),
             time: new Date(time).getTime(),
-            id,
+            id: utilityId,
           });
         }
 
         console.log('Adding property file data...');
         //Add the property files
-        const propertyFileStream = trx('propertyFiles').stream();
+        const propertyFileStream = trx('propertyFiles').where({ refId: oldPropertyId }).stream();
         for await (const file of propertyFileStream) {
           const [{ id: fileId }] = await trx('objectData').insert(
             {
@@ -183,7 +183,7 @@ exports.up = function (knex) {
 
         console.log('Adding property event data...');
         //Add event data
-        const eventStream = trx('propertyEvents').stream();
+        const eventStream = trx('propertyEvents').where({ refId: oldPropertyId }).stream();
         for await (const event of eventStream) {
           const [{ id: eventId }] = await trx('objectData').insert(
             {
@@ -198,7 +198,7 @@ exports.up = function (knex) {
 
           console.log('Adding event file data...');
           //Add the event files
-          const fileStream = trx('eventFiles').stream();
+          const fileStream = trx('eventFiles').where({ refId: oldPropertyId }).stream();
           for await (const file of fileStream) {
             const [{ id: objId }] = await trx('objectData').insert(
               {

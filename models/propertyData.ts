@@ -9,6 +9,7 @@ import db from 'kotilogi-app/dbconfig';
 import { PropertyType } from './enums/PropertyType';
 import { getHouse } from './houseData';
 import { getAppartment } from './appartmentData';
+import { EnergyClass } from './enums/EnergyClass';
 
 export async function getProperty(id: string) {
   const [type] = await db('propertyData').where({ id }).pluck('propertyType');
@@ -29,6 +30,7 @@ export async function createProperty(
     const propertyData = {
       id: obj.id,
       ...filterValidColumns(data, await getTableColumns('propertyData', trx)),
+      energyClass: EnergyClass[data.energyClass != 'Ei Mitään' ? data.energyClass : 'NONE'],
     };
 
     await trx('propertyData').insert(propertyData);
