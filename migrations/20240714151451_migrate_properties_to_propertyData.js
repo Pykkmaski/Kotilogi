@@ -47,7 +47,6 @@ exports.up = function (knex) {
           hasGarage,
         } = property;
 
-        console.log('Adding general property data...');
         await trx('propertyData').insert(
           {
             id: propertyId,
@@ -108,7 +107,6 @@ exports.up = function (knex) {
           'id'
         );
 
-        console.log('Adding specific property data...');
         if (targetType === 'Kiinteistö') {
           const { propertyNumber } = property;
           await trx('houseData').insert({
@@ -128,7 +126,6 @@ exports.up = function (knex) {
           });
         }
 
-        console.log('Adding property owner data...');
         //Add owner data
         await trx('propertyOwnerData').insert({
           userId,
@@ -136,7 +133,6 @@ exports.up = function (knex) {
           timestamp: Date.now(),
         });
 
-        console.log('Adding property utility data...');
         //Add utility data
         const utilityStream = trx('usage').where({ refId: oldPropertyId }).stream();
         for await (const utility of utilityStream) {
@@ -159,7 +155,6 @@ exports.up = function (knex) {
           });
         }
 
-        console.log('Adding property file data...');
         //Add the property files
         const propertyFileStream = trx('propertyFiles').where({ refId: oldPropertyId }).stream();
         for await (const file of propertyFileStream) {
@@ -181,7 +176,6 @@ exports.up = function (knex) {
           });
         }
 
-        console.log('Adding property event data...');
         //Add event data
         const eventStream = trx('propertyEvents').where({ refId: oldPropertyId }).stream();
         for await (const event of eventStream) {
@@ -196,9 +190,8 @@ exports.up = function (knex) {
             'id'
           );
 
-          console.log('Adding event file data...');
           //Add the event files
-          const fileStream = trx('eventFiles').where({ refId: oldPropertyId }).stream();
+          const fileStream = trx('eventFiles').where({ refId: event.id }).stream();
           for await (const file of fileStream) {
             const [{ id: objId }] = await trx('objectData').insert(
               {
@@ -239,4 +232,18 @@ exports.up = function (knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function (knex) {};
+exports.down = function (knex) {
+  return new Promise(async (resolve, reject) => {
+    const trx = await knex.transaction();
+    try {
+      const propertyDataStream = trx('propertyData').stream();
+      for await (const property of propertyDataStream) {
+        await trx('objectData').where({ id: property.id }).del();
+      }
+      await trx.commit();
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
