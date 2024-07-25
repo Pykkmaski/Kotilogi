@@ -11,11 +11,16 @@ import { Dvr, Edit, Image, Pin, PushPin, Tag } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
+import { EventStepDataType } from 'kotilogi-app/models/types';
 
 export default async function EventPage({ params }) {
-  const [event] = await db('propertyEventData')
-    .join('objectData', { 'objectData.id': 'propertyEventData.id' })
-    .where({ 'propertyEventData.id': params.eventId });
+  const [event] = await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+    .where({ 'data_propertyEvents.id': params.eventId });
+
+  const steps = (await db('data_objects')
+    .join('data_propertyEventSteps', { 'data_objects.id': 'data_propertyEventSteps.id' })
+    .where({ parentId: event.id })) as EventStepDataType[];
 
   return (
     <Main>
@@ -24,13 +29,13 @@ export default async function EventPage({ params }) {
 
       <PreviewContentRow
         icon={<PushPin />}
-        preview
         previewDescription='Vaiheita voidaan sanoa tapahtumien sisällä oleviin tapahtumiin, joiden avulla koko tapahtuman kulkua voidaan seurata.'
-        data={[]}
+        data={steps}
         headingText='Vaiheet'
         itemsToDisplay={3}
         showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/moments`}
         addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/moments/add`}
+        onEmptyElement={<span className='text-slate-500'>Tapahtumalla ei ole vielä vaiheita.</span>}
         PreviewComponent={({ item }) => {
           return (
             <Card

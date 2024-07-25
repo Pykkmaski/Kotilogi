@@ -11,6 +11,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
+import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
 
 export const metadata = {
   title: 'Kotidok',
@@ -33,7 +34,9 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
       <AppRouterCacheProvider>
         <AuthProvider>
           <body className='flex flex-col min-h-screen bg-slate-100'>
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+            <ThemeProvider theme={theme}>
+              <AppProvider>{children}</AppProvider>
+            </ThemeProvider>
 
             <Toaster
               position='bottom-right'

@@ -9,7 +9,7 @@ import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns
 import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
 import { revalidatePath } from 'next/cache';
 
-const path = '/properties/[property_id]/usage/';
+const path = '/newDashboard/properties/[property_id]';
 
 export async function AGetUtilityData(query: TODO) {
   return await db('utilityData')
@@ -40,4 +40,5 @@ export async function AUpdateUtilityData(
 
 export async function ACreateUtilityData(data: Partial<UtilityDataType>) {
   await createUtilityData(data);
+  revalidatePath(path);
 }

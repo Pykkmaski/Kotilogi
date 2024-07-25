@@ -23,8 +23,7 @@ export default async function PropertyPage({ params }) {
 
   const utility = await db('data_objects')
     .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
-    .where({ parentId: id })
-    .limit(4);
+    .where({ parentId: id });
 
   const images = await db('data_objects')
     .join('data_files', { 'data_files.id': 'data_objects.id' })

@@ -1,3 +1,6 @@
+import { Check } from '@mui/icons-material';
+import { Button } from '@mui/material';
+
 export function FormBase({ children, ...props }: React.ComponentProps<'form'>) {
   return (
     <form
@@ -5,5 +8,30 @@ export function FormBase({ children, ...props }: React.ComponentProps<'form'>) {
       className='flex flex-col lg:mx-64 xs:mx-0 gap-4 p-2 bg-white shadow-md rounded-lg'>
       {children}
     </form>
+  );
+}
+
+type FormButtonsProps = {
+  backAction?: (e: TODO) => void;
+  loading?: boolean;
+};
+
+export function FormButtons({ backAction, loading }: FormButtonsProps) {
+  return (
+    <div className='flex gap-4 w-full justify-end'>
+      <Button
+        type='button'
+        variant='text'
+        onClick={backAction}>
+        Takaisin
+      </Button>
+      <Button
+        type='submit'
+        disabled={loading}
+        variant='contained'
+        startIcon={<Check />}>
+        Vahvista
+      </Button>
+    </div>
   );
 }

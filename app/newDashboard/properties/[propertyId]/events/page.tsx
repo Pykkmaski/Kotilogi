@@ -9,17 +9,17 @@ import Link from 'next/link';
 import { EventOverview } from './_components/EventOverview';
 
 async function getEvents(propertyId: string, q: string | undefined, page?: number) {
-  const table = 'propertyEventData';
+  const table = 'data_propertyEvents';
 
   if (!q || q == 'null') {
     return await db(table)
-      .join('objectData', 'objectData.id', '=', 'propertyEventData.id')
+      .join('data_objects', 'data_objects.id', '=', 'data_propertyEvents.id')
       .where({ parentId: propertyId });
   }
 
   const query = `%${q}%`;
   const events: Kotidok.EventType[] = await db(table)
-    .join('objectData', 'objectData.id', '=', 'propertyEventData.id')
+    .join('data_objects', 'data_objects.id', '=', 'data_propertyEvents.id')
     .where(function () {
       this.whereLike('time', query).orWhereLike('title', query).orWhereLike('description', query);
     })
@@ -31,8 +31,8 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
 
 export default async function EventsPage({ params }) {
   const propertyId = params.propertyId;
-  const events = (await db('propertyEventData')
-    .join('objectData', { 'objectData.id': 'propertyEventData.id' })
+  const events = (await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
     .where({ parentId: propertyId })) as EventDataType[];
 
   return (

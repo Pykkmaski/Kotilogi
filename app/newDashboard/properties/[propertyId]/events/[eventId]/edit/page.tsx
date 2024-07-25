@@ -4,9 +4,9 @@ import { Main } from '@/components/New/Main';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export default async function EditEventPage({ params }) {
-  const [event] = await db('propertyEventData')
-    .join('objectData', { 'objectData.id': 'propertyEventData.id' })
-    .where({ 'propertyEventData.id': params.eventId });
+  const [event] = await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+    .where({ 'data_propertyEvents.id': params.eventId });
 
   const session = await loadSession();
   if (event.authorId != session.user.id)

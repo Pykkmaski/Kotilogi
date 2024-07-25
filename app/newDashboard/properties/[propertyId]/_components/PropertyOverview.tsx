@@ -2,6 +2,7 @@ import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
 import { ChipData } from '@/components/New/ChipData';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Edit } from '@mui/icons-material';
+import db from 'kotilogi-app/dbconfig';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 
@@ -12,12 +13,15 @@ type PropertyOverviewProps = {
   editContentText: string;
 };
 
-export function PropertyOverview({
+export async function PropertyOverview({
   property,
   editIcon,
   editUrl,
   editContentText,
 }: PropertyOverviewProps) {
+  const [mainImageId] =
+    (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
+
   return (
     <OverviewBox
       title={
@@ -36,7 +40,7 @@ export function PropertyOverview({
           </div>
         </div>
       }
-      imageUrl='/img/Properties/default-bg.jpg'
+      imageUrl={'/img/Properties/default-bg.jpg'}
       editUrl={editUrl}
       editContentText={editContentText}
       editIcon={editIcon}

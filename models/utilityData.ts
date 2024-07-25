@@ -10,7 +10,7 @@ export async function createUtilityData(data: Partial<UtilityDataType>) {
   return createObject(data, async (obj, trx) => {
     await trx('data_utilities').insert({
       id: obj.id,
-      time: data.time,
+      time: new Date(data.time).getTime(),
       monetaryAmount: data.monetaryAmount * 100,
       unitAmount: data.unitAmount * 100,
       type: data.type,

@@ -1,0 +1,55 @@
+'use client';
+
+import { ACreateEventStep, AUpdateEventStep } from '@/actions/eventSteps';
+import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionForm';
+import { FormBase } from '@/components/New/Forms/FormBase';
+import { Fieldset } from '@/components/UI/Fieldset';
+import { FormControl, Input } from '@/components/UI/FormUtils';
+import { FormStatus } from '@/hooks/useDataSubmissionForm';
+import { useInputData } from '@/hooks/useInputData';
+import { Button } from '@mui/material';
+import { EventDataType, EventStepDataType } from 'kotilogi-app/models/types';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+type StepFormProps = {
+  eventId: string;
+  step?: EventStepDataType & Required<Pick<EventStepDataType, 'id'>>;
+};
+
+export function StepForm({ eventId, step }: StepFormProps) {
+  return (
+    <ObjectSubmissionForm
+      parentId={eventId}
+      item={step}
+      updateMethod={async data => {
+        await AUpdateEventStep(data);
+      }}
+      createMethod={async data => {
+        await ACreateEventStep(data);
+      }}>
+      <Fieldset legend='Tiedot'>
+        <FormControl
+          required
+          label='Otsikko'
+          control={
+            <Input
+              name='title'
+              placeholder='Kirjoita vaiheen otsikko...'
+            />
+          }
+        />
+
+        <FormControl
+          label='Kuvaus'
+          control={
+            <Input
+              name='description'
+              placeholder='Kirjoita vaiheen kuvaus...'
+            />
+          }
+        />
+      </Fieldset>
+    </ObjectSubmissionForm>
+  );
+}

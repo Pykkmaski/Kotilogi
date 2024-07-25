@@ -15,16 +15,16 @@ export async function AGetEventData(query) {
     .where(query);
 }
 
-export async function ACreatePropertyEvent<T extends EventDataType>(
-  data: T & Required<Pick<T, 'parentId'>>
+export async function ACreatePropertyEvent(
+  data: EventDataType & Required<Pick<EventDataType, 'parentId'>>
 ) {
   await createPropertyEvent(data);
   revalidatePath(path);
   return 0;
 }
 
-export async function AUpdatePropertyEvent<T extends EventDataType>(
-  data: T & Required<Pick<T, 'id'>>
+export async function AUpdatePropertyEvent(
+  data: EventDataType & Required<Pick<EventDataType, 'id'>>
 ) {
   await updatePropertyEvent(data);
   revalidatePath(path);

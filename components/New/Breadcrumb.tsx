@@ -54,5 +54,5 @@ export function Breadcrumb() {
     });
   };
 
-  return <div className='flex flex-row gap-2 overflow-x-scroll mb-8'>{generateCrumbs()}</div>;
+  return <div className='flex flex-row gap-2 overflow-x-scroll mb-2'>{generateCrumbs()}</div>;
 }

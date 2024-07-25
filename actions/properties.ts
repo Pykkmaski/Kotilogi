@@ -44,7 +44,9 @@ export async function AUpdateProperty<T extends PropertyDataType>(
 
 export async function ADeleteProperty(id: string, password: string) {
   const session = await loadSession();
-  const [encryptedPassword] = await db('userData').where({ id: session.user.id }).pluck('password');
+  const [encryptedPassword] = await db('data_users')
+    .where({ id: session.user.id })
+    .pluck('password');
   console.log(encryptedPassword, password);
   if (!(await bcrypt.compare(password, encryptedPassword))) return -1;
 

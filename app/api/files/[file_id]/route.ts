@@ -26,10 +26,12 @@ export async function GET(req: NextRequest, { params }) {
         });
         */
 
-    const [filename] = await db('fileData')
-      .join('objectData', { 'objectData.id': 'fileData.id' })
-      .where({ id: params.file_id })
-      .pluck('name');
+    console.log('file id: ', params.file_id);
+    const [filename] = (await db('data_files').where({ id: params.file_id }).pluck('name')) || [];
+
+    //Return a default image in case none is found.
+    if (!filename) return await fetch('/img/Properties/default-bg');
+
     const filepath = uploadPath + filename;
     const fileBuffer = readFileSync(filepath);
     return new NextResponse(fileBuffer, {

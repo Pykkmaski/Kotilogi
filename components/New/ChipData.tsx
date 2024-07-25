@@ -1,20 +1,20 @@
-import { Chip, ChipOwnProps, Color } from '@mui/material';
+import { Chip, ChipOwnProps, ChipProps, Color } from '@mui/material';
 
-type ChipDataProps = {
-  label: string;
+type ChipDataProps = ChipProps & {
   value?: string | number;
-  chipColor: ChipOwnProps['color'];
+  chipColor?: ChipOwnProps['color'];
 };
 
-export function ChipData({ label, value, chipColor = 'primary' }: ChipDataProps) {
+export function ChipData({ label, value, chipColor = 'primary', ...props }: ChipDataProps) {
   return (
-    <div className='flex gap-4 items-baseline'>
+    <div className='flex gap-4 items-baseline w-full'>
       <Chip
         className='text-lg font-semibold'
         label={label}
         color={chipColor}
+        {...props}
       />
-      <span>{value}</span>
+      <span className='text-right'>{value}</span>
     </div>
   );
 }

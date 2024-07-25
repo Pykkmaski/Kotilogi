@@ -1,37 +1,27 @@
 'use client';
 
 import { ACreatePropertyEvent, AUpdatePropertyEvent } from '@/actions/events';
-import { FormBase } from '@/components/New/Forms/FormBase';
+import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { FormStatus, useDataSubmissionForm } from '@/hooks/useDataSubmissionForm';
-import { useInputData } from '@/hooks/useInputData';
-import { Check } from '@mui/icons-material';
-import { Button } from '@mui/material';
 import { EventDataType } from 'kotilogi-app/models/types';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 
 type EventFormProps = {
   propertyId: string;
-  eventData?: EventDataType;
+  eventData?: EventDataType & Required<Pick<EventDataType, 'id'>>;
 };
 
 export function EventForm({ propertyId, eventData }: EventFormProps) {
-  const { data, updateData, onSubmit, status } = useDataSubmissionForm(
-    AUpdatePropertyEvent,
-    ACreatePropertyEvent,
-    eventData || {
-      parentId: propertyId,
-    }
-  );
-
-  const router = useRouter();
-  console.log(data);
   return (
-    <FormBase
-      onChange={updateData}
-      onSubmit={onSubmit}>
+    <ObjectSubmissionForm
+      parentId={propertyId}
+      item={eventData}
+      createMethod={async data => {
+        await ACreatePropertyEvent(data as TODO);
+      }}
+      updateMethod={async data => {
+        await AUpdatePropertyEvent(data as TODO);
+      }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
       <FormControl
         label='Otsikko'
@@ -82,22 +72,6 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
           />
         }
       />
-      <div className='w-full flex justify-end gap-4'>
-        <Button
-          disabled={status == FormStatus.LOADING}
-          onClick={() => router.back()}
-          variant='text'
-          type='button'>
-          Peruuta
-        </Button>
-        <Button
-          disabled={status == FormStatus.LOADING}
-          variant='contained'
-          startIcon={<Check />}
-          type='submit'>
-          Vahvista
-        </Button>
-      </div>
-    </FormBase>
+    </ObjectSubmissionForm>
   );
 }

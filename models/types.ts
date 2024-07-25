@@ -69,7 +69,7 @@ export type EventDataType = ObjectDataType & {
   endTime: number;
 };
 
-export type EventMomentDataType = ObjectDataType & {
+export type EventStepDataType = ObjectDataType & {
   eventId: string;
   time: number;
   finished?: boolean;
