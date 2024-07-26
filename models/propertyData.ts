@@ -51,7 +51,7 @@ export async function updateProperty(
 ) {
   return updateObject(data, async trx => {
     const updateObject = filterValidColumns(data, await getTableColumns('data_properties', trx));
-    console.log(updateObject);
+
     await trx('data_properties').where({ id: data.id }).update(updateObject);
     await callback(trx);
   });

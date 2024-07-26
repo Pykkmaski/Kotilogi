@@ -10,6 +10,7 @@ exports.up = function (knex) {
     tbl.uuid('id').primary().defaultTo(knex.fn.uuid());
     tbl
       .string('objectId')
+      .unique()
       .notNullable()
       .references('id')
       .inTable('data_objects')

@@ -18,7 +18,7 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
   }
 
   const query = `%${q}%`;
-  const events: Kotidok.EventType[] = await db(table)
+  const events: EventDataType = await db(table)
     .join('data_objects', 'data_objects.id', '=', 'data_propertyEvents.id')
     .where(function () {
       this.whereLike('time', query).orWhereLike('title', query).orWhereLike('description', query);
@@ -45,7 +45,22 @@ export default async function EventsPage({ params }) {
         items={events}
         addButtonUrl={`/newDashboard/properties/${propertyId}/events/add`}
         getOverviewBoxUrl={itemId => `/newDashboard/properties/${propertyId}/events/${itemId}`}
-        OverviewComponent={({ item }) => <EventOverview event={item} />}
+        OverviewComponent={async ({ item }) => {
+          const [{ numSteps }] = await db('data_propertyEventSteps')
+            .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
+
+            .where({ parentId: item.id })
+            .count('*', { as: 'numSteps' });
+
+          return (
+            <EventOverview
+              event={{
+                ...item,
+                numSteps,
+              }}
+            />
+          );
+        }}
       />
     </Main>
   );

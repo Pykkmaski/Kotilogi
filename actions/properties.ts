@@ -4,11 +4,14 @@ import db from 'kotilogi-app/dbconfig';
 import { createAppartment, updateAppartment } from 'kotilogi-app/models/appartmentData';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { createHouse, updateHouse } from 'kotilogi-app/models/houseData';
-import { deleteObject } from 'kotilogi-app/models/objectData';
+import { deleteObject, updateObject } from 'kotilogi-app/models/objectData';
 import { PropertyDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcrypt';
+import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
+import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
+import { updateProperty } from 'kotilogi-app/models/propertyData';
 
 const path = '/dashboard/properties';
 
@@ -31,9 +34,15 @@ export async function AUpdateProperty<T extends PropertyDataType>(
   data: Required<Pick<T, 'propertyType'>> & Required<Pick<T, 'id'>>
 ) {
   if (data.propertyType == PropertyType.HOUSE) {
-    await updateHouse(data);
+    await updateProperty(data, async trx => {
+      const io = filterValidColumns(data, await getTableColumns('data_houses', trx));
+      await trx('data_houses').where({ id: data.id }).update(io);
+    });
   } else if (data.propertyType == PropertyType.APT) {
-    await updateAppartment(data);
+    await updateProperty(data, async trx => {
+      const io = filterValidColumns(data, await getTableColumns('data_appartments', trx));
+      await trx('data_appartments').where({ id: data.id }).update(io);
+    });
   } else {
     throw new Error(`A property type of ${data.propertyType} is not recognized!`);
   }

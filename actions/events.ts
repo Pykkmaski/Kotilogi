@@ -10,8 +10,8 @@ import { revalidatePath } from 'next/cache';
 const path = '/newDashboard/properties';
 
 export async function AGetEventData(query) {
-  return await db('propertyEventData')
-    .join('objectData', { 'objectData.id': 'propertyEventData.id' })
+  return await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
     .where(query);
 }
 
@@ -33,8 +33,9 @@ export async function AUpdatePropertyEvent(
 
 export async function ADeletePropertyEvent(id: string) {
   const session = await loadSession();
-  const [authorId] = await db('objectData').where({ id }).pluck('authorId');
+  const [authorId] = await db('data_objects').where({ id }).pluck('authorId');
   if (session.user.id != authorId) return -1;
   await deleteObject(id);
+  revalidatePath(path);
   return 0;
 }

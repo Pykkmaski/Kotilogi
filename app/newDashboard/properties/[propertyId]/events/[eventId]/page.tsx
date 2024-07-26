@@ -33,8 +33,8 @@ export default async function EventPage({ params }) {
         data={steps}
         headingText='Vaiheet'
         itemsToDisplay={3}
-        showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/moments`}
-        addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/moments/add`}
+        showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/steps`}
+        addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/steps/add`}
         onEmptyElement={<span className='text-slate-500'>Tapahtumalla ei ole vielä vaiheita.</span>}
         PreviewComponent={({ item }) => {
           return (

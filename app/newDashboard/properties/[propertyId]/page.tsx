@@ -11,6 +11,8 @@ import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { ChipData } from '@/components/New/ChipData';
 import { PropertyOverview } from './_components/PropertyOverview';
+import { FileDataType } from 'kotilogi-app/models/types';
+import { FileCard } from '@/components/New/FileCard';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -25,10 +27,10 @@ export default async function PropertyPage({ params }) {
     .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
     .where({ parentId: id });
 
-  const images = await db('data_objects')
+  const files = (await db('data_objects')
     .join('data_files', { 'data_files.id': 'data_objects.id' })
     .where({ parentId: id })
-    .limit(4);
+    .limit(4)) as FileDataType[];
 
   return (
     <Main>
@@ -50,23 +52,11 @@ export default async function PropertyPage({ params }) {
       />
 
       <FileOverview
-        preview
-        files={images}
+        files={files}
         addNewUrl={`/newDashboard/properties/${property.id}/files/add`}
         showAllUrl={`/newDashboard/properties/${id}/files`}
         PreviewComponent={({ item }) => {
-          return (
-            <Link
-              href={`/files/${item.id}`}
-              className='rounded-lg shadow-md overflow-hidden aspect-square w-[250px]'>
-              <NextImage
-                src={`/files/${item.id}`}
-                objectFit='cover'
-                fill={true}
-                alt=''
-              />
-            </Link>
-          );
+          return <FileCard file={item} />;
         }}
       />
     </Main>

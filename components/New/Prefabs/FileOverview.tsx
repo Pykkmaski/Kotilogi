@@ -1,12 +1,13 @@
+import { FileDataType } from 'kotilogi-app/models/types';
 import { PreviewContentRow } from '../Boxes/PreviewContent';
 import { Image } from '@mui/icons-material';
 
 type FileOverviewProps = {
-  files: TODO[];
+  files: FileDataType[];
   addNewUrl?: string;
   showAllUrl?: string;
   preview?: boolean;
-  PreviewComponent?: ({ item }) => React.ReactElement;
+  PreviewComponent?: ({ item }: { item: FileDataType }) => React.ReactElement;
 };
 
 export function FileOverview({
@@ -17,7 +18,7 @@ export function FileOverview({
   PreviewComponent,
 }: FileOverviewProps) {
   return (
-    <PreviewContentRow<TODO>
+    <PreviewContentRow
       icon={<Image />}
       preview={preview}
       headingText='Tiedostot ja kuvat'

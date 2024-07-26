@@ -4,11 +4,11 @@ import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Edit } from '@mui/icons-material';
 import { EventDataType } from 'kotilogi-app/models/types';
 
-type EventOverviewProps = {
-  event: EventDataType;
+type EventOverviewProps<T extends EventDataType> = {
+  event: T & { numSteps: number };
 };
 
-export function EventOverview({ event }: EventOverviewProps) {
+export function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   return (
     <OverviewBox
       deleteUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/delete`}
@@ -24,6 +24,11 @@ export function EventOverview({ event }: EventOverviewProps) {
             />
 
             <ChipData
+              label='Vaiheet'
+              value={event.numSteps}
+            />
+
+            <ChipData
               chipColor='primary'
               label='Valmistunut'
               value={event.endTime || 'Ei vielä valmistunut.'}
@@ -33,6 +38,7 @@ export function EventOverview({ event }: EventOverviewProps) {
       }
       imageUrl='/img/Properties/default-bg.jpg'
       editUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/edit`}
+      showUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}`}
       editContentText='Muokkaa'
       editIcon={<Edit />}
     />

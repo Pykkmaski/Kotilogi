@@ -74,3 +74,9 @@ export type EventStepDataType = ObjectDataType & {
   time: number;
   finished?: boolean;
 };
+
+export type FileDataType = ObjectDataType & {
+  name: string;
+  type: string;
+  size: number;
+};

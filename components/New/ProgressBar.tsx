@@ -1,0 +1,21 @@
+import { CSSProperties } from 'react';
+
+type ProgressBarProps = React.ComponentProps<'div'> & {
+  maxProgress: number;
+  currentProgress: number;
+};
+
+export function ProgressBar({ className, maxProgress, currentProgress }: ProgressBarProps) {
+  const progress = currentProgress > 0 ? Math.round((currentProgress / maxProgress) * 100) : 0;
+  const style: CSSProperties = {
+    width: `${progress}%`,
+  };
+  return (
+    <div className={className}>
+      <div
+        className='bg-teal-700 rounded-md h-full'
+        style={style}
+      />
+    </div>
+  );
+}

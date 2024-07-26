@@ -43,9 +43,7 @@ export function PropertyForm<T extends PropertyDataType>({ property }: PropertyF
     //Update the server-side data automatically if editing an existing property.
     if (!property) return;
     const timeout = setTimeout(async () => {
-      AUpdateProperty(data)
-        .catch(err => toast.error(err.message))
-        .finally(() => router.back());
+      AUpdateProperty(data).catch(err => toast.error(err.message));
     }, 600);
 
     return () => clearTimeout(timeout);

@@ -10,6 +10,8 @@ type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
   editIcon: React.ReactNode;
   editUrl: string;
+  showUrl?: string;
+  imageUrl?: string;
   editContentText: string;
 };
 
@@ -18,12 +20,15 @@ export async function PropertyOverview({
   editIcon,
   editUrl,
   editContentText,
+  showUrl,
+  imageUrl,
 }: PropertyOverviewProps) {
   const [mainImageId] =
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
 
   return (
     <OverviewBox
+      showUrl={showUrl}
       title={
         property.streetAddress +
         ' ' +
@@ -40,7 +45,7 @@ export async function PropertyOverview({
           </div>
         </div>
       }
-      imageUrl={'/img/Properties/default-bg.jpg'}
+      imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'}
       editUrl={editUrl}
       editContentText={editContentText}
       editIcon={editIcon}

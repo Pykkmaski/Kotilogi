@@ -6,6 +6,7 @@ import { Spacer } from '@/components/New/Spacers';
 import { Card } from '@/components/UI/Card';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { Delete, History, Home, Settings } from '@mui/icons-material';
+import db from 'kotilogi-app/dbconfig';
 import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
 import { getUserHouses } from 'kotilogi-app/models/houseData';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
@@ -27,33 +28,40 @@ export default async function newDashboardPage() {
           addNewUrl='/newDashboard/properties/add'
           itemsToDisplay={3}
           data={properties}
-          PreviewComponent={({ item }) => (
-            <NoUnderlineLink href={`/newDashboard/properties/${item.id}`}>
-              <Card
-                title={`${item.streetAddress} ${
-                  'appartmentNumber' in item ? item.appartmentNumber : ''
-                }`}
-                description={item.description || 'Ei Kuvausta.'}
-                imageSrc='/img/Properties/default-bg.jpg'
-                HeaderComponent={() => {
-                  return (
-                    <>
-                      <IconLink
-                        icon={<Delete sx={{ color: 'white' }} />}
-                        title='Poista talo...'
-                        href={`/newDashboard/properties/${item.id}/delete`}
-                      />
-                      <IconLink
-                        href={`/newDashboard/properties/${item.id}/events`}
-                        title='Näytä tapahtumat'
-                        icon={<History sx={{ color: 'white' }} />}
-                      />
-                    </>
-                  );
-                }}
-              />
-            </NoUnderlineLink>
-          )}
+          PreviewComponent={async ({ item }) => {
+            const [mainImageId] =
+              (await db('data_mainImages').where({ objectId: item.id }).pluck('imageId')) || [];
+
+            return (
+              <NoUnderlineLink href={`/newDashboard/properties/${item.id}`}>
+                <Card
+                  title={`${item.streetAddress} ${
+                    'appartmentNumber' in item ? item.appartmentNumber : ''
+                  }`}
+                  description={item.description || 'Ei Kuvausta.'}
+                  imageSrc={
+                    (mainImageId && `/api/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'
+                  }
+                  HeaderComponent={() => {
+                    return (
+                      <>
+                        <IconLink
+                          icon={<Delete sx={{ color: 'white' }} />}
+                          title='Poista talo...'
+                          href={`/newDashboard/properties/${item.id}/delete`}
+                        />
+                        <IconLink
+                          href={`/newDashboard/properties/${item.id}/events`}
+                          title='Näytä tapahtumat'
+                          icon={<History sx={{ color: 'white' }} />}
+                        />
+                      </>
+                    );
+                  }}
+                />
+              </NoUnderlineLink>
+            );
+          }}
         />
 
         <PreviewContentBase

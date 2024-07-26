@@ -19,6 +19,7 @@ type OverviewBoxProps = {
   description: React.ReactNode;
   imageUrl: string;
   editUrl?: string;
+  showUrl?: string;
   editContentText?: string;
   editIcon?: React.ReactNode;
   selectableItem?: ObjectDataType;
@@ -30,12 +31,12 @@ export function OverviewBox({
   description,
   imageUrl,
   editUrl,
+  showUrl,
   deleteUrl,
   editIcon,
   selectableItem,
   editContentText = 'Muokkaa Tietoja',
 }: OverviewBoxProps) {
-  console.log(deleteUrl);
   return (
     <ContentBox>
       <Spacer direction='row'>
@@ -50,7 +51,15 @@ export function OverviewBox({
 
         <Spacer direction='col'>
           <SpaceBetween
-            firstElement={<MainHeading>{title}</MainHeading>}
+            firstElement={
+              showUrl ? (
+                <Link href={showUrl}>
+                  <MainHeading>{title}</MainHeading>
+                </Link>
+              ) : (
+                <MainHeading>{title}</MainHeading>
+              )
+            }
             secondElement={
               editUrl ? (
                 <>

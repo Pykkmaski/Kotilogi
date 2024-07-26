@@ -1,31 +1,31 @@
 'use client';
 
 import { ADeletePropertyEvent } from '@/actions/events';
-import { FormBase } from '@/components/New/Forms/FormBase';
-import { Check } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
+import { EventDataType } from 'kotilogi-app/models/types';
+import toast from 'react-hot-toast';
 
-export function DeleteEventForm({ event }) {
-  const router = useRouter();
+type DeleteEventFormProps = {
+  event: EventDataType;
+};
 
-  const deleteAction = async () => {
-    await ADeletePropertyEvent(event.id);
-    router.replace(`/newDashboard/properties/${event.parentId}/events`);
-  };
-
+export function DeleteEventForm({ event }: DeleteEventFormProps) {
   return (
-    <FormBase className='flex flex-col text-center'>
+    <ObjectDeletionForm
+      objectId={event.id}
+      returnUrl={`/newDashboard/properties/${event.parentId}/events`}
+      deleteMethod={async data => {
+        return await ADeletePropertyEvent(data.id).then(res => {
+          switch (res) {
+            case -1:
+              toast.error('Tapahtumaa ei voi poistaa, sillä et ole sen laatija!');
+              break;
+          }
+
+          return res;
+        });
+      }}>
       Olet poistamassa tapahtumaa {event.title}. Oletko varma?
-      <div className='flex justify-end'>
-        <Button
-          startIcon={<Check />}
-          variant='text'
-          className='text-teal-500 font-semibold hover:underline cursor-pointer'
-          onClick={deleteAction}>
-          Vahvista
-        </Button>
-      </div>
-    </FormBase>
+    </ObjectDeletionForm>
   );
 }

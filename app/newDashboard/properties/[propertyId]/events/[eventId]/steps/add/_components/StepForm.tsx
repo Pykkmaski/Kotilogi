@@ -36,6 +36,7 @@ export function StepForm({ eventId, step }: StepFormProps) {
             <Input
               name='title'
               placeholder='Kirjoita vaiheen otsikko...'
+              defaultValue={step && step.title}
             />
           }
         />
@@ -43,9 +44,10 @@ export function StepForm({ eventId, step }: StepFormProps) {
         <FormControl
           label='Kuvaus'
           control={
-            <Input
+            <textarea
               name='description'
               placeholder='Kirjoita vaiheen kuvaus...'
+              defaultValue={step && step.description}
             />
           }
         />

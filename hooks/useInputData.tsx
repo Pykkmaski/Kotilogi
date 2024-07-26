@@ -9,20 +9,25 @@ import { useState } from 'react';
  */
 export function useInputData<T extends {}>(initialData: T) {
   const [data, setData] = useState<T>(initialData);
+  const [files, setFiles] = useState<File[]>([]);
 
   /**Updates the property with the name of the event in the stored data.*/
   const updateData = (e: TODO) => {
     if (!e.target.name) return;
 
-    setData(prev => ({
-      ...prev,
-      [e.target.name]:
-        e.target.type === 'number'
-          ? e.target.valueAsNumber
-          : e.target.type === 'checkbox'
-          ? e.target.checked
-          : e.target.value,
-    }));
+    if (e.target.type == 'file') {
+      setFiles(prev => [...prev, e.target.files[0]]);
+    } else {
+      setData(prev => ({
+        ...prev,
+        [e.target.name]:
+          e.target.type === 'number'
+            ? e.target.valueAsNumber
+            : e.target.type === 'checkbox'
+            ? e.target.checked
+            : e.target.value,
+      }));
+    }
   };
 
   const updateDataViaProperty = (name: string, value: string | number) => {
@@ -43,6 +48,7 @@ export function useInputData<T extends {}>(initialData: T) {
 
   return {
     data,
+    files,
     updateData,
     updateDataViaProperty,
     resetData,
