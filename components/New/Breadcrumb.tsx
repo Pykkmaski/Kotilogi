@@ -3,19 +3,29 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const tranlsatePathname = (pathname: string) => {
-  switch (pathname) {
+const tranlsatePathname = (href: string) => {
+  const current = href.split('/').at(-1);
+  const previous = href.split('/').at(-2);
+
+  switch (current) {
     case 'newDashboard':
       return 'Hallintapaneeli';
+
     case 'properties':
       return 'Talot';
+
     case 'add':
       return 'Lisää Uusi';
 
     case 'events':
       return 'Tapahtumat';
+
     default:
-      return pathname;
+      if ((previous && previous == 'properties') || previous == 'events') {
+        return 'ID';
+      } else {
+        return current;
+      }
   }
 };
 
@@ -46,7 +56,7 @@ export function Breadcrumb() {
               'text-teal-500',
               i == links.length - 1 ? 'font-semibold' : 'font-normal',
             ].join(' ')}>
-            {tranlsatePathname(href.split('/').at(-1))}
+            {tranlsatePathname(href)}
           </Link>
           {i < links.length - 1 ? <span>/</span> : null}
         </>

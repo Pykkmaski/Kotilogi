@@ -12,6 +12,7 @@ import { Chip } from '@mui/material';
 import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
 import { EventStepDataType } from 'kotilogi-app/models/types';
+import { FileCard } from '@/components/New/FileCard';
 
 export default async function EventPage({ params }) {
   const [event] = await db('data_propertyEvents')
@@ -47,11 +48,11 @@ export default async function EventPage({ params }) {
       />
 
       <FileOverview
-        preview
         files={[]}
         addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/files/add`}
+        showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/files`}
         PreviewComponent={({ item }) => {
-          return null;
+          return <FileCard file={item} />;
         }}
       />
     </Main>
