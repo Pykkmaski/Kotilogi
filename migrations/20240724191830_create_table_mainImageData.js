@@ -15,7 +15,7 @@ exports.up = function (knex) {
       .references('id')
       .inTable('data_objects')
       .onDelete('CASCADE');
-    tbl.string('imageId').notNullable().references('id').inTable('data_files').onDelete('CASCADE');
+    tbl.uuid('imageId').notNullable().references('id').inTable('data_files').onDelete('CASCADE');
   });
 };
 
