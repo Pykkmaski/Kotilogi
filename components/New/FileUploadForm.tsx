@@ -22,37 +22,35 @@ export function FileUploadForm({ fileParentId }: FileUploadFormProps) {
   const upload = async e => {
     e.preventDefault();
     setStatus(FormStatus.LOADING);
-    const failedUploads: string[] = [];
 
-    const promises = files.map(file => {
+    for (const file of files) {
       const fd = new FormData();
       fd.set('file', file);
 
-      AUploadFile(fd, fileParentId)
-        .then(() => {
-          setUploadedFileSize(prev => prev + file.size);
-        })
-        .catch(err => {
-          failedUploads.push(file.name);
-        });
-    });
+      try {
+        await AUploadFile(fd, fileParentId);
+        setUploadedFileSize(prev => {
+          const newSize = prev + file.size;
 
-    await Promise.allSettled(promises).then(() => {
-      failedUploads.forEach(item => toast.error('Tiedoston ' + item + ' lataus epäonnistui!'));
-      setStatus(FormStatus.IDLE);
-    });
+          return newSize;
+        });
+      } catch (err: any) {
+        toast.error('Tiedoston ' + file.name + ' lataus epäonnistui!');
+      }
+    }
+
+    setStatus(-1);
   };
 
   const loading = status == FormStatus.LOADING;
 
   useEffect(() => {
-    console.log(files);
     setTotalSizeOfFiles(files.reduce((acc, cur) => (acc += cur.size), 0));
   }, [files.length]);
 
   return (
     <form
-      className='flex w-full flex-col'
+      className='flex w-full flex-col gap-4'
       onChange={updateData}
       onSubmit={upload}>
       <ProgressBar
@@ -63,10 +61,12 @@ export function FileUploadForm({ fileParentId }: FileUploadFormProps) {
       <input
         type='file'
         name='file'
+        accept='image/jpeg,application/pdf'
         multiple
       />
+
       <FormButtons
-        loading={loading}
+        loading={loading || status == -1}
         backAction={() => router.back()}
       />
     </form>

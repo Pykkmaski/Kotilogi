@@ -5,7 +5,6 @@ import { FileUploadForm } from '@/components/New/FileUploadForm';
 export default async function AddEventPage({ params }) {
   return (
     <Main>
-      <FileUploadForm fileParentId={params.propertyId} />
       <EventForm propertyId={params.propertyId} />
     </Main>
   );

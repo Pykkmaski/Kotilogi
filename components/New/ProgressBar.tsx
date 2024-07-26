@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import bstyle from './ProgressBar.module.css';
 
 type ProgressBarProps = React.ComponentProps<'div'> & {
   maxProgress: number;
@@ -13,9 +14,10 @@ export function ProgressBar({ className, maxProgress, currentProgress }: Progres
   return (
     <div className={className}>
       <div
-        className='bg-teal-700 rounded-md h-full'
-        style={style}
-      />
+        className={`bg-teal-700 rounded-md h-full ${bstyle.progressBar}`}
+        style={style}>
+        {progress}/{100}
+      </div>
     </div>
   );
 }

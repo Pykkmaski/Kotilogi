@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import React from 'react';
 
 type IconLinkProps = React.ComponentProps<typeof Link> & {
-  icon: React.ReactNode;
+  icon: React.ReactElement;
 };
 
 export function IconLink({ icon, ...props }: IconLinkProps) {
@@ -9,7 +10,10 @@ export function IconLink({ icon, ...props }: IconLinkProps) {
     <Link
       className='p-2 rounded-md hover:bg-teal-600'
       {...props}>
-      {icon}
+      {React.cloneElement(icon, {
+        ...icon.props,
+        sx: { color: 'white' },
+      })}
     </Link>
   );
 }

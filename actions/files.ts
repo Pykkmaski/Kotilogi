@@ -12,6 +12,7 @@ export async function AUploadFile(fd: FormData, parentId: string) {
   const filename = Date.now() + fileNameTimestampSeparator + file.name;
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
+
   await writeFile(uploadPath + filename, buffer);
   await createObject({ parentId }, async (obj, trx) => {
     await trx('data_files')

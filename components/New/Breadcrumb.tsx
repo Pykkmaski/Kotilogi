@@ -20,6 +20,15 @@ const tranlsatePathname = (href: string) => {
     case 'events':
       return 'Tapahtumat';
 
+    case 'files':
+      return 'Tiedostot';
+
+    case 'delete':
+      return 'Poista';
+
+    case 'edit':
+      return 'Muokkaa';
+
     default:
       if ((previous && previous == 'properties') || previous == 'events') {
         return 'ID';

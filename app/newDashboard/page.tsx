@@ -5,7 +5,7 @@ import { Main } from '@/components/New/Main';
 import { Spacer } from '@/components/New/Spacers';
 import { Card } from '@/components/UI/Card';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { Delete, History, Home, Settings } from '@mui/icons-material';
+import { Delete, History, Home, Image, Settings } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
 import { getUserHouses } from 'kotilogi-app/models/houseData';
@@ -46,14 +46,19 @@ export default async function newDashboardPage() {
                     return (
                       <>
                         <IconLink
-                          icon={<Delete sx={{ color: 'white' }} />}
-                          title='Poista talo...'
-                          href={`/newDashboard/properties/${item.id}/delete`}
-                        />
-                        <IconLink
                           href={`/newDashboard/properties/${item.id}/events`}
                           title='Näytä tapahtumat'
-                          icon={<History sx={{ color: 'white' }} />}
+                          icon={<History />}
+                        />
+                        <IconLink
+                          href={`/newDashboard/properties/${item.id}/files`}
+                          title='Näytä tiedostot'
+                          icon={<Image />}
+                        />
+                        <IconLink
+                          icon={<Delete />}
+                          title='Poista talo...'
+                          href={`/newDashboard/properties/${item.id}/delete`}
                         />
                       </>
                     );

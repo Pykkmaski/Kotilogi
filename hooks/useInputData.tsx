@@ -16,7 +16,7 @@ export function useInputData<T extends {}>(initialData: T) {
     if (!e.target.name) return;
 
     if (e.target.type == 'file') {
-      setFiles(prev => [...prev, e.target.files[0]]);
+      setFiles(prev => [...prev, ...e.target.files]);
     } else {
       setData(prev => ({
         ...prev,

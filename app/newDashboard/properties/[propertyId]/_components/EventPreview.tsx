@@ -34,8 +34,8 @@ export function EventPreview({
                   <>
                     <IconLink
                       title='Näytä tiedostot'
-                      href=''
-                      icon={<Image sx={{ color: 'white' }} />}
+                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/files`}
+                      icon={<Image />}
                     />
                   </>
                 );

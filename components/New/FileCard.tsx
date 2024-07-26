@@ -20,6 +20,9 @@ export function FileCard({ file }: FileCardProps) {
   const [status, setStatus] = useState(FormStatus.IDLE);
 
   const deleteFile = async () => {
+    const c = confirm('Haluatko varmasti poistaa valitsemasi tiedoston?');
+    if (!c) return;
+
     setStatus(FormStatus.LOADING);
     await ADeleteFile(file.id).then(res => {
       switch (res) {

@@ -7,6 +7,7 @@ import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
 import { EventOverview } from './_components/EventOverview';
+import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 
 async function getEvents(propertyId: string, q: string | undefined, page?: number) {
   const table = 'data_propertyEvents';
@@ -42,6 +43,13 @@ export default async function EventsPage({ params }) {
           `/newDashboard/properties/${propertyId}/events/${itemId}/delete`
         }
         listTitle='Tapahtumat'
+        onEmptyElement={
+          <GalleryError
+            title='Ei tapahtumia'
+            message='Kohteelle ei ole vielä lisätty tapahtumia.'
+            icon={'fa fa-history'}
+          />
+        }
         items={events}
         addButtonUrl={`/newDashboard/properties/${propertyId}/events/add`}
         getOverviewBoxUrl={itemId => `/newDashboard/properties/${propertyId}/events/${itemId}`}

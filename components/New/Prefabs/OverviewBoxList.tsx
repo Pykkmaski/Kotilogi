@@ -13,6 +13,7 @@ type OverviewBoxListProps<T extends ObjectDataType> = {
   listTitle: string;
   itemsSelectable?: boolean;
   addButtonUrl?: string;
+  onEmptyElement?: React.ReactNode;
   getOverviewBoxDeleteUrl?: (itemId: string) => string;
   getOverviewBoxUrl?: (itemId: string) => string;
   getOverviewBoxTitle?: (item: T, i: number) => string;
@@ -26,6 +27,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
   listTitle,
   addButtonUrl,
   itemsSelectable,
+  onEmptyElement,
   getOverviewBoxDescription,
   getOverviewBoxImageUrl,
   getOverviewBoxUrl,
@@ -49,33 +51,37 @@ export function OverviewBoxList<T extends ObjectDataType>({
       </div>
 
       <SelectablesProvider>
-        {items.map((item, i) => {
-          const title =
-            (getOverviewBoxTitle && getOverviewBoxTitle(item, i)) || item.title || 'Ei Otsikkoa.';
-          const description =
-            (getOverviewBoxDescription && getOverviewBoxDescription(item, i)) ||
-            item.description ||
-            'Ei Kuvausta.';
-          const imageUrl =
-            (getOverviewBoxImageUrl && getOverviewBoxImageUrl(item.id)) ||
-            '/img/Properties/default-bg.jpg';
-          const editUrl = getOverviewBoxUrl(item.id);
-          const deleteUrl = getOverviewBoxDeleteUrl && getOverviewBoxDeleteUrl(item.id);
+        {items.length
+          ? items.map((item, i) => {
+              const title =
+                (getOverviewBoxTitle && getOverviewBoxTitle(item, i)) ||
+                item.title ||
+                'Ei Otsikkoa.';
+              const description =
+                (getOverviewBoxDescription && getOverviewBoxDescription(item, i)) ||
+                item.description ||
+                'Ei Kuvausta.';
+              const imageUrl =
+                (getOverviewBoxImageUrl && getOverviewBoxImageUrl(item.id)) ||
+                '/img/Properties/default-bg.jpg';
+              const editUrl = getOverviewBoxUrl(item.id);
+              const deleteUrl = getOverviewBoxDeleteUrl && getOverviewBoxDeleteUrl(item.id);
 
-          return OverviewComponent ? (
-            <OverviewComponent item={item} />
-          ) : (
-            <OverviewBox
-              deleteUrl={deleteUrl}
-              editUrl={editUrl}
-              key={`listItem-${i}`}
-              title={title}
-              description={description}
-              imageUrl={imageUrl}
-              selectableItem={itemsSelectable && item}
-            />
-          );
-        })}
+              return OverviewComponent ? (
+                <OverviewComponent item={item} />
+              ) : (
+                <OverviewBox
+                  deleteUrl={deleteUrl}
+                  editUrl={editUrl}
+                  key={`listItem-${i}`}
+                  title={title}
+                  description={description}
+                  imageUrl={imageUrl}
+                  selectableItem={itemsSelectable && item}
+                />
+              );
+            })
+          : { onEmptyElement }}
       </SelectablesProvider>
     </div>
   );
