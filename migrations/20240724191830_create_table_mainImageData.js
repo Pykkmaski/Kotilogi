@@ -9,7 +9,7 @@ exports.up = function (knex) {
   return knex.schema.createTable(table, tbl => {
     tbl.uuid('id').primary().defaultTo(knex.fn.uuid());
     tbl
-      .string('objectId')
+      .uuid('objectId')
       .unique()
       .notNullable()
       .references('id')
