@@ -53,6 +53,9 @@ export async function AUpdateProperty<T extends PropertyDataType>(
 
 export async function ADeleteProperty(id: string, password: string) {
   const session = await loadSession();
+  const owners = await db('data_propertyOwners').where({ propertyId: id }).pluck('userId');
+  if (!owners.includes(session.user.id)) return -2;
+
   const [encryptedPassword] = await db('data_users')
     .where({ id: session.user.id })
     .pluck('password');

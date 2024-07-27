@@ -11,7 +11,7 @@ type EventOverviewProps<T extends EventDataType> = {
 export function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   return (
     <OverviewBox
-      deleteUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/delete`}
+      deleteUrl={`${event.id}/delete`}
       title={event.title}
       description={
         <div className='flex flex-col gap-2 h-full'>

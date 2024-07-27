@@ -32,6 +32,8 @@ export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
         return await ADeleteProperty(property.id, data.password).then(res => {
           if (res == -1) {
             toast.error('Annettu salasana on väärä!');
+          } else if (res == -2) {
+            toast.error('Talon voi poistaa ainoastaan sen omistaja!');
           } else {
             toast.success('Talo poistettu!');
           }
@@ -39,7 +41,7 @@ export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
         });
       }}>
       <MainHeading>Poista talo</MainHeading>
-      <p className='text-lg'>
+      <p className='text-lg mb-4'>
         Olet poistamassa taloa{' '}
         <strong className='font-semibold'>
           {property.streetAddress} {'appartmentNumber' in property ? property.appartmentNumber : ''}

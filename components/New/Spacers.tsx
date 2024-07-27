@@ -6,7 +6,7 @@ type SpacerProps = React.PropsWithChildren & {
 /**Arranges its children with in a vertical or horizontal row, with gaps. */
 export function Spacer({ children, direction, centered }: SpacerProps) {
   const className = [
-    `flex flex-${direction} w-full gap-4 overflow-x-scroll`,
+    `flex flex-${direction} gap-4 w-full overflow-x-scroll`,
     centered ? 'items-baseline' : '',
   ];
   return <div className={className.join(' ')}>{children}</div>;

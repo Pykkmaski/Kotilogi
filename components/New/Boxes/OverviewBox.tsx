@@ -61,29 +61,31 @@ export function OverviewBox({
               )
             }
             secondElement={
-              editUrl ? (
-                <>
+              <div className='flex gap-2'>
+                {editUrl ? (
                   <Link
                     href={editUrl}
                     title={editContentText || 'Näytä'}>
                     <IconButton color='primary'>{editIcon || <Visibility />}</IconButton>
                   </Link>
-                </>
-              ) : null
+                ) : null}
+                {deleteUrl && (
+                  <Link
+                    href={deleteUrl}
+                    title='Poista'>
+                    <IconButton color='warning'>
+                      <Delete />
+                    </IconButton>
+                  </Link>
+                )}
+              </div>
             }
           />
 
-          {description}
+          <div>{description}</div>
+
           <div className='flex justify-end w-full mt-auto'>
-            {deleteUrl && (
-              <Link
-                href={deleteUrl}
-                title='Poista'>
-                <IconButton color='warning'>
-                  <Delete />
-                </IconButton>
-              </Link>
-            )}
+            {}
             {selectableItem && (
               <SelectablesProvider.SelectTrigger item={selectableItem}>
                 <input type='checkbox'></input>

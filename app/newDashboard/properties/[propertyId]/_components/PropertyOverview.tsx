@@ -8,6 +8,7 @@ import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
+  owners?: string[];
   editIcon: React.ReactNode;
   editUrl: string;
   showUrl?: string;
@@ -21,6 +22,7 @@ export async function PropertyOverview({
   editUrl,
   editContentText,
   showUrl,
+  owners,
   imageUrl,
 }: PropertyOverviewProps) {
   const [mainImageId] =
@@ -29,6 +31,7 @@ export async function PropertyOverview({
   return (
     <OverviewBox
       showUrl={showUrl}
+      deleteUrl={`/newDashboard/properties/${property.id}/delete`}
       title={
         property.streetAddress +
         ' ' +
@@ -42,6 +45,14 @@ export async function PropertyOverview({
               label={property.propertyType == PropertyType.APT ? 'Huoneisto' : 'Kiinteistö'}
               chipColor='primary'
             />
+
+            {owners && (
+              <ChipData
+                label='Omistajat'
+                chipColor='primary'
+                value={owners.length}
+              />
+            )}
           </div>
         </div>
       }

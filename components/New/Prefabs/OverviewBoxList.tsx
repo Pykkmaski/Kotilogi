@@ -81,7 +81,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
                 />
               );
             })
-          : { onEmptyElement }}
+          : onEmptyElement}
       </SelectablesProvider>
     </div>
   );

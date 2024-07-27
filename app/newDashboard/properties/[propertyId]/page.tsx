@@ -19,6 +19,11 @@ export default async function PropertyPage({ params }) {
   const id = params.propertyId;
   const property = await getProperty(id);
 
+  const owners = await db('data_propertyOwners')
+    .where({ propertyId: property.id })
+    .join('data_users', { 'data_users.id': 'data_propertyOwners.userId' })
+    .pluck('email');
+
   const events = await db('data_objects')
     .join('data_propertyEvents', 'data_propertyEvents.id', '=', 'data_objects.id')
     .where({ 'data_objects.parentId': id })
@@ -37,6 +42,7 @@ export default async function PropertyPage({ params }) {
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
       <PropertyOverview
+        owners={owners}
         property={property}
         editContentText='Muokkaa tietoja'
         editIcon={<Edit />}
