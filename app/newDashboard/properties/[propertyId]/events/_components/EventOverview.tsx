@@ -36,7 +36,7 @@ export function EventOverview<T extends EventDataType>({ event }: EventOverviewP
           </div>
         </div>
       }
-      imageUrl='/img/Properties/default-bg.jpg'
+      imageUrl='/img/kitchen.jpg'
       editUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/edit`}
       showUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}`}
       editContentText='Muokkaa'

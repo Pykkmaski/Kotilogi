@@ -28,7 +28,7 @@ export function EventPreview({
             <Card
               title={item.title}
               description={item.description || 'Ei Kuvausta.'}
-              imageSrc='/img/Properties/default-bg.jpg'
+              imageSrc='/img/kitchen.jpg'
               HeaderComponent={() => {
                 return (
                   <>

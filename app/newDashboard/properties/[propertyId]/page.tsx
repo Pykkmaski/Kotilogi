@@ -13,6 +13,7 @@ import { ChipData } from '@/components/New/ChipData';
 import { PropertyOverview } from './_components/PropertyOverview';
 import { FileDataType } from 'kotilogi-app/models/types';
 import { FileCard } from '@/components/New/FileCard';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -34,6 +35,7 @@ export default async function PropertyPage({ params }) {
 
   return (
     <Main>
+      <SecondaryHeading>Talo</SecondaryHeading>
       <PropertyOverview
         property={property}
         editContentText='Muokkaa tietoja'

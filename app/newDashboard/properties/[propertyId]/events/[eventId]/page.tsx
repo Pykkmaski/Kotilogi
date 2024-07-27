@@ -4,7 +4,11 @@ import { ChipData } from '@/components/New/ChipData';
 import { Main } from '@/components/New/Main';
 import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { Spacer } from '@/components/New/Spacers';
-import { MainHeading, TertiaryHeading } from '@/components/New/Typography/Headings';
+import {
+  MainHeading,
+  SecondaryHeading,
+  TertiaryHeading,
+} from '@/components/New/Typography/Headings';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Card } from '@/components/UI/Card';
 import { Dvr, Edit, Image, Pin, PushPin, Tag } from '@mui/icons-material';
@@ -13,6 +17,7 @@ import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
 import { EventStepDataType } from 'kotilogi-app/models/types';
 import { FileCard } from '@/components/New/FileCard';
+import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 
 export default async function EventPage({ params }) {
   const [event] = await db('data_propertyEvents')
@@ -25,7 +30,7 @@ export default async function EventPage({ params }) {
 
   return (
     <Main>
-      <MainHeading>Tapahtuma</MainHeading>
+      <SecondaryHeading>Tapahtuma</SecondaryHeading>
       <EventOverview event={event} />
 
       <PreviewContentRow
@@ -37,12 +42,19 @@ export default async function EventPage({ params }) {
         showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/steps`}
         addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/steps/add`}
         onEmptyElement={<span className='text-slate-500'>Tapahtumalla ei ole vielä vaiheita.</span>}
-        PreviewComponent={({ item }) => {
+        PreviewComponent={async ({ item }) => {
+          const [mainImageId] = await db('data_mainImages')
+            .where({ objectId: item.id })
+            .pluck('imageId');
+
           return (
-            <Card
-              title={item.title}
-              description={item.description}
-            />
+            <NoUnderlineLink href={`${event.id}/steps/${item.id}`}>
+              <Card
+                imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/room.jpg'}
+                title={item.title}
+                description={item.description || 'Ei kuvausta.'}
+              />
+            </NoUnderlineLink>
           );
         }}
       />
