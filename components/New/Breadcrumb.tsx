@@ -29,8 +29,11 @@ const tranlsatePathname = (href: string) => {
     case 'edit':
       return 'Muokkaa';
 
+    case 'steps':
+      return 'Vaiheet';
+
     default:
-      if ((previous && previous == 'properties') || previous == 'events') {
+      if ((previous && previous == 'properties') || previous == 'events' || previous == 'steps') {
         return 'ID';
       } else {
         return current;
