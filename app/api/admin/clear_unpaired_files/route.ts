@@ -1,4 +1,4 @@
-import { opendir, readdir, unlink } from 'fs/promises';
+import { opendir, readdir, readFile, unlink } from 'fs/promises';
 import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
@@ -19,7 +19,19 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const filesDeleted = await Files.removeUnpaired();
+    let filesDeleted = 0;
+    const dir = await opendir(uploadPath);
+    for await (const entry of dir) {
+      const filename = entry.name;
+      await db('data_files')
+        .where({ name: filename })
+        .then(async ([file]) => {
+          if (!file) {
+            await unlink(uploadPath + filename);
+            filesDeleted++;
+          }
+        });
+    }
 
     return new NextResponse(`Unpaired files deleted: ${filesDeleted}`, {
       status: 200,

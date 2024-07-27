@@ -69,6 +69,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
             <textarea
               placeholder='Kirjoita tapahtuman kuvaus...'
               name='description'
+              spellCheck={false}
               required
               defaultValue={eventData && eventData.description}
             />

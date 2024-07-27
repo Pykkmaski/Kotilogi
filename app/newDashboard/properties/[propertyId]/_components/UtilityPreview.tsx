@@ -51,7 +51,9 @@ export function UtilityPreview({
                 utilityObject[UtilityType.HEAT].reduce(
                   (acc, cur) => (acc += cur.monetaryAmount),
                   0
-                ) / 100
+                ) /
+                  100 +
+                '€'
               }
             />
 
@@ -62,7 +64,9 @@ export function UtilityPreview({
                 utilityObject[UtilityType.WATER].reduce(
                   (acc, cur) => (acc += cur.monetaryAmount),
                   0
-                ) / 100
+                ) /
+                  100 +
+                '€'
               }
             />
 
@@ -73,7 +77,9 @@ export function UtilityPreview({
                 utilityObject[UtilityType.ELECTRIC].reduce(
                   (acc, cur) => (acc += cur.monetaryAmount),
                   0
-                ) / 100
+                ) /
+                  100 +
+                '€'
               }
             />
           </div>

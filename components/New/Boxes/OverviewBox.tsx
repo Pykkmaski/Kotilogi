@@ -62,13 +62,13 @@ export function OverviewBox({
             }
             secondElement={
               <div className='flex gap-2'>
-                {editUrl ? (
+                {editUrl && (
                   <Link
                     href={editUrl}
                     title={editContentText || 'Näytä'}>
                     <IconButton color='primary'>{editIcon || <Visibility />}</IconButton>
                   </Link>
-                ) : null}
+                )}
                 {deleteUrl && (
                   <Link
                     href={deleteUrl}

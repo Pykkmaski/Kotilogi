@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { EventOverview } from './_components/EventOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import { SearchBar } from '@/components/Feature/SearchBar';
+import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
 async function getEvents(propertyId: string, q: string | undefined, page?: number) {
   const table = 'data_propertyEvents';
@@ -34,7 +35,6 @@ async function getEvents(propertyId: string, q: string | undefined, page?: numbe
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
   const search = searchParams?.q;
-  console.log(search);
 
   const events = (await db('data_propertyEvents')
     .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
@@ -44,19 +44,31 @@ export default async function EventsPage({ params, searchParams }) {
         .orWhereLike('startTime', `%${search}%`)
         .orWhereLike('endTime', `%${search}%`);
     })
-    .andWhere({ parentId: propertyId })) as EventDataType[];
-  console.log(events);
+    .andWhere({ parentId: propertyId })
+    .orderBy('startTime', 'desc')) as EventDataType[];
 
+  const [propertyType] = await db('data_properties')
+    .where({ id: propertyId })
+    .pluck('propertyType');
+  const [propertyAddress] =
+    propertyType == PropertyType.HOUSE
+      ? await db('data_properties').select('streetAddress')
+      : await db('data_properties')
+          .join('data_appartments', { 'data_properties.id': 'data_appartments.id' })
+          .select('streetAddress', 'appartmentNumber');
+
+  console.log(propertyAddress);
   return (
     <Main>
-      <div className='flex w-full justify-end'>
-        <SearchBar />
-      </div>
       <OverviewBoxList
-        getOverviewBoxDeleteUrl={itemId =>
-          `/newDashboard/properties/${propertyId}/events/${itemId}/delete`
+        searchBar
+        listTitle={
+          'Tapahtumat ' +
+          `(${
+            propertyAddress.streetAddress +
+            ('appartmentNumber' in propertyAddress ? ` ${propertyAddress.appartmentNumber}` : '')
+          })`
         }
-        listTitle='Tapahtumat'
         onEmptyElement={
           search ? (
             <GalleryError
@@ -74,7 +86,6 @@ export default async function EventsPage({ params, searchParams }) {
         }
         items={events}
         addButtonUrl={`/newDashboard/properties/${propertyId}/events/add`}
-        getOverviewBoxUrl={itemId => `/newDashboard/properties/${propertyId}/events/${itemId}`}
         OverviewComponent={async ({ item }) => {
           const [{ numSteps }] = await db('data_propertyEventSteps')
             .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })

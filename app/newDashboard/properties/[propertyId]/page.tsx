@@ -38,12 +38,18 @@ export default async function PropertyPage({ params }) {
     .where({ parentId: id })
     .limit(4)) as FileDataType[];
 
+  const [{ numEvents }] = await db('data_objects')
+    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+    .where({ parentId: property.id })
+    .count('*', { as: 'numEvents' });
+
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
       <PropertyOverview
         owners={owners}
         property={property}
+        numEvents={numEvents}
         editContentText='Muokkaa tietoja'
         editIcon={<Edit />}
         editUrl={`/newDashboard/properties/${property.id}/edit`}

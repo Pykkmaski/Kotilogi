@@ -7,6 +7,7 @@ import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
+import db from 'kotilogi-app/dbconfig';
 
 export default async function PropertiesPage() {
   const session = await loadSession();
@@ -27,16 +28,15 @@ export default async function PropertiesPage() {
           />
         }
         addButtonUrl='/newDashboard/properties/add'
-        getOverviewBoxUrl={itemId => `/newDashboard/properties/${itemId}`}
-        getOverviewBoxTitle={(item, i) => {
-          return (
-            item.streetAddress + ' ' + (('appartmentNumber' in item && item.appartmentNumber) || '')
-          );
-        }}
-        getOverviewBoxDeleteUrl={itemId => `/newDashboard/properties/${itemId}/delete`}
         OverviewComponent={async ({ item }) => {
+          const [{ numEvents }] = await db('data_objects')
+            .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+            .where({ parentId: item.id })
+            .count('*', { as: 'numEvents' });
+
           return (
             <PropertyOverview
+              numEvents={numEvents}
               property={item}
               editUrl={`/newDashboard/properties/${item.id}/edit`}
               showUrl={`/newDashboard/properties/${item.id}`}

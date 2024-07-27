@@ -7,7 +7,7 @@ type ChipDataProps = ChipProps & {
 
 export function ChipData({ label, value, chipColor = 'primary', ...props }: ChipDataProps) {
   return (
-    <div className='flex gap-4 p-1 items-center'>
+    <div className='flex gap-4 items-center'>
       <Chip
         className='text-lg font-semibold'
         label={label}

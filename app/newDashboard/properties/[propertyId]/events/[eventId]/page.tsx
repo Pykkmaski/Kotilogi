@@ -18,6 +18,7 @@ import { EventOverview } from '../_components/EventOverview';
 import { EventStepDataType } from 'kotilogi-app/models/types';
 import { FileCard } from '@/components/New/FileCard';
 import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
+import { IconLink } from '@/components/New/Links/IconLink';
 
 export default async function EventPage({ params }) {
   const [event] = await db('data_propertyEvents')
@@ -26,12 +27,23 @@ export default async function EventPage({ params }) {
 
   const steps = (await db('data_objects')
     .join('data_propertyEventSteps', { 'data_objects.id': 'data_propertyEventSteps.id' })
-    .where({ parentId: event.id })) as EventStepDataType[];
+    .where({ parentId: event.id })
+    .limit(4)) as EventStepDataType[];
+
+  const [{ numSteps }] = await db('data_propertyEventSteps')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
+    .where({ parentId: params.eventId })
+    .count('*', { as: 'numSteps' });
 
   return (
     <Main>
       <SecondaryHeading>Tapahtuma</SecondaryHeading>
-      <EventOverview event={event} />
+      <EventOverview
+        event={{
+          ...event,
+          numSteps,
+        }}
+      />
 
       <PreviewContentRow
         icon={<PushPin />}

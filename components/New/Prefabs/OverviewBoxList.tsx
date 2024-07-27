@@ -7,19 +7,17 @@ import { OverviewBox } from '../Boxes/OverviewBox';
 import { NoUnderlineLink } from '../Links/NoUnderlineLink';
 import React from 'react';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
+import { SearchBar } from '@/components/Feature/SearchBar';
 
 type OverviewBoxListProps<T extends ObjectDataType> = {
   items: T[];
   listTitle: string;
   itemsSelectable?: boolean;
+  searchBar?: boolean;
   addButtonUrl?: string;
   onEmptyElement?: React.ReactNode;
-  getOverviewBoxDeleteUrl?: (itemId: string) => string;
-  getOverviewBoxUrl?: (itemId: string) => string;
-  getOverviewBoxTitle?: (item: T, i: number) => string;
-  getOverviewBoxDescription?: (item: T, i: number) => string;
-  getOverviewBoxImageUrl?: (itemId: string) => string;
-  OverviewComponent?: ({ item }: { item: T }) => React.ReactNode;
+
+  OverviewComponent: ({ item }: { item: T }) => React.ReactNode;
 };
 
 export function OverviewBoxList<T extends ObjectDataType>({
@@ -27,12 +25,9 @@ export function OverviewBoxList<T extends ObjectDataType>({
   listTitle,
   addButtonUrl,
   itemsSelectable,
+  searchBar,
   onEmptyElement,
-  getOverviewBoxDescription,
-  getOverviewBoxImageUrl,
-  getOverviewBoxUrl,
-  getOverviewBoxDeleteUrl,
-  getOverviewBoxTitle,
+
   OverviewComponent,
 }: OverviewBoxListProps<T>) {
   return (
@@ -40,6 +35,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
       <div className='flex justify-between w-full items-center'>
         <SecondaryHeading>{listTitle}</SecondaryHeading>
         <div className='flex gap-4 items-center'>
+          {searchBar && <SearchBar />}
           <Link href={addButtonUrl}>
             <Button
               variant='text'
@@ -53,31 +49,10 @@ export function OverviewBoxList<T extends ObjectDataType>({
       <SelectablesProvider>
         {items.length
           ? items.map((item, i) => {
-              const title =
-                (getOverviewBoxTitle && getOverviewBoxTitle(item, i)) ||
-                item.title ||
-                'Ei Otsikkoa.';
-              const description =
-                (getOverviewBoxDescription && getOverviewBoxDescription(item, i)) ||
-                item.description ||
-                'Ei Kuvausta.';
-              const imageUrl =
-                (getOverviewBoxImageUrl && getOverviewBoxImageUrl(item.id)) ||
-                '/img/Properties/default-bg.jpg';
-              const editUrl = getOverviewBoxUrl(item.id);
-              const deleteUrl = getOverviewBoxDeleteUrl && getOverviewBoxDeleteUrl(item.id);
-
-              return OverviewComponent ? (
-                <OverviewComponent item={item} />
-              ) : (
-                <OverviewBox
-                  deleteUrl={deleteUrl}
-                  editUrl={editUrl}
+              return (
+                <OverviewComponent
+                  item={item}
                   key={`listItem-${i}`}
-                  title={title}
-                  description={description}
-                  imageUrl={imageUrl}
-                  selectableItem={itemsSelectable && item}
                 />
               );
             })

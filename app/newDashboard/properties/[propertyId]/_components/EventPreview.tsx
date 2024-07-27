@@ -3,7 +3,7 @@ import { IconLink } from '@/components/New/Links/IconLink';
 import { Card } from '@/components/UI/Card';
 import { EventDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
-import { History, Image } from '@mui/icons-material';
+import { Edit, History, Image, PushPin } from '@mui/icons-material';
 
 export function EventPreview({
   propertyId,
@@ -32,6 +32,16 @@ export function EventPreview({
               HeaderComponent={() => {
                 return (
                   <>
+                    <IconLink
+                      title='Muokkaa tietoja'
+                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/edit`}
+                      icon={<Edit />}
+                    />
+                    <IconLink
+                      title='Näytä vaiheet'
+                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/steps`}
+                      icon={<PushPin />}
+                    />
                     <IconLink
                       title='Näytä tiedostot'
                       href={`/newDashboard/properties/${propertyId}/events/${item.id}/files`}

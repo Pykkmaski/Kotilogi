@@ -1,5 +1,6 @@
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
 import { ChipData } from '@/components/New/ChipData';
+import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Edit } from '@mui/icons-material';
 import { EventDataType } from 'kotilogi-app/models/types';
@@ -11,7 +12,7 @@ type EventOverviewProps<T extends EventDataType> = {
 export function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   return (
     <OverviewBox
-      deleteUrl={`${event.id}/delete`}
+      deleteUrl={`events/${event.id}/delete`}
       title={event.title}
       description={
         <div className='flex flex-col gap-2 h-full'>

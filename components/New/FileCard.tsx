@@ -3,7 +3,7 @@
 import { ADeleteFile, ASetMainImage } from '@/actions/files';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import { useForm } from '@/hooks/useForm';
-import { Delete, PinDrop } from '@mui/icons-material';
+import { Delete, PinDrop, Star } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { FileDataType } from 'kotilogi-app/models/types';
 import Image from 'next/image';
@@ -13,9 +13,10 @@ import toast from 'react-hot-toast';
 
 type FileCardProps = {
   file: FileDataType;
+  isMain?: boolean;
 };
 
-export function FileCard({ file }: FileCardProps) {
+export function FileCard({ file, isMain }: FileCardProps) {
   const src = `/api/files/${file.id}`;
   const [status, setStatus] = useState(FormStatus.IDLE);
 
@@ -56,12 +57,12 @@ export function FileCard({ file }: FileCardProps) {
   return (
     <div className='relative flex flex-col aspect-square w-[25%] overflow-hidden rounded-md shadow-md'>
       <div className='flex p-2 gap-2 w-full z-10 justify-end bg-[#0004]'>
-        {file.type == 'image/jpeg' && (
+        {file.type == 'image/jpeg' && !isMain && (
           <IconButton
             title='Aseta pääkuvaksi'
             disabled={loading}
             onClick={setMainImage}>
-            <PinDrop sx={{ color: 'white' }} />
+            <Star sx={{ color: 'white' }} />
           </IconButton>
         )}
         <IconButton

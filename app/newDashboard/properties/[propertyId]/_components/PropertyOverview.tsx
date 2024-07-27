@@ -14,6 +14,7 @@ type PropertyOverviewProps = {
   showUrl?: string;
   imageUrl?: string;
   editContentText: string;
+  numEvents: number;
 };
 
 export async function PropertyOverview({
@@ -23,6 +24,7 @@ export async function PropertyOverview({
   editContentText,
   showUrl,
   owners,
+  numEvents,
   imageUrl,
 }: PropertyOverviewProps) {
   const [mainImageId] =
@@ -40,7 +42,7 @@ export async function PropertyOverview({
       description={
         <div className='flex flex-col h-full gap-4'>
           <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
             <ChipData
               label={property.propertyType == PropertyType.APT ? 'Huoneisto' : 'Kiinteistö'}
               chipColor='primary'

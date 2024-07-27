@@ -9,15 +9,17 @@ export default async function EditEventPage({ params }) {
     .where({ 'data_propertyEvents.id': params.eventId });
 
   const session = await loadSession();
-  if (event.authorId != session.user.id)
-    throw new Error('Sinulla ei ole tämän tapahtuman muokkausoikeutta!');
+
+  const allowed = session.user.id == event.authorId;
 
   return (
     <Main>
-      <EventForm
-        eventData={event}
-        propertyId={event.parentId}
-      />
+      {(allowed && (
+        <EventForm
+          eventData={event}
+          propertyId={event.parentId}
+        />
+      )) || <span>Vain tapahtuman laatija voi muokata sitä!</span>}
     </Main>
   );
 }
