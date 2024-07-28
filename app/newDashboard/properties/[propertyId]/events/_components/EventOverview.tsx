@@ -3,13 +3,16 @@ import { ChipData } from '@/components/New/ChipData';
 import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Edit } from '@mui/icons-material';
+import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/models/types';
 
 type EventOverviewProps<T extends EventDataType> = {
   event: T & { numSteps: number };
 };
 
-export function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
+export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
+  const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
+
   return (
     <OverviewBox
       deleteUrl={`events/${event.id}/delete`}
@@ -37,7 +40,7 @@ export function EventOverview<T extends EventDataType>({ event }: EventOverviewP
           </div>
         </div>
       }
-      imageUrl='/img/kitchen.jpg'
+      imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/kitchen.jpg'}
       editUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/edit`}
       showUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}`}
       editContentText='Muokkaa'

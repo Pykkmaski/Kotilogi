@@ -43,6 +43,10 @@ export default async function PropertyPage({ params }) {
     .where({ parentId: property.id })
     .count('*', { as: 'numEvents' });
 
+  const [mainImageId] = await db('data_mainImages')
+    .where({ objectId: property.id })
+    .pluck('imageId');
+
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
@@ -67,10 +71,15 @@ export default async function PropertyPage({ params }) {
 
       <FileOverview
         files={files}
-        addNewUrl={`/newDashboard/properties/${property.id}/files/add`}
+        addNewUrl={`/newDashboard/files/add?parentId=${property.id}`}
         showAllUrl={`/newDashboard/properties/${id}/files`}
         PreviewComponent={({ item }) => {
-          return <FileCard file={item} />;
+          return (
+            <FileCard
+              file={item}
+              isMain={item.id == mainImageId}
+            />
+          );
         }}
       />
     </Main>

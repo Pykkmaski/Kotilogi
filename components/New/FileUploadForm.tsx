@@ -12,9 +12,10 @@ import { Button } from '@mui/material';
 
 type FileUploadFormProps = {
   fileParentId: string;
+  onComplete?: () => void;
 };
 
-export function FileUploadForm({ fileParentId }: FileUploadFormProps) {
+export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps) {
   const { updateData, status, setStatus, files, router } = useForm({});
   const [uploadedFileSize, setUploadedFileSize] = useState(0);
   const [totalSizeOfFiles, setTotalSizeOfFiles] = useState(0);
@@ -40,6 +41,7 @@ export function FileUploadForm({ fileParentId }: FileUploadFormProps) {
     }
 
     setStatus(-1);
+    setTimeout(() => router.back(), 1000);
   };
 
   const loading = status == FormStatus.LOADING;

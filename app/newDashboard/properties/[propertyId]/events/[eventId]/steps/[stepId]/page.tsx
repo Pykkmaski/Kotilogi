@@ -1,4 +1,5 @@
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
+import { FileCard } from '@/components/New/FileCard';
 import { Main } from '@/components/New/Main';
 import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
@@ -33,7 +34,19 @@ export default async function StepPage({ params }) {
         imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/room.jpg'}
       />
 
-      <FileOverview files={files} />
+      <FileOverview
+        files={files}
+        showAllUrl={`${params.stepId}/files`}
+        addNewUrl={`/newDashboard/files/add?parentId=${params.stepId}`}
+        PreviewComponent={({ item }) => {
+          return (
+            <FileCard
+              file={item}
+              isMain={item.id == mainImageId}
+            />
+          );
+        }}
+      />
     </Main>
   );
 }

@@ -12,15 +12,16 @@ import { FileError } from '@/components/Feature/GalleryBase/Components/Error/Fil
 
 type FilePageProps = {
   files: FileDataType[];
+  objectId: string;
 };
 
-export async function FilePage({ files }: FilePageProps) {
+export async function FilePage({ files, objectId }: FilePageProps) {
   return (
     <Main>
       <SpaceBetween
         firstElement={<SecondaryHeading>Tiedostot</SecondaryHeading>}
         secondElement={
-          <Link href='files/add'>
+          <Link href={`/newDashboard/files/add?parentId=${objectId}`}>
             <Button
               variant='text'
               startIcon={<Add />}>

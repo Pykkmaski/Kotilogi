@@ -62,13 +62,7 @@ export default async function EventsPage({ params, searchParams }) {
     <Main>
       <OverviewBoxList
         searchBar
-        listTitle={
-          'Tapahtumat ' +
-          `(${
-            propertyAddress.streetAddress +
-            ('appartmentNumber' in propertyAddress ? ` ${propertyAddress.appartmentNumber}` : '')
-          })`
-        }
+        listTitle='Tapahtumat'
         onEmptyElement={
           search ? (
             <GalleryError

@@ -21,13 +21,13 @@ export default async function StepsPage({ params, searchParams }) {
     <Main>
       <OverviewBoxList
         searchBar
-        listTitle={`Vaiheet (${eventTitle})`}
+        listTitle={`Vaiheet`}
         items={steps}
         onEmptyElement={
           <GalleryError
             title='Ei tuloksia'
             message={`Haulla '${search}' ei löytynyt vaiheita.`}
-            icon={'fa fa-pin'}
+            icon={'fa fa-tag'}
           />
         }
         addButtonUrl='steps/add'

@@ -38,6 +38,9 @@ export function FileCard({ file, isMain }: FileCardProps) {
   };
 
   const setMainImage = async () => {
+    const c = confirm('Haluatko varmasti asettaa kuvan pääkuvaksi?');
+    if (!c) return;
+
     setStatus(FormStatus.LOADING);
     await ASetMainImage(file.parentId, file.id).then(res => {
       switch (res) {

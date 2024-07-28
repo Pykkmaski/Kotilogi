@@ -5,5 +5,10 @@ export default async function EventFilesPage({ params }) {
   const files = await db('data_objects')
     .join('data_files', { 'data_files.id': 'data_objects.id' })
     .where({ parentId: params.eventId });
-  return <FilePage files={files} />;
+  return (
+    <FilePage
+      files={files}
+      objectId={params.eventId}
+    />
+  );
 }

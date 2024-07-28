@@ -35,6 +35,11 @@ export default async function EventPage({ params }) {
     .where({ parentId: params.eventId })
     .count('*', { as: 'numSteps' });
 
+  const files = await db('data_files')
+    .join('data_objects', { 'data_objects.id': 'data_files.id' })
+    .where({ parentId: params.eventId });
+
+  const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
   return (
     <Main>
       <SecondaryHeading>Tapahtuma</SecondaryHeading>
@@ -72,11 +77,16 @@ export default async function EventPage({ params }) {
       />
 
       <FileOverview
-        files={[]}
+        files={files}
         addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/files/add`}
         showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${event.id}/files`}
         PreviewComponent={({ item }) => {
-          return <FileCard file={item} />;
+          return (
+            <FileCard
+              file={item}
+              isMain={item.id == mainImageId}
+            />
+          );
         }}
       />
     </Main>

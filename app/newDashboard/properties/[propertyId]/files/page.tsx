@@ -12,5 +12,10 @@ export default async function PropertyFilesPage({ params }) {
     .join('data_objects', { 'data_objects.id': 'data_files.id' })
     .where({ parentId: id });
 
-  return <FilePage files={files} />;
+  return (
+    <FilePage
+      files={files}
+      objectId={id}
+    />
+  );
 }
