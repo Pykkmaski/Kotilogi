@@ -1,12 +1,42 @@
-import Header from '@/components/App/Header';
+import Header, { Logo2 } from '@/components/App/Header';
+import { MobileMenu } from '@/components/App/MobileMenu';
+import { AppHeader } from '@/components/New/AppHeader';
+import { Margin } from '@/components/New/Margin';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
+import Link from 'next/link';
 
-export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
+export default async function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
+  const session = await loadSession(false);
+  const getLinks = () => {
+    if (session) {
+      return (
+        <>
+          <Link href='/dashboard'>Hallintapaneeli</Link>
+          <Link href='/logout'>Kirjaudu Ulos</Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Link href='/login'>Kirjaudu Sisään</Link>
+          <Link href='/register'>Rekisteröidy</Link>
+          <Link href='/about'>Tietoa Meistä</Link>
+        </>
+      );
+    }
+  };
   return (
     <>
-      <div className='z-20 w-full'>
-        <Header variant='transparent' />
-      </div>
+      <header className='flex gap-4 absolute top-0 w-full py-2 justify-start xl:items-baseline xs:items-center z-30 xl:px-64 xs:px-2 text-white font-semibold'>
+        <div className='mr-4'>
+          <Logo2 />
+        </div>
 
+        <div className='xs:hidden xl:block'>{getLinks()}</div>
+        <div className='xs:flex xl:hidden w-full justify-end'>
+          <MobileMenu session={session} />
+        </div>
+      </header>
       {children}
     </>
   );

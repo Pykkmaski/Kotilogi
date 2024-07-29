@@ -1,11 +1,12 @@
 'use client';
 
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, IconButton, Menu, MenuItem } from '@mui/material';
 import Link from 'next/link';
 import { DialogControl } from '../Util/DialogControl';
 import { useRef, useState } from 'react';
 import { HamburgerButton } from '../UI/HamburgerButton';
 import { ProfileCircle } from '../New/ProfileCircle';
+import MenuIcon from '@mui/icons-material/Menu';
 
 type MobileMenuProps = {
   session?: TODO;
@@ -23,14 +24,13 @@ export function MobileMenu({ session }: MobileMenuProps) {
         };
 
         return !session ? (
-          <Button
+          <IconButton
+            onClick={handleClick}
             sx={{
               color: 'black',
-            }}
-            variant='text'
-            onClick={handleClick}>
-            <HamburgerButton />
-          </Button>
+            }}>
+            <MenuIcon sx={{ fontSize: '2rem', color: 'white' }} />
+          </IconButton>
         ) : (
           <ProfileCircle
             onClick={handleClick}

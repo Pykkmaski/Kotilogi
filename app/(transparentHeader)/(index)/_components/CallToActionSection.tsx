@@ -3,13 +3,11 @@ import Button from '../../../../components/UI/Button/Button';
 
 export function CallToActionSection() {
   const Background = () => {
-    return (
-      <div className='absolute top-0 left-0 w-full h-full bg-room bg-center bg-cover opacity-50' />
-    );
+    return <div className='absolute top-0 left-0 w-full h-full bg-room bg-center bg-cover' />;
   };
 
   return (
-    <section className='flex flex-col py-32 bg-transparent'>
+    <section className='flex flex-col bg-transparent'>
       <div className='flex-col flex gap-4 text-primary-text relative py-32'>
         <Background />
 

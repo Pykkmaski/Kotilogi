@@ -1,17 +1,21 @@
 import Footer from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Footer';
 import { Hero } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Hero';
 import { Padding } from '@/components/UI/Padding';
-import { FeaturesSection } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/FeaturesSection';
+import {
+  FeaturesSection,
+  FeaturesSection2,
+} from 'kotilogi-app/app/(transparentHeader)/(index)/_components/FeaturesSection';
 import { CallToActionSection } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/CallToActionSection';
 import { Introduction } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Profile';
+import { Main } from '@/components/New/Main';
 const Logo = () => (
   <img
-    src='/hero_logo.png'
+    src='/hero_logo_white.png'
     className='aspect-auto w-[90%]'
   />
 );
 const Gradient = () => (
-  <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-primary from-50% to-transparent z-10' />
+  <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-r from-secondary from-50% to-transparent z-10' />
 );
 
 function HeroBgImage() {
@@ -22,18 +26,18 @@ function HeroBgImage() {
 
 function HeroSection() {
   return (
-    <section className='flex flex-row items-center w-full relative py-32 min-h-[500px] bg-primary rounded-b-3xl overflow-hidden shadow-lg'>
+    <section className='flex flex-row items-center w-full relative py-32 min-h-[500px] bg-secondary overflow-hidden shadow-lg'>
       <Gradient />
       <HeroBgImage />
       <div className='z-10'>
-        <Padding>
+        <div className='xl:px-64 xs:px-2'>
           <div className='mt-10 flex flex-col-reverse gap-2 lg:items-start xs:items-center'>
             <Hero />
             <div className='flex flex-col gap-2 lg:items-start xs:items-center'>
               <Logo />
             </div>
           </div>
-        </Padding>
+        </div>
       </div>
     </section>
   );
@@ -124,10 +128,10 @@ function Customers() {
 
 export default function HomePage() {
   return (
-    <main className='flex-col flex bg-secondary'>
+    <main className='flex flex-col w-full'>
       <HeroSection />
       <Introduction />
-      <FeaturesSection />
+      <FeaturesSection2 />
       <CallToActionSection />
       <ContactSection />
     </main>

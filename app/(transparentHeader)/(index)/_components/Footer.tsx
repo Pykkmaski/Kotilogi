@@ -22,7 +22,7 @@ const LinkIcon: React.FC<LinkIconProps> = ({ children, variant, ...props }) => {
 
 function Footer(props) {
   return (
-    <div className='flex flex-col justify-center pt-[5rem] pb-[5rem] bg-gray-900 gap-4 w-full text-white rounded-t-3xl'>
+    <div className='flex flex-col justify-center pt-[5rem] pb-[5rem] bg-gray-900 gap-4 w-full text-white'>
       <div className='flex flex-col gap-4 xs:px-4 md:px-32 md:items-center xs:items-[none]'>
         <header>
           <h1 className='text-3xl text-center'>Ota Yhteyttä</h1>
