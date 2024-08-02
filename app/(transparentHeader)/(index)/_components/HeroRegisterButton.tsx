@@ -7,7 +7,7 @@ export function HeroRegisterButton() {
       href='/register'
       className='shadow-lg'>
       <Button variant='primary'>
-        <span className='mx-8 text-xl text-primary-text'>Kokeile Ilmaiseksi</span>
+        <span className='mx-8 text-xl text-primary-text'>Rekisteröidy Ilmaiseksi</span>
       </Button>
     </Link>
   );

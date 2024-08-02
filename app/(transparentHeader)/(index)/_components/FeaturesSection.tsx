@@ -63,23 +63,23 @@ export const FeaturesSection2 = () => {
     icon: React.ReactElement;
   }) => {
     return (
-      <div className='flex flex-col gap-4'>
-        <div className='flex gap-4 items-center'>
+      <div className='flex flex-col gap-4 w-full'>
+        <div className='flex gap-4 items-center xs:justify-center xl:justify-start w-full'>
           {React.cloneElement(icon, {
             ...icon.props,
             sx: {
-              fontSize: 'text-5xl',
+              fontSize: '2rem',
             },
           })}
-          <h1 className='xl:text-3xl xs:text-2xl w-full'>{title}</h1>
+          <h1 className='xl:text-3xl xs:text-2xl'>{title}</h1>
         </div>
-        <p className='text-xl'>{description}</p>
+        <p className='text-xl xs:text-center xl:text-left'>{description}</p>
       </div>
     );
   };
 
   return (
-    <section className='w-full xl:px-64 xs:px-2 bg-secondary text-white py-32 flex flex-col gap-4'>
+    <section className='w-full xl:px-64 xs:px-2 bg-secondary text-white xl:py-32 xs:py-8 flex flex-col gap-4'>
       <div className='flex-col flex gap-4'>
         <h1 className='xl:text-7xl xs:text-3xl mb-20 z-10 font-semibold w-full text-center'>
           Kaikki yhdessä paikassa

@@ -32,7 +32,7 @@ export default async function TransparentHeaderLayout({ children }: React.PropsW
           <Logo2 />
         </div>
 
-        <div className='xs:hidden xl:block'>{getLinks()}</div>
+        <div className='xs:hidden md:flex gap-4'>{getLinks()}</div>
         <div className='xs:flex xl:hidden w-full justify-end'>
           <MobileMenu session={session} />
         </div>

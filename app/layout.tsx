@@ -12,8 +12,6 @@ import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
 import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
-import { Margin } from '@/components/New/Margin';
-import { Paper } from '@/components/New/Paper';
 
 export const metadata = {
   title: 'Kotidok',
