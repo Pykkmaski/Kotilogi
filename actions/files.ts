@@ -6,14 +6,23 @@ import db from 'kotilogi-app/dbconfig';
 import { createObject } from 'kotilogi-app/models/objectData';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { revalidatePath } from 'next/cache';
+import sharp from 'sharp';
 
 export async function AUploadFile(fd: FormData, parentId: string) {
   const file = fd.get('file') as unknown as File;
   const filename = Date.now() + fileNameTimestampSeparator + file.name;
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
+  const metadata = await sharp(buffer).metadata();
 
-  await writeFile(uploadPath + filename, buffer);
+  const outputBuffer =
+    file.type == 'image/jpeg'
+      ? metadata.width > 1000
+        ? await sharp(buffer).resize(1000).jpeg({ quality: 80 }).toBuffer()
+        : await sharp(buffer).jpeg({ quality: 80 }).toBuffer()
+      : buffer;
+
+  await writeFile(uploadPath + filename, outputBuffer);
   await createObject({ parentId }, async (obj, trx) => {
     await trx('data_files')
       .insert({
