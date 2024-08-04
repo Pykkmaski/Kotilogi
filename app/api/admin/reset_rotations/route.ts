@@ -13,28 +13,18 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const trx = await db.transaction();
-
   try {
-    const filestream = await opendir(uploadPath);
-    let numFilesProcessed = 0;
-    for await (const file of filestream) {
-      const [type] = await trx('data_files').where({ name: file.name }).pluck('type');
+    const { fileId, rotationAmount } = await req.json();
+    const [filename] = (await db('data_files').where({ id: fileId }).pluck('name')) || [];
+    if (!filename) throw new Error('A file with id ' + fileId + ' was not found!');
+    const buffer = await readFile(uploadPath + filename);
+    const outputBuffer = await sharp(buffer).rotate(rotationAmount).toBuffer();
+    await writeFile(uploadPath + filename, outputBuffer);
 
-      if (type != 'image/jpeg') continue;
-
-      const buffer = await readFile(uploadPath + file.name);
-      const outputBuffer = await sharp(buffer).rotate(90).toBuffer();
-      await writeFile(uploadPath + file.name, outputBuffer);
-      numFilesProcessed++;
-    }
-
-    await trx.commit();
-    return new NextResponse(`File rotations reset: ${numFilesProcessed}`, {
+    return new NextResponse(null, {
       status: 200,
     });
   } catch (err: any) {
-    await trx.rollback();
     return new NextResponse(err.message, { status: 500 });
   }
 }
