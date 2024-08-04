@@ -38,7 +38,6 @@ export default async function EventsPage({ params, searchParams }) {
           .where({ id: propertyId })
           .select('streetAddress', 'appartmentNumber');
 
-  console.log(propertyAddress);
   return (
     <Main>
       <OverviewBoxList
