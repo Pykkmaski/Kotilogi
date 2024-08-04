@@ -29,7 +29,7 @@ export async function AUploadFile(fd: FormData, parentId: string) {
         id: obj.id,
         name: filename,
         type: file.type,
-        size: file.size,
+        size: outputBuffer.length,
       })
       .catch(async err => {
         console.log(err.message);
