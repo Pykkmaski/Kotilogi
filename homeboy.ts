@@ -19,15 +19,17 @@ type CommandType =
   | 'help'
   | 'clear_unpaired_files'
   | 'update_file_sizes'
-  | 'reset_rotations';
+  | 'rotate_image';
 
 async function main() {
   const [command, arg] = process.argv.slice(2) as [CommandType, string];
-
+  console.log(command);
   switch (command) {
-    case 'reset_rotations':
+    case 'rotate_image':
       await axios
-        .post(`${domain}/api/admin/reset_rotations`)
+        .post(`${domain}/api/admin/rotate_image`, {
+          fileId: arg,
+        })
         .then(res => console.log(res.data))
         .catch(err => console.log(err.message));
       break;
