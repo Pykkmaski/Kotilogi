@@ -2,8 +2,7 @@
 
 import { ADeleteFile, ASetMainImage } from '@/actions/files';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { useForm } from '@/hooks/useForm';
-import { Delete, PinDrop, Star } from '@mui/icons-material';
+import { Delete, Star } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { FileDataType } from 'kotilogi-app/models/types';
 import Image from 'next/image';
@@ -78,6 +77,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
         <Image
           src={src}
           fill={true}
+          quality={50}
           objectFit='cover'
           alt={file.name}
           className='absolute top-0 left-0'
