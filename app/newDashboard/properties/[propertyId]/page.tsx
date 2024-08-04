@@ -34,7 +34,7 @@ export default async function PropertyPage({ params }) {
       .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
       .where({ parentId: id }),
 
-    getFiles({ parentId: id }, 4),
+    getFiles({ parentId: id }, 1),
 
     db('data_objects')
       .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })

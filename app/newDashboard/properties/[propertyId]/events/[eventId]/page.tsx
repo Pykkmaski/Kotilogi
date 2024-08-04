@@ -39,7 +39,7 @@ export default async function EventPage({ params }) {
       .where({ parentId: eventId })
       .count('*', { as: 'numSteps' }),
 
-    getFiles({ parentId: eventId }, 4),
+    getFiles({ parentId: eventId }, 1),
     db('data_mainImages').where({ objectId: eventId }).pluck('imageId'),
   ])) as [[EventDataType], EventStepDataType[], [{ numSteps: number }], FileDataType[], [string]];
 
