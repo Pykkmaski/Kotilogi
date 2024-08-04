@@ -18,15 +18,14 @@ export async function POST(req: NextRequest) {
   try {
     const filestream = await opendir(uploadPath);
     let numFilesProcessed = 0;
-    for await (const filename of filestream) {
-      console.log(filename);
-      const [type] = await trx('data_files').where({ name: filename }).pluck('type');
+    for await (const file of filestream) {
+      const [type] = await trx('data_files').where({ name: file.name }).pluck('type');
       console.log(type);
       if (type != 'image/jpeg') continue;
 
-      const buffer = await readFile(uploadPath + filename);
+      const buffer = await readFile(uploadPath + file.name);
       const outputBuffer = await sharp(buffer).rotate(0).toBuffer();
-      await writeFile(uploadPath + filename, outputBuffer);
+      await writeFile(uploadPath + file.name, outputBuffer);
       numFilesProcessed++;
     }
 
