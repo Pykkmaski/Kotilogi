@@ -29,7 +29,10 @@ export async function GET(req: NextRequest, { params }) {
     const [filename] = (await db('data_files').where({ id: params.file_id }).pluck('name')) || [];
 
     //Return a default image in case none is found.
-    if (!filename) return await fetch('/img/Properties/default-bg.jpg');
+    if (!filename)
+      return new NextResponse('File not found.', {
+        status: 404,
+      });
 
     const filepath = uploadPath + filename;
     const fileBuffer = readFileSync(filepath);
