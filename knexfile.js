@@ -6,7 +6,6 @@
 
 require('dotenv').config();
 
-console.log(process.env.NEON_DB_PASSWORD);
 module.exports = {
   development: {
     client: 'sqlite3',
@@ -45,6 +44,10 @@ module.exports = {
   render_pg: {
     client: 'pg',
     connection: process.env.RENDER_DB_URL,
+    ssl: {
+      sslmode: 'require',
+    },
+
     pool: {
       min: 2,
       max: 10,

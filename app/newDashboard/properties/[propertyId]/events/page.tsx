@@ -11,27 +11,6 @@ import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/
 import { SearchBar } from '@/components/Feature/SearchBar';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
-async function getEvents(propertyId: string, q: string | undefined, page?: number) {
-  const table = 'data_propertyEvents';
-
-  if (!q || q == 'null') {
-    return await db(table)
-      .join('data_objects', 'data_objects.id', '=', 'data_propertyEvents.id')
-      .where({ parentId: propertyId });
-  }
-
-  const query = `%${q}%`;
-  const events: EventDataType = await db(table)
-    .join('data_objects', 'data_objects.id', '=', 'data_propertyEvents.id')
-    .where(function () {
-      this.whereLike('time', query).orWhereLike('title', query).orWhereLike('description', query);
-    })
-    .andWhere({ parentId: propertyId })
-    .orderBy('time', 'desc');
-
-  return events;
-}
-
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
   const search = searchParams?.q;
@@ -39,10 +18,11 @@ export default async function EventsPage({ params, searchParams }) {
   const events = (await db('data_propertyEvents')
     .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
     .where(function () {
-      this.whereLike('title', `%${search}`)
-        .orWhereLike('description', `%${search}%`)
-        .orWhereLike('startTime', `%${search}%`)
-        .orWhereLike('endTime', `%${search}%`);
+      const query = `%${search}%`;
+      this.where('data_objects.title', 'ilike', query).orWhereLike(
+        'data_objects.description',
+        query
+      );
     })
     .andWhere({ parentId: propertyId })
     .orderBy('startTime', 'desc')) as EventDataType[];
@@ -50,11 +30,13 @@ export default async function EventsPage({ params, searchParams }) {
   const [propertyType] = await db('data_properties')
     .where({ id: propertyId })
     .pluck('propertyType');
+
   const [propertyAddress] =
     propertyType == PropertyType.HOUSE
-      ? await db('data_properties').select('streetAddress')
+      ? await db('data_properties').where({ id: propertyId }).select('streetAddress')
       : await db('data_properties')
           .join('data_appartments', { 'data_properties.id': 'data_appartments.id' })
+          .where({ id: propertyId })
           .select('streetAddress', 'appartmentNumber');
 
   console.log(propertyAddress);
