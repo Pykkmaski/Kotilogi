@@ -18,7 +18,7 @@ export async function AUploadFile(fd: FormData, parentId: string) {
   const outputBuffer =
     file.type == 'image/jpeg'
       ? metadata.width > 1000
-        ? await sharp(buffer).resize(1000).jpeg({ quality: 80 }).toBuffer()
+        ? await sharp(buffer).rotate(0).resize(1000).jpeg({ quality: 80 }).toBuffer()
         : await sharp(buffer).jpeg({ quality: 80 }).toBuffer()
       : buffer;
 

@@ -4,6 +4,7 @@ import { Card } from '@/components/UI/Card';
 import { EventDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
 import { Edit, History, Image, PushPin } from '@mui/icons-material';
+import db from 'kotilogi-app/dbconfig';
 
 export function EventPreview({
   propertyId,
@@ -20,7 +21,11 @@ export function EventPreview({
       showAllUrl={`/newDashboard/properties/${propertyId}/events`}
       data={events}
       addNewUrl={`/newDashboard/properties/${propertyId}/events/add`}
-      PreviewComponent={({ item }) => {
+      PreviewComponent={async ({ item }) => {
+        const [mainImageId] = await db('data_mainImages')
+          .where({ objectId: item.id })
+          .pluck('imageId');
+
         return (
           <Link
             href={`/newDashboard/properties/${propertyId}/events/${item.id}`}
@@ -28,7 +33,7 @@ export function EventPreview({
             <Card
               title={item.title}
               description={item.description || 'Ei Kuvausta.'}
-              imageSrc='/img/kitchen.jpg'
+              imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/kitchen.jpg'}
               HeaderComponent={() => {
                 return (
                   <>
