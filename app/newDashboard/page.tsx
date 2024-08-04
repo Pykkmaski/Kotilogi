@@ -9,18 +9,13 @@ import { Delete, Edit, History, Home, Image, Settings } from '@mui/icons-materia
 import db from 'kotilogi-app/dbconfig';
 import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
 import { getUserHouses } from 'kotilogi-app/models/houseData';
+import { getUserProperties } from 'kotilogi-app/models/propertyData';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
-
-  const [houses, appartments] = await Promise.all([
-    getUserHouses(session.user.id),
-    getUserAppartments(session.user.id),
-  ]);
-
-  const properties = [...houses, ...appartments];
+  const properties = await getUserProperties(session.user.id);
 
   return (
     <Main>

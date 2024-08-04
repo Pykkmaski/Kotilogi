@@ -11,41 +11,47 @@ import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { ChipData } from '@/components/New/ChipData';
 import { PropertyOverview } from './_components/PropertyOverview';
-import { FileDataType } from 'kotilogi-app/models/types';
+import { EventDataType, FileDataType, UtilityDataType } from 'kotilogi-app/models/types';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
   const property = await getProperty(id);
+  const [owners, events, utility, files, [{ numEvents }], [mainImageId]] = (await Promise.all([
+    db('data_propertyOwners')
+      .where({ propertyId: property.id })
+      .join('data_users', { 'data_users.id': 'data_propertyOwners.userId' })
+      .pluck('email'),
 
-  const owners = await db('data_propertyOwners')
-    .where({ propertyId: property.id })
-    .join('data_users', { 'data_users.id': 'data_propertyOwners.userId' })
-    .pluck('email');
+    db('data_objects')
+      .join('data_propertyEvents', 'data_propertyEvents.id', '=', 'data_objects.id')
+      .where({ 'data_objects.parentId': id })
+      .limit(4),
 
-  const events = await db('data_objects')
-    .join('data_propertyEvents', 'data_propertyEvents.id', '=', 'data_objects.id')
-    .where({ 'data_objects.parentId': id })
-    .limit(4);
+    db('data_objects')
+      .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
+      .where({ parentId: id }),
 
-  const utility = await db('data_objects')
-    .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
-    .where({ parentId: id });
+    db('data_objects')
+      .join('data_files', { 'data_files.id': 'data_objects.id' })
+      .where({ parentId: id })
+      .limit(4),
 
-  const files = (await db('data_objects')
-    .join('data_files', { 'data_files.id': 'data_objects.id' })
-    .where({ parentId: id })
-    .limit(4)) as FileDataType[];
+    db('data_objects')
+      .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+      .where({ parentId: property.id })
+      .count('*', { as: 'numEvents' }),
 
-  const [{ numEvents }] = await db('data_objects')
-    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
-    .where({ parentId: property.id })
-    .count('*', { as: 'numEvents' });
-
-  const [mainImageId] = await db('data_mainImages')
-    .where({ objectId: property.id })
-    .pluck('imageId');
+    db('data_mainImages').where({ objectId: property.id }).pluck('imageId'),
+  ])) as [
+    string[],
+    EventDataType[],
+    UtilityDataType[],
+    FileDataType[],
+    [{ numEvents: number }],
+    [string]
+  ];
 
   return (
     <Main>

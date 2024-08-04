@@ -7,9 +7,10 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { preparePropertyForDb } from './utils/preparePropertyForDb';
 import db from 'kotilogi-app/dbconfig';
 import { PropertyType } from './enums/PropertyType';
-import { getHouse } from './houseData';
-import { getAppartment } from './appartmentData';
+import { getHouse, getUserHouses } from './houseData';
+import { getAppartment, getUserAppartments } from './appartmentData';
 import { EnergyClass } from './enums/EnergyClass';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export async function getProperty(id: string) {
   const [type] = await db('data_properties').where({ id }).pluck('propertyType');
@@ -59,4 +60,13 @@ export async function updateProperty(
 
 export async function getOwners(propertyId: string) {
   return await db('data_propertyOwners').where({ propertyId }).pluck('userId');
+}
+
+export async function getUserProperties(userId: string) {
+  const [houses, appartments] = await Promise.all([
+    getUserHouses(userId),
+    getUserAppartments(userId),
+  ]);
+
+  return [...houses, ...appartments];
 }
