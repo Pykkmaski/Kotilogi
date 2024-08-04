@@ -14,12 +14,21 @@ if (!apiKey) {
 
 axios.defaults.headers['Authorization'] = `Bearer ${process.env.API_KEY}`;
 
-type CommandType = 'update_bills' | 'help' | 'clear_unpaired_files';
+type CommandType = 'update_bills' | 'help' | 'clear_unpaired_files' | 'update_file_sizes';
 
 async function main() {
   const [command, arg] = process.argv.slice(2) as [CommandType, string];
 
   switch (command) {
+    case 'update_file_sizes':
+      {
+        await axios
+          .post(`${domain}/api/admin/update_file_sizes`)
+          .then(res => console.log(res))
+          .catch(err => console.log(err.message));
+      }
+      break;
+
     case 'update_bills':
       {
         if (arg === 'property') {

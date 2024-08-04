@@ -3,8 +3,16 @@ import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
 import sharp from 'sharp';
+import { verifyAuthorization } from '../_utils/verifyAuthorization';
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
+  const authorized = verifyAuthorization(req);
+  if (!authorized) {
+    return new NextResponse('Request unauthorized!', {
+      status: 401,
+    });
+  }
+
   const trx = await db.transaction();
 
   try {
