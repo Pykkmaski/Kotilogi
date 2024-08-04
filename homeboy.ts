@@ -14,17 +14,29 @@ if (!apiKey) {
 
 axios.defaults.headers['Authorization'] = `Bearer ${process.env.API_KEY}`;
 
-type CommandType = 'update_bills' | 'help' | 'clear_unpaired_files' | 'update_file_sizes';
+type CommandType =
+  | 'update_bills'
+  | 'help'
+  | 'clear_unpaired_files'
+  | 'update_file_sizes'
+  | 'reset_rotations';
 
 async function main() {
   const [command, arg] = process.argv.slice(2) as [CommandType, string];
 
   switch (command) {
+    case 'reset_rotations':
+      await axios
+        .post(`${domain}/api/admin/reset_rotations`)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err.message));
+      break;
+
     case 'update_file_sizes':
       {
         await axios
           .post(`${domain}/api/admin/update_file_sizes`)
-          .then(res => console.log(res))
+          .then(res => console.log(res.data))
           .catch(err => console.log(err.message));
       }
       break;
@@ -62,6 +74,8 @@ async function main() {
       console.log(
         'update_bills <arg> -- Updates the bill with stamp <arg> to unpaid, when they are about to be due.'
       );
+      console.log('reset_rotations: Resets the rotation of all jpeg files on disk.');
+      console.log('update_file_sizes: Updates the booked size of all files on disk.');
 
       console.log('help -- Display help.');
     }
