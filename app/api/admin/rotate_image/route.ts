@@ -14,11 +14,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { fileId } = await req.json();
+    const { fileId, amount } = await req.json();
     const [filename] = (await db('data_files').where({ id: fileId }).pluck('name')) || [];
     if (!filename) throw new Error('A file with id ' + fileId + ' was not found!');
     const buffer = await readFile(uploadPath + filename);
-    const outputBuffer = await sharp(buffer).rotate(0).toBuffer();
+    const outputBuffer = await sharp(buffer).rotate(amount).toBuffer();
     await writeFile(uploadPath + filename, outputBuffer);
 
     return new NextResponse(null, {

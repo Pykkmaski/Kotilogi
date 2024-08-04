@@ -22,16 +22,23 @@ type CommandType =
   | 'rotate_image';
 
 async function main() {
-  const [command, arg] = process.argv.slice(2) as [CommandType, string];
-  console.log(command);
+  const [command, arg, arg1] = process.argv.slice(2) as [CommandType, string, string];
+
   switch (command) {
     case 'rotate_image':
-      await axios
-        .post(`${domain}/api/admin/rotate_image`, {
-          fileId: arg,
-        })
-        .then(res => console.log(res.data))
-        .catch(err => console.log(err.message));
+      {
+        if (!arg || !arg1)
+          throw new Error('Please define both the id of the image and rotation amount!');
+
+        await axios
+          .post(`${domain}/api/admin/rotate_image`, {
+            fileId: arg,
+            amount: arg1,
+          })
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err.message));
+      }
+
       break;
 
     case 'update_file_sizes':
