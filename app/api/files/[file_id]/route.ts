@@ -26,11 +26,10 @@ export async function GET(req: NextRequest, { params }) {
         });
         */
 
-    console.log('file id: ', params.file_id);
     const [filename] = (await db('data_files').where({ id: params.file_id }).pluck('name')) || [];
 
     //Return a default image in case none is found.
-    if (!filename) return await fetch('/img/Properties/default-bg');
+    if (!filename) return await fetch('/img/Properties/default-bg.jpg');
 
     const filepath = uploadPath + filename;
     const fileBuffer = readFileSync(filepath);

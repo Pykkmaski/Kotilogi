@@ -14,22 +14,21 @@ import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
   const search = searchParams?.q;
+  const [events, [propertyType]] = (await Promise.all([
+    db('data_propertyEvents')
+      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+      .where(function () {
+        const query = `%${search}%`;
+        this.where('data_objects.title', 'ilike', query).orWhereLike(
+          'data_objects.description',
+          query
+        );
+      })
+      .andWhere({ parentId: propertyId })
+      .orderBy('startTime', 'desc'),
 
-  const events = (await db('data_propertyEvents')
-    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-    .where(function () {
-      const query = `%${search}%`;
-      this.where('data_objects.title', 'ilike', query).orWhereLike(
-        'data_objects.description',
-        query
-      );
-    })
-    .andWhere({ parentId: propertyId })
-    .orderBy('startTime', 'desc')) as EventDataType[];
-
-  const [propertyType] = await db('data_properties')
-    .where({ id: propertyId })
-    .pluck('propertyType');
+    db('data_properties').where({ id: propertyId }).pluck('propertyType'),
+  ])) as [EventDataType[], [number]];
 
   const [propertyAddress] =
     propertyType == PropertyType.HOUSE
