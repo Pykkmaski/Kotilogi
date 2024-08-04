@@ -75,7 +75,8 @@ export default async function PropertyPage({ params }) {
         utilityData={utility}
       />
 
-      <FileOverview
+      {/**
+         * <FileOverview
         files={files}
         addNewUrl={`/newDashboard/files/add?parentId=${property.id}`}
         showAllUrl={`/newDashboard/properties/${id}/files`}
@@ -88,6 +89,7 @@ export default async function PropertyPage({ params }) {
           );
         }}
       />
+         */}
     </Main>
   );
 }
