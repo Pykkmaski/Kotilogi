@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     const filestream = await opendir(uploadPath);
     let numFilesProcessed = 0;
     for await (const filename of filestream) {
+      console.log(filename);
       const [type] = await trx('data_files').where({ name: filename }).pluck('type');
       console.log(type);
       if (type != 'image/jpeg') continue;
