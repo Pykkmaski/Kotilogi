@@ -23,7 +23,7 @@ type CommandType =
 
 async function main() {
   const [command, arg, arg1] = process.argv.slice(2) as [CommandType, string, string];
-
+  console.log(arg, arg1);
   switch (command) {
     case 'rotate_image':
       {
