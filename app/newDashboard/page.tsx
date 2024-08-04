@@ -14,8 +14,12 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
-  const houses = await getUserHouses(session.user.id);
-  const appartments = await getUserAppartments(session.user.id);
+
+  const [houses, appartments] = await Promise.all([
+    getUserHouses(session.user.id),
+    getUserAppartments(session.user.id),
+  ]);
+
   const properties = [...houses, ...appartments];
 
   return (
