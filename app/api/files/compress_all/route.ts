@@ -25,9 +25,6 @@ export async function GET(req: NextRequest) {
             ? await sharp(buffer).resize(1000).jpeg({ quality: 80 }).toBuffer()
             : await sharp(buffer).jpeg({ quality: 80 }).toBuffer();
 
-        //Delete the old file.
-        await unlink(uploadPath + filename);
-
         //Save the processed file.
         await writeFile(uploadPath + filename, outputBuffer);
 
@@ -45,7 +42,7 @@ export async function GET(req: NextRequest) {
   } catch (err: any) {
     await trx.rollback();
     console.log(err.message);
-    return new NextResponse(null, {
+    return new NextResponse(err.message, {
       status: 500,
     });
   }
