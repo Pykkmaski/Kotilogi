@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   try {
     const filenames = await readdir(uploadPath);
-    return new NextResponse(JSON.stringify(filenames), {
+    return new NextResponse(JSON.stringify(filenames, null, ' '), {
       status: 200,
     });
   } catch (err: any) {

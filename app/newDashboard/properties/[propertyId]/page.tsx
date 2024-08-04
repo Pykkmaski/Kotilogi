@@ -14,6 +14,7 @@ import { PropertyOverview } from './_components/PropertyOverview';
 import { EventDataType, FileDataType, UtilityDataType } from 'kotilogi-app/models/types';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import { getFiles } from 'kotilogi-app/models/fileData';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -33,10 +34,7 @@ export default async function PropertyPage({ params }) {
       .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
       .where({ parentId: id }),
 
-    db('data_objects')
-      .join('data_files', { 'data_files.id': 'data_objects.id' })
-      .where({ parentId: id })
-      .limit(4),
+    getFiles({ parentId: id }, 4),
 
     db('data_objects')
       .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
@@ -75,8 +73,7 @@ export default async function PropertyPage({ params }) {
         utilityData={utility}
       />
 
-      {/**
-         * <FileOverview
+      <FileOverview
         files={files}
         addNewUrl={`/newDashboard/files/add?parentId=${property.id}`}
         showAllUrl={`/newDashboard/properties/${id}/files`}
@@ -89,7 +86,6 @@ export default async function PropertyPage({ params }) {
           );
         }}
       />
-         */}
     </Main>
   );
 }
