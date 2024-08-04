@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
     let numFilesProcessed = 0;
     for await (const file of filestream) {
       const [type] = await trx('data_files').where({ name: file.name }).pluck('type');
-      console.log(type);
+
       if (type != 'image/jpeg') continue;
 
       const buffer = await readFile(uploadPath + file.name);
-      const outputBuffer = await sharp(buffer).rotate(0).toBuffer();
+      const outputBuffer = await sharp(buffer).rotate(90).toBuffer();
       await writeFile(uploadPath + file.name, outputBuffer);
       numFilesProcessed++;
     }
