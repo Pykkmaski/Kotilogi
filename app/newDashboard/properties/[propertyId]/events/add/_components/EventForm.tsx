@@ -45,7 +45,9 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
             <Input
               type='date'
               name='startTime'
-              defaultValue={eventData && new Date(eventData.startTime).toUTCString()}
+              defaultValue={
+                eventData && new Date(eventData.startTime).toISOString().split('T').at(0)
+              }
             />
           }
         />
@@ -57,7 +59,11 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
               <Input
                 type='date'
                 name='endTime'
-                defaultValue={eventData && new Date(eventData.endTime).toString()}
+                defaultValue={
+                  eventData &&
+                  eventData.endTime &&
+                  new Date(eventData.endTime).toISOString().split('T').at(0)
+                }
               />
             }
           />

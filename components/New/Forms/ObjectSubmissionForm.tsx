@@ -39,12 +39,13 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
         await method(data as TODO)
           .catch(err => toast.error(err.message))
           .finally(() => {
-            setStatus(FormStatus.IDLE);
+            setStatus(() => (method == updateMethod ? FormStatus.DONE : FormStatus.IDLE));
             router.back();
           });
       }}>
       {children}
       <FormButtons
+        done={status == FormStatus.DONE}
         loading={loading}
         backAction={() => router.back()}
       />
