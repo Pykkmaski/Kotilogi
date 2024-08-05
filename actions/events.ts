@@ -33,7 +33,13 @@ export async function AUpdatePropertyEvent(
       data,
       await getTableColumns('data_propertyEvents', trx)
     );
-    await trx('data_propertyEvents').where({ id: updateObject.id }).update(updateObject);
+    await trx('data_propertyEvents')
+      .where({ id: updateObject.id })
+      .update({
+        ...updateObject,
+        startTime: new Date(updateObject.startTime).getTime(),
+        endTime: updateObject.endTime && new Date(updateObject.endTime).getTime(),
+      });
   });
 
   revalidatePath(path);

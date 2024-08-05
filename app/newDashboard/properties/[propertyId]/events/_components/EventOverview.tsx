@@ -35,7 +35,11 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
             <ChipData
               chipColor='primary'
               label='Valmistunut'
-              value={event.endTime || 'Ei vielä valmistunut.'}
+              value={
+                (event.endTime &&
+                  new Date(parseInt(event.endTime.toString())).toLocaleDateString('fi')) ||
+                'Ei vielä valmistunut.'
+              }
             />
           </div>
         </div>
