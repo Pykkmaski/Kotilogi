@@ -59,7 +59,7 @@ export async function ADeleteProperty(id: string, password: string) {
   const [encryptedPassword] = await db('data_users')
     .where({ id: session.user.id })
     .pluck('password');
-  console.log(encryptedPassword, password);
+
   if (!(await bcrypt.compare(password, encryptedPassword))) return -1;
 
   await deleteObject(id);

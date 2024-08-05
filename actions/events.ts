@@ -1,9 +1,11 @@
 'use server';
 
 import db from 'kotilogi-app/dbconfig';
-import { deleteObject } from 'kotilogi-app/models/objectData';
+import { deleteObject, updateObject } from 'kotilogi-app/models/objectData';
 import { createPropertyEvent, updatePropertyEvent } from 'kotilogi-app/models/propertyEventData';
 import { EventDataType } from 'kotilogi-app/models/types';
+import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
+import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
 
@@ -26,7 +28,14 @@ export async function ACreatePropertyEvent(
 export async function AUpdatePropertyEvent(
   data: EventDataType & Required<Pick<EventDataType, 'id'>>
 ) {
-  await updatePropertyEvent(data);
+  await updateObject(data, async trx => {
+    const updateObject = filterValidColumns(
+      data,
+      await getTableColumns('data_propertyEvents', trx)
+    );
+    await trx('data_propertyEvents').where({ id: updateObject.id }).update(updateObject);
+  });
+
   revalidatePath(path);
   return 0;
 }

@@ -24,6 +24,7 @@ enum FormStatus {
   IDLE = 0,
   LOADING,
   ERROR = -1,
+  DONE = -2,
 }
 
 type PropertyFormProps<T extends PropertyDataType> = {
@@ -70,13 +71,13 @@ export function PropertyForm<T extends PropertyDataType>({ property }: PropertyF
             onClick={e => router.back()}
             type='button'
             variant='text'
-            disabled={status == FormStatus.LOADING}>
+            disabled={status == FormStatus.LOADING || status == FormStatus.DONE}>
             Peruuta
           </Button>
           <Button
             type='submit'
             variant='contained'
-            disabled={status == FormStatus.LOADING}
+            disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
             startIcon={<Check />}>
             {property ? 'Päivitä' : 'Vahvista'}
           </Button>
