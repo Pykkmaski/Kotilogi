@@ -24,24 +24,25 @@ import { getFiles } from 'kotilogi-app/models/fileData';
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
 
-  const [[event], steps, [{ numSteps }], files, [mainImageId]] = (await Promise.all([
-    db('data_propertyEvents')
-      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-      .where({ 'data_propertyEvents.id': eventId }),
+  //Fetch data back-to-back to conserve db connection pool.
+  const [event] = (await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+    .where({ 'data_propertyEvents.id': eventId })) as [EventDataType];
 
-    db('data_objects')
-      .join('data_propertyEventSteps', { 'data_objects.id': 'data_propertyEventSteps.id' })
-      .where({ parentId: eventId })
-      .limit(4),
+  const steps = (await db('data_objects')
+    .join('data_propertyEventSteps', { 'data_objects.id': 'data_propertyEventSteps.id' })
+    .where({ parentId: eventId })
+    .limit(4)) as EventStepDataType[];
 
-    db('data_propertyEventSteps')
-      .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
-      .where({ parentId: eventId })
-      .count('*', { as: 'numSteps' }),
+  const [{ numSteps }] = (await db('data_propertyEventSteps')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
+    .where({ parentId: eventId })
+    .count('*', { as: 'numSteps' })) as [{ numSteps: number }];
 
-    getFiles({ parentId: eventId }, 4),
-    db('data_mainImages').where({ objectId: eventId }).pluck('imageId'),
-  ])) as [[EventDataType], EventStepDataType[], [{ numSteps: number }], FileDataType[], [string]];
+  const files = (await getFiles({ parentId: eventId }, 4)) as FileDataType[];
+  const [mainImageId] = (await db('data_mainImages')
+    .where({ objectId: eventId })
+    .pluck('imageId')) as [string];
 
   return (
     <Main>

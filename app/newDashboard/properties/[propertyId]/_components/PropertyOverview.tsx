@@ -1,10 +1,12 @@
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
-import { ChipData } from '@/components/New/ChipData';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
-import { Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { LabelGrid } from '@/components/New/LabelGrid';
+import { getTranslation } from 'kotilogi-app/lang';
+import { Edit } from '@mui/icons-material';
+import Link from 'next/link';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -42,20 +44,33 @@ export async function PropertyOverview({
       description={
         <div className='flex flex-col h-full gap-4'>
           <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
-          <div className='flex flex-col gap-2'>
-            <ChipData
-              label={property.propertyType == PropertyType.APT ? 'Huoneisto' : 'Kiinteistö'}
-              chipColor='primary'
+
+          <LabelGrid
+            header={
+              <div className='flex gap-2 items-center'>
+                <h1 className='text-sm font-semibold'>Tiedot</h1>
+              </div>
+            }>
+            <LabelGrid.Entry
+              label={'Kiinteistötyyppi'}
+              value={property.propertyType == PropertyType.APT ? 'Huoneisto' : 'Kiinteistö'}
             />
 
-            {owners && (
-              <ChipData
-                label='Omistajat'
-                chipColor='primary'
-                value={owners.length}
-              />
-            )}
-          </div>
+            <LabelGrid.Entry
+              label='Rakennustyyppi'
+              value={getTranslation('buildingType', property.buildingType, 'fi')}
+            />
+
+            <LabelGrid.Entry
+              label='Rakennusvuosi'
+              value={property.buildYear || 'Ei määritelty'}
+            />
+
+            <LabelGrid.Entry
+              label={'Omistajat'}
+              value={owners.length}
+            />
+          </LabelGrid>
         </div>
       }
       imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'}

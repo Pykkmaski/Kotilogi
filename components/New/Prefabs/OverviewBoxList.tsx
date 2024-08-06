@@ -31,7 +31,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
   OverviewComponent,
 }: OverviewBoxListProps<T>) {
   return (
-    <div className='flex flex-col gap-4 w-full'>
+    <div className='flex flex-col md:gap-4 xs:gap-1 w-full'>
       <div className='flex justify-between w-full items-center'>
         <SecondaryHeading>{listTitle}</SecondaryHeading>
         <div className='flex gap-4 items-center'>

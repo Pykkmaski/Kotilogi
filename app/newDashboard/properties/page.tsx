@@ -34,9 +34,11 @@ export default async function PropertiesPage() {
             .where({ parentId: item.id })
             .count('*', { as: 'numEvents' });
 
+          const owners = await db('data_propertyOwners').where({ propertyId: item.id });
           return (
             <PropertyOverview
               numEvents={numEvents}
+              owners={owners}
               property={item}
               editUrl={`/newDashboard/properties/${item.id}/edit`}
               showUrl={`/newDashboard/properties/${item.id}`}
