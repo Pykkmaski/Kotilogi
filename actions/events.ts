@@ -33,12 +33,23 @@ export async function AUpdatePropertyEvent(
       data,
       await getTableColumns('data_propertyEvents', trx)
     );
+
+    const startTime = new Date(
+      typeof updateObject.startTime == 'string'
+        ? parseInt(updateObject.startTime)
+        : updateObject.startTime
+    ).getTime();
+
+    console.log(updateObject.endTime);
+    const endTime = updateObject.endTime && new Date(updateObject.endTime).getTime();
+
+    console.log(startTime, endTime);
     await trx('data_propertyEvents')
       .where({ id: updateObject.id })
       .update({
         ...updateObject,
-        startTime: new Date(updateObject.startTime).getTime(),
-        endTime: updateObject.endTime && new Date(updateObject.endTime).getTime(),
+        startTime,
+        endTime,
       });
   });
 

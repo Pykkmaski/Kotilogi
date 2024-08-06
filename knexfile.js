@@ -8,9 +8,23 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './data/dev.db3',
+      host: 'localhost',
+      user: 'dev_user',
+      password: 'pass',
+      database: 'dev_db',
+    },
+
+    pool: {
+      min: 2,
+      max: 112,
+
+      idleTimeoutMillis: 3000, // Time in milliseconds before an idle connection is closed
+      createTimeoutMillis: 3000, // Time in milliseconds before giving up on connection creation
+      acquireTimeoutMillis: 30000, // Time in milliseconds before giving up on acquiring a connection
+      reapIntervalMillis: 1000, // How often to check for idle connections (in milliseconds)
+      createRetryIntervalMillis: 100,
     },
 
     useNullAsDefault: true,
@@ -33,7 +47,7 @@ module.exports = {
     },
     pool: {
       min: 2,
-      max: 10,
+      max: 112,
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -63,7 +77,10 @@ module.exports = {
     connection: process.env.DB_URL,
     pool: {
       min: 2,
-      max: 10,
+      max: 112,
+
+      idleTimeoutMillis: 15000,
+      reapIntervalMillis: 1000,
     },
     migrations: {
       tableName: 'knex_migrations',
