@@ -33,7 +33,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
       deleteUrl={`events/${event.id}/delete`}
       title={event.title}
       description={
-        <div className='flex flex-col gap-2 h-full'>
+        <div className='flex flex-col gap-4 h-full'>
           <Paragraph>{event.description}</Paragraph>
           <LabelGrid header={<h1 className='text-sm font-semibold'>Tiedot</h1>}>
             <LabelGrid.Entry
