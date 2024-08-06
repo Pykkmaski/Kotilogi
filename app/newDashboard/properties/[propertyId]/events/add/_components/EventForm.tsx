@@ -13,6 +13,16 @@ type EventFormProps = {
 };
 
 export function EventForm({ propertyId, eventData }: EventFormProps) {
+  const startTime =
+    eventData &&
+    eventData.startTime &&
+    new Date(parseInt(eventData.startTime.toString())).toISOString().split('T').at(0);
+  const endTime =
+    eventData &&
+    eventData.endTime &&
+    new Date(parseInt(eventData.endTime.toString())).toISOString().split('T').at(0);
+
+  console.log(startTime, endTime);
   return (
     <ObjectSubmissionForm
       parentId={propertyId}
@@ -45,9 +55,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
             <Input
               type='date'
               name='startTime'
-              defaultValue={
-                eventData && new Date(eventData.startTime).toISOString().split('T').at(0)
-              }
+              defaultValue={startTime}
             />
           }
         />
@@ -59,11 +67,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
               <Input
                 type='date'
                 name='endTime'
-                defaultValue={
-                  eventData &&
-                  eventData.endTime &&
-                  new Date(eventData.endTime).toISOString().split('T').at(0)
-                }
+                defaultValue={endTime}
               />
             }
           />
