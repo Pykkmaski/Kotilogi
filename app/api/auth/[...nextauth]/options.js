@@ -11,13 +11,6 @@ async function verifyUser(email, password) {
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
       if (!isPasswordCorrect) throw new Error('password_mismatch');
 
-      const [cart] = await db('carts').where({ customer: email });
-      const currentDate = Date.now();
-
-      if (cart && currentDate >= cart.due) {
-        user.status = 'unpaid';
-      }
-
       resolve(user);
     } catch (err) {
       console.log(err.message);

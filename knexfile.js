@@ -12,8 +12,8 @@ module.exports = {
     connection: {
       host: 'localhost',
       user: 'dev_user',
-      password: 'pass',
-      database: 'dev_db',
+      password: process.env.DEV_DB_PASSWORD,
+      database: 'Kotidok_Dev',
     },
 
     pool: {
@@ -30,15 +30,6 @@ module.exports = {
     useNullAsDefault: true,
   },
 
-  development_pg: {
-    client: 'pg',
-    connection: {
-      filename: './data/dev_pg.db3',
-    },
-
-    useNullAsDefault: true,
-  },
-
   neon_pg: {
     client: 'pg',
     connection: process.env.NEON_DB_URL,
@@ -48,23 +39,6 @@ module.exports = {
     pool: {
       min: 2,
       max: 112,
-    },
-    migrations: {
-      tableName: 'knex_migrations',
-      directory: './migrations',
-    },
-  },
-
-  render_pg: {
-    client: 'pg',
-    connection: process.env.RENDER_DB_URL,
-    ssl: {
-      sslmode: 'require',
-    },
-
-    pool: {
-      min: 2,
-      max: 10,
     },
     migrations: {
       tableName: 'knex_migrations',
