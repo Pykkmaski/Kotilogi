@@ -8,7 +8,7 @@ type IconLinkProps = React.ComponentProps<typeof Link> & {
 export function IconLink({ icon, ...props }: IconLinkProps) {
   return (
     <Link
-      className='p-2 rounded-md hover:bg-teal-600'
+      className='p-2 rounded-md hover:bg-primary'
       {...props}>
       {React.cloneElement(icon, {
         ...icon.props,
