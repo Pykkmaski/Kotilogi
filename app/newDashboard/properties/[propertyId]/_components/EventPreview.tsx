@@ -5,6 +5,8 @@ import { EventDataType } from 'kotilogi-app/models/types';
 import Link from 'next/link';
 import { Edit, History, Image, PushPin } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
+import { Menu } from '@/components/New/Menu';
+import { CardMenuButton } from '@/components/New/CardMenuButton';
 
 export function EventPreview({
   propertyId,
@@ -27,36 +29,36 @@ export function EventPreview({
           .pluck('imageId');
 
         return (
-          <Link
-            href={`/newDashboard/properties/${propertyId}/events/${item.id}`}
-            className='hover:no-underline'>
-            <Card
-              title={item.title}
-              description={item.description || 'Ei Kuvausta.'}
-              imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/kitchen.jpg'}
-              HeaderComponent={() => {
-                return (
-                  <>
-                    <IconLink
+          <Card
+            href={`${propertyId}/events/${item.id}`}
+            title={item.title}
+            description={item.description || 'Ei Kuvausta.'}
+            imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/kitchen.jpg'}
+            HeaderComponent={() => {
+              return (
+                <>
+                  <Menu trigger={<CardMenuButton />}>
+                    <Link
                       title='Muokkaa tietoja'
-                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/edit`}
-                      icon={<Edit />}
-                    />
-                    <IconLink
+                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/edit`}>
+                      Muokkaa
+                    </Link>
+                    <Link
                       title='Näytä vaiheet'
-                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/steps`}
-                      icon={<PushPin />}
-                    />
-                    <IconLink
+                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/steps`}>
+                      Vaiheet
+                    </Link>
+                    <Link
                       title='Näytä tiedostot'
-                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/files`}
-                      icon={<Image />}
-                    />
-                  </>
-                );
-              }}
-            />
-          </Link>
+                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/files`}>
+                      Tiedostot
+                    </Link>
+                    <Link href={`${propertyId}/events/${item.id}/delete`}>Poista</Link>
+                  </Menu>
+                </>
+              );
+            }}
+          />
         );
       }}
       onEmptyElement={<span className='text-slate-500'>Ei Tapahtumia.</span>}

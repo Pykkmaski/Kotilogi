@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode } from 'react';
 import { ListItemProps } from '../Feature/ListItem/ListItem';
 import Image from 'next/image';
 import { ObjectDataType } from 'kotilogi-app/models/types';
+import Link from 'next/link';
 
 type CardContainerProps = React.PropsWithChildren & {
   selected?: boolean;
@@ -9,7 +10,7 @@ type CardContainerProps = React.PropsWithChildren & {
 
 function CardContainer({ children, selected }: CardContainerProps) {
   const className = [
-    'flex flex-col rounded-md overflow-hidden shadow-md w-[250px] h-[325px]',
+    'flex flex-col rounded-md overflow-hidden shadow-md w-[250px] h-[325px] relative',
     selected ? 'border border-orange-500' : 'border-none',
   ];
 
@@ -29,9 +30,11 @@ type CardHeaderProps<T extends ObjectDataType> = {
 /**Rendered at the top of the cards image. Should take a ContentComponent returning a fragment with the desired contents of the header. */
 function CardHeader<T extends ObjectDataType>({ ContentComponent }: CardHeaderProps<T>) {
   return (
-    <div className='flex flex-row gap-2 items-center justify-end absolute top-0 left-0 w-full z-20 p-2 bg-[#0008]'>
-      {ContentComponent ? <ContentComponent /> : null}
-    </div>
+    ContentComponent && (
+      <div className='flex flex-row gap-2 items-center justify-end absolute top-0 left-0 w-full z-20 p-2 bg-[#0008]'>
+        <ContentComponent />
+      </div>
+    )
   );
 }
 
@@ -84,19 +87,28 @@ type CardProps = {
   description: string;
   selected?: boolean;
   imageSrc?: string;
+  href?: string;
   HeaderComponent?: () => React.ReactNode;
 };
 
-export function Card({ selected, imageSrc, HeaderComponent, title, description }: CardProps) {
+export function Card({ selected, imageSrc, HeaderComponent, title, description, href }: CardProps) {
   return (
     <CardContainer selected={selected}>
-      <div className='flex-1 relative w-full h-[50%]'>
-        <CardHeader ContentComponent={HeaderComponent} />
-        <CardImage src={imageSrc} />
-        <CardTitle content={title} />
-        <CardGradient />
-      </div>
-      <CardDescription content={description} />
+      <CardHeader ContentComponent={HeaderComponent} />
+      <Link
+        href={href}
+        className='h-full no-underline'>
+        <div className='flex-1 relative w-full h-[70%]'>
+          <Link href={href}>
+            <CardImage src={imageSrc} />
+            <CardTitle content={title} />
+          </Link>
+
+          <CardGradient />
+        </div>
+
+        <CardDescription content={description} />
+      </Link>
     </CardContainer>
   );
 }

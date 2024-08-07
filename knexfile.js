@@ -18,9 +18,9 @@ module.exports = {
 
     pool: {
       min: 2,
-      max: 5,
+      max: 2,
 
-      idleTimeoutMillis: 7000, // Time in milliseconds before an idle connection is closed
+      idleTimeoutMillis: 1000, // Time in milliseconds before an idle connection is closed
       createTimeoutMillis: 3000, // Time in milliseconds before giving up on connection creation
       acquireTimeoutMillis: 30000, // Time in milliseconds before giving up on acquiring a connection
       reapIntervalMillis: 1000, // How often to check for idle connections (in milliseconds)

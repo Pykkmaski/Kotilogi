@@ -13,6 +13,7 @@ import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
+import { CardMenuButton } from '@/components/New/CardMenuButton';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
@@ -33,6 +34,7 @@ export default async function newDashboardPage() {
 
           return (
             <Card
+              href={`newDashboard/properties/${item.id}`}
               title={`${item.streetAddress} ${
                 'appartmentNumber' in item ? item.appartmentNumber : ''
               }`}
@@ -43,7 +45,7 @@ export default async function newDashboardPage() {
               HeaderComponent={() => {
                 return (
                   <>
-                    <Menu trigger={<MenuIcon sx={{ color: 'white' }} />}>
+                    <Menu trigger={<CardMenuButton />}>
                       <Link href={`/newDashboard/properties/${item.id}/edit`}>Muokkaa</Link>
                       <Link
                         href={`/newDashboard/properties/${item.id}/events`}

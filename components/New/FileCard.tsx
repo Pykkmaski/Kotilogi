@@ -1,14 +1,14 @@
 'use client';
 
 import { ADeleteFile, ASetMainImage } from '@/actions/files';
-import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { Delete, Star } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
 import { FileDataType } from 'kotilogi-app/models/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Menu } from './Menu';
+import { CardMenuButton } from './CardMenuButton';
+import { useState } from 'react';
+import { FormStatus } from '@/hooks/useDataSubmissionForm';
 
 type FileCardProps = {
   file: FileDataType;
@@ -17,7 +17,7 @@ type FileCardProps = {
 
 export function FileCard({ file, isMain }: FileCardProps) {
   const src = `/api/files/${file.id}`;
-  const [status, setStatus] = useState(FormStatus.IDLE);
+  const [status, setStatus] = useState(0);
 
   const deleteFile = async () => {
     const c = confirm('Haluatko varmasti poistaa valitsemasi tiedoston?');
@@ -58,20 +58,13 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
   return (
     <div className='relative flex flex-col aspect-square w-[25%] overflow-hidden rounded-md shadow-md'>
-      <div className='flex p-2 gap-2 w-full z-10 justify-end bg-[#0004]'>
-        {file.type == 'image/jpeg' && !isMain && (
-          <IconButton
-            title='Aseta pääkuvaksi'
-            disabled={loading}
-            onClick={setMainImage}>
-            <Star sx={{ color: 'white' }} />
-          </IconButton>
-        )}
-        <IconButton
-          onClick={deleteFile}
-          disabled={loading}>
-          <Delete sx={{ color: 'white' }} />
-        </IconButton>
+      <div className='flex p-2 gap-2 w-full z-20 justify-end bg-[#0004] items-center'>
+        <Menu trigger={<CardMenuButton />}>
+          {file.type == 'image/jpeg' && (
+            <span onClick={!loading && setMainImage}>Aseta pääkuvaksi</span>
+          )}
+          <span onClick={!loading && deleteFile}>Poista</span>
+        </Menu>
       </div>
       {file.type == 'image/jpeg' ? (
         <Image
