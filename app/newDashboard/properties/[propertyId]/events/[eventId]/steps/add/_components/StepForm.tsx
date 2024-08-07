@@ -11,6 +11,7 @@ import { Button } from '@mui/material';
 import { EventDataType, EventStepDataType } from 'kotilogi-app/models/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
 type StepFormProps = {
   eventId: string;
@@ -18,6 +19,7 @@ type StepFormProps = {
 };
 
 export function StepForm({ eventId, step }: StepFormProps) {
+  const time = step.time && timestampToISOString(step.time);
   return (
     <ObjectSubmissionForm
       parentId={eventId}
@@ -37,6 +39,18 @@ export function StepForm({ eventId, step }: StepFormProps) {
               name='title'
               placeholder='Kirjoita vaiheen otsikko...'
               defaultValue={step && step.title}
+            />
+          }
+        />
+
+        <FormControl
+          required
+          label='Aika'
+          control={
+            <Input
+              name='time'
+              type='date'
+              defaultValue={time}
             />
           }
         />

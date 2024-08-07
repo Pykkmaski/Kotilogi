@@ -2,7 +2,7 @@ import { PropertyType } from './enums/PropertyType';
 
 export type ObjectDataType = {
   id: string;
-  timestamp: number;
+  timestamp: string;
   authorId: string;
   title?: string;
   description?: string;
@@ -51,7 +51,7 @@ export type UtilityDataType = ObjectDataType & {
   label: string;
   type: number;
   unitSymbol: string;
-  time: number;
+  time: string;
 };
 
 export type HistoryDataType = {
@@ -65,13 +65,13 @@ export type HistoryDataType = {
 
 export type EventDataType = ObjectDataType & {
   propertyId: string;
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
 };
 
 export type EventStepDataType = ObjectDataType & {
   eventId: string;
-  time: number;
+  time: string;
   finished?: boolean;
 };
 

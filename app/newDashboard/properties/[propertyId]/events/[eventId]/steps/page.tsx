@@ -39,7 +39,7 @@ export default async function StepsPage({ params, searchParams }) {
           return (
             <OverviewBox
               title={item.title}
-              description={item.description}
+              description={item.description || 'Ei kuvausta.'}
               showUrl={`steps/${item.id}`}
               deleteUrl={`steps/${item.id}/delete`}
               editContentText='Muokkaa'

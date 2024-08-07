@@ -60,7 +60,7 @@ module.exports = {
 
       colors: {
         hero: '#feffe9',
-        primary: '#96beb3',
+        primary: '#518577',
         secondary: '#518577',
         'secondary-dark': '#5F8577',
         tertiary: '#E3B505',
