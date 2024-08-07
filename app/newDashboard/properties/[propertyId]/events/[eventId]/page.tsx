@@ -69,13 +69,12 @@ export default async function EventPage({ params }) {
             .pluck('imageId');
 
           return (
-            <NoUnderlineLink href={`${eventId}/steps/${item.id}`}>
-              <Card
-                imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/room.jpg'}
-                title={item.title}
-                description={item.description || 'Ei kuvausta.'}
-              />
-            </NoUnderlineLink>
+            <Card
+              href={`${eventId}/steps/${item.id}`}
+              imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/room.jpg'}
+              title={item.title}
+              description={item.description || 'Ei kuvausta.'}
+            />
           );
         }}
       />

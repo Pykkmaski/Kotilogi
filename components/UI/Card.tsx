@@ -99,10 +99,8 @@ export function Card({ selected, imageSrc, HeaderComponent, title, description, 
         href={href}
         className='h-full no-underline'>
         <div className='flex-1 relative w-full h-[70%]'>
-          <Link href={href}>
-            <CardImage src={imageSrc} />
-            <CardTitle content={title} />
-          </Link>
+          <CardImage src={imageSrc} />
+          <CardTitle content={title} />
 
           <CardGradient />
         </div>
