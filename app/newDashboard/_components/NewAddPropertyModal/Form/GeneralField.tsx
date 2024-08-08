@@ -9,61 +9,12 @@ import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
 import { BuildingType } from 'kotilogi-app/models/enums/BuildingType';
 import { getTranslation, lang } from 'kotilogi-app/lang';
 
+type GeneralFieldProps = {};
+
 export function GeneralField() {
   const { property: data } = usePropertyFormContext();
-
   return (
     <Fieldset legend='Yleistiedot'>
-      <div className='w-full flex gap-2'>
-        <div className='flex flex-col gap-4 flex-1'>
-          <div className='flex lg:flex-row xs:flex-col w-full'>
-            <div className='flex flex-col gap-4 xs:w-full lg:w-[40%] xs:mt-8 lg:mt-0'>
-              <Label
-                required
-                boldText>
-                Talotyyppi
-              </Label>
-              <div className='grid grid-flow-row grid-cols-2 gap-4'>
-                <RadioGroup groupName='buildingType'>
-                  {getEnumAsDigits(BuildingType).map(type => {
-                    const label = getTranslation('buildingType', type);
-
-                    return (
-                      <RadioButton
-                        label={label}
-                        data-testid={`${type}-input`}
-                        required
-                        type='radio'
-                        value={type}
-                        defaultChecked={data.buildingType == type}
-                      />
-                    );
-                  })}
-                </RadioGroup>
-              </div>
-            </div>
-          </div>
-
-          <div className='flex flex-col lg:w-[35%] xs:w-full gap-4 mt-8'>
-            <Label boldText>Energialuokka</Label>
-
-            <div className='grid grid-flow-row grid-cols-2 gap-4'>
-              <RadioGroup groupName='energyClass'>
-                {energyClasses.map(ec => (
-                  <RadioButton
-                    label={ec}
-                    data-testid={`${ec}-input`}
-                    value={ec}
-                    type='radio'
-                    defaultChecked={ec == data.energyClass}
-                  />
-                ))}
-              </RadioGroup>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {data.propertyType == PropertyType.HOUSE ? (
         <div className='w-full'>
           <FormControl
@@ -154,6 +105,55 @@ export function GeneralField() {
           />
         }
       />
+      <div className='w-full flex gap-2'>
+        <div className='flex flex-col gap-4 flex-1'>
+          <div className='flex lg:flex-row xs:flex-col w-full'>
+            <div className='flex flex-col gap-4 xs:w-full lg:w-[40%] xs:mt-8 lg:mt-0'>
+              <Label
+                required
+                boldText>
+                Talotyyppi
+              </Label>
+              <div className='grid grid-flow-row grid-cols-2 gap-4'>
+                <RadioGroup groupName='buildingType'>
+                  {getEnumAsDigits(BuildingType).map(type => {
+                    const label = getTranslation('buildingType', type);
+
+                    return (
+                      <RadioButton
+                        label={label}
+                        data-testid={`${type}-input`}
+                        required
+                        type='radio'
+                        value={type}
+                        defaultChecked={data.buildingType == type}
+                      />
+                    );
+                  })}
+                </RadioGroup>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col lg:w-[35%] xs:w-full gap-4 mt-8'>
+            <Label boldText>Energialuokka</Label>
+
+            <div className='grid grid-flow-row grid-cols-2 gap-4'>
+              <RadioGroup groupName='energyClass'>
+                {energyClasses.map(ec => (
+                  <RadioButton
+                    label={ec}
+                    data-testid={`${ec}-input`}
+                    value={ec}
+                    type='radio'
+                    defaultChecked={ec == data.energyClass}
+                  />
+                ))}
+              </RadioGroup>
+            </div>
+          </div>
+        </div>
+      </div>
     </Fieldset>
   );
 }

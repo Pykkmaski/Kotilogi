@@ -61,6 +61,7 @@ module.exports = {
       colors: {
         hero: '#feffe9',
         primary: '#518577',
+        accent: '#444B6E',
         secondary: '#518577',
         'secondary-dark': '#5F8577',
         tertiary: '#E3B505',

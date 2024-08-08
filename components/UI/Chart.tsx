@@ -16,13 +16,11 @@ type ChartProps = {
 };
 
 export function Chart(props: ChartProps) {
-  if (typeof window === 'undefined') return null;
-
   const options: ApexOptions = {
     ...props.options,
     chart: {
       ...props.options.chart,
-      width: '100%',
+
       events: {
         dataPointSelection: function (event, chartContext, config) {
           props.onDataPointSelected && props.onDataPointSelected(config.dataPointIndex);
@@ -30,6 +28,7 @@ export function Chart(props: ChartProps) {
       },
     },
   };
+
   return (
     <ApexChart
       options={options}

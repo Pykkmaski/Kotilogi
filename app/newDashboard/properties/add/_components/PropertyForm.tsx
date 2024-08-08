@@ -27,11 +27,16 @@ enum FormStatus {
   DONE = -2,
 }
 
-type PropertyFormProps<T extends PropertyDataType> = {
+type PropertyFormProps<T extends PropertyDataType> = React.PropsWithChildren & {
   property?: T;
 };
 
-export function PropertyForm<T extends PropertyDataType>({ property }: PropertyFormProps<T>) {
+export function PropertyForm<T extends PropertyDataType>({
+  children,
+  property,
+}: PropertyFormProps<T>) {
+  const [hasChanges, setHasChanges] = useState(false);
+
   const { data, updateData, status, onSubmit } = useDataSubmissionForm(
     AUpdateProperty,
     ACreateProperty,
@@ -42,10 +47,20 @@ export function PropertyForm<T extends PropertyDataType>({ property }: PropertyF
 
   useEffect(() => {
     //Update the server-side data automatically if editing an existing property.
-    if (!property) return;
+    if (!property || !hasChanges) return;
+
     const timeout = setTimeout(async () => {
-      AUpdateProperty(data).catch(err => toast.error(err.message));
-    }, 600);
+      const loadingToast = toast.loading('Päivitetään tietoja...');
+      await AUpdateProperty(data)
+        .then(() => {
+          setHasChanges(false);
+          toast.success('Tiedot päivitetty!');
+        })
+        .catch(err => toast.error(err.message))
+        .finally(() => {
+          toast.dismiss(loadingToast);
+        });
+    }, 900);
 
     return () => clearTimeout(timeout);
   }, [data]);
@@ -53,11 +68,12 @@ export function PropertyForm<T extends PropertyDataType>({ property }: PropertyF
   return (
     <form
       onSubmit={onSubmit}
-      onChange={updateData}
+      onChange={e => {
+        updateData(e);
+        setHasChanges(true);
+      }}
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider value={{ property: data }}>
-        {!property ? <TargetTypeField /> : null}
-
         <GeneralField />
         <ExteriorField />
         <YardField />

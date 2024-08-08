@@ -4,6 +4,7 @@ import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { getTranslation } from 'kotilogi-app/lang';
+import { useEffect, useState } from 'react';
 
 export function TargetTypeField() {
   const { property: data } = usePropertyFormContext();
@@ -15,6 +16,7 @@ export function TargetTypeField() {
         required>
         Tyyppi
       </Label>
+
       <RadioGroup groupName='propertyType'>
         <RadioButton
           label={getTranslation('propertyType', PropertyType.HOUSE)}

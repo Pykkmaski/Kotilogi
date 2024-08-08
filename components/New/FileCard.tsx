@@ -24,6 +24,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     if (!c) return;
 
     setStatus(FormStatus.LOADING);
+    const loadingToast = toast.loading('Poistetaan tiedostoa...');
     await ADeleteFile(file.id).then(res => {
       switch (res) {
         case 0:
@@ -33,6 +34,8 @@ export function FileCard({ file, isMain }: FileCardProps) {
           toast.error('Tiedoston poisto epäonnistui!');
       }
     });
+
+    toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);
   };
 
@@ -41,6 +44,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     if (!c) return;
 
     setStatus(FormStatus.LOADING);
+    const loadingToast = toast.loading('Päivitetään pääkuvaa...');
     await ASetMainImage(file.parentId, file.id).then(res => {
       switch (res) {
         case 0:
@@ -51,6 +55,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
           toast.error('Pääkuvan vaihto epäonnistui!');
       }
     });
+    toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);
   };
 

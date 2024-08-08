@@ -40,7 +40,7 @@ export function OverviewBox({
   return (
     <ContentBox>
       <Spacer direction='row'>
-        <div className='relative w-[25%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
+        <div className='relative md:w-[25%] xs:w-[10%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
           <Image
             src={imageUrl}
             fill={true}

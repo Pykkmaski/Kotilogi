@@ -6,6 +6,9 @@ import toast from 'react-hot-toast';
 import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { ErrorText } from '@/components/UI/Text';
 import Spinner from '@/components/UI/Spinner';
+import Button from '@/components/UI/Button/Button';
+import { FormControl, Input } from '@/components/UI/FormUtils';
+import { Textarea } from '@/components/Feature/Input';
 
 function ContactForm(props) {
   const [loading, setLoading] = useState(false);
@@ -47,51 +50,53 @@ function ContactForm(props) {
   return (
     <form
       onSubmit={onSubmitHandler}
-      className='flex flex-col gap-4 md:w-[600px] xs:w-full'
+      className='flex flex-col gap-4 md:w-[600px] xs:w-full text-white'
       ref={formRef}>
-      <FormGroup>
-        <FormLabel>Nimesi</FormLabel>
-        <input
-          type='text'
-          name='name'
-          id='contact-name-input'
-          placeholder='Kirjoita nimesi...'
-        />
-      </FormGroup>
+      <FormControl
+        label='Nimesi'
+        control={
+          <Input
+            type='text'
+            name='name'
+            id='contact-name-input'
+            placeholder='Kirjoita nimesi...'
+          />
+        }
+      />
 
-      <FormGroup>
-        <FormLabel>
-          Sähköpostiosoitteesi<span className='text-red-500'> *</span>
-        </FormLabel>
-        <input
-          type='email'
-          name='email'
-          required={true}
-          id='contact-email-input'
-          placeholder='Kirjoita sähköpostiosoitteesi...'
-        />
-      </FormGroup>
+      <FormControl
+        label='Sähköpostiosoitteesi'
+        required
+        control={
+          <Input
+            type='email'
+            name='email'
+            id='contact-email-input'
+            placeholder='Kirjoita sähköpostiosoitteesi...'
+          />
+        }
+      />
 
-      <FormGroup>
-        <FormLabel>
-          Viesti<span className='text-red-500'> *</span>
-        </FormLabel>
-        <textarea
-          name='message'
-          maxLength={200}
-          required={true}
-          id='contact-message-input'
-          placeholder='Kirjoita viestisi...'
-        />
-      </FormGroup>
+      <FormControl
+        label='Viesti'
+        required
+        control={
+          <textarea
+            name='message'
+            id='contact-message-input'
+            placeholder='Kirjoita viestisi...'
+          />
+        }
+      />
 
       <div className='w-full'>
-        <PrimaryButton
+        <Button
+          variant='primary'
           type='submit'
           id='contact-submit-button'
-          className='w-full text-black text-center justify-center font-semibold'>
+          className='w-full text-center text-white justify-center font-semibold'>
           Lähetä
-        </PrimaryButton>
+        </Button>
       </div>
 
       {loading ? <Spinner size='2rem'></Spinner> : <></>}

@@ -25,10 +25,6 @@ export default async function PropertyPage({ params }) {
     .where({ 'data_objects.parentId': id })
     .limit(4);
 
-  const utility = await db('data_objects')
-    .join('data_utilities', { 'data_utilities.id': 'data_objects.id' })
-    .where({ parentId: id });
-
   const files = await getFiles({ parentId: id }, 4);
 
   const [{ numEvents }] = await db('data_objects')
@@ -55,11 +51,6 @@ export default async function PropertyPage({ params }) {
       <EventPreview
         propertyId={property.id}
         events={events}
-      />
-
-      <UtilityPreview
-        propertyId={property.id}
-        utilityData={utility}
       />
 
       <FileOverview

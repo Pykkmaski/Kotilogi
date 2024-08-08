@@ -18,7 +18,7 @@ module.exports = {
 
     pool: {
       min: 2,
-      max: 2,
+      max: 10,
 
       idleTimeoutMillis: 1000, // Time in milliseconds before an idle connection is closed
       createTimeoutMillis: 3000, // Time in milliseconds before giving up on connection creation
@@ -26,8 +26,6 @@ module.exports = {
       reapIntervalMillis: 1000, // How often to check for idle connections (in milliseconds)
       createRetryIntervalMillis: 100,
     },
-
-    useNullAsDefault: true,
   },
 
   neon_pg: {

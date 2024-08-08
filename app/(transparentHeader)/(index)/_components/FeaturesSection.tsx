@@ -17,10 +17,7 @@ export function FeaturesSection() {
           title='Remonttihistoria'
           description='Tallenna kaikki korjaustoimenpiteet kuvien ja kuittien kanssa.'
         />
-        <FeatureCard
-          title='Kulutusseuranta'
-          description='Voit tallentaa talosi sähkön, lämmityksen ja veden kulutuksen ja seurata kokonaismenoja helposti.'
-        />
+
         <FeatureCard
           title='Asiakirjat'
           description='Esimerkiksi talon pohjapiirustukset on hyvä pitää tallessa.'
@@ -100,12 +97,6 @@ export const FeaturesSection2 = () => {
             title='Tiedostot'
             description='Pidä kiinteistösi tiedostot ja kuvat säästössä samassa paikassa, esimerkiksi rakennuspiirustukset, tontin lunastuskuitti vuosien takaa jne.'
             icon={<FileCopy />}
-          />
-
-          <FeatureItem
-            title='Kulutus'
-            icon={<Bolt />}
-            description='Kulutusosiossa saat seurattua kiinteistösi kulumenoja. Saat lisättyä tärkeimmät: sähkö, vesi ja lämmityskulut.'
           />
         </div>
       </div>

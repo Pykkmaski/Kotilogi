@@ -2,7 +2,7 @@ import Spinner from '../Spinner';
 
 export type ButtonProps = React.ComponentProps<'button'> & {
   loading?: boolean;
-  variant?: 'primary' | 'primary-dashboard' | 'secondary' | 'tertiary' | 'secondary-filled';
+  variant?: 'primary' | 'accent';
 };
 
 export default function Button({ children, variant = 'primary', ...props }: ButtonProps) {
@@ -10,15 +10,7 @@ export default function Button({ children, variant = 'primary', ...props }: Butt
     props.className,
     props.hidden ? 'hidden' : '',
     'rounded-md p-2 flex flex-row gap-4 disabled:bg-slate-500',
-    variant === 'primary'
-      ? 'bg-primary'
-      : variant === 'secondary-filled'
-      ? 'bg-secondary'
-      : variant === 'primary-dashboard'
-      ? 'bg-tertiary '
-      : variant === 'tertiary'
-      ? 'bg-tertiary'
-      : 'bg-transparent text-black',
+    variant === 'primary' ? 'bg-primary' : 'bg-accent text-white',
   ];
 
   return (

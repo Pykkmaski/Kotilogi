@@ -1,15 +1,16 @@
 import { PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
 import { ChipData } from '@/components/New/ChipData';
+import { LabelGrid } from '@/components/New/LabelGrid';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { DataRing } from '@/components/New/UtilityPageComps/DataRing';
-import { UsageColumnChart } from '@/components/UI/Chart';
+import { Chart, UsageColumnChart } from '@/components/UI/Chart';
 import { Bolt } from '@mui/icons-material';
 import { blue, red, yellow } from '@mui/material/colors';
+import { colors } from 'kotilogi-app/apex.config';
 import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import { filterIntoObject } from 'kotilogi-app/utils/array';
 import Link from 'next/link';
-import Chart from 'react-apexcharts';
 
 export function UtilityPreview({
   propertyId,
