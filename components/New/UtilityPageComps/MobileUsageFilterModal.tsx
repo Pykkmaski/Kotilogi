@@ -79,12 +79,12 @@ export function MobileUsageFilterModal({ ...props }) {
 
         <Modal.Footer>
           <VisibilityProvider.Trigger>
-            <Button variant='secondary'>Sulje</Button>
+            <Button variant='primary'>Sulje</Button>
           </VisibilityProvider.Trigger>
 
           <VisibilityProvider.Trigger>
             <Button
-              variant='primary-dashboard'
+              variant='primary'
               onClick={() => {
                 updateYearQuery(yearSelectorRef.current?.value);
                 updateTypeQuery(typeSelectorRef.current?.value);

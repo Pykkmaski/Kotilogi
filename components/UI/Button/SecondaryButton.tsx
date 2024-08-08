@@ -1,15 +1,15 @@
-import Button, { ButtonProps } from "./Button"
+import Button, { ButtonProps } from './Button';
 
 /**
  * Short-hand component for defining secondary-buttons.
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
-export function SecondaryButton(props: ButtonProps){
-    return (
-        <Button
-            variant='secondary'
-            {...props}
-        />
-    );
+export function SecondaryButton(props: ButtonProps) {
+  return (
+    <Button
+      variant='primary'
+      {...props}
+    />
+  );
 }

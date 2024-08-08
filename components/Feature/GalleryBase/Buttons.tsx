@@ -27,7 +27,7 @@ export function AddButton({ children, ...props }: ButtonProps) {
 export function DeactivateButton(props: React.ComponentProps<'button'>) {
   return (
     <Button
-      variant='secondary'
+      variant='primary'
       {...props}
       title='Poista valitut kohteet käytöstä...'>
       <div className='flex gap-2 border-slate-500 items-center'>

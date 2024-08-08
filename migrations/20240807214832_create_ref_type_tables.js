@@ -18,7 +18,9 @@ exports.up = function (knex) {
   return Promise.all(
     tables.map(table =>
       knex.schema.createTable(table, tbl => {
-        tbl.string('label', 25).unique().primary().notNullable();
+        tbl.increments('id');
+        tbl.string('key', 25).unique().notNullable();
+        tbl.check('upper(??) = ??', ['key', 'key']);
       })
     )
   );

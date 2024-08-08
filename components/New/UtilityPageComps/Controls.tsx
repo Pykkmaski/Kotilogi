@@ -64,7 +64,7 @@ export function Controls() {
                     <Modal.Body>Haluatko varmasti poistaa valitsemasi tiedot?</Modal.Body>
                     <Modal.Footer>
                       <VisibilityProvider.Trigger>
-                        <Button variant='secondary'>Ei</Button>
+                        <Button variant='primary'>Ei</Button>
                       </VisibilityProvider.Trigger>
 
                       <SelectablesProvider.ActionTrigger
@@ -74,7 +74,7 @@ export function Controls() {
                             .then(() => toast.success('Tiedot poistettu!'))
                             .catch(err => toast.error(err.message));
                         }}>
-                        <Button variant='primary-dashboard'>
+                        <Button variant='primary'>
                           <span className='mx-4'>Kyllä</span>
                         </Button>
                       </SelectablesProvider.ActionTrigger>

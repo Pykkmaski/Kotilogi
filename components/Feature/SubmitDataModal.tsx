@@ -120,14 +120,14 @@ SubmitDataModalProvider.Footer = ({ cancelText = 'Cancel', submitText = 'Submit'
       <div className='flex gap-4 items-center'>
         <VisibilityProvider.Trigger>
           <Button
-            variant='secondary'
+            variant='primary'
             type='button'>
             {cancelText}
           </Button>
         </VisibilityProvider.Trigger>
 
         <Button
-          variant='primary-dashboard'
+          variant='primary'
           type='submit'
           form={formId}
           loading={loading}

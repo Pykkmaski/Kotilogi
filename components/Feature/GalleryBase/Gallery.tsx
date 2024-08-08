@@ -190,7 +190,7 @@ Gallery.ConfirmDeleteModal = function ({
         <Modal.Footer>
           <VisibilityProvider.Trigger>
             <Button
-              variant='secondary'
+              variant='primary'
               disabled={loading}>
               Ei
             </Button>
@@ -206,7 +206,7 @@ Gallery.ConfirmDeleteModal = function ({
                 .finally(() => setStatus('idle'));
             }}>
             <Button
-              variant='primary-dashboard'
+              variant='primary'
               loading={loading}
               disabled={loading}>
               <span className='mx-4'>Kyllä</span>

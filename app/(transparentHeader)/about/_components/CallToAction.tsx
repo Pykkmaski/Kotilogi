@@ -8,7 +8,7 @@ export function CallToAction() {
       <Link
         href='/register'
         className='shadow-lg'>
-        <Button variant='secondary-filled'>
+        <Button variant='accent'>
           <span className='mx-8'>Rekisteröidy</span>
         </Button>
       </Link>
