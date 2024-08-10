@@ -27,6 +27,7 @@ export default async function newDashboardPage() {
         showAllUrl='/newDashboard/properties'
         addNewUrl='/newDashboard/properties/add'
         itemsToDisplay={3}
+        onEmptyElement={<span className='text-slate-500'>Et ole lisännyt taloja.</span>}
         data={properties}
         PreviewComponent={async ({ item }) => {
           const [mainImageId] =

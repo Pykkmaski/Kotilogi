@@ -53,12 +53,11 @@ class Users {
 
   async registerUser(credentials: { email: string; password: string; plan: string }) {
     const trx = await db.transaction();
-    const usersTable = new DatabaseTable('users', trx);
+    const usersTable = new DatabaseTable('data_users', trx);
     try {
       const user = {
         email: credentials.email,
         password: await bcrypt.hash(credentials.password, 15),
-        plan: credentials.plan,
       };
 
       await usersTable.add(user);
