@@ -7,7 +7,7 @@ import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
 import { lang } from 'kotilogi-app/lang';
 
 export function HeatingField() {
-  const { property: data } = usePropertyFormContext();
+  const { property: data, heatingTypes } = usePropertyFormContext();
 
   return (
     <div className='flex w-full gap-2 [&>*]:w-full'>
@@ -17,13 +17,13 @@ export function HeatingField() {
             <Label boldText>Ensisijainen</Label>
 
             <RadioGroup groupName='primaryHeatingSystem'>
-              {getEnumAsDigits(HeatingType)
-                .filter(val => val != HeatingType.NONE)
-                .map(type => (
+              {Object.entries(heatingTypes)
+                .filter(([name, id]: [string, number]) => id != heatingTypes['Ei Mitään'])
+                .map(([name, id]: [string, number]) => (
                   <RadioButton
-                    value={type}
-                    defaultChecked={type == data.primaryHeatingSystem}
-                    label={lang.heatingType[type]['fi']}
+                    value={id}
+                    defaultChecked={id == data.primaryHeatingSystemId}
+                    label={name}
                   />
                 ))}
             </RadioGroup>
@@ -32,20 +32,20 @@ export function HeatingField() {
           <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
             <Label boldText>Toissijainen</Label>
             <RadioGroup groupName='secondaryHeatingSystem'>
-              {getEnumAsDigits(HeatingType)
+              {Object.entries(heatingTypes)
                 .filter(
-                  val =>
-                    val != HeatingType.DISTRICT &&
-                    val != HeatingType.ELECTRIC &&
-                    val != HeatingType.GROUND &&
-                    val != HeatingType.OIL
+                  ([name, id]: [string, number]) =>
+                    id != heatingTypes['Kaukolämpö'] &&
+                    id != heatingTypes['Sähkö'] &&
+                    id != heatingTypes['Maalämpö'] &&
+                    id != heatingTypes['Öljy']
                 )
-                .map(type => {
+                .map(([name, id]: [string, number]) => {
                   return (
                     <RadioButton
-                      value={type}
-                      defaultChecked={type == data.secondaryHeatingSystem}
-                      label={lang.heatingType[type]['fi']}
+                      value={id}
+                      defaultChecked={id == data.secondaryHeatingSystemId}
+                      label={name}
                     />
                   );
                 })}

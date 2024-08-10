@@ -1,3 +1,5 @@
+'use client';
+
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
@@ -8,24 +10,26 @@ import { BuildingMaterial } from 'kotilogi-app/models/enums/BuildingMaterial';
 import { Color } from 'kotilogi-app/models/enums/Color';
 import { RoofType } from 'kotilogi-app/models/enums/RoofType';
 import { RoofMaterial } from 'kotilogi-app/models/enums/RoofMaterial';
+import { useEffect, useState } from 'react';
+import { getRefTableContent } from '@/actions/util/getIds';
+import { Skeleton } from '@mui/material';
 
 export function ExteriorField() {
-  const { property } = usePropertyFormContext();
+  const { property, roofTypes, roofMaterials, buildingMaterials } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Ulkopuoli'>
       <div className='flex lg:flex-row xs:flex-col w-full'>
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Rakennusmateriaali</Label>
-          <RadioGroup groupName='buildingMaterial'>
-            {getEnumAsDigits(BuildingMaterial).map(type => {
-              const label = getTranslation('buildingMaterial', type);
+          <RadioGroup groupName='buildingMaterialId'>
+            {Object.entries(buildingMaterials).map(([name, id]: [string, number]) => {
               return (
                 <RadioButton
-                  label={label}
+                  label={name}
                   type='radio'
-                  value={type}
-                  defaultChecked={type == property.buildingMaterial}
+                  value={id}
+                  defaultChecked={id == property.buildingMaterialId}
                 />
               );
             })}
@@ -57,15 +61,14 @@ export function ExteriorField() {
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Katon tyyppi</Label>
 
-          <RadioGroup groupName='roofType'>
-            {getEnumAsDigits(RoofType).map(type => {
-              const label = getTranslation('roofType', type);
+          <RadioGroup groupName='roofTypeId'>
+            {Object.entries(roofTypes).map(([name, id]: [string, number]) => {
               return (
                 <RadioButton
-                  label={label}
-                  value={type}
+                  label={name}
+                  value={id}
                   type='radio'
-                  defaultChecked={type == property.roofType}
+                  defaultChecked={id == property.roofTypeId}
                 />
               );
             })}
@@ -75,13 +78,13 @@ export function ExteriorField() {
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Katon materiaali</Label>
 
-          <RadioGroup groupName='roofMaterial'>
-            {getEnumAsDigits(RoofMaterial).map(mat => (
+          <RadioGroup groupName='roofMaterialId'>
+            {Object.entries(roofMaterials).map(([name, id]: [string, number]) => (
               <RadioButton
-                label={getTranslation('roofMaterial', mat)}
-                value={mat}
+                label={name}
+                value={id}
                 type='radio'
-                defaultChecked={mat == property.roofMaterial}
+                defaultChecked={id == property.roofMaterialId}
               />
             ))}
           </RadioGroup>

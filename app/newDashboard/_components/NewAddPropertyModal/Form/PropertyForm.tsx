@@ -14,6 +14,14 @@ import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-ap
 
 export const PropertyFormContext = createContext<{
   property?: Partial<AppartmentDataType | HouseDataType>;
+  propertyTypes: TODO;
+  buildingTypes: TODO;
+  energyClasses: TODO;
+  buildingMaterials: TODO;
+  yardOwnershipTypes: TODO;
+  roofMaterials: TODO;
+  roofTypes: TODO;
+  heatingTypes: TODO;
 } | null>(null);
 
 type SubmitFormProps = {
@@ -23,6 +31,7 @@ type SubmitFormProps = {
   property?: PropertyDataType;
 };
 
+/*
 function Component(
   { onChange, onSubmit, id, property }: SubmitFormProps,
   ref: React.Ref<HTMLFormElement>
@@ -49,10 +58,11 @@ function Component(
     </form>
   );
 }
+  */
 
 export const usePropertyFormContext = createUseContextHook(
   'PropertyFormContext',
   PropertyFormContext
 );
 
-export const PropertyForm = forwardRef(Component);
+//export const PropertyForm = forwardRef(Component);

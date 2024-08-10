@@ -1,14 +1,12 @@
+'use client';
+
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
-import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
-import { getTranslation } from 'kotilogi-app/lang';
-import { useEffect, useState } from 'react';
 
 export function TargetTypeField() {
-  const { property: data } = usePropertyFormContext();
-
+  const { propertyTypes } = usePropertyFormContext();
   return (
     <Fieldset legend='Kohde'>
       <Label
@@ -17,24 +15,15 @@ export function TargetTypeField() {
         Tyyppi
       </Label>
 
-      <RadioGroup groupName='propertyType'>
-        <RadioButton
-          label={getTranslation('propertyType', PropertyType.HOUSE)}
-          data-testid='target-property-input'
-          type='radio'
-          value={PropertyType.HOUSE}
-          required
-          defaultChecked={data.propertyType === PropertyType.HOUSE}
-        />
-
-        <RadioButton
-          label={getTranslation('propertyType', PropertyType.APT)}
-          data-testid='target-appartment-input'
-          type='radio'
-          value={PropertyType.APT}
-          required
-          defaultChecked={data.propertyType === PropertyType.APT}
-        />
+      <RadioGroup groupName='propertyTypeId'>
+        {Object.entries(propertyTypes).map(([name, id]: [name: string, id: number]) => (
+          <RadioButton
+            label={name}
+            value={id}
+            required
+            type='radio'
+          />
+        ))}
       </RadioGroup>
     </Fieldset>
   );

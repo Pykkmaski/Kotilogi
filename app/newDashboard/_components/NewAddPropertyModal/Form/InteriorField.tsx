@@ -4,7 +4,7 @@ import { usePropertyFormContext } from './PropertyForm';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
 export function InteriorField() {
-  const { property: data } = usePropertyFormContext();
+  const { property: data, propertyTypes } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Sisätilat'>
@@ -58,7 +58,11 @@ export function InteriorField() {
       />
 
       <FormControl
-        label={data.propertyType === PropertyType.APT ? 'Kerrosnumero' : 'Kerrosten lukumäärä'}
+        label={
+          data.propertyTypeId === propertyTypes['Huoneisto']
+            ? 'Kerrosnumero'
+            : 'Kerrosten lukumäärä'
+        }
         control={
           <Input
             name='floorCount'

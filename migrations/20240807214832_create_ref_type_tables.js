@@ -19,8 +19,7 @@ exports.up = function (knex) {
     tables.map(table =>
       knex.schema.createTable(table, tbl => {
         tbl.increments('id');
-        tbl.string('key', 25).unique().notNullable();
-        tbl.check('upper(??) = ??', ['key', 'key']);
+        tbl.string('name', 25).unique().notNullable();
       })
     )
   );

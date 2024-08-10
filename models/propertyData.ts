@@ -13,10 +13,14 @@ import { EnergyClass } from './enums/EnergyClass';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export async function getProperty(id: string) {
-  const [type] = await db('data_properties').where({ id }).pluck('propertyType');
-  if (type == PropertyType.HOUSE) {
+  const [type] = await db('data_properties')
+    .join('ref_propertyTypes', { 'ref_propertyTypes.id': 'data_properties.propertyTypeId' })
+    .where({ 'data_properties.id': id })
+    .pluck('ref_propertyTypes.name');
+
+  if (type == 'Kiinteistö') {
     return await getHouse(id);
-  } else if (type == PropertyType.APT) {
+  } else if (type == 'Huoneisto') {
     return await getAppartment(id);
   } else {
     throw new Error(`Invalid property type ${type}`);

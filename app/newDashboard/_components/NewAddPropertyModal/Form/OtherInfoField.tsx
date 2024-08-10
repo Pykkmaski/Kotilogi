@@ -5,7 +5,10 @@ import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { AppartmentDataType } from 'kotilogi-app/models/types';
 
 export function OtherInfoField() {
-  const { property: data } = usePropertyFormContext() as { property: AppartmentDataType };
+  const { property: data, propertyTypes } = usePropertyFormContext() as {
+    property: AppartmentDataType;
+    propertyTypes: TODO;
+  };
 
   return (
     <Fieldset legend='Muut tiedot'>
@@ -19,7 +22,7 @@ export function OtherInfoField() {
         }
       />
 
-      {data.propertyType == PropertyType.APT ? (
+      {data.propertyTypeId == propertyTypes['Huoneisto'] ? (
         <CheckboxLabel
           label='Parveke'
           control={

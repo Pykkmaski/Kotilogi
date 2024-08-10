@@ -4,7 +4,7 @@ import db from 'kotilogi-app/dbconfig';
 import { createAppartment, updateAppartment } from 'kotilogi-app/models/appartmentData';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { createHouse, updateHouse } from 'kotilogi-app/models/houseData';
-import { deleteObject, updateObject } from 'kotilogi-app/models/objectData';
+import { createObject, deleteObject, updateObject } from 'kotilogi-app/models/objectData';
 import { PropertyDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
@@ -12,18 +12,27 @@ import bcrypt from 'bcrypt';
 import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
 import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
 import { updateProperty } from 'kotilogi-app/models/propertyData';
+import { getRefTableContent } from './util/getIds';
 
 const path = '/dashboard/properties';
 
 export async function ACreateProperty<T extends PropertyDataType>(
-  data: Required<Pick<T, 'propertyType'>>
+  data: T & Required<Pick<T, 'propertyTypeId'>>
 ) {
-  if (data.propertyType == PropertyType.HOUSE) {
-    await createHouse(data);
-  } else if (data.propertyType == PropertyType.APT) {
+  const propertyTypeIds = await getRefTableContent('ref_propertyTypes');
+
+  if (data.propertyTypeId == propertyTypeIds['Kiinteistö']) {
+    await createObject(data, async (obj, trx) => {
+      const insertObj = filterValidColumns(data, await getTableColumns('data_houses', trx));
+      await trx('data_houses').insert({
+        id: obj.id,
+        ...insertObj,
+      });
+    });
+  } else if (data.propertyTypeId == propertyTypeIds['Huoneisto']) {
     await createAppartment(data);
   } else {
-    throw new Error(`A property type of ${data.propertyType} is not recognized!`);
+    throw new Error(`A property type of ${data.propertyTypeId} is not recognized!`);
   }
 
   revalidatePath(path);
@@ -31,20 +40,21 @@ export async function ACreateProperty<T extends PropertyDataType>(
 }
 
 export async function AUpdateProperty<T extends PropertyDataType>(
-  data: Required<Pick<T, 'propertyType'>> & Required<Pick<T, 'id'>>
+  data: Required<Pick<T, 'propertyTypeId'>> & Required<Pick<T, 'id'>>
 ) {
-  if (data.propertyType == PropertyType.HOUSE) {
+  const propertyTypeIds = await getRefTableContent('ref_propertyTypes');
+  if (data.propertyTypeId == propertyTypeIds['Kiinteistö']) {
     await updateProperty(data, async trx => {
       const io = filterValidColumns(data, await getTableColumns('data_houses', trx));
       await trx('data_houses').where({ id: data.id }).update(io);
     });
-  } else if (data.propertyType == PropertyType.APT) {
+  } else if (data.propertyTypeId == propertyTypeIds['Huoneisto']) {
     await updateProperty(data, async trx => {
       const io = filterValidColumns(data, await getTableColumns('data_appartments', trx));
       await trx('data_appartments').where({ id: data.id }).update(io);
     });
   } else {
-    throw new Error(`A property type of ${data.propertyType} is not recognized!`);
+    throw new Error(`A property type of ${data.propertyTypeId} is not recognized!`);
   }
 
   revalidatePath(path);

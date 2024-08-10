@@ -1,5 +1,3 @@
-import { PropertyType } from './enums/PropertyType';
-
 export type ObjectDataType = {
   id: string;
   timestamp: string;
@@ -12,19 +10,19 @@ export type ObjectDataType = {
 export type PropertyDataType = ObjectDataType & {
   streetAddress: string;
   zipCode: string;
-  energyClass: string;
-  buildingType: number;
-  buildingMaterial: number;
-  roofType: number;
-  roofMaterial: number;
-  primaryHeatingSystem: number;
-  secondaryHeatingSystem: number;
+  energyClassId: number;
+  buildingTypeId: number;
+  buildingMaterialId: number;
+  roofTypeId: number;
+  roofMaterialId: number;
+  primaryHeatingSystemId: number;
+  secondaryHeatingSystemId: number;
   buildYear: number;
   floorCount: number;
   roomCount: number;
   livingArea: number;
   otherArea: number;
-  propertyType: number;
+  propertyTypeId: number;
   wcCount: number;
   houseNumber: number;
   color: number;
@@ -32,14 +30,12 @@ export type PropertyDataType = ObjectDataType & {
 };
 
 export type HouseDataType = PropertyDataType & {
-  propertyType: PropertyType.HOUSE;
-  yardOwnershipType: number;
+  yardOwnershipTypeId: number;
   yardArea: number;
   propertyNumber: string;
 };
 
 export type AppartmentDataType = PropertyDataType & {
-  propertyType: PropertyType.APT;
   appartmentNumber: number;
   floorNumber: number;
   hasBalcony: boolean;

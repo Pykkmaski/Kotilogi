@@ -3,7 +3,7 @@ import { Breadcrumb } from '@/components/New/Breadcrumb';
 import { Margin } from '@/components/New/Margin';
 import { Paper } from '@/components/New/Paper';
 
-export default function newDashboardLayout({ children }: React.PropsWithChildren) {
+export default async function newDashboardLayout({ children }: React.PropsWithChildren) {
   return (
     <div className='flex flex-col flex-1 w-full h-full'>
       <Margin>

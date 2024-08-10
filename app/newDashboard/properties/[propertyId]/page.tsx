@@ -13,7 +13,7 @@ import { getFiles } from 'kotilogi-app/models/fileData';
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
   const property = await getProperty(id);
-
+  console.log(property);
   //Fetch additional data back-to-back to conserve db connection pool.
   const owners = await db('data_propertyOwners')
     .where({ propertyId: property.id })

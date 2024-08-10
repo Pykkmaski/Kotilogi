@@ -6,28 +6,35 @@ import { HouseDataType } from 'kotilogi-app/models/types';
 import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
 import { YardOwnershipType } from 'kotilogi-app/models/enums/YardOwnershipType';
 import { getTranslation } from 'kotilogi-app/lang';
-import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
 export function YardField() {
-  const { property: data } = usePropertyFormContext() as { property: HouseDataType };
+  const {
+    property: data,
+    yardOwnershipTypes,
+    propertyTypes,
+  } = usePropertyFormContext() as {
+    property: HouseDataType;
+    yardOwnershipTypes: TODO;
+    propertyTypes: TODO;
+  };
 
-  return data.propertyType == PropertyType.HOUSE ? (
+  console.log(yardOwnershipTypes);
+
+  return data.propertyTypeId == propertyTypes['Kiinteistö'] ? (
     <Fieldset legend='Tontti'>
       <Label boldText>Omistus</Label>
-      <RadioGroup groupName='yardOwnershipType'>
-        {getEnumAsDigits(YardOwnershipType).map(type => (
+      <RadioGroup groupName='yardOwnershipTypeId'>
+        {Object.entries(yardOwnershipTypes).map(([name, id]: [string, number]) => (
           <RadioButton
-            label={getTranslation('yardOwnershipType', type)}
-            value={type}
+            label={name}
+            value={id}
             type='radio'
-            defaultChecked={type === data.yardOwnershipType}
+            defaultChecked={id == data.yardOwnershipTypeId}
           />
         ))}
       </RadioGroup>
 
-      {data &&
-      data.yardOwnershipType !== undefined &&
-      data.yardOwnershipType != YardOwnershipType.NONE ? (
+      {data && data.yardOwnershipTypeId != yardOwnershipTypes['Ei Mitään'] ? (
         <Group>
           <Label>
             Pinta-ala <sup className='text-super'>m2</sup>

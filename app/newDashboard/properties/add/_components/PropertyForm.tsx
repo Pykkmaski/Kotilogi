@@ -29,11 +29,26 @@ enum FormStatus {
 
 type PropertyFormProps<T extends PropertyDataType> = React.PropsWithChildren & {
   property?: T;
+  propertyTypes: TODO;
+  energyClasses: TODO;
+  buildingTypes: TODO;
+  buildingMaterials: TODO;
+  roofTypes: TODO;
+  roofMaterials: TODO;
+  yardOwnershipTypes: TODO;
+  heatingTypes: TODO;
 };
 
 export function PropertyForm<T extends PropertyDataType>({
-  children,
   property,
+  propertyTypes,
+  energyClasses,
+  buildingTypes,
+  buildingMaterials,
+  roofTypes,
+  roofMaterials,
+  yardOwnershipTypes,
+  heatingTypes,
 }: PropertyFormProps<T>) {
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -73,7 +88,19 @@ export function PropertyForm<T extends PropertyDataType>({
         setHasChanges(true);
       }}
       className='flex flex-col gap-4'>
-      <PropertyFormContext.Provider value={{ property: data }}>
+      <PropertyFormContext.Provider
+        value={{
+          property: data,
+          propertyTypes,
+          energyClasses,
+          buildingTypes,
+          buildingMaterials,
+          roofTypes,
+          roofMaterials,
+          yardOwnershipTypes,
+          heatingTypes,
+        }}>
+        {!property && <TargetTypeField />}
         <GeneralField />
         <ExteriorField />
         <YardField />

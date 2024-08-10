@@ -1,31 +1,27 @@
+'use client';
+
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input, Label } from '@/components/UI/FormUtils';
-import { energyClasses } from 'kotilogi-app/constants';
-import { buildingTypes } from 'kotilogi-app/constants';
-import { usePropertyFormContext } from './PropertyForm';
-import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
-import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
-import { BuildingType } from 'kotilogi-app/models/enums/BuildingType';
-import { getTranslation, lang } from 'kotilogi-app/lang';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 
-type GeneralFieldProps = {};
+import { usePropertyFormContext } from './PropertyForm';
 
 export function GeneralField() {
-  const { property: data } = usePropertyFormContext();
+  const { property: data, propertyTypes, buildingTypes, energyClasses } = usePropertyFormContext();
+
   return (
     <Fieldset legend='Yleistiedot'>
-      {data.propertyType == PropertyType.HOUSE ? (
+      {data && data.propertyTypeId == propertyTypes['Kiinteistö'] ? (
         <div className='w-full'>
           <FormControl
             label='Kiinteistötunnus'
             required
             control={
               <Input
-                data-testid='propertyNumber-input'
                 name='propertyNumber'
                 placeholder='Kirjoita kiinteistötunnus...'
-                defaultValue={data.propertyNumber}
+                defaultValue={data && (data as HouseDataType).propertyNumber}
               />
             }
           />
@@ -41,7 +37,7 @@ export function GeneralField() {
               <Input
                 name='streetAddress'
                 placeholder='Kirjoita talon osoite...'
-                defaultValue={data.streetAddress}
+                defaultValue={data && data.streetAddress}
               />
             }
           />
@@ -53,7 +49,7 @@ export function GeneralField() {
             required
             control={
               <Input
-                defaultValue={data.zipCode}
+                defaultValue={data && data.zipCode}
                 name='zipCode'
                 maxLength={5}
                 placeholder='Kirjoita talon postinumero...'></Input>
@@ -68,20 +64,20 @@ export function GeneralField() {
           <Input
             name='buildYear'
             type='number'
-            defaultValue={data.buildYear}
+            defaultValue={data && data.buildYear}
             placeholder='Anna rakennusvuosi...'
             data-testid='buildYear-input'
           />
         }
       />
 
-      {data.propertyType == PropertyType.APT ? (
+      {data && data.propertyTypeId == propertyTypes['Huoneisto'] ? (
         <div className='w-full'>
           <FormControl
             label='Huoneiston numero'
             control={
               <Input
-                defaultValue={data.appartmentNumber}
+                defaultValue={data && (data as AppartmentDataType).appartmentNumber}
                 data-testid='appartmentNumber-input'
                 type='number'
                 name='appartmentNumber'
@@ -101,7 +97,7 @@ export function GeneralField() {
             spellCheck={false}
             name='description'
             placeholder='Anna vaihtoehtoinen kuvaus...'
-            defaultValue={data.description}
+            defaultValue={data && data.description}
           />
         }
       />
@@ -115,18 +111,15 @@ export function GeneralField() {
                 Talotyyppi
               </Label>
               <div className='grid grid-flow-row grid-cols-2 gap-4'>
-                <RadioGroup groupName='buildingType'>
-                  {getEnumAsDigits(BuildingType).map(type => {
-                    const label = getTranslation('buildingType', type);
-
+                <RadioGroup groupName='buildingTypeId'>
+                  {Object.entries(buildingTypes).map(([name, id]: [string, number]) => {
                     return (
                       <RadioButton
-                        label={label}
-                        data-testid={`${type}-input`}
+                        label={name}
                         required
                         type='radio'
-                        value={type}
-                        defaultChecked={data.buildingType == type}
+                        value={id}
+                        defaultChecked={data && data.buildingTypeId == id}
                       />
                     );
                   })}
@@ -139,14 +132,13 @@ export function GeneralField() {
             <Label boldText>Energialuokka</Label>
 
             <div className='grid grid-flow-row grid-cols-2 gap-4'>
-              <RadioGroup groupName='energyClass'>
-                {energyClasses.map(ec => (
+              <RadioGroup groupName='energyClassId'>
+                {Object.entries(energyClasses).map(([name, id]: [string, number]) => (
                   <RadioButton
-                    label={ec}
-                    data-testid={`${ec}-input`}
-                    value={ec}
+                    label={name}
+                    value={id}
                     type='radio'
-                    defaultChecked={ec == data.energyClass}
+                    defaultChecked={data && data.energyClassId == id}
                   />
                 ))}
               </RadioGroup>

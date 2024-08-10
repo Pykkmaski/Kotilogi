@@ -3,20 +3,19 @@
  * @returns { Promise<void> }
  */
 
-const table = 'data_properties';
-const oldcol = 'propertyType';
-const newcol = 'propertyTypeId';
+const table = 'data_houses';
+const oldcol = 'yardOwnershipType';
+const newcol = 'yardOwnershipTypeId';
+const foreignName = 'FK_YARD_OWNERSHIP_TYPE';
 
 exports.up = function (knex) {
   return knex.schema
     .alterTable(table, tbl => {
       tbl
-        .integer(oldcol)
-        .notNullable()
+        .foreign(oldcol, foreignName)
         .references('id')
-        .inTable('ref_propertyTypes')
-        .onUpdate('CASCADE')
-        .alter();
+        .inTable('ref_yardOwnershipTypes')
+        .onUpdate('CASCADE');
     })
     .alterTable(table, tbl => tbl.renameColumn(oldcol, newcol));
 };
@@ -28,7 +27,7 @@ exports.up = function (knex) {
 exports.down = function (knex) {
   return knex.schema
     .alterTable(table, tbl => {
-      tbl.dropForeign(oldcol);
+      tbl.dropForeign(newcol);
     })
     .alterTable(table, tbl => tbl.renameColumn(newcol, oldcol));
 };
