@@ -45,7 +45,7 @@ export function YardField() {
             step={0.1}
             min={0.1}
             placeholder='Anna tontin pinta-ala...'
-            defaultValue={data.yardArea / 100}
+            defaultValue={data.yardArea}
           />
         </Group>
       ) : null}

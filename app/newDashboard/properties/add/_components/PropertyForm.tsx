@@ -37,6 +37,7 @@ type PropertyFormProps<T extends PropertyDataType> = React.PropsWithChildren & {
   roofMaterials: TODO;
   yardOwnershipTypes: TODO;
   heatingTypes: TODO;
+  mainColors: TODO;
 };
 
 export function PropertyForm<T extends PropertyDataType>({
@@ -49,6 +50,7 @@ export function PropertyForm<T extends PropertyDataType>({
   roofMaterials,
   yardOwnershipTypes,
   heatingTypes,
+  mainColors,
 }: PropertyFormProps<T>) {
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -99,6 +101,7 @@ export function PropertyForm<T extends PropertyDataType>({
           roofMaterials,
           yardOwnershipTypes,
           heatingTypes,
+          mainColors,
         }}>
         {!property && <TargetTypeField />}
         <GeneralField />

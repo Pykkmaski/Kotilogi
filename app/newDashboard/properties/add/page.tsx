@@ -12,6 +12,7 @@ export default async function AddPropertyPage() {
     roofTypes,
     yardOwnershipTypes,
     heatingTypes,
+    mainColors,
   ] = await Promise.all([
     getRefTableContent('ref_propertyTypes'),
     getRefTableContent('ref_energyClasses'),
@@ -21,6 +22,7 @@ export default async function AddPropertyPage() {
     getRefTableContent('ref_roofTypes'),
     getRefTableContent('ref_yardOwnershipTypes'),
     getRefTableContent('ref_heatingTypes'),
+    getRefTableContent('ref_mainColors'),
   ]);
 
   return (
@@ -34,6 +36,7 @@ export default async function AddPropertyPage() {
         roofTypes={roofTypes}
         yardOwnershipTypes={yardOwnershipTypes}
         heatingTypes={heatingTypes}
+        mainColors={mainColors}
       />
     </Main>
   );

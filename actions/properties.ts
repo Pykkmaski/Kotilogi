@@ -11,7 +11,7 @@ import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcrypt';
 import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
 import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
-import { updateProperty } from 'kotilogi-app/models/propertyData';
+import { createProperty, updateProperty } from 'kotilogi-app/models/propertyData';
 import { getRefTableContent } from './util/getIds';
 
 const path = '/dashboard/properties';
@@ -22,8 +22,9 @@ export async function ACreateProperty<T extends PropertyDataType>(
   const propertyTypeIds = await getRefTableContent('ref_propertyTypes');
 
   if (data.propertyTypeId == propertyTypeIds['Kiinteistö']) {
-    await createObject(data, async (obj, trx) => {
+    await createProperty(data, async (obj, trx) => {
       const insertObj = filterValidColumns(data, await getTableColumns('data_houses', trx));
+
       await trx('data_houses').insert({
         id: obj.id,
         ...insertObj,

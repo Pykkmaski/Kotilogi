@@ -21,7 +21,7 @@ export function InteriorField() {
             type='number'
             min='1'
             step={0.1}
-            defaultValue={data.livingArea / 100}
+            defaultValue={data.livingArea}
           />
         }
       />
@@ -38,7 +38,7 @@ export function InteriorField() {
             placeholder='Anna muiden tilojen pinta-ala...'
             type='number'
             min='0'
-            defaultValue={data.otherArea / 100}
+            defaultValue={data.otherArea}
           />
         }
       />

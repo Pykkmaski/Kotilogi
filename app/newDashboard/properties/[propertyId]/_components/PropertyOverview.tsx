@@ -7,6 +7,7 @@ import { LabelGrid } from '@/components/New/LabelGrid';
 import { getTranslation } from 'kotilogi-app/lang';
 import { Edit } from '@mui/icons-material';
 import Link from 'next/link';
+import { getRefTableContent } from '@/actions/util/getIds';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -31,6 +32,12 @@ export async function PropertyOverview({
 }: PropertyOverviewProps) {
   const [mainImageId] =
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
+  const [propertyType] = await db('ref_propertyTypes')
+    .where({ id: property.propertyTypeId })
+    .pluck('name');
+  const [buildingType] = await db('ref_buildingTypes')
+    .where({ id: property.buildingTypeId })
+    .pluck('name');
 
   return (
     <OverviewBox
@@ -53,12 +60,12 @@ export async function PropertyOverview({
             }>
             <LabelGrid.Entry
               label={'Kiinteistötyyppi'}
-              value={property.propertyType == PropertyType.APT ? 'Huoneisto' : 'Kiinteistö'}
+              value={propertyType}
             />
 
             <LabelGrid.Entry
               label='Rakennustyyppi'
-              value={getTranslation('buildingType', property.buildingType, 'fi')}
+              value={buildingType}
             />
 
             <LabelGrid.Entry

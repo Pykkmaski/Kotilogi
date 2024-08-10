@@ -22,6 +22,7 @@ export const PropertyFormContext = createContext<{
   roofMaterials: TODO;
   roofTypes: TODO;
   heatingTypes: TODO;
+  mainColors: TODO;
 } | null>(null);
 
 type SubmitFormProps = {

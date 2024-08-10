@@ -35,7 +35,6 @@ export async function createProperty(
     const data_properties = {
       id: obj.id,
       ...filterValidColumns(data, await getTableColumns('data_properties', trx)),
-      energyClass: EnergyClass[data.energyClass != 'Ei Mitään' ? data.energyClass : 'NONE'],
     };
 
     await trx('data_properties').insert(data_properties);

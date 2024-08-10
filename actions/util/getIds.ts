@@ -13,6 +13,7 @@ export async function getRefTableContent(
     | 'ref_yardOwnershipTypes'
     | 'ref_energyClasses'
     | 'ref_heatingTypes'
+    | 'ref_mainColors'
 ) {
   return (await db(refTableName)).reduce((obj, entry) => {
     obj[entry.name] = entry.id;

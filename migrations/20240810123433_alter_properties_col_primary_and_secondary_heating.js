@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 const table = 'data_properties';
-const reftable = 'ref_heatingSystems';
+const reftable = 'ref_heatingTypes';
 
 const values = [
   {
@@ -20,7 +20,7 @@ const values = [
 ];
 
 exports.up = function (knex) {
-  return Promise.all([
+  return Promise.all(
     values.map(val =>
       knex.schema
         .alterTable(table, tbl =>
@@ -31,8 +31,8 @@ exports.up = function (knex) {
             .onUpdate('CASCADE')
         )
         .alterTable(table, tbl => tbl.renameColumn(val.oldcol, val.newcol))
-    ),
-  ]);
+    )
+  );
 };
 
 /**
@@ -40,11 +40,11 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return Promise.all([
+  return Promise.all(
     values.map(val =>
       knex.schema
         .alterTable(table, tbl => tbl.dropForeign(val.newcol))
         .alterTable(table, tbl => tbl.renameColumn(val.newcol, val.oldcol))
-    ),
-  ]);
+    )
+  );
 };

@@ -25,7 +25,7 @@ export type PropertyDataType = ObjectDataType & {
   propertyTypeId: number;
   wcCount: number;
   houseNumber: number;
-  color: number;
+  mainColorId: number;
   hasGarage: boolean;
 };
 

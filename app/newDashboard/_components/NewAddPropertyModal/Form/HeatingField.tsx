@@ -16,7 +16,7 @@ export function HeatingField() {
           <div className='flex flex-col gap-4 w-full'>
             <Label boldText>Ensisijainen</Label>
 
-            <RadioGroup groupName='primaryHeatingSystem'>
+            <RadioGroup groupName='primaryHeatingSystemId'>
               {Object.entries(heatingTypes)
                 .filter(([name, id]: [string, number]) => id != heatingTypes['Ei Mitään'])
                 .map(([name, id]: [string, number]) => (
@@ -31,7 +31,7 @@ export function HeatingField() {
 
           <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
             <Label boldText>Toissijainen</Label>
-            <RadioGroup groupName='secondaryHeatingSystem'>
+            <RadioGroup groupName='secondaryHeatingSystemId'>
               {Object.entries(heatingTypes)
                 .filter(
                   ([name, id]: [string, number]) =>
