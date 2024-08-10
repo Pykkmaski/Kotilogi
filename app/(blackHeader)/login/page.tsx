@@ -1,8 +1,6 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
-import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { Input } from '@/components/Feature/Input';
 import { ContentCard } from '@/components/UI/RoundedBox';
 import { Group } from '@/components/UI/Group';
@@ -12,6 +10,8 @@ import { ErrorText } from '@/components/UI/Text';
 import { useLogin } from './useLogin';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import Button from '@mui/material/Button';
+import Spinner from '@/components/UI/Spinner';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -100,7 +100,7 @@ export default function LoginPage() {
                 <Link
                   data-testid='password-reset-link'
                   href='/login/reset'
-                  className='text-orange-400'>
+                  className='text-green-500'>
                   Klikkaa tähän.
                 </Link>
               </div>
@@ -111,20 +111,23 @@ export default function LoginPage() {
                 direction='row'
                 justify='end'
                 gap={2}>
-                <SecondaryButton
+                <Button
+                  variant='text'
+                  color='primary'
                   type='button'
                   disabled={loading}
                   onClick={cancelHandler}>
                   Peruuta
-                </SecondaryButton>
+                </Button>
 
-                <PrimaryButton
+                <Button
                   type='submit'
+                  variant='contained'
+                  color='primary'
                   disabled={loading}
-                  loading={loading}
-                  data-testid='login-btn'>
+                  startIcon={loading && <Spinner size='1rem' />}>
                   Kirjaudu
-                </PrimaryButton>
+                </Button>
               </Group>
             </div>
           </form>

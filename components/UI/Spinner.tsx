@@ -10,8 +10,9 @@ export type SpinnerProps = {
 export default function Spinner(props: SpinnerProps) {
   const className = props.animated ? `${styles.container} ${styles.animated}` : styles.container;
 
+  const classes = [className, 'border-green-500'];
   return (
-    <div className={className}>
+    <div className={classes.join(' ')}>
       <div
         className={styles.spinner}
         style={{ width: props.size, height: props.size }}

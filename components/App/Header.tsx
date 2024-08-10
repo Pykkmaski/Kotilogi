@@ -7,9 +7,9 @@ import Spinner from '../UI/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../UI/Padding';
 
-import Button from '../UI/Button/Button';
 import { HamburgerButton } from '../UI/HamburgerButton';
 import { MobileMenu } from './MobileMenu';
+import Button from '@mui/material/Button';
 
 export function Logo2() {
   return (
@@ -121,8 +121,10 @@ export default function Header({ variant = 'black' }: HeaderProps) {
             <Link
               href='/login'
               className='ml-8'>
-              <Button variant='accent'>
-                <span className='mx-8 text-black'>Kirjaudu Sisään</span>
+              <Button
+                variant='contained'
+                color='primary'>
+                Kirjaudu Sisään
               </Button>
             </Link>
           </nav>

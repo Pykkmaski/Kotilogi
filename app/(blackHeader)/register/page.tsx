@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { ErrorText } from '@/components/UI/Text';
 import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
 import { useRegister } from './useRegister';
+import { Button } from '@mui/material';
+import Spinner from '@/components/UI/Spinner';
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
@@ -91,7 +93,7 @@ export default function RegisterPage() {
                     data-testid='register-tos-link'
                     href='/tos'
                     target='_blank'
-                    className='text-orange-500'>
+                    className='text-green-500'>
                     käyttöehdot
                   </Link>
                   :
@@ -113,17 +115,22 @@ export default function RegisterPage() {
                 <Link
                   href='/'
                   data-testid='register-cancel-btn'>
-                  <SecondaryButton disabled={loading}>Peruuta</SecondaryButton>
+                  <Button
+                    variant='text'
+                    disabled={loading}>
+                    Peruuta
+                  </Button>
                 </Link>
 
-                <PrimaryButton
+                <Button
                   type='submit'
                   title='Rekisteröidy kotilokin käyttäjäksi'
                   data-testid='register-submit-btn'
                   disabled={loading}
-                  loading={loading}>
+                  variant='contained'
+                  startIcon={loading && <Spinner size='1rem' />}>
                   Rekisteröidy
-                </PrimaryButton>
+                </Button>
               </Group>
             </div>
           </form>

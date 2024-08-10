@@ -8,7 +8,7 @@ const constraintName = 'PK_PROPERTY_OWNERS';
 
 exports.up = function (knex) {
   return knex.schema.alterTable(table, tbl => {
-    tbl.dropPrimary('data_propertyOwners_pkey');
+    tbl.dropPrimary(constraintName);
     tbl.primary(['userId', 'propertyId'], constraintName);
     tbl.dropColumn('id');
   });
