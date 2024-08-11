@@ -19,7 +19,8 @@ type StepFormProps = {
 };
 
 export function StepForm({ eventId, step }: StepFormProps) {
-  const time = step.time && timestampToISOString(step.time);
+  const time = step && step.time && timestampToISOString(step.time);
+
   return (
     <ObjectSubmissionForm
       parentId={eventId}
