@@ -1,3 +1,4 @@
+import Spinner from '@/components/UI/Spinner';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
@@ -30,7 +31,7 @@ export function FormButtons({ backAction, loading, done }: FormButtonsProps) {
         type='submit'
         disabled={loading || done}
         variant='contained'
-        startIcon={<Check />}>
+        startIcon={!loading ? <Check /> : <Spinner size='1rem' />}>
         Vahvista
       </Button>
     </div>
