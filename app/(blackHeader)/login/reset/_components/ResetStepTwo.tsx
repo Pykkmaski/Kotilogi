@@ -7,6 +7,9 @@ import Link from 'next/link';
 import { useResetStepTwo } from './hooks/useResetStepTwo';
 import { ErrorText } from '@/components/UI/Text';
 import { useResetFormProvider } from './ResetFormContext';
+import { Button } from '@mui/material';
+import Spinner from '@/components/UI/Spinner';
+import { Check } from '@mui/icons-material';
 
 export function StepTwo() {
   const { data, status, resetStepTwoHandler, updateData } = useResetStepTwo();
@@ -57,16 +60,18 @@ export function StepTwo() {
           <Group
             direction='row'
             justify='end'>
-            <Link href='/login/reset'>
-              <SecondaryButton disabled={loading}>Takaisin</SecondaryButton>
-            </Link>
+            <Button
+              href='/login/reset'
+              disabled={loading}>
+              Takaisin
+            </Button>
 
-            <PrimaryButton
+            <Button
               type='submit'
               disabled={loading || !data.password1 || !data.password2}
-              loading={loading}>
+              startIcon={loading ? <Spinner size='1rem' /> : <Check />}>
               Lähetä
-            </PrimaryButton>
+            </Button>
           </Group>
         </div>
       </form>

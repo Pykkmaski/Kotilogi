@@ -6,6 +6,9 @@ import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
 import { ErrorText } from '@/components/UI/Text';
 import { useResetStepOne } from './hooks/useResetStepOne';
+import { Button } from '@mui/material';
+import Spinner from '@/components/UI/Spinner';
+import { Check } from '@mui/icons-material';
 
 export function StepOne() {
   const router = useRouter();
@@ -48,19 +51,22 @@ export function StepOne() {
             direction='row'
             justify='end'
             gap={2}>
-            <SecondaryButton
+            <Button
+              variant='text'
               type='button'
               onClick={() => router.push('/login')}
-              disabled={status === 'loading' || isDisabled()}>
+              disabled={isDisabled()}>
               Peruuta
-            </SecondaryButton>
+            </Button>
 
-            <PrimaryButton
+            <Button
+              variant='contained'
+              color='primary'
               type='submit'
               disabled={!data.email || isDisabled()}
-              loading={status === 'loading'}>
+              startIcon={status == 'loading' ? <Spinner size='1rem' /> : <Check />}>
               Lähetä
-            </PrimaryButton>
+            </Button>
           </Group>
         </div>
       </form>

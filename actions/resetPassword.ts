@@ -21,7 +21,7 @@ export async function resetPassword(verificationToken: string, newPassword: stri
   const currentTime = new Date().getTime();
   if (currentTime > decoded.expires) throw new Error('Token has expired!');
 
-  await db('users')
+  await db('data_users')
     .where({ email: decoded.email })
     .update({
       password: (await bcrypt.hash(newPassword, 15)) as string,
@@ -53,7 +53,7 @@ export async function verifyToken(token: string): Promise<jwt.JwtPayload | null>
  */
 
 export async function sendResetCode(email: string) {
-  const [user] = await db('users').where({ email }).select('email');
+  const [user] = await db('data_users').where({ email }).select('email');
 
   //A user with provided email address does not exist.
   if (!user) throw new Error('invalid_email');
@@ -122,7 +122,12 @@ export async function sendResetCode(email: string) {
         </html>
     `;
 
-  await sendHTMLEmail('Salasanan nollaus', process.env.SERVICE_EMAIL_ADDRESS || serviceName, email, htmlContent);
+  await sendHTMLEmail(
+    'Salasanan nollaus',
+    process.env.SERVICE_EMAIL_ADDRESS || serviceName,
+    email,
+    htmlContent
+  );
 
   return 'success';
 }
