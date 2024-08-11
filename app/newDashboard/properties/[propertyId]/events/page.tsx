@@ -1,20 +1,15 @@
-import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
-import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Main } from '@/components/New/Main';
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
-import { Visibility } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/models/types';
-import Link from 'next/link';
 import { EventOverview } from './_components/EventOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
-import { SearchBar } from '@/components/Feature/SearchBar';
-import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
+import { getRefTableContent } from '@/actions/util/getRefTableContent';
 
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
   const search = searchParams?.q;
-  const [events, [propertyType]] = (await Promise.all([
+  const [events, [propertyTypeId]] = (await Promise.all([
     db('data_propertyEvents')
       .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
       .where(function () {
@@ -27,11 +22,13 @@ export default async function EventsPage({ params, searchParams }) {
       .andWhere({ parentId: propertyId })
       .orderBy('startTime', 'desc'),
 
-    db('data_properties').where({ id: propertyId }).pluck('propertyType'),
+    db('data_properties').where({ id: propertyId }).pluck('propertyTypeId'),
   ])) as [EventDataType[], [number]];
 
+  const propertyTypes = await getRefTableContent('ref_propertyTypes');
+
   const [propertyAddress] =
-    propertyType == PropertyType.HOUSE
+    propertyTypeId == propertyTypes['Kiinteistö']
       ? await db('data_properties').where({ id: propertyId }).select('streetAddress')
       : await db('data_properties')
           .join('data_appartments', { 'data_properties.id': 'data_appartments.id' })
