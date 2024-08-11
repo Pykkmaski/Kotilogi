@@ -71,29 +71,6 @@ export default async function newDashboardPage() {
           );
         }}
       />
-
-      <PreviewContentBase
-        headingText='Asetukset'
-        icon={<Settings />}>
-        <form>
-          <Spacer direction='col'>
-            <FormControl
-              label='Sähköposti'
-              control={
-                <Input
-                  type='email'
-                  defaultValue={session.user.email}
-                />
-              }
-            />
-
-            <FormControl
-              label='Password'
-              control={<Input type='password' />}
-            />
-          </Spacer>
-        </form>
-      </PreviewContentBase>
     </Main>
   );
 }

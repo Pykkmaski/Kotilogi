@@ -32,6 +32,9 @@ const tranlsatePathname = (href: string) => {
     case 'steps':
       return 'Vaiheet';
 
+    case 'settings':
+      return 'Asetukset';
+
     default:
       if ((previous && previous == 'properties') || previous == 'events' || previous == 'steps') {
         return 'ID';
