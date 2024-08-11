@@ -44,9 +44,6 @@ export function MobileMenu({ session }: MobileMenuProps) {
             return (
               <>
                 <MenuItem onClick={handleClose}>
-                  <Link href='/newDashboard/settings'>Asetukset</Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
                   <Link href='/logout'>Kirjaudu Ulos</Link>
                 </MenuItem>
               </>
