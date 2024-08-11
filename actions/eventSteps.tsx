@@ -17,6 +17,7 @@ export async function ACreateEventStep(data: Partial<EventStepDataType>) {
     await trx(table).insert({
       id: obj.id,
       ...insertObj,
+      time: data.time && new Date(data.time).getTime(),
     });
   });
   revalidatePath(path);
