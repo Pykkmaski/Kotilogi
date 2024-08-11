@@ -16,7 +16,12 @@ export default async function DeleteEventStepPage({ params }) {
     <span>Vain vaiheen luoja voi poistaa sen!</span>
   ) : (
     <Main>
-      <DeleteStepForm step={step} />
+      <DeleteStepForm
+        step={{
+          ...step,
+          propertyId: params.propertyId,
+        }}
+      />
     </Main>
   );
 }

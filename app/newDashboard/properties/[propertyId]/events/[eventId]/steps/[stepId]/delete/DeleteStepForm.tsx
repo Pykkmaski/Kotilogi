@@ -21,20 +21,22 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 type DeletePropertyFormProps = {
-  step: EventStepDataType;
+  step: EventStepDataType & {
+    propertyId: string;
+  };
 };
 
 export function DeleteStepForm({ step }: DeletePropertyFormProps) {
   return (
     <ObjectDeletionForm
-      returnUrl='/newDashboard/properties'
+      returnUrl={`/newDashboard/properties/${step.propertyId}/events/${step.parentId}/steps`}
       objectId={step.id}
       deleteMethod={async data => {
         return await ADeleteEventStep(step.id).then(res => {
           if (res == -1) {
-            toast.error('Talon voi poistaa ainoastaan sen omistaja!');
+            toast.error('Vaiheen voi poistaa ainoastaan sen luoja!');
           } else {
-            toast.success('Talo poistettu!');
+            toast.success('Vaihe poistettu!');
           }
           return res;
         });
