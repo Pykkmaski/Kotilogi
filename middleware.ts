@@ -2,8 +2,6 @@ import { JWT } from 'next-auth/jwt';
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
-import { getFirstPropertyOfUser } from './actions/experimental/properties';
-
 async function handleAuthorized(token: JWT, req: NextRequestWithAuth) {
   const url = new URL(req.url);
 

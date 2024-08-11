@@ -1,9 +1,7 @@
 'use client';
 
-import { ListItemProps } from '@/components/Feature/ListItem/ListItem';
 import { FileTableName } from 'kotilogi-app/types/FileTableName';
 import { FileError } from './GalleryBase/Components/Error/FileError';
-import { addFiles, deleteFile } from 'kotilogi-app/actions/experimental/files';
 import { SubmitModalPrefab } from '@/components/Feature/SubmitModalPrefab';
 import toast from 'react-hot-toast';
 
@@ -12,14 +10,10 @@ import {
   useSelectablesProviderContext,
 } from '@/components/Util/SelectablesProvider';
 import { CancelSelectionButton, ListHeaderControlButtons } from '@/components/Prefabs/List.prefabs';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { ImageError } from './GalleryBase/Components/Error/ImageError';
 import { Gallery } from './GalleryBase/Gallery';
 import { AddButton, DeleteButton } from './GalleryBase/Buttons';
 import { FormControl, Input } from '../UI/FormUtils';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import { Delete } from '@mui/icons-material';
 
 type DeleteModalTriggerProps = {
   tablename: 'propertyFiles' | 'eventFiles';
@@ -33,7 +27,9 @@ const DeleteModalTrigger = ({ tablename }: DeleteModalTriggerProps) => {
       trigger={<DeleteButton />}
       modalTitle='Poista valitut kohteet'
       submitMethod={async () => {
-        const promises = selectedItems.map(item => deleteFile(tablename, item.id));
+        const promises = selectedItems.map(item => {
+          throw new Error('File upload method not implemented!');
+        });
         await Promise.all(promises)
           .then(() => {
             resetSelected();
@@ -105,9 +101,7 @@ export function FilesGallery({
           trigger={<AddButton disabled={isDisabled} />}
           modalTitle={'Lisää ' + (variant === 'image' ? 'kuvia' : 'tiedostoja')}
           submitMethod={async (data, files?) => {
-            await addFiles(tablename, files, refId)
-              .then(() => toast.success(getSuccessMessage('add')))
-              .catch(err => console.log(err.message));
+            throw new Error('File upload method not implemented!');
           }}>
           <FormControl
             required

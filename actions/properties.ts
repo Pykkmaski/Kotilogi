@@ -3,7 +3,6 @@
 import db from 'kotilogi-app/dbconfig';
 import { createAppartment, updateAppartment } from 'kotilogi-app/models/appartmentData';
 import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
-import { createHouse, updateHouse } from 'kotilogi-app/models/houseData';
 import { createObject, deleteObject, updateObject } from 'kotilogi-app/models/objectData';
 import { PropertyDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
@@ -12,7 +11,7 @@ import bcrypt from 'bcrypt';
 import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
 import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
 import { createProperty, updateProperty } from 'kotilogi-app/models/propertyData';
-import { getRefTableContent } from './util/getIds';
+import { getRefTableContent } from './util/getRefTableContent';
 
 const path = '/dashboard/properties';
 

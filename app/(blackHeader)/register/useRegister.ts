@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
-import { registerUser } from 'kotilogi-app/actions/experimental/users';
+import { ARegisterUser } from '@/actions/users';
 
 export type RegisterStatusType =
   | 'idle'
@@ -36,7 +36,7 @@ export function useRegister() {
     } else {
       setStatus('loading');
 
-      registerUser(data)
+      ARegisterUser(data)
         .then(status => {
           setStatus(status);
 

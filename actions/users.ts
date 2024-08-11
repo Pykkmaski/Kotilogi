@@ -1,91 +1,70 @@
 'use server';
 
-import { MaxProperties } from 'kotilogi-app/constants';
+import { sendAccountActivationLink, sendEmailResetLink } from './email';
 import db from 'kotilogi-app/dbconfig';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
 import bcrypt from 'bcrypt';
-import { sendAccountActivationLink } from './email';
-import { signOut as authSignOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { revalidatePath } from 'next/cache';
-import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 
-/**Verifies a users password. */
-async function verifyPassword(email: string, password: string) {
-  return new Promise<boolean>(async (resolve, reject) => {
-    try {
-      const [user] = await db('users').where({ email }).select('password');
-      const isOk = await bcrypt.compare(password, user.password);
-      resolve(isOk);
-    } catch (err) {
-      reject(err);
-    }
-  });
+export async function AUpdateEmail(oldEmail: string, newEmail: string) {
+  //Should send an email to the current address containing a link with a token, which when visited, triggers the change of the email.
+  await sendEmailResetLink({ oldEmail, newEmail });
 }
 
-/**Updates a user's password */
-export async function updatePassword(email: string, newPassword: string, currentPassword: string) {
-  return new Promise<string>(async (resolve, reject) => {
-    try {
-      const isCorrectPassword = await verifyPassword(email, currentPassword);
-      if (!isCorrectPassword) return resolve('invalid_password');
+export async function AUpdatePassword(oldPassword: string, newPassword: string) {
+  const session = await loadSession();
+  const [encrypted] = await db('userData').where({ id: session.user.id }).pluck('password');
+  if (!(await bcrypt.compare(oldPassword, encrypted))) return -1;
 
-      const encryptedPassword = await bcrypt.hash(newPassword, 15);
-      await db('users').where({ email }).update({
-        password: encryptedPassword,
-      });
+  await db('data_users')
+    .where({ id: session.user.id })
+    .update({
+      password: await bcrypt.hash(newPassword, 15),
+    });
 
-      return resolve('success');
-    } catch (err) {
-      reject(err);
-    }
-  });
+  return 0;
 }
 
-export async function del(email: string) {
+export async function ARegisterUser(credentials: {
+  email: string;
+  password: string;
+  plan: string;
+}) {
   const trx = await db.transaction();
-  let rollbackFileDelete: () => Promise<void> = null;
 
   try {
-    //All property and event files must be manually deleted.
-    const files = await trx('properties')
-      .where({ refId: email })
-      .pluck('id')
-      .then(async propertyIds => {
-        //Get the event files associated with events of the property:
-        const eventFiles = await trx('propertyEvents')
-          .whereIn('refId', propertyIds)
-          .pluck('id')
-          .then(async eventIds => {
-            return await trx('eventFiles').whereIn('refId', eventIds).pluck('fileName');
-          });
+    const user = {
+      email: credentials.email,
+      password: await bcrypt.hash(credentials.password, 15),
+    };
 
-        //Get the files associated with the property:
-        const propertyFiles = await trx('propertyFiles').whereIn('refId', propertyIds).pluck('fileName');
-
-        return [...eventFiles, ...propertyFiles];
-      });
-
-    //Delete the files from disk:
-    rollbackFileDelete = files.del(files);
-
-    //Deletes the user, their properties, the events of the properties, and all file entries for both on the database.
-    await trx('users').where({ email }).del();
+    await trx('data_users').insert(user);
+    await sendAccountActivationLink(user.email);
     await trx.commit();
+    return 'success';
   } catch (err) {
-    console.log(err.message);
-    if (rollbackFileDelete) {
-      await rollbackFileDelete();
-    }
-
+    const msg = err.message.toUpperCase();
     await trx.rollback();
+    if (msg.includes('UNIQUE') || msg.includes('DUPLICATE')) {
+      return 'user_exists';
+    } else {
+      console.log(err.message);
+      return 'unexpected';
+    }
   }
 }
 
-export async function isUserValid(email: string) {
-  return (await db('users').where({ email })).length !== 0;
+export async function ALoginUser(credentials: { email: string; password: string }) {
+  const res = await signIn('credentials', credentials);
+  revalidatePath('/');
+  return res;
 }
 
-export async function signOut() {
-  await authSignOut({
+export async function ALogoutUser() {
+  const res = await signOut({
     redirect: false,
-  }).then(() => revalidatePath('/'));
+  });
+  revalidatePath('/');
+  return res;
 }

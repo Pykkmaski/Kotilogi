@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import Page from '../page';
 import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
-import { registerUser } from '@/actions/experimental/users';
+import { registerUser } from '@/actions/users';
 import { useRegister } from '../useRegister';
 
 // Mock useRouter:

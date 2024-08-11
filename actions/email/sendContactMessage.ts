@@ -1,15 +1,13 @@
-"use server";
+'use server';
 
-import { logError } from "kotilogi-app/utils/logError";
-import {sendEmail} from "./sendEmail";
-import { serviceName } from "kotilogi-app/constants";
-import { sendHTMLEmail } from "./sendHTMLEmail";
+import { serviceName } from 'kotilogi-app/constants';
+import { sendHTMLEmail } from './sendHTMLEmail';
 
 type MessageDataType = {
-    email: string,
-    name?: string,
-    message: string,
-}
+  email: string;
+  name?: string;
+  message: string;
+};
 
 /**
  * Creates an HTML layout containing the provided message.
@@ -18,8 +16,8 @@ type MessageDataType = {
  * @returns {string} An html layout containing the message.
  */
 
-function createMessageHTML(from: string, message: string): string{
-    return `
+function createMessageHTML(from: string, message: string): string {
+  return `
     <html>
         <head>
             <style>
@@ -87,16 +85,16 @@ function createMessageHTML(from: string, message: string): string{
             </footer>
         </body>
     </html>
-    `
+    `;
 }
 
-export async function sendContactMessage(data: MessageDataType){
-    return new Promise<void>(async (resolve, reject) => {
-        try{
-            const to = process.env.SERVICE_CONTACT_EMAILS as string;
-            console.log(to);
-            
-            const msg = `
+export async function sendContactMessage(data: MessageDataType) {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      const to = process.env.SERVICE_CONTACT_EMAILS as string;
+      console.log(to);
+
+      const msg = `
                 <html>
                     <head>
                         <style>
@@ -120,12 +118,11 @@ export async function sendContactMessage(data: MessageDataType){
                 </html>
                 
             `;
-            await sendHTMLEmail(serviceName, data.email, to.split(','), msg);
-            resolve();
-        }
-        catch(err){
-            console.log(err.message);
-            reject(err);
-        }
-    })
+      await sendHTMLEmail(serviceName, data.email, to.split(','), msg);
+      resolve();
+    } catch (err) {
+      console.log(err.message);
+      reject(err);
+    }
+  });
 }

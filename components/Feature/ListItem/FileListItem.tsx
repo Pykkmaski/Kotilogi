@@ -1,9 +1,6 @@
 'use client';
 
 import { ListItem, ListItemProps } from './ListItem';
-import { ControlsContainer, InfoContainer, TitleContainer } from './ListItem.components';
-import { deleteFile as deletePropertyFile } from '@/actions/experimental/properties';
-import { deleteFile as deleteEventFile } from '@/actions/experimental/events';
 import Link from 'next/link';
 import { SelectablesProvider } from '../../Util/SelectablesProvider';
 
@@ -61,7 +58,9 @@ export function PropertyFileListItem(props: ListItemProps<Kotidok.FileType>) {
     <PdfListItem
       {...props}
       tablename='propertyFiles'
-      deleteMethod={() => deletePropertyFile(props.item.id)}
+      deleteMethod={() => {
+        throw new Error('Delete method not implemented!');
+      }}
     />
   );
 }
@@ -71,7 +70,9 @@ export function EventFileListItem(props: ListItemProps<Kotidok.FileType>) {
     <PdfListItem
       {...props}
       tablename='eventFiles'
-      deleteMethod={() => deleteEventFile(props.item.id)}
+      deleteMethod={() => {
+        throw new Error('Delete method not implemented!');
+      }}
     />
   );
 }

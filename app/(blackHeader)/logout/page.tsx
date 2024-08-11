@@ -1,5 +1,6 @@
 'use client';
 
+import { ALogoutUser } from '@/actions/users';
 import { MainAllCentered } from '@/components/UI/Main';
 import Spinner from '@/components/UI/Spinner';
 import { TitleWithParagraphLayout } from '@/components/UI/TitleWithParagraphLayout';

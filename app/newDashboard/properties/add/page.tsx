@@ -1,6 +1,6 @@
 import { Main } from '@/components/New/Main';
 import { PropertyForm } from './_components/PropertyForm';
-import { getRefTableContent } from '@/actions/util/getIds';
+import { getRefTableContent } from '@/actions/util/getRefTableContent';
 
 export default async function AddPropertyPage() {
   const [

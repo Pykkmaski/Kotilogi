@@ -8,6 +8,7 @@ import {
 import { CallToActionSection } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/CallToActionSection';
 import { Introduction } from 'kotilogi-app/app/(transparentHeader)/(index)/_components/Profile';
 import { Main } from '@/components/New/Main';
+
 const Logo = () => (
   <img
     src='/hero_logo_white.png'

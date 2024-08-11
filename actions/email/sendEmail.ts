@@ -1,5 +1,5 @@
 'use server';
-import { ErrorCode } from 'kotilogi-app/constants';
+
 import { transportOptions } from 'kotilogi-app/nodemailer.config';
 import nodemailer from 'nodemailer';
 

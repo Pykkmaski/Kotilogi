@@ -1,14 +1,19 @@
+'use client';
+
 import Header, { Logo2 } from '@/components/App/Header';
 import { MobileMenu } from '@/components/App/MobileMenu';
 import { AppHeader } from '@/components/New/AppHeader';
 import { Margin } from '@/components/New/Margin';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-export default async function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
-  const session = await loadSession(false);
+export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
+  const { data, status } = useSession();
+  const isLoggedIn = status == 'authenticated';
+
   const getLinks = () => {
-    if (session) {
+    if (isLoggedIn) {
       return (
         <>
           <Link href='/dashboard'>Hallintapaneeli</Link>
@@ -34,7 +39,7 @@ export default async function TransparentHeaderLayout({ children }: React.PropsW
 
         <div className='xs:hidden md:flex gap-4'>{getLinks()}</div>
         <div className='xs:flex xl:hidden w-full justify-end'>
-          <MobileMenu session={session} />
+          <MobileMenu session={data} />
         </div>
       </header>
       {children}

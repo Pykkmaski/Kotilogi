@@ -5,7 +5,7 @@ import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 
 export function InteriorField() {
   const { property: data, propertyTypes } = usePropertyFormContext();
-
+  console.log(data.propertyTypeId, propertyTypes['Huoneisto']);
   return (
     <Fieldset legend='Sisätilat'>
       <FormControl
@@ -59,9 +59,7 @@ export function InteriorField() {
 
       <FormControl
         label={
-          data.propertyTypeId === propertyTypes['Huoneisto']
-            ? 'Kerrosnumero'
-            : 'Kerrosten lukumäärä'
+          data.propertyTypeId == propertyTypes['Huoneisto'] ? 'Kerrosnumero' : 'Kerrosten lukumäärä'
         }
         control={
           <Input

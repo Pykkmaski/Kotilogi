@@ -1,13 +1,8 @@
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
-import { PropertyType } from 'kotilogi-app/models/enums/PropertyType';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
-import { getTranslation } from 'kotilogi-app/lang';
-import { Edit } from '@mui/icons-material';
-import Link from 'next/link';
-import { getRefTableContent } from '@/actions/util/getIds';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;

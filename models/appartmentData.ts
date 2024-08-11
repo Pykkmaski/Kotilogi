@@ -6,15 +6,11 @@ import { getTableColumns } from './utils/getTableColumns';
 
 export async function getAppartment(id: string) {
   const [apt] = await db('data_properties')
-    .where('data_properties.id', '=', id)
-    .join('data_appartments', 'data_appartments.id', '=', 'data_properties.id')
-    .join('data_objects', 'data_objects.id', '=', 'data_properties.id');
+    .join('data_appartments', { 'data_appartments.id': 'data_properties.id' })
+    .join('data_objects', { 'data_objects.id': 'data_properties.id' })
+    .where({ 'data_properties.id': id });
 
-  const owners = await getOwners(id);
-  return {
-    ...apt,
-    owners,
-  };
+  return apt;
 }
 
 export async function getUserAppartments(userId: string) {
