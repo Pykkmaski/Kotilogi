@@ -3,11 +3,11 @@ import db from 'kotilogi-app/dbconfig';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { DeleteStepForm } from './DeleteStepForm';
 
-export async function DeleteEventStepPage({ params }) {
+export default async function DeleteEventStepPage({ params }) {
   const stepId = params.stepId;
   const [step] = await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
-    .where({ id: stepId });
+    .where({ 'data_propertyEventSteps.id': stepId });
 
   const session = await loadSession();
   const authorized = session.user.id == step.authorId;

@@ -40,7 +40,9 @@ export function DeleteStepForm({ step }: DeletePropertyFormProps) {
         });
       }}>
       <MainHeading>Poista vaihe</MainHeading>
-      <p className='text-lg mb-4'>Olet poistamassa vaihetta ${step.title}. Oletko varma?</p>
+      <p className='text-lg mb-4'>
+        Olet poistamassa vaihetta <span className='font-semibold'>{step.title}</span>. Oletko varma?
+      </p>
     </ObjectDeletionForm>
   );
 }
