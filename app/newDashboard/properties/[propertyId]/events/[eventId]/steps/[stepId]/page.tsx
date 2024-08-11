@@ -5,6 +5,7 @@ import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
+import { StepOverview } from '../StepOverview';
 
 export default async function StepPage({ params }) {
   const [step] = await db('data_objects')
@@ -24,15 +25,7 @@ export default async function StepPage({ params }) {
   return (
     <Main>
       <SecondaryHeading>Vaihe</SecondaryHeading>
-      <OverviewBox
-        title={step.title}
-        description={step.description}
-        editIcon={<Edit />}
-        editUrl={`${params.stepId}/edit`}
-        editContentText='Muokkaa'
-        deleteUrl={`${params.stepId}/delete`}
-        imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/room.jpg'}
-      />
+      <StepOverview step={step} />
 
       <FileOverview
         files={files}
