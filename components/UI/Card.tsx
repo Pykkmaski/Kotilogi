@@ -10,7 +10,7 @@ type CardContainerProps = React.PropsWithChildren & {
 
 function CardContainer({ children, selected }: CardContainerProps) {
   const className = [
-    'flex flex-col rounded-md overflow-hidden shadow-md w-[250px] h-[325px] relative',
+    'flex flex-col rounded-md overflow-hidden shadow-md lg:w-[250px] lg:h-[325px] xs:2-[100px] xs:h-[200px] relative',
     selected ? 'border border-orange-500' : 'border-none',
   ];
 

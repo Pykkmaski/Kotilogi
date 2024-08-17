@@ -20,7 +20,7 @@ type SpaceBetweenProps = {
 /**Arranges its first- and secondElement props horizontally, by pushing them to the edges of the parent element. */
 export function SpaceBetween({ firstElement, secondElement }: SpaceBetweenProps) {
   return (
-    <div className='flex flex-row justify-between w-full'>
+    <div className='flex flex-row justify-between w-full items-center'>
       {firstElement}
       {secondElement}
     </div>

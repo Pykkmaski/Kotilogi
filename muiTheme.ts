@@ -2,6 +2,7 @@
 
 import { createTheme, Theme } from '@mui/material';
 import { blueGrey, green, grey, orange } from '@mui/material/colors';
+import colors from './colors';
 
 declare module '@mui/material' {
   interface Palette {
@@ -16,11 +17,11 @@ declare module '@mui/material' {
 export const theme: Theme = createTheme({
   palette: {
     primary: {
-      main: '#518577',
+      main: colors.primary,
     },
 
     secondary: {
-      main: '#518577',
+      main: colors.secondary,
     },
   },
 });

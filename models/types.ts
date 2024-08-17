@@ -45,7 +45,8 @@ export type UtilityDataType = ObjectDataType & {
   monetaryAmount: number;
   unitAmount: number;
   label: string;
-  type: number;
+  typeId: number;
+  typeLabel: string;
   unitSymbol: string;
   time: string;
 };

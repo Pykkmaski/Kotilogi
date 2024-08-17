@@ -47,32 +47,34 @@ export async function PropertyOverview({
         <div className='flex flex-col h-full gap-4'>
           <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
 
-          <LabelGrid
-            header={
-              <div className='flex gap-2 items-center'>
-                <h1 className='text-sm font-semibold'>Tiedot</h1>
-              </div>
-            }>
-            <LabelGrid.Entry
-              label={'Kiinteistötyyppi'}
-              value={propertyType}
-            />
+          <div className='w-full xs:hidden md:block'>
+            <LabelGrid
+              header={
+                <div className='flex gap-2 items-center'>
+                  <h1 className='text-sm font-semibold'>Tiedot</h1>
+                </div>
+              }>
+              <LabelGrid.Entry
+                label={'Kiinteistötyyppi'}
+                value={propertyType}
+              />
 
-            <LabelGrid.Entry
-              label='Rakennustyyppi'
-              value={buildingType}
-            />
+              <LabelGrid.Entry
+                label='Rakennustyyppi'
+                value={buildingType}
+              />
 
-            <LabelGrid.Entry
-              label='Rakennusvuosi'
-              value={property.buildYear || 'Ei määritelty'}
-            />
+              <LabelGrid.Entry
+                label='Rakennusvuosi'
+                value={property.buildYear || 'Ei määritelty'}
+              />
 
-            <LabelGrid.Entry
-              label={'Omistajat'}
-              value={owners.length}
-            />
-          </LabelGrid>
+              <LabelGrid.Entry
+                label={'Omistajat'}
+                value={owners.length}
+              />
+            </LabelGrid>
+          </div>
         </div>
       }
       imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'}

@@ -1,5 +1,3 @@
-import { colors as chartColors } from './apex.config';
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -59,17 +57,7 @@ module.exports = {
       },
 
       colors: {
-        hero: '#feffe9',
-        primary: '#518577',
-        accent: '#444B6E',
-        dark: '#1F1300',
-        secondary: '#518577',
-        'secondary-dark': '#5F8577',
-        tertiary: '#E3B505',
-        'primary-text': '#fcfcfc',
-        heat: chartColors.heat,
-        electric: chartColors.electric,
-        water: chartColors.water,
+        ...require('./colors'),
       },
 
       screens: {

@@ -26,6 +26,10 @@ export default async function PropertyPage({ params }) {
     .where({ 'data_objects.parentId': id })
     .limit(4);
 
+  const utilityData = await db('data_utilities')
+    .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
+    .where({ parentId: property.id });
+
   const files = await getFiles({ parentId: id }, 4);
 
   const [{ numEvents }] = await db('data_objects')

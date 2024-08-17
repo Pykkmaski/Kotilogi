@@ -40,7 +40,7 @@ export function OverviewBox({
   return (
     <ContentBox>
       <Spacer direction='row'>
-        <div className='relative md:w-[25%] xs:w-[10%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
+        <div className='relative md:w-[25%] xs:w-[75%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
           <Image
             src={imageUrl}
             fill={true}
@@ -85,7 +85,6 @@ export function OverviewBox({
           <div>{description}</div>
 
           <div className='flex justify-end w-full mt-auto'>
-            {}
             {selectableItem && (
               <SelectablesProvider.SelectTrigger item={selectableItem}>
                 <input type='checkbox'></input>

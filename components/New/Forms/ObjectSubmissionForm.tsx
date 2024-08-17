@@ -37,11 +37,12 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
         const method = !item ? createMethod : updateMethod;
 
         await method(data as TODO)
-          .catch(err => toast.error(err.message))
-          .finally(() => {
+          .then(() => {
             setStatus(() => (method == updateMethod ? FormStatus.DONE : FormStatus.IDLE));
             router.back();
-          });
+          })
+          .catch(err => toast.error(err.message))
+          .finally(() => setStatus(FormStatus.IDLE));
       }}>
       {children}
       <FormButtons

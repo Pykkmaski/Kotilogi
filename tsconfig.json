@@ -20,6 +20,7 @@
     "types": ["@testing-library/jest-dom", "node", "next"],
     "paths": {
       "@mui/*": ["node_modules/@mui/*"],
+      "@tanstack/*": ["node_modules/@tanstack/*"],
       "@/components/*": ["components/*"],
       "@/hooks/*": ["hooks/*"],
       "@/pages/*": ["pages/*"],

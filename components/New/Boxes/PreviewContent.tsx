@@ -72,7 +72,7 @@ export function PreviewContentBase({
         {!preview ? (
           children
         ) : (
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-4 w-full overflow-x-scroll'>
             <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
               <Warning sx={{ color: 'orange' }} />
               <span className='font-semibold'>Tulossa pian!</span>
@@ -105,11 +105,11 @@ export function PreviewContentRow<T>({
       {!data.length ? (
         onEmptyElement || null
       ) : (
-        <Spacer direction='row'>
+        <div className='flex flex-row w-full overflow-x-scroll gap-4'>
           {data.map(item => (
             <PreviewComponent item={item} />
           ))}
-        </Spacer>
+        </div>
       )}
     </PreviewContentBase>
   );

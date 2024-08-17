@@ -20,10 +20,8 @@ export async function getProperty(id: string) {
 
   if (type == 'Kiinteistö') {
     return await getHouse(id);
-  } else if (type == 'Huoneisto') {
-    return await getAppartment(id);
   } else {
-    throw new Error(`Invalid property type ${type}`);
+    return await getAppartment(id);
   }
 }
 

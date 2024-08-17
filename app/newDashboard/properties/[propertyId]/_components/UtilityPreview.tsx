@@ -1,3 +1,5 @@
+'use client';
+
 import { PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
 import { ChipData } from '@/components/New/ChipData';
 import { LabelGrid } from '@/components/New/LabelGrid';
@@ -11,6 +13,7 @@ import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import { filterIntoObject } from 'kotilogi-app/utils/array';
 import Link from 'next/link';
+import { Line, LineChart, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 export function UtilityPreview({
   propertyId,
@@ -19,12 +22,16 @@ export function UtilityPreview({
   propertyId: string;
   utilityData: UtilityDataType[];
 }) {
-  const utilityObject = filterIntoObject(utilityData, 'type', [
-    UtilityType.HEAT,
-    UtilityType.ELECTRIC,
-    UtilityType.WATER,
-  ]);
-
+  const timestamps = utilityData.map(data => parseInt(data.time));
+  const dataToDisplay: {
+    heatAmount: number;
+    waterAmount: number;
+    electricAmount: number;
+    timestamp: number;
+  }[] = [];
+  for (const timestamp of timestamps) {
+    const date = new Date(timestamp);
+  }
   return (
     <PreviewContentBase
       icon={<Bolt />}
@@ -40,50 +47,13 @@ export function UtilityPreview({
         <span className='text-slate-500'>Ei Kulutustietoja.</span>
       ) : (
         <div className='flex w-full justify-start gap-4 items-center'>
-          <DataRing
-            data={utilityData}
-            label='Kaikki'
-          />
-          <div className='flex flex-col gap-4'>
-            <ChipData
-              sx={{ backgroundColor: red[600] }}
-              label='Lämmitys'
-              value={
-                utilityObject[UtilityType.HEAT].reduce(
-                  (acc, cur) => (acc += cur.monetaryAmount),
-                  0
-                ) /
-                  100 +
-                '€'
-              }
-            />
-
-            <ChipData
-              sx={{ backgroundColor: blue[600] }}
-              label='Vesi'
-              value={
-                utilityObject[UtilityType.WATER].reduce(
-                  (acc, cur) => (acc += cur.monetaryAmount),
-                  0
-                ) /
-                  100 +
-                '€'
-              }
-            />
-
-            <ChipData
-              sx={{ backgroundColor: yellow[800] }}
-              label='Sähkö'
-              value={
-                utilityObject[UtilityType.ELECTRIC].reduce(
-                  (acc, cur) => (acc += cur.monetaryAmount),
-                  0
-                ) /
-                  100 +
-                '€'
-              }
-            />
-          </div>
+          <ResponsiveContainer
+            width={'100%'}
+            height={200}>
+            <LineChart data={utilityData}>
+              <Line dataKey='heat' />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       )}
     </PreviewContentBase>

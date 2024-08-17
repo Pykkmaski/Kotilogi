@@ -1,6 +1,6 @@
 /** Renders text within an h1 with the tailwind text-xl property.*/
 export function MainHeading({ children }: React.PropsWithChildren) {
-  return <h1 className='lg:text-3xl text-slate-500'>{children}</h1>;
+  return <h1 className='lg:text-3xl xs:text-lg text-slate-500'>{children}</h1>;
 }
 
 /**Renders text within an h2 with the tailwind text-lg property. */

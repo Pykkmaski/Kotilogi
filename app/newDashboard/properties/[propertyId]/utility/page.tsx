@@ -1,90 +1,64 @@
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { Main } from '@/components/New/Main';
-import { SpaceBetween } from '@/components/New/Spacers';
-import { MainHeading } from '@/components/New/Typography/Headings';
-import { DataRing } from '@/components/New/UtilityPageComps/DataRing';
-import { Chart } from '@/components/UI/Chart';
-import { Add, PlusOne } from '@mui/icons-material';
+import { Heading } from '@/components/UI/Heading';
+import { Add } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { colors } from 'kotilogi-app/apex.config';
-import db from 'kotilogi-app/dbconfig';
-import { UtilityType } from 'kotilogi-app/models/enums/UtilityType';
-import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
-import { filterIntoObject } from 'kotilogi-app/utils/array';
+import { getUtilityData, getUtilityYears } from 'kotilogi-app/models/utilityData';
+import { Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { UtilityPieChart } from './UtilityPieChart';
+import { UtilityProvider } from './UtilityContext';
+import { UtilityLineChart } from './UtilityLineChart';
+import { TimeframeSelector } from './TimeframeSelector';
 import Link from 'next/link';
+import { TypeSelector } from './TypeSelector';
+import db from 'kotilogi-app/dbconfig';
+import { DataTable } from './DataTable';
 
-export default async function UtilityPage({ params }) {
+export default async function UtilityPage({ params, searchParams }) {
+  const { year, types } = searchParams;
   const propertyId = params.propertyId;
-  const data_utilities = await db('data_utilities')
-    .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
-    .where({ parentId: propertyId });
+  const utilityData = await getUtilityData(
+    { parentId: propertyId },
+    year && parseInt(year),
+    (types && types.split(';')) || []
+  );
+  const allTypes = await db('ref_utilityTypes').pluck('name');
+  const years = await getUtilityYears(propertyId);
 
-  const utilityObj = filterIntoObject(data_utilities, 'type', getEnumAsDigits(UtilityType));
   return (
-    <Main>
-      <div className='w-full p-4'>
-        <SpaceBetween
-          firstElement={
-            <MainHeading>
-              <span>Kulutustiedot</span>
-            </MainHeading>
-          }
-          secondElement={
-            <Link href='utility/add'>
-              <Button
-                variant='text'
-                startIcon={<Add />}>
-                Lisää Uusi Tieto
-              </Button>
-            </Link>
-          }
-        />
-      </div>
+    <UtilityProvider
+      data={utilityData}
+      allTypes={allTypes}
+      selectedTypes={(types && types.split(';')) || []}>
+      <Main>
+        <div className='flex flex-row justify-between'>
+          <div className='flex flex-row gap-4'>
+            <Heading>Kulutustiedot</Heading>
+            <TimeframeSelector>
+              <option>Kaikki</option>
+              {years.map(year => (
+                <option value={year}>{year}</option>
+              ))}
+            </TimeframeSelector>
+            <TypeSelector
+              types={['Lämmitys', 'Vesi', 'Sähkö']}
+              initialQuery={types}
+            />
+          </div>
 
-      <div className='w-full flex gap-2'>
-        <Chart
-          options={{
-            chart: {
-              toolbar: { show: false },
-              width: '100%',
-
-              type: 'bar',
-            },
-
-            xaxis: {
-              title: {
-                text: 'Kuukausi',
-              },
-            },
-
-            yaxis: {
-              title: {
-                text: 'Hinta',
-              },
-            },
-
-            series: [
-              {
-                name: 'Series 1',
-                data: [10, 20, 30],
-                color: colors['heat'],
-              },
-
-              {
-                name: 'Series 2',
-                data: [5, 15, 27],
-                color: colors['water'],
-              },
-
-              {
-                name: 'Series 3',
-                data: [16, 3, 13],
-                color: colors['electric'],
-              },
-            ],
-          }}
-        />
-      </div>
-    </Main>
+          <Link href='utilities/add'>
+            <Button
+              variant='contained'
+              startIcon={<Add />}>
+              Lisää Uusi
+            </Button>
+          </Link>
+        </div>
+        <div className='flex flex-nowrap w-full gap-4'>
+          <UtilityPieChart />
+          <UtilityLineChart />
+        </div>
+        <DataTable />
+      </Main>
+    </UtilityProvider>
   );
 }
