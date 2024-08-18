@@ -93,7 +93,8 @@ export function GeneralField() {
       <FormControl
         label='Kuvaus'
         control={
-          <textarea
+          <Input
+            variant='textarea'
             spellCheck={false}
             name='description'
             placeholder='Anna vaihtoehtoinen kuvaus...'

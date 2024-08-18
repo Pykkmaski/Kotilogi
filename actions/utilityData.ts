@@ -41,13 +41,13 @@ export async function AUpdateUtilityData(
 export async function ACreateUtilityData(data: Partial<UtilityDataType>) {
   await createObject(data, async (obj, trx) => {
     const insertObj = filterValidColumns(data, await getTableColumns(table, trx));
-    console.log(insertObj);
+
     await trx(table).insert({
       id: obj.id,
       ...insertObj,
       time: new Date(data.time).getTime(),
-      monetaryAmount: data.monetaryAmount ? multiplyByOneHundred(data.monetaryAmount) : undefined,
-      unitAmount: data.unitAmount ? multiplyByOneHundred(data.unitAmount) : undefined,
+      monetaryAmount: data.monetaryAmount,
+      unitAmount: data.unitAmount,
     });
   });
 

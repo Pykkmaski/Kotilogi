@@ -59,6 +59,11 @@ export default async function newDashboardPage() {
                         Tiedostot
                       </Link>
                       <Link
+                        href={`/newDashboard/properties/${item.id}/utility`}
+                        title='Näytä kulutustiedot'>
+                        Kulutustiedot
+                      </Link>
+                      <Link
                         title='Poista talo...'
                         href={`/newDashboard/properties/${item.id}/delete`}>
                         Poista

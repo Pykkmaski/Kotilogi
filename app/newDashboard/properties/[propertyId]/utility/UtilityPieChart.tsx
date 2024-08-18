@@ -1,6 +1,6 @@
 'use client';
 
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import colors from 'kotilogi-app/colors';
 import { aggregate, arraysToValues } from './aggregateData';
 import { useUtilityProviderContext } from './UtilityContext';

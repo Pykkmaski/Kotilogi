@@ -26,6 +26,7 @@ export async function getUtilityData(query: TODO, year?: number, types: string[]
       'data_objects.*',
       'data_utilities.time',
       'data_utilities.monetaryAmount',
+      'data_utilities.unitAmount',
       'ref_utilityTypes.name as typeLabel'
     )
     .where(function () {

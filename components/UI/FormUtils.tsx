@@ -28,14 +28,21 @@ type InputProps = (
   | ({
       variant?: 'textarea';
     } & React.ComponentProps<'textarea'>)
+  | ({
+      variant?: 'select';
+    } & React.ComponentProps<'select'>)
 ) & { icon?: React.ReactElement };
 
 export const Input = ({ icon, children, variant = 'input', ...props }: InputProps) => {
+  //const baseInputClasses = ['p-4 shadow-md bg-white rounded-md  text-lg w-full', className];
+
   const getInput = props => {
     if (variant === 'input') {
       return <input {...props} />;
-    } else {
+    } else if (variant == 'textarea') {
       return <textarea {...props} />;
+    } else {
+      return <select {...props}>{children}</select>;
     }
   };
 

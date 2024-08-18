@@ -28,13 +28,14 @@ export default async function UtilityPage({ params, searchParams }) {
     <UtilityProvider
       data={utilityData}
       allTypes={allTypes}
+      year={(year != 'null' && year) || null}
       selectedTypes={(types && types.split(';')) || []}>
       <Main>
         <div className='flex flex-row justify-between'>
           <div className='flex flex-row gap-4'>
             <Heading>Kulutustiedot</Heading>
             <TimeframeSelector>
-              <option>Kaikki</option>
+              <option value='null'>Kaikki</option>
               {years.map(year => (
                 <option value={year}>{year}</option>
               ))}
@@ -45,7 +46,7 @@ export default async function UtilityPage({ params, searchParams }) {
             />
           </div>
 
-          <Link href='utilities/add'>
+          <Link href='utility/add'>
             <Button
               variant='contained'
               startIcon={<Add />}>
@@ -53,8 +54,9 @@ export default async function UtilityPage({ params, searchParams }) {
             </Button>
           </Link>
         </div>
-        <div className='flex flex-nowrap w-full gap-4'>
+        <div className='flex flex-nowrap w-full gap-4 bg-white shadow-sm py-2'>
           <UtilityPieChart />
+
           <UtilityLineChart />
         </div>
         <DataTable />

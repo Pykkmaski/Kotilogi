@@ -42,10 +42,11 @@ export function DataTable() {
 
   return (
     <div
-      className='ag-theme-quartz' // applying the Data Grid theme
+      className='ag-theme-quartz shadow-sm' // applying the Data Grid theme
       style={{ height: 500 }} // the Data Grid will fill the size of the parent container
     >
       <AgGridReact
+        pagination={true}
         rowData={rows}
         columnDefs={cols}
       />

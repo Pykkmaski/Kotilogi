@@ -1,26 +1,22 @@
 'use client';
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useUtilityProviderContext } from './UtilityContext';
-import { aggregate, aggregateToMonths, arraysToValues, getByTypeLabel } from './aggregateData';
+import { aggregateToMonths, aggregateToYears } from './aggregateData';
 import colors from 'kotilogi-app/colors';
-import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
-import { getLongest } from 'kotilogi-app/utils/array';
 
 export function UtilityLineChart() {
-  const { data, selectedTypes, allTypes } = useUtilityProviderContext();
-  const aggregatedData = aggregateToMonths(data);
+  const { data, selectedTypes, allTypes, year } = useUtilityProviderContext();
+  console.log(year);
+  const aggregatedData =
+    year !== null
+      ? aggregateToMonths(data)
+      : aggregateToYears(data).reduce((acc, cur) => {
+          const data = [...acc, ...cur.data];
+          return data;
+        }, []);
+
+  console.log(aggregatedData);
 
   const getBar = (typeLabel: string) => (
     <Bar

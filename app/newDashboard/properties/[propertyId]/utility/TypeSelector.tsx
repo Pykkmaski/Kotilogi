@@ -2,6 +2,7 @@
 
 import { RadioButton } from '@/components/Feature/RadioGroup';
 import { useQuery } from '@/hooks/useQuery';
+import { Bolt, LocalFireDepartment, WaterDrop } from '@mui/icons-material';
 
 type TypeSelectorProps = {
   types: string[];
@@ -14,8 +15,25 @@ export function TypeSelector({ types = [], initialQuery }: TypeSelectorProps) {
   return (
     <div className='ml-8 flex flex-row gap-4 items-center'>
       {types.map(type => (
-        <div className='flex flex-row items-center gap-2'>
-          <label>{type}</label>
+        <div className='flex flex-row items-center gap-1'>
+          <label
+            className={
+              type == 'Lämmitys'
+                ? 'text-heat'
+                : type == 'Vesi'
+                ? 'text-water'
+                : type == 'Sähkö'
+                ? 'text-electric'
+                : 'text-black'
+            }>
+            {type == 'Lämmitys' ? (
+              <LocalFireDepartment />
+            ) : type == 'Vesi' ? (
+              <WaterDrop />
+            ) : type == 'Sähkö' ? (
+              <Bolt />
+            ) : null}
+          </label>
           <input
             type='checkbox'
             value={type}

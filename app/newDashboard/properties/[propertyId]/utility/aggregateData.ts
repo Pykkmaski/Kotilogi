@@ -35,12 +35,14 @@ export const getLongest = (...dataArrays: UtilityDataType[][]) => {
   return dataArrays.find(arr => arr.length == maxLenght);
 };
 
-/**Combines the unprocessed data by month. */
-export const aggregateToMonths = (data: UtilityDataType[]) => {
+/**Combines the unprocessed data by month. Optionally combines further by year, if the year argument is provided. */
+export const aggregateToMonths = (data: UtilityDataType[], year?: number) => {
   return data
     .reduce((acc, cur) => {
       const currentDate = new Date(parseInt(cur.time));
       const currentMonth = currentDate.getMonth();
+
+      if (year && currentDate.getFullYear() != year) return acc;
 
       //Find an entry for the current month.
       const existingEntry = acc.find(entry => entry.month == currentMonth);
@@ -55,6 +57,7 @@ export const aggregateToMonths = (data: UtilityDataType[]) => {
       } else {
         acc.push({
           month: currentMonth,
+          year,
           [cur.typeLabel]: cur.monetaryAmount,
         });
       }
@@ -62,4 +65,24 @@ export const aggregateToMonths = (data: UtilityDataType[]) => {
       return acc;
     }, [])
     .sort((a, b) => a.month - b.month);
+};
+
+/**
+ * Aggregates the data by year, and by month within a year. Returns the result sorted by year in ascending order.
+ */
+export const aggregateToYears = (data: UtilityDataType[]) => {
+  return data
+    .reduce((acc, cur) => {
+      const currentYear = new Date(parseInt(cur.time)).getFullYear();
+      const existingEntry = acc.find(d => d.year == currentYear);
+      if (!existingEntry) {
+        acc.push({
+          year: currentYear,
+          data: aggregateToMonths(data, currentYear),
+        });
+      }
+
+      return acc;
+    }, [])
+    .sort((a, b) => a.year - b.year);
 };

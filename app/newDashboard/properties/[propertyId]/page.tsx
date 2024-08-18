@@ -9,6 +9,8 @@ import { PropertyOverview } from './_components/PropertyOverview';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getFiles } from 'kotilogi-app/models/fileData';
+import { UtilityProvider } from './utility/UtilityContext';
+import { getUtilityData } from 'kotilogi-app/models/utilityData';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -26,10 +28,8 @@ export default async function PropertyPage({ params }) {
     .where({ 'data_objects.parentId': id })
     .limit(4);
 
-  const utilityData = await db('data_utilities')
-    .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
-    .where({ parentId: property.id });
-
+  const utilityData = await getUtilityData({ parentId: property.id });
+  console.log(utilityData);
   const files = await getFiles({ parentId: id }, 4);
 
   const [{ numEvents }] = await db('data_objects')
@@ -57,6 +57,13 @@ export default async function PropertyPage({ params }) {
         propertyId={property.id}
         events={events}
       />
+
+      <UtilityProvider
+        data={utilityData}
+        year={null}
+        selectedTypes={[]}>
+        <UtilityPreview propertyId={property.id} />
+      </UtilityProvider>
 
       <FileOverview
         files={files}

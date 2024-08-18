@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
 
       <AppRouterCacheProvider>
         <AuthProvider>
-          <body className='flex flex-col min-h-screen bg-slate-100'>
+          <body className='flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-slate-200'>
             <ThemeProvider theme={theme}>
               <AppProvider>{children}</AppProvider>
             </ThemeProvider>
