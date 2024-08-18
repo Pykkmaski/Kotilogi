@@ -36,7 +36,8 @@ input:disabled,
 select:disabled {
   color: rgb(100 116 139);
 }
-*/ a:hover {
+
+a:hover {
   text-decoration: underline;
 }
 
