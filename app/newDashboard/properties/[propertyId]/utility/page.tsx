@@ -51,7 +51,7 @@ export default async function UtilityPage({ params, searchParams }) {
           <Link href='utility/add'>
             <Button
               className='text-nowrap'
-              variant='contained'
+              variant='text'
               startIcon={<Add />}>
               Lisää Uusi
             </Button>

@@ -37,10 +37,6 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
           <Paragraph>{event.description}</Paragraph>
           <LabelGrid header={<h1 className='text-sm font-semibold'>Tiedot</h1>}>
             <LabelGrid.Entry
-              label='Vaiheet'
-              value={event.numSteps}
-            />
-            <LabelGrid.Entry
               label='Aloitettu'
               value={startTime}
             />

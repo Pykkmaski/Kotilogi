@@ -54,31 +54,6 @@ export default async function EventPage({ params }) {
         }}
       />
 
-      <PreviewContentRow
-        icon={<PushPin />}
-        previewDescription='Vaiheita voidaan sanoa tapahtumien sisällä oleviin tapahtumiin, joiden avulla koko tapahtuman kulkua voidaan seurata.'
-        data={steps}
-        headingText='Vaiheet'
-        itemsToDisplay={3}
-        showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${eventId}/steps`}
-        addNewUrl={`/newDashboard/properties/${params.propertyId}/events/${eventId}/steps/add`}
-        onEmptyElement={<span className='text-slate-500'>Tapahtumalla ei ole vielä vaiheita.</span>}
-        PreviewComponent={async ({ item }) => {
-          const [mainImageId] = await db('data_mainImages')
-            .where({ objectId: item.id })
-            .pluck('imageId');
-
-          return (
-            <Card
-              href={`${eventId}/steps/${item.id}`}
-              imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/room.jpg'}
-              title={item.title}
-              description={item.description || 'Ei kuvausta.'}
-            />
-          );
-        }}
-      />
-
       <FileOverview
         files={files}
         addNewUrl={`/newDashboard/files/add?parentId=${eventId}`}
