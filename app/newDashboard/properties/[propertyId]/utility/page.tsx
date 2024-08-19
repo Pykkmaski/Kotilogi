@@ -3,7 +3,6 @@ import { Heading } from '@/components/UI/Heading';
 import { Add } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { getUtilityData, getUtilityYears } from 'kotilogi-app/models/utilityData';
-import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { UtilityPieChart } from './UtilityPieChart';
 import { UtilityProvider } from './UtilityContext';
 import { UtilityLineChart } from './UtilityLineChart';
@@ -12,6 +11,7 @@ import Link from 'next/link';
 import { TypeSelector } from './TypeSelector';
 import db from 'kotilogi-app/dbconfig';
 import { DataTable } from './DataTable';
+import { ScrollOnX } from '@/components/New/ScrollOnX';
 
 export default async function UtilityPage({ params, searchParams }) {
   const { year, types } = searchParams;
@@ -32,22 +32,25 @@ export default async function UtilityPage({ params, searchParams }) {
       selectedTypes={(types && types.split(';')) || []}>
       <Main>
         <div className='flex flex-row justify-between'>
-          <div className='flex flex-row gap-4'>
-            <Heading>Kulutustiedot</Heading>
-            <TimeframeSelector>
-              <option value='null'>Kaikki</option>
-              {years.map(year => (
-                <option value={year}>{year}</option>
-              ))}
-            </TimeframeSelector>
-            <TypeSelector
-              types={['Lämmitys', 'Vesi', 'Sähkö']}
-              initialQuery={types}
-            />
-          </div>
+          <ScrollOnX>
+            <div className='flex flex-row xs:gap-1 md:gap-4 pr-1'>
+              <Heading>Kulutustiedot</Heading>
+              <TimeframeSelector>
+                <option value='null'>Kaikki</option>
+                {years.map(year => (
+                  <option value={year}>{year}</option>
+                ))}
+              </TimeframeSelector>
+              <TypeSelector
+                types={['Lämmitys', 'Vesi', 'Sähkö']}
+                initialQuery={types}
+              />
+            </div>
+          </ScrollOnX>
 
           <Link href='utility/add'>
             <Button
+              className='text-nowrap'
               variant='contained'
               startIcon={<Add />}>
               Lisää Uusi

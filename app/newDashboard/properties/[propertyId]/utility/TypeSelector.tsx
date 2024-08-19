@@ -13,7 +13,7 @@ export function TypeSelector({ types = [], initialQuery }: TypeSelectorProps) {
   const { currentQuery, updateQuery, updateQueryDirectly } = useQuery('types', initialQuery, 50);
 
   return (
-    <div className='ml-8 flex flex-row gap-4 items-center'>
+    <div className='md:ml-8 xs:ml-0 flex flex-row gap-4 items-center'>
       {types.map(type => (
         <div className='flex flex-row items-center gap-1'>
           <label
@@ -35,6 +35,7 @@ export function TypeSelector({ types = [], initialQuery }: TypeSelectorProps) {
             ) : null}
           </label>
           <input
+            title={type}
             type='checkbox'
             value={type}
             defaultChecked={currentQuery && currentQuery.includes(type)}
