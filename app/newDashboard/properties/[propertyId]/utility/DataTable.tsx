@@ -49,6 +49,22 @@ export function DataTable() {
         pagination={true}
         rowData={rows}
         columnDefs={cols}
+        localeText={{
+          equals: 'Yhtä kuin',
+          notEqual: 'Ei yhtä kuin',
+
+          lessThan: 'Vähemmän kuin',
+          greaterThan: 'Enemmän kuin',
+          contains: 'Sisältää',
+          notContains: 'Ei sisällä',
+          startsWith: 'Alkaa',
+          endsWith: 'Loppuu',
+          greaterThanOrEqual: 'Enemmän tai yhtä kuin',
+          lessThanOrEqual: 'Vähemmän tai yhtä kuin',
+          inRange: 'Väliltä',
+          blank: 'Tyhjä',
+          notBlank: 'Ei tyhjä',
+        }}
       />
     </div>
   );
