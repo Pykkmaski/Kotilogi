@@ -22,7 +22,7 @@ export function useInputData<T extends {}>(initialData: T) {
         ...prev,
         [e.target.name]:
           e.target.type === 'number'
-            ? e.target.valueAsNumber
+            ? (!isNaN(e.target.valueAsNumber) && e.target.valueAsNumber) || undefined
             : e.target.type === 'checkbox'
             ? e.target.checked
             : e.target.value,

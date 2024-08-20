@@ -52,25 +52,33 @@ export function FeaturesSection() {
 export const FeaturesSection2 = () => {
   const FeatureItem = ({
     title,
-    icon,
+    imageUrl,
     description,
+    inverted = false,
   }: {
     title: string;
     description: string;
-    icon: React.ReactElement;
+    imageUrl: string;
+    inverted?: boolean;
   }) => {
+    const containerClasses = [
+      'flex gap-4 w-full justify-center items-start',
+      inverted ? 'flex-row-reverse' : 'flex-row',
+    ];
     return (
-      <div className='flex flex-col gap-4 w-full'>
-        <div className='flex gap-4 items-center xs:justify-center xl:justify-start w-full'>
-          {React.cloneElement(icon, {
-            ...icon.props,
-            sx: {
-              fontSize: '2rem',
-            },
-          })}
-          <h1 className='xl:text-3xl xs:text-2xl'>{title}</h1>
+      <div className={containerClasses.join(' ')}>
+        <div className='flex flex-col gap-2 xs:justify-center xl:justify-start w-full h-full pt-4'>
+          <h1 className='xl:text-4xl xs:text-2xl'>{title}</h1>
+          <p className='text-2xl xs:text-center xl:text-left'>{description}</p>
         </div>
-        <p className='text-xl xs:text-center xl:text-left'>{description}</p>
+        <div className='relative aspect-square w-[600px] rounded-md overflow-hidden'>
+          <Image
+            fill={true}
+            src={imageUrl}
+            objectFit='contain'
+            alt=''
+          />
+        </div>
       </div>
     );
   };
@@ -81,22 +89,30 @@ export const FeaturesSection2 = () => {
         <h1 className='xl:text-7xl xs:text-3xl mb-20 z-10 font-semibold w-full text-center'>
           Kaikki yhdessä paikassa
         </h1>
-        <div className='xl:grid xl:grid-flow-row xl:grid-cols-2 xs:flex xs:flex-col gap-16 w-full'>
+        <div className='flex flex-col w-full gap-10'>
           <FeatureItem
             title='Tiedot'
             description='Tallenna kiinteistösi tai huoneistosi tiedot myöhempää viittausta varten.'
-            icon={<Info />}
+            imageUrl='/features/data.png'
           />
           <FeatureItem
+            inverted
             title='Tapahtumat'
             description='Tapahtumiin voit tallentaa niin pienet kuin suuremmat remontit joita taloosi tehdään tai on tehty. Lisää muutama hyvä kuva, kirjoita kattava kuvaus remontista ja liitteisiin vielä laskut ja muut kuitit.'
-            icon={<History />}
+            imageUrl='/features/event.png'
           />
 
           <FeatureItem
+            title='Kulutus'
+            description='Pidä kirjaa talosi juoksevista kuluista, kuten lämmitys- vesi- ja sähkökulut.'
+            imageUrl='/features/utility.png'
+          />
+
+          <FeatureItem
+            inverted
             title='Tiedostot'
             description='Pidä kiinteistösi tiedostot ja kuvat säästössä samassa paikassa, esimerkiksi rakennuspiirustukset, tontin lunastuskuitti vuosien takaa jne.'
-            icon={<FileCopy />}
+            imageUrl='/features/files.png'
           />
         </div>
       </div>
