@@ -3,22 +3,46 @@ import { EventDataType } from './types';
 import { createObject, updateObject } from './objectData';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
+import { Knex } from 'knex';
 
-export async function getEvents(propertyId: string) {
+export async function getEvents(queryObj: TODO, query?: string) {
   return db('data_objects')
-    .where({ 'data_objects.parentId': propertyId })
-    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' });
+    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+    .where(function () {
+      if (!query) return;
+      this.whereILike('data_objects.title', `%${query}%`).orWhereILike(
+        'data_objects.description',
+        `%${query}%`
+      );
+    })
+    .andWhere(queryObj);
 }
 
-export async function createPropertyEvent(data: Partial<EventDataType>) {
+export async function getEventsForProperty(propertyId: string, query?: string) {
+  return db('data_objects')
+    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+    .where(function () {
+      if (!query) return;
+      this.whereILike('title', `%${query}%`).orWhereILike('description', `%${query}%`);
+    })
+    .andWhere({ 'data_objects.parentId': propertyId });
+}
+
+export async function createPropertyEvent(
+  data: Partial<EventDataType>,
+  callback: (id: string, trx: Knex.Transaction) => Promise<void>
+) {
   return await createObject(data, async (obj, trx) => {
+    const eventId = obj.id;
     const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));
     await trx('data_propertyEvents').insert({
-      id: obj.id,
+      id: eventId,
       ...insertObj,
       startTime: new Date(insertObj.startTime).getTime(),
       endTime: insertObj.endTime && new Date(insertObj.endTime).getTime(),
     });
+
+    await callback(eventId, trx);
   });
 }
 

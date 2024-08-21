@@ -8,13 +8,15 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import db from 'kotilogi-app/dbconfig';
+import { getUserProperties } from 'kotilogi-app/models/propertyData';
 
 export default async function PropertiesPage() {
   const session = await loadSession();
-  const houses = await getUserHouses(session.user.id);
-  const appartments = await getUserAppartments(session.user.id);
-  const properties = [...houses, ...appartments] as (HouseDataType | AppartmentDataType)[];
-
+  const properties = (await getUserProperties(session.user.id)) as (
+    | HouseDataType
+    | AppartmentDataType
+  )[];
+  console.log(properties);
   return (
     <Main>
       <OverviewBoxList
@@ -29,6 +31,7 @@ export default async function PropertiesPage() {
         }
         addButtonUrl='/newDashboard/properties/add'
         OverviewComponent={async ({ item }) => {
+          console.log(item.id);
           const [{ numEvents }] = await db('data_objects')
             .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
             .where({ parentId: item.id })

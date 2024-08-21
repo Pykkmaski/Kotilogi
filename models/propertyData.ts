@@ -1,28 +1,35 @@
 import { Knex } from 'knex';
 import { createObject, updateObject } from './objectData';
 
-import { ObjectDataType, PropertyDataType } from './types';
+import { AppartmentDataType, HouseDataType, ObjectDataType, PropertyDataType } from './types';
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
-import { preparePropertyForDb } from './utils/preparePropertyForDb';
 import db from 'kotilogi-app/dbconfig';
-import { PropertyType } from './enums/PropertyType';
-import { getHouse, getUserHouses } from './houseData';
-import { getAppartment, getUserAppartments } from './appartmentData';
-import { EnergyClass } from './enums/EnergyClass';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
 
-export async function getProperty(id: string) {
+export async function getProperty(id: string): Promise<HouseDataType | AppartmentDataType> {
+  //Get the type of the property.
   const [type] = await db('data_properties')
     .join('ref_propertyTypes', { 'ref_propertyTypes.id': 'data_properties.propertyTypeId' })
     .where({ 'data_properties.id': id })
     .pluck('ref_propertyTypes.name');
 
-  if (type == 'Kiinteistö') {
-    return await getHouse(id);
-  } else {
-    return await getAppartment(id);
-  }
+  const baseQuery = db('data_objects')
+    .join('data_properties', { 'data_properties.id': 'data_objects.id' })
+    .join('ref_propertyTypes', { 'ref_propertyTypes.id': 'data_properties.propertyTypeId' });
+
+  const baseColumnsToSelect = [
+    'data_objects.*',
+    'data_properties.*',
+    'ref_propertyTypes.name as propertyTypeName',
+  ];
+
+  const targetTableName = type == 'Kiinteistö' ? 'data_houses' : 'data_appartments';
+
+  const [p] = await baseQuery
+    .join(targetTableName, { [`${targetTableName}.id`]: 'data_properties.id' })
+    .where({ [`${targetTableName}.id`]: id })
+    .select([...baseColumnsToSelect, `${targetTableName}.*`]);
+  return p;
 }
 
 export async function createProperty(
@@ -63,11 +70,10 @@ export async function getOwners(propertyId: string) {
   return await db('data_propertyOwners').where({ propertyId }).pluck('userId');
 }
 
-export async function getUserProperties(userId: string) {
-  const [houses, appartments] = await Promise.all([
-    getUserHouses(userId),
-    getUserAppartments(userId),
-  ]);
-
-  return [...houses, ...appartments];
+export async function getUserProperties(
+  userId: string
+): Promise<(HouseDataType | AppartmentDataType)[]> {
+  const ownedProperties = await db('data_propertyOwners').where({ userId }).pluck('propertyId');
+  const promises = ownedProperties.map(id => getProperty(id));
+  return await Promise.all(promises);
 }

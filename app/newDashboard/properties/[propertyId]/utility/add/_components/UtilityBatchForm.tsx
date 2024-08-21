@@ -10,6 +10,7 @@ import { useInputData } from '@/hooks/useInputData';
 import { Add, Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { createContext, useContext, useRef } from 'react';
@@ -26,48 +27,22 @@ type UtilityBatchFormProps = {
 export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormProps) {
   return (
     <UtilityBatchFormContext.Provider value={{ utilityTypes }}>
-      <BatchUploadForm
-        uploadMethod={async entries => {
-          const promises = entries.map(entry =>
-            ACreateUtilityData({
-              ...entry,
-              parentId: propertyId,
-            })
+      <BatchUploadForm<UtilityDataType>
+        isAddingDisabled={data => {
+          return (
+            data.monetaryAmount === undefined ||
+            data.unitAmount === undefined ||
+            data.time === undefined ||
+            data.typeId === undefined
           );
-          await Promise.all(promises);
+        }}
+        onSubmit={async entries => {
+          axios.post('/api/properties/utility', {
+            data: entries.map(entry => ({ ...entry, parentId: propertyId })),
+          });
         }}
         title='Lisää Kulutustietoja'
-        dataEntryComponent={AddDataComponent}
-        entryComponent={EntryComponent}
-      />
-    </UtilityBatchFormContext.Provider>
-  );
-}
-
-function AddDataComponent({ addEntry }: { addEntry: (entry: UtilityDataType) => void }) {
-  const { updateData, resetData, data } = useInputData<UtilityDataType>({} as UtilityDataType);
-  const { utilityTypes } = useUtilityBatchFormContext();
-
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const add = () => {
-    addEntry(data);
-    resetData({} as UtilityDataType);
-    formRef.current?.reset();
-  };
-
-  const addDisabled =
-    data.monetaryAmount === undefined ||
-    data.unitAmount === undefined ||
-    data.time === undefined ||
-    data.typeId === undefined;
-
-  return (
-    <ContentBox>
-      <form
-        ref={formRef}
-        className='flex flex-col gap-2'
-        onChange={updateData}>
+        entryComponent={EntryComponent}>
         <div className='flex flex-col gap-2'>
           <RadioGroup groupName='typeId'>
             {utilityTypes.map(type => (
@@ -117,19 +92,8 @@ function AddDataComponent({ addEntry }: { addEntry: (entry: UtilityDataType) => 
             />
           }
         />
-
-        <div className='flex justify-start'>
-          <Button
-            disabled={addDisabled}
-            type='button'
-            onClick={add}
-            variant='contained'
-            startIcon={<Add />}>
-            Lisää
-          </Button>
-        </div>
-      </form>
-    </ContentBox>
+      </BatchUploadForm>
+    </UtilityBatchFormContext.Provider>
   );
 }
 

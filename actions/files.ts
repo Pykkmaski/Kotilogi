@@ -15,6 +15,7 @@ export async function AUploadFile(fd: FormData, parentId: string) {
   const buffer = Buffer.from(bytes);
   const metadata = await sharp(buffer).metadata();
 
+  //Resize image-files
   const outputBuffer =
     file.type == 'image/jpeg'
       ? metadata.width > 1000
