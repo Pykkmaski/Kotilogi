@@ -53,14 +53,20 @@ export function PropertyForm<T extends PropertyDataType>({
   mainColors,
 }: PropertyFormProps<T>) {
   const [hasChanges, setHasChanges] = useState(false);
-
-  const { data, updateData, status, onSubmit } = useDataSubmissionForm(
-    AUpdateProperty,
-    ACreateProperty,
-    property
-  );
+  const { data, updateData } = useInputData(property || {});
+  const [status, setStatus] = useState(FormStatus.IDLE);
 
   const router = useRouter();
+  const onSubmit = async e => {
+    e.preventDefault();
+    setStatus(FormStatus.LOADING);
+    if (property) {
+      await AUpdateProperty(property.id, data as TODO);
+    } else {
+      await ACreateProperty(data as TODO);
+    }
+    setStatus(FormStatus.IDLE);
+  };
 
   useEffect(() => {
     //Update the server-side data automatically if editing an existing property.
@@ -68,7 +74,7 @@ export function PropertyForm<T extends PropertyDataType>({
 
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
-      await AUpdateProperty(data)
+      await AUpdateProperty(property.id, data as TODO)
         .then(() => {
           setHasChanges(false);
           toast.success('Tiedot päivitetty!');

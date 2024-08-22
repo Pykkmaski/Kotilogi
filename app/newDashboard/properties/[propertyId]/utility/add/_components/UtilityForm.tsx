@@ -19,12 +19,7 @@ export function UtilityForm({ utility, propertyId, utilityTypes }: UtilityFormPr
     <ObjectSubmissionForm
       parentId={propertyId}
       item={utility}
-      createMethod={async data => {
-        await ACreateUtilityData(data);
-      }}
-      updateMethod={async data => {
-        await AUpdateUtilityData(data);
-      }}>
+      onSubmit={async (data, files) => {}}>
       <SecondaryHeading>Lisää uusi kulutustieto</SecondaryHeading>
       <Fieldset legend='Tyyppi'>
         <RadioGroup groupName='typeId'>

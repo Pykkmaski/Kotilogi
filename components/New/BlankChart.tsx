@@ -20,7 +20,9 @@ export function BlankChart({ width, height, variant = 'bar', dummyLen = 3 }: Bla
   };
   const dummyData = genDummyData();
 
-  const titleClasses = ['text-lg z-20 absolute font-semibold p-2 text-white bg-black'];
+  const titleClasses = [
+    'text-lg z-20 absolute font-semibold p-2 text-white bg-black rounded-md shadow-md',
+  ];
   return (
     <div className='relative flex items-center justify-center w-full h-full'>
       {variant == 'bar' && <h1 className={titleClasses.join(' ')}>Ei tietoja.</h1>}

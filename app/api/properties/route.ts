@@ -39,8 +39,7 @@ export async function POST(req: NextRequest) {
       files?: FormData[];
     };
 
-    await createProperty(data, async (obj, trx) => {
-      const propertyId = obj.id;
+    await createProperty(data, async (propertyId, trx) => {
       const [typeLabel] = await trx(PROPERTY_TYPES_TABLENAME)
         .where({ id: data.propertyTypeId })
         .pluck('name');
@@ -67,16 +66,9 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { data } = await req.json();
+    const { id, data } = await req.json();
 
-    await updateProperty(data, async trx => {
-      const [typeLabel] = await trx(PROPERTY_TYPES_TABLENAME)
-        .where({ id: data.propertyTypeId })
-        .pluck('name');
-      const tablename = getTableNameFromPropertyType(typeLabel);
-      const insertObj = await filterValidColumns(data, await getTableColumns(tablename, trx));
-      await trx(tablename).update(insertObj);
-    });
+    await updateProperty(id, data);
 
     revalidatePath('/newDashboard');
     return new NextResponse(null, { status: 200 });

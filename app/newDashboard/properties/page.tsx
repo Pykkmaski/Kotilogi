@@ -1,8 +1,6 @@
 import { Main } from '@/components/New/Main';
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
-import { Edit, Home } from '@mui/icons-material';
-import { getUserAppartments } from 'kotilogi-app/models/appartmentData';
-import { getUserHouses } from 'kotilogi-app/models/houseData';
+import { Edit } from '@mui/icons-material';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
