@@ -4,10 +4,11 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { useUtilityProviderContext } from './UtilityContext';
 import { aggregateToMonths, aggregateToYears } from './aggregateData';
 import colors from 'kotilogi-app/colors';
+import { BlankChart } from '@/components/New/BlankChart';
 
 export function UtilityLineChart() {
   const { data, selectedTypes, allTypes, year } = useUtilityProviderContext();
-  console.log(year);
+
   const aggregatedData =
     year !== null
       ? aggregateToMonths(data)
@@ -15,8 +16,6 @@ export function UtilityLineChart() {
           const data = [...acc, ...cur.data];
           return data;
         }, []);
-
-  console.log(aggregatedData);
 
   const getBar = (typeLabel: string) => (
     <Bar
@@ -39,27 +38,36 @@ export function UtilityLineChart() {
     <ResponsiveContainer
       width='100%'
       height={300}>
-      <BarChart data={aggregatedData}>
-        <CartesianGrid strokeDasharray={'3 3'} />
-        <Tooltip
-          labelFormatter={label => {
-            const date = new Date();
-            date.setMonth(label);
-            return date.toLocaleDateString('fi', { month: 'long' });
-          }}
+      {data.length > 0 ? (
+        <BarChart data={aggregatedData}>
+          <CartesianGrid strokeDasharray={'3 3'} />
+          <Tooltip
+            labelFormatter={label => {
+              const date = new Date();
+              date.setMonth(label);
+              return date.toLocaleDateString('fi', { month: 'long' });
+            }}
+          />
+          <YAxis />
+          <XAxis
+            dataKey='month'
+            tickFormatter={entry => {
+              const date = new Date();
+              date.setMonth(entry);
+              return date.toLocaleDateString('fi', { month: 'long' });
+            }}
+          />
+          {(selectedTypes.length && selectedTypes.map(type => getBar(type))) ||
+            allTypes.map(val => getBar(val))}
+        </BarChart>
+      ) : (
+        <BlankChart
+          variant='bar'
+          dummyLen={12}
+          width={'100%'}
+          height={300}
         />
-        <YAxis />
-        <XAxis
-          dataKey='month'
-          tickFormatter={entry => {
-            const date = new Date();
-            date.setMonth(entry);
-            return date.toLocaleDateString('fi', { month: 'long' });
-          }}
-        />
-        {(selectedTypes.length && selectedTypes.map(type => getBar(type))) ||
-          allTypes.map(val => getBar(val))}
-      </BarChart>
+      )}
     </ResponsiveContainer>
   );
 }

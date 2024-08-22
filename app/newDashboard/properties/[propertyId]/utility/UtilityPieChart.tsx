@@ -40,6 +40,7 @@ export function UtilityPieChart() {
         </PieChart>
       ) : (
         <BlankChart
+          variant='pie'
           width={'40%'}
           height={300}
         />

@@ -5,6 +5,7 @@ import {
   getUtilityData,
   updateUtilityData,
 } from 'kotilogi-app/models/utilityData';
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
 
@@ -21,9 +22,12 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { data } = (await req.json()) as { data: UtilityDataType[] };
+    const { data } = (await req.json()) as {
+      data: (UtilityDataType & Required<Pick<UtilityDataType, 'parentId'>>)[];
+    };
     const promises = data.map(d => createUtilityData(d));
     await Promise.all(promises);
+    revalidatePath('/newDashboard/properties/[propertyId]/');
     return new NextResponse(null, { status: 200 });
   } catch (err: any) {
     console.log(err.message);
@@ -37,6 +41,7 @@ export async function PATCH(req: NextRequest) {
       data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'id'>>;
     };
     await updateUtilityData(data);
+    revalidatePath('/newDashboard/properties/[propertyId]/');
     return new NextResponse(null, { status: 200 });
   } catch (err: any) {
     console.log(err.message);
@@ -48,6 +53,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const { id } = (await req.json()) as { id: string };
     await deleteObject(id);
+    revalidatePath('/newDashboard/properties/[propertyId]/');
     return new NextResponse(null, { status: 200 });
   } catch (err: any) {
     console.log(err.message);
