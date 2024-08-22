@@ -32,7 +32,6 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
         await AUploadFile(fd, fileParentId);
         setUploadedFileSize(prev => {
           const newSize = prev + file.size;
-
           return newSize;
         });
       } catch (err: any) {

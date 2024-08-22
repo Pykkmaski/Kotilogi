@@ -23,11 +23,6 @@ export default async function PropertyPage({ params }) {
     .join('data_users', { 'data_users.id': 'data_propertyOwners.userId' })
     .pluck('email');
 
-  const events = await db('data_objects')
-    .join('data_propertyEvents', 'data_propertyEvents.id', '=', 'data_objects.id')
-    .where({ 'data_objects.parentId': id })
-    .limit(4);
-
   const utilityData = await getUtilityData({ parentId: property.id });
   console.log(utilityData);
   const files = await getFiles({ parentId: id }, 4);
@@ -53,10 +48,7 @@ export default async function PropertyPage({ params }) {
         editUrl={`/newDashboard/properties/${property.id}/edit`}
       />
 
-      <EventPreview
-        propertyId={property.id}
-        events={events}
-      />
+      <EventPreview propertyId={property.id} />
 
       <UtilityProvider
         data={utilityData}

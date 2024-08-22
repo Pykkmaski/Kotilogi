@@ -1,19 +1,27 @@
 'use client';
 import { ACreatePropertyEvent } from '@/actions/events';
+import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { BatchUploadForm } from '@/components/New/Forms/BatchUploadForm';
 import { FormControl, Input } from '@/components/UI/FormUtils';
+import axios from 'axios';
 import { EventDataType } from 'kotilogi-app/models/types';
 
 export function EventBatchForm({ propertyId }: { propertyId: string }) {
   return (
     <BatchUploadForm<EventDataType>
       title='Lisää tapahtumia'
-      entryComponent={null}
-      uploadMethod={async entries => {
-        const promises = entries.map(e =>
-          ACreatePropertyEvent({ ...e, parentId: propertyId } as TODO)
-        );
-        await Promise.all(promises);
+      entryComponent={({ entry }) => {
+        return <ContentBox>{entry.title}</ContentBox>;
+      }}
+      onSubmit={async (entries, files) => {
+        await axios.post('/api/properties/events', {
+          data: entries.map(entry => {
+            return {
+              data: entry,
+              fdata: files,
+            };
+          }),
+        });
       }}
       isAddingDisabled={data => {
         return data.title === undefined || data.startTime === undefined;
@@ -49,6 +57,17 @@ export function EventBatchForm({ propertyId }: { propertyId: string }) {
             name='description'
             spellCheck={false}
             required
+          />
+        }
+      />
+
+      <FormControl
+        label='Tiedostot'
+        control={
+          <Input
+            type='file'
+            accept='image/jpeg;application/pdf'
+            multiple
           />
         }
       />

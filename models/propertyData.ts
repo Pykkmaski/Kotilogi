@@ -5,6 +5,12 @@ import { AppartmentDataType, HouseDataType, ObjectDataType, PropertyDataType } f
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
 import db from 'kotilogi-app/dbconfig';
+import { PropertyType } from './enums/PropertyType';
+
+const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
+  const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
+  return typeId == houseTypeId ? 'data_houses' : 'data_appartments';
+};
 
 export async function getProperty(id: string): Promise<HouseDataType | AppartmentDataType> {
   //Get the type of the property.
@@ -33,8 +39,8 @@ export async function getProperty(id: string): Promise<HouseDataType | Appartmen
 }
 
 export async function createProperty(
-  data: Partial<PropertyDataType>,
-  callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>
+  data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>,
+  callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
   return createObject(data, async (obj, trx) => {
     const data_properties = {
@@ -44,25 +50,37 @@ export async function createProperty(
 
     await trx('data_properties').insert(data_properties);
 
+    const propTableName = await getPropertyTableNameByType(data.propertyTypeId, trx);
+    const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));
+    await trx(propTableName).insert({
+      ...propObj,
+      id: obj.id,
+    });
+
     await trx('data_propertyOwners').insert({
       propertyId: obj.id,
       userId: obj.authorId,
       timestamp: Date.now(),
     });
 
-    await callback(obj, trx);
+    callback && (await callback(obj.id, trx));
   });
 }
 
 export async function updateProperty(
-  data: Partial<PropertyDataType>,
-  callback: (trx: Knex.Transaction) => Promise<void>
+  id: string,
+  data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) {
   return updateObject(data, async trx => {
-    const updateObject = filterValidColumns(data, await getTableColumns('data_properties', trx));
+    const propertyUpdateObject = filterValidColumns(
+      data,
+      await getTableColumns('data_properties', trx)
+    );
+    await trx('data_properties').where({ id }).update(propertyUpdateObject);
 
-    await trx('data_properties').where({ id: data.id }).update(updateObject);
-    await callback(trx);
+    const propTableName = await getPropertyTableNameByType(data.propertyTypeId, trx);
+    const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));
+    await trx(propTableName).where({ id }).update(propObj);
   });
 }
 

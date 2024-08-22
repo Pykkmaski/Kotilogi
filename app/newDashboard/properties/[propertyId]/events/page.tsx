@@ -5,22 +5,13 @@ import { EventDataType } from 'kotilogi-app/models/types';
 import { EventOverview } from './_components/EventOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import { getRefTableContent } from '@/actions/util/getRefTableContent';
+import { getEvents } from 'kotilogi-app/models/propertyEventData';
 
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
   const search = searchParams?.q;
   const [events, [propertyTypeId]] = (await Promise.all([
-    db('data_propertyEvents')
-      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-      .where(function () {
-        const query = `%${search}%`;
-        this.where('data_objects.title', 'ilike', query).orWhereLike(
-          'data_objects.description',
-          query
-        );
-      })
-      .andWhere({ parentId: propertyId })
-      .orderBy('startTime', 'desc'),
+    getEvents({ parentId: propertyId, search }),
 
     db('data_properties').where({ id: propertyId }).pluck('propertyTypeId'),
   ])) as [EventDataType[], [number]];

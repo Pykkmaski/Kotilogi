@@ -13,8 +13,8 @@ import { useForm } from '@/hooks/useForm';
 
 type ObjectSubmissionFormProps<T extends ObjectDataType> = React.PropsWithChildren & {
   parentId: string;
-  createMethod: (data: T) => Promise<void>;
-  updateMethod: (data: Required<Pick<T, 'id'>>) => Promise<void>;
+
+  onSubmit: (data: T, files: File[]) => Promise<void>;
   item?: T;
 };
 
@@ -22,10 +22,9 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
   children,
   parentId,
   item,
-  createMethod,
-  updateMethod,
+  onSubmit,
 }: ObjectSubmissionFormProps<T>) {
-  const { data, updateData, status, setStatus, router } = useForm(item || { parentId });
+  const { files, data, updateData, status, setStatus, router } = useForm(item || { parentId });
   const loading = status == FormStatus.LOADING;
 
   return (
@@ -34,11 +33,10 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
       onSubmit={async e => {
         e.preventDefault();
         setStatus(FormStatus.LOADING);
-        const method = !item ? createMethod : updateMethod;
 
-        await method(data as TODO)
+        await onSubmit(data as TODO, files)
           .then(() => {
-            setStatus(() => (method == updateMethod ? FormStatus.DONE : FormStatus.IDLE));
+            setStatus(() => FormStatus.DONE);
             router.back();
           })
           .catch(err => toast.error(err.message))

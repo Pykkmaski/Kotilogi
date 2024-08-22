@@ -1,6 +1,7 @@
 'use server';
 
 import db from 'kotilogi-app/dbconfig';
+import { uploadFiles } from 'kotilogi-app/models/files';
 import { deleteObject, updateObject } from 'kotilogi-app/models/objectData';
 import { createPropertyEvent, updatePropertyEvent } from 'kotilogi-app/models/propertyEventData';
 import { EventDataType } from 'kotilogi-app/models/types';
@@ -20,15 +21,15 @@ export async function AGetEventData(query) {
 export async function ACreatePropertyEvent(
   data: EventDataType & Required<Pick<EventDataType, 'parentId'>>
 ) {
+  let eventId = null;
   await createPropertyEvent(data);
+
   revalidatePath(path);
   return 0;
 }
 
-export async function AUpdatePropertyEvent(
-  data: EventDataType & Required<Pick<EventDataType, 'id'>>
-) {
-  await updateObject(data, async trx => {
+export async function AUpdatePropertyEvent(id: string, data: Partial<EventDataType>) {
+  await updateObject({ id, ...data }, async trx => {
     const updateObject = filterValidColumns(
       data,
       await getTableColumns('data_propertyEvents', trx)

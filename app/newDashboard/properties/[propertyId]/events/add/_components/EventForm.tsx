@@ -5,6 +5,7 @@ import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionFor
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input } from '@/components/UI/FormUtils';
+import axios from 'axios';
 import { EventDataType } from 'kotilogi-app/models/types';
 
 type EventFormProps = {
@@ -22,16 +23,17 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
     eventData.endTime &&
     new Date(parseInt(eventData.endTime.toString())).toISOString().split('T').at(0);
 
-  console.log(startTime, endTime);
   return (
     <ObjectSubmissionForm
       parentId={propertyId}
       item={eventData}
-      createMethod={async data => {
-        await ACreatePropertyEvent(data as TODO);
-      }}
-      updateMethod={async data => {
-        await AUpdatePropertyEvent(data as TODO);
+      onSubmit={async (data, files) => {
+        if (eventData) {
+          await AUpdatePropertyEvent(eventData.id, data);
+        } else {
+          console.log(propertyId);
+          await ACreatePropertyEvent({ ...data, parentId: propertyId });
+        }
       }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
       <Fieldset legend='Tiedot'>

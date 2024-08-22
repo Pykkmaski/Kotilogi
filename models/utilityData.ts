@@ -3,10 +3,11 @@ import { UtilityDataType } from './types';
 import { createObject, updateObject } from './objectData';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
-import { UtilityType } from './enums/UtilityType';
 
 /**Creates utility data. */
-export async function createUtilityData(data: Partial<UtilityDataType>) {
+export async function createUtilityData(
+  data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'parentId'>>
+) {
   return createObject(data, async (obj, trx) => {
     await trx('data_utilities').insert({
       id: obj.id,

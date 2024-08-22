@@ -5,7 +5,7 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 
-export async function getEvents(queryObj: TODO, query?: string) {
+export async function getEvents(queryObj: TODO, query?: string, limit: number = 10) {
   return db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .where(function () {
@@ -15,7 +15,9 @@ export async function getEvents(queryObj: TODO, query?: string) {
         `%${query}%`
       );
     })
-    .andWhere(queryObj);
+    .andWhere(queryObj)
+    .limit(limit)
+    .orderBy('data_objects.timestamp', 'desc');
 }
 
 export async function getEventsForProperty(propertyId: string, query?: string) {
@@ -30,24 +32,27 @@ export async function getEventsForProperty(propertyId: string, query?: string) {
 
 export async function createPropertyEvent(
   data: Partial<EventDataType>,
-  callback: (id: string, trx: Knex.Transaction) => Promise<void>
+  callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
-  return await createObject(data, async (obj, trx) => {
+  await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
     const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));
+    const startTime = new Date(parseInt(insertObj.startTime)).getTime();
+    const endTime = insertObj.endTime && new Date(parseInt(insertObj.endTime)).getTime();
+
     await trx('data_propertyEvents').insert({
       id: eventId,
       ...insertObj,
-      startTime: new Date(insertObj.startTime).getTime(),
-      endTime: insertObj.endTime && new Date(insertObj.endTime).getTime(),
+      startTime,
+      endTime,
     });
 
-    await callback(eventId, trx);
+    callback && (await callback(eventId, trx));
   });
 }
 
 export async function updatePropertyEvent(data: Partial<EventDataType>) {
-  return await updateObject(data, async trx => {
+  await updateObject(data, async trx => {
     await trx('data_propertyEvents')
       .where({ id: data.id })
       .update({

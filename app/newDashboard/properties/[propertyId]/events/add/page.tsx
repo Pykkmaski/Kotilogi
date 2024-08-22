@@ -6,7 +6,7 @@ import { EventBatchForm } from './_components/EventBatchForm';
 export default async function AddEventPage({ params }) {
   return (
     <Main>
-      <EventBatchForm propertyId={params.propertyId} />
+      <EventForm propertyId={params.propertyId} />
     </Main>
   );
 }

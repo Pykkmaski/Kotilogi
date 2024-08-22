@@ -1,7 +1,23 @@
 import { deleteObject } from 'kotilogi-app/models/objectData';
 import { UtilityDataType } from 'kotilogi-app/models/types';
-import { createUtilityData, updateUtilityData } from 'kotilogi-app/models/utilityData';
+import {
+  createUtilityData,
+  getUtilityData,
+  updateUtilityData,
+} from 'kotilogi-app/models/utilityData';
 import { NextRequest, NextResponse } from 'next/server';
+import z from 'zod';
+
+export async function GET(req: NextRequest) {
+  try {
+    const queryParams = new URL(req.url).searchParams;
+    const data = await getUtilityData({ parentId: queryParams.get('parentId') });
+    return new NextResponse(JSON.stringify(data), { status: 200 });
+  } catch (err: any) {
+    console.log(err.message);
+    return new NextResponse(err.message, { status: 500 });
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
