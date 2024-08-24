@@ -1,6 +1,6 @@
 import db from '@/dbconfig';
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAuthorization } from '../../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../../_utils/verifyAuthorization';
 import { DatabaseTable } from '@/utils/databaseTable';
 
 /**

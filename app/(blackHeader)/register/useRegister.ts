@@ -3,6 +3,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { ARegisterUser } from '@/actions/users';
+import axios from 'axios';
 
 export type RegisterStatusType =
   | 'idle'
@@ -28,7 +29,7 @@ export function useRegister() {
     return password1 === password2;
   };
 
-  const registerHandler = e => {
+  const registerHandler = async e => {
     e.preventDefault();
 
     if (!checkPasswordMatch(data.password, e.target.password2.value)) {
@@ -36,17 +37,20 @@ export function useRegister() {
     } else {
       setStatus('loading');
 
-      ARegisterUser(data)
-        .then(status => {
-          setStatus(status);
-
-          if (status === 'success') {
-            toast.success('Rekisteröityminen onnistui!');
-            router.replace('/register/success');
-          }
+      await axios
+        .post('/api/public/users/register', {
+          data: {
+            email: data.email,
+            password: data.password,
+          },
         })
-        .catch(err => {
-          toast.error(err.message);
+        .then(res => {
+          if (res.status == 200) {
+            toast.success(res.statusText);
+            router.replace('/register/success');
+          } else {
+            toast.error(res.statusText);
+          }
         });
     }
   };

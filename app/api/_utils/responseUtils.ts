@@ -38,3 +38,13 @@ export const response = (type: ResponseType, body: BodyInit | null, statusText?:
     statusText,
   });
 };
+
+export const handleServerError = (
+  err: any,
+  route: string,
+  method: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE'
+) => {
+  const msg = err.message;
+  console.log(`${route} ${method}: ${msg}`);
+  return response('serverError', msg, msg);
+};

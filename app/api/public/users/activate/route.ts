@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import db from 'kotilogi-app/dbconfig';
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
 
@@ -13,27 +13,22 @@ export async function GET(req: NextRequest) {
 
     const activationSecret = process.env.ACTIVATION_SECRET;
 
-    var decodedToken = null;
+    let decoded: JwtPayload;
+    try {
+      decoded = jwt.verify(token, activationSecret) as JwtPayload;
+    } catch (err) {
+      return response('unauthorized', 'Varmenne on virheellinen!');
+    }
 
-    jwt.verify(token, activationSecret, async (err, decoded) => {
-      if (err) {
-        return response('unauthorized', 'Varmenne on virheellinen!');
-      }
+    const [userStatus] = await db('data_users').where({ id: decoded.id }).pluck('status');
 
-      decodedToken = decoded;
+    if (userStatus !== 'unconfirmed') {
+      return response('conflict', 'Käyttäjätili on jo käytössä!');
+    }
 
-      const [{ status: userStatus }] = await db('data_users').select('status', {
-        email: decodedToken.email,
-      });
-
-      if (userStatus !== 'unconfirmed') {
-        return response('conflict', 'Käyttäjätili on jo käytössä!');
-      }
-
-      await db('data_users').where({ email: decodedToken.email }).update({
-        status: 'active',
-        activatedOn: Date.now(),
-      });
+    await db('data_users').where({ id: decoded.id }).update({
+      status: 'active',
+      activatedOn: Date.now(),
     });
 
     return NextResponse.redirect(process.env.SERVICE_DOMAIN + '/activated');

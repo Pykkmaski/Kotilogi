@@ -3,7 +3,7 @@ import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
 import sharp from 'sharp';
-import { verifyAuthorization } from '../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../_utils/verifyAuthorization';
 
 export async function POST(req: NextRequest) {
   const authorized = verifyAuthorization(req);

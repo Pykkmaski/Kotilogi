@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAuthorization } from '../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../_utils/verifyAuthorization';
 import { opendir, readFile, writeFile } from 'fs/promises';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';

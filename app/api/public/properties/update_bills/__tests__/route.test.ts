@@ -3,7 +3,7 @@
 */
 import { createDueDate } from '@/utils/createDueDate';
 import { POST } from '../route';
-import { verifyAuthorization } from '../../../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../../../_utils/verifyAuthorization';
 import { DatabaseTable } from '@/utils/databaseTable';
 import { NextResponse } from 'next/server';
 

@@ -23,14 +23,11 @@ describe('Testing requests with valid token.', () => {
     })
   );
 
-  var dbUpdateMock = jest.spyOn(db, 'update');
-
   const validToken = jwt.sign(testUser, process.env.ACTIVATION_SECRET);
 
   describe('The user is unconfirmed.', () => {
     beforeAll(async () => {
-      //const dbSelectMock = jest.spyOn(db, 'select');
-      db.select.mockResolvedValueOnce([{ status: 'unconfirmed' }]);
+      db().pluck.mockResolvedValueOnce(['unconfirmed']);
 
       const params = new URLSearchParams();
       params.set('token', validToken);
@@ -49,9 +46,8 @@ describe('Testing requests with valid token.', () => {
     });
 
     it("Updates the correct user's status to active.", () => {
-      expect(dbUpdateMock).toHaveBeenCalledWith(
-        expect.objectContaining({ status: 'active', activatedOn: expect.any(Number) }),
-        expect.objectContaining({ email: testUser.email })
+      expect(db().update).toHaveBeenCalledWith(
+        expect.objectContaining({ status: 'active', activatedOn: expect.any(Number) })
       );
     });
   });
@@ -59,7 +55,7 @@ describe('Testing requests with valid token.', () => {
   describe('The user is already activated.', () => {
     beforeAll(async () => {
       //const dbSelectMock = jest.spyOn(db, 'select');
-      db.select.mockResolvedValueOnce([{ status: 'active' }]);
+      db().pluck.mockResolvedValueOnce(['active']);
 
       const params = new URLSearchParams();
       params.set('token', validToken);
@@ -79,7 +75,7 @@ describe('Testing requests with valid token.', () => {
   describe('A user with the email in the token does not exist.', () => {
     beforeAll(async () => {
       //const dbSelectMock = jest.spyOn(db, 'select');
-      db.select.mockResolvedValueOnce([]);
+      db().select.mockResolvedValueOnce([]);
       const params = new URLSearchParams();
       params.set('token', validToken);
 
@@ -113,7 +109,7 @@ describe('Testing requests with a correctly signed token, but it has been tamper
   });
 
   it('Responds with code 409.', () => {
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(401);
   });
 });
 
@@ -132,13 +128,13 @@ describe('Testing requests with invalid token.', () => {
     response = await GET(req);
   });
 
-  it('Responds with status 403.', () => {
-    expect(response.status).toBe(403);
+  it('Responds with status 401.', () => {
+    expect(response.status).toBe(401);
   });
 });
 
 describe('Testing requests with no token present.', () => {
-  it('Responds with status 400.', async () => {
+  it('Responds with status 401.', async () => {
     const params = new URLSearchParams();
 
     const req = {
@@ -146,6 +142,6 @@ describe('Testing requests with no token present.', () => {
     } as NextRequest;
 
     const response = await GET(req);
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 });

@@ -1,6 +1,6 @@
 import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAuthorization } from '../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../_utils/verifyAuthorization';
 import db from 'kotilogi-app/dbconfig';
 
 /**Clears all users that have not activated their account within 6 months. */

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAuthorization } from '../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../_utils/verifyAuthorization';
 import db from 'kotilogi-app/dbconfig';
 
 export async function GET(req: NextRequest) {

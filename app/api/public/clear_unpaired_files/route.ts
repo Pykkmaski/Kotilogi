@@ -3,7 +3,7 @@ import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { verifyAuthorization } from '../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../_utils/verifyAuthorization';
 import { Files } from 'kotilogi-app/utils/files';
 
 /**

@@ -12,6 +12,11 @@ export async function PATCH(req: NextRequest) {
     }).parse(data);
 
     const { id, ...updateData } = data;
+    const session = await loadSession();
+    if (id !== session.user.id) {
+      return response('forbidden', null, 'Tiliä voi muokata ainoastaan sen omistaja!');
+    }
+
     await db('data_users').where({ id }).update(updateData);
     return response('success', null, 'Käyttäjän päivitys onnistui!');
   } catch (err) {
@@ -25,6 +30,7 @@ export async function DELETE(req: NextRequest) {
     const data = await req.json();
     z.object({
       id: z.string(),
+      redirectUrl: z.string().optional(),
     }).parse(data);
 
     const session = await loadSession();

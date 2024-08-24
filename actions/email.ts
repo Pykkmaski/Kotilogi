@@ -5,7 +5,7 @@ import { sendEmail } from './email/sendEmail';
 /**Sends an activation link to the specified email address. */
 export async function sendAccountActivationLink(email: string) {
   const activationToken = jwt.sign(email, process.env.ACTIVATION_SECRET);
-  const activationLink = `${process.env.SERVICE_DOMAIN}/api/users/activate?token=${activationToken}`;
+  const activationLink = `${process.env.SERVICE_DOMAIN}/api/public/users/activate?token=${activationToken}`;
   await sendEmail('Tilin aktivointilinkki', 'Kotidok', email, activationLink);
 }
 
