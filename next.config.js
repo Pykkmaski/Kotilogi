@@ -9,6 +9,7 @@ const nextConfig = {
       },
     ];
   },
+  /*
   async rewrites() {
     return [
       {
@@ -17,6 +18,7 @@ const nextConfig = {
       },
     ];
   },
+  */
   experimental: {
     serverComponentsExternalPackages: ['knex'],
   },

@@ -36,7 +36,7 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
         }}
         onSubmit={async entries => {
           return axios.post(
-            '/api/properties/utility',
+            '/api/protected/properties/utility',
             entries.map(entry => ({ ...entry, parentId: propertyId }))
           );
         }}

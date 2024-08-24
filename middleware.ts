@@ -1,6 +1,6 @@
-import { getToken, JWT } from 'next-auth/jwt';
-import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
-import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+import { NextRequestWithAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
 export default async function middleware(req: NextRequestWithAuth) {
   const pathname = req.nextUrl.pathname;
@@ -18,9 +18,7 @@ export default async function middleware(req: NextRequestWithAuth) {
         }
       );
     }
-  } else if (pathname.startsWith('/api/public')) {
-    return NextResponse.next();
-  } else if (pathname.startsWith('/api') || pathname.startsWith('/newDashboard')) {
+  } else if (pathname.startsWith('/api/protected') || pathname.startsWith('/newDashboard')) {
     const token = await getToken({ req });
     if (!token) {
       return NextResponse.redirect(`${process.env.SERVICE_DOMAIN}/login`);

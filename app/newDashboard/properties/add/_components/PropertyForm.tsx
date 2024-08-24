@@ -61,7 +61,7 @@ export function PropertyForm<T extends PropertyDataType>({
 
   const runUpdate = async () =>
     await axios
-      .patch('/api/properties', {
+      .patch('/api/protected/properties', {
         id: property.id,
         data,
       })
@@ -80,7 +80,7 @@ export function PropertyForm<T extends PropertyDataType>({
     if (property) {
       await runUpdate();
     } else {
-      await axios.post('/api/properties', {
+      await axios.post('/api/protected/properties', {
         data,
       });
     }
