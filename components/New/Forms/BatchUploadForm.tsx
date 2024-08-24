@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { ReactNode, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { ContentBox } from '../Boxes/ContentBox';
+import { AxiosResponse } from 'axios';
 
 type BatchUploadFormProps<T> = React.PropsWithChildren & {
   title: string;
@@ -22,7 +23,7 @@ type BatchUploadFormProps<T> = React.PropsWithChildren & {
     deleteEntry: (entry: T) => void;
   }) => ReactNode;
 
-  onSubmit: (entries: T[], files?: FormData[]) => Promise<void>;
+  onSubmit: (entries: T[]) => Promise<AxiosResponse>;
   isAddingDisabled: (data: T) => boolean;
 };
 
@@ -53,19 +54,14 @@ export function BatchUploadForm<T>({
       onSubmit={async e => {
         e.preventDefault();
         setStatus(FormStatus.LOADING);
-        await onSubmit(
-          entries,
-          files.map(file => {
-            const fd = new FormData();
-            fd.set('file', file);
-            return fd;
+        await onSubmit(entries)
+          .then(res => {
+            if (res.status == 200) {
+              toast.success(res.statusText);
+            } else {
+              toast.error(res.statusText);
+            }
           })
-        )
-          .then(() => {
-            toast.success('Tiedot lisätty onnistuneesti!');
-            router.back();
-          })
-          .catch(err => toast.error(err.message))
           .finally(() => setStatus(FormStatus.IDLE));
       }}>
       <div className='flex w-full items-center justify-between'>

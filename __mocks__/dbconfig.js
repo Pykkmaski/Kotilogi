@@ -1,5 +1,5 @@
 const where = jest.fn().mockReturnThis();
-const select = where;
+const select = jest.fn();
 const insert = jest.fn();
 const del = jest.fn();
 const update = jest.fn();

@@ -6,6 +6,7 @@ import { useDataSubmissionForm } from '@/hooks/useDataSubmissionForm';
 import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import axios from 'axios';
 import { ExteriorField } from 'kotilogi-app/app/newDashboard/_components/NewAddPropertyModal/Form/ExteriorField';
 import { GeneralField } from 'kotilogi-app/app/newDashboard/_components/NewAddPropertyModal/Form/GeneralField';
 import { HeatingField } from 'kotilogi-app/app/newDashboard/_components/NewAddPropertyModal/Form/HeatingField';
@@ -57,13 +58,31 @@ export function PropertyForm<T extends PropertyDataType>({
   const [status, setStatus] = useState(FormStatus.IDLE);
 
   const router = useRouter();
+
+  const runUpdate = async () =>
+    await axios
+      .patch('/api/properties', {
+        id: property.id,
+        data,
+      })
+      .then(res => {
+        if (res.status == 200) {
+          toast.success(res.statusText);
+        } else {
+          toast.error(res.statusText);
+        }
+      })
+      .catch(err => toast.error(err.message));
+
   const onSubmit = async e => {
     e.preventDefault();
     setStatus(FormStatus.LOADING);
     if (property) {
-      await AUpdateProperty(property.id, data as TODO);
+      await runUpdate();
     } else {
-      await ACreateProperty(data as TODO);
+      await axios.post('/api/properties', {
+        data,
+      });
     }
     setStatus(FormStatus.IDLE);
   };
@@ -74,15 +93,7 @@ export function PropertyForm<T extends PropertyDataType>({
 
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
-      await AUpdateProperty(property.id, data as TODO)
-        .then(() => {
-          setHasChanges(false);
-          toast.success('Tiedot päivitetty!');
-        })
-        .catch(err => toast.error(err.message))
-        .finally(() => {
-          toast.dismiss(loadingToast);
-        });
+      await runUpdate().finally(() => toast.dismiss(loadingToast));
     }, 900);
 
     return () => clearTimeout(timeout);

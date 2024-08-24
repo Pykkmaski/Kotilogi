@@ -1,6 +1,6 @@
 'use client';
 
-import { ACreateUtilityData, AUpdateUtilityData } from '@/actions/utilityData';
+import { ACreateUtilityData, AUpdateUtilityData } from '@/actions/utility';
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';

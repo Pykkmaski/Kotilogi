@@ -9,6 +9,7 @@ import { FormStatus, useDataSubmissionForm } from '@/hooks/useDataSubmissionForm
 import { useInputData } from '@/hooks/useInputData';
 import { Delete } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import axios from 'axios';
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -19,27 +20,18 @@ type DeletePropertyFormProps = {
 };
 
 export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
-  const { data, updateData } = useInputData({} as { password: string });
-  const [status, setStatus] = useState(FormStatus.IDLE);
-
-  const router = useRouter();
-
   return (
     <ObjectDeletionForm
       returnUrl='/newDashboard/properties'
       objectId={property.id}
-      deleteMethod={async data => {
-        return await ADeleteProperty(property.id, data.password).then(res => {
-          if (res == -1) {
-            toast.error('Annettu salasana on väärä!');
-          } else if (res == -2) {
-            toast.error('Talon voi poistaa ainoastaan sen omistaja!');
-          } else {
-            toast.success('Talo poistettu!');
-          }
-          return res;
-        });
-      }}>
+      deleteMethod={async credentials =>
+        await axios.delete('/api/properties', {
+          data: {
+            id: property.id,
+            password: credentials.password,
+          },
+        })
+      }>
       <MainHeading>Poista talo</MainHeading>
       <p className='text-lg mb-4'>
         Olet poistamassa taloa{' '}

@@ -44,7 +44,7 @@
     "types.d.ts",
     ".next/types/**/*.ts",
     "app/register/page.test.jsx",
-    "__mocks__/dbconfig.js",
+    "__mocks__/dbconfig.ts",
     "utils/__tests__/array.test.js",
     "app/api/auth/[...nextauth]/options.ts",
     "pelican/pelican.js",

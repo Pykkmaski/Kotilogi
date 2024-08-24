@@ -5,10 +5,11 @@ import { FormBase, FormButtons } from './FormBase';
 import { ObjectDataType } from 'kotilogi-app/models/types';
 import toast from 'react-hot-toast';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
+import { AxiosResponse } from 'axios';
 
 type ObjectDeletionFormProps<T extends { id: string }> = React.PropsWithChildren & {
   objectId: string;
-  deleteMethod: (data: any) => Promise<number>;
+  deleteMethod: (data: any) => Promise<AxiosResponse>;
   returnUrl: string;
 };
 
@@ -28,8 +29,11 @@ export function ObjectDeletionForm<T extends { id: string }>({
         setStatus(FormStatus.LOADING);
         await deleteMethod(data as TODO)
           .then(res => {
-            if (res == 0) {
+            if (res.status == 200) {
+              toast.success(res.statusText);
               router.push(returnUrl);
+            } else {
+              toast.error(res.statusText);
             }
           })
           .catch(err => toast.error(err.message))

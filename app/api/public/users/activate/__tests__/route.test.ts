@@ -4,9 +4,11 @@
 import { GET } from '../route';
 import jwt from 'jsonwebtoken';
 import { DatabaseTable } from '@/utils/databaseTable';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { NextURL } from 'next/dist/server/web/next-url';
+import db from 'kotilogi-app/dbconfig';
 
-jest.mock('@/dbconfig');
+jest.mock('@/dbconfig.js');
 
 const testUser = {
   email: 'test',
@@ -21,15 +23,21 @@ describe('Testing requests with valid token.', () => {
     })
   );
 
-  var dbUpdateMock = jest.spyOn(DatabaseTable.prototype, 'update');
+  var dbUpdateMock = jest.spyOn(db, 'update');
 
   const validToken = jwt.sign(testUser, process.env.ACTIVATION_SECRET);
 
   describe('The user is unconfirmed.', () => {
     beforeAll(async () => {
-      const dbSelectMock = jest.spyOn(DatabaseTable.prototype, 'select');
-      dbSelectMock.mockResolvedValueOnce([{ status: 'unconfirmed' }]);
-      response = await GET({} as any, { params: { token: validToken } } as any);
+      //const dbSelectMock = jest.spyOn(db, 'select');
+      db.select.mockResolvedValueOnce([{ status: 'unconfirmed' }]);
+
+      const params = new URLSearchParams();
+      params.set('token', validToken);
+
+      response = await GET({
+        nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+      } as NextRequest);
     });
 
     it('Responds with status-code 301.', () => {
@@ -50,9 +58,17 @@ describe('Testing requests with valid token.', () => {
 
   describe('The user is already activated.', () => {
     beforeAll(async () => {
-      const dbSelectMock = jest.spyOn(DatabaseTable.prototype, 'select');
-      dbSelectMock.mockResolvedValueOnce([{ status: 'active' }]);
-      response = await GET({} as any, { params: { token: validToken } } as any);
+      //const dbSelectMock = jest.spyOn(db, 'select');
+      db.select.mockResolvedValueOnce([{ status: 'active' }]);
+
+      const params = new URLSearchParams();
+      params.set('token', validToken);
+
+      const req = {
+        nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+      } as NextRequest;
+
+      response = await GET(req);
     });
 
     it('Responds with code 409.', () => {
@@ -62,9 +78,16 @@ describe('Testing requests with valid token.', () => {
 
   describe('A user with the email in the token does not exist.', () => {
     beforeAll(async () => {
-      const dbSelectMock = jest.spyOn(DatabaseTable.prototype, 'select');
-      dbSelectMock.mockResolvedValueOnce([]);
-      response = await GET({} as any, { params: { token: validToken } } as any);
+      //const dbSelectMock = jest.spyOn(db, 'select');
+      db.select.mockResolvedValueOnce([]);
+      const params = new URLSearchParams();
+      params.set('token', validToken);
+
+      const req = {
+        nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+      } as NextRequest;
+
+      response = await GET(req);
     });
 
     it('Responds with status code 500.', () => {
@@ -79,7 +102,14 @@ describe('Testing requests with a correctly signed token, but it has been tamper
   var response = null;
 
   beforeAll(async () => {
-    response = await GET({} as any, { params: { token: tamperedToken } });
+    const params = new URLSearchParams();
+    params.set('token', tamperedToken);
+
+    const req = {
+      nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+    } as NextRequest;
+
+    response = await GET(req);
   });
 
   it('Responds with code 409.', () => {
@@ -92,7 +122,14 @@ describe('Testing requests with invalid token.', () => {
   var response = null;
 
   beforeAll(async () => {
-    response = await GET({} as any, { params: { token: invalidToken } });
+    const params = new URLSearchParams();
+    params.set('token', invalidToken);
+
+    const req = {
+      nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+    } as NextRequest;
+
+    response = await GET(req);
   });
 
   it('Responds with status 403.', () => {
@@ -102,7 +139,13 @@ describe('Testing requests with invalid token.', () => {
 
 describe('Testing requests with no token present.', () => {
   it('Responds with status 400.', async () => {
-    const response = await GET({} as any, { params: { token: null } } as any);
+    const params = new URLSearchParams();
+
+    const req = {
+      nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+    } as NextRequest;
+
+    const response = await GET(req);
     expect(response.status).toBe(400);
   });
 });

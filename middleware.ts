@@ -27,5 +27,5 @@ async function middleware(req: NextRequestWithAuth) {
 export default withAuth(middleware);
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/:path*'],
+  matcher: ['/dashboard/:path*', '/api/protected/:path*'],
 };

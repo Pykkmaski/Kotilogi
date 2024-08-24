@@ -1,27 +1,25 @@
 'use client';
 
-import { ACreateUtilityData } from '@/actions/utilityData';
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { BatchUploadForm } from '@/components/New/Forms/BatchUploadForm';
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';
-import { useInputData } from '@/hooks/useInputData';
-import { Add, Close } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import Button from '@mui/material/Button';
 import axios from 'axios';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import { createContext, useContext, useRef } from 'react';
+import { createContext } from 'react';
+import toast from 'react-hot-toast';
 
 const UtilityBatchFormContext = createContext<{
-  utilityTypes: { id: string; name: string }[];
+  utilityTypes: { id: number; name: string }[];
 } | null>(null);
 
 type UtilityBatchFormProps = {
   propertyId: string;
-  utilityTypes: { id: string; name: string }[];
+  utilityTypes: { id: number; name: string }[];
 };
 
 export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormProps) {
@@ -37,9 +35,10 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
           );
         }}
         onSubmit={async entries => {
-          axios.post('/api/properties/utility', {
-            data: entries.map(entry => ({ ...entry, parentId: propertyId })),
-          });
+          return axios.post(
+            '/api/properties/utility',
+            entries.map(entry => ({ ...entry, parentId: propertyId }))
+          );
         }}
         title='Lisää Kulutustietoja'
         entryComponent={EntryComponent}>
@@ -104,21 +103,43 @@ function EntryComponent({
   entry: UtilityDataType;
   deleteEntry: (entry: TODO) => void;
 }) {
+  const { utilityTypes } = useUtilityBatchFormContext();
+
+  const Separator = () => <div className='bg-slate-200 w-[2px] h-[20px]' />;
+  const EntryContainer = ({ label, value }) => (
+    <div className='flex flex-col'>
+      <span className='text-sm text-slate-500'>{label}</span>
+      <span className='text-lg text-primary font-semibold'>{value}</span>
+    </div>
+  );
+
   return (
     <ContentBox>
-      <div className='w-full flex justify-end'>
+      <div className='flex w-full items-center justify-between'>
+        <div className='flex gap-8 items-center'>
+          <EntryContainer
+            label='Tiedon tyyppi'
+            value={utilityTypes.find(t => t.id == entry.typeId).name}></EntryContainer>
+          <Separator />
+          <EntryContainer
+            label='Hinta'
+            value={entry.monetaryAmount + '€'}
+          />
+          <Separator />
+          <EntryContainer
+            label='Yksikkömäärä'
+            value={entry.unitAmount}
+          />
+          <Separator />
+          <EntryContainer
+            label='Päiväys'
+            value={new Date(entry.time).toLocaleDateString('fi')}
+          />
+        </div>
         <IconButton onClick={() => deleteEntry(entry)}>
           <Close />
         </IconButton>
       </div>
-      <LabelGrid>
-        {Object.entries(entry).map(([key, value]) => (
-          <LabelGrid.Entry
-            label={key}
-            value={value}
-          />
-        ))}
-      </LabelGrid>
     </ContentBox>
   );
 }

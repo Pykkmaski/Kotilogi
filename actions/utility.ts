@@ -38,7 +38,9 @@ export async function AUpdateUtilityData(
   revalidatePath(path);
 }
 
-export async function ACreateUtilityData(data: Partial<UtilityDataType>) {
+export async function ACreateUtilityData(
+  data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'parentId'>>
+) {
   await createObject(data, async (obj, trx) => {
     const insertObj = filterValidColumns(data, await getTableColumns(table, trx));
 

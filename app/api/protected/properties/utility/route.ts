@@ -1,3 +1,4 @@
+import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import { deleteObject } from 'kotilogi-app/models/objectData';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import {
@@ -5,33 +6,49 @@ import {
   getUtilityData,
   updateUtilityData,
 } from 'kotilogi-app/models/utilityData';
+import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import { revalidatePath } from 'next/cache';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import z from 'zod';
 
 export async function GET(req: NextRequest) {
   try {
-    const queryParams = new URL(req.url).searchParams;
-    const data = await getUtilityData({ parentId: queryParams.get('parentId') });
-    return new NextResponse(JSON.stringify(data), { status: 200 });
+    const query = searchParamsToObject(req.nextUrl.searchParams);
+    const data = await getUtilityData(query);
+    return response('success', JSON.stringify(data));
   } catch (err: any) {
     console.log(err.message);
-    return new NextResponse(err.message, { status: 500 });
+    return response('serverError', null, err.message);
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { data } = (await req.json()) as {
-      data: (UtilityDataType & Required<Pick<UtilityDataType, 'parentId'>>)[];
-    };
+    const data = await req.json();
+
+    z.array(
+      z.object({
+        parentId: z.string(),
+        monetaryAmount: z.number(),
+        unitAmount: z.number(),
+        time: z.string(),
+      })
+    ).parse(data);
+
     const promises = data.map(d => createUtilityData(d));
-    await Promise.all(promises);
+
+    const uploadResults = await Promise.allSettled(promises);
+
     revalidatePath('/newDashboard/properties/[propertyId]/');
-    return new NextResponse(null, { status: 200 });
+
+    if (uploadResults.find(ur => ur.status === 'rejected')) {
+      return response('partial_success', null, 'Osaa tiedoista ei lisätty!');
+    } else {
+      return response('success', null, 'Tietojen lisäys onnistui!');
+    }
   } catch (err: any) {
     console.log(err.message);
-    return new NextResponse(err.message, { status: 500 });
+    return response('serverError', null, err.message);
   }
 }
 
@@ -42,10 +59,10 @@ export async function PATCH(req: NextRequest) {
     };
     await updateUtilityData(data);
     revalidatePath('/newDashboard/properties/[propertyId]/');
-    return new NextResponse(null, { status: 200 });
+    return response('success', null, 'Tiedon päivitys onnistui!');
   } catch (err: any) {
     console.log(err.message);
-    return new NextResponse(err.message, { status: 500 });
+    return response('serverError', null, err.message);
   }
 }
 
@@ -54,9 +71,9 @@ export async function DELETE(req: NextRequest) {
     const { id } = (await req.json()) as { id: string };
     await deleteObject(id);
     revalidatePath('/newDashboard/properties/[propertyId]/');
-    return new NextResponse(null, { status: 200 });
+    return response('success', null, 'Tiedon poisto onnistui!');
   } catch (err: any) {
     console.log(err.message);
-    return new NextResponse(err.message, { status: 500 });
+    return response('serverError', null, err.message);
   }
 }

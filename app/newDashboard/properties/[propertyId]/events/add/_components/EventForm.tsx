@@ -29,10 +29,16 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
       item={eventData}
       onSubmit={async (data, files) => {
         if (eventData) {
-          await AUpdatePropertyEvent(eventData.id, data);
+          return await axios.patch('/api/properties/events', {
+            data: {
+              id: eventData.id,
+              ...data,
+            },
+          });
         } else {
-          console.log(propertyId);
-          await ACreatePropertyEvent({ ...data, parentId: propertyId });
+          return await axios.post('/api/properties', {
+            data: { ...data, parentId: propertyId },
+          });
         }
       }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
