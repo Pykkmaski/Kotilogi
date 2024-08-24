@@ -5,20 +5,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { verifyAuthorization } from '../../_utils/verifyAuthorization';
 import { Files } from 'kotilogi-app/utils/files';
+import { response } from '../../_utils/responseUtils';
 
 /**
  * An api route to clean up any files that don't have a database entry.
  * @param req
  */
 export async function POST(req: NextRequest) {
-  try {
-    const authorized = verifyAuthorization(req);
-    if (!authorized) {
-      return new NextResponse('Request unauthorized!', {
-        status: 401,
-      });
-    }
+  const authorized = verifyAuthorization(req);
+  if (!authorized) {
+    return response('unauthorized', null, 'Luvaton pyyntö!');
+  }
 
+  try {
     let filesDeleted = 0;
     const dir = await opendir(uploadPath);
     for await (const entry of dir) {
@@ -33,13 +32,9 @@ export async function POST(req: NextRequest) {
         });
     }
 
-    return new NextResponse(`Unpaired files deleted: ${filesDeleted}`, {
-      status: 200,
-    });
+    return response('success', null, `Tiedostoja poistettu ${filesDeleted}`);
   } catch (err) {
     console.log(err.message);
-    return new NextResponse(null, {
-      status: 500,
-    });
+    response('serverError', null, err.message);
   }
 }

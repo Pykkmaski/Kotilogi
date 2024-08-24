@@ -1,31 +1,35 @@
-import { JWT } from 'next-auth/jwt';
+import { getToken, JWT } from 'next-auth/jwt';
 import { NextRequestWithAuth, withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-async function middleware(req: NextRequestWithAuth) {
-  const { token } = req.nextauth;
-  if (token) {
-    const url = new URL(req.url);
+export default async function middleware(req: NextRequestWithAuth) {
+  const pathname = req.nextUrl.pathname;
 
-    if (token.status === 'unconfirmed') {
-      const url = req.nextUrl.clone();
-      url.pathname = '/user/confirm_email';
-      return NextResponse.redirect(url);
+  if (pathname.startsWith('/api/admin')) {
+    const authorization = req.headers.get('Authorization');
+    const key = authorization && authorization.split(' ')[1];
+
+    if (key !== process.env.API_KEY) {
+      return new NextResponse(
+        'Tarvitset api-avaimen käyttääksesi /api/admin sijainnissa olevia reittejä.',
+        {
+          status: 401,
+          statusText: 'Kielletty.',
+        }
+      );
     }
-
-    if (url.pathname.startsWith('/dashboard')) {
-      const url = req.nextUrl.clone();
-
-      url.pathname = `/newDashboard`;
-      return NextResponse.redirect(url);
-    }
-  } else {
+  } else if (pathname.startsWith('/api/public')) {
     return NextResponse.next();
+  } else if (pathname.startsWith('/api') || pathname.startsWith('/newDashboard')) {
+    const token = await getToken({ req });
+    if (!token) {
+      return NextResponse.redirect(`${process.env.SERVICE_DOMAIN}/login`);
+    }
   }
+
+  return NextResponse.next();
 }
 
-export default withAuth(middleware);
-
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/protected/:path*'],
+  matcher: ['/newDashboard/:path*', '/api/protected/:path*', '/api/admin/:path*'],
 };

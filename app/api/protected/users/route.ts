@@ -1,9 +1,12 @@
 import db from 'kotilogi-app/dbconfig';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
 import { response } from '../../_utils/responseUtils';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
+export async function GET(req: NextRequest) {
+  return new NextResponse('Not implemented.', { status: 500 });
+}
 export async function PATCH(req: NextRequest) {
   try {
     const data = await req.json();

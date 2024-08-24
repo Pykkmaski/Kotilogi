@@ -4,13 +4,12 @@ import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
 import sharp from 'sharp';
 import { verifyAuthorization } from '../../_utils/verifyAuthorization';
+import { response } from '../../_utils/responseUtils';
 
 export async function POST(req: NextRequest) {
   const authorized = verifyAuthorization(req);
   if (!authorized) {
-    return new NextResponse('Request unauthorized!', {
-      status: 401,
-    });
+    return response('unauthorized', null, 'Luvaton pyyntö!');
   }
 
   const trx = await db.transaction();
@@ -44,14 +43,10 @@ export async function POST(req: NextRequest) {
     }
 
     await trx.commit();
-    return new NextResponse(null, {
-      status: 200,
-    });
+    return response('success', null);
   } catch (err: any) {
     await trx.rollback();
     console.log(err.message);
-    return new NextResponse(err.message, {
-      status: 500,
-    });
+    return response('serverError', null);
   }
 }

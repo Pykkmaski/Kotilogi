@@ -4,7 +4,6 @@ import z from 'zod';
 import bcrypt from 'bcrypt';
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
-import { sendEmail } from '@/actions/email/sendEmail';
 import { sendAccountActivationLink } from '@/actions/email';
 
 export async function POST(req: NextRequest) {
@@ -16,7 +15,7 @@ export async function POST(req: NextRequest) {
     }).parse(data);
 
     const { email, password } = data;
-    //Send an activation link.
+
     await sendAccountActivationLink(email);
 
     await db('data_users').insert({
@@ -28,6 +27,6 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     const msg = err.message;
     console.log(`/api/users/register POST: ${msg}`);
-    return response('serverError', null, msg);
+    return response('serverError', msg, 'Tapahtui odottamaton virhe!');
   }
 }
