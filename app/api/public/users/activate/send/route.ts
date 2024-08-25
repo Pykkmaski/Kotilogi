@@ -1,4 +1,4 @@
-import { sendAccountActivationLink } from '@/actions/email';
+import { sendAccountActivationLink } from 'kotilogi-app/app/api/_lib/sendAccountActivationLink';
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import { NextRequest } from 'next/server';
 

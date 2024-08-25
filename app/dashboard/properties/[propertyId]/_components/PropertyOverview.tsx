@@ -77,7 +77,10 @@ export async function PropertyOverview({
           </div>
         </div>
       }
-      imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'}
+      imageUrl={
+        (mainImageId && `/api/protected/files?id=${mainImageId}`) ||
+        '/img/Properties/default-bg.jpg'
+      }
       editUrl={editUrl}
       editContentText={editContentText}
       editIcon={editIcon}

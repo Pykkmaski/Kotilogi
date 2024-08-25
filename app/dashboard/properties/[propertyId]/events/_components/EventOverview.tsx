@@ -47,7 +47,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
           </LabelGrid>
         </div>
       }
-      imageUrl={(mainImageId && `/api/files/${mainImageId}`) || '/img/kitchen.jpg'}
+      imageUrl={(mainImageId && `/api/protected/files?id=${mainImageId}`) || '/img/kitchen.jpg'}
       editUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/edit`}
       showUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}`}
       editContentText='Muokkaa'

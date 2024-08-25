@@ -4,9 +4,8 @@ import { handleServerError, response } from 'kotilogi-app/app/api/_utils/respons
 import db from 'kotilogi-app/dbconfig';
 import axios from 'axios';
 import { z } from 'zod';
-import { sendEmail } from '@/actions/email/sendEmail';
+import { sendEmail } from 'kotilogi-app/app/api/_lib/sendEmail';
 
-export async function GET(req: NextRequest) {}
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();

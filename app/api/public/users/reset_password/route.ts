@@ -4,8 +4,7 @@ import db from 'kotilogi-app/dbconfig';
 import bcrypt from 'bcrypt';
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import z from 'zod';
-import { sendEmail } from '@/actions/email/sendEmail';
-import { useServerInsertedHTML } from 'next/navigation';
+import { sendEmail } from 'kotilogi-app/app/api/_lib/sendEmail';
 require('dotenv').config();
 
 /**Generates a reset-token.*/

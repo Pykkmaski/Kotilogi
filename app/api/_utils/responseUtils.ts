@@ -7,7 +7,8 @@ type ResponseType =
   | 'unauthorized'
   | 'conflict'
   | 'partial_success'
-  | 'not_found';
+  | 'not_found'
+  | 'bad_request';
 
 const defaultMessages: Record<ResponseType, string> = {
   serverError: 'Palvelinvirhe.',
@@ -17,6 +18,7 @@ const defaultMessages: Record<ResponseType, string> = {
   conflict: 'Ristiriita.',
   partial_success: '',
   not_found: 'Ei löytynyt.',
+  bad_request: 'Virheellinen pyyntö.',
 };
 
 const statusCode = {
@@ -27,6 +29,7 @@ const statusCode = {
   conflict: 409,
   partial_success: 206,
   not_found: 404,
+  bad_request: 400,
 };
 
 export const response = (type: ResponseType, body: BodyInit | null, statusText?: string) => {
@@ -42,5 +45,5 @@ export const response = (type: ResponseType, body: BodyInit | null, statusText?:
 export const handleServerError = (req: NextRequest, err: any) => {
   const msg = err.message;
   console.log(`${req.nextUrl.pathname} ${req.method}: ${msg}`);
-  return response('serverError', msg, msg);
+  return response('serverError', msg, 'Palvelinvirhe.');
 };

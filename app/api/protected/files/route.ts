@@ -1,10 +1,12 @@
 import db from 'kotilogi-app/dbconfig';
-import { readFile } from 'fs/promises';
+import { readFile, unlink } from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
-import { response } from '../../_utils/responseUtils';
+import { handleServerError, response } from '../../_utils/responseUtils';
 import { deleteObject } from 'kotilogi-app/models/objectData';
-import axios from 'axios';
+
+import { uploadFiles } from 'kotilogi-app/models/files';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,33 +16,47 @@ export async function GET(req: NextRequest) {
       return response('not_found', `Tiedostoa tunnukella ${fileId} ei löytynyt!`);
     } else {
       const fileBuffer = await readFile(uploadPath + filename);
-      return new NextResponse(fileBuffer, { status: 200 });
+      return response('success', fileBuffer);
     }
   } catch (err) {
-    const msg = err.message;
-    console.log(`/api/protected/files GET: ${msg}`);
-    return response('serverError', null, msg);
+    return handleServerError(req, err);
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.formData();
+    const file = data.get('file') as unknown as File;
+    const parentId = data.get('parentId') as string;
+
+    if (!parentId) {
+      return response('bad_request', null, 'Pynnöstä puuttuu tiedostojen omistaja!');
+    }
+
+    if (!file) {
+      return response('bad_request', null, 'Pyynnöstä puuttuu tiedostot!');
+    }
+
+    await uploadFiles([file], parentId);
+    revalidatePath('/dashboard');
+    return response('success', null, 'Tiedostot lisätty onnistuneesti!');
+  } catch (err) {
+    return handleServerError(req, err);
   }
 }
 
 export async function DELETE(req: NextRequest) {
   try {
     const fileId = req.nextUrl.searchParams.get('id');
-    await deleteObject(fileId);
-    await axios.get('/api/public/clear_unpaired_files', {
-      headers: {
-        Authorization: `Bearer ${process.env.API_KEY}`,
-      },
+    const [filename] = await db('data_files').where({ id: fileId }).pluck('name');
+
+    await deleteObject(fileId, async trx => {
+      await unlink(uploadPath + filename);
     });
 
-    return new NextResponse(null, {
-      status: 200,
-    });
+    revalidatePath('/dashboard');
+    return response('success', null, 'Tiedosto poistettu!');
   } catch (err) {
-    console.log(err.message);
-    return new NextResponse(err, {
-      status: 500,
-      statusText: 'File deletion failed due to a server error.',
-    });
+    return handleServerError(req, err);
   }
 }

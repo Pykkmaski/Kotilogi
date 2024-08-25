@@ -3,12 +3,11 @@
  */
 import { GET } from '../route';
 import jwt from 'jsonwebtoken';
-import { DatabaseTable } from '@/utils/databaseTable';
 import { NextRequest, NextResponse } from 'next/server';
 import { NextURL } from 'next/dist/server/web/next-url';
 import db from 'kotilogi-app/dbconfig';
 
-jest.mock('@/dbconfig.js');
+jest.mock('@/dbconfig');
 
 const testUser = {
   email: 'test',

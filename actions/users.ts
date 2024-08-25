@@ -1,6 +1,6 @@
 'use server';
 
-import { sendAccountActivationLink, sendEmailResetLink } from './email';
+import { sendAccountActivationLink, sendEmailResetLink } from '../app/api/_lib/email';
 import db from 'kotilogi-app/dbconfig';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import bcrypt from 'bcrypt';

@@ -37,7 +37,7 @@ export function useResetStepTwo() {
     } else {
       await axios
         .post(
-          '/api/public/users/reset/password?redirectUrl=login',
+          '/api/public/users/reset_password?redirectUrl=login',
           { password: password1 },
           {
             headers: {

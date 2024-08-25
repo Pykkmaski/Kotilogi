@@ -6,11 +6,6 @@ import { response } from '../../../_utils/responseUtils';
 
 /**Clears all users that have not activated their account within 6 months. */
 export async function POST(req: NextRequest) {
-  const authorized = verifyAuthorization(req);
-  if (!authorized) {
-    return response('unauthorized', null, 'Luvaton pyyntö!');
-  }
-
   const trx = await db.transaction();
   try {
     const stream = trx('data_users').stream();

@@ -31,7 +31,7 @@ async function main() {
           throw new Error('Please define both the id of the image and rotation amount!');
 
         await axios
-          .post(`${domain}/api/admin/rotate_image`, {
+          .post(`${domain}/api/admin/files/rotate_image`, {
             fileId: arg,
             amount: arg1,
           })
@@ -44,31 +44,16 @@ async function main() {
     case 'update_file_sizes':
       {
         await axios
-          .post(`${domain}/api/admin/update_file_sizes`)
+          .post(`${domain}/api/admin/files/update_file_sizes`)
           .then(res => console.log(res.data))
           .catch(err => console.log(err.message));
-      }
-      break;
-
-    case 'update_bills':
-      {
-        if (arg === 'property') {
-          await axios
-            .post(`${domain}/api/admin/properties/update_bills`)
-            .then(res => {
-              console.log(res.data);
-            })
-            .catch(err => console.log(err.message));
-        } else {
-          console.log('Unsupported arg: ' + arg);
-        }
       }
       break;
 
     case 'clear_unpaired_files':
       {
         await axios
-          .post(`${domain}/api/admin/clear_unpaired_files`)
+          .post(`${domain}/api/admin/files/clear_unpaired`)
           .then(res => console.log(res.data))
           .catch(err => console.log(err.message));
       }

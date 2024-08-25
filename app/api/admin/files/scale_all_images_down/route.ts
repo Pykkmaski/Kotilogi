@@ -3,15 +3,10 @@ import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
 import sharp from 'sharp';
-import { verifyAuthorization } from '../../_utils/verifyAuthorization';
-import { response } from '../../_utils/responseUtils';
+import { verifyAuthorization } from '../../../_utils/verifyAuthorization';
+import { response } from '../../../_utils/responseUtils';
 
 export async function POST(req: NextRequest) {
-  const authorized = verifyAuthorization(req);
-  if (!authorized) {
-    return response('unauthorized', null, 'Luvaton pyyntö!');
-  }
-
   const trx = await db.transaction();
 
   try {

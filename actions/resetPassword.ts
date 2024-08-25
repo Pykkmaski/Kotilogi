@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import db from 'kotilogi-app/dbconfig';
 import jwt from 'jsonwebtoken';
 import domainName from 'kotilogi-app/domain.config';
-import { sendHTMLEmail } from './email/sendHTMLEmail';
+import { sendHTMLEmail } from '../app/api/_lib/sendHTMLEmail';
 import { ErrorCode, serviceName } from 'kotilogi-app/constants';
 
 /**

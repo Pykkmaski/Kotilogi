@@ -16,7 +16,7 @@ export function useResetStepOne() {
 
     const email = data.email;
     axios
-      .get(`/api/public/users/reset/password?email=${email}`)
+      .get(`/api/public/users/reset_password?email=${email}`)
       .then(res => {
         if (res.status == 200) {
           toast.success(res.data);

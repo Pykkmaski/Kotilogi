@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { sendContactMessage } from 'kotilogi-app/actions/email/sendContactMessage';
+import { sendContactMessage } from 'kotilogi-app/app/api/_lib/sendContactMessage';
 import toast from 'react-hot-toast';
 import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { ErrorText } from '@/components/UI/Text';
@@ -9,6 +9,7 @@ import Spinner from '@/components/UI/Spinner';
 import Button from '@/components/UI/Button/Button';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { Textarea } from '@/components/Feature/Input';
+import axios from 'axios';
 
 function ContactForm(props) {
   const [loading, setLoading] = useState(false);
@@ -27,13 +28,15 @@ function ContactForm(props) {
       email: e.target.email.value,
     };
 
-    sendContactMessage(messageData)
-      .then(() => {
-        if (formRef.current) {
-          formRef.current.reset();
+    axios
+      .post('/api/public/contact', messageData)
+      .then(res => {
+        if (res.status == 200) {
+          formRef.current?.reset();
+          toast.success(res.statusText);
+        } else {
+          toast.error(res.statusText);
         }
-
-        setError(0);
       })
       .catch(err => toast.error(err.message))
       .finally(() => setLoading(false));

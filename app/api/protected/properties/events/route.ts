@@ -37,13 +37,9 @@ export async function POST(req: NextRequest) {
     }).parse(data);
 
     await createPropertyEvent(data, async (id, trx) => {
-      //Upload any files here
-      if (fdata) {
-        fdata.forEach(fd => {
-          const f = fd.get('file');
-          console.log(f.name);
-        });
-        throw new Error('File uploading not implemented!');
+      const files = fdata.get('files') as unknown as File[];
+      if (files) {
+        //Upload the files.
       }
     });
 

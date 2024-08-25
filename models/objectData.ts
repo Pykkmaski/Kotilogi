@@ -50,6 +50,18 @@ export async function updateObject<T extends ObjectDataType>(
   }
 }
 
-export async function deleteObject(id: string) {
-  return db('data_objects').where({ id }).del();
+export async function deleteObject(
+  id: string,
+  callback?: (trx: Knex.Transaction) => Promise<void>
+) {
+  const trx = await db.transaction();
+  try {
+    await trx('data_objects').where({ id }).del();
+    callback && (await callback(trx));
+    await trx.commit();
+  } catch (err) {
+    console.log(err.message);
+    await trx.rollback();
+    throw err;
+  }
 }

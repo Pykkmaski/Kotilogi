@@ -4,11 +4,11 @@
 import db from '@/dbconfig';
 import { NextRequest, NextResponse } from 'next/server';
 import { POST } from '../route';
-import { sendAccountActivationLink } from '@/actions/email';
+import { sendAccountActivationLink } from '@/app/api/_lib/sendAccountActivationLink';
 import bcrypt from 'bcrypt';
 
 jest.mock('@/dbconfig');
-jest.mock('@/actions/email');
+jest.mock('@/app/api/_lib/sendAccountActivationLink');
 jest.mock('bcrypt', () => ({
   hash: jest.fn(pass => 'hashed_pass'),
 }));

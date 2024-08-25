@@ -4,7 +4,7 @@ import z from 'zod';
 import bcrypt from 'bcrypt';
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
-import { sendAccountActivationLink } from '@/actions/email';
+import { sendAccountActivationLink } from '@/app/api/_lib/sendAccountActivationLink';
 
 export async function POST(req: NextRequest) {
   try {

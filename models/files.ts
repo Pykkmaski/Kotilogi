@@ -6,11 +6,10 @@ import { createObject } from './objectData';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';
 
-export async function uploadFiles(files: FormData[], parentId: string) {
+export async function uploadFiles(files: File[], parentId: string) {
   const uploadedFiles = [];
   try {
-    for (const fd of files) {
-      const file = fd.get('file') as unknown as File;
+    for (const file of files) {
       const filename = Date.now() + fileNameTimestampSeparator + file.name;
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);

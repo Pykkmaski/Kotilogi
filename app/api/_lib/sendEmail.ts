@@ -1,5 +1,3 @@
-'use server';
-
 import { transportOptions } from 'kotilogi-app/nodemailer.config';
 import nodemailer from 'nodemailer';
 

@@ -3,7 +3,7 @@ import { Files } from './files';
 import bcrypt from 'bcrypt';
 import { DatabaseTable } from './databaseTable';
 import { RegisterStatusType } from 'kotilogi-app/app/(blackHeader)/register/useRegister';
-import { sendAccountActivationLink } from 'kotilogi-app/actions/email';
+import { sendAccountActivationLink } from 'kotilogi-app/app/api/_lib/email';
 
 class Users {
   async verifyCredentials(email: string, password: string) {

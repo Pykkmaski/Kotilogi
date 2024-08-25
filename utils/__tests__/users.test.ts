@@ -1,5 +1,5 @@
 import { users } from '@/utils/users';
-import { sendAccountActivationLink } from '@/actions/email';
+import { sendAccountActivationLink } from 'kotilogi-app/app/api/_lib/email';
 import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
 import bcrypt from 'bcrypt';
 

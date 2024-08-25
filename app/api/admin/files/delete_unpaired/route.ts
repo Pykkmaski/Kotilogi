@@ -3,15 +3,15 @@ import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { verifyAuthorization } from '../../_utils/verifyAuthorization';
+import { verifyAuthorization } from '../../../_utils/verifyAuthorization';
 import { Files } from 'kotilogi-app/utils/files';
-import { response } from '../../_utils/responseUtils';
+import { response } from '../../../_utils/responseUtils';
 
 /**
  * An api route to clean up any files that don't have a database entry.
  * @param req
  */
-export async function POST(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   try {
     let filesDeleted = 0;
     const dir = await opendir(uploadPath);

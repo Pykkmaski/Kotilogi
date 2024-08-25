@@ -9,6 +9,7 @@ import { Menu } from './Menu';
 import { CardMenuButton } from './CardMenuButton';
 import { useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
+import axios from 'axios';
 
 type FileCardProps = {
   file: FileDataType;
@@ -16,7 +17,7 @@ type FileCardProps = {
 };
 
 export function FileCard({ file, isMain }: FileCardProps) {
-  const src = `/api/files/${file.id}`;
+  const src = `/api/protected/files?id=${file.id}`;
   const [status, setStatus] = useState(0);
 
   const deleteFile = async () => {
@@ -25,13 +26,12 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
     setStatus(FormStatus.LOADING);
     const loadingToast = toast.loading('Poistetaan tiedostoa...');
-    await ADeleteFile(file.id).then(res => {
-      switch (res) {
-        case 0:
-          toast.success('Tiedoston poisto onnistui!');
-          break;
-        default:
-          toast.error('Tiedoston poisto epäonnistui!');
+
+    await axios.delete(`/api/protected/files?id=${file.id}`).then(res => {
+      if (res.status == 200) {
+        toast.success(res.statusText);
+      } else {
+        toast.error(res.statusText);
       }
     });
 
@@ -45,16 +45,21 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
     setStatus(FormStatus.LOADING);
     const loadingToast = toast.loading('Päivitetään pääkuvaa...');
-    await ASetMainImage(file.parentId, file.id).then(res => {
-      switch (res) {
-        case 0:
-          toast.success('Pääkuvan vaihto onnistui!');
-          break;
 
-        default:
-          toast.error('Pääkuvan vaihto epäonnistui!');
-      }
-    });
+    await axios
+      .post('/api/protected/files/set_main_image', {
+        objectId: file.parentId,
+        imageId: file.id,
+      })
+      .then(res => {
+        if (res.status == 200) {
+          toast.success(res.statusText);
+        } else {
+          toast.error(res.statusText);
+        }
+      })
+      .catch(err => toast.error(err.message));
+
     toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);
   };

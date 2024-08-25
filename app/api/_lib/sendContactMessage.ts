@@ -1,5 +1,3 @@
-'use server';
-
 import { serviceName } from 'kotilogi-app/constants';
 import { sendHTMLEmail } from './sendHTMLEmail';
 

@@ -1,5 +1,3 @@
-'use server';
-
 import { transportOptions } from 'kotilogi-app/nodemailer.config';
 import nodemailer from 'nodemailer';
 
@@ -12,7 +10,12 @@ import nodemailer from 'nodemailer';
  * @returns {Promise<Kotidok.Error>} A promise resolving to a custom Error-object containing a message and an error code.
  */
 
-export async function sendHTMLEmail(subject: string, from: string, to: string | string[], content: string) {
+export async function sendHTMLEmail(
+  subject: string,
+  from: string,
+  to: string | string[],
+  content: string
+) {
   return new Promise<void>((resolve, reject) => {
     const transport = nodemailer.createTransport(transportOptions);
 
