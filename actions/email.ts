@@ -1,10 +1,12 @@
 'use server';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from './email/sendEmail';
+import db from 'kotilogi-app/dbconfig';
 
 /**Sends an activation link to the specified email address. */
 export async function sendAccountActivationLink(email: string) {
-  const activationToken = jwt.sign(email, process.env.ACTIVATION_SECRET);
+  const [id] = await db('data_users').where({ email }).pluck('id');
+  const activationToken = jwt.sign(id, process.env.ACTIVATION_SECRET);
   const activationLink = `${process.env.SERVICE_DOMAIN}/api/public/users/activate?token=${activationToken}`;
   await sendEmail('Tilin aktivointilinkki', 'Kotidok', email, activationLink);
 }

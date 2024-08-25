@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { sendResetCode } from 'kotilogi-app/actions/resetPassword';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { useState } from 'react';
@@ -9,22 +10,25 @@ export function useResetStepOne() {
   const [status, setStatus] = useState<ResetStepOneStatus>('idle');
   const { data, updateData } = useInputData({});
 
-  const resetStepOneHandler = e => {
+  const resetStepOneHandler = async e => {
     e.preventDefault();
     setStatus('loading');
 
     const email = data.email;
-
-    sendResetCode(email)
-      .then(result => {
-        setStatus(result as ResetStepOneStatus);
-
-        if (result === 'success') {
-          toast.success('Varmennuskoodi lähetetty onnistuneesti!');
+    axios
+      .get(`/api/public/users/reset/password?email=${email}`)
+      .then(res => {
+        if (res.status == 200) {
+          toast.success(res.data);
+          setStatus('success');
+        } else {
+          toast.error(res.statusText);
+          setStatus('idle');
         }
       })
       .catch(err => {
-        setStatus(err.message);
+        toast.error(err.message);
+        setStatus('idle');
       });
   };
 

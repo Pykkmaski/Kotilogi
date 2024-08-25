@@ -5,36 +5,56 @@ import bcrypt from 'bcrypt';
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import z from 'zod';
 import { sendEmail } from '@/actions/email/sendEmail';
+import { useServerInsertedHTML } from 'next/navigation';
+require('dotenv').config();
 
+/**Generates a reset-token.*/
 export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get('email');
     const [userId] = await db('data_users').where({ email }).pluck('id');
-    const token = jwt.sign(userId, process.env.PASSWORD_RESET_SECRET, {
-      expiresIn: '12h',
+
+    const token = jwt.sign({ id: userId }, process.env.PASSWORD_RESET_SECRET, {
+      expiresIn: 30 * 60,
     });
 
-    const resetLink = `${process.env.SERVICE_DOMAIN}/reset/password?token=${token}`;
+    const resetLink = `${process.env.SERVICE_DOMAIN}/login/reset?token=${token}`;
     await sendEmail('Sähköpostiosoitteen vaihto', 'Kotidok', email, resetLink);
-    return response('success', null, 'Salasanan nollauslinkki lähetetty!');
+    return response(
+      'success',
+      'Salasanan nollauslinkki lähetetty!',
+      'Salasanan nollauslinkki lähetetty!'
+    );
   } catch (err) {
-    return handleServerError(err, '/api/public/users/reset/password', 'GET');
+    return handleServerError(req, err);
   }
 }
 
+/**Route called when the user confirms their new password. */
 export async function POST(req: NextRequest) {
   try {
+    //Get the authorization token encoding the user's id.
+
+    const auth = req.headers.get('Authorization');
+    const token = auth && auth.split(' ')[1];
+
+    if (!token) {
+      return response('unauthorized', null, 'Varmenne vaaditaan!');
+    }
+
     const data = await req.json();
     z.object({
-      token: z.string(),
       password: z.string(),
     }).parse(data);
 
-    const { token, password } = data;
+    const { password } = data;
 
-    const decoded = jwt.verify(token, process.env.PASSWORD_RESET_SECRET) as JwtPayload;
-    if (!decoded) {
-      return response('unauthorized', 'Varmenne on virheellinen!');
+    let decoded: JwtPayload;
+    try {
+      decoded = jwt.verify(token, process.env.PASSWORD_RESET_SECRET) as JwtPayload;
+    } catch (err) {
+      console.log('Invalid token');
+      return response('unauthorized', null, 'Varmenne on virheellinen!');
     }
 
     await db('data_users')
@@ -43,9 +63,8 @@ export async function POST(req: NextRequest) {
         password: await bcrypt.hash(password, 15),
       });
 
-    const returnUrl = req.nextUrl.searchParams.get('returnUrl');
-    return NextResponse.redirect(returnUrl || '/login');
+    return response('success', 'Salasanan vaihto onnistui!');
   } catch (err) {
-    return handleServerError(err, '/api/public/users/reset/password', 'POST');
+    return handleServerError(req, err);
   }
 }

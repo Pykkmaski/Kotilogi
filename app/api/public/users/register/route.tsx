@@ -2,7 +2,7 @@ import axios from 'axios';
 import { NextRequest } from 'next/server';
 import z from 'zod';
 import bcrypt from 'bcrypt';
-import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
 import { sendAccountActivationLink } from '@/actions/email';
 
@@ -25,8 +25,6 @@ export async function POST(req: NextRequest) {
 
     return response('success', null, 'Käyttäjä luotu onnistuneesti!');
   } catch (err) {
-    const msg = err.message;
-    console.log(`/api/users/register POST: ${msg}`);
-    return response('serverError', msg, 'Tapahtui odottamaton virhe!');
+    return handleServerError(req, err);
   }
 }

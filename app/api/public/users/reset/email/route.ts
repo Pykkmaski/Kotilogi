@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
 import axios from 'axios';
 import { z } from 'zod';
@@ -29,8 +29,6 @@ export async function POST(req: NextRequest) {
     const redirectUrl = req.nextUrl.searchParams.get('redirectUrl');
     return NextResponse.redirect(redirectUrl || '/');
   } catch (err: any) {
-    const msg = err.message;
-    console.log(`/api/protected/users/reset_email GET: ${msg}`);
-    return response('serverError', null, msg);
+    return handleServerError(req, err);
   }
 }

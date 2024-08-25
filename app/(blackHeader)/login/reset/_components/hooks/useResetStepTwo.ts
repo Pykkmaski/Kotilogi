@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
+import axios from 'axios';
 
 type ResetStepTwoStatus =
   | 'idle'
@@ -26,26 +27,35 @@ export function useResetStepTwo() {
     const password1: string = data.password1;
     const password2: string = data.password2;
 
-    const verificationCode = params.get('token');
+    const token = params.get('token');
 
-    if (!verificationCode) {
+    if (!token) {
       toast.error('Salasanan nollaustodennus puuttuu!');
       setStatus('idle');
     } else if (password1 !== password2) {
       setStatus('password_mismatch');
     } else {
-      resetPassword(verificationCode, password1)
-        .then(result => {
-          setStatus(result as ResetStepTwoStatus);
-
-          if (result === 'success') {
-            toast.success('Salasana vaihdettu onnistuneesti!');
-            router.push('/login');
+      await axios
+        .post(
+          '/api/public/users/reset/password?redirectUrl=login',
+          { password: password1 },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(res => {
+          if (res.status == 200) {
+            toast.success('Salasanan vaihto onnistui!');
+            router.replace('/login');
+          } else {
+            toast.error(res.statusText);
           }
         })
-        .catch(err => {
-          toast.error(err.message);
-          setStatus('unexpected');
+        .catch(err => toast.error(err.message))
+        .finally(() => {
+          setStatus('idle');
         });
     }
   };

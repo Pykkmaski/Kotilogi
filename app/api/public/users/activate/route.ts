@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import db from 'kotilogi-app/dbconfig';
-import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 
+/**Route accessed via the link sent to a users email. */
 export async function GET(req: NextRequest) {
   try {
     const token = req.nextUrl.searchParams.get('token');
@@ -33,7 +34,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.redirect(process.env.SERVICE_DOMAIN + '/activated');
   } catch (err) {
-    console.log(err.message);
-    return response('serverError', null, err.message);
+    return handleServerError(req, err);
   }
 }

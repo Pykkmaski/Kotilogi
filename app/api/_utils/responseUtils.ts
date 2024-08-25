@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 type ResponseType =
   | 'serverError'
@@ -39,12 +39,8 @@ export const response = (type: ResponseType, body: BodyInit | null, statusText?:
   });
 };
 
-export const handleServerError = (
-  err: any,
-  route: string,
-  method: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE'
-) => {
+export const handleServerError = (req: NextRequest, err: any) => {
   const msg = err.message;
-  console.log(`${route} ${method}: ${msg}`);
+  console.log(`${req.nextUrl.pathname} ${req.method}: ${msg}`);
   return response('serverError', msg, msg);
 };

@@ -12,11 +12,6 @@ import { response } from '../../_utils/responseUtils';
  * @param req
  */
 export async function POST(req: NextRequest) {
-  const authorized = verifyAuthorization(req);
-  if (!authorized) {
-    return response('unauthorized', null, 'Luvaton pyyntö!');
-  }
-
   try {
     let filesDeleted = 0;
     const dir = await opendir(uploadPath);
@@ -32,7 +27,11 @@ export async function POST(req: NextRequest) {
         });
     }
 
-    return response('success', null, `Tiedostoja poistettu ${filesDeleted}`);
+    return response(
+      'success',
+      `Tiedostoja poistettu ${filesDeleted}`,
+      `Tiedostoja poistettu ${filesDeleted}`
+    );
   } catch (err) {
     console.log(err.message);
     response('serverError', null, err.message);
