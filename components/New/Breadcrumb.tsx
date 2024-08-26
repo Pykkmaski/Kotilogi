@@ -1,11 +1,11 @@
 'use client';
 
+import { isUUID } from 'kotilogi-app/utils/isUUID';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const tranlsatePathname = (href: string) => {
   const current = href.split('/').at(-1);
-  const previous = href.split('/').at(-2);
 
   switch (current) {
     case 'dashboard':
@@ -38,12 +38,18 @@ const tranlsatePathname = (href: string) => {
     case 'utility':
       return 'Kulutus';
 
-    default:
-      if ((previous && previous == 'properties') || previous == 'events' || previous == 'steps') {
-        return 'ID';
-      } else {
-        return current;
+    default: {
+      const previous = href.split('/').at(-2);
+      if (previous && isUUID(current)) {
+        switch (previous) {
+          case 'properties':
+            return 'Valittu Talo';
+          case 'events':
+            return 'Valittu Tapahtuma';
+        }
       }
+      return current;
+    }
   }
 };
 
