@@ -1,5 +1,5 @@
 import { AUploadFile } from '@/actions/files';
-import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
 import { createObject, deleteObject } from 'kotilogi-app/models/objectData';
 import {
@@ -65,20 +65,18 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json();
-
-    const [authorId] = await db('data_objects').where({ id }).pluck('authorId');
+    const eventId = req.nextUrl.searchParams.get('id');
+    const [authorId] = await db('data_objects').where({ id: eventId }).pluck('authorId');
     const session = await loadSession();
 
     if (session.user.id !== authorId) {
       return response('forbidden', null, 'Vain tapahtuman laatija voi poistaa sen!');
     }
 
-    await deleteObject(id);
-    revalidatePath('/dashboard/properties/[property_id]');
+    await deleteObject(eventId);
+    revalidatePath('/dashboard/properties/[property_id]/events');
     return response('success', null, 'Tapahtuman poisto onnistui!');
   } catch (err: any) {
-    console.log(err.message);
-    return response('serverError', null, err.message);
+    return handleServerError(req, err);
   }
 }

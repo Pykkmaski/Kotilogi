@@ -30,7 +30,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
 
   return (
     <OverviewBox
-      deleteUrl={`events/${event.id}/delete`}
+      deleteUrl={`${event.id}/delete`}
       title={event.title}
       description={
         <div className='flex flex-col gap-4 h-full'>
@@ -48,8 +48,8 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
         </div>
       }
       imageUrl={(mainImageId && `/api/protected/files?id=${mainImageId}`) || '/img/kitchen.jpg'}
-      editUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}/edit`}
-      showUrl={`/newDashboard/properties/${event.parentId}/events/${event.id}`}
+      editUrl={`/dashboard/properties/${event.parentId}/events/${event.id}/edit`}
+      showUrl={`/dashboard/properties/${event.parentId}/events/${event.id}`}
       editContentText='Muokkaa'
       editIcon={<Edit />}
     />

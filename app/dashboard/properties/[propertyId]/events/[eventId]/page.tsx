@@ -1,24 +1,10 @@
-import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
-import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
-import { ChipData } from '@/components/New/ChipData';
 import { Main } from '@/components/New/Main';
 import { FileOverview } from '@/components/New/Prefabs/FileOverview';
-import { Spacer } from '@/components/New/Spacers';
-import {
-  MainHeading,
-  SecondaryHeading,
-  TertiaryHeading,
-} from '@/components/New/Typography/Headings';
-import { Paragraph } from '@/components/New/Typography/Paragraph';
-import { Card } from '@/components/UI/Card';
-import { Dvr, Edit, Image, Pin, PushPin, Tag } from '@mui/icons-material';
-import { Chip } from '@mui/material';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
 import { EventDataType, EventStepDataType, FileDataType } from 'kotilogi-app/models/types';
 import { FileCard } from '@/components/New/FileCard';
-import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
-import { IconLink } from '@/components/New/Links/IconLink';
 import { getFiles } from 'kotilogi-app/models/fileData';
 
 export default async function EventPage({ params }) {
@@ -28,11 +14,6 @@ export default async function EventPage({ params }) {
   const [event] = (await db('data_propertyEvents')
     .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
     .where({ 'data_propertyEvents.id': eventId })) as [EventDataType];
-
-  const steps = (await db('data_objects')
-    .join('data_propertyEventSteps', { 'data_objects.id': 'data_propertyEventSteps.id' })
-    .where({ parentId: eventId })
-    .limit(4)) as EventStepDataType[];
 
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
@@ -57,7 +38,7 @@ export default async function EventPage({ params }) {
       <FileOverview
         files={files}
         addNewUrl={`/newDashboard/files/add?parentId=${eventId}`}
-        showAllUrl={`/newDashboard/properties/${params.propertyId}/events/${eventId}/files`}
+        showAllUrl={`/dashboard/properties/${params.propertyId}/events/${eventId}/files`}
         PreviewComponent={({ item }) => {
           return (
             <FileCard

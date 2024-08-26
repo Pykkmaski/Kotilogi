@@ -42,11 +42,7 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
                       href={`/newDashboard/properties/${propertyId}/events/${item.id}/edit`}>
                       Muokkaa
                     </Link>
-                    <Link
-                      title='Näytä vaiheet'
-                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/steps`}>
-                      Vaiheet
-                    </Link>
+
                     <Link
                       title='Näytä tiedostot'
                       href={`/newDashboard/properties/${propertyId}/events/${item.id}/files`}>
