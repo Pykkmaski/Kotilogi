@@ -3,12 +3,13 @@ import { deleteObject } from 'kotilogi-app/models/objectData';
 import { createProperty, getProperty, updateProperty } from 'kotilogi-app/models/propertyData';
 import { PropertyDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import { revalidatePath } from 'next/cache';
+
 import { NextRequest } from 'next/server';
 import bcrypt from 'bcrypt';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import z from 'zod';
 import { handleServerError, response } from '../../_utils/responseUtils';
+import { revalidatePath } from '../../_utils/revalidatePath';
 
 export async function GET(req: NextRequest) {
   try {
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     }).parse(data);
 
     await createProperty(data);
-    revalidatePath('/dashboard/properties');
+    await revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon lisäys onnistui!');
   } catch (err: any) {
     return handleServerError(req, err);
@@ -45,7 +46,7 @@ export async function PATCH(req: NextRequest) {
     const { id, ...data } = await req.json();
 
     await updateProperty(id, data);
-    revalidatePath('/dashboard/properties');
+    await revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon päivitys onnistui!');
   } catch (err: any) {
     return handleServerError(req, err);
@@ -80,7 +81,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     await deleteObject(propertyId);
-    revalidatePath('/dashboard/properties');
+    await revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon poisto onnistui!');
   } catch (err: any) {
     return handleServerError(req, err);

@@ -1,16 +1,17 @@
-import { AUploadFile } from '@/actions/files';
+'use server';
+
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import db from 'kotilogi-app/dbconfig';
-import { createObject, deleteObject } from 'kotilogi-app/models/objectData';
+import { deleteObject } from 'kotilogi-app/models/objectData';
 import {
   createPropertyEvent,
   getEvents,
   updatePropertyEvent,
 } from 'kotilogi-app/models/propertyEventData';
-import { EventDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
-import { revalidatePath } from 'next/cache';
+
 import { NextRequest } from 'next/server';
 import z from 'zod';
 
@@ -37,9 +38,18 @@ export async function POST(req: NextRequest) {
       title: z.string(),
     }).parse(data);
 
+    const propertyOwners = await db('data_propertyOwners')
+      .where({ propertyId: data.parentId })
+      .pluck('userId');
+
+    const session = await loadSession();
+    if (!propertyOwners.includes(session.user.id)) {
+      return response('forbidden', null, 'Vain talon omistaja voi lisätä sille tapahtumia!');
+    }
+
     await createPropertyEvent(data, async (id, trx) => {});
 
-    revalidatePath('/dashboard/properties/[propertyId]');
+    await revalidatePath('/dashboard/properties/[propertyId]');
     return response('success', null, 'Tapahtuman lisäys onnistui!');
   } catch (err: any) {
     console.log(err.message);
@@ -55,7 +65,7 @@ export async function PATCH(req: NextRequest) {
     }).parse(data);
 
     await updatePropertyEvent(data);
-    revalidatePath('/dashboard/properties/[propert_id]');
+    await revalidatePath('/dashboard/properties/[propertyId]');
     return response('success', null, 'Tapahtuman päivitys onnistui!');
   } catch (err: any) {
     console.log(err.message);
@@ -74,7 +84,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     await deleteObject(eventId);
-    revalidatePath('/dashboard/properties/[property_id]/events');
+    await revalidatePath('/dashboard/properties/[property_id]/events');
     return response('success', null, 'Tapahtuman poisto onnistui!');
   } catch (err: any) {
     return handleServerError(req, err);

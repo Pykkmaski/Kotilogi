@@ -1,4 +1,5 @@
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { deleteObject } from 'kotilogi-app/models/objectData';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import {
@@ -7,7 +8,7 @@ import {
   updateUtilityData,
 } from 'kotilogi-app/models/utilityData';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
-import { revalidatePath } from 'next/cache';
+
 import { NextRequest } from 'next/server';
 import z from 'zod';
 
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     const uploadResults = await Promise.allSettled(promises);
 
-    revalidatePath(revalidationPath);
+    await revalidatePath(revalidationPath);
 
     if (uploadResults.find(ur => ur.status === 'rejected')) {
       return response('partial_success', null, 'Osaa tiedoista ei lisätty!');
@@ -62,7 +63,7 @@ export async function PATCH(req: NextRequest) {
     }).parse(data);
 
     await updateUtilityData(data);
-    revalidatePath(revalidationPath);
+    await revalidatePath(revalidationPath);
     return response('success', null, 'Tiedon päivitys onnistui!');
   } catch (err: any) {
     console.log(err.message);
@@ -74,7 +75,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const { id } = (await req.json()) as { id: string };
     await deleteObject(id);
-    revalidatePath(revalidationPath);
+    await revalidatePath(revalidationPath);
     return response('success', null, 'Tiedon poisto onnistui!');
   } catch (err: any) {
     console.log(err.message);
