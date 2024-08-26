@@ -30,14 +30,13 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
       onSubmit={async (data, files) => {
         if (eventData) {
           return await axios.patch('/api/protected/properties/events', {
-            data: {
-              id: eventData.id,
-              ...data,
-            },
+            id: eventData.id,
+            ...data,
           });
         } else {
           return await axios.post('/api/protected/properties/events', {
-            data: { ...data, parentId: propertyId },
+            ...data,
+            parentId: propertyId,
           });
         }
       }}>

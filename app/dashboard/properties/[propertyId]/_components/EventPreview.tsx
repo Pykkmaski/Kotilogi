@@ -30,7 +30,9 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
             href={`${propertyId}/events/${item.id}`}
             title={item.title}
             description={item.description || 'Ei Kuvausta.'}
-            imageSrc={(mainImageId && `/api/files/${mainImageId}`) || '/img/kitchen.jpg'}
+            imageSrc={
+              (mainImageId && `/api/protected/files?id=${mainImageId}`) || '/img/kitchen.jpg'
+            }
             HeaderComponent={() => {
               return (
                 <>

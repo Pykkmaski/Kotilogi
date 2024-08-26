@@ -71,7 +71,7 @@ export async function updateProperty(
   id: string,
   data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) {
-  return updateObject(data, async trx => {
+  return updateObject({ id, ...data }, async trx => {
     const propertyUpdateObject = filterValidColumns(
       data,
       await getTableColumns('data_properties', trx)

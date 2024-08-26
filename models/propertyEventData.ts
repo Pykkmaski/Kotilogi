@@ -6,6 +6,7 @@ import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 
 export async function getEvents(queryObj: TODO, query?: string, limit: number = 10) {
+  console.log(queryObj);
   return db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .where(function () {

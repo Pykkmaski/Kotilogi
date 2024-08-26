@@ -58,6 +58,7 @@ export function BatchUploadForm<T>({
           .then(res => {
             if (res.status == 200) {
               toast.success(res.statusText);
+              router.back();
             } else {
               toast.error(res.statusText);
             }

@@ -8,7 +8,7 @@ const tranlsatePathname = (href: string) => {
   const previous = href.split('/').at(-2);
 
   switch (current) {
-    case 'newDashboard':
+    case 'dashboard':
       return 'Hallintapaneeli';
 
     case 'properties':

@@ -10,21 +10,8 @@ import { getEvents } from 'kotilogi-app/models/propertyEventData';
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
   const search = searchParams?.q;
-  const [events, [propertyTypeId]] = (await Promise.all([
-    getEvents({ parentId: propertyId, search }),
 
-    db('data_properties').where({ id: propertyId }).pluck('propertyTypeId'),
-  ])) as [EventDataType[], [number]];
-
-  const propertyTypes = await getRefTableContent('ref_propertyTypes');
-
-  const [propertyAddress] =
-    propertyTypeId == propertyTypes['Kiinteistö']
-      ? await db('data_properties').where({ id: propertyId }).select('streetAddress')
-      : await db('data_properties')
-          .join('data_appartments', { 'data_properties.id': 'data_appartments.id' })
-          .where({ id: propertyId })
-          .select('streetAddress', 'appartmentNumber');
+  const events = (await getEvents({ parentId: propertyId }, search, 10)) as EventDataType[];
 
   return (
     <Main>

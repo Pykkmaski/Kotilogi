@@ -22,13 +22,12 @@ type DeletePropertyFormProps = {
 export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
   return (
     <ObjectDeletionForm
-      returnUrl='/newDashboard/properties'
+      returnUrl='/dashboard'
       objectId={property.id}
       deleteMethod={async credentials =>
-        await axios.delete('/api/properties', {
-          data: {
-            id: property.id,
-            password: credentials.password,
+        await axios.delete(`/api/protected/properties?id=${property.id}`, {
+          headers: {
+            Authorization: `Password ${credentials.password}`,
           },
         })
       }>

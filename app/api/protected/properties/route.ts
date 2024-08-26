@@ -8,36 +8,35 @@ import { NextRequest } from 'next/server';
 import bcrypt from 'bcrypt';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import z from 'zod';
-import { response } from '../../_utils/responseUtils';
+import { handleServerError, response } from '../../_utils/responseUtils';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { q, ...query } = searchParamsToObject(new URL(req.url).searchParams);
 
     const property = await getProperty(query.id);
     return response('success', JSON.stringify(property));
   } catch (err) {
-    console.log(err.message);
-    return response('serverError', null, err.message);
+    return handleServerError(req, err);
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const data = (await req.json()) as PropertyDataType &
-      Required<Pick<PropertyDataType, 'parentId'>>;
+    const data = await req.json();
 
     z.object({
-      authorId: z.string(),
+      propertyTypeId: z.string(),
+      streetAddress: z.string(),
+      zipCode: z.string(),
+      buildingTypeId: z.string(),
     }).parse(data);
 
     await createProperty(data);
-    revalidatePath('/newDashboard/properties');
+    revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon lisäys onnistui!');
   } catch (err: any) {
-    const msg = err.message;
-    console.log(`/api/protected/properties POST: ${msg}`);
-    return response('serverError', null, msg);
+    return handleServerError(req, err);
   }
 }
 
@@ -46,18 +45,22 @@ export async function PATCH(req: NextRequest) {
     const { id, ...data } = await req.json();
 
     await updateProperty(id, data);
-    revalidatePath('/newDashboard');
+    revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon päivitys onnistui!');
   } catch (err: any) {
-    const msg = err.message;
-    console.log(`/api/protected/properties PATCH: ${msg}`);
-    return response('serverError', null, msg);
+    return handleServerError(req, err);
   }
 }
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { id: propertyId, password } = await req.json();
+    const authorization = req.headers.get('Authorization');
+    if (!authorization) {
+      throw new Error('Authorization header missing!');
+    }
+
+    const propertyId = req.nextUrl.searchParams.get('id');
+
     const session = await loadSession();
     const owners = await db('data_propertyOwners').where({ propertyId, userId: session.user.id });
 
@@ -68,6 +71,8 @@ export async function DELETE(req: NextRequest) {
     const [encryptedPassword] = await db('data_users')
       .where({ id: session.user.id })
       .pluck('password');
+
+    const password = authorization.split(' ')[1];
     const ok = await bcrypt.compare(password, encryptedPassword);
 
     if (!ok) {
@@ -75,11 +80,9 @@ export async function DELETE(req: NextRequest) {
     }
 
     await deleteObject(propertyId);
-    revalidatePath('/newDashboard');
+    revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon poisto onnistui!');
   } catch (err: any) {
-    const msg = err.message;
-    console.log(`/api/protected/properties DELETE: ${msg}`);
-    return response('serverError', null, msg);
+    return handleServerError(req, err);
   }
 }

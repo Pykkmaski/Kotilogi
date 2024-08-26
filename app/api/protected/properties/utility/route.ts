@@ -11,6 +11,8 @@ import { revalidatePath } from 'next/cache';
 import { NextRequest } from 'next/server';
 import z from 'zod';
 
+const revalidationPath = '/dashboard/properties/[propertyId]/';
+
 export async function GET(req: NextRequest) {
   try {
     const query = searchParamsToObject(req.nextUrl.searchParams);
@@ -39,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     const uploadResults = await Promise.allSettled(promises);
 
-    revalidatePath('/newDashboard/properties/[propertyId]/');
+    revalidatePath(revalidationPath);
 
     if (uploadResults.find(ur => ur.status === 'rejected')) {
       return response('partial_success', null, 'Osaa tiedoista ei lisätty!');
@@ -54,11 +56,13 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { data } = (await req.json()) as {
-      data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'id'>>;
-    };
+    const data = await req.json();
+    z.object({
+      id: z.string(),
+    }).parse(data);
+
     await updateUtilityData(data);
-    revalidatePath('/newDashboard/properties/[propertyId]/');
+    revalidatePath(revalidationPath);
     return response('success', null, 'Tiedon päivitys onnistui!');
   } catch (err: any) {
     console.log(err.message);
@@ -70,7 +74,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const { id } = (await req.json()) as { id: string };
     await deleteObject(id);
-    revalidatePath('/newDashboard/properties/[propertyId]/');
+    revalidatePath(revalidationPath);
     return response('success', null, 'Tiedon poisto onnistui!');
   } catch (err: any) {
     console.log(err.message);

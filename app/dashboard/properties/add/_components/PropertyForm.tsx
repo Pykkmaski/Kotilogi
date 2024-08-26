@@ -63,7 +63,7 @@ export function PropertyForm<T extends PropertyDataType>({
     await axios
       .patch('/api/protected/properties', {
         id: property.id,
-        data,
+        ...data,
       })
       .then(res => {
         if (res.status == 200) {
@@ -80,9 +80,17 @@ export function PropertyForm<T extends PropertyDataType>({
     if (property) {
       await runUpdate();
     } else {
-      await axios.post('/api/protected/properties', {
-        data,
-      });
+      await axios
+        .post('/api/protected/properties', data)
+        .then(res => {
+          if (res.status == 200) {
+            toast.success(res.statusText);
+            router.back();
+          } else {
+            toast.error(res.statusText);
+          }
+        })
+        .catch(err => toast.error(err.message));
     }
     setStatus(FormStatus.IDLE);
   };
