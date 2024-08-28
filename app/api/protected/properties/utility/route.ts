@@ -1,5 +1,5 @@
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
-import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
+
 import { deleteObject } from 'kotilogi-app/models/objectData';
 import { UtilityDataType } from 'kotilogi-app/models/types';
 import {
@@ -8,11 +8,12 @@ import {
   updateUtilityData,
 } from 'kotilogi-app/models/utilityData';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
+import { revalidatePath } from 'next/cache';
 
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
-
-const revalidationPath = '/dashboard/properties/[propertyId]/';
+import { revalidatePath as serverRevalidate } from '@/app/api/_utils/revalidatePath';
+const revalidationPath = '/dashboard/properties/[propertyId]';
 
 export async function GET(req: NextRequest) {
   try {
@@ -39,19 +40,21 @@ export async function POST(req: NextRequest) {
     ).parse(data);
 
     const promises = data.map(d => createUtilityData(d));
-
     const uploadResults = await Promise.allSettled(promises);
 
-    await revalidatePath(revalidationPath);
-
-    if (uploadResults.find(ur => ur.status === 'rejected')) {
+    if (uploadResults.find(result => result.status === 'rejected')) {
       return response('partial_success', null, 'Osaa tiedoista ei lisätty!');
     } else {
-      return response('success', null, 'Tietojen lisäys onnistui!');
+      return new NextResponse(null, {
+        status: 200,
+        statusText: 'Tietojen lisäys onnistui!',
+      });
     }
   } catch (err: any) {
     console.log(err.message);
     return response('serverError', null, err.message);
+  } finally {
+    revalidatePath('/dashboard/properties/');
   }
 }
 
@@ -63,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     }).parse(data);
 
     await updateUtilityData(data);
-    await revalidatePath(revalidationPath);
+    revalidatePath(revalidationPath, 'page');
     return response('success', null, 'Tiedon päivitys onnistui!');
   } catch (err: any) {
     console.log(err.message);
@@ -75,7 +78,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const { id } = (await req.json()) as { id: string };
     await deleteObject(id);
-    await revalidatePath(revalidationPath);
+    revalidatePath(revalidationPath, 'page');
     return response('success', null, 'Tiedon poisto onnistui!');
   } catch (err: any) {
     console.log(err.message);

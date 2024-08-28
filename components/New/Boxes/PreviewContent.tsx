@@ -1,13 +1,10 @@
-import { ObjectDataType } from 'kotilogi-app/models/types';
 import { ContentBox } from './ContentBox';
-import { EditLink } from '../Links/EditLink';
 import { SpaceBetween, Spacer } from '../Spacers';
 import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
 import { BoxHeader } from './BoxHeader';
 import Link from 'next/link';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Add, Visibility, Warning } from '@mui/icons-material';
-import { HideOnMobile } from '../Util/HideOnMobile';
 import { Paragraph } from '../Typography/Paragraph';
 
 type PreviewContentBaseProps = React.PropsWithChildren & {

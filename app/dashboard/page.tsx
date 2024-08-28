@@ -1,17 +1,12 @@
-import { PreviewContentRow, PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
-import { IconLink } from '@/components/New/Links/IconLink';
-import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
+import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Main } from '@/components/New/Main';
 import { Menu } from '@/components/New/Menu';
-import { Spacer } from '@/components/New/Spacers';
 import { Card } from '@/components/UI/Card';
-import { FormControl, Input } from '@/components/UI/FormUtils';
-import { Delete, Edit, History, Home, Image, Settings } from '@mui/icons-material';
+import { Home } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { getUserProperties } from 'kotilogi-app/models/propertyData';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
 
@@ -24,8 +19,8 @@ export default async function newDashboardPage() {
       <PreviewContentRow<AppartmentDataType | HouseDataType>
         icon={<Home />}
         headingText='Talot'
-        showAllUrl='/newDashboard/properties'
-        addNewUrl='/newDashboard/properties/add'
+        showAllUrl='/dashboard/properties'
+        addNewUrl='/dashboard/properties/add'
         itemsToDisplay={3}
         onEmptyElement={<span className='text-slate-500'>Et ole lisännyt taloja.</span>}
         data={properties}
@@ -35,7 +30,7 @@ export default async function newDashboardPage() {
 
           return (
             <Card
-              href={`newDashboard/properties/${item.id}`}
+              href={`dashboard/properties/${item.id}`}
               title={`${item.streetAddress} ${
                 'appartmentNumber' in item ? item.appartmentNumber : ''
               }`}
@@ -48,25 +43,25 @@ export default async function newDashboardPage() {
                 return (
                   <>
                     <Menu trigger={<CardMenuButton />}>
-                      <Link href={`/newDashboard/properties/${item.id}/edit`}>Muokkaa</Link>
+                      <Link href={`/dashboard/properties/${item.id}/edit`}>Muokkaa</Link>
                       <Link
-                        href={`/newDashboard/properties/${item.id}/events`}
+                        href={`/dashboard/properties/${item.id}/events`}
                         title='Näytä tapahtumat'>
                         Tapahtumat
                       </Link>
                       <Link
-                        href={`/newDashboard/properties/${item.id}/files`}
+                        href={`/dashboard/properties/${item.id}/files`}
                         title='Näytä tiedostot'>
                         Tiedostot
                       </Link>
                       <Link
-                        href={`/newDashboard/properties/${item.id}/utility`}
+                        href={`/dashboard/properties/${item.id}/utility`}
                         title='Näytä kulutustiedot'>
                         Kulutustiedot
                       </Link>
                       <Link
                         title='Poista talo...'
-                        href={`/newDashboard/properties/${item.id}/delete`}>
+                        href={`/dashboard/properties/${item.id}/delete`}>
                         Poista
                       </Link>
                     </Menu>

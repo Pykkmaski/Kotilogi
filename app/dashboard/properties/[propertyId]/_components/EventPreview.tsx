@@ -17,9 +17,9 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
       icon={<History />}
       headingText='Viimeisimmät tapahtumat'
       itemsToDisplay={3}
-      showAllUrl={`/newDashboard/properties/${propertyId}/events`}
+      showAllUrl={`/dashboard/properties/${propertyId}/events`}
       data={events}
-      addNewUrl={`/newDashboard/properties/${propertyId}/events/add`}
+      addNewUrl={`/dashboard/properties/${propertyId}/events/add`}
       PreviewComponent={async ({ item }) => {
         const [mainImageId] = await db('data_mainImages')
           .where({ objectId: item.id })
@@ -39,13 +39,13 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
                   <Menu trigger={<CardMenuButton />}>
                     <Link
                       title='Muokkaa tietoja'
-                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/edit`}>
+                      href={`/dashboard/properties/${propertyId}/events/${item.id}/edit`}>
                       Muokkaa
                     </Link>
 
                     <Link
                       title='Näytä tiedostot'
-                      href={`/newDashboard/properties/${propertyId}/events/${item.id}/files`}>
+                      href={`/dashboard/properties/${propertyId}/events/${item.id}/files`}>
                       Tiedostot
                     </Link>
                     <Link href={`${propertyId}/events/${item.id}/delete`}>Poista</Link>

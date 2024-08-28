@@ -1,19 +1,10 @@
 'use client';
 
 import { ADeleteProperty } from '@/actions/properties';
-import { FormBase } from '@/components/New/Forms/FormBase';
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
 import { MainHeading } from '@/components/New/Typography/Headings';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { FormStatus, useDataSubmissionForm } from '@/hooks/useDataSubmissionForm';
-import { useInputData } from '@/hooks/useInputData';
-import { Delete } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import axios from 'axios';
-import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
 
 type DeletePropertyFormProps = {
   property: HouseDataType | AppartmentDataType;
@@ -24,13 +15,7 @@ export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
     <ObjectDeletionForm
       returnUrl='/dashboard'
       objectId={property.id}
-      deleteMethod={async credentials =>
-        await axios.delete(`/api/protected/properties?id=${property.id}`, {
-          headers: {
-            Authorization: `Password ${credentials.password}`,
-          },
-        })
-      }>
+      deleteMethod={async credentials => ADeleteProperty(property.id, credentials.password)}>
       <MainHeading>Poista talo</MainHeading>
       <p className='text-lg mb-4'>
         Olet poistamassa taloa{' '}

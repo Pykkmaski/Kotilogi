@@ -7,28 +7,27 @@ import MuiMenu from '@mui/material/Menu';
 import { MenuItem } from '@mui/material';
 
 type MenuProps = React.PropsWithChildren & {
-  trigger?: React.ReactElement;
+  trigger: React.ReactElement;
 };
 
 /**A reusable Menu component. It handles all the anchoring and other logic within. Renders the children inside a toggleable menu. */
 export function Menu({ trigger, children }: MenuProps) {
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const Trigger = ({ onClick }: { onClick?: TODO }) => {
+    return React.cloneElement(trigger, {
+      ...trigger.props,
+
+      onClick: e => {
+        setAnchorEl(e.currentTarget);
+        onClick(e);
+      },
+    });
+  };
+
   return (
     <DialogControl
-      trigger={({ onClick }) => {
-        return (
-          trigger &&
-          React.cloneElement(trigger, {
-            ...trigger.props,
-
-            onClick: e => {
-              setAnchorEl(e.currentTarget);
-              onClick(e);
-            },
-          })
-        );
-      }}
+      trigger={Trigger}
       control={({ show, handleClose }) => {
         return (
           <MuiMenu

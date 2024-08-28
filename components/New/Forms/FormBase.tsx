@@ -24,7 +24,8 @@ export function FormButtons({ backAction, loading, done }: FormButtonsProps) {
       <Button
         type='button'
         variant='text'
-        onClick={backAction}>
+        onClick={backAction}
+        disabled={loading || done}>
         Takaisin
       </Button>
       <Button

@@ -2,17 +2,22 @@
 
 import { ContentBox } from './ContentBox';
 import { MainHeading } from '../Typography/Headings';
-import { EditLink } from '../Links/EditLink';
 import { SpaceBetween, Spacer } from '../Spacers';
-import { Paragraph } from '../Typography/Paragraph';
 import Image from 'next/image';
-import { Button, IconButton } from '@mui/material';
-import { Delete, Edit, Visibility } from '@mui/icons-material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from '@mui/material';
+import { Delete, Visibility } from '@mui/icons-material';
 import Link from 'next/link';
-import { HideOnMobile } from '../Util/HideOnMobile';
-import { Checkbox } from '@/components/UI/FormUtils';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { ObjectDataType } from 'kotilogi-app/models/types';
+import { DialogControl } from '@/components/Util/DialogControl';
 
 type OverviewBoxProps = {
   title: string;
@@ -70,9 +75,7 @@ export function OverviewBox({
                   </Link>
                 )}
                 {deleteUrl && (
-                  <Link
-                    href={deleteUrl}
-                    title='Poista'>
+                  <Link href={deleteUrl}>
                     <IconButton color='warning'>
                       <Delete />
                     </IconButton>

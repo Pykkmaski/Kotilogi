@@ -7,10 +7,12 @@ import { useInputData } from '@/hooks/useInputData';
 import { Add, Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useId, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { ContentBox } from '../Boxes/ContentBox';
 import { AxiosResponse } from 'axios';
+import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
+import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 
 type BatchUploadFormProps<T> = React.PropsWithChildren & {
   title: string;
@@ -23,7 +25,7 @@ type BatchUploadFormProps<T> = React.PropsWithChildren & {
     deleteEntry: (entry: T) => void;
   }) => ReactNode;
 
-  onSubmit: (entries: T[]) => Promise<AxiosResponse>;
+  onSubmit: (entries: T[]) => Promise<ServerActionResponse>;
   isAddingDisabled: (data: T) => boolean;
 };
 
@@ -40,35 +42,39 @@ export function BatchUploadForm<T>({
   const router = useRouter();
   const loading = status == FormStatus.LOADING;
   const addFormRef = useRef<HTMLFormElement | null>(null);
-
+  const formId = useId();
   const add = () => {
     addEntry(data);
     resetData({} as T);
     addFormRef.current?.reset();
   };
 
+  const submit = async e => {
+    setStatus(FormStatus.LOADING);
+
+    try {
+      const res = await onSubmit(entries);
+      if (res.status == 200 || res.status == 206) {
+        toast.success(res.statusText);
+        router.back();
+      } else {
+        toast.error(res.statusText);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setStatus(FormStatus.IDLE);
+    }
+  };
+
   const addDisabled = isAddingDisabled(data);
   return (
-    <form
-      className='w-full flex flex-col gap-4'
-      onSubmit={async e => {
-        e.preventDefault();
-        setStatus(FormStatus.LOADING);
-        await onSubmit(entries)
-          .then(res => {
-            if (res.status == 200) {
-              toast.success(res.statusText);
-              router.back();
-            } else {
-              toast.error(res.statusText);
-            }
-          })
-          .finally(() => setStatus(FormStatus.IDLE));
-      }}>
+    <form className='w-full flex flex-col gap-4'>
       <div className='flex w-full items-center justify-between'>
         <h1 className='text-lg'>{title}</h1>
         <div className='flex gap-4'>
           <Button
+            onClick={submit}
             startIcon={!loading ? <Check /> : <Spinner size='1rem' />}
             variant='contained'
             type='submit'
@@ -79,9 +85,10 @@ export function BatchUploadForm<T>({
       </div>
       <ContentBox>
         <form
-          ref={addFormRef}
+          id={formId}
           className='flex flex-col gap-2'
-          onChange={updateData}>
+          onChange={updateData}
+          ref={addFormRef}>
           {children}
 
           <div className='flex justify-start'>

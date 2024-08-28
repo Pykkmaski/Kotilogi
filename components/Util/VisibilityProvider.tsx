@@ -57,12 +57,7 @@ VisibilityProvider.Trigger = function ({ children }: React.PropsWithChildren) {
 
 VisibilityProvider.Target = function ({ children }: React.PropsWithChildren) {
   const { visible } = useVisibilityProviderContext();
-  return React.Children.map(children as React.ReactElement, child => {
-    return React.cloneElement(child, {
-      ...child.props,
-      hidden: !visible,
-    });
-  });
+  return visible && children;
 };
 
 export function useVisibilityProviderContext() {

@@ -10,9 +10,8 @@ type PropertyOverviewProps = {
   editIcon: React.ReactNode;
   editUrl: string;
   showUrl?: string;
-  imageUrl?: string;
+
   editContentText: string;
-  numEvents: number;
 };
 
 export async function PropertyOverview({
@@ -22,8 +21,6 @@ export async function PropertyOverview({
   editContentText,
   showUrl,
   owners,
-  numEvents,
-  imageUrl,
 }: PropertyOverviewProps) {
   const [mainImageId] =
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
@@ -34,10 +31,17 @@ export async function PropertyOverview({
     .where({ id: property.buildingTypeId })
     .pluck('name');
 
+  const [{ numEvents }] = await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+    .where({ parentId: property.id })
+    .count('*', { as: 'numEvents' });
+
+  console.log(numEvents);
+
   return (
     <OverviewBox
       showUrl={showUrl}
-      deleteUrl={`/newDashboard/properties/${property.id}/delete`}
+      deleteUrl={`/dashboard/properties/${property.id}/delete`}
       title={
         property.streetAddress +
         ' ' +
@@ -72,6 +76,11 @@ export async function PropertyOverview({
               <LabelGrid.Entry
                 label={'Omistajat'}
                 value={owners.length}
+              />
+
+              <LabelGrid.Entry
+                label='Tapahtumien lukumäärä'
+                value={numEvents}
               />
             </LabelGrid>
           </div>

@@ -6,7 +6,6 @@ import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 
 export async function getEvents(queryObj: TODO, query?: string, limit: number = 10) {
-  console.log(queryObj);
   return db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .where(function () {
@@ -38,8 +37,8 @@ export async function createPropertyEvent(
   await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
     const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));
-    const startTime = new Date(parseInt(insertObj.startTime)).getTime();
-    const endTime = insertObj.endTime && new Date(parseInt(insertObj.endTime)).getTime();
+    const startTime = insertObj.startTime && new Date(insertObj.startTime).getTime();
+    const endTime = insertObj.endTime && new Date(insertObj.endTime).getTime();
 
     await trx('data_propertyEvents').insert({
       id: eventId,

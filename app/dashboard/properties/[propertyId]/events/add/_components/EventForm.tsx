@@ -1,12 +1,15 @@
 'use client';
 
 import { ACreatePropertyEvent, AUpdatePropertyEvent } from '@/actions/events';
+import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { EventDataType } from 'kotilogi-app/models/types';
+import { NextResponse } from 'next/server';
 
 type EventFormProps = {
   propertyId: string;
@@ -26,19 +29,20 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
   return (
     <ObjectSubmissionForm
       parentId={propertyId}
-      item={eventData}
+      item={{
+        ...eventData,
+        startTime,
+        endTime,
+      }}
       onSubmit={async (data, files) => {
+        let res: ServerActionResponse;
         if (eventData) {
-          return await axios.patch('/api/protected/properties/events', {
-            id: eventData.id,
-            ...data,
-          });
+          res = await AUpdatePropertyEvent(eventData.id, data);
         } else {
-          return await axios.post('/api/protected/properties/events', {
-            ...data,
-            parentId: propertyId,
-          });
+          res = await ACreatePropertyEvent({ ...data, parentId: propertyId });
         }
+
+        return res;
       }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
       <Fieldset legend='Tiedot'>

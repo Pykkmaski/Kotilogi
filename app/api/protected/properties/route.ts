@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     await createProperty(data);
     await revalidatePath('/dashboard/properties');
-    return response('success', null, 'Talon lisäys onnistui!');
+    return response('success', null, 'Talon lisäys onnistui!', { revalidate: true });
   } catch (err: any) {
     return handleServerError(req, err);
   }
@@ -47,7 +47,7 @@ export async function PATCH(req: NextRequest) {
 
     await updateProperty(id, data);
     await revalidatePath('/dashboard/properties');
-    return response('success', null, 'Talon päivitys onnistui!');
+    return response('success', null, 'Talon päivitys onnistui!', { revalidate: true });
   } catch (err: any) {
     return handleServerError(req, err);
   }

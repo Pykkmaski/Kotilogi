@@ -24,7 +24,7 @@ export default async function PropertyPage({ params }) {
     .pluck('email');
 
   const utilityData = await getUtilityData({ parentId: property.id });
-  console.log(utilityData);
+
   const files = await getFiles({ parentId: id }, 4);
 
   const [{ numEvents }] = await db('data_objects')
@@ -45,7 +45,7 @@ export default async function PropertyPage({ params }) {
         numEvents={numEvents}
         editContentText='Muokkaa tietoja'
         editIcon={<Edit />}
-        editUrl={`/newDashboard/properties/${property.id}/edit`}
+        editUrl={`/dashboard/properties/${property.id}/edit`}
       />
 
       <EventPreview propertyId={property.id} />
@@ -59,8 +59,8 @@ export default async function PropertyPage({ params }) {
 
       <FileOverview
         files={files}
-        addNewUrl={`/newDashboard/files/add?parentId=${property.id}`}
-        showAllUrl={`/newDashboard/properties/${id}/files`}
+        addNewUrl={`/dashboard/files/add?parentId=${property.id}`}
+        showAllUrl={`/dashboard/properties/${id}/files`}
         PreviewComponent={({ item }) => {
           return (
             <FileCard

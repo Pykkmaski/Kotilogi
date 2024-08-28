@@ -7,6 +7,7 @@ import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { ExteriorField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/ExteriorField';
 import { GeneralField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/GeneralField';
 import { HeatingField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/HeatingField';
@@ -65,9 +66,10 @@ export function PropertyForm<T extends PropertyDataType>({
         id: property.id,
         ...data,
       })
-      .then(res => {
+      .then(async res => {
         if (res.status == 200) {
           toast.success(res.statusText);
+          await revalidatePath('/dashboard');
         } else {
           toast.error(res.statusText);
         }
@@ -80,11 +82,11 @@ export function PropertyForm<T extends PropertyDataType>({
     if (property) {
       await runUpdate();
     } else {
-      await axios
-        .post('/api/protected/properties', data)
-        .then(res => {
+      await ACreateProperty(data as TODO)
+        .then(async res => {
           if (res.status == 200) {
             toast.success(res.statusText);
+            await revalidatePath('/dashboard');
             router.back();
           } else {
             toast.error(res.statusText);

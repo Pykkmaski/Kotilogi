@@ -11,11 +11,13 @@ import toast from 'react-hot-toast';
 import { ObjectDataType } from 'kotilogi-app/models/types';
 import { useForm } from '@/hooks/useForm';
 import { AxiosResponse } from 'axios';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 
 type ObjectSubmissionFormProps<T extends ObjectDataType> = React.PropsWithChildren & {
   parentId: string;
 
-  onSubmit: (data: T, files: File[]) => Promise<AxiosResponse>;
+  onSubmit: (data: T, files: File[], router: AppRouterInstance) => Promise<ServerActionResponse>;
   item?: T;
 };
 
@@ -35,18 +37,20 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
         e.preventDefault();
         setStatus(FormStatus.LOADING);
 
-        await onSubmit(data as TODO, files)
-          .then(res => {
-            setStatus(() => FormStatus.DONE);
-            if (res.status == 200) {
-              toast.success(res.statusText);
-              router.back();
-            } else {
-              toast.error(res.statusText);
-            }
-          })
-          .catch(err => toast.error(err.message))
-          .finally(() => setStatus(FormStatus.IDLE));
+        try {
+          const res = await onSubmit(data as TODO, files, router);
+          if (res.status == 200) {
+            toast.success(res.statusText);
+            setStatus(FormStatus.DONE);
+            router.back();
+          } else {
+            toast.error(res.statusText);
+          }
+        } catch (err) {
+          toast.error(err.message);
+        } finally {
+          setStatus(prev => (prev === FormStatus.DONE ? prev : FormStatus.IDLE));
+        }
       }}>
       {children}
       <FormButtons

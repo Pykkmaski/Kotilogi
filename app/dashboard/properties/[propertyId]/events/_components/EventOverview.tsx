@@ -13,7 +13,6 @@ type EventOverviewProps<T extends EventDataType> = {
 
 export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
-  console.log(event.startTime, event.endTime);
   const startTime =
     (event.startTime &&
       new Date(
@@ -30,7 +29,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
 
   return (
     <OverviewBox
-      deleteUrl={`${event.id}/delete`}
+      deleteUrl={`events/${event.id}/delete`}
       title={event.title}
       description={
         <div className='flex flex-col gap-4 h-full'>

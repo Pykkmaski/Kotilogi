@@ -15,29 +15,31 @@ type MobileMenuProps = {
 export function MobileMenu({ session }: MobileMenuProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement>(null);
 
+  const Trigger = ({ onClick }: { onClick?: TODO }) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(e.currentTarget);
+      onClick();
+    };
+
+    return !session ? (
+      <IconButton
+        onClick={handleClick}
+        sx={{
+          color: 'black',
+        }}>
+        <MenuIcon sx={{ fontSize: '2rem', color: 'white' }} />
+      </IconButton>
+    ) : (
+      <ProfileCircle
+        onClick={handleClick}
+        email={session.user.email}
+      />
+    );
+  };
+
   return (
     <DialogControl
-      trigger={({ onClick }) => {
-        const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-          setAnchorEl(e.currentTarget);
-          onClick();
-        };
-
-        return !session ? (
-          <IconButton
-            onClick={handleClick}
-            sx={{
-              color: 'black',
-            }}>
-            <MenuIcon sx={{ fontSize: '2rem', color: 'white' }} />
-          </IconButton>
-        ) : (
-          <ProfileCircle
-            onClick={handleClick}
-            email={session.user.email}
-          />
-        );
-      }}
+      trigger={Trigger}
       control={({ show, handleClose }) => {
         const getContent = () => {
           if (session) {

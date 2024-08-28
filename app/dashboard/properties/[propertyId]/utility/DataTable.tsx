@@ -17,6 +17,13 @@ export function DataTable() {
 
   const cols = [
     {
+      headerCheckboxSelection: true, // Display the checkbox in the header
+      checkboxSelection: true, // Enable checkbox for each row
+      headerName: 'Valitse',
+      width: 100,
+    },
+
+    {
       field: 'id',
       headerName: 'Tunnus',
     },
@@ -49,6 +56,7 @@ export function DataTable() {
         pagination={true}
         rowData={rows}
         columnDefs={cols}
+        rowSelection='multiple'
         localeText={{
           equals: 'Yhtä kuin',
           notEqual: 'Ei yhtä kuin',

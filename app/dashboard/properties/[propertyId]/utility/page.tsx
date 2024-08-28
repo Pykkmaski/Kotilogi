@@ -1,6 +1,6 @@
 import { Main } from '@/components/New/Main';
 import { Heading } from '@/components/UI/Heading';
-import { Add } from '@mui/icons-material';
+import { Add, Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { getUtilityData, getUtilityYears } from 'kotilogi-app/models/utilityData';
 import { UtilityPieChart } from './UtilityPieChart';
@@ -12,6 +12,11 @@ import { TypeSelector } from './TypeSelector';
 import db from 'kotilogi-app/dbconfig';
 import { DataTable } from './DataTable';
 import { ScrollOnX } from '@/components/New/ScrollOnX';
+import { DialogControl } from '@/components/Util/DialogControl';
+import { DataSubmitDialog } from '@/components/New/DataSubmitDialog';
+import axios from 'axios';
+import { UtilityBatchForm } from './add/_components/UtilityBatchForm';
+import { UtilitySubmitDialog } from './UtilitySubmitDialog';
 
 export default async function UtilityPage({ params, searchParams }) {
   const { year, types } = searchParams;
@@ -48,10 +53,12 @@ export default async function UtilityPage({ params, searchParams }) {
             </div>
           </ScrollOnX>
 
-          <Link href='utility/add'>
+          <Link
+            href='utility/add'
+            className='text-nowrap'>
             <Button
-              className='text-nowrap'
-              variant='text'
+              variant='contained'
+              type='button'
               startIcon={<Add />}>
               Lisää Uusi
             </Button>

@@ -14,7 +14,7 @@ export default async function PropertiesPage() {
     | HouseDataType
     | AppartmentDataType
   )[];
-  console.log(properties);
+
   return (
     <Main>
       <OverviewBoxList
@@ -27,9 +27,8 @@ export default async function PropertiesPage() {
             icon={'fa fa-home'}
           />
         }
-        addButtonUrl='/newDashboard/properties/add'
+        addButtonUrl='/dashboard/properties/add'
         OverviewComponent={async ({ item }) => {
-          console.log(item.id);
           const [{ numEvents }] = await db('data_objects')
             .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
             .where({ parentId: item.id })
@@ -41,8 +40,8 @@ export default async function PropertiesPage() {
               numEvents={numEvents}
               owners={owners}
               property={item}
-              editUrl={`/newDashboard/properties/${item.id}/edit`}
-              showUrl={`/newDashboard/properties/${item.id}`}
+              editUrl={`/dashboard/properties/${item.id}/edit`}
+              showUrl={`/dashboard/properties/${item.id}`}
               editContentText='Muokkaa'
               editIcon={<Edit />}
             />

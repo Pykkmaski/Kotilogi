@@ -7,6 +7,8 @@ import { multiplyByOneHundred } from 'kotilogi-app/models/utils/convertNumeralUn
 import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
 import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
 import { revalidatePath } from 'next/cache';
+import { ServerActionResponse } from './lib/ServerActionResponse';
+import { createUtilityData } from 'kotilogi-app/models/utilityData';
 
 const path = '/newDashboard/properties/[property_id]';
 const table = 'data_utilities';
@@ -39,19 +41,23 @@ export async function AUpdateUtilityData(
 }
 
 export async function ACreateUtilityData(
-  data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'parentId'>>
+  data: (Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'parentId'>>)[]
 ) {
-  await createObject(data, async (obj, trx) => {
-    const insertObj = filterValidColumns(data, await getTableColumns(table, trx));
+  const results = await Promise.allSettled(data.map(d => createUtilityData(d)));
 
-    await trx(table).insert({
-      id: obj.id,
-      ...insertObj,
-      time: new Date(data.time).getTime(),
-      monetaryAmount: data.monetaryAmount,
-      unitAmount: data.unitAmount,
-    });
-  });
+  let res: ServerActionResponse;
+  if (results.find(result => result.status === 'rejected')) {
+    res = {
+      status: 206,
+      statusText: 'Osaa tiedoista ei voitu tallentaa!',
+    };
+  } else {
+    res = {
+      status: 200,
+      statusText: 'Tiedot tallennettu!',
+    };
+  }
 
   revalidatePath(path);
+  return res;
 }

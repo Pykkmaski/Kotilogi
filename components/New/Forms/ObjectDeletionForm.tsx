@@ -6,10 +6,11 @@ import { ObjectDataType } from 'kotilogi-app/models/types';
 import toast from 'react-hot-toast';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import { AxiosResponse } from 'axios';
+import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 
 type ObjectDeletionFormProps<T extends { id: string }> = React.PropsWithChildren & {
   objectId: string;
-  deleteMethod: (data: any) => Promise<AxiosResponse>;
+  deleteMethod: (data: any) => Promise<ServerActionResponse>;
   returnUrl: string;
 };
 
@@ -27,22 +28,30 @@ export function ObjectDeletionForm<T extends { id: string }>({
       onSubmit={async e => {
         e.preventDefault();
         setStatus(FormStatus.LOADING);
-        await deleteMethod(data as TODO)
-          .then(res => {
-            if (res.status == 200) {
-              toast.success(res.statusText);
-              router.push(returnUrl);
+        try {
+          const res = await deleteMethod(data as TODO);
+          if (res.status == 200) {
+            toast.success(res.statusText);
+            setStatus(FormStatus.DONE);
+            router.push(returnUrl);
+          } else {
+            toast.error(res.statusText);
+          }
+        } catch (err) {
+          toast.error(err.message);
+        } finally {
+          setStatus(prev => {
+            if (prev === FormStatus.DONE) {
+              return prev;
             } else {
-              toast.error(res.statusText);
+              return FormStatus.IDLE;
             }
-          })
-          .catch(err => toast.error(err.message))
-          .finally(() => {
-            setStatus(FormStatus.IDLE);
           });
+        }
       }}>
       {children}
       <FormButtons
+        done={status == FormStatus.DONE}
         loading={status == FormStatus.LOADING}
         backAction={() => router.back()}
       />

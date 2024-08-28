@@ -1,7 +1,4 @@
-'use server';
-
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
-import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import db from 'kotilogi-app/dbconfig';
 import { deleteObject } from 'kotilogi-app/models/objectData';
 import {
@@ -11,8 +8,9 @@ import {
 } from 'kotilogi-app/models/propertyEventData';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
+import { revalidatePath } from 'next/cache';
 
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
 
 export async function GET(req: NextRequest) {
@@ -49,7 +47,7 @@ export async function POST(req: NextRequest) {
 
     await createPropertyEvent(data, async (id, trx) => {});
 
-    await revalidatePath('/dashboard/properties/[propertyId]');
+    revalidatePath('/dashboard/properties/[propertyId]/events', 'page');
     return response('success', null, 'Tapahtuman lisäys onnistui!');
   } catch (err: any) {
     console.log(err.message);
@@ -65,8 +63,8 @@ export async function PATCH(req: NextRequest) {
     }).parse(data);
 
     await updatePropertyEvent(data);
-    await revalidatePath('/dashboard/properties/[propertyId]');
-    return response('success', null, 'Tapahtuman päivitys onnistui!');
+    revalidatePath('/dashboard/properties/[propertyId]');
+    return response('success', null, 'Tapahtuman päivitys onnistui!', { revalidate: true });
   } catch (err: any) {
     console.log(err.message);
     return response('serverError', null, err.message);

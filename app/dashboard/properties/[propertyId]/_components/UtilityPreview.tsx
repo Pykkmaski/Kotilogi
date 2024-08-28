@@ -19,7 +19,7 @@ export function UtilityPreview({ propertyId }: { propertyId: string }) {
         </>
       }
       headingText='Kulutustiedot'
-      addNewUrl={`/newDashboard/properties/${propertyId}/utility/add`}
+      addNewUrl={`/dashboard/properties/${propertyId}/utility/add`}
       showAllUrl={`${propertyId}/utility`}>
       {!utilityData.length ? (
         <span className='text-slate-500'>Ei Kulutustietoja.</span>

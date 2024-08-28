@@ -32,13 +32,21 @@ const statusCode = {
   bad_request: 400,
 };
 
-export const response = (type: ResponseType, body: BodyInit | null, statusText?: string) => {
+export const response = (
+  type: ResponseType,
+  body: BodyInit | null,
+  statusText?: string,
+  options?: { revalidate: boolean }
+) => {
   // Determine the response body
   const responseBody = body || defaultMessages[type];
 
   return new NextResponse(responseBody, {
     status: statusCode[type],
-    statusText,
+    statusText: statusText.normalize('NFC'),
+    headers: {
+      'Cache-Control': 'public, max-age=0, must-revalidate',
+    },
   });
 };
 

@@ -12,8 +12,8 @@ export async function createUtilityData(
     await trx('data_utilities').insert({
       id: obj.id,
       time: new Date(data.time).getTime(),
-      monetaryAmount: data.monetaryAmount,
-      unitAmount: data.unitAmount,
+      monetaryAmount: data.monetaryAmount * 100,
+      unitAmount: data.unitAmount * 100,
       typeId: data.typeId,
     });
   });
@@ -49,12 +49,20 @@ export async function getUtilityData(query: TODO, year?: number, types: string[]
     dbQuery.whereIn('ref_utilityTypes.name', types);
   }
 
-  return await dbQuery;
+  return await dbQuery.then(data =>
+    data.map(d => ({
+      ...d,
+      monetaryAmount: d.monetaryAmount / 100,
+      unitAmount: d.unitAmount / 100,
+    }))
+  );
 }
 
 export async function updateUtilityData(data: Partial<UtilityDataType>) {
   return updateObject(data, async trx => {
     const updateObject = filterValidColumns(data, await getTableColumns('data_utilities', trx));
+    updateObject.monetaryAmount *= 100;
+    updateObject.unitAmount *= 100;
     await trx('data_utilities').where({ id: data.id }).update(updateObject);
   });
 }

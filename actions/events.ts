@@ -9,6 +9,8 @@ import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns
 import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
+import { ServerActionResponse } from './lib/ServerActionResponse';
+import { isDateValue } from 'kotilogi-app/utils/isDateValue';
 
 const path = '/newDashboard/properties';
 
@@ -20,49 +22,83 @@ export async function AGetEventData(query) {
 
 export async function ACreatePropertyEvent(
   data: EventDataType & Required<Pick<EventDataType, 'parentId'>>
-) {
-  let eventId = null;
-  await createPropertyEvent(data);
+): Promise<ServerActionResponse> {
+  try {
+    await createPropertyEvent(data);
+  } catch (err) {
+    console.log(err.message);
+    return {
+      status: 500,
+      statusText: err.message,
+    };
+  }
 
   revalidatePath(path);
-  return 0;
+  return {
+    status: 200,
+    statusText: 'Tapahtuma luotu!',
+  };
 }
 
-export async function AUpdatePropertyEvent(id: string, data: Partial<EventDataType>) {
-  await updateObject({ id, ...data }, async trx => {
-    const updateObject = filterValidColumns(
-      data,
-      await getTableColumns('data_propertyEvents', trx)
-    );
+export async function AUpdatePropertyEvent(
+  id: string,
+  data: Partial<EventDataType>
+): Promise<ServerActionResponse> {
+  try {
+    await updateObject({ id, ...data }, async trx => {
+      const updateObject = filterValidColumns(
+        data,
+        await getTableColumns('data_propertyEvents', trx)
+      );
 
-    const startTime = new Date(
-      typeof updateObject.startTime == 'string'
-        ? parseInt(updateObject.startTime)
-        : updateObject.startTime
-    ).getTime();
+      const startTime = data.startTime && new Date(data.startTime).getTime();
+      const endTime = data.endTime && new Date(data.endTime).getTime();
 
-    console.log(updateObject.endTime);
-    const endTime = updateObject.endTime && new Date(updateObject.endTime).getTime();
-
-    console.log(startTime, endTime);
-    await trx('data_propertyEvents')
-      .where({ id: updateObject.id })
-      .update({
-        ...updateObject,
-        startTime,
-        endTime,
-      });
-  });
+      await trx('data_propertyEvents')
+        .where({ id: updateObject.id })
+        .update({
+          ...updateObject,
+          startTime,
+          endTime,
+        });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return {
+      status: 500,
+      statusText: err.message,
+    };
+  }
 
   revalidatePath(path);
-  return 0;
+  return {
+    status: 200,
+    statusText: 'Tapahtuma päivitetty!',
+  };
 }
 
 export async function ADeletePropertyEvent(id: string) {
   const session = await loadSession();
   const [authorId] = await db('data_objects').where({ id }).pluck('authorId');
-  if (session.user.id != authorId) return -1;
-  await deleteObject(id);
+  if (session.user.id != authorId)
+    return {
+      status: 403,
+      statusText: 'Vain tapahtuman laatija voi poistaa sen!',
+    };
+
+  try {
+    await deleteObject(id);
+  } catch (err) {
+    console.log(err.message);
+    return {
+      status: 500,
+      statusText: err.message,
+    };
+  }
+
   revalidatePath(path);
-  return 0;
+  return {
+    status: 200,
+    statusText: 'Tapahtuma poistettu!',
+  };
 }

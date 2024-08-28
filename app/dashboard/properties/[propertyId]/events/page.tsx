@@ -34,7 +34,7 @@ export default async function EventsPage({ params, searchParams }) {
           )
         }
         items={events}
-        addButtonUrl={`/newDashboard/properties/${propertyId}/events/add`}
+        addButtonUrl={`/dashboard/properties/${propertyId}/events/add`}
         OverviewComponent={async ({ item }) => {
           const [{ numSteps }] = await db('data_propertyEventSteps')
             .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })

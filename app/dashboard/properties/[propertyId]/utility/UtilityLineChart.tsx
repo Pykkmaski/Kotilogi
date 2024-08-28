@@ -17,8 +17,9 @@ export function UtilityLineChart() {
           return data;
         }, []);
 
-  const getBar = (typeLabel: string) => (
+  const getBar = (typeLabel: string, key: string) => (
     <Bar
+      key={key}
       dataKey={typeLabel}
       type='monotone'
       fill={
@@ -57,8 +58,9 @@ export function UtilityLineChart() {
               return date.toLocaleDateString('fi', { month: 'long' });
             }}
           />
-          {(selectedTypes.length && selectedTypes.map(type => getBar(type))) ||
-            allTypes.map(val => getBar(val))}
+          {(selectedTypes.length &&
+            selectedTypes.map((type, i) => getBar(type, `bar-${type}-${i}`))) ||
+            allTypes.map((val, i) => getBar(val, `bar-${val}-${i}`))}
         </BarChart>
       ) : (
         <BlankChart
