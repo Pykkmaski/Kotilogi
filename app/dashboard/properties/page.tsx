@@ -29,11 +29,6 @@ export default async function PropertiesPage() {
         }
         addButtonUrl='/dashboard/properties/add'
         OverviewComponent={async ({ item }) => {
-          const [{ numEvents }] = await db('data_objects')
-            .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
-            .where({ parentId: item.id })
-            .count('*', { as: 'numEvents' });
-
           const owners = await db('data_propertyOwners').where({ propertyId: item.id });
           return (
             <PropertyOverview

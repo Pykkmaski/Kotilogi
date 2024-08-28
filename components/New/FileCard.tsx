@@ -17,7 +17,7 @@ type FileCardProps = {
 };
 
 export function FileCard({ file, isMain }: FileCardProps) {
-  const src = `/api/protected/files?id=${file.id}`;
+  const src = `/api/protected/files/${file.id}`;
   const [status, setStatus] = useState(0);
 
   const deleteFile = async () => {

@@ -36,8 +36,6 @@ export async function PropertyOverview({
     .where({ parentId: property.id })
     .count('*', { as: 'numEvents' });
 
-  console.log(numEvents);
-
   return (
     <OverviewBox
       showUrl={showUrl}
@@ -87,8 +85,7 @@ export async function PropertyOverview({
         </div>
       }
       imageUrl={
-        (mainImageId && `/api/protected/files?id=${mainImageId}`) ||
-        '/img/Properties/default-bg.jpg'
+        (mainImageId && `/api/protected/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'
       }
       editUrl={editUrl}
       editContentText={editContentText}
