@@ -43,7 +43,7 @@ export const response = (
 
   return new NextResponse(responseBody, {
     status: statusCode[type],
-    statusText: statusText.normalize('NFC'),
+    statusText: statusText && statusText.normalize('NFC'),
     headers: {
       'Cache-Control': 'public, max-age=0, must-revalidate',
     },
