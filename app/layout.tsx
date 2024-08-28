@@ -12,6 +12,7 @@ import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
 import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Kotidok',
@@ -25,6 +26,20 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
         <link
           rel='stylesheet'
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'></link>
+
+        <Script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=G-YQC6Y54WHT'></Script>
+        <Script
+          dangerouslySetInnerHTML={{
+            __html: `
+   window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YQC6Y54WHT');
+  `,
+          }}></Script>
       </head>
 
       <AppRouterCacheProvider>
