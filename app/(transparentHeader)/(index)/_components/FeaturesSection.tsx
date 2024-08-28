@@ -146,7 +146,6 @@ export const FeaturesSection2 = () => {
               imageUrl='/features/files.png'
             />
           </div>
-          <Images />
         </div>
       </div>
     </section>
