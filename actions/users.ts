@@ -1,6 +1,6 @@
 'use server';
 
-import { sendAccountActivationLink, sendEmailResetLink } from '../app/api/_lib/email';
+import { sendAccountActivationLink } from '../app/api/_lib/sendAccountActivationLink';
 import db from 'kotilogi-app/dbconfig';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import bcrypt from 'bcrypt';
@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache';
 
 export async function AUpdateEmail(oldEmail: string, newEmail: string) {
   //Should send an email to the current address containing a link with a token, which when visited, triggers the change of the email.
-  await sendEmailResetLink({ oldEmail, newEmail });
+  //await sendEmailResetLink({ oldEmail, newEmail });
 }
 
 export async function AUpdatePassword(oldPassword: string, newPassword: string) {

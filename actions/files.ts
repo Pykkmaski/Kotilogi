@@ -5,7 +5,7 @@ import { deleteFile, uploadFiles } from 'kotilogi-app/models/files';
 import { revalidatePath } from 'next/cache';
 
 export async function AUploadFile(fd: FormData, parentId: string) {
-  await uploadFiles([fd], parentId);
+  await uploadFiles([fd.get('file') as unknown as File], parentId);
   revalidatePath('files');
   return 0;
 }

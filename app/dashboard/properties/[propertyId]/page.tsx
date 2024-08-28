@@ -27,11 +27,6 @@ export default async function PropertyPage({ params }) {
 
   const files = await getFiles({ parentId: id }, 4);
 
-  const [{ numEvents }] = await db('data_objects')
-    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
-    .where({ parentId: property.id })
-    .count('*', { as: 'numEvents' });
-
   const [mainImageId] = await db('data_mainImages')
     .where({ objectId: property.id })
     .pluck('imageId');
@@ -42,7 +37,6 @@ export default async function PropertyPage({ params }) {
       <PropertyOverview
         owners={owners}
         property={property}
-        numEvents={numEvents}
         editContentText='Muokkaa tietoja'
         editIcon={<Edit />}
         editUrl={`/dashboard/properties/${property.id}/edit`}

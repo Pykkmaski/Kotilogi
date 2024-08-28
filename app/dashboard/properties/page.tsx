@@ -37,7 +37,6 @@ export default async function PropertiesPage() {
           const owners = await db('data_propertyOwners').where({ propertyId: item.id });
           return (
             <PropertyOverview
-              numEvents={numEvents}
               owners={owners}
               property={item}
               editUrl={`/dashboard/properties/${item.id}/edit`}

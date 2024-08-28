@@ -21,7 +21,6 @@ export default async function middleware(req: NextRequestWithAuth) {
   }
   //Only allow logged-in users to make requests to protected routes.
   else if (pathname.startsWith('/api/protected') || pathname.startsWith('/dashboard')) {
-    console.log('At dashboard');
     if (!token) {
       const protocol = req.headers.get('x-forwarded-proto') || 'http';
       const hostname = req.headers.get('Host');
@@ -29,8 +28,8 @@ export default async function middleware(req: NextRequestWithAuth) {
       return NextResponse.redirect(url);
     }
   } else if (pathname.startsWith('/login')) {
-    console.log('At login route');
     if (token) {
+      //Already logged in. Redirect to the dashboard.
       const protocol = req.headers.get('x-forwarded-proto') || 'http';
       const hostname = req.headers.get('Host');
       const url = `${protocol}://${hostname}/dashboard`;
