@@ -13,7 +13,7 @@ import { CardMenuButton } from '@/components/New/CardMenuButton';
 export default async function newDashboardPage() {
   const session = await loadSession();
   const properties = await getUserProperties(session.user.id);
-
+  console.log('Properties on dashboardPage: ', properties);
   return (
     <Main>
       <PreviewContentRow<AppartmentDataType | HouseDataType>
