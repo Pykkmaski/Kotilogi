@@ -35,6 +35,9 @@ export async function getProperty(id: string): Promise<HouseDataType | Appartmen
     .join(targetTableName, { [`${targetTableName}.id`]: 'data_properties.id' })
     .where({ [`${targetTableName}.id`]: id })
     .select([...baseColumnsToSelect, `${targetTableName}.*`]);
+  if (!p) {
+    console.error(`Fetching property ${id}, but got undefined!`);
+  }
   return p;
 }
 

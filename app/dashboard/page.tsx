@@ -36,7 +36,7 @@ export default async function newDashboardPage() {
               }`}
               description={item.description || 'Ei Kuvausta.'}
               imageSrc={
-                (mainImageId && `/api/protected/files?id=${mainImageId}`) ||
+                (mainImageId && `/api/protected/files/${mainImageId}`) ||
                 '/img/Properties/default-bg.jpg'
               }
               HeaderComponent={() => {
