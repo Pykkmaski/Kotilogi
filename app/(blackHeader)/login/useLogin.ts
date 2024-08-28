@@ -41,7 +41,7 @@ export function useLogin() {
             setStatus(res.error as any);
           } else {
             setStatus('success');
-            router.push('/newDashboard');
+            router.push('/dashboard');
           }
         }
       })
