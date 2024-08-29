@@ -124,8 +124,7 @@ export default function RegisterPage() {
 
                 <Button
                   type='submit'
-                  title='Rekisteröidy kotilokin käyttäjäksi'
-                  data-testid='register-submit-btn'
+                  title='Rekisteröidy Kotidokin käyttäjäksi'
                   disabled={loading}
                   variant='contained'
                   startIcon={loading && <Spinner size='1rem' />}>

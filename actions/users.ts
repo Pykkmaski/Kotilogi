@@ -42,15 +42,24 @@ export async function ARegisterUser(credentials: {
     await trx('data_users').insert(user);
     await sendAccountActivationLink(user.email);
     await trx.commit();
-    return 'success';
+    return {
+      status: 200,
+      statusText: 'Käyttäjä rekisteröity!',
+    };
   } catch (err) {
     const msg = err.message.toUpperCase();
     await trx.rollback();
     if (msg.includes('UNIQUE') || msg.includes('DUPLICATE')) {
-      return 'user_exists';
+      return {
+        status: 409,
+        statusText: 'Käyttäjä on jo olemassa!',
+      };
     } else {
       console.log(err.message);
-      return 'unexpected';
+      return {
+        status: 500,
+        statusText: err.message,
+      };
     }
   }
 }

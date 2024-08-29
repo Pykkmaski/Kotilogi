@@ -24,9 +24,6 @@ export async function PropertyOverview({
 }: PropertyOverviewProps) {
   const [mainImageId] =
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
-  const [propertyType] = await db('ref_propertyTypes')
-    .where({ id: property.propertyTypeId })
-    .pluck('name');
   const [buildingType] = await db('ref_buildingTypes')
     .where({ id: property.buildingTypeId })
     .pluck('name');
@@ -58,7 +55,7 @@ export async function PropertyOverview({
               }>
               <LabelGrid.Entry
                 label={'Kiinteistötyyppi'}
-                value={propertyType}
+                value={property.propertyTypeName}
               />
 
               <LabelGrid.Entry

@@ -23,6 +23,7 @@ export type PropertyDataType = ObjectDataType & {
   livingArea: number;
   otherArea: number;
   propertyTypeId: number;
+  propertyTypeName: string;
   wcCount: number;
   houseNumber: number;
   mainColorId: number;

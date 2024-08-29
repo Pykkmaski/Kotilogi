@@ -10,7 +10,7 @@ import { CardMenuButton } from '@/components/New/CardMenuButton';
 import { getEvents } from 'kotilogi-app/models/propertyEventData';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
-  const events = await getEvents({ parentId: propertyId }, undefined, 4);
+  const events = await getEvents({ parentId: propertyId }, null, 4);
 
   return (
     <PreviewContentRow<EventDataType>
