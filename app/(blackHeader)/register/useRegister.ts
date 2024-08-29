@@ -43,11 +43,9 @@ export function useRegister() {
           password: data.password,
         })
         .then(res => {
-          if (res.status == 200) {
-            toast.success(res.data.message);
-            router.replace('/register/success');
-            setStatus('success');
-          }
+          toast.success(res.data.message);
+          router.replace('/register/success');
+          setStatus('success');
         })
         .catch(err => {
           switch (err.response.status) {
