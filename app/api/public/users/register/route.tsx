@@ -16,13 +16,14 @@ export async function POST(req: NextRequest) {
     }).parse(data);
 
     const { email, password } = data;
-
-    await sendAccountActivationLink(email);
-
+    /**Should set the user as unconfirmed as well.  */
     await db('data_users').insert({
       email,
       password: await bcrypt.hash(password, 15),
+      status: 0,
     });
+
+    await sendAccountActivationLink(email);
 
     return new NextResponse(null, {
       status: 200,

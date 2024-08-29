@@ -21,14 +21,15 @@ export async function GET(req: NextRequest) {
       return response('unauthorized', 'Varmenne on virheellinen!');
     }
 
+    console.log(decoded);
     const [userStatus] = await db('data_users').where({ id: decoded.id }).pluck('status');
 
-    if (userStatus !== 'unconfirmed') {
+    if (userStatus !== 0) {
       return response('conflict', 'Käyttäjätili on jo käytössä!');
     }
 
     await db('data_users').where({ id: decoded.id }).update({
-      status: 'active',
+      status: 1,
       activatedOn: Date.now(),
     });
 

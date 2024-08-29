@@ -26,7 +26,7 @@ describe('Testing requests with valid token.', () => {
 
   describe('The user is unconfirmed.', () => {
     beforeAll(async () => {
-      db().pluck.mockResolvedValueOnce(['unconfirmed']);
+      db().pluck.mockResolvedValueOnce([0]);
 
       const params = new URLSearchParams();
       params.set('token', validToken);
@@ -46,7 +46,7 @@ describe('Testing requests with valid token.', () => {
 
     it("Updates the correct user's status to active.", () => {
       expect(db().update).toHaveBeenCalledWith(
-        expect.objectContaining({ status: 'active', activatedOn: expect.any(Number) })
+        expect.objectContaining({ status: 1, activatedOn: expect.any(Number) })
       );
     });
   });
@@ -54,7 +54,7 @@ describe('Testing requests with valid token.', () => {
   describe('The user is already activated.', () => {
     beforeAll(async () => {
       //const dbSelectMock = jest.spyOn(db, 'select');
-      db().pluck.mockResolvedValueOnce(['active']);
+      db().pluck.mockResolvedValueOnce([1]);
 
       const params = new URLSearchParams();
       params.set('token', validToken);
