@@ -36,7 +36,7 @@ export function useRegister() {
       setStatus('password_mismatch');
     } else {
       setStatus('loading');
-      console.log('Registering');
+
       await axios
         .post('/api/public/users/register', {
           email: data.email,
@@ -44,14 +44,22 @@ export function useRegister() {
         })
         .then(res => {
           if (res.status == 200) {
-            toast.success(res.statusText);
+            toast.success(res.data.message);
             router.replace('/register/success');
-          } else {
-            toast.error(res.statusText);
+            setStatus('success');
           }
         })
-        .catch(err => console.log(err.message))
-        .finally(() => setStatus('idle'));
+        .catch(err => {
+          switch (err.response.status) {
+            case 409:
+              setStatus('user_exists');
+              break;
+
+            default:
+              toast.error(err.response.data.message);
+          }
+        })
+        .finally(() => setStatus(prev => (prev == 'loading' ? 'idle' : prev)));
     }
   };
 

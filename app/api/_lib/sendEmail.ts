@@ -26,7 +26,7 @@ export async function sendEmail(
       },
       (err, info) => {
         if (err) {
-          console.log(err.message);
+          console.error(err.message);
           reject(err);
         } else {
           resolve();

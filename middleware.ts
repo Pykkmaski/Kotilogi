@@ -3,6 +3,9 @@ import { NextRequestWithAuth } from 'next-auth/middleware';
 import { NextURL } from 'next/dist/server/web/next-url';
 import { NextResponse } from 'next/server';
 
+const ipMap = new Map();
+
+const rateLimiter = (req: NextRequestWithAuth) => {};
 export default async function middleware(req: NextRequestWithAuth) {
   const pathname = req.nextUrl.pathname;
   const token = await getToken({ req });

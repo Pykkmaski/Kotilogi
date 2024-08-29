@@ -43,11 +43,12 @@ describe('Testing the register route.', () => {
       expect(bcrypt.hash).toHaveBeenCalledWith('1234', 15);
     });
 
-    it('Inserts the users data into the db.', () => {
+    it('Inserts the users data into the db, and sets the new users status to 0 (unconfirmed)', () => {
       expect(db().insert).toHaveBeenCalledWith(
         expect.objectContaining({
           email: testEmail,
           password: 'hashed_pass',
+          status: 0,
         })
       );
     });

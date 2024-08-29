@@ -55,3 +55,9 @@ export const handleServerError = (req: NextRequest, err: any) => {
   console.log(`${req.nextUrl.pathname} ${req.method}: ${msg}`);
   return response('serverError', msg, 'Palvelinvirhe.');
 };
+
+export const createResponseMessage = (message: string) => {
+  return JSON.stringify({
+    message,
+  });
+};
