@@ -31,7 +31,7 @@ export function useRegister() {
 
   const registerHandler = async e => {
     e.preventDefault();
-    console.log(data);
+
     if (!checkPasswordMatch(data.password, data.password2)) {
       setStatus('password_mismatch');
     } else {
@@ -48,7 +48,6 @@ export function useRegister() {
           //setStatus('success');
         })
         .catch(err => {
-          console.error(err.message);
           switch (err.response.status) {
             case 409:
               setStatus('user_exists');
