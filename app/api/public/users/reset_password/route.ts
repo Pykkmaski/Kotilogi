@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import db from 'kotilogi-app/dbconfig';
 import bcrypt from 'bcrypt';
-import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import {
+  createResponseMessage,
+  handleServerError,
+  response,
+} from 'kotilogi-app/app/api/_utils/responseUtils';
 import z from 'zod';
 import { sendEmail } from 'kotilogi-app/app/api/_lib/sendEmail';
 require('dotenv').config();
@@ -12,6 +16,15 @@ export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get('email');
     const [userId] = await db('data_users').where({ email }).pluck('id');
+
+    if (!userId) {
+      return new NextResponse(
+        createResponseMessage('Käyttäjää annetulla sähköpostiosoitteella ei ole!'),
+        {
+          status: 404,
+        }
+      );
+    }
 
     const token = jwt.sign({ id: userId }, process.env.PASSWORD_RESET_SECRET, {
       expiresIn: 30 * 60,

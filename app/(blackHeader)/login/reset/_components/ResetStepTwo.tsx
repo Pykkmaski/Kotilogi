@@ -25,8 +25,10 @@ export function StepTwo() {
 
       <form
         onSubmit={resetStepTwoHandler}
+        onChange={updateData}
         className='w-full mt-4 flex flex-col sm:gap-4 md:gap-8'>
         <Input
+          data-testid='password-input1'
           autoComplete='new-password'
           type='password'
           name='password1'
@@ -35,23 +37,22 @@ export function StepTwo() {
           placeholder='Kirjoita uusi salsanasi...'
           required
           minLength={8}
-          onChange={updateData}
         />
 
         <div className='flex flex-col gap-2'>
           <Input
+            data-testid='password-input2'
             label='Toista Salasana'
             description='Uuden salsanan vahvistus.'
             placeholder='Kirjoita salasana uudelleen...'
             type='password'
             name='password2'
             required
-            onChange={updateData}
           />
 
           {status === 'password_mismatch' ? (
             <div className='w-full flex sm:justify-start md:justify-end text-sm'>
-              <ErrorText>Salasanat eivät täsmää!</ErrorText>
+              <ErrorText data-testid='password-error-text'>Salasanat eivät täsmää!</ErrorText>
             </div>
           ) : null}
         </div>
@@ -61,12 +62,14 @@ export function StepTwo() {
             direction='row'
             justify='end'>
             <Button
+              data-testid='cancel-btn'
               href='/login/reset'
               disabled={loading}>
               Takaisin
             </Button>
 
             <Button
+              data-testid='submit-btn'
               type='submit'
               disabled={loading || !data.password1 || !data.password2}
               startIcon={loading ? <Spinner size='1rem' /> : <Check />}>

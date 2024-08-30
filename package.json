@@ -1,6 +1,6 @@
 {
-  "name": "kotilogi",
-  "version": "0.1.0",
+  "name": "kotidok",
+  "version": "1.0.0-beta",
   "private": true,
   "scripts": {
     "dev": "next dev",

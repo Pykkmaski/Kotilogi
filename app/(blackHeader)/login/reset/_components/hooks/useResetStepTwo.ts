@@ -37,7 +37,7 @@ export function useResetStepTwo() {
     } else {
       await axios
         .post(
-          '/api/public/users/reset_password?redirectUrl=login',
+          '/api/public/users/reset_password',
           { password: password1 },
           {
             headers: {
@@ -48,9 +48,7 @@ export function useResetStepTwo() {
         .then(res => {
           if (res.status == 200) {
             toast.success('Salasanan vaihto onnistui!');
-            router.replace('/login');
-          } else {
-            toast.error(res.statusText);
+            router.push('/login');
           }
         })
         .catch(err => toast.error(err.message))

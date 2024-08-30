@@ -3,7 +3,7 @@
  */
 
 import db from 'kotilogi-app/dbconfig';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { GET } from '../route';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from 'kotilogi-app/app/api/_lib/sendEmail';
@@ -21,10 +21,10 @@ describe('Testing the GET route.', () => {
     const testToken = 'test_token';
 
     db().pluck.mockResolvedValue([testId]);
-    (jwt.sign as jest.Mock).mockReturnValue(testToken);
+    (jwt.sign as jest.Mock).mockReturnValueOnce(testToken);
 
     const req = new NextRequest(`http://localhost:3000?email=${testEmail}`, {
-      method: 'POST',
+      method: 'GET',
     });
 
     const res = await GET(req);
@@ -42,5 +42,25 @@ describe('Testing the GET route.', () => {
       testEmail,
       `${process.env.SERVICE_DOMAIN}/login/reset?token=${testToken}`
     );
+  });
+
+  describe('Using an invalid email address.', () => {
+    let res: NextResponse;
+    beforeAll(async () => {
+      db().pluck.mockResolvedValue([]);
+      const req = new NextRequest(`http://localhost:3000?email=${testEmail}`, {
+        method: 'GET',
+      });
+
+      res = await GET(req);
+    });
+
+    afterAll(() => {
+      db().pluck.mockReset();
+    });
+
+    it('Responds with code 404.', () => {
+      expect(res.status).toBe(404);
+    });
   });
 });

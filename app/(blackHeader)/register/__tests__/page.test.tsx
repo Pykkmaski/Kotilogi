@@ -17,6 +17,11 @@ jest.mock('axios', () => ({
 describe('Testing the register page.', () => {
   const testEmail = 'test@email.com';
   const testPassword = '12345678';
+  test('The tos-checkbox is marked as required', () => {
+    render(<Page />);
+    const tosCheckbox = screen.getByTestId('register-tos-checkbox');
+    expect(tosCheckbox).toHaveAttribute('required');
+  });
 
   describe('Testing successful submission.', () => {
     afterAll(() => {

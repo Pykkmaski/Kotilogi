@@ -19,17 +19,21 @@ export function useResetStepOne() {
       .get(`/api/public/users/reset_password?email=${email}`)
       .then(res => {
         if (res.status == 200) {
-          toast.success(res.data);
+          toast.success(res.data.message);
           setStatus('success');
-        } else {
-          toast.error(res.statusText);
-          setStatus('idle');
         }
       })
       .catch(err => {
-        toast.error(err.message);
-        setStatus('idle');
-      });
+        switch (err.response.status) {
+          case 404: {
+            toast.error(err.response.data.message);
+            setStatus('invalid_email');
+          }
+          default:
+            toast.error(err.message);
+        }
+      })
+      .finally(() => setStatus(prev => (prev == 'loading' ? 'idle' : prev)));
   };
 
   return {

@@ -24,13 +24,9 @@ export function useLogin() {
     e.preventDefault();
     setStatus('loading');
 
-    const data = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-
     const credentials = {
-      ...data,
+      email: data.email,
+      password: data.password,
       redirect: false,
     };
 

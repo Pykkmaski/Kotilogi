@@ -25,21 +25,23 @@ export function StepOne() {
         Sähköpostin saapumiseen saattaa mennä muutama minuutti.
       </p>
 
-      <form onSubmit={resetStepOneHandler}>
+      <form
+        onSubmit={resetStepOneHandler}
+        onChange={updateData}>
         <div className='flex flex-col gap-2'>
           <Input
+            data-testid='reset-pass-email-input'
             type='email'
             name='email'
             label='Sähköpostiosoite'
             description='Anna sähköpostiosoitteesi.'
             placeholder='Kirjoita sähköpostiosoitteesi...'
             required
-            onChange={updateData}
           />
 
           {status === 'invalid_email' ? (
             <div className='flex w-full text-sm sm:justify-start md:justify-end'>
-              <ErrorText>
+              <ErrorText data-testid='invalid-email-text'>
                 Antamallesi sähköpostiosoitteelle ei löytynyt rekisteröityä käyttäjää!
               </ErrorText>
             </div>
@@ -52,6 +54,7 @@ export function StepOne() {
             justify='end'
             gap={2}>
             <Button
+              data-testid='cancel-btn'
               variant='text'
               type='button'
               onClick={() => router.push('/login')}
@@ -60,6 +63,7 @@ export function StepOne() {
             </Button>
 
             <Button
+              data-testid='submit-btn'
               variant='contained'
               color='primary'
               type='submit'

@@ -38,6 +38,7 @@ export default function LoginPage() {
         <ContentCard title='Kirjaudu Sisään'>
           <form
             onSubmit={loginHandler}
+            onChange={updateData}
             className='w-full flex flex-col xs:gap-4 xl:gap-8'>
             <div className='flex flex-col gap-2'>
               <Input
@@ -48,7 +49,6 @@ export default function LoginPage() {
                 name='email'
                 required={true}
                 placeholder='Kirjoita sähköpostiosoitteesi...'
-                onChange={updateData}
               />
 
               {status === 'invalid_user' ||
@@ -56,13 +56,13 @@ export default function LoginPage() {
               status === 'user_inactive' ? (
                 <div className='w-full flex flex-row xs:justify-normal xl:justify-end text-sm'>
                   {status === 'invalid_user' ? (
-                    <ErrorText data-testid='invalid-user-error'>
+                    <ErrorText data-testid='invalid-email-text'>
                       Käyttäjää annetulla sähköpostiosoitteella ei ole!
                     </ErrorText>
                   ) : status === 'trial_expired' ? (
                     <ErrorText>Kokeilujaksosi on päättynyt!</ErrorText>
                   ) : (
-                    <ErrorText data-testid='inactive-user-error'>
+                    <ErrorText data-testid='inactive-user-text'>
                       Käyttäjätili on poistettu käytöstä!{' '}
                       <Link
                         href='/'
@@ -84,12 +84,11 @@ export default function LoginPage() {
                 name='password'
                 placeholder='Kirjoita salasanasi...'
                 required
-                onChange={updateData}
               />
 
               {status === 'password_mismatch' ? (
                 <div className='w-full flex flex-row xs:justify-normal xl:justify-end text-sm'>
-                  <ErrorText data-testid='password-mismatch-error'>
+                  <ErrorText data-testid='invalid-password-text'>
                     Salasana on virheellinen!
                   </ErrorText>
                 </div>
@@ -112,6 +111,7 @@ export default function LoginPage() {
                 justify='end'
                 gap={2}>
                 <Button
+                  data-testid='login-cancel-btn'
                   variant='text'
                   color='primary'
                   type='button'
@@ -121,11 +121,19 @@ export default function LoginPage() {
                 </Button>
 
                 <Button
+                  data-testid='login-submit-btn'
                   type='submit'
                   variant='contained'
                   color='primary'
                   disabled={loading}
-                  startIcon={loading && <Spinner size='1rem' />}>
+                  startIcon={
+                    loading && (
+                      <Spinner
+                        size='1rem'
+                        data-testid='submit-btn-spinner'
+                      />
+                    )
+                  }>
                   Kirjaudu
                 </Button>
               </Group>
