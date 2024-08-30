@@ -25,13 +25,13 @@ export default function RegisterPage() {
           <form
             onSubmit={registerHandler}
             data-testid='register-form'
-            className='flex flex-col xl:gap-8 xs:gap-4 xs:w-full'>
+            className='flex flex-col xl:gap-8 xs:gap-4 xs:w-full'
+            onChange={updateData}>
             <div className='flex flex-col gap-2'>
               <Input
                 data-testid='register-email-input'
                 label='Sähköpostiosoite'
                 description='Anna sähköpostiosoitteesi.'
-                onChange={updateData}
                 required
                 placeholder='Kirjoita sähköpostiosoite...'
                 type='email'
@@ -54,7 +54,6 @@ export default function RegisterPage() {
                   label='Salasana'
                   description='Anna tilille salasana.'
                   type='password'
-                  onChange={updateData}
                   required
                   placeholder='Kirjoita salasana...'
                   autoComplete='new-password'
@@ -127,6 +126,7 @@ export default function RegisterPage() {
                   title='Rekisteröidy Kotidokin käyttäjäksi'
                   disabled={loading}
                   variant='contained'
+                  data-testid='register-submit-btn'
                   startIcon={loading && <Spinner size='1rem' />}>
                   Rekisteröidy
                 </Button>

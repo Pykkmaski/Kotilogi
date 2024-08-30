@@ -38,6 +38,11 @@ export async function AUpdateUtilityData(
       unitAmount: unitAmount ? multiplyByOneHundred(unitAmount) : undefined,
     });
   revalidatePath(path);
+
+  return {
+    status: 200,
+    statusText: 'Tieto päivitetty!',
+  };
 }
 
 export async function ACreateUtilityData(

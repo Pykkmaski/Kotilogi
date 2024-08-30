@@ -1,11 +1,34 @@
 import { getToken } from 'next-auth/jwt';
 import { NextRequestWithAuth } from 'next-auth/middleware';
-import { NextURL } from 'next/dist/server/web/next-url';
 import { NextResponse } from 'next/server';
 
-const ipMap = new Map();
+const ipMap = new Map<string, { count: number; lastReset: number }>();
 
-const rateLimiter = (req: NextRequestWithAuth) => {};
+const rateLimiter = (req: NextRequestWithAuth) => {
+  const ip = req.headers.get('X-Forwarded-For');
+  const ipData = ipMap.get(ip);
+
+  if (ipData) {
+    if (Date.now() - ipData.lastReset > 1000 * 60 * 30) {
+      ipData.count = 0;
+      ipData.lastReset = Date.now();
+    }
+
+    if (ipData.count >= 10) {
+      return new NextResponse('Too many requests.', {
+        status: 401,
+      });
+    }
+
+    ipData.count++;
+  } else {
+    ipMap.set(ip, {
+      count: 1,
+      lastReset: Date.now(),
+    });
+  }
+};
+
 export default async function middleware(req: NextRequestWithAuth) {
   const pathname = req.nextUrl.pathname;
   const token = await getToken({ req });
@@ -21,6 +44,8 @@ export default async function middleware(req: NextRequestWithAuth) {
         statusText: 'Kielletty.',
       });
     }
+  } else if (pathname.startsWith('/api/public')) {
+    return rateLimiter(req);
   }
   //Only allow logged-in users to make requests to protected routes.
   else if (pathname.startsWith('/api/protected') || pathname.startsWith('/dashboard')) {
@@ -44,5 +69,10 @@ export default async function middleware(req: NextRequestWithAuth) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/protected/:path*', '/api/admin/:path*'],
+  matcher: [
+    '/api/public/users/activate/send',
+    '/dashboard/:path*',
+    '/api/protected/:path*',
+    '/api/admin/:path*',
+  ],
 };
