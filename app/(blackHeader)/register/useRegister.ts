@@ -52,9 +52,11 @@ export function useRegister() {
             case 409:
               setStatus('user_exists');
               break;
-
+            case 429:
+              toast.error('Liian monta pyyntöä! Odota muutama minuutti ja yritä uudelleen.');
+              break;
             default:
-              toast.error(err.response.data.message);
+              toast.error(err.message);
           }
         })
         .finally(() => setStatus(prev => (prev == 'loading' ? 'idle' : prev)));

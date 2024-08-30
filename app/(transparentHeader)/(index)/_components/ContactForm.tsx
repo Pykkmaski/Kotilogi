@@ -38,7 +38,16 @@ function ContactForm(props) {
           toast.error(res.statusText);
         }
       })
-      .catch(err => toast.error(err.message))
+      .catch(err => {
+        switch (err.response.status) {
+          case 429:
+            toast.error('Liian monta pyyntöä! Yritä muutaman minuutin päästä uudelleen.');
+            break;
+
+          default:
+            toast.error(err.response.statusText);
+        }
+      })
       .finally(() => setLoading(false));
   }
 
