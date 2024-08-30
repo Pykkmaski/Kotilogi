@@ -7,16 +7,20 @@ const ipMap = new Map<string, { count: number; lastReset: number }>();
 const rateLimiter = (req: NextRequestWithAuth) => {
   const ip = req.headers.get('X-Forwarded-For');
   const ipData = ipMap.get(ip);
+  const waitTime = 1000 * 60 * 5;
 
   if (ipData) {
-    if (Date.now() - ipData.lastReset > 1000 * 60 * 30) {
+    if (Date.now() - ipData.lastReset > waitTime) {
       ipData.count = 0;
       ipData.lastReset = Date.now();
     }
 
     if (ipData.count >= 10) {
       return new NextResponse('Too many requests.', {
-        status: 401,
+        status: 429,
+        headers: {
+          'Retry-After': (waitTime / 1000).toString(),
+        },
       });
     }
 
