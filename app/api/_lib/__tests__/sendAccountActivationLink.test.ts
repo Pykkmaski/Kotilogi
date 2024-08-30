@@ -19,6 +19,10 @@ describe('Testing the sendAccountActivationLink-method.', () => {
     await sendAccountActivationLink(testEmail);
   });
 
+  afterAll(() => {
+    db().pluck.mockReset();
+  });
+
   it('Calls db.where with the correct arguments.', () => {
     expect(db().where).toHaveBeenCalledWith({ email: testEmail });
   });

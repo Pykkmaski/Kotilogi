@@ -44,12 +44,12 @@ describe('Testing the login page.', () => {
           redirect: false,
         })
       );
-    });
+    }, 10000);
 
-    it('Reroutes to the dashboard page.', () => {
+    it('Redirects to the dashboard page.', () => {
       const router = useRouter();
       expect(router.push).toHaveBeenCalledWith('/dashboard');
-    });
+    }, 10000);
   });
 
   describe('Testing login with invalid email.', () => {

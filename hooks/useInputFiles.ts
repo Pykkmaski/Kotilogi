@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 /**Hook to contain uploaded files before they are submitted.
  * @param defaultData The default data to be inserted alongside every file.
@@ -14,7 +14,7 @@ export function useInputFiles() {
 
     for (var i = 0; i < uploadedFiles.length; ++i) {
       const fdata = new FormData();
-      fdata.append("file", uploadedFiles[i]);
+      fdata.append('file', uploadedFiles[i]);
       newFiles.push(fdata);
     }
 
@@ -36,8 +36,6 @@ export function useInputData(initialData) {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-
-    console.log(data);
   };
 
   const reset = (resetData?: any) => {
