@@ -1,37 +1,7 @@
 import { getToken } from 'next-auth/jwt';
 import { NextRequestWithAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
-
-const ipMap = new Map<string, { count: number; lastReset: number }>();
-
-const rateLimiter = (req: NextRequestWithAuth) => {
-  const ip = req.headers.get('X-Forwarded-For');
-  const ipData = ipMap.get(ip);
-  const waitTime = 1000 * 60 * 5;
-
-  if (ipData) {
-    if (Date.now() - ipData.lastReset > waitTime) {
-      ipData.count = 0;
-      ipData.lastReset = Date.now();
-    }
-
-    if (ipData.count >= 10) {
-      return new NextResponse('Too many requests.', {
-        status: 429,
-        headers: {
-          'Retry-After': (waitTime / 1000).toString(),
-        },
-      });
-    }
-
-    ipData.count++;
-  } else {
-    ipMap.set(ip, {
-      count: 1,
-      lastReset: Date.now(),
-    });
-  }
-};
+import { rateLimiter } from './utils/rateLimiter';
 
 export default async function middleware(req: NextRequestWithAuth) {
   const pathname = req.nextUrl.pathname;
@@ -48,18 +18,25 @@ export default async function middleware(req: NextRequestWithAuth) {
         statusText: 'Kielletty.',
       });
     }
-  } else if (pathname.startsWith('/api/public')) {
-    return rateLimiter(req);
   }
-  //Only allow logged-in users to make requests to protected routes.
-  else if (pathname.startsWith('/api/protected') || pathname.startsWith('/dashboard')) {
+  if (pathname.startsWith('/api/public')) {
+    const res = await rateLimiter.limit(req);
+    if (res.status == 429) {
+      return res;
+    }
+  }
+
+  //Only allow logged-in users to make requests to protected routes, or accessing routes under /dashboard.
+  if (pathname.startsWith('/api/protected') || pathname.startsWith('/dashboard')) {
     if (!token) {
       const protocol = req.headers.get('x-forwarded-proto') || 'http';
       const hostname = req.headers.get('Host');
       const url = `${protocol}://${hostname}/login`;
       return NextResponse.redirect(url);
     }
-  } else if (pathname.startsWith('/login')) {
+  }
+
+  if (pathname.startsWith('/login')) {
     if (token) {
       //Already logged in. Redirect to the dashboard.
       const protocol = req.headers.get('x-forwarded-proto') || 'http';

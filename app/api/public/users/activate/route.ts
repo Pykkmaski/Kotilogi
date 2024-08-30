@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
       return response('unauthorized', 'Varmenne on virheellinen!');
     }
 
-    console.log(decoded);
     const [userStatus] = await db('data_users').where({ id: decoded.id }).pluck('status');
 
     if (userStatus !== 0) {

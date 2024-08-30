@@ -21,7 +21,7 @@ describe('Testing the register route.', () => {
     let res: NextResponse;
 
     beforeAll(async () => {
-      const req = new NextRequest('http://localhost:300', {
+      const req = new NextRequest('http://localhost:3000', {
         method: 'POST',
         body: JSON.stringify({
           email: testEmail,
