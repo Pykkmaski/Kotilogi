@@ -1,3 +1,8 @@
+/**
+ * @deprecated
+ * @param bills
+ * @returns
+ */
 export function createVismaProductArray(bills: TODO) {
   return bills.map(bill => {
     const price = Math.round(bill.amount * 1.24);

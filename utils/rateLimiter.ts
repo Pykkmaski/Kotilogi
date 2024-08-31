@@ -52,4 +52,5 @@ class RateLimiter {
   }
 }
 
+/**An instance of the RateLimiter class. Call .limit to apply rate limiting on requests. */
 export const rateLimiter = new RateLimiter(10, 1000 * 60 * 5);

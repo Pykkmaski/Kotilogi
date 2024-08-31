@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export function isDateValue(val: string) {
   const parts = val.split('-');
   for (const part of parts) {

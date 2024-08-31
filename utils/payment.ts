@@ -1,10 +1,17 @@
 import { UserType } from 'kotilogi-app/types/UserType';
 import crypto from 'crypto';
 
+/**
+ * @deprecated
+ */
 export class Payment {
   generateAuthCode(orderNumber: string) {
     const data = `${process.env.VISMA_API_KEY}|${orderNumber}`;
-    return crypto.createHmac('SHA256', process.env.VISMA_MERCHANT_SECRET).update(data).digest('hex').toUpperCase();
+    return crypto
+      .createHmac('SHA256', process.env.VISMA_MERCHANT_SECRET)
+      .update(data)
+      .digest('hex')
+      .toUpperCase();
   }
 
   generateOrderNumber(user: UserType) {

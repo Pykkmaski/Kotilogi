@@ -21,7 +21,6 @@ export default async function middleware(req: NextRequestWithAuth) {
   }
   if (pathname.startsWith('/api/public')) {
     //Limit the requests of public api-routes.
-
     const res = await rateLimiter.limit(req);
     if (res.status == 429) {
       return res;
