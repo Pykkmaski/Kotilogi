@@ -1,6 +1,4 @@
-import { DatabaseTable } from 'kotilogi-app/utils/databaseTable';
-import { NextRequest, NextResponse } from 'next/server';
-import { verifyAuthorization } from '../../../_utils/verifyAuthorization';
+import { NextRequest } from 'next/server';
 import db from 'kotilogi-app/dbconfig';
 import { response } from '../../../_utils/responseUtils';
 
