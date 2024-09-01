@@ -4,15 +4,22 @@ import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
 import { CookieNotice } from '@/components/App/CookieNotice';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-
+/*
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+*/
 import { ThemeProvider } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
 import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
 import Script from 'next/script';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'], // Specify the subset(s) you want to use
+  weight: ['400', '700'], // Specify the weight(s) you want to use
+});
 
 export const metadata = {
   title: 'Kotidok',
@@ -20,6 +27,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: React.PropsWithChildren) {
+  const bodyClassName = [
+    'flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-slate-200',
+    inter.className,
+  ];
+
   return (
     <html lang='en'>
       <head>
@@ -44,7 +56,7 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
 
       <AppRouterCacheProvider>
         <AuthProvider>
-          <body className='flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-slate-200'>
+          <body className={bodyClassName.join(' ')}>
             <ThemeProvider theme={theme}>
               <AppProvider>{children}</AppProvider>
             </ThemeProvider>

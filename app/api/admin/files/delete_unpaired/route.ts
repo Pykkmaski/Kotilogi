@@ -1,10 +1,7 @@
-import { opendir, readdir, readFile, unlink } from 'fs/promises';
+import { opendir, unlink } from 'fs/promises';
 import db from 'kotilogi-app/dbconfig';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
-import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
-import { verifyAuthorization } from '../../../_utils/verifyAuthorization';
-import { Files } from 'kotilogi-app/utils/files';
+import { NextRequest } from 'next/server';
 import { response } from '../../../_utils/responseUtils';
 
 /**

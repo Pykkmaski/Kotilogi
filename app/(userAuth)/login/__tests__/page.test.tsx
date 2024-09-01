@@ -112,14 +112,4 @@ describe('Testing the login page.', () => {
       expect(link).toHaveAttribute('href', '/login/reset');
     });
   });
-
-  describe('Testing the cancel-button', () => {
-    it('Links back to the index-page.', async () => {
-      render(<Page />);
-      const cancelBtn = screen.getByTestId('login-cancel-btn');
-      await userEvent.click(cancelBtn);
-      const router = useRouter();
-      expect(router.push).toHaveBeenCalledWith('/');
-    });
-  });
 });

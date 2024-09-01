@@ -1,5 +1,5 @@
-import ResetForm from 'kotilogi-app/app/(blackHeader)/login/reset/_components/ResetForm';
 import { Padding } from '@/components/UI/Padding';
+import ResetForm from './_components/ResetForm';
 
 export default function ResetPage() {
   return (
