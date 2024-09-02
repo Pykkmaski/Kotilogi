@@ -14,7 +14,7 @@ export default function UserAuthLayout({ children }) {
         className='absolute top-0 right-0'
         id='bg-design'
         type='image/svg+xml'
-        src='/auth/bg_shape.svg'
+        src='/auth/Background Shape.png'
         height={'100%'}
       />
     </div>

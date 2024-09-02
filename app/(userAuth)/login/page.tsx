@@ -16,6 +16,7 @@ import { SubmitButton, Button } from '../_components/Button';
 import { InputBadge } from '../_components/InputIcon';
 import { Check, Clear } from '@mui/icons-material';
 import { ErrorMessage } from '@/components/UI/FormUtils';
+import { Main } from '../_components/Main';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,9 +40,7 @@ export default function LoginPage() {
   const invalidPassword = status == 'password_mismatch';
 
   return (
-    <main
-      id='login-page-main'
-      className='flex flex-col gap-4 flex-1 justify-center'>
+    <Main id='login-page-main'>
       <form
         onSubmit={loginHandler}
         onChange={updateData}
@@ -114,6 +113,6 @@ export default function LoginPage() {
           </Link>
         </div>
       </form>
-    </main>
+    </Main>
   );
 }
