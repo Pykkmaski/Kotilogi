@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import styles from '../styles.module.css';
+import styles from './styles.module.css';
 import Spinner from '@/components/UI/Spinner';
 
 type ButtonProps = React.ComponentProps<'button'> & {

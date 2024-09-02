@@ -1,46 +1,42 @@
 'use client';
 
-import { ContentCard } from '@/components/UI/RoundedBox';
-import { Input, Select } from '@/components/Feature/Input';
 import { Group } from '@/components/UI/Group';
-import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
-import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
-import { Padding } from '@/components/UI/Padding';
 import Link from 'next/link';
 import { ErrorText } from '@/components/UI/Text';
 import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
 import { useRegister } from './useRegister';
-import { Button } from '@mui/material';
 import Spinner from '@/components/UI/Spinner';
 import { Main } from '../_components/Main';
+import { Form } from '../_components/Form';
+import { Input } from '../_components/Input';
+import { Button, SubmitButton } from '../_components/Button';
+import { Checkbox } from '../_components/Checkbox';
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
-  const { status, registerHandler, data, updateData } = useRegister();
+  const { status, registerHandler, updateData } = useRegister();
   const loading = status === 'loading';
 
   return (
     <Main id='register-page-main'>
-      <form
+      <Form
         onSubmit={registerHandler}
         data-testid='register-form'
-        className='flex flex-col xl:gap-8 xs:gap-4 xs:w-full'
         onChange={updateData}>
+        <h1 className='text-[64px] text-primary'>Rekisteröidy</h1>
         <div className='flex flex-col gap-2'>
           <Input
-            data-testid='register-email-input'
-            label='Sähköpostiosoite'
-            description='Anna sähköpostiosoitteesi.'
-            required
-            placeholder='Kirjoita sähköpostiosoite...'
-            type='email'
+            placeholder='Sähköpostiosoite...'
             name='email'
+            data-testid='register-email-input'
+            type='email'
+            required
           />
 
           {status === 'user_exists' ? (
             <div className='w-full flex flex-row xs:justify-normal xl:justify-end text-sm'>
               <ErrorText data-testid='email-error-text'>
-                Tili annetulla osoitteella on jo olemassa!
+                Tili annetulle sähköpostiosoitteelle on jo olemassa!
               </ErrorText>
             </div>
           ) : null}
@@ -50,8 +46,6 @@ export default function RegisterPage() {
           <div className='flex flex-col xl:gap-8 xs:gap-4'>
             <Input
               data-testid='register-password1-input'
-              label='Salasana'
-              description='Anna tilille salasana.'
               type='password'
               required
               placeholder='Kirjoita salasana...'
@@ -62,8 +56,6 @@ export default function RegisterPage() {
 
             <Input
               data-testid='register-password2-input'
-              label='Vahvista salasana'
-              description='Kirjoita salasana uudelleen.'
               type='password'
               required
               placeholder='Kirjoita salasana uudelleen...'
@@ -80,58 +72,41 @@ export default function RegisterPage() {
           ) : null}
         </div>
 
-        <div className='w-full'>
-          <Group
-            direction='row'
-            justify='between'
-            align='center'>
-            <span>
-              Olen lukenut <span data-testid='service-name'>{serviceName}</span>:n{' '}
-              <Link
-                data-testid='register-tos-link'
-                href='/tos'
-                target='_blank'
-                className='text-green-500'>
-                käyttöehdot
-              </Link>
-              :
-            </span>
-            <input
-              data-testid='register-tos-checkbox'
-              className='aspect-square w-[20px]'
-              type='checkbox'
-              required
-            />
-          </Group>
-        </div>
-
-        <div className='w-full mt-4 border-t-[1px] pt-[1rem]'>
-          <Group
-            direction='row'
-            justify='end'
-            gap={2}>
+        <div className='w-full flex flex-row gap-2 items-center'>
+          <Checkbox
+            data-testid='register-tos-checkbox'
+            required
+          />
+          <span className='text-[16px] text-[#757575]'>
+            Olen lukenut <span data-testid='service-name'>{serviceName}</span>:n{' '}
             <Link
-              href='/'
-              data-testid='register-cancel-btn'>
-              <Button
-                variant='text'
-                disabled={loading}>
-                Peruuta
-              </Button>
+              data-testid='register-tos-link'
+              href='/tos'
+              target='_blank'
+              className='text-green-500'>
+              käyttöehdot
             </Link>
-
-            <Button
-              type='submit'
-              title='Rekisteröidy Kotidokin käyttäjäksi'
-              disabled={loading}
-              variant='contained'
-              data-testid='register-submit-btn'
-              startIcon={loading && <Spinner size='1rem' />}>
-              Rekisteröidy
-            </Button>
-          </Group>
+            :
+          </span>
         </div>
-      </form>
+
+        <div className='flex items-center mt-4 pt-[1rem] gap-4 w-full'>
+          <SubmitButton
+            type='submit'
+            title='Rekisteröidy Kotidokin käyttäjäksi'
+            disabled={loading}
+            data-testid='register-submit-btn'
+            loading={loading}>
+            Rekisteröidy
+          </SubmitButton>
+          <Link
+            href='/login'
+            className='text-[#757575] font-[600] text-[18px]'
+            data-testid='register-cancel-btn'>
+            Onko sinulla tili? Kirjaudu sisään
+          </Link>
+        </div>
+      </Form>
     </Main>
   );
 }

@@ -1,22 +1,17 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ContentCard } from '@/components/UI/RoundedBox';
-import { Group } from '@/components/UI/Group';
 import Link from 'next/link';
-import { Padding } from '@/components/UI/Padding';
 import { ErrorText } from '@/components/UI/Text';
 import { useLogin } from './useLogin';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import Spinner from '@/components/UI/Spinner';
 import { Input } from '../_components/Input';
-import styles from '../styles.module.css';
-import { SubmitButton, Button } from '../_components/Button';
-import { InputBadge } from '../_components/InputIcon';
-import { Check, Clear } from '@mui/icons-material';
-import { ErrorMessage } from '@/components/UI/FormUtils';
+import { SubmitButton } from '../_components/Button';
+import { InputBadge } from '../_components/InputBadge';
+import { Clear } from '@mui/icons-material';
 import { Main } from '../_components/Main';
+import { Form } from '../_components/Form';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,10 +36,9 @@ export default function LoginPage() {
 
   return (
     <Main id='login-page-main'>
-      <form
+      <Form
         onSubmit={loginHandler}
-        onChange={updateData}
-        className='z-10 flex flex-col gap-8 animate-slideup-fast w-[665px]'>
+        onChange={updateData}>
         <h1 className='text-primary font-semibold text-[64px]'>Kirjaudu Sisään</h1>
 
         <div className='flex flex-col gap-2'>
@@ -112,7 +106,7 @@ export default function LoginPage() {
             Eikö sinulla ole tiliä?
           </Link>
         </div>
-      </form>
+      </Form>
     </Main>
   );
 }

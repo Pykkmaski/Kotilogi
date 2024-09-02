@@ -1,72 +1,7 @@
-.user-auth-input {
-  width: 665px;
-  height: 80px;
-  border-radius: 8px;
-  background: #ffffff;
-  background-blend-mode: normal;
-  box-shadow: 0px 2px 4px rgba(100, 100, 100, 0.5);
-  font-size: 24px;
-  font-weight: 400;
-  padding: 18px 32px 18px 32px;
-  color: #757575;
-}
-
-.bg-rectangle {
-  position: absolute;
-  left: 650px;
-  top: -700px;
-  width: 1786px;
-  height: 1263px;
-  border-radius: 48px;
-  background: rgba(103, 168, 125, 0.57);
-  background-blend-mode: normal;
-  box-shadow: 0px 13px 38px rgba(100, 100, 100, 0.5);
-  transform: rotate(-24deg);
-}
-
 .layout {
   background: #f6f6f6;
   background-blend-mode: normal;
   overflow: hidden;
   display: flex;
   flex-flow: column;
-}
-
-.inputBadge {
-  position: absolute;
-  right: 18px;
-}
-
-@keyframes BadgeAnimation {
-  from {
-    scale: 0;
-  }
-  to {
-    scale: 1;
-  }
-}
-
-.inputIcon {
-  animation-name: BadgeAnimation;
-  animation-duration: 200ms;
-  animation-timing-function: cubic-bezier(1, 0, 0, 1);
-}
-
-.button {
-  font-size: 24px;
-  font-weight: 600;
-  color: #757575;
-}
-
-.submitButton {
-  width: 332px;
-  height: 62px;
-  border-radius: 8px;
-  background: #518577;
-  background-blend-mode: normal;
-  color: white;
-}
-
-.submitButton:disabled {
-  background-color: gray;
 }

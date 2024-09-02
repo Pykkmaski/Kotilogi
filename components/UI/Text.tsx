@@ -1,7 +1,7 @@
 export function ErrorText({ children, ...props }) {
   return (
     <span
-      className='text-red-600'
+      className='text-red-600 text-[16px]'
       {...props}>
       {children}
     </span>
@@ -11,7 +11,7 @@ export function ErrorText({ children, ...props }) {
 export function SuccessText({ children, ...props }) {
   return (
     <span
-      className='text-green-400'
+      className='text-green-400 text-[16px]'
       {...props}>
       {children}
     </span>
