@@ -30,10 +30,16 @@ export default async function middleware(req: NextRequestWithAuth) {
   if (pathname.startsWith('/api/protected') || pathname.startsWith('/dashboard')) {
     //Only allow logged-in users to make requests to protected routes, or accessing routes under /dashboard.
     if (!token) {
-      const protocol = req.headers.get('x-forwarded-proto') || 'http';
-      const hostname = req.headers.get('Host');
-      const url = `${protocol}://${hostname}/login`;
+      const url = req.nextUrl.clone();
+      url.pathname = '/login';
       return NextResponse.redirect(url);
+    } else {
+      if (token.status == 0) {
+        //Check if a user is not activated, and redirect them to the activation prompt.
+        const url = req.nextUrl.clone();
+        url.pathname = '/activate';
+        return NextResponse.redirect(url);
+      }
     }
   }
 

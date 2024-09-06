@@ -13,6 +13,8 @@ const testUser = {
   email: 'test',
 };
 
+const domain = 'http://localhost:3000';
+
 describe('Testing requests with valid token.', () => {
   var response: NextResponse = null;
   var redirectMock = jest.spyOn(NextResponse, 'redirect');
@@ -23,16 +25,14 @@ describe('Testing requests with valid token.', () => {
   );
 
   const validToken = jwt.sign(testUser, process.env.ACTIVATION_SECRET);
+  const url = new NextURL(domain);
 
   describe('The user is unconfirmed.', () => {
     beforeAll(async () => {
       db().pluck.mockResolvedValueOnce([0]);
-
-      const params = new URLSearchParams();
-      params.set('token', validToken);
-
+      url.searchParams.set('token', validToken);
       response = await GET({
-        nextUrl: new NextURL(`http://localhost:300?${params.toString()}`),
+        nextUrl: url,
       } as NextRequest);
     });
 
@@ -41,7 +41,7 @@ describe('Testing requests with valid token.', () => {
     });
 
     it('Calls the redirect-method with the correct arguments.', () => {
-      expect(redirectMock).toHaveBeenCalledWith(process.env.SERVICE_DOMAIN + '/activated');
+      expect(redirectMock).toHaveBeenCalledWith(`${domain}/activated`);
     });
 
     it("Updates the correct user's status to active.", () => {

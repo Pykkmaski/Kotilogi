@@ -1,21 +1,21 @@
 'use client';
 
-import { Group } from '@/components/UI/Group';
 import Link from 'next/link';
 import { ErrorText } from '@/components/UI/Text';
 import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
 import { useRegister } from './useRegister';
-import Spinner from '@/components/UI/Spinner';
 import { Main } from '../_components/Main';
 import { Form } from '../_components/Form';
 import { Input } from '../_components/Input';
-import { Button, SubmitButton } from '../_components/Button';
+import { SubmitButton } from '../_components/Button';
 import { Checkbox } from '../_components/Checkbox';
+import { ErrorBadge, SuccessBadge } from '../_components/InputBadge';
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
-  const { status, registerHandler, updateData } = useRegister();
+  const { status, registerHandler, updateData, data } = useRegister();
   const loading = status === 'loading';
+  const submitDisabled = loading || status === 'user_exists' || !data.tosAccepted;
 
   return (
     <Main id='register-page-main'>
@@ -24,17 +24,24 @@ export default function RegisterPage() {
         data-testid='register-form'
         onChange={updateData}>
         <h1 className='text-[64px] text-primary'>Rekisteröidy</h1>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 relative'>
           <Input
             placeholder='Sähköpostiosoite...'
             name='email'
             data-testid='register-email-input'
             type='email'
             required
+            badge={
+              status === 'user_exists' ? (
+                <ErrorBadge />
+              ) : data.email && data.email.length ? (
+                <SuccessBadge />
+              ) : null
+            }
           />
 
           {status === 'user_exists' ? (
-            <div className='w-full flex flex-row xs:justify-normal xl:justify-end text-sm'>
+            <div className='w-full flex flex-row xs:justify-normal xl:justify-end text-sm absolute -bottom-6'>
               <ErrorText data-testid='email-error-text'>
                 Tili annetulle sähköpostiosoitteelle on jo olemassa!
               </ErrorText>
@@ -74,6 +81,7 @@ export default function RegisterPage() {
 
         <div className='w-full flex flex-row gap-2 items-center'>
           <Checkbox
+            name='tosAccepted'
             data-testid='register-tos-checkbox'
             required
           />
@@ -94,7 +102,7 @@ export default function RegisterPage() {
           <SubmitButton
             type='submit'
             title='Rekisteröidy Kotidokin käyttäjäksi'
-            disabled={loading}
+            disabled={submitDisabled}
             data-testid='register-submit-btn'
             loading={loading}>
             Rekisteröidy

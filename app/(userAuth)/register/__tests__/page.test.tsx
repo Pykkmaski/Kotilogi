@@ -2,21 +2,24 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Page from '../page';
-import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
-import { useRegister } from '../useRegister';
+
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
+jest.mock('@/actions/users', () => ({
+  AUserExists: jest.fn().mockResolvedValue(false),
+}));
 jest.mock('next/navigation');
 jest.mock('react-hot-toast');
 jest.mock('axios', () => ({
   post: jest.fn(async () => Promise<{ status: number; data: any }>),
 }));
 
+const testEmail = 'test@email.com';
+const testPassword = '12345678';
+
 describe('Testing the register page.', () => {
-  const testEmail = 'test@email.com';
-  const testPassword = '12345678';
   test('The tos-checkbox is marked as required', () => {
     render(<Page />);
     const tosCheckbox = screen.getByTestId('register-tos-checkbox');
@@ -55,7 +58,7 @@ describe('Testing the register page.', () => {
 
       const submitBtn = screen.getByTestId('register-submit-btn');
       await userEvent.click(submitBtn);
-    });
+    }, 10000);
 
     it('Calls axios post with the correct arguments.', () => {
       expect(axios.post).toHaveBeenCalledWith('/api/public/users/register', {

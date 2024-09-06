@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
-import { ARegisterUser } from '@/actions/users';
+import { AUserExists } from '@/actions/users';
 import axios from 'axios';
 
 export type RegisterStatusType =
@@ -11,7 +11,8 @@ export type RegisterStatusType =
   | 'user_exists'
   | 'password_mismatch'
   | 'loading'
-  | 'success';
+  | 'success'
+  | 'loading_email';
 
 export type RegisterDataType = {
   email?: string;
@@ -62,6 +63,21 @@ export function useRegister() {
         .finally(() => setStatus(prev => (prev == 'loading' ? 'idle' : prev)));
     }
   };
+
+  /*
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      const userExists = await AUserExists(data.email);
+      if (userExists) {
+        setStatus('user_exists');
+      } else {
+        setStatus('idle');
+      }
+    }, 200);
+
+    return () => clearTimeout(timeout);
+  }, [data.email]);
+  */
 
   return {
     registerHandler,

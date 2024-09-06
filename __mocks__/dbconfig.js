@@ -3,6 +3,7 @@ const select = jest.fn().mockReturnThis();
 const update = jest.fn();
 const insert = jest.fn();
 const pluck = jest.fn();
+const join = jest.fn().mockReturnThis();
 
 const transaction = jest.fn().mockResolvedValue({
   where,
@@ -10,6 +11,7 @@ const transaction = jest.fn().mockResolvedValue({
   update,
   insert,
   pluck,
+  join,
   commit: jest.fn(),
   rollback: jest.fn(),
 });
@@ -20,6 +22,7 @@ const db = jest.fn(tablename => ({
   update,
   insert,
   pluck,
+  join,
 }));
 
 db.transaction = transaction;
