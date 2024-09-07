@@ -25,7 +25,7 @@ type BatchUploadFormProps<T> = React.PropsWithChildren & {
     deleteEntry: (entry: T) => void;
   }) => ReactNode;
 
-  onSubmit: (entries: T[]) => Promise<ServerActionResponse>;
+  onSubmit: (entries: T[]) => Promise<void>;
   isAddingDisabled: (data: T) => boolean;
 };
 
@@ -53,13 +53,8 @@ export function BatchUploadForm<T>({
     setStatus(FormStatus.LOADING);
 
     try {
-      const res = await onSubmit(entries);
-      if (res.status == 200 || res.status == 206) {
-        toast.success(res.statusText);
-        router.back();
-      } else {
-        toast.error(res.statusText);
-      }
+      await onSubmit(entries);
+      router.back();
     } catch (err) {
       toast.error(err.message);
     } finally {
