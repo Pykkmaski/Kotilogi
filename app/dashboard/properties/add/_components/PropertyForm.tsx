@@ -1,13 +1,8 @@
 'use client';
 
-import { ACreateProperty, AUpdateProperty } from '@/actions/properties';
-import { FormBase } from '@/components/New/Forms/FormBase';
-import { useDataSubmissionForm } from '@/hooks/useDataSubmissionForm';
 import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import axios from 'axios';
-import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { ExteriorField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/ExteriorField';
 import { GeneralField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/GeneralField';
 import { HeatingField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/HeatingField';
@@ -21,6 +16,7 @@ import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { onSubmit, runUpdate } from './actions';
 
 enum FormStatus {
   IDLE = 0,
@@ -60,50 +56,15 @@ export function PropertyForm<T extends PropertyDataType>({
 
   const router = useRouter();
 
-  const runUpdate = async () =>
-    await axios
-      .patch('/api/protected/properties', {
-        id: property.id,
-        ...data,
-      })
-      .then(async res => {
-        if (res.status == 200) {
-          toast.success(res.statusText);
-          await revalidatePath('/dashboard');
-        } else {
-          toast.error(res.statusText);
-        }
-      })
-      .catch(err => toast.error(err.message));
-
-  const onSubmit = async e => {
-    e.preventDefault();
-    setStatus(FormStatus.LOADING);
-    if (property) {
-      await runUpdate();
-    } else {
-      await ACreateProperty(data as TODO)
-        .then(async res => {
-          if (res.status == 200) {
-            toast.success(res.statusText);
-            await revalidatePath('/dashboard');
-            router.back();
-          } else {
-            toast.error(res.statusText);
-          }
-        })
-        .catch(err => toast.error(err.message));
-    }
-    setStatus(FormStatus.IDLE);
-  };
-
   useEffect(() => {
     //Update the server-side data automatically if editing an existing property.
     if (!property || !hasChanges) return;
 
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
-      await runUpdate().finally(() => toast.dismiss(loadingToast));
+      await runUpdate(property.id, data)
+        .catch(err => toast.error(err.message))
+        .finally(() => toast.dismiss(loadingToast));
     }, 900);
 
     return () => clearTimeout(timeout);
@@ -111,7 +72,15 @@ export function PropertyForm<T extends PropertyDataType>({
 
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={async e => {
+        e.preventDefault();
+        try {
+          await onSubmit(data);
+          toast.success('Talo luotu!');
+        } catch (err) {
+          toast.error(err.message);
+        }
+      }}
       onChange={e => {
         updateData(e);
         setHasChanges(true);

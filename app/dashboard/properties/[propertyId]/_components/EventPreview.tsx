@@ -7,10 +7,10 @@ import { Edit, History, Image, PushPin } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { Menu } from '@/components/New/Menu';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
-import { getEvents } from 'kotilogi-app/dataAccess/events';
+import { getEventsOfProperty } from 'kotilogi-app/dataAccess/events';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
-  const events = await getEvents({ parentId: propertyId }, null, 4);
+  const events = await getEventsOfProperty(propertyId, null, 4);
 
   return (
     <PreviewContentRow<EventDataType>
