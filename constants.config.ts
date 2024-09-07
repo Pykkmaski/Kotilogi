@@ -1,7 +1,13 @@
 import db from './dbconfig';
 
-export const propertyTypeIds = {};
+class Constants {
+  async getPropertyTypes() {
+    return await db('ref_propertyTypes');
+  }
 
-db('ref_propertyTypes').then(types => {
-  types.map(type => (propertyTypeIds[type.name] = type.id));
-});
+  async getbuildingTypes() {
+    return await db('ref_buildingTypes');
+  }
+}
+
+export const constants = new Constants();

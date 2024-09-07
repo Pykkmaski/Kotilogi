@@ -46,9 +46,8 @@ export default async function middleware(req: NextRequestWithAuth) {
   if (pathname.startsWith('/login')) {
     if (token) {
       //Already logged in. Redirect to the dashboard.
-      const protocol = req.headers.get('x-forwarded-proto') || 'http';
-      const hostname = req.headers.get('Host');
-      const url = `${protocol}://${hostname}/dashboard`;
+      const url = req.nextUrl.clone();
+      url.pathname = '/dashboard';
       return NextResponse.redirect(url);
     }
   }
