@@ -6,6 +6,7 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { createEvent, updateEvent } from 'kotilogi-app/dataAccess/events';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { onSubmit, runUpdate } from './actions';
 
 type EventFormProps = {
   propertyId: string;
@@ -30,12 +31,10 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
         endTime,
       }}
       onSubmit={async (data, files) => {
-        'use server';
-
         if (eventData) {
-          await updateEvent(eventData.id, data);
+          await runUpdate(eventData.id, data);
         } else {
-          await createEvent({ ...data, parentId: propertyId });
+          await onSubmit(eventData.parentId, data, files);
         }
       }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
