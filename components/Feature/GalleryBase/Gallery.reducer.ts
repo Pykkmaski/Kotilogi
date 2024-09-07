@@ -1,4 +1,4 @@
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { StateType } from './Gallery.hooks';
 
 export type ActionType<T extends ObjectDataType> =

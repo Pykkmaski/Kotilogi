@@ -2,8 +2,8 @@ import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
-import { HeatingType } from 'kotilogi-app/models/enums/HeatingType';
-import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
+import { HeatingType } from 'kotilogi-app/dataAccess/enums/HeatingType';
+import { getEnumAsDigits } from 'kotilogi-app/dataAccess/utils/getEnumAsDigits';
 import { lang } from 'kotilogi-app/lang';
 
 export function HeatingField() {

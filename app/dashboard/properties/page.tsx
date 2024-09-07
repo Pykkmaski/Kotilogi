@@ -1,16 +1,17 @@
 import { Main } from '@/components/New/Main';
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
 import { Edit } from '@mui/icons-material';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import db from 'kotilogi-app/dbconfig';
-import { getUserProperties } from 'kotilogi-app/models/propertyData';
+
+import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
 
 export default async function PropertiesPage() {
   const session = await loadSession();
-  const properties = (await getUserProperties(session.user.id)) as (
+  const properties = (await getPropertiesOfUser(session.user.id)) as (
     | HouseDataType
     | AppartmentDataType
   )[];

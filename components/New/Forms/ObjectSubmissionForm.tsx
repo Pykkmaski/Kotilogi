@@ -1,34 +1,26 @@
 'use client';
 
-import { useInputData } from '@/hooks/useInputData';
 import { FormBase, FormButtons } from './FormBase';
-import { useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { Check } from '@mui/icons-material';
 import toast from 'react-hot-toast';
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { useForm } from '@/hooks/useForm';
-import { AxiosResponse } from 'axios';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 
 type ObjectSubmissionFormProps<T extends ObjectDataType> = React.PropsWithChildren & {
-  parentId: string;
-
-  onSubmit: (data: T, files: File[], router: AppRouterInstance) => Promise<ServerActionResponse>;
-  item?: T;
+  initialData: T;
+  onSubmit: (data: T, files?: File[], router?: TODO) => Promise<void>;
 };
 
 export function ObjectSubmissionForm<T extends ObjectDataType>({
   children,
-  parentId,
-  item,
+  initialData,
   onSubmit,
+  ...props
 }: ObjectSubmissionFormProps<T>) {
-  const { files, data, updateData, status, setStatus, router } = useForm(item || { parentId });
-  const loading = status == FormStatus.LOADING;
+  const { data, files, status, updateData, setStatus } = useForm(initialData);
+  const router = useRouter();
+  const loading = FormStatus.LOADING === status;
 
   return (
     <FormBase
@@ -38,14 +30,8 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
         setStatus(FormStatus.LOADING);
 
         try {
-          const res = await onSubmit(data as TODO, files, router);
-          if (res.status == 200) {
-            toast.success(res.statusText);
-            setStatus(FormStatus.DONE);
-            router.back();
-          } else {
-            toast.error(res.statusText);
-          }
+          await onSubmit(data as TODO, files, router);
+          setStatus(FormStatus.DONE);
         } catch (err) {
           toast.error(err.message);
         } finally {

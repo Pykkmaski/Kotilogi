@@ -1,12 +1,12 @@
 'use server';
 
 import db from 'kotilogi-app/dbconfig';
-import { uploadFiles } from 'kotilogi-app/models/files';
-import { deleteObject, updateObject } from 'kotilogi-app/models/objectData';
-import { createPropertyEvent, updatePropertyEvent } from 'kotilogi-app/models/propertyEventData';
-import { EventDataType } from 'kotilogi-app/models/types';
-import { filterValidColumns } from 'kotilogi-app/models/utils/filterValidColumns';
-import { getTableColumns } from 'kotilogi-app/models/utils/getTableColumns';
+import { uploadFiles } from 'kotilogi-app/dataAccess/files';
+import { deleteObject, updateObject } from 'kotilogi-app/dataAccess/objects';
+import { createPropertyEvent, updatePropertyEvent } from 'kotilogi-app/dataAccess/events';
+import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { filterValidColumns } from 'kotilogi-app/dataAccess/utils/filterValidColumns';
+import { getTableColumns } from 'kotilogi-app/dataAccess/utils/getTableColumns';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
 import { ServerActionResponse } from './lib/ServerActionResponse';

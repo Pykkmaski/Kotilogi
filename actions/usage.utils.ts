@@ -1,4 +1,4 @@
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 
 //Merges the passed usage data into an array of 12 items corresponding to each month of the year.
 export function mergeByMonth(data: UtilityDataType[], accumulate: boolean = false) {

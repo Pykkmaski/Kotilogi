@@ -3,7 +3,7 @@
 import { ADeletePropertyEvent } from '@/actions/events';
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
 import axios from 'axios';
-import { EventDataType } from 'kotilogi-app/models/types';
+import { EventDataType } from 'kotilogi-app/dataAccess/types';
 
 type DeleteEventFormProps = {
   event: EventDataType;

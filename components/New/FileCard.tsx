@@ -1,7 +1,7 @@
 'use client';
 
 import { ADeleteFile, ASetMainImage } from '@/actions/files';
-import { FileDataType } from 'kotilogi-app/models/types';
+import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';

@@ -2,7 +2,7 @@
 
 import { PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
 import { Bolt } from '@mui/icons-material';
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { useUtilityProviderContext } from '../utility/UtilityContext';
 import { UtilityLineChart } from '../utility/UtilityLineChart';
 

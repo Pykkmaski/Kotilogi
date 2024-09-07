@@ -3,7 +3,7 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input, Label } from '@/components/UI/FormUtils';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from './PropertyForm';
 

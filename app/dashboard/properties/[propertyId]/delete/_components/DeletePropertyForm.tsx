@@ -4,7 +4,7 @@ import { ADeleteProperty } from '@/actions/properties';
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
 import { MainHeading } from '@/components/New/Typography/Headings';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 type DeletePropertyFormProps = {
   property: HouseDataType | AppartmentDataType;

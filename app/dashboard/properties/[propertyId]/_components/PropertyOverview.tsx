@@ -1,7 +1,7 @@
 import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
 
 type PropertyOverviewProps = {

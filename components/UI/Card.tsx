@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 import { ListItemProps } from '../Feature/ListItem/ListItem';
 import Image from 'next/image';
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
 
 type CardContainerProps = React.PropsWithChildren & {

@@ -4,16 +4,16 @@ import { Menu } from '@/components/New/Menu';
 import { Card } from '@/components/UI/Card';
 import { Home } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { getUserProperties } from 'kotilogi-app/models/propertyData';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import Link from 'next/link';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
 import { redirect } from 'next/navigation';
+import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
-  const properties = await getUserProperties(session.user.id);
+  const properties = await getPropertiesOfUser(session.user.id);
 
   return (
     <Main>

@@ -1,11 +1,11 @@
 import { handleServerError, response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
-import { deleteObject } from 'kotilogi-app/models/objectData';
+import { deleteObject } from 'kotilogi-app/dataAccess/objects';
 import {
   createPropertyEvent,
   getEvents,
   updatePropertyEvent,
-} from 'kotilogi-app/models/propertyEventData';
+} from 'kotilogi-app/dataAccess/events';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import { revalidatePath } from 'next/cache';

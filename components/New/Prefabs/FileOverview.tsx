@@ -1,4 +1,4 @@
-import { FileDataType } from 'kotilogi-app/models/types';
+import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { PreviewContentRow } from '../Boxes/PreviewContent';
 import { Image } from '@mui/icons-material';
 

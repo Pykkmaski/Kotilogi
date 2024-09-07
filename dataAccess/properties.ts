@@ -1,5 +1,6 @@
+import 'server-only';
 import { Knex } from 'knex';
-import { createObject, updateObject } from './objectData';
+import { createObject, updateObject } from './objects';
 
 import { AppartmentDataType, HouseDataType, ObjectDataType, PropertyDataType } from './types';
 import { getTableColumns } from './utils/getTableColumns';
@@ -46,7 +47,7 @@ export async function createProperty(
   data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>,
   callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
-  return createObject(data, async (obj, trx) => {
+  return await createObject(data, async (obj, trx) => {
     const data_properties = {
       id: obj.id,
       ...filterValidColumns(data, await getTableColumns('data_properties', trx)),
@@ -92,7 +93,7 @@ export async function getOwners(propertyId: string) {
   return await db('data_propertyOwners').where({ propertyId }).pluck('userId');
 }
 
-export async function getUserProperties(
+export async function getPropertiesOfUser(
   userId: string
 ): Promise<(HouseDataType | AppartmentDataType)[]> {
   const ownedProperties = await db('data_propertyOwners').where({ userId }).pluck('propertyId');

@@ -1,11 +1,11 @@
-import { BuildingMaterial } from './models/enums/BuildingMaterial';
-import { BuildingType } from './models/enums/BuildingType';
-import { Color } from './models/enums/Color';
-import { HeatingType } from './models/enums/HeatingType';
-import { PropertyType } from './models/enums/PropertyType';
-import { RoofMaterial } from './models/enums/RoofMaterial';
-import { RoofType } from './models/enums/RoofType';
-import { YardOwnershipType } from './models/enums/YardOwnershipType';
+import { BuildingMaterial } from './dataAccess/enums/BuildingMaterial';
+import { BuildingType } from './dataAccess/enums/BuildingType';
+import { Color } from './dataAccess/enums/Color';
+import { HeatingType } from './dataAccess/enums/HeatingType';
+import { PropertyType } from './dataAccess/enums/PropertyType';
+import { RoofMaterial } from './dataAccess/enums/RoofMaterial';
+import { RoofType } from './dataAccess/enums/RoofType';
+import { YardOwnershipType } from './dataAccess/enums/YardOwnershipType';
 
 export const lang = {
   propertyType: {

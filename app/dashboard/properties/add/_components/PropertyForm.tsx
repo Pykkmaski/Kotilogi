@@ -17,7 +17,7 @@ import { PropertyFormContext } from 'kotilogi-app/app/dashboard/_components/NewA
 import { TargetTypeField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/TargetTypeField';
 import { YardField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/YardField';
 
-import { PropertyDataType } from 'kotilogi-app/models/types';
+import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';

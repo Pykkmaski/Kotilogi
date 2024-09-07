@@ -2,7 +2,7 @@ import { readFile, unlink, writeFile } from 'fs/promises';
 import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
 
 import sharp from 'sharp';
-import { createObject } from './objectData';
+import { createObject } from './objects';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';
 

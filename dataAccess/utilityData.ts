@@ -1,6 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
 import { UtilityDataType } from './types';
-import { createObject, updateObject } from './objectData';
+import { createObject, updateObject } from './objects';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 

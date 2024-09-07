@@ -23,7 +23,7 @@ import { Delete } from '@mui/icons-material';
 import MuiButton from '@mui/material/Button';
 import { ConfirmDialog } from '../ConfirmDialog';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 
 function Header(
   props: React.PropsWithChildren & {

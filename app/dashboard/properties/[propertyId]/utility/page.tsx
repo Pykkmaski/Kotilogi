@@ -2,7 +2,7 @@ import { Main } from '@/components/New/Main';
 import { Heading } from '@/components/UI/Heading';
 import { Add, Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { getUtilityData, getUtilityYears } from 'kotilogi-app/models/utilityData';
+import { getUtilityData, getUtilityYears } from 'kotilogi-app/dataAccess/utilityData';
 import { UtilityPieChart } from './UtilityPieChart';
 import { UtilityProvider } from './UtilityContext';
 import { UtilityLineChart } from './UtilityLineChart';

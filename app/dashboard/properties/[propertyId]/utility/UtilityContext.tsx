@@ -1,6 +1,6 @@
 'use client';
 
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { createContext } from 'react';
 

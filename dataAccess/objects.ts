@@ -1,3 +1,4 @@
+import 'server-only';
 import { Knex } from 'knex';
 import { ObjectDataType } from './types';
 import db from 'kotilogi-app/dbconfig';

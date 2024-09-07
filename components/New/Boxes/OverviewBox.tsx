@@ -16,7 +16,7 @@ import {
 import { Delete, Visibility } from '@mui/icons-material';
 import Link from 'next/link';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { DialogControl } from '@/components/Util/DialogControl';
 
 type OverviewBoxProps = {

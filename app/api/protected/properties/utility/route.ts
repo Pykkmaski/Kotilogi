@@ -1,12 +1,12 @@
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
 
-import { deleteObject } from 'kotilogi-app/models/objectData';
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { deleteObject } from 'kotilogi-app/dataAccess/objects';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import {
   createUtilityData,
   getUtilityData,
   updateUtilityData,
-} from 'kotilogi-app/models/utilityData';
+} from 'kotilogi-app/dataAccess/utilityData';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import { revalidatePath } from 'next/cache';
 

@@ -1,4 +1,4 @@
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { SecondaryHeading } from '../Typography/Headings';
 import Link from 'next/link';
 import { Button } from '@mui/material';

@@ -10,7 +10,7 @@ import { Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { createContext } from 'react';
 import toast from 'react-hot-toast';

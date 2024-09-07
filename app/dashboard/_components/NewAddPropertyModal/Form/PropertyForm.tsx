@@ -10,7 +10,7 @@ import { OtherInfoField } from './OtherInfoField';
 import { YardField } from './YardField';
 import { ExteriorField } from './ExteriorField';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 
 export const PropertyFormContext = createContext<{
   property?: Partial<AppartmentDataType | HouseDataType>;
