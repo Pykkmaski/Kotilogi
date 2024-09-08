@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
-import { createUtilityData } from 'kotilogi-app/dataAccess/utilityData';
+import { createUtilityData } from 'kotilogi-app/dataAccess/utilities';
 
 export const onSubmit = async (propertyId: string, entries: Partial<UtilityDataType>[]) => {
   const dataToInsert = entries.map(e => ({ ...e, parentId: propertyId }));

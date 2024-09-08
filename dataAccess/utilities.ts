@@ -1,8 +1,18 @@
 import db from 'kotilogi-app/dbconfig';
 import { UtilityDataType } from './types';
-import { createObject, updateObject } from './objects';
+import { createObject, deleteObject, updateObject } from './objects';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
+import { redirect } from 'next/navigation';
+
+function getUtilityDTO(data) {
+  return {
+    ...data,
+    monetaryAmount: data.monetaryAmount / 100,
+    unitAmount: data.unitAmount / 100,
+  };
+}
 
 /**Creates utility data. */
 export async function createUtilityData(
@@ -19,7 +29,7 @@ export async function createUtilityData(
   });
 }
 
-export async function getUtilityData(query: TODO, year?: number, types: string[] = []) {
+export async function getUtilityData(propertyId: string, year?: number, types: string[] = []) {
   const dbQuery = db('data_utilities')
     .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
     .join('ref_utilityTypes', { 'ref_utilityTypes.id': 'data_utilities.typeId' })
@@ -43,19 +53,14 @@ export async function getUtilityData(query: TODO, year?: number, types: string[]
 
       this.where('time', '>=', time.getTime()).andWhere('time', '<', endTime.getTime());
     })
-    .andWhere(query);
+    .andWhere({ 'data_objects.parentId': propertyId });
 
   if (types.length) {
     dbQuery.whereIn('ref_utilityTypes.name', types);
   }
 
-  return await dbQuery.then(data =>
-    data.map(d => ({
-      ...d,
-      monetaryAmount: d.monetaryAmount / 100,
-      unitAmount: d.unitAmount / 100,
-    }))
-  );
+  const data = await dbQuery;
+  return data.map(d => getUtilityDTO(d));
 }
 
 export async function updateUtilityData(data: Partial<UtilityDataType>) {
@@ -81,4 +86,19 @@ export async function getUtilityYears(propertyId: string) {
   }
 
   return Array.from(yearSet);
+}
+
+export async function deleteUtilityData(id: string) {
+  const session = await loadSession();
+  const [authorId] = await db('data_utilityData').where({ id }).pluck('authorId');
+
+  if (!session) {
+    return redirect('/login');
+  }
+
+  if (session.user.id !== authorId) {
+    throw new Error('Vain tiedot laatija voi poistaa sen!');
+  }
+
+  await deleteObject(id);
 }

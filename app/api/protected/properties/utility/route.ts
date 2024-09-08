@@ -6,7 +6,7 @@ import {
   createUtilityData,
   getUtilityData,
   updateUtilityData,
-} from 'kotilogi-app/dataAccess/utilityData';
+} from 'kotilogi-app/dataAccess/utilities';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import { revalidatePath } from 'next/cache';
 

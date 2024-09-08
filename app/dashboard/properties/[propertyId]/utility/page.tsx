@@ -1,8 +1,8 @@
 import { Main } from '@/components/New/Main';
 import { Heading } from '@/components/UI/Heading';
-import { Add, Check } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { getUtilityData, getUtilityYears } from 'kotilogi-app/dataAccess/utilityData';
+import { getUtilityData, getUtilityYears } from 'kotilogi-app/dataAccess/utilities';
 import { UtilityPieChart } from './UtilityPieChart';
 import { UtilityProvider } from './UtilityContext';
 import { UtilityLineChart } from './UtilityLineChart';
@@ -12,17 +12,12 @@ import { TypeSelector } from './TypeSelector';
 import db from 'kotilogi-app/dbconfig';
 import { DataTable } from './DataTable';
 import { ScrollOnX } from '@/components/New/ScrollOnX';
-import { DialogControl } from '@/components/Util/DialogControl';
-import { DataSubmitDialog } from '@/components/New/DataSubmitDialog';
-import axios from 'axios';
-import { UtilityBatchForm } from './add/_components/UtilityBatchForm';
-import { UtilitySubmitDialog } from './UtilitySubmitDialog';
 
 export default async function UtilityPage({ params, searchParams }) {
   const { year, types } = searchParams;
   const propertyId = params.propertyId;
   const utilityData = await getUtilityData(
-    { parentId: propertyId },
+    propertyId,
     year && parseInt(year),
     (types && types.split(';')) || []
   );

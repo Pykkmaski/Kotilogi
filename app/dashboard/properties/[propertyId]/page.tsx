@@ -10,7 +10,7 @@ import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 import { UtilityProvider } from './utility/UtilityContext';
-import { getUtilityData } from 'kotilogi-app/dataAccess/utilityData';
+import { getUtilityData } from 'kotilogi-app/dataAccess/utilities';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -23,7 +23,7 @@ export default async function PropertyPage({ params }) {
     .join('data_users', { 'data_users.id': 'data_propertyOwners.userId' })
     .pluck('email');
 
-  const utilityData = await getUtilityData({ parentId: property.id });
+  const utilityData = await getUtilityData(property.id);
 
   const files = await getFiles({ parentId: id }, 4);
 

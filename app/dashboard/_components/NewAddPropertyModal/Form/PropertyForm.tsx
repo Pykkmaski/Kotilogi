@@ -1,14 +1,6 @@
 'use client';
 
-import { FormEvent, createContext, forwardRef, useRef } from 'react';
-import style from '../style.module.css';
-import { TargetTypeField } from './TargetTypeField';
-import { GeneralField } from './GeneralField';
-import { InteriorField } from './InteriorField';
-import { HeatingField } from './HeatingField';
-import { OtherInfoField } from './OtherInfoField';
-import { YardField } from './YardField';
-import { ExteriorField } from './ExteriorField';
+import { FormEvent, createContext } from 'react';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 
@@ -23,6 +15,7 @@ export const PropertyFormContext = createContext<{
   roofTypes: TODO;
   heatingTypes: TODO;
   mainColors: TODO;
+  setIsPropertyValid: React.Dispatch<React.SetStateAction<boolean>>;
 } | null>(null);
 
 type SubmitFormProps = {

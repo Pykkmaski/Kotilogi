@@ -8,7 +8,7 @@ import { filterValidColumns } from 'kotilogi-app/dataAccess/utils/filterValidCol
 import { getTableColumns } from 'kotilogi-app/dataAccess/utils/getTableColumns';
 import { revalidatePath } from 'next/cache';
 import { ServerActionResponse } from './lib/ServerActionResponse';
-import { createUtilityData } from 'kotilogi-app/dataAccess/utilityData';
+import { createUtilityData } from 'kotilogi-app/dataAccess/utilities';
 
 const path = '/newDashboard/properties/[property_id]';
 const table = 'data_utilities';

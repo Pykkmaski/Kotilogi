@@ -6,10 +6,21 @@ import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from './PropertyForm';
+import { useEffect } from 'react';
+import { isPropertyValid } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 
 export function GeneralField() {
-  const { property: data, propertyTypes, buildingTypes, energyClasses } = usePropertyFormContext();
+  const {
+    property: data,
+    propertyTypes,
+    buildingTypes,
+    energyClasses,
+    setIsPropertyValid,
+  } = usePropertyFormContext();
 
+  useEffect(() => {
+    isPropertyValid((data as any).propertyNumber).then(result => setIsPropertyValid(result));
+  }, [(data as any).propertyNumber]);
   return (
     <Fieldset legend='Yleistiedot'>
       {data && data.propertyTypeId == propertyTypes['Kiinteistö'] ? (

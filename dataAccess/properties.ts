@@ -6,7 +6,6 @@ import { AppartmentDataType, HouseDataType, ObjectDataType, PropertyDataType } f
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
 import db from 'kotilogi-app/dbconfig';
-import { PropertyType } from './enums/PropertyType';
 
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
@@ -38,7 +37,13 @@ export async function getProperty(id: string): Promise<HouseDataType | Appartmen
     .select([...baseColumnsToSelect, `${targetTableName}.*`]);
 
   if (!p) {
-    console.error(`Fetching property ${id}, but got undefined!`);
+    console.error(
+      `Fetching property ${id}, but got undefined!`,
+      `Details: \n
+      Property id: ${id}\n
+      Target table name: ${targetTableName}
+    `
+    );
   }
   return p;
 }
