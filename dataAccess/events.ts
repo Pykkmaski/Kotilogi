@@ -6,7 +6,7 @@ import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
-async function verifySessionWithEventId(eventId: string) {
+async function verifyUserIsAuthorOfEvent(eventId: string) {
   const session = await loadSession();
   const [authorId] = await db('data_objects').where({ id: eventId }).pluck('authorId');
   if (session.user.id !== authorId) {
@@ -15,6 +15,13 @@ async function verifySessionWithEventId(eventId: string) {
 }
 
 export async function getEventsOfProperty(propertyId: string, query?: string, limit: number = 10) {
+  //Only allow fetching of events for owners of the property.
+  const session = await loadSession();
+  const [owner] = await db('data_propertyOwners').where({ propertyId, userId: session.user.id });
+  if (!owner) {
+    throw new Error('Vain talon omistaja voi nähdä sen tapahtumat!');
+  }
+
   return db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .where(function () {
@@ -62,7 +69,7 @@ export async function createEvent(
 
 export async function updateEvent(id: string, data: Partial<EventDataType>) {
   //Only allow the author of an event to update it.
-  await verifySessionWithEventId(id);
+  await verifyUserIsAuthorOfEvent(id);
 
   await updateObject(data, async trx => {
     await trx('data_propertyEvents')
@@ -77,6 +84,6 @@ export async function updateEvent(id: string, data: Partial<EventDataType>) {
 
 export async function deleteEvent(id: string) {
   //Only allow the author of the event to delete it.
-  await verifySessionWithEventId(id);
+  await verifyUserIsAuthorOfEvent(id);
   await deleteObject(id);
 }

@@ -15,7 +15,9 @@ export const PropertyFormContext = createContext<{
   roofTypes: TODO;
   heatingTypes: TODO;
   mainColors: TODO;
-  setIsPropertyValid: React.Dispatch<React.SetStateAction<boolean>>;
+  isValid: boolean;
+
+  updatePropertyInfo: (data: TODO) => void;
 } | null>(null);
 
 type SubmitFormProps = {

@@ -12,6 +12,7 @@ export function useInputData<T extends {}>(initialData: T) {
   const [files, setFiles] = useState<File[]>([]);
 
   /**Updates the property with the name of the event in the stored data.*/
+
   const updateData = (e: TODO) => {
     if (!e.target.name) return;
 

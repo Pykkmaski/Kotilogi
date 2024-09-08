@@ -2,7 +2,14 @@
 
 import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import { ExteriorField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/ExteriorField';
 import { GeneralField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/GeneralField';
 import { HeatingField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/HeatingField';
@@ -17,6 +24,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { onSubmit, runUpdate } from './actions';
+import { DialogControl } from '@/components/Util/DialogControl';
 
 enum FormStatus {
   IDLE = 0,
@@ -51,10 +59,24 @@ export function PropertyForm<T extends PropertyDataType>({
   mainColors,
 }: PropertyFormProps<T>) {
   const [hasChanges, setHasChanges] = useState(false);
-  const { data, updateData } = useInputData(property || {});
+  const { data, updateData, resetData } = useInputData(property || {});
+  const [isValid, setIsValid] = useState(false);
   const [status, setStatus] = useState(FormStatus.IDLE);
 
   const router = useRouter();
+
+  const updatePropertyInfo = (info: TODO) => {
+    if (!info) {
+      setIsValid(false);
+      toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
+    } else {
+      resetData({
+        ...data,
+        ...info,
+      });
+      setIsValid(true);
+    }
+  };
 
   useEffect(() => {
     //Update the server-side data automatically if editing an existing property.
@@ -70,8 +92,11 @@ export function PropertyForm<T extends PropertyDataType>({
     return () => clearTimeout(timeout);
   }, [data]);
 
+  const formId = 'submit-property-form';
+
   return (
     <form
+      id={formId}
       onSubmit={async e => {
         e.preventDefault();
         try {
@@ -88,6 +113,8 @@ export function PropertyForm<T extends PropertyDataType>({
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
         value={{
+          isValid,
+          updatePropertyInfo,
           property: data,
           propertyTypes,
           energyClasses,
@@ -100,7 +127,7 @@ export function PropertyForm<T extends PropertyDataType>({
           mainColors,
         }}>
         {!property && <TargetTypeField />}
-        <GeneralField />
+        <GeneralField hidePropertyIdentifier={property !== undefined} />
         <ExteriorField />
         <YardField />
         <InteriorField />
@@ -116,13 +143,52 @@ export function PropertyForm<T extends PropertyDataType>({
             disabled={status == FormStatus.LOADING || status == FormStatus.DONE}>
             Peruuta
           </Button>
-          <Button
-            type='submit'
-            variant='contained'
-            disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
-            startIcon={<Check />}>
-            {property ? 'Päivitä' : 'Vahvista'}
-          </Button>
+
+          <DialogControl
+            trigger={({ onClick }) => {
+              return (
+                <Button
+                  onClick={onClick}
+                  type='button'
+                  variant='contained'
+                  disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                  startIcon={<Check />}>
+                  {property ? 'Päivitä' : 'Vahvista'}
+                </Button>
+              );
+            }}
+            control={({ show, handleClose }) => {
+              return (
+                <Dialog
+                  open={show}
+                  onClose={handleClose}>
+                  <DialogTitle>Vahvista talo</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Olet lisäämässä taloa osoitteessa {(data as PropertyDataType).streetAddress}.
+                      Oletko varma?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      variant='text'
+                      type='button'
+                      onClick={handleClose}>
+                      Peruuta
+                    </Button>
+                    <Button
+                      form={formId}
+                      type='submit'
+                      variant='contained'
+                      disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                      startIcon={<Check />}>
+                      {property ? 'Päivitä' : 'Vahvista'}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              );
+            }}
+          />
         </div>
       ) : null}
     </form>

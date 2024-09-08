@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
+require('dotenv').config();
 
 export const runUpdate = async (propertyId, data) => {
   await updateProperty(propertyId, data as TODO);
@@ -14,22 +15,56 @@ export const onSubmit = async data => {
   revalidatePath('/dashboard/properties');
 };
 
-export const isPropertyValid = async (propertyIdentifier: string) => {
-  try {
-    const url = `https://avoin-paikkatieto.maanmittauslaitos.fi/kiinteisto-avoin/simple-features/v3/collections/PalstanSijaintitiedot/items?kiinteistotunnuksenEsitysmuoto=${propertyIdentifier}`;
+type InfoType = {
+  identifier: string;
+  identifierDisplayFormat: string;
+  streetAddress: string;
+  zipCode: string;
+};
 
+export const fetchPropertyInfo = async (propertyIdentifier: string): Promise<InfoType | null> => {
+  try {
     const apiKey = process.env.MML_API_KEY;
     const authString = `${apiKey}:`;
     const credentials = btoa(authString);
 
-    await axios.get(url, {
+    const url = `https://avoin-paikkatieto.maanmittauslaitos.fi/kiinteisto-avoin/simple-features/v3/collections/PalstanSijaintitiedot/items?kiinteistotunnuksenEsitysmuoto=${propertyIdentifier}`;
+
+    const mmlResponse = await axios.get(url, {
       headers: {
         Authorization: `Basic ${credentials}`,
       },
     });
 
-    return true;
+    const data = mmlResponse.data;
+    if (!data) {
+      return null;
+    }
+    const coordinates = data.features[0].properties.kiinteistotunnuksenSijainti.coordinates;
+
+    //Reverse goecode to get the address
+    const reverseGeoCodeResponse = await axios.get(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coordinates[1]}&lon=${coordinates[0]}`
+    );
+
+    if (!reverseGeoCodeResponse.data) {
+      return null;
+    }
+
+    const { road: streetAddress, postcode: zipCode } = reverseGeoCodeResponse.data.address;
+    const {
+      kiinteistotunnus: identifier,
+      kiinteistotunnuksenEsitysmuoto: identifierDisplayFormat,
+    } = data.features[0].properties;
+
+    return {
+      identifier,
+      identifierDisplayFormat,
+      streetAddress,
+      zipCode,
+    };
   } catch (err) {
-    return false;
+    console.error(err.message);
+    return null;
   }
 };
