@@ -52,7 +52,7 @@ export function StepOne() {
           color='primary'
           type='submit'
           disabled={!data.email || isDisabled()}>
-          Lähetä
+          LÄHETÄ
         </SubmitButton>
 
         <Link

@@ -57,7 +57,7 @@ export function StepTwo() {
           type='submit'
           disabled={loading || !data.password1 || !data.password2}
           loading={loading}>
-          Lähetä
+          LÄHETÄ
         </SubmitButton>
         <Link
           href='/login'
