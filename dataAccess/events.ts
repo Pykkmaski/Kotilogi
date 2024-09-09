@@ -5,14 +5,7 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-
-async function verifyUserIsAuthorOfEvent(eventId: string) {
-  const session = await loadSession();
-  const [authorId] = await db('data_objects').where({ id: eventId }).pluck('authorId');
-  if (session.user.id !== authorId) {
-    throw new Error('Vain tapahtuman laatija voi muokata tai poistaa sen!');
-  }
-}
+import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 
 export async function getEventsOfProperty(propertyId: string, query?: string, limit: number = 10) {
   //Only allow fetching of events for owners of the property.
@@ -69,9 +62,9 @@ export async function createEvent(
 
 export async function updateEvent(id: string, data: Partial<EventDataType>) {
   //Only allow the author of an event to update it.
-  await verifyUserIsAuthorOfEvent(id);
+  await verifySessionUserIsAuthor(id);
 
-  await updateObject(data, async trx => {
+  await updateObject(id, data, async trx => {
     await trx('data_propertyEvents')
       .where({ id: data.id })
       .update({
@@ -84,6 +77,6 @@ export async function updateEvent(id: string, data: Partial<EventDataType>) {
 
 export async function deleteEvent(id: string) {
   //Only allow the author of the event to delete it.
-  await verifyUserIsAuthorOfEvent(id);
+  await verifySessionUserIsAuthor(id);
   await deleteObject(id);
 }

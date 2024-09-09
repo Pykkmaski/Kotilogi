@@ -10,7 +10,7 @@ import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 
 type ObjectDeletionFormProps<T extends { id: string }> = React.PropsWithChildren & {
   objectId: string;
-  deleteMethod: (data: any) => Promise<ServerActionResponse>;
+  deleteMethod: (data: any) => Promise<void>;
   returnUrl: string;
 };
 
@@ -29,14 +29,10 @@ export function ObjectDeletionForm<T extends { id: string }>({
         e.preventDefault();
         setStatus(FormStatus.LOADING);
         try {
-          const res = await deleteMethod(data as TODO);
-          if (res.status == 200) {
-            toast.success(res.statusText);
-            setStatus(FormStatus.DONE);
-            router.push(returnUrl);
-          } else {
-            toast.error(res.statusText);
-          }
+          await deleteMethod(data as TODO);
+          toast.success('Poisto onnistui!');
+          setStatus(FormStatus.DONE);
+          router.push(returnUrl);
         } catch (err) {
           toast.error(err.message);
         } finally {

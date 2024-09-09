@@ -1,11 +1,14 @@
 import 'server-only';
 import { Knex } from 'knex';
-import { createObject, updateObject } from './objects';
+import { createObject, deleteObject, updateObject } from './objects';
 
 import { AppartmentDataType, HouseDataType, ObjectDataType, PropertyDataType } from './types';
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
 import db from 'kotilogi-app/dbconfig';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
+import { verifyPassword } from './users';
+import { redirect } from 'next/navigation';
 
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
@@ -81,7 +84,7 @@ export async function updateProperty(
   id: string,
   data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) {
-  return updateObject({ id, ...data }, async trx => {
+  return updateObject(id, data, async trx => {
     const propertyUpdateObject = filterValidColumns(
       data,
       await getTableColumns('data_properties', trx)
@@ -94,6 +97,22 @@ export async function updateProperty(
   });
 }
 
+export async function deleteProperty(id: string, password: string) {
+  const session = await loadSession();
+  if (!session) {
+    redirect('/login');
+  }
+
+  const [owner] = await db('data_propertyOwners').where({ id: session.user.id });
+  if (!owner) {
+    throw new Error('Vain talon omistaja voi poistaa sen!');
+  }
+
+  await verifyPassword(session.user.id, password);
+
+  await deleteObject(id);
+}
+
 export async function getOwners(propertyId: string) {
   return await db('data_propertyOwners').where({ propertyId }).pluck('userId');
 }
@@ -103,5 +122,8 @@ export async function getPropertiesOfUser(
 ): Promise<(HouseDataType | AppartmentDataType)[]> {
   const ownedProperties = await db('data_propertyOwners').where({ userId }).pluck('propertyId');
   const promises = ownedProperties.map(id => getProperty(id));
-  return await Promise.all(promises);
+
+  //Filter out undefined properties that may be present due to an error.
+  const properties = await Promise.all(promises);
+  return properties.filter(property => property !== undefined);
 }

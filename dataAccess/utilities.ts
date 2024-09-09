@@ -5,8 +5,9 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { redirect } from 'next/navigation';
+import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 
-function getUtilityDTO(data) {
+function getUtilityDTO(data: UtilityDataType) {
   return {
     ...data,
     monetaryAmount: data.monetaryAmount / 100,
@@ -63,8 +64,11 @@ export async function getUtilityData(propertyId: string, year?: number, types: s
   return data.map(d => getUtilityDTO(d));
 }
 
-export async function updateUtilityData(data: Partial<UtilityDataType>) {
-  return updateObject(data, async trx => {
+export async function updateUtilityData(id: string, data: Partial<UtilityDataType>) {
+  //Only allow the author of a utility entry to edit it.
+  await verifySessionUserIsAuthor(data.id);
+
+  return updateObject(id, data, async trx => {
     const updateObject = filterValidColumns(data, await getTableColumns('data_utilities', trx));
     updateObject.monetaryAmount *= 100;
     updateObject.unitAmount *= 100;
@@ -89,16 +93,6 @@ export async function getUtilityYears(propertyId: string) {
 }
 
 export async function deleteUtilityData(id: string) {
-  const session = await loadSession();
-  const [authorId] = await db('data_utilityData').where({ id }).pluck('authorId');
-
-  if (!session) {
-    return redirect('/login');
-  }
-
-  if (session.user.id !== authorId) {
-    throw new Error('Vain tiedot laatija voi poistaa sen!');
-  }
-
+  await verifySessionUserIsAuthor(id);
   await deleteObject(id);
 }

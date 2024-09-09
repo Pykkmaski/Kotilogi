@@ -12,8 +12,11 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 export default async function DeletePropertyPage({ params, searchParams }) {
   const [property] = await db('data_properties').where({ id: params.propertyId });
   const session = await loadSession();
-  const owners = await db('data_propertyOwners').where({ propertyId: property.id }).pluck('userId');
-  const allowed = owners.includes(session.user.id);
+  const [owner] = await db('data_propertyOwners').where({
+    userId: session.user.id,
+    propertyId: property.id,
+  });
+  const allowed = owner !== undefined;
 
   return (
     <Main>

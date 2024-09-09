@@ -3,15 +3,31 @@
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
+import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import { z } from 'zod';
 require('dotenv').config();
 
-export const runUpdate = async (propertyId, data) => {
-  await updateProperty(propertyId, data as TODO);
+export const runUpdate = async (
+  propertyId: string,
+  data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
+) => {
+  z.string().parse(propertyId);
+  z.object({
+    propertyTypeId: z.number(),
+  }).parse(data);
+
+  await updateProperty(propertyId, data);
   revalidatePath('/dashboard/properties');
 };
 
-export const onSubmit = async data => {
-  await createProperty(data as TODO);
+export const onSubmit = async (
+  data: PropertyDataType & Required<Pick<PropertyDataType, 'propertyTypeId'>>
+) => {
+  z.object({
+    propertyTypeId: z.number(),
+  }).parse(data);
+
+  await createProperty(data);
   revalidatePath('/dashboard/properties');
 };
 
@@ -24,6 +40,8 @@ type InfoType = {
 
 export const fetchPropertyInfo = async (propertyIdentifier: string): Promise<InfoType | null> => {
   try {
+    z.string().parse(propertyIdentifier);
+
     const apiKey = process.env.MML_API_KEY;
     const authString = `${apiKey}:`;
     const credentials = btoa(authString);

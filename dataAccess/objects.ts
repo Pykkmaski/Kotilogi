@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
+import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 
 export async function createObject<T extends ObjectDataType>(
   data: Partial<T>,
@@ -29,17 +30,15 @@ export async function createObject<T extends ObjectDataType>(
 }
 
 export async function updateObject<T extends ObjectDataType>(
+  objectId: string,
   data: Partial<T>,
   callback: (trx: Knex.Transaction) => Promise<void>
 ) {
   const trx = await db.transaction();
   try {
-    if (!data.id)
-      throw new Error('The id of the object to be updated must be defined in the data-argument!');
-
     const validColumns = await getTableColumns('data_objects', trx);
     await trx('data_objects')
-      .where({ id: data.id })
+      .where({ id: objectId })
       .update({
         ...filterValidColumns(data, validColumns),
       });

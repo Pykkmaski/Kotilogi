@@ -1,10 +1,10 @@
 'use client';
 
-import { ADeleteProperty } from '@/actions/properties';
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
 import { MainHeading } from '@/components/New/Typography/Headings';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { deletePropertyAction } from './actions';
 
 type DeletePropertyFormProps = {
   property: HouseDataType | AppartmentDataType;
@@ -15,7 +15,7 @@ export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
     <ObjectDeletionForm
       returnUrl='/dashboard'
       objectId={property.id}
-      deleteMethod={async credentials => ADeleteProperty(property.id, credentials.password)}>
+      deleteMethod={async credentials => deletePropertyAction(property.id, credentials.password)}>
       <MainHeading>Poista talo</MainHeading>
       <p className='text-lg mb-4'>
         Olet poistamassa taloa{' '}
