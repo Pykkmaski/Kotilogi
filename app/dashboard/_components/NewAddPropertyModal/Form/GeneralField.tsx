@@ -28,6 +28,11 @@ export function GeneralField({ hidePropertyIdentifier }) {
         fetchPropertyInfo((data as any).propertyNumber).then(result => {
           updatePropertyInfo(result);
         });
+      } else {
+        updatePropertyInfo({
+          streetAddress: undefined,
+          zipCode: undefined,
+        });
       }
     }, 1000);
 
@@ -66,6 +71,23 @@ export function GeneralField({ hidePropertyIdentifier }) {
             }
           />
         </div>
+
+        {data.propertyTypeId == propertyTypes['Kiinteistö'] && (
+          <div className='w-full'>
+            <FormControl
+              label='Talon numero'
+              required
+              control={
+                <Input
+                  name='houseNumber'
+                  type='number'
+                  step='1'
+                  min='1'
+                />
+              }
+            />
+          </div>
+        )}
 
         <div className='w-full'>
           <FormControl

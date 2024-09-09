@@ -24,7 +24,7 @@ export const createPropertyAction = async (
   data: PropertyDataType & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) => {
   z.object({
-    propertyTypeId: z.number(),
+    propertyTypeId: z.string(),
   }).parse(data);
 
   await createProperty(data);

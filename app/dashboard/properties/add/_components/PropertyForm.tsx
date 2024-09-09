@@ -165,7 +165,8 @@ export function PropertyForm<T extends PropertyDataType>({
                   <DialogTitle>Vahvista talo</DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      Olet lisäämässä taloa osoitteessa {(data as PropertyDataType).streetAddress}.
+                      Olet lisäämässä taloa osoitteessa{' '}
+                      {`${(data as PropertyDataType).streetAddress} ${(data as TODO).houseNumber}`}.
                       Oletko varma?
                     </DialogContentText>
                   </DialogContent>

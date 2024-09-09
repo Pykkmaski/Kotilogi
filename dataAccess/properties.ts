@@ -60,17 +60,18 @@ export async function createProperty(
   const session = await verifySession();
   const [{ numProperties }] = await db('data_properties')
     .join('data_objects', { 'data_objects.id': 'data_properties.id' })
-    .where({ authoId: session.user.id })
-    .count('*', { as: 'numProperties' });
+    .where({ authorId: session.user.id })
+    .count('* as numProperties');
 
   if (numProperties >= 1) {
-    throw new Error('Voit lisätä ainoastaan yhden talon!');
+    throw new Error('Et voi lisätä enempää taloja!');
   }
 
   return await createObject(data, async (obj, trx) => {
     const data_properties = {
       id: obj.id,
       ...filterValidColumns(data, await getTableColumns('data_properties', trx)),
+      streetAddress: `${data.streetAddress} ${data.houseNumber}`,
     };
 
     await trx('data_properties').insert(data_properties);

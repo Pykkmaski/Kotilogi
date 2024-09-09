@@ -1,4 +1,4 @@
 export function isPropertyIdentifier(identifier: string) {
-  const regexp = new RegExp(/^\d{3}-\d{3}-\d{3}-\d+$/);
+  const regexp = new RegExp(/^\d+-\d+-\d+-\d+$/);
   return regexp.test(identifier);
 }
