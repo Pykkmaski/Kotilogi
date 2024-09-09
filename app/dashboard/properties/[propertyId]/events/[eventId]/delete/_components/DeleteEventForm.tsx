@@ -1,9 +1,8 @@
 'use client';
 
-import { ADeletePropertyEvent } from '@/actions/events';
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
-import axios from 'axios';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { deleteEventAction } from './actions';
 
 type DeleteEventFormProps = {
   event: EventDataType;
@@ -14,7 +13,7 @@ export function DeleteEventForm({ event }: DeleteEventFormProps) {
     <ObjectDeletionForm
       objectId={event.id}
       returnUrl={`/dashboard/properties/${event.parentId}/events`}
-      deleteMethod={async data => await ADeletePropertyEvent(event.id)}>
+      deleteMethod={async data => await deleteEventAction(event.id)}>
       Olet poistamassa tapahtumaa {event.title}. Oletko varma?
     </ObjectDeletionForm>
   );
