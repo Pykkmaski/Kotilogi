@@ -9,12 +9,10 @@ import db from 'kotilogi-app/dbconfig';
 
 import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
 import { redirect } from 'next/navigation';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export default async function PropertiesPage() {
-  const session = await loadSession(false);
-  if (!session) {
-    return redirect('/login');
-  }
+  const session = await verifySession();
 
   const properties = (await getPropertiesOfUser(session.user.id)) as (
     | HouseDataType
