@@ -2,7 +2,7 @@ import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Card } from '@/components/UI/Card';
 import { PushPin } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { EventStepDataType } from 'kotilogi-app/models/types';
+import { EventStepDataType } from 'kotilogi-app/dataAccess/types';
 
 export function EventStepPreview({
   steps,

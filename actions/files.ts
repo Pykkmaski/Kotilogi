@@ -1,7 +1,7 @@
 'use server';
 
 import db from 'kotilogi-app/dbconfig';
-import { deleteFile, uploadFiles } from 'kotilogi-app/models/files';
+import { deleteFile, uploadFiles } from 'kotilogi-app/dataAccess/files';
 import { revalidatePath } from 'next/cache';
 
 export async function AUploadFile(fd: FormData, parentId: string) {

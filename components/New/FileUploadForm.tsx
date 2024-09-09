@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { FormButtons } from './Forms/FormBase';
 import { ProgressBar } from './ProgressBar';
 import axios from 'axios';
+import { createFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 
 type FileUploadFormProps = {
   fileParentId: string;
@@ -27,7 +28,7 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
       const fdata = new FormData();
       fdata.append('parentId', fileParentId);
       fdata.append('file', file);
-      await axios.post('/api/protected/files', fdata).then(res => {
+      await createFileAction(fdata).then(res => {
         if (res.status == 200) {
           setFilesUploaded(prev => prev + 1);
         } else {
@@ -61,6 +62,7 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
       />
 
       <FormButtons
+        submitDisabled={files.length == 0}
         loading={loading || status == -1}
         backAction={() => router.back()}
       />

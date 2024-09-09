@@ -10,10 +10,11 @@ import { Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { createContext } from 'react';
 import toast from 'react-hot-toast';
+import { onSubmit } from './actions';
 
 const UtilityBatchFormContext = createContext<{
   utilityTypes: { id: number; name: string }[];
@@ -37,7 +38,8 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
           );
         }}
         onSubmit={async entries => {
-          return ACreateUtilityData(entries.map(e => ({ ...e, parentId: propertyId })) as TODO);
+          await onSubmit(propertyId, entries);
+          toast.success('Kulutustiedot tallennettu!');
         }}
         title='Lisää Kulutustietoja'
         entryComponent={EntryComponent}>

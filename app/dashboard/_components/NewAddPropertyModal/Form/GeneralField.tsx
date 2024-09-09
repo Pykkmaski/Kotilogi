@@ -3,16 +3,49 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input, Label } from '@/components/UI/FormUtils';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from './PropertyForm';
+import { useEffect } from 'react';
+import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
+import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 
-export function GeneralField() {
-  const { property: data, propertyTypes, buildingTypes, energyClasses } = usePropertyFormContext();
+export function GeneralField({ hidePropertyIdentifier }) {
+  const {
+    property: data,
+    propertyTypes,
+    buildingTypes,
+    energyClasses,
+
+    updatePropertyInfo,
+    isValid,
+  } = usePropertyFormContext();
+
+  useEffect(() => {
+    if (hidePropertyIdentifier) {
+      return;
+    }
+
+    const timeout = setTimeout(async () => {
+      const isValidPattern = isPropertyIdentifier((data as HouseDataType).propertyNumber);
+      if (isValidPattern) {
+        fetchPropertyInfo((data as any).propertyNumber).then(result => {
+          updatePropertyInfo(result);
+        });
+      } else {
+        updatePropertyInfo({
+          streetAddress: undefined,
+          zipCode: undefined,
+        });
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [(data as any).propertyNumber]);
 
   return (
     <Fieldset legend='Yleistiedot'>
-      {data && data.propertyTypeId == propertyTypes['Kiinteistö'] ? (
+      {!hidePropertyIdentifier && data && data.propertyTypeId == propertyTypes['Kiinteistö'] ? (
         <div className='w-full'>
           <FormControl
             label='Kiinteistötunnus'
@@ -36,12 +69,30 @@ export function GeneralField() {
             control={
               <Input
                 name='streetAddress'
-                placeholder='Kirjoita talon osoite...'
+                disabled
                 defaultValue={data && data.streetAddress}
               />
             }
           />
         </div>
+
+        {data.propertyTypeId == propertyTypes['Kiinteistö'] && (
+          <div className='w-full'>
+            <FormControl
+              label='Talon numero'
+              required
+              control={
+                <Input
+                  name='houseNumber'
+                  defaultValue={data && data.houseNumber}
+                  type='number'
+                  step='1'
+                  min='1'
+                />
+              }
+            />
+          </div>
+        )}
 
         <div className='w-full'>
           <FormControl
@@ -49,10 +100,10 @@ export function GeneralField() {
             required
             control={
               <Input
-                defaultValue={data && data.zipCode}
+                disabled
+                defaultValue={(data && data.zipCode) || null}
                 name='zipCode'
-                maxLength={5}
-                placeholder='Kirjoita talon postinumero...'></Input>
+                maxLength={5}></Input>
             }
           />
         </div>

@@ -1,7 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
-import { deleteObject } from 'kotilogi-app/models/objectData';
-import { createProperty, getProperty, updateProperty } from 'kotilogi-app/models/propertyData';
-import { PropertyDataType } from 'kotilogi-app/models/types';
+import { deleteObject } from 'kotilogi-app/dataAccess/objects';
+import { createProperty, getProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 import { NextRequest } from 'next/server';

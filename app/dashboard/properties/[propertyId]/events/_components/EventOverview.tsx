@@ -5,10 +5,10 @@ import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { EventDataType } from 'kotilogi-app/models/types';
+import { EventDataType } from 'kotilogi-app/dataAccess/types';
 
 type EventOverviewProps<T extends EventDataType> = {
-  event: T & { numSteps: number };
+  event: T;
 };
 
 export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {

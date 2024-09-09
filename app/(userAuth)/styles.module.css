@@ -1,0 +1,7 @@
+.layout {
+  background: #f6f6f6;
+  background-blend-mode: normal;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+}

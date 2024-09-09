@@ -2,10 +2,7 @@ import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Group, Input, Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
-import { HouseDataType } from 'kotilogi-app/models/types';
-import { getEnumAsDigits } from 'kotilogi-app/models/utils/getEnumAsDigits';
-import { YardOwnershipType } from 'kotilogi-app/models/enums/YardOwnershipType';
-import { getTranslation } from 'kotilogi-app/lang';
+import { HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 export function YardField() {
   const {

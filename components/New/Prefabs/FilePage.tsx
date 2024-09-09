@@ -1,4 +1,4 @@
-import { FileDataType } from 'kotilogi-app/models/types';
+import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { Main } from '../Main';
 import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
 import { Button, ImageList, ImageListItem } from '@mui/material';

@@ -14,14 +14,11 @@
 
 .spinner {
   border-radius: 50%;
-  border: 3px solid white;
-
+  border-width: 3px;
   animation: RingAnimation;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-duration: 0.7s;
-
-  border-top-color: green;
 }
 
 .message {

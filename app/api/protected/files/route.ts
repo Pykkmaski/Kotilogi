@@ -3,9 +3,9 @@ import { readFile, unlink } from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { handleServerError, response } from '../../_utils/responseUtils';
-import { deleteObject } from 'kotilogi-app/models/objectData';
+import { deleteObject } from 'kotilogi-app/dataAccess/objects';
 
-import { uploadFiles } from 'kotilogi-app/models/files';
+import { uploadFiles } from 'kotilogi-app/dataAccess/files';
 import { revalidatePath } from 'next/cache';
 
 export async function GET(req: NextRequest) {

@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast';
 import { useInputData } from './useInputData';
 import { useState } from 'react';
-import { ObjectDataType } from 'kotilogi-app/models/types';
+import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 export enum FormStatus {
   IDLE = 0,

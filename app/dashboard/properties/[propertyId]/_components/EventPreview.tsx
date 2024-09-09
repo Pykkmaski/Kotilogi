@@ -1,16 +1,16 @@
 import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { IconLink } from '@/components/New/Links/IconLink';
 import { Card } from '@/components/UI/Card';
-import { EventDataType } from 'kotilogi-app/models/types';
+import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
 import { Edit, History, Image, PushPin } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { Menu } from '@/components/New/Menu';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
-import { getEvents } from 'kotilogi-app/models/propertyEventData';
+import { getEventsOfProperty } from 'kotilogi-app/dataAccess/events';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
-  const events = await getEvents({ parentId: propertyId }, null, 4);
+  const events = await getEventsOfProperty(propertyId, null, 4);
 
   return (
     <PreviewContentRow<EventDataType>

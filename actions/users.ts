@@ -1,11 +1,16 @@
 'use server';
 
 import { sendAccountActivationLink } from '../app/api/_lib/sendAccountActivationLink';
-import db from 'kotilogi-app/dbconfig';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
+import db from '@/dbconfig';
+import { loadSession } from '@/utils/loadSession';
 import bcrypt from 'bcrypt';
 import { signIn, signOut } from 'next-auth/react';
 import { revalidatePath } from 'next/cache';
+
+export async function AUserExists(email: string) {
+  const [user] = await db('data_users').where({ email });
+  return user !== undefined;
+}
 
 export async function AUpdateEmail(oldEmail: string, newEmail: string) {
   //Should send an email to the current address containing a link with a token, which when visited, triggers the change of the email.

@@ -14,11 +14,12 @@ export function FormBase({ children, ...props }: React.ComponentProps<'form'>) {
 
 type FormButtonsProps = {
   backAction?: (e: TODO) => void;
+  submitDisabled?: boolean;
   loading?: boolean;
   done?: boolean;
 };
 
-export function FormButtons({ backAction, loading, done }: FormButtonsProps) {
+export function FormButtons({ backAction, loading, done, submitDisabled }: FormButtonsProps) {
   return (
     <div className='flex gap-4 w-full justify-end'>
       <Button
@@ -30,7 +31,7 @@ export function FormButtons({ backAction, loading, done }: FormButtonsProps) {
       </Button>
       <Button
         type='submit'
-        disabled={loading || done}
+        disabled={loading || done || submitDisabled}
         variant='contained'
         startIcon={!loading ? <Check /> : <Spinner size='1rem' />}>
         Vahvista

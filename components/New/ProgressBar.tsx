@@ -14,7 +14,7 @@ export function ProgressBar({ className, maxProgress, currentProgress }: Progres
   return (
     <div className={className}>
       <div
-        className={`bg-teal-700 rounded-md h-full ${bstyle.progressBar}`}
+        className={`bg-primary rounded-md h-full ${bstyle.progressBar}`}
         style={style}>
         {progress}/{100}
       </div>

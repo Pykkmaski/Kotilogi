@@ -1,13 +1,15 @@
 'use client';
 
-import { ACreateProperty, AUpdateProperty } from '@/actions/properties';
-import { FormBase } from '@/components/New/Forms/FormBase';
-import { useDataSubmissionForm } from '@/hooks/useDataSubmissionForm';
 import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import axios from 'axios';
-import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import { ExteriorField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/ExteriorField';
 import { GeneralField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/GeneralField';
 import { HeatingField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/HeatingField';
@@ -17,10 +19,12 @@ import { PropertyFormContext } from 'kotilogi-app/app/dashboard/_components/NewA
 import { TargetTypeField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/TargetTypeField';
 import { YardField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/YardField';
 
-import { PropertyDataType } from 'kotilogi-app/models/types';
+import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { createPropertyAction, updatePropertyAction } from './actions';
+import { DialogControl } from '@/components/Util/DialogControl';
 
 enum FormStatus {
   IDLE = 0,
@@ -55,46 +59,40 @@ export function PropertyForm<T extends PropertyDataType>({
   mainColors,
 }: PropertyFormProps<T>) {
   const [hasChanges, setHasChanges] = useState(false);
-  const { data, updateData } = useInputData(property || {});
+  const address = property && property.streetAddress.split(' ');
+
+  let streetName;
+  let houseNumber;
+  if (address) {
+    houseNumber = address.at(-1);
+    //Remove the house number.
+    address.splice(-1, 1);
+    streetName = address.join(' ');
+  }
+
+  const { data, updateData, resetData } = useInputData(
+    {
+      ...property,
+      streetAddress: streetName,
+      houseNumber,
+    } || {}
+  );
+  const [isValid, setIsValid] = useState(false);
   const [status, setStatus] = useState(FormStatus.IDLE);
 
   const router = useRouter();
 
-  const runUpdate = async () =>
-    await axios
-      .patch('/api/protected/properties', {
-        id: property.id,
-        ...data,
-      })
-      .then(async res => {
-        if (res.status == 200) {
-          toast.success(res.statusText);
-          await revalidatePath('/dashboard');
-        } else {
-          toast.error(res.statusText);
-        }
-      })
-      .catch(err => toast.error(err.message));
-
-  const onSubmit = async e => {
-    e.preventDefault();
-    setStatus(FormStatus.LOADING);
-    if (property) {
-      await runUpdate();
+  const updatePropertyInfo = (info: TODO) => {
+    if (!info) {
+      setIsValid(false);
+      toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
     } else {
-      await ACreateProperty(data as TODO)
-        .then(async res => {
-          if (res.status == 200) {
-            toast.success(res.statusText);
-            await revalidatePath('/dashboard');
-            router.back();
-          } else {
-            toast.error(res.statusText);
-          }
-        })
-        .catch(err => toast.error(err.message));
+      resetData({
+        ...data,
+        ...info,
+      });
+      setIsValid(true);
     }
-    setStatus(FormStatus.IDLE);
   };
 
   useEffect(() => {
@@ -103,15 +101,28 @@ export function PropertyForm<T extends PropertyDataType>({
 
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
-      await runUpdate().finally(() => toast.dismiss(loadingToast));
+      await updatePropertyAction(property.id, data as PropertyDataType)
+        .catch(err => toast.error(err.message))
+        .finally(() => toast.dismiss(loadingToast));
     }, 900);
 
     return () => clearTimeout(timeout);
   }, [data]);
 
+  const formId = 'submit-property-form';
+
   return (
     <form
-      onSubmit={onSubmit}
+      id={formId}
+      onSubmit={async e => {
+        e.preventDefault();
+        try {
+          await createPropertyAction(data as PropertyDataType);
+          toast.success('Talo luotu!');
+        } catch (err) {
+          toast.error(err.message);
+        }
+      }}
       onChange={e => {
         updateData(e);
         setHasChanges(true);
@@ -119,6 +130,8 @@ export function PropertyForm<T extends PropertyDataType>({
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
         value={{
+          isValid,
+          updatePropertyInfo,
           property: data,
           propertyTypes,
           energyClasses,
@@ -131,7 +144,7 @@ export function PropertyForm<T extends PropertyDataType>({
           mainColors,
         }}>
         {!property && <TargetTypeField />}
-        <GeneralField />
+        <GeneralField hidePropertyIdentifier={property !== undefined} />
         <ExteriorField />
         <YardField />
         <InteriorField />
@@ -147,13 +160,53 @@ export function PropertyForm<T extends PropertyDataType>({
             disabled={status == FormStatus.LOADING || status == FormStatus.DONE}>
             Peruuta
           </Button>
-          <Button
-            type='submit'
-            variant='contained'
-            disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
-            startIcon={<Check />}>
-            {property ? 'Päivitä' : 'Vahvista'}
-          </Button>
+
+          <DialogControl
+            trigger={({ onClick }) => {
+              return (
+                <Button
+                  onClick={onClick}
+                  type='button'
+                  variant='contained'
+                  disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                  startIcon={<Check />}>
+                  {property ? 'Päivitä' : 'Vahvista'}
+                </Button>
+              );
+            }}
+            control={({ show, handleClose }) => {
+              return (
+                <Dialog
+                  open={show}
+                  onClose={handleClose}>
+                  <DialogTitle>Vahvista talo</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Olet lisäämässä taloa osoitteessa{' '}
+                      {`${(data as PropertyDataType).streetAddress} ${(data as TODO).houseNumber}`}.
+                      Oletko varma?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      variant='text'
+                      type='button'
+                      onClick={handleClose}>
+                      Peruuta
+                    </Button>
+                    <Button
+                      form={formId}
+                      type='submit'
+                      variant='contained'
+                      disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                      startIcon={<Check />}>
+                      {property ? 'Päivitä' : 'Vahvista'}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              );
+            }}
+          />
         </div>
       ) : null}
     </form>

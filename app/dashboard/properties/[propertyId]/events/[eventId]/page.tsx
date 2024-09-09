@@ -3,9 +3,9 @@ import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
-import { EventDataType, EventStepDataType, FileDataType } from 'kotilogi-app/models/types';
+import { EventDataType, EventStepDataType, FileDataType } from 'kotilogi-app/dataAccess/types';
 import { FileCard } from '@/components/New/FileCard';
-import { getFiles } from 'kotilogi-app/models/fileData';
+import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;

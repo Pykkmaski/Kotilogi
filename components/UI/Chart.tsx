@@ -2,7 +2,7 @@
 
 import { ApexOptions } from 'apexcharts';
 import { mergeByMonth } from 'kotilogi-app/actions/usage.utils';
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import ApexChart from 'react-apexcharts';
 
 type TakesDataOfType<T> = {

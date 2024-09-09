@@ -1,0 +1,91 @@
+.user-auth-input {
+  width: 665px;
+  height: 80px;
+  background: #ffffff;
+  background-blend-mode: normal;
+  box-shadow: 0px 2px 4px rgba(100, 100, 100, 0.5);
+  font-size: 24px;
+  font-weight: 400;
+  padding: 18px 32px 18px 32px;
+  color: #757575;
+}
+
+.inputBadge {
+  position: absolute;
+  right: 18px;
+}
+
+@keyframes BadgeAnimation {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+.inputIcon {
+  animation-name: BadgeAnimation;
+  animation-duration: 200ms;
+  animation-timing-function: cubic-bezier(1, 0, 0, 1);
+}
+
+.button {
+  font-size: 24px;
+  font-weight: 600;
+  color: #757575;
+}
+
+.submitButton {
+  width: 332px;
+  height: 62px;
+  border-radius: 100px;
+  background: #3f4fb4;
+  background-blend-mode: normal;
+  color: white;
+}
+
+.submitButton:disabled {
+  background-color: gray;
+}
+
+.checkbox {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #808080;
+  background: #ffffff;
+  background-blend-mode: normal;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+}
+
+@keyframes CheckmarkAnimation {
+  0% {
+    scale: 0;
+    transform: rotate(90deg);
+  }
+
+  60% {
+    scale: 1.5;
+    transform: rotate(0);
+  }
+
+  100% {
+    scale: 1;
+  }
+}
+
+.checkmark {
+  animation-name: CheckmarkAnimation;
+  animation-timing-function: ease-in-out;
+  animation-duration: 200ms;
+}
+
+.checkbox.selected {
+  background-color: #28a728;
+}

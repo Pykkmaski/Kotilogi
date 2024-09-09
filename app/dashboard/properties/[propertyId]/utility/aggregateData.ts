@@ -1,4 +1,4 @@
-import { UtilityDataType } from 'kotilogi-app/models/types';
+import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 
 export const aggregate = (data: UtilityDataType[]) => {
   return data.reduce((acc, cur) => {

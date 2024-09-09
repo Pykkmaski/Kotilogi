@@ -2,7 +2,7 @@
 
 import { createContext } from 'react';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/models/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 const AddPropertyModalContext = createContext<{
   property: AppartmentDataType | HouseDataType;

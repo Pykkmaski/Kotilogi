@@ -1,12 +1,12 @@
 'use server';
 
 import db from 'kotilogi-app/dbconfig';
-import { deleteObject } from 'kotilogi-app/models/objectData';
-import { PropertyDataType } from 'kotilogi-app/models/types';
+import { deleteObject } from 'kotilogi-app/dataAccess/objects';
+import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcrypt';
-import { createProperty, updateProperty } from 'kotilogi-app/models/propertyData';
+import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
 import { ServerActionResponse } from './lib/ServerActionResponse';
 
 const path = '/dashboard/properties';

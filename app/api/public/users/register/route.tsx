@@ -1,14 +1,13 @@
-import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
-import bcrypt from 'bcrypt';
 import {
   createResponseMessage,
   handleServerError,
-  response,
 } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
 import { sendAccountActivationLink } from '@/app/api/_lib/sendAccountActivationLink';
+import { hashPassword } from 'kotilogi-app/dataAccess/utils/hashPassword';
+import { createUser } from 'kotilogi-app/dataAccess/users';
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,11 +20,7 @@ export async function POST(req: NextRequest) {
     const { email, password } = data;
 
     try {
-      await db('data_users').insert({
-        email,
-        password: await bcrypt.hash(password, 15),
-        status: 0, //Unconfirmed-status,
-      });
+      await createUser({ email, password });
     } catch (err) {
       const msg = err.message.toUpperCase();
       if (msg.includes('DUPLICATE')) {
@@ -35,6 +30,8 @@ export async function POST(req: NextRequest) {
             status: 409,
           }
         );
+      } else {
+        throw err;
       }
     }
 
