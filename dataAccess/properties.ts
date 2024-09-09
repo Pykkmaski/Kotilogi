@@ -103,7 +103,7 @@ export async function deleteProperty(id: string, password: string) {
     redirect('/login');
   }
 
-  const [owner] = await db('data_propertyOwners').where({ id: session.user.id });
+  const [owner] = await db('data_propertyOwners').where({ userId: session.user.id });
   if (!owner) {
     throw new Error('Vain talon omistaja voi poistaa sen!');
   }
