@@ -4,9 +4,8 @@ import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionFor
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { createEvent, updateEvent } from 'kotilogi-app/dataAccess/events';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
-import { onSubmit, runUpdate } from './actions';
+import { createEventAction, updateEventAction } from './actions';
 
 type EventFormProps = {
   propertyId: string;
@@ -32,9 +31,9 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
       }}
       onSubmit={async (data, files) => {
         if (eventData) {
-          await runUpdate(eventData.id, data);
+          await updateEventAction(eventData.id, data);
         } else {
-          await onSubmit(eventData.parentId, data, files);
+          await createEventAction(eventData.parentId, data, files);
         }
       }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
