@@ -38,7 +38,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
           {searchBar && <SearchBar />}
           <Link href={addButtonUrl}>
             <Button
-              variant='text'
+              variant='contained'
               startIcon={<Add />}>
               Lisää Uusi
             </Button>
