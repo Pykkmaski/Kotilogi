@@ -10,6 +10,7 @@ import { CardMenuButton } from './CardMenuButton';
 import { useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import axios from 'axios';
+import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 
 type FileCardProps = {
   file: FileDataType;
@@ -27,13 +28,12 @@ export function FileCard({ file, isMain }: FileCardProps) {
     setStatus(FormStatus.LOADING);
     const loadingToast = toast.loading('Poistetaan tiedostoa...');
 
-    await axios.delete(`/api/protected/files?id=${file.id}`).then(res => {
-      if (res.status == 200) {
-        toast.success(res.statusText);
-      } else {
-        toast.error(res.statusText);
-      }
-    });
+    const response = await deleteFileAction(file.id);
+    if (response.status === 200) {
+      toast.success(response.statusText);
+    } else {
+      toast.error(response.statusText);
+    }
 
     toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);

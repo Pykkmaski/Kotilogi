@@ -6,8 +6,8 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export default async function DeletePropertyPage({ params, searchParams }) {
-  const [property] = await db('data_properties').where({ id: params.propertyId });
   const session = await verifySession();
+  const [property] = await db('data_properties').where({ id: params.propertyId });
 
   const [owner] = await db('data_propertyOwners').where({
     userId: session.user.id,
