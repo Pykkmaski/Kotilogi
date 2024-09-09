@@ -6,7 +6,7 @@ import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { revalidatePath } from 'next/cache';
 import bcrypt from 'bcrypt';
-import { createProperty, updateProperty } from 'kotilogi-app/models/propertyData';
+import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
 import { ServerActionResponse } from './lib/ServerActionResponse';
 
 const path = '/dashboard/properties';

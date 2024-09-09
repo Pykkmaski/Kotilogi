@@ -1,7 +1,7 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Checkbox, CheckboxLabel } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
-import { PropertyType } from 'kotilogi-app/dataAccess/enums/PropertyType';
+
 import { AppartmentDataType } from 'kotilogi-app/dataAccess/types';
 
 export function OtherInfoField() {

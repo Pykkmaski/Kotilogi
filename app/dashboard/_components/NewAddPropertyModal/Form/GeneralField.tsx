@@ -6,10 +6,9 @@ import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from './PropertyForm';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
-import { FamilyRestroom } from '@mui/icons-material';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {

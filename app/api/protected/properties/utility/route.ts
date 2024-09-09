@@ -1,7 +1,6 @@
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
 
 import { deleteObject } from 'kotilogi-app/dataAccess/objects';
-import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import {
   createUtilityData,
   getUtilityData,
@@ -12,7 +11,6 @@ import { revalidatePath } from 'next/cache';
 
 import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
-import { revalidatePath as serverRevalidate } from '@/app/api/_utils/revalidatePath';
 const revalidationPath = '/dashboard/properties/[propertyId]';
 
 export async function GET(req: NextRequest) {
@@ -65,7 +63,7 @@ export async function PATCH(req: NextRequest) {
       id: z.string(),
     }).parse(data);
 
-    await updateUtilityData(data);
+    await updateUtilityData(data.id, data);
     revalidatePath(revalidationPath, 'page');
     return response('success', null, 'Tiedon päivitys onnistui!');
   } catch (err: any) {

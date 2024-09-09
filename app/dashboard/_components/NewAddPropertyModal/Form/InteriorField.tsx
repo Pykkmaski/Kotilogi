@@ -1,11 +1,10 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Input, FormControl } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
-import { PropertyType } from 'kotilogi-app/dataAccess/enums/PropertyType';
 
 export function InteriorField() {
   const { property: data, propertyTypes } = usePropertyFormContext();
-  console.log(data.propertyTypeId, propertyTypes['Huoneisto']);
+
   return (
     <Fieldset legend='Sisätilat'>
       <FormControl
