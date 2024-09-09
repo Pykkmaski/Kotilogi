@@ -1,12 +1,10 @@
+import 'server-only';
+
 import db from 'kotilogi-app/dbconfig';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
-import { redirect } from 'next/navigation';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export async function verifySessionUserIsAuthor(objectId: string) {
-  const session = await loadSession(false);
-  if (!session) {
-    redirect('/login');
-  }
+  const session = await verifySession();
 
   const [authorId] = await db('data_objects').where({ id: objectId }).pluck('authorId');
   if (session.user.id !== authorId) {

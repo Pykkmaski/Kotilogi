@@ -8,9 +8,14 @@ import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/
 import db from 'kotilogi-app/dbconfig';
 
 import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
+import { redirect } from 'next/navigation';
 
 export default async function PropertiesPage() {
-  const session = await loadSession();
+  const session = await loadSession(false);
+  if (!session) {
+    return redirect('/login');
+  }
+
   const properties = (await getPropertiesOfUser(session.user.id)) as (
     | HouseDataType
     | AppartmentDataType
