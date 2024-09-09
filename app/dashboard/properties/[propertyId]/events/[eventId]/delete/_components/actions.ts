@@ -1,3 +1,5 @@
+'use server';
+
 import { deleteEvent } from 'kotilogi-app/dataAccess/events';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
