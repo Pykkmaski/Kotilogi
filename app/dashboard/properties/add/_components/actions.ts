@@ -7,7 +7,7 @@ import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { z } from 'zod';
 require('dotenv').config();
 
-export const runUpdate = async (
+export const updatePropertyAction = async (
   propertyId: string,
   data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) => {
@@ -20,7 +20,7 @@ export const runUpdate = async (
   revalidatePath('/dashboard/properties');
 };
 
-export const onSubmit = async (
+export const createPropertyAction = async (
   data: PropertyDataType & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) => {
   z.object({

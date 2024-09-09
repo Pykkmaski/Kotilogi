@@ -23,7 +23,7 @@ import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { onSubmit, runUpdate } from './actions';
+import { createPropertyAction, updatePropertyAction } from './actions';
 import { DialogControl } from '@/components/Util/DialogControl';
 
 enum FormStatus {
@@ -84,7 +84,7 @@ export function PropertyForm<T extends PropertyDataType>({
 
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
-      await runUpdate(property.id, data)
+      await updatePropertyAction(property.id, data as PropertyDataType)
         .catch(err => toast.error(err.message))
         .finally(() => toast.dismiss(loadingToast));
     }, 900);
@@ -100,7 +100,7 @@ export function PropertyForm<T extends PropertyDataType>({
       onSubmit={async e => {
         e.preventDefault();
         try {
-          await onSubmit(data);
+          await createPropertyAction(data as PropertyDataType);
           toast.success('Talo luotu!');
         } catch (err) {
           toast.error(err.message);
