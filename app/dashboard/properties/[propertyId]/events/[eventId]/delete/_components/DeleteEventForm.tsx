@@ -13,7 +13,7 @@ export function DeleteEventForm({ event }: DeleteEventFormProps) {
     <ObjectDeletionForm
       objectId={event.id}
       returnUrl={`/dashboard/properties/${event.parentId}/events`}
-      deleteMethod={async data => await deleteEventAction(event.id)}>
+      deleteMethod={async () => await deleteEventAction(event.id)}>
       Olet poistamassa tapahtumaa {event.title}. Oletko varma?
     </ObjectDeletionForm>
   );
