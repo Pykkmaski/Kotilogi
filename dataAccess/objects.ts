@@ -7,6 +7,7 @@ import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export async function createObject<T extends ObjectDataType>(
   data: Partial<T>,
@@ -14,7 +15,7 @@ export async function createObject<T extends ObjectDataType>(
 ) {
   const trx = await db.transaction();
   try {
-    const session = (await getServerSession(options as any)) as any;
+    const session = await verifySession();
     const dataToInsert = filterValidColumns(data, await getTableColumns('data_objects', trx));
     const [obj] = (await trx('data_objects').insert(
       { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },

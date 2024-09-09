@@ -8,6 +8,7 @@ import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types
 import { usePropertyFormContext } from './PropertyForm';
 import { useEffect } from 'react';
 import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
+import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
@@ -22,9 +23,12 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      fetchPropertyInfo((data as any).propertyNumber).then(result => {
-        updatePropertyInfo(result);
-      });
+      const isValidPattern = isPropertyIdentifier((data as HouseDataType).propertyNumber);
+      if (isValidPattern) {
+        fetchPropertyInfo((data as any).propertyNumber).then(result => {
+          updatePropertyInfo(result);
+        });
+      }
     }, 1000);
 
     return () => clearTimeout(timeout);

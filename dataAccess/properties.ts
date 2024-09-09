@@ -9,6 +9,7 @@ import db from 'kotilogi-app/dbconfig';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifyPassword } from './users';
 import { redirect } from 'next/navigation';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
@@ -55,6 +56,17 @@ export async function createProperty(
   data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>,
   callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
+  //Only allow one property per user.
+  const session = await verifySession();
+  const [{ numProperties }] = await db('data_properties')
+    .join('data_objects', { 'data_objects.id': 'data_properties.id' })
+    .where({ authoId: session.user.id })
+    .count('*', { as: 'numProperties' });
+
+  if (numProperties >= 1) {
+    throw new Error('Voit lisätä ainoastaan yhden talon!');
+  }
+
   return await createObject(data, async (obj, trx) => {
     const data_properties = {
       id: obj.id,

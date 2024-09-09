@@ -10,4 +10,9 @@ describe('Testing isPropertyIdentifier', () => {
     const id = '123-123-123';
     expect(isPropertyIdentifier(id)).toBe(false);
   });
+
+  it('Returns false if undefined or null is passed as an argument', () => {
+    expect(isPropertyIdentifier(undefined)).toBe(false);
+    expect(isPropertyIdentifier(null)).toBe(false);
+  });
 });

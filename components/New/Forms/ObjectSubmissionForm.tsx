@@ -32,6 +32,7 @@ export function ObjectSubmissionForm<T extends ObjectDataType>({
         try {
           await onSubmit(data as TODO, files, router);
           setStatus(FormStatus.DONE);
+          router.back();
         } catch (err) {
           toast.error(err.message);
         } finally {

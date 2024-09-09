@@ -33,7 +33,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
         if (eventData) {
           await updateEventAction(eventData.id, data);
         } else {
-          await createEventAction(eventData.parentId, data, files);
+          await createEventAction(propertyId, data, files);
         }
       }}>
       <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>

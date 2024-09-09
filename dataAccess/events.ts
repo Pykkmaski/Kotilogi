@@ -6,7 +6,9 @@ import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
+/**Returns the events of a specified property. */
 export async function getEventsOfProperty(propertyId: string, query?: string, limit: number = 10) {
   //Only allow fetching of events for owners of the property.
   const session = await loadSession();
@@ -25,12 +27,13 @@ export async function getEventsOfProperty(propertyId: string, query?: string, li
       );
     })
     .andWhere({
-      'data_objects.id': propertyId,
+      'data_objects.parentId': propertyId,
     })
     .limit(limit)
     .orderBy('data_objects.timestamp', 'desc');
 }
 
+/**Returns an event by id. */
 export async function getEvent(id: string) {
   const event = await db('data_objects')
     .join('data_propertyEvents')
@@ -39,10 +42,20 @@ export async function getEvent(id: string) {
   return event;
 }
 
+/**Creates a new event for a property. */
 export async function createEvent(
-  data: Partial<EventDataType>,
+  data: Partial<EventDataType> & Required<Pick<EventDataType, 'parentId'>>,
   callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
+  const [{ eventCount }] = await db('data_objects')
+    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+    .where({ 'data_objects.parentId': data.parentId })
+    .count('* as eventCount');
+
+  if (eventCount >= 100) {
+    throw new Error('Olet saavuttanut talon tapahtumien määrän rajan!');
+  }
+
   await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
     const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));

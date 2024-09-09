@@ -3,6 +3,7 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { hashPassword } from './utils/hashPassword';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export async function verifyPassword(userId: string, password: string) {
   const [{ password: encrypted }] = await db('data_users').where({ id: userId }).select('password');
@@ -27,7 +28,7 @@ export async function createUser(data: TODO) {
 
 /**Updates the currently logged in user. */
 export async function updateUser(data: TODO) {
-  const session = await loadSession();
+  const session = await verifySession();
   await db('data_users')
     .where({ id: session.user.id })
     .update({
@@ -37,9 +38,7 @@ export async function updateUser(data: TODO) {
 }
 
 export async function deleteUser(id: string) {
-  //If the user's status is not unconfirmed, only allow the user to delete their account.
   const [userStatus] = await db('data_users').where({ id }).select('status', 'createdAt');
-
   if (!userStatus) {
     throw new Error(`User ${id} does not have a status!`);
   }
@@ -51,11 +50,7 @@ export async function deleteUser(id: string) {
     );
   }
 
-  const session = await loadSession();
-  if (!session) {
-    redirect('/login');
-  }
-
+  const session = await verifySession();
   if (session.user.id !== id) {
     throw new Error(`Only the user themselves can delete their account! (id: ${id}`);
   }
