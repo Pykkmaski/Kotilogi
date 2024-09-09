@@ -59,7 +59,24 @@ export function PropertyForm<T extends PropertyDataType>({
   mainColors,
 }: PropertyFormProps<T>) {
   const [hasChanges, setHasChanges] = useState(false);
-  const { data, updateData, resetData } = useInputData(property || {});
+  const address = property && property.streetAddress.split(' ');
+
+  let streetName;
+  let houseNumber;
+  if (address) {
+    houseNumber = address.at(-1);
+    //Remove the house number.
+    address.splice(-1, 1);
+    streetName = address.join(' ');
+  }
+
+  const { data, updateData, resetData } = useInputData(
+    {
+      ...property,
+      streetAddress: streetName,
+      houseNumber,
+    } || {}
+  );
   const [isValid, setIsValid] = useState(false);
   const [status, setStatus] = useState(FormStatus.IDLE);
 

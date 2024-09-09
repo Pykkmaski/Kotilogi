@@ -102,7 +102,12 @@ export async function updateProperty(
       data,
       await getTableColumns('data_properties', trx)
     );
-    await trx('data_properties').where({ id }).update(propertyUpdateObject);
+    await trx('data_properties')
+      .where({ id })
+      .update({
+        ...propertyUpdateObject,
+        streetAddress: `${propertyUpdateObject.streetAddress} ${data.houseNumber}`,
+      });
 
     const propTableName = await getPropertyTableNameByType(data.propertyTypeId, trx);
     const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));

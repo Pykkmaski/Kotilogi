@@ -6,9 +6,10 @@ import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from './PropertyForm';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
+import { FamilyRestroom } from '@mui/icons-material';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
@@ -22,6 +23,10 @@ export function GeneralField({ hidePropertyIdentifier }) {
   } = usePropertyFormContext();
 
   useEffect(() => {
+    if (hidePropertyIdentifier) {
+      return;
+    }
+
     const timeout = setTimeout(async () => {
       const isValidPattern = isPropertyIdentifier((data as HouseDataType).propertyNumber);
       if (isValidPattern) {
@@ -66,7 +71,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               <Input
                 name='streetAddress'
                 disabled
-                defaultValue={(data && data.streetAddress) || null}
+                defaultValue={data && data.streetAddress}
               />
             }
           />
@@ -80,6 +85,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               control={
                 <Input
                   name='houseNumber'
+                  defaultValue={data && data.houseNumber}
                   type='number'
                   step='1'
                   min='1'
