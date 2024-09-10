@@ -1,6 +1,6 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Input, FormControl } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 
 export function InteriorField() {
   const { property: data, propertyTypes } = usePropertyFormContext();
@@ -15,6 +15,7 @@ export function InteriorField() {
         }
         control={
           <Input
+            data-testid='living-area-input'
             name='livingArea'
             placeholder='Anna kohteen sisätilojen pinta-ala...'
             type='number'
@@ -33,6 +34,7 @@ export function InteriorField() {
         }
         control={
           <Input
+            data-testid='other-area-input'
             name='otherArea'
             placeholder='Anna muiden tilojen pinta-ala...'
             type='number'
@@ -46,6 +48,7 @@ export function InteriorField() {
         label='Huoneiden lukumäärä'
         control={
           <Input
+            data-testid='room-count-input'
             type='number'
             name='roomCount'
             placeholder='Anna huoneiden lukumäärä...'
@@ -62,6 +65,7 @@ export function InteriorField() {
         }
         control={
           <Input
+            data-testid='floor-count-input'
             name='floorCount'
             step='1'
             min='1'
@@ -76,6 +80,7 @@ export function InteriorField() {
         label={'Vessojen lukumäärä'}
         control={
           <Input
+            data-testid='wc-count-input'
             name='wcCount'
             placeholder='Anna vessojen lukumäärä'
             type='number'

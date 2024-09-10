@@ -1,7 +1,7 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Group, Input, Label } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 import { HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 export function YardField() {
@@ -23,6 +23,7 @@ export function YardField() {
       <RadioGroup groupName='yardOwnershipTypeId'>
         {Object.entries(yardOwnershipTypes).map(([name, id]: [string, number]) => (
           <RadioButton
+            data-testid={`yard-ownership-radio-${id}`}
             label={name}
             value={id}
             type='radio'
@@ -37,6 +38,7 @@ export function YardField() {
             Pinta-ala <sup className='text-super'>m2</sup>
           </Label>
           <Input
+            data-testid='yard-area-input'
             name='yardArea'
             type='number'
             step={0.1}

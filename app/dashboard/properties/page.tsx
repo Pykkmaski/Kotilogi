@@ -13,7 +13,6 @@ import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export default async function PropertiesPage() {
   const session = await verifySession();
-
   const properties = (await getPropertiesOfUser(session.user.id)) as (
     | HouseDataType
     | AppartmentDataType

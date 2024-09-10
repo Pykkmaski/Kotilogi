@@ -3,7 +3,7 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 
 export function TargetTypeField() {
   const { propertyTypes, resetData, property: data } = usePropertyFormContext();
@@ -22,6 +22,7 @@ export function TargetTypeField() {
             value={id}
             required
             type='radio'
+            data-testid={`property-type-id-radio-${id}`}
             onChange={e => {
               resetData({
                 propertyTypeId: e.target.value,

@@ -1,7 +1,7 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 
 export function HeatingField() {
   const { property: data, heatingTypes } = usePropertyFormContext();
@@ -18,6 +18,7 @@ export function HeatingField() {
                 .filter(([name, id]: [string, number]) => id != heatingTypes['Ei Mitään'])
                 .map(([name, id]: [string, number]) => (
                   <RadioButton
+                    data-testid={`primary-heating-radio-${id}`}
                     value={id}
                     defaultChecked={id == data.primaryHeatingSystemId}
                     label={name}
@@ -40,6 +41,7 @@ export function HeatingField() {
                 .map(([name, id]: [string, number]) => {
                   return (
                     <RadioButton
+                      data-testid={`secondary-heating-radio-${id}`}
                       value={id}
                       defaultChecked={id == data.secondaryHeatingSystemId}
                       label={name}

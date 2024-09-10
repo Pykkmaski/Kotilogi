@@ -3,7 +3,7 @@
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 
 export function ExteriorField() {
   const { property, roofTypes, roofMaterials, buildingMaterials, mainColors } =
@@ -18,6 +18,7 @@ export function ExteriorField() {
             {Object.entries(buildingMaterials).map(([name, id]: [string, number]) => {
               return (
                 <RadioButton
+                  data-testid={`building-material-radio-${id}`}
                   label={name}
                   type='radio'
                   value={id}
@@ -35,6 +36,7 @@ export function ExteriorField() {
               {Object.entries(mainColors).map(([name, id]: [string, number]) => {
                 return (
                   <RadioButton
+                    data-testid={`main-color-radio-${id}`}
                     label={name}
                     value={id}
                     type='radio'
@@ -55,6 +57,7 @@ export function ExteriorField() {
             {Object.entries(roofTypes).map(([name, id]: [string, number]) => {
               return (
                 <RadioButton
+                  data-testid={`roof-type-radio-${id}`}
                   label={name}
                   value={id}
                   type='radio'
@@ -71,6 +74,7 @@ export function ExteriorField() {
           <RadioGroup groupName='roofMaterialId'>
             {Object.entries(roofMaterials).map(([name, id]: [string, number]) => (
               <RadioButton
+                data-testid={`roof-material-radio-${id}`}
                 label={name}
                 value={id}
                 type='radio'

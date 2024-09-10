@@ -10,14 +10,14 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { ExteriorField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/ExteriorField';
-import { GeneralField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/GeneralField';
-import { HeatingField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/HeatingField';
-import { InteriorField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/InteriorField';
-import { OtherInfoField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/OtherInfoField';
-import { PropertyFormContext } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/PropertyForm';
-import { TargetTypeField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/TargetTypeField';
-import { YardField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/YardField';
+import { ExteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/ExteriorField';
+import { GeneralField } from 'kotilogi-app/app/dashboard/properties/add/_components/GeneralField';
+import { HeatingField } from 'kotilogi-app/app/dashboard/properties/add/_components/HeatingField';
+import { InteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/InteriorField';
+import { OtherInfoField } from 'kotilogi-app/app/dashboard/properties/add/_components/OtherInfoField';
+import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyFormContext';
+import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/TargetTypeField';
+import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/YardField';
 
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';

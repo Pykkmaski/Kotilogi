@@ -1,7 +1,7 @@
 import { Main } from '@/components/New/Main';
 import { getProperty } from 'kotilogi-app/dataAccess/properties';
 import { PropertyForm } from '../../add/_components/PropertyForm';
-import { TargetTypeField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/TargetTypeField';
+import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/TargetTypeField';
 import { getRefTableContent } from '@/actions/util/getRefTableContent';
 
 export default async function EditPropertyPage({ params }) {
