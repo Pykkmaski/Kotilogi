@@ -69,7 +69,7 @@ export async function createProperty(
     .where({ authorId: session.user.id })
     .count('* as numProperties');
 
-  if (numProperties >= 10) {
+  if (numProperties >= 1) {
     throw new Error('Et voi lisätä enempää taloja!');
   }
 
