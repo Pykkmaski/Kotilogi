@@ -2,18 +2,24 @@ import 'server-only';
 import { Knex } from 'knex';
 import { createObject, deleteObject, updateObject } from './objects';
 
-import { AppartmentDataType, HouseDataType, ObjectDataType, PropertyDataType } from './types';
+import { AppartmentDataType, HouseDataType, PropertyDataType } from './types';
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
 import db from 'kotilogi-app/dbconfig';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifyPassword } from './users';
-import { redirect } from 'next/navigation';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
   return typeId == houseTypeId ? 'data_houses' : 'data_appartments';
+};
+
+/**Verifies a property is owned by the user of the current session. Throws an error if not. */
+const verifyPropertyOwnership = async (session: { user: { id: string } }, propertyId: string) => {
+  const [owner] = await db('data_propertyOwners').where({ userId: session.user.id, propertyId });
+  if (!owner) {
+    throw new Error('Vain talon omistaja voi poistaa- tai muokata sitä!');
+  }
 };
 
 export async function getProperty(id: string): Promise<HouseDataType | AppartmentDataType> {
@@ -97,6 +103,9 @@ export async function updateProperty(
   id: string,
   data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) {
+  const session = await verifySession();
+  await verifyPropertyOwnership(session, id);
+
   return updateObject(id, data, async trx => {
     const propertyUpdateObject = filterValidColumns(
       data,
@@ -116,15 +125,8 @@ export async function updateProperty(
 }
 
 export async function deleteProperty(id: string, password: string) {
-  const session = await loadSession();
-  if (!session) {
-    redirect('/login');
-  }
-
-  const [owner] = await db('data_propertyOwners').where({ userId: session.user.id });
-  if (!owner) {
-    throw new Error('Vain talon omistaja voi poistaa sen!');
-  }
+  const session = await verifySession();
+  await verifyPropertyOwnership(session, id);
 
   await verifyPassword(session.user.id, password);
 
