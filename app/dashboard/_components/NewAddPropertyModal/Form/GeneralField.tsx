@@ -39,8 +39,8 @@ export function GeneralField({ hidePropertyIdentifier }) {
         //Reset the previous streetAddress and zipCode values.
         updatePropertyInfo(
           {
-            streetAddress: undefined,
-            zipCode: undefined,
+            streetAddress: '',
+            zipCode: '',
           },
           false
         );
@@ -102,25 +102,6 @@ export function GeneralField({ hidePropertyIdentifier }) {
           />
         </div>
 
-        {data.propertyTypeId == propertyTypes['Kiinteistö'] && (
-          <div className='w-full'>
-            <FormControl
-              label='Talon numero'
-              required
-              control={
-                <Input
-                  name='houseNumber'
-                  value={data && data.houseNumber}
-                  defaultValue={data && data.houseNumber}
-                  type='number'
-                  step='1'
-                  min='1'
-                />
-              }
-            />
-          </div>
-        )}
-
         <div className='w-full'>
           <FormControl
             label='Postinumero'
@@ -136,6 +117,25 @@ export function GeneralField({ hidePropertyIdentifier }) {
             }
           />
         </div>
+        {data.propertyTypeId == propertyTypes['Kiinteistö'] && (
+          <div className='w-full'>
+            <FormControl
+              label='Talon numero'
+              required
+              control={
+                <Input
+                  name='houseNumber'
+                  value={data && data.houseNumber}
+                  defaultValue={data && data.houseNumber}
+                  placeholder='Kirjoita talon numero...'
+                  type='number'
+                  step='1'
+                  min='1'
+                />
+              }
+            />
+          </div>
+        )}
       </div>
 
       <FormControl
