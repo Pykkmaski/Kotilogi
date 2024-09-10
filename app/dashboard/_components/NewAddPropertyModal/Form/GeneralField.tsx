@@ -6,9 +6,11 @@ import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from './PropertyForm';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
+import { Check, Clear } from '@mui/icons-material';
+import { primary } from 'kotilogi-app/colors';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
@@ -28,30 +30,52 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
     const timeout = setTimeout(async () => {
       const isValidPattern = isPropertyIdentifier((data as HouseDataType).propertyNumber);
+
       if (isValidPattern) {
         fetchPropertyInfo((data as any).propertyNumber).then(result => {
-          updatePropertyInfo(result);
+          updatePropertyInfo(result, true);
         });
       } else {
-        updatePropertyInfo({
-          streetAddress: undefined,
-          zipCode: undefined,
-        });
+        //Reset the previous streetAddress and zipCode values.
+        updatePropertyInfo(
+          {
+            streetAddress: undefined,
+            zipCode: undefined,
+          },
+          false
+        );
       }
     }, 1000);
 
     return () => clearTimeout(timeout);
   }, [(data as any).propertyNumber]);
 
+  const isHouse = data && data.propertyTypeId == propertyTypes['Kiinteistö'];
+  const getAddressDescription = () => {
+    return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita talon osoite...';
+  };
+  const getZipCodeDescription = () => {
+    return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita postinumero...';
+  };
+
   return (
     <Fieldset legend='Yleistiedot'>
-      {!hidePropertyIdentifier && data && data.propertyTypeId == propertyTypes['Kiinteistö'] ? (
+      {!hidePropertyIdentifier && isHouse ? (
         <div className='w-full'>
           <FormControl
             label='Kiinteistötunnus'
             required
             control={
               <Input
+                icon={
+                  (data as TODO).propertyNumber && (data as TODO).propertyNumber.length > 0 ? (
+                    isValid ? (
+                      <Check sx={{ color: 'lime' }} />
+                    ) : (
+                      <Clear sx={{ color: 'red' }} />
+                    )
+                  ) : null
+                }
                 name='propertyNumber'
                 placeholder='Kirjoita kiinteistötunnus...'
                 defaultValue={data && (data as HouseDataType).propertyNumber}
@@ -69,8 +93,10 @@ export function GeneralField({ hidePropertyIdentifier }) {
             control={
               <Input
                 name='streetAddress'
-                disabled
+                disabled={isHouse}
+                placeholder={getAddressDescription()}
                 defaultValue={data && data.streetAddress}
+                value={data && data.streetAddress}
               />
             }
           />
@@ -84,6 +110,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               control={
                 <Input
                   name='houseNumber'
+                  value={data && data.houseNumber}
                   defaultValue={data && data.houseNumber}
                   type='number'
                   step='1'
@@ -100,9 +127,11 @@ export function GeneralField({ hidePropertyIdentifier }) {
             required
             control={
               <Input
-                disabled
+                disabled={isHouse}
                 defaultValue={(data && data.zipCode) || null}
+                value={data.zipCode}
                 name='zipCode'
+                placeholder={getZipCodeDescription()}
                 maxLength={5}></Input>
             }
           />

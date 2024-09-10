@@ -41,7 +41,7 @@ export function useInputData<T extends {}>(initialData: T) {
   /**Resets the stored data back to what was passed as the initial data. */
   const resetData = (data?: T) => {
     if (data) {
-      setData(data);
+      setData(() => data);
     } else {
       setData(initialData);
     }
