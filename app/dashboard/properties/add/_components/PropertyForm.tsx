@@ -19,12 +19,13 @@ import { PropertyFormContext } from 'kotilogi-app/app/dashboard/_components/NewA
 import { TargetTypeField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/TargetTypeField';
 import { YardField } from 'kotilogi-app/app/dashboard/_components/NewAddPropertyModal/Form/YardField';
 
-import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { createPropertyAction, updatePropertyAction } from './actions';
 import { DialogControl } from '@/components/Util/DialogControl';
+import { usePropertyForm } from './PropertyForm.hooks';
 
 enum FormStatus {
   IDLE = 0,
@@ -58,58 +59,27 @@ export function PropertyForm<T extends PropertyDataType>({
   heatingTypes,
   mainColors,
 }: PropertyFormProps<T>) {
-  const [hasChanges, setHasChanges] = useState(false);
-  const address = property && property.streetAddress.split(' ');
-
-  let streetName;
-  let houseNumber;
-  if (address) {
-    houseNumber = address.at(-1);
-    //Remove the house number.
-    address.splice(-1, 1);
-    streetName = address.join(' ');
-  }
-
-  const { data, updateData, resetData } = useInputData(
-    {
-      ...property,
-      streetAddress: streetName,
-      houseNumber,
-    } || {}
-  );
-  const [isValid, setIsValid] = useState(false);
-  const [status, setStatus] = useState(FormStatus.IDLE);
-
-  const router = useRouter();
-
-  const updatePropertyInfo = (info: TODO) => {
-    if (!info) {
-      setIsValid(false);
-      toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
-    } else {
-      resetData({
-        ...data,
-        ...info,
-      });
-      setIsValid(true);
-    }
-  };
-
-  useEffect(() => {
-    //Update the server-side data automatically if editing an existing property.
-    if (!property || !hasChanges) return;
-
-    const timeout = setTimeout(async () => {
-      const loadingToast = toast.loading('Päivitetään tietoja...');
-      await updatePropertyAction(property.id, data as PropertyDataType)
-        .catch(err => toast.error(err.message))
-        .finally(() => toast.dismiss(loadingToast));
-    }, 900);
-
-    return () => clearTimeout(timeout);
-  }, [data]);
+  const {
+    status,
+    data,
+    router,
+    updateData,
+    updateChanges,
+    resetData,
+    updatePropertyInfo,
+    isValid,
+  } = usePropertyForm(property as TODO, propertyTypes);
 
   const formId = 'submit-property-form';
+  const loading = status === FormStatus.LOADING;
+  const done = status === FormStatus.DONE;
+  const submitDisabled =
+    loading ||
+    done ||
+    (data.propertyTypeId == propertyTypes['Kiinteistö'] &&
+      (!(data as TODO).houseNumber || !(data as TODO).propertyNumber)) ||
+    !(data as TODO).streetAddress ||
+    !(data as TODO).zipCode;
 
   return (
     <form
@@ -125,11 +95,12 @@ export function PropertyForm<T extends PropertyDataType>({
       }}
       onChange={e => {
         updateData(e);
-        setHasChanges(true);
+        updateChanges(true);
       }}
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
         value={{
+          resetData,
           isValid,
           updatePropertyInfo,
           property: data,
@@ -168,7 +139,7 @@ export function PropertyForm<T extends PropertyDataType>({
                   onClick={onClick}
                   type='button'
                   variant='contained'
-                  disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                  disabled={submitDisabled}
                   startIcon={<Check />}>
                   {property ? 'Päivitä' : 'Vahvista'}
                 </Button>

@@ -6,7 +6,7 @@ import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyForm';
 
 export function TargetTypeField() {
-  const { propertyTypes } = usePropertyFormContext();
+  const { propertyTypes, resetData, property: data } = usePropertyFormContext();
   return (
     <Fieldset legend='Kohde'>
       <Label
@@ -22,6 +22,15 @@ export function TargetTypeField() {
             value={id}
             required
             type='radio'
+            onChange={e => {
+              resetData({
+                propertyTypeId: e.target.value,
+                streetAddress: '',
+                zipCode: '',
+              });
+            }}
+            defaultChecked={name == 'Kiinteistö'}
+            checked={data.propertyTypeId == id}
           />
         ))}
       </RadioGroup>

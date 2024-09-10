@@ -4,6 +4,7 @@ import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
 import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 require('dotenv').config();
 
@@ -27,8 +28,13 @@ export const createPropertyAction = async (
     propertyTypeId: z.string(),
   }).parse(data);
 
-  await createProperty(data);
+  let pid;
+  await createProperty(data, async (id, trx) => {
+    pid = id;
+  });
+
   revalidatePath('/dashboard/properties');
+  redirect(`/dashboard/properties/${pid}/`);
 };
 
 type InfoType = {

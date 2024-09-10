@@ -16,8 +16,9 @@ export const PropertyFormContext = createContext<{
   heatingTypes: TODO;
   mainColors: TODO;
   isValid: boolean;
+  resetData: (data?: any) => void;
 
-  updatePropertyInfo: (data: TODO) => void;
+  updatePropertyInfo: (data: TODO, valid: boolean) => void;
 } | null>(null);
 
 type SubmitFormProps = {
