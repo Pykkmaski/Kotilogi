@@ -5,7 +5,7 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 import { useEffect, useState } from 'react';
 import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
@@ -33,7 +33,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
       if (isValidPattern) {
         fetchPropertyInfo((data as any).propertyNumber).then(result => {
-          updatePropertyInfo(result, true);
+          updatePropertyInfo(result, result !== null);
         });
       } else {
         //Reset the previous streetAddress and zipCode values.
@@ -67,6 +67,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             required
             control={
               <Input
+                data-testid='property-number-input'
                 icon={
                   (data as TODO).propertyNumber && (data as TODO).propertyNumber.length > 0 ? (
                     isValid ? (
@@ -92,6 +93,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             required
             control={
               <Input
+                data-testid='street-address-input'
                 name='streetAddress'
                 disabled={isHouse}
                 placeholder={getAddressDescription()}
@@ -124,6 +126,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               required
               control={
                 <Input
+                  data-testid='house-number-input'
                   name='houseNumber'
                   value={data && data.houseNumber}
                   defaultValue={data && data.houseNumber}
@@ -146,7 +149,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             type='number'
             defaultValue={data && data.buildYear}
             placeholder='Anna rakennusvuosi...'
-            data-testid='buildYear-input'
+            data-testid='build-year-input'
           />
         }
       />
@@ -158,7 +161,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             control={
               <Input
                 defaultValue={data && (data as AppartmentDataType).appartmentNumber}
-                data-testid='appartmentNumber-input'
+                data-testid='appartment-number-input'
                 type='number'
                 name='appartmentNumber'
                 min='0'
@@ -174,6 +177,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
         label='Kuvaus'
         control={
           <Input
+            data-testid='description-input'
             variant='textarea'
             spellCheck={false}
             name='description'

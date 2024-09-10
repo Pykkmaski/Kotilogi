@@ -1,6 +1,6 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Checkbox, CheckboxLabel } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyForm';
+import { usePropertyFormContext } from './PropertyFormContext';
 
 import { AppartmentDataType } from 'kotilogi-app/dataAccess/types';
 
@@ -16,6 +16,7 @@ export function OtherInfoField() {
         label='Autotalli'
         control={
           <Checkbox
+            data-testid='garage-checkbox'
             name='hasGarage'
             defaultChecked={data.hasGarage}
           />
@@ -27,6 +28,7 @@ export function OtherInfoField() {
           label='Parveke'
           control={
             <Checkbox
+              data-testid='balcony-checkbox'
               name='hasBalcony'
               defaultChecked={data.hasBalcony}
             />
