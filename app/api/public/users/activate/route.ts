@@ -32,11 +32,8 @@ export async function GET(req: NextRequest) {
       activatedOn: Date.now(),
     });
 
-    const url = req.nextUrl.clone();
-    url.pathname = '/activated';
-    url.searchParams.delete('token');
-
-    return NextResponse.redirect(url.toString());
+    const url = `${process.env.SERVICE_DOMAIN}/activated`;
+    return NextResponse.redirect(url);
   } catch (err) {
     return handleServerError(req, err);
   }
