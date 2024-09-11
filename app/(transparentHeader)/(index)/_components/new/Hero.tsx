@@ -4,11 +4,11 @@ import { HeroText as OldHeroText } from '../TextContent';
 
 const HeroText = () => {
   return (
-    <div className='flex flex-col mb-8'>
-      <h1 className='lg:text-7xl xs:text-5xl font-semibold mb-4 w-full lg:text-left xs:text-center text-white tracking-wider'>
+    <div className='flex flex-col mb-8 z-10'>
+      <h1 className='lg:text-6xl xs:text-4xl font-semibold mb-4 w-full lg:text-left xs:text-center text-white tracking-wider'>
         Talosi Huoltokirja
       </h1>
-      <p className='text-2xl xs:text-center lg:text-left lg:w-[70%] xs:w-full'>
+      <p className='lg:text-2xl xs:text-xl xs:text-center lg:text-left lg:w-[70%] xs:w-full text-white'>
         <OldHeroText />
       </p>
     </div>
@@ -17,20 +17,23 @@ const HeroText = () => {
 
 const RegisterButton = () => {
   const buttonStyle = {
-    width: '340.91px',
-    height: '73.05px',
+    width: '389px',
+    height: '66px',
     borderRadius: '100px',
-    background: 'linear-gradient(270deg, #363fb8 0%, #fd0095 100%)',
-    backgroundBlendMode: 'normal',
+
     boxShadow: '0px 2px 4px rgba(100,100,100,0.5)',
     fontSize: '24px',
     fontWeight: '600',
-    color: 'white',
+    color: 'black',
   };
 
   return (
     <Link href='/register'>
-      <button style={buttonStyle}>REKISTERÖIDY</button>
+      <button
+        style={buttonStyle}
+        className='bg-gradient-to-r from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C]'>
+        REKISTERÖIDY
+      </button>
     </Link>
   );
 };
@@ -44,28 +47,22 @@ const Separator = () => {
   );
 };
 export const Hero = () => {
-  const sectionStyle: CSSProperties = {
-    background: 'linear-gradient(180deg, rgba(61,102,217,0.57) 0%, #ffffff 100%)',
-  };
-
   return (
-    <section
-      className='h-screen lg:px-24 xs:px-4 flex flex-col relative lg:items-start xs:items-center py-8'
-      style={sectionStyle}>
+    <section className='lg:h-[1080px] xs:h-[720px] lg:px-48 xs:px-4 flex flex-col relative lg:items-start py-8 bg-black justify-center'>
       <img
-        src='/hero_image.png'
-        className='absolute lg:right-[100px] top-[120px]'
+        src='/hero_background_shape.png'
+        className='absolute top-0 left-0 z-10 xs:hidden lg:block'
       />
-      <div className='flex flex-col gap-6 z-[10] mt-72 lg:items-start xs:items-center'>
+
+      <img
+        src='/hero_kitchen_background.jpg'
+        className='absolute top-0 right-0 lg:block xs:hidden'
+      />
+
+      <div className='flex flex-col gap-6 z-[10] lg:items-start xs:items-center'>
         <HeroText />
         <div className='flex flex-col gap-[26px]'>
           <RegisterButton />
-          <Separator />
-          <Link
-            href='/login'
-            className='w-full text-center font-[600] text-[18px]'>
-            KIRJAUDU SISÄÄN
-          </Link>
         </div>
       </div>
     </section>

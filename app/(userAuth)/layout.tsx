@@ -6,7 +6,7 @@ export default function UserAuthLayout({ children }) {
   return (
     <div
       id='user-auth-layout'
-      className={`w-full flex-1 flex flex-col gap-4 relative px-[130px] ${styles.layout}`}>
+      className={`w-full flex-1 flex flex-col gap-4 relative px-48 ${styles.layout}`}>
       <Header />
       {children}
 

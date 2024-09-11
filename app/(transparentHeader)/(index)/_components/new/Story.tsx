@@ -1,6 +1,6 @@
 export const Story = () => {
   return (
-    <section className='flex xs:flex-col lg:flex-row w-full bg-blue-100 lg:px-24 py-36 xs:px-4 gap-24'>
+    <section className='flex xs:flex-col lg:flex-row w-full bg-black lg:px-24 py-36 xs:px-4 gap-24 text-white'>
       <div className='flex flex-col gap-8'>
         <h2 className='xs:text-4xl lg:text-5xl font-semibold xs:text-center lg:text-left'>
           Idea omasta tarpeesta
