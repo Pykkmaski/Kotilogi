@@ -31,18 +31,15 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
     }
   };
   return (
-    <>
-      <header className='flex gap-4 absolute top-0 w-full py-2 justify-start xl:items-baseline xs:items-center z-30 xl:px-64 xs:px-2 text-white font-semibold'>
-        <div className='mr-4'>
-          <Logo2 />
-        </div>
-
-        <div className='xs:hidden md:flex gap-4'>{getLinks()}</div>
-        <div className='xs:flex xl:hidden w-full justify-end'>
-          <MobileMenu session={data} />
+    <div className='flex flex-col bg-white h-screen'>
+      <header className='absolute flex w-full items-center justify-between border-b-white border-b-[1px] py-4 px-[100px] z-[10]'>
+        <h1 className='text-[36px] font-[700] text-white'>KOTIDOK</h1>
+        <div className='flex items-center gap-8 text-[18px] text-white font-[600]'>
+          {getLinks()}
         </div>
       </header>
+
       {children}
-    </>
+    </div>
   );
 }
