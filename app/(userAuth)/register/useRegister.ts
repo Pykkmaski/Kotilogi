@@ -65,6 +65,8 @@ export function useRegister() {
   };
 
   useEffect(() => {
+    if (!data.email || data.email.length == 0) return;
+
     const timeout = setTimeout(async () => {
       const userExists = await AUserExists(data.email);
       if (userExists) {
