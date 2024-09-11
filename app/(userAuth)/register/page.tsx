@@ -16,6 +16,7 @@ export default function RegisterPage() {
   const { status, registerHandler, updateData, data } = useRegister();
   const loading = status === 'loading';
   const submitDisabled = loading || status === 'user_exists';
+  console.log(data);
   return (
     <Main id='register-page-main'>
       <Form

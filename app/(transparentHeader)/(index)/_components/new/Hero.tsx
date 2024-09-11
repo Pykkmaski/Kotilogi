@@ -1,8 +1,16 @@
 import Link from 'next/link';
 import { CSSProperties } from 'react';
+import { HeroText as OldHeroText } from '../TextContent';
 
 const HeroText = () => {
-  return <h1 className='text-[72px] font-[600]'>Talosi Huoltokirja</h1>;
+  return (
+    <div className='flex flex-col mb-8'>
+      <h1 className='text-7xl font-semibold mb-4'>Talosi Huoltokirja</h1>
+      <p className='text-2xl'>
+        <OldHeroText />
+      </p>
+    </div>
+  );
 };
 
 const RegisterButton = () => {
@@ -40,13 +48,13 @@ export const Hero = () => {
 
   return (
     <section
-      className='h-screen px-[100px] flex flex-col relative items-start py-8'
+      className='h-screen px-24 flex flex-col relative items-start py-8'
       style={sectionStyle}>
       <img
         src='/hero_image.png'
         className='absolute right-[100px] top-[120px]'
       />
-      <div className='flex flex-col gap-[26px] z-[10] mt-[300px] items-start'>
+      <div className='flex flex-col gap-6 z-[10] mt-72 items-start'>
         <HeroText />
         <div className='flex flex-col gap-[26px]'>
           <RegisterButton />
