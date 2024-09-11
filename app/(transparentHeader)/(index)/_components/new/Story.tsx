@@ -1,8 +1,10 @@
 export const Story = () => {
   return (
-    <section className='flex w-full bg-blue-100 p-24 gap-24'>
+    <section className='flex xs:flex-col lg:flex-row w-full bg-blue-100 lg:p-24 xs:p-4 gap-24'>
       <div className='flex flex-col gap-4'>
-        <h2 className='text-3xl font-semibold'>Idea omasta tarpeesta</h2>
+        <h2 className='text-3xl font-semibold xs:text-center lg:text-left'>
+          Idea omasta tarpeesta
+        </h2>
         <p className='text-2xl'>
           Jani Ö ja Marika L ostivat rintamamiestalon Vaasassa vuonna 2021.
           <br />

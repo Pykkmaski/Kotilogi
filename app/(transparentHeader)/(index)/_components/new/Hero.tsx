@@ -5,8 +5,10 @@ import { HeroText as OldHeroText } from '../TextContent';
 const HeroText = () => {
   return (
     <div className='flex flex-col mb-8'>
-      <h1 className='text-7xl font-semibold mb-4'>Talosi Huoltokirja</h1>
-      <p className='text-2xl'>
+      <h1 className='lg:text-7xl xs:text-5xl font-semibold mb-4 w-full lg:text-left xs:text-center'>
+        Talosi Huoltokirja
+      </h1>
+      <p className='text-2xl xs:text-center lg:text-left'>
         <OldHeroText />
       </p>
     </div>
@@ -48,13 +50,13 @@ export const Hero = () => {
 
   return (
     <section
-      className='h-screen px-24 flex flex-col relative items-start py-8'
+      className='h-screen lg:px-24 xs:px-4 flex flex-col relative lg:items-start xs:items-center py-8'
       style={sectionStyle}>
       <img
         src='/hero_image.png'
-        className='absolute right-[100px] top-[120px]'
+        className='absolute lg:right-[100px] top-[120px]'
       />
-      <div className='flex flex-col gap-6 z-[10] mt-72 items-start'>
+      <div className='flex flex-col gap-6 z-[10] mt-72 lg:items-start xs:items-center'>
         <HeroText />
         <div className='flex flex-col gap-[26px]'>
           <RegisterButton />
