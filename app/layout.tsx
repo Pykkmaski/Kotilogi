@@ -44,6 +44,11 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
   gtag('config', 'G-YQC6Y54WHT');
   `,
           }}></Script>
+
+        <Script
+          async
+          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3009159750698563'
+          crossOrigin='anonymous'></Script>
       </head>
 
       <AppRouterCacheProvider>

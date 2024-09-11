@@ -30,10 +30,7 @@ export function IntroductionText() {
 export function HeroText() {
   return (
     <>
-      Tallenna talosi remonttitiedot, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan.{' '}
-      <br />
-      Unohda hukatut kuitit ja hajanaiset asiakirjat - {serviceName} tekee kodin ylläpitämisestä
-      helpompaa ja tehokkaampaa.
+      Tallenna talosi korjaushistoria, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan.{' '}
     </>
   );
 }

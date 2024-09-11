@@ -37,10 +37,6 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
           href: '/register',
           text: 'Rekisteröidy',
         },
-        {
-          href: 'about',
-          text: 'Tietoa Meistä',
-        },
       ];
     }
   };

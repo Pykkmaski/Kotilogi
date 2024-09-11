@@ -20,7 +20,9 @@ export const Footer = () => {
           <div className='flex flex-col text-2xl gap-4'>
             <h3 className='text-2xl tracking-[5px] mb-6'>YHTEYSTIEDOT</h3>
             <span>Kotidok Oy</span>
+            <span>Y-Tunnus: 3426507-4</span>
             <span>Timontie 13 Vaasa</span>
+            <span>Puh: 0451310749</span>
           </div>
 
           <div className='flex flex-col text-2xl gap-4'>

@@ -5,10 +5,10 @@ import { HeroText as OldHeroText } from '../TextContent';
 const HeroText = () => {
   return (
     <div className='flex flex-col mb-8'>
-      <h1 className='lg:text-7xl xs:text-5xl font-semibold mb-4 w-full lg:text-left xs:text-center'>
+      <h1 className='lg:text-7xl xs:text-5xl font-semibold mb-4 w-full lg:text-left xs:text-center text-white tracking-wider'>
         Talosi Huoltokirja
       </h1>
-      <p className='text-2xl xs:text-center lg:text-left'>
+      <p className='text-2xl xs:text-center lg:text-left lg:w-[70%] xs:w-full'>
         <OldHeroText />
       </p>
     </div>
