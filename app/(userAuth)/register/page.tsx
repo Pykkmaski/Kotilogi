@@ -16,14 +16,16 @@ export default function RegisterPage() {
   const { status, registerHandler, updateData, data } = useRegister();
   const loading = status === 'loading';
   const submitDisabled = loading || status === 'user_exists';
-  console.log(data);
+
   return (
     <Main id='register-page-main'>
       <Form
         onSubmit={registerHandler}
         data-testid='register-form'
         onChange={updateData}>
-        <h1 className='text-[64px] text-primary'>Rekisteröidy</h1>
+        <h1 className='lg:text-6xl xs:text-3xl text-primary lg:text-start xs:text-center font-semibold'>
+          Rekisteröidy
+        </h1>
         <div className='flex flex-col gap-2 relative'>
           <Input
             placeholder='Sähköpostiosoite...'
@@ -98,7 +100,7 @@ export default function RegisterPage() {
           </span>
         </div>
 
-        <div className='flex items-center mt-4 pt-[1rem] gap-4 w-full'>
+        <div className='flex lg:flex-row xs:flex-col items-center mt-4 pt-[1rem] gap-4 w-full'>
           <SubmitButton
             type='submit'
             title='Rekisteröidy Kotidokin käyttäjäksi'

@@ -9,7 +9,7 @@ type InputBadgeProps = {
 
 export const InputBadge = ({ icon, variant = 'success' }: InputBadgeProps) => {
   const classes = [
-    'w-[41px] aspect-square rounded-full flex items-center justify-center',
+    'lg:w-[41px] xs:w-8 aspect-square rounded-full flex items-center justify-center',
     variant === 'success' ? 'bg-[#28a728]' : 'bg-red-700',
     styles.inputIcon,
   ];

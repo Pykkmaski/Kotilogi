@@ -25,6 +25,7 @@ export const Footer = () => {
             <span>Y-Tunnus: 3426507-4</span>
             <span>Timontie 13 Vaasa</span>
             <span>Puh: 0451310749</span>
+            <Link href='mailto:kotidok.service@gmail.com'>Ota yhteyttä sähköpostitse</Link>
           </div>
 
           <div className='flex flex-col text-2xl gap-4 xs:items-center lg:items-start'>

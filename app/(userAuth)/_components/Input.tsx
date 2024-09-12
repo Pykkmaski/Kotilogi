@@ -9,7 +9,7 @@ export const Input = ({ badge, ...props }: InputProps) => {
   return (
     <div className='relative flex items-center'>
       <input
-        className={style['user-auth-input']}
+        className='lg:pl-10 lg:w-[665px] lg:h-20 xs:h-16 xs:w-full bg-white shadow-lg lg:text-2xl xs:text-xl font-normal text-gray-400'
         {...props}
       />
 

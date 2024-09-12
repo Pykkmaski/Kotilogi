@@ -39,7 +39,9 @@ export default function LoginPage() {
       <Form
         onSubmit={loginHandler}
         onChange={updateData}>
-        <h1 className='text-primary font-semibold text-[64px]'>Kirjaudu Sisään</h1>
+        <h1 className='text-primary font-semibold lg:text-6xl xs:text-3xl lg:text-start xs:text-center'>
+          Kirjaudu Sisään
+        </h1>
 
         <div className='flex flex-col gap-2'>
           <Input
@@ -81,7 +83,7 @@ export default function LoginPage() {
           )}
         </div>
 
-        <div className='flex justify-end w-full'>
+        <div className='flex lg:justify-end xs:justify-center w-full'>
           <Link
             data-testid='password-reset-link'
             href='/login/reset'
@@ -92,7 +94,7 @@ export default function LoginPage() {
 
         <div
           id='login-form-controls'
-          className='flex items-center gap-8'>
+          className='flex xs:flex-col lg:flex-row items-center gap-8'>
           <SubmitButton
             loading={loading}
             disabled={loading}
