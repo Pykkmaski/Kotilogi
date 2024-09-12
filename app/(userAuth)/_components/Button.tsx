@@ -12,7 +12,7 @@ export const Button = ({ children, ...props }: ButtonProps) => {
   return (
     <button
       {...props}
-      className='shadow-lg text-white bg-primary lg:text-2xl xs:text-xl lg:w-96 xs:w-full rounded-full py-4 font-semibold'>
+      className='shadow-lg text-white bg-primary lg:text-2xl xs:text-xl lg:w-96 xs:w-full rounded-full py-4 font-semibold uppercase'>
       {children}
     </button>
   );
