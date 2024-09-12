@@ -1,14 +1,17 @@
+import Image from 'next/image';
+
 export const Introduction = () => {
   return (
-    <section className='flex lg:flex-row xs:flex-col-reverse w-full lg:px-24 xs:px-4 py-36 bg-white gap-[100px] xs:items-center lg:items-start'>
+    <section className='flex items-center 3xl:flex-row xs:flex-col-reverse w-full 2xl:px-36 xs:px-4 py-36 bg-white gap-[100px]'>
       <img
+        alt='introduction-image'
         loading='lazy'
         src='/img/kotidok_example.png'
-        className='aspect-auto w-[80%] shadow-md rounded-xl'
+        className='aspect-auto w-[50%] shadow-md rounded-xl'
       />
 
       <div className='flex flex-col gap-8'>
-        <h2 className='xs:text-4xl lg:text-5xl font-semibold w-full xs:text-center lg:text-start'>
+        <h2 className='xs:text-4xl 2xl:text-5xl font-semibold w-full xs:text-center 3xl:text-start'>
           Mikä Kotidok?
         </h2>
         <p className='text-2xl'>

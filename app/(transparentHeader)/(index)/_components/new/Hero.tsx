@@ -5,10 +5,10 @@ import { HeroText as OldHeroText } from '../TextContent';
 const HeroText = () => {
   return (
     <div className='flex flex-col mb-8 z-10'>
-      <h1 className='lg:text-6xl xs:text-4xl font-semibold mb-4 w-full lg:text-left xs:text-center text-white tracking-wider'>
+      <h1 className='2xl:text-6xl xs:text-4xl font-semibold mb-4 w-full 2xl:text-left xs:text-center text-white tracking-wider'>
         Talosi Huoltokirja
       </h1>
-      <p className='lg:text-2xl xs:text-xl xs:text-center lg:text-left lg:w-[70%] xs:w-full text-white'>
+      <p className='2xl:text-2xl xs:text-xl xs:text-center 2xl:text-left 2xl:w-[70%] xs:w-full text-white'>
         <OldHeroText />
       </p>
     </div>
@@ -16,24 +16,24 @@ const HeroText = () => {
 };
 
 const RegisterButton = () => {
-  const buttonStyle = {
-    width: '389px',
-    height: '66px',
-    borderRadius: '100px',
-
-    boxShadow: '0px 2px 4px rgba(100,100,100,0.5)',
-    fontSize: '24px',
-    fontWeight: '600',
-    color: 'black',
-  };
-
   return (
-    <Link href='/register'>
-      <button
-        style={buttonStyle}
-        className='bg-gradient-to-r from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C]'>
-        REKISTERÖIDY
-      </button>
+    <Link
+      href='/register'
+      className={`
+        flex 
+        items-center 
+        justify-center 
+        shadow-lg 
+        bg-gradient-to-r
+        from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C] 
+        w-[389px] 
+        h-[64px] 
+        rounded-full 
+        text-black 
+        font-semibold 
+        xs:text-xl
+        2xl:text-2xl`}>
+      <span>REKISTERÖIDY</span>
     </Link>
   );
 };
@@ -48,18 +48,18 @@ const Separator = () => {
 };
 export const Hero = () => {
   return (
-    <section className='lg:h-[1080px] xs:h-[720px] lg:px-48 xs:px-4 flex flex-col relative lg:items-start py-8 bg-black justify-center bg-[url("/hero_kitchen_background.jpg")] bg-cover'>
+    <section className='2xl:h-[1080px] xs:h-[720px] 2xl:px-36 xs:px-4 flex flex-col relative 2xl:items-start py-8 bg-black justify-center bg-[url("/hero_kitchen_background.jpg")] bg-cover'>
       <img
         src='/hero_background_shape.png'
-        className='absolute top-0 left-0 z-10 xs:hidden lg:block'
+        className='absolute top-0 left-0 z-10 xs:hidden 2xl:block'
       />
 
       <img
         src='/hero_kitchen_background.jpg'
-        className='absolute top-0 right-0 lg:hidden xs:hidden'
+        className='absolute top-0 right-0 2xl:hidden xs:hidden'
       />
 
-      <div className='flex flex-col gap-6 z-[10] lg:items-start xs:items-center xs:bg-[#0005] lg:bg-none xs:py-4 lg:py-0'>
+      <div className='flex flex-col gap-6 z-[10] 2xl:items-start xs:items-center xs:bg-[#0006] 2xl:bg-transparent xs:py-4 2xl:py-0 rounded-md'>
         <HeroText />
         <div className='flex flex-col gap-[26px]'>
           <RegisterButton />

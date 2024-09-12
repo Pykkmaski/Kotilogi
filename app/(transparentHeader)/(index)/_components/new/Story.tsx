@@ -1,8 +1,8 @@
 export const Story = () => {
   return (
-    <section className='flex xs:flex-col lg:flex-row w-full bg-black lg:px-24 py-36 xs:px-4 gap-24 text-white'>
+    <section className='py-36 flex xs:flex-col 3xl:flex-row w-full bg-gray-800 2xl:px-36 xs:px-4 gap-24 text-white items-center'>
       <div className='flex flex-col gap-8'>
-        <h2 className='xs:text-4xl lg:text-5xl font-semibold xs:text-center lg:text-left'>
+        <h2 className='xs:text-4xl 2xl:text-5xl font-semibold xs:text-center 3xl:text-left'>
           Idea omasta tarpeesta
         </h2>
         <p className='text-2xl'>
@@ -33,7 +33,7 @@ export const Story = () => {
       <img
         loading='lazy'
         src='/img/about_page/house.jpg'
-        className='aspect-auto h-[50%] shadow-md rounded-xl'
+        className='aspect-auto h-[30%] shadow-md rounded-xl'
       />
     </section>
   );
