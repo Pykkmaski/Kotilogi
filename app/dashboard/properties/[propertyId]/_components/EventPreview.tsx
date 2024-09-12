@@ -1,9 +1,8 @@
 import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
-import { IconLink } from '@/components/New/Links/IconLink';
 import { Card } from '@/components/UI/Card';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
-import { Edit, History, Image, PushPin } from '@mui/icons-material';
+import { History } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { Menu } from '@/components/New/Menu';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
