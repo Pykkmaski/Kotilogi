@@ -31,9 +31,10 @@ export default function LoginPage() {
   }, [loginCode]);
 
   const loading = status === 'loading';
+  const done = status === 'success';
   const invalidUser = status === 'invalid_user';
   const invalidPassword = status == 'password_mismatch';
-
+  const submitDisabled = loading || done;
   return (
     <Main id='login-page-main'>
       <Form
@@ -97,7 +98,7 @@ export default function LoginPage() {
           className='flex xs:flex-col lg:flex-row items-center gap-8'>
           <SubmitButton
             loading={loading}
-            disabled={loading}
+            disabled={submitDisabled}
             data-testid='login-submit-btn'
             type='submit'>
             KIRJAUDU
