@@ -11,13 +11,13 @@ const Checkmark = () => {
 };
 export const Footer = () => {
   return (
-    <footer className='relative bg-blue-950 w-full 3xl:px-36 xs:px-4 text-white pt-24 pb-72 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
+    <footer className='relative bg-blue-950 w-full 2xl:px-36 xs:px-4 text-white pt-24 pb-72 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
       <div className='flex flex-col flex-1'>
         <header className='w-full mb-24'>
-          <h2 className='text-3xl font-semibold xs:text-center 3xl:text-start'>KOTIDOK</h2>
+          <h2 className='text-3xl font-semibold xs:text-center 2xl:text-start'>KOTIDOK</h2>
         </header>
-        <div className='flex gap-40 3xl:flex-row xs:flex-col justify-center'>
-          <div className='flex flex-col text-2xl gap-4 xs:items-center 3xl:items-start'>
+        <div className='flex gap-40 2xl:flex-row xs:flex-col xs:justify-center 2xl:justify-start'>
+          <div className='flex flex-col text-2xl gap-4 xs:items-center 2xl:items-start'>
             <h3 className='text-2xl tracking-[5px] mb-6 xs:text-center 3xl:text-start'>
               YHTEYSTIEDOT
             </h3>

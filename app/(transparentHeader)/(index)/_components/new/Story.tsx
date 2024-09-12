@@ -5,7 +5,7 @@ export const Story = () => {
         <h2 className='xs:text-4xl 2xl:text-5xl font-semibold xs:text-center 3xl:text-left'>
           Idea omasta tarpeesta
         </h2>
-        <p className='text-2xl'>
+        <p className='text-2xl xs:text-center 2xl:text-start'>
           Jani Ö ja Marika L ostivat rintamamiestalon Vaasassa vuonna 2021.
           <br />
           Omaa kotia etsiessä kiinnittyi huomio siihen kuinka monissa varteen otettavissa
@@ -31,6 +31,7 @@ export const Story = () => {
         </p>
       </div>
       <img
+        alt='story-image'
         loading='lazy'
         src='/img/about_page/house.jpg'
         className='aspect-auto h-[30%] shadow-md rounded-xl'
