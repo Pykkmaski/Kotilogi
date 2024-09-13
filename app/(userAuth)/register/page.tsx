@@ -10,6 +10,7 @@ import { Input } from '../_components/Input';
 import { SubmitButton } from '../_components/Button';
 import { Checkbox } from '../_components/Checkbox';
 import { ErrorBadge, SuccessBadge } from '../_components/InputBadge';
+import { InputContainer } from '../_components/InputContainer';
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
@@ -26,7 +27,7 @@ export default function RegisterPage() {
         <h1 className='lg:text-6xl xs:text-3xl text-primary lg:text-start xs:text-center font-semibold'>
           Rekisteröidy
         </h1>
-        <div className='flex flex-col gap-2 relative'>
+        <InputContainer>
           <Input
             placeholder='Sähköpostiosoite...'
             name='email'
@@ -49,9 +50,9 @@ export default function RegisterPage() {
               </ErrorText>
             </div>
           ) : null}
-        </div>
+        </InputContainer>
 
-        <div className='flex flex-col gap-2'>
+        <InputContainer>
           <div className='flex flex-col xl:gap-8 xs:gap-4'>
             <Input
               data-testid='register-password1-input'
@@ -79,9 +80,9 @@ export default function RegisterPage() {
               <ErrorText data-testid='password-error-text'>Salasanat eivät täsmää</ErrorText>
             </div>
           ) : null}
-        </div>
+        </InputContainer>
 
-        <div className='w-full flex flex-row gap-2 items-center'>
+        <div className='w-full flex flex-row gap-2 items-center sm:justify-center lg:justify-start'>
           <Checkbox
             name='tosAccepted'
             data-testid='register-tos-checkbox'

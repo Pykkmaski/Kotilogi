@@ -12,6 +12,7 @@ import { InputBadge } from '../_components/InputBadge';
 import { Clear } from '@mui/icons-material';
 import { Main } from '../_components/Main';
 import { Form } from '../_components/Form';
+import { InputContainer } from '../_components/InputContainer';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function LoginPage() {
           Kirjaudu Sisään
         </h1>
 
-        <div className='flex flex-col gap-2'>
+        <InputContainer>
           <Input
             name='email'
             type='email'
@@ -67,9 +68,9 @@ export default function LoginPage() {
               </ErrorText>
             </span>
           )}
-        </div>
+        </InputContainer>
 
-        <div className='flex flex-col gap-2'>
+        <InputContainer>
           <Input
             name='password'
             type='password'
@@ -82,7 +83,7 @@ export default function LoginPage() {
               <ErrorText data-testid='invalid-password-text'>Salasana on virheellinen!</ErrorText>
             </span>
           )}
-        </div>
+        </InputContainer>
 
         <div className='flex lg:justify-end xs:justify-center w-full'>
           <Link
