@@ -10,12 +10,10 @@ export default function UserAuthLayout({ children }) {
       <Header />
       {children}
 
-      <embed
+      <img
         className='absolute top-0 right-0 z-0 lg:block xs:hidden'
         id='bg-design'
-        type='image/svg+xml'
         src='/auth/Background Shape.png'
-        height={'100%'}
       />
     </div>
   );

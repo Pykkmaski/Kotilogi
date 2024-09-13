@@ -34,7 +34,7 @@ export const Story = () => {
         alt='story-image'
         loading='lazy'
         src='/img/about_page/house.jpg'
-        className='aspect-auto h-[30%] shadow-md rounded-xl'
+        className='aspect-auto h-[500px] shadow-md rounded-xl'
       />
     </section>
   );

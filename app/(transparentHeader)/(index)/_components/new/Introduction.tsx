@@ -7,7 +7,7 @@ export const Introduction = () => {
         alt='introduction-image'
         loading='lazy'
         src='/img/kotidok_example.png'
-        className='aspect-auto w-[50%] shadow-md rounded-xl'
+        className='aspect-auto w-[500px] shadow-md rounded-xl'
       />
 
       <div className='flex flex-col gap-8'>
