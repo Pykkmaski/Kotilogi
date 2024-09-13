@@ -11,7 +11,7 @@ export default function UserAuthLayout({ children }) {
       {children}
 
       <img
-        className='absolute top-0 right-0 z-0 lg:block xs:hidden'
+        className='absolute top-0 right-0 z-0 lg:block xs:hidden h-screen aspect-auto'
         id='bg-design'
         src='/auth/Background Shape.png'
       />
