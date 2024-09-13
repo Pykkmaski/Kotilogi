@@ -1,8 +1,3 @@
-import Link from 'next/link';
-import { Group } from '@/components/UI/Group';
-import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
-import { serviceName } from 'kotilogi-app/constants';
-import Button from '../../../../components/UI/Button/Button';
 import { HeroText, HeroTitleText } from './TextContent';
 import { HeroRegisterButton } from './HeroRegisterButton';
 

@@ -5,7 +5,7 @@ import { HeroText as OldHeroText } from '../TextContent';
 const HeroText = () => {
   return (
     <div className='flex flex-col mb-8 z-10'>
-      <h1 className='2xl:text-6xl xs:text-4xl font-semibold mb-4 w-full 2xl:text-left xs:text-center text-white tracking-wider'>
+      <h1 className='2xl:text-6xl xs:text-3xl font-semibold mb-4 w-full 2xl:text-left xs:text-center text-white tracking-wider'>
         Talosi Huoltokirja
       </h1>
       <p className='2xl:text-2xl xs:text-xl xs:text-center 2xl:text-left 2xl:w-[70%] xs:w-full text-white'>
@@ -26,7 +26,8 @@ const RegisterButton = () => {
         shadow-lg 
         bg-gradient-to-r
         from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C] 
-        w-[389px] 
+        lg:w-[389px] 
+        xs:w-full
         h-[64px] 
         rounded-full 
         text-black 
@@ -59,9 +60,9 @@ export const Hero = () => {
         className='absolute top-0 right-0 2xl:hidden xs:hidden'
       />
 
-      <div className='flex flex-col gap-6 z-[10] 2xl:items-start xs:items-center xs:bg-[#0006] 2xl:bg-transparent xs:py-4 2xl:py-0 rounded-md'>
+      <div className='flex flex-col gap-6 z-[10] xs:px-2 lg:px-0 2xl:items-start xs:items-center xs:bg-[#0006] 2xl:bg-transparent xs:py-4 2xl:py-0 rounded-md'>
         <HeroText />
-        <div className='flex flex-col gap-[26px]'>
+        <div className='flex flex-col gap-[26px] xs:w-full lg:w-auto'>
           <RegisterButton />
         </div>
       </div>
