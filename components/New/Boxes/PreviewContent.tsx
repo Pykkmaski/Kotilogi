@@ -102,7 +102,7 @@ export function PreviewContentRow<T>({
       {!data.length ? (
         onEmptyElement || null
       ) : (
-        <div className='flex lg:flex-row w-full xs:flex-col overflow-x-scroll gap-4'>
+        <div className='flex lg:flex-row w-full xs:flex-col xs:items-center lg:items-none overflow-x-scroll gap-4'>
           {data.map(item => (
             <PreviewComponent item={item} />
           ))}

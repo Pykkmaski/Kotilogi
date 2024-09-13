@@ -39,6 +39,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
           <Link href={addButtonUrl}>
             <Button
               variant='contained'
+              size='small'
               startIcon={<Add />}>
               Lisää Uusi
             </Button>

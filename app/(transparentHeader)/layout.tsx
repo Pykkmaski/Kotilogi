@@ -73,7 +73,7 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
           href='/'
           className='2xl:text-2xl xs:text-xl font-bold 2xl:text-white xs:text-black flex gap-2 items-baseline hover:no-underline'>
           KOTIDOK
-          <small className='text-xs text-primary'>BETA</small>
+          <small className='text-xs 2xl:text-primary xs:text-black'>BETA</small>
         </Link>
         {getNavElement()}
       </Header>

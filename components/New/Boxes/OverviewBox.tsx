@@ -45,7 +45,7 @@ export function OverviewBox({
   return (
     <ContentBox>
       <Spacer direction='row'>
-        <div className='relative md:w-[25%] xs:w-[75%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
+        <div className='relative md:w-[25%] xs:w-[50%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
           <Image
             src={imageUrl}
             fill={true}
@@ -66,7 +66,7 @@ export function OverviewBox({
               )
             }
             secondElement={
-              <div className='flex gap-2'>
+              <div className='flex'>
                 {editUrl && (
                   <Link
                     href={editUrl}
