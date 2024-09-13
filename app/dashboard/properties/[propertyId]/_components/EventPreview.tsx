@@ -2,7 +2,7 @@ import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Card } from '@/components/UI/Card';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
-import { History } from '@mui/icons-material';
+import { History, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { Menu } from '@/components/New/Menu';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
@@ -33,7 +33,7 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
             HeaderComponent={() => {
               return (
                 <>
-                  <Menu trigger={<CardMenuButton />}>
+                  <Menu trigger={<MoreVert sx={{ color: 'white' }} />}>
                     <Link
                       title='Muokkaa tietoja'
                       href={`/dashboard/properties/${propertyId}/events/${item.id}/edit`}>

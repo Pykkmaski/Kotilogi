@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { IconButton } from '@mui/material';
 import { Add, Visibility, Warning } from '@mui/icons-material';
 import { Paragraph } from '../Typography/Paragraph';
+import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 
 type PreviewContentBaseProps = React.PropsWithChildren & {
   icon?: React.ReactNode;
@@ -69,7 +70,9 @@ export function PreviewContentBase({
         {!preview ? (
           children
         ) : (
-          <div className='flex flex-col gap-4 w-full overflow-x-scroll'>
+          <div
+            className='flex flex-col gap-4 w-full'
+            style={noScrollBar}>
             <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
               <Warning sx={{ color: 'orange' }} />
               <span className='font-semibold'>Tulossa pian!</span>
@@ -102,7 +105,9 @@ export function PreviewContentRow<T>({
       {!data.length ? (
         onEmptyElement || null
       ) : (
-        <div className='flex lg:flex-row w-full xs:flex-col xs:items-center lg:items-none overflow-x-scroll gap-4'>
+        <div
+          className='flex lg:flex-row w-full xs:flex-col xs:items-center lg:items-none overflow-x-scroll gap-4'
+          style={noScrollBar}>
           {data.map(item => (
             <PreviewComponent item={item} />
           ))}
@@ -122,7 +127,8 @@ export function PreviewContentBox({ title, href, FooterContentComponent }: Previ
   return (
     <Link
       className='rounded-lg shadow-md aspect-square relative p-2 overflow-hidden'
-      href={href}>
+      href={href}
+      style={noScrollBar}>
       <div className='flex justify-between w-full'>
         <TertiaryHeading>{title}</TertiaryHeading>
       </div>

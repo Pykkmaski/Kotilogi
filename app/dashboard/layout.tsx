@@ -1,3 +1,4 @@
+import Notice from '@/components/App/Notice';
 import { AppHeader } from '@/components/New/AppHeader';
 import { Breadcrumb } from '@/components/New/Breadcrumb';
 import { Margin } from '@/components/New/Margin';
@@ -22,6 +23,11 @@ export default async function newDashboardLayout({ children }: React.PropsWithCh
           {children}
         </Paper>
       </Margin>
+      <div className='lg:hidden xs:block'>
+        <Notice
+          text={'Sovelluksen mobiiliversio on työn alla. Sivun eivät välttämättä näy oikein.'}
+        />
+      </div>
     </div>
   );
 }

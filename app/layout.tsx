@@ -68,11 +68,6 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
               }}
             />
             <CookieNotice />
-            <div className='md:hidden xs:hidden'>
-              <Notice
-                text={'Sovelluksen mobiiliversio on työn alla! Kokeile uudelleen myöhemmin.'}
-              />
-            </div>
           </body>
         </AuthProvider>
       </AppRouterCacheProvider>

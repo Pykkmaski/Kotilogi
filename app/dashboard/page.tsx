@@ -2,7 +2,7 @@ import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Main } from '@/components/New/Main';
 import { Menu } from '@/components/New/Menu';
 import { Card } from '@/components/UI/Card';
-import { Home } from '@mui/icons-material';
+import { Home, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
@@ -43,7 +43,7 @@ export default async function newDashboardPage() {
               HeaderComponent={() => {
                 return (
                   <>
-                    <Menu trigger={<CardMenuButton />}>
+                    <Menu trigger={<MoreVert sx={{ color: 'white' }} />}>
                       <Link href={`/dashboard/properties/${item.id}/edit`}>Muokkaa</Link>
                       <Link
                         href={`/dashboard/properties/${item.id}/events`}

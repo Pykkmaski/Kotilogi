@@ -1,6 +1,7 @@
 'use client';
 
 import { isUUID } from 'kotilogi-app/utils/isUUID';
+import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -90,10 +91,7 @@ export function Breadcrumb() {
 
   return (
     <div
-      style={{
-        msOverflowStyle: 'none',
-        scrollbarWidth: 'none',
-      }}
+      style={noScrollBar}
       className='flex flex-row gap-2 overflow-x-scroll mb-2'>
       {generateCrumbs()}
     </div>

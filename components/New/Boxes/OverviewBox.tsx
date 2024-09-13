@@ -4,20 +4,12 @@ import { ContentBox } from './ContentBox';
 import { MainHeading } from '../Typography/Headings';
 import { SpaceBetween, Spacer } from '../Spacers';
 import Image from 'next/image';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Delete, Visibility } from '@mui/icons-material';
 import Link from 'next/link';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
-import { DialogControl } from '@/components/Util/DialogControl';
+import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 
 type OverviewBoxProps = {
   title: string;
@@ -45,12 +37,14 @@ export function OverviewBox({
   return (
     <ContentBox>
       <Spacer direction='row'>
-        <div className='relative md:w-[25%] xs:w-[50%] aspect-square rounded-lg overflow-hidden border border-slate-200'>
+        <div
+          className='relative md:w-[25%] xs:w-[50%] aspect-square rounded-lg overflow-hidden border border-slate-200'
+          style={noScrollBar}>
           <Image
             src={imageUrl}
             fill={true}
             alt=''
-            objectFit='cover'
+            objectFit='contain'
           />
         </div>
 

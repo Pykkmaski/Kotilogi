@@ -46,7 +46,7 @@ export function MobileMenu({ session }: MobileMenuProps) {
             return (
               <>
                 <MenuItem>
-                  <Link href='/newDashboard'>Hallintapaneeli</Link>
+                  <Link href='/dashboard'>Hallintapaneeli</Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                   <Link href='/logout'>Kirjaudu Ulos</Link>
