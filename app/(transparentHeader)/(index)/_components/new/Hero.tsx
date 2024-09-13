@@ -26,7 +26,7 @@ const RegisterButton = () => {
         shadow-lg 
         bg-gradient-to-r
         from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C] 
-        lg:w-[389px] 
+        md:w-[389px] 
         xs:w-full
         h-[64px] 
         rounded-full 
@@ -57,7 +57,7 @@ export const Hero = () => {
 
       <div className='flex flex-col gap-6 z-[10] xs:px-2 lg:px-0 2xl:items-start xs:items-center xs:bg-[#0006] 2xl:bg-transparent xs:py-4 2xl:py-0 rounded-md'>
         <HeroText />
-        <div className='flex flex-col gap-[26px] xs:w-full lg:w-auto'>
+        <div className='flex flex-col gap-[26px] xs:w-full md:w-auto'>
           <RegisterButton />
         </div>
       </div>
