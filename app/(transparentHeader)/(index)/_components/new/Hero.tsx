@@ -49,15 +49,10 @@ const Separator = () => {
 };
 export const Hero = () => {
   return (
-    <section className='2xl:h-screen xs:h-screen 2xl:px-36 xs:px-4 flex flex-col relative 2xl:items-start py-8 bg-black justify-center bg-[url("/hero_kitchen_background.jpg")] bg-cover'>
+    <section className='2xl:h-screen xs:h-screen 2xl:px-36 xs:px-4 flex flex-col relative 2xl:items-start py-8 bg-black justify-center lg:bg-right xs:bg-center bg-[url("/hero_kitchen_background.jpg")] bg-cover'>
       <img
         src='/hero_background_shape.png'
         className='absolute top-0 left-0 z-10 xs:hidden 2xl:block h-screen aspect-auto'
-      />
-
-      <img
-        src='/hero_kitchen_background.jpg'
-        className='absolute top-0 right-0 2xl:hidden xs:hidden'
       />
 
       <div className='flex flex-col gap-6 z-[10] xs:px-2 lg:px-0 2xl:items-start xs:items-center xs:bg-[#0006] 2xl:bg-transparent xs:py-4 2xl:py-0 rounded-md'>
