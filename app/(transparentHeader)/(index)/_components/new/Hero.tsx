@@ -52,7 +52,7 @@ export const Hero = () => {
     <section className='2xl:h-screen xs:h-screen 2xl:px-36 xs:px-4 flex flex-col relative 2xl:items-start py-8 bg-black justify-center bg-[url("/hero_kitchen_background.jpg")] bg-cover'>
       <img
         src='/hero_background_shape.png'
-        className='absolute top-0 left-0 z-10 xs:hidden 2xl:block'
+        className='absolute top-0 left-0 z-10 xs:hidden 2xl:block h-screen aspect-auto'
       />
 
       <img
