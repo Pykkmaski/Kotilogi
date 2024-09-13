@@ -49,25 +49,21 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
     const links = getLinks();
     const linkElements = links.map(({ href, text }) => <Link href={href}>{text}</Link>);
 
-    if (window.outerWidth <= 400) {
-      return (
-        <nav>
+    return (
+      <nav className='2xl:text-lg xs:text-base 2xl:text-white xs:text-black font-semibold'>
+        <ul className='2xl:gap-8 xs:gap-4 items-center xs:hidden md:flex'>
+          {links.map(({ href, text }) => (
+            <li>
+              <Link href={href}>{text}</Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className='xs:block md:hidden'>
           <Menu trigger={<MenuIcon sx={{ color: 'black' }} />}>{linkElements}</Menu>
-        </nav>
-      );
-    } else {
-      return (
-        <nav className='2xl:text-lg xs:text-base 2xl:text-white xs:text-black font-semibold'>
-          <ul className='flex 2xl:gap-8 xs:gap-4 items-center'>
-            {links.map(({ href, text }) => (
-              <li>
-                <Link href={href}>{text}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      );
-    }
+        </div>
+      </nav>
+    );
   };
 
   return (
