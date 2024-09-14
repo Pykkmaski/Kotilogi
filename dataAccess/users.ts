@@ -6,11 +6,13 @@ import bcrypt from 'bcrypt';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export async function verifyPassword(userId: string, password: string) {
-  const [{ password: encrypted }] = await db('data_users').where({ id: userId }).select('password');
+  const [data] = await db('data_users').where({ id: userId }).select('password');
 
-  if (!encrypted) {
+  if (!data) {
     throw new Error(`Password for user ${userId} missing from the db!`);
   }
+
+  const { password: encrypted } = data;
 
   const passwordOk = await bcrypt.compare(password, encrypted);
   if (!passwordOk) {
@@ -38,12 +40,12 @@ export async function updateUser(data: TODO) {
 }
 
 export async function deleteUser(id: string) {
-  const [userStatus] = await db('data_users').where({ id }).select('status', 'createdAt');
-  if (!userStatus) {
-    throw new Error(`User ${id} does not have a status!`);
+  const [user] = await db('data_users').where({ id }).select('status', 'createdAt');
+  if (!user) {
+    throw new Error(`User ${id} does not exist!`);
   }
 
-  if (userStatus !== 0) {
+  if (user.status !== 0) {
     //Not unconfirmed
     throw new Error(
       `The user is active. Only they themselves can delete their account! (id: ${id})`
