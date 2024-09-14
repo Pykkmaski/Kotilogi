@@ -14,6 +14,7 @@ export function UtilityPieChart() {
   const aggregatedData = arraysToValues(aggregate(data));
 
   useEffect(() => {
+    //Only works when the page is loaded.
     setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '30%'));
   }, [window.innerWidth]);
 
