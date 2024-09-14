@@ -4,14 +4,14 @@ import { Check } from '@mui/icons-material';
 
 const Checkmark = () => {
   return (
-    <div className='w-[18px] h-[18px] text-white border-[2px] border-white flex items-center justify-center rounded-full p-4'>
+    <div className='w-[18px] h-[18px] border-[2px] border-gray-600 flex items-center justify-center rounded-full p-4'>
       <Check />
     </div>
   );
 };
 export const Footer = () => {
   return (
-    <footer className='relative bg-blue-950 w-full 2xl:px-36 xs:px-4 text-white pt-24 pb-72 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
+    <footer className='relative bg-white w-full 2xl:px-36 xs:px-4 text-gray-700 pt-24 pb-72 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
       <div className='flex flex-col flex-1'>
         <header className='w-full mb-24'>
           <h2 className='text-3xl font-semibold xs:text-center 2xl:text-start'>KOTIDOK</h2>
@@ -39,7 +39,10 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className='3xl:w-[1px] 3xl:h-full xs:h-[1px] xs:w-full bg-gray-500' />
+      <div
+        id='index-footer-divider'
+        className='3xl:w-[1px] 3xl:h-full xs:h-[1px] xs:w-full bg-gray-500'
+      />
 
       <div className='flex flex-col flex-1 3xl:ml-24 xs:ml-0'>
         <div className='flex flex-col gap-4 mb-8'>
@@ -63,7 +66,7 @@ export const Footer = () => {
 
         <div className='flex 3xl:justify-start xs:justify-center'>
           <Link href='/register'>
-            <button className='text-black font-semibold rounded-full bg-gradient-to-r from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C] py-4 px-8'>
+            <button className='text-black font-semibold shadow-md rounded-full bg-gradient-to-r from-[#E3B14B] via-[#FFE5A9] to-[#FFF07C] py-4 px-8'>
               REKISTERÖIDY
             </button>
           </Link>

@@ -12,7 +12,7 @@ export function SideMenu({ children, title, trigger }: SideMenuProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   const menuClasses = [
-    'xs:flex flex-col gap-2 md:hidden fixed top-0 right-0 w-[80%] shadow-lg bg-white border-l border-l-slate-200 h-full z-20 transition-transform',
+    'xs:flex flex-col gap-2 md:hidden fixed top-0 right-0 w-[80%] shadow-lg bg-white border-l border-l-slate-200 h-full z-40 transition-transform',
     showMenu ? 'translate-x-0' : 'translate-x-[100%]',
   ];
 

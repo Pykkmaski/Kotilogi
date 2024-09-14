@@ -1,18 +1,25 @@
 'use client';
 
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { Cell, Label, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import colors from 'kotilogi-app/colors';
 import { aggregate, arraysToValues } from './aggregateData';
 import { useUtilityProviderContext } from './UtilityContext';
 import { BlankChart } from '@/components/New/BlankChart';
+import { useEffect, useState } from 'react';
 
 export function UtilityPieChart() {
   const { data } = useUtilityProviderContext();
+  const [chartWidth, setChartWidth] = useState<'100%' | '30%'>('30%');
+
   const aggregatedData = arraysToValues(aggregate(data));
+
+  useEffect(() => {
+    setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '30%'));
+  }, [window.innerWidth]);
 
   return (
     <ResponsiveContainer
-      width='40%'
+      width={chartWidth}
       height={300}>
       {data.length > 0 ? (
         <PieChart>
@@ -32,8 +39,12 @@ export function UtilityPieChart() {
                       : d.typeLabel == 'Sähkö'
                       ? colors.electric
                       : 'gray'
-                  }
-                />
+                  }>
+                  <Label
+                    value='Kalja'
+                    position={'center'}
+                  />
+                </Cell>
               );
             })}
           </Pie>
