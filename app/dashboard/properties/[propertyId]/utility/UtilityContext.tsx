@@ -9,7 +9,7 @@ type UtilityProviderProps = {
   selectedTypes: string[];
   allTypes?: string[];
   year: null | number;
-  years: number[];
+  years?: number[];
 };
 
 const UtilityContext = createContext<UtilityProviderProps>(null);
