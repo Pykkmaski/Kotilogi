@@ -9,6 +9,7 @@ type UtilityProviderProps = {
   selectedTypes: string[];
   allTypes?: string[];
   year: null | number;
+  years: number[];
 };
 
 const UtilityContext = createContext<UtilityProviderProps>(null);
@@ -19,9 +20,10 @@ export function UtilityProvider({
   selectedTypes,
   allTypes = ['Lämmitys', 'Vesi', 'Sähkö'],
   year,
+  years,
 }: UtilityProviderProps & React.PropsWithChildren) {
   return (
-    <UtilityContext.Provider value={{ data, selectedTypes, allTypes, year }}>
+    <UtilityContext.Provider value={{ data, selectedTypes, allTypes, year, years }}>
       {children}
     </UtilityContext.Provider>
   );

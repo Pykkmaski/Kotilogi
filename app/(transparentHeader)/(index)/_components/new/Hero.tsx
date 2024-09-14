@@ -47,6 +47,7 @@ const Separator = () => {
     </div>
   );
 };
+
 export const Hero = () => {
   return (
     <section className='2xl:h-screen xs:h-screen 2xl:px-36 xs:px-4 flex flex-col relative 2xl:items-start py-8 bg-black justify-center lg:bg-right xs:bg-center bg-[url("/hero_kitchen_background.jpg")] bg-cover'>

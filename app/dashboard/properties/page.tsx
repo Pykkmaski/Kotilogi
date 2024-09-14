@@ -18,6 +18,10 @@ export default async function PropertiesPage() {
     | AppartmentDataType
   )[];
 
+  if (properties.length == 1) {
+    return redirect(`properties/${properties.at(0).id}`);
+  }
+
   return (
     <Main>
       <OverviewBoxList

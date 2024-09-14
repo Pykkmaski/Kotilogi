@@ -30,7 +30,8 @@ export function IntroductionText() {
 export function HeroText() {
   return (
     <>
-      Tallenna talosi korjaushistoria, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan.{' '}
+      Tallenna talosi korjaushistoria, kulutustiedot, tiedostot ja kuvat kätevästi samaan paikkaan,
+      ilmaiseksi.{' '}
     </>
   );
 }
