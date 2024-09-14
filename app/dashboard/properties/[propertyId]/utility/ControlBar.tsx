@@ -4,7 +4,7 @@ import { ScrollOnX } from '@/components/New/ScrollOnX';
 import { TimeframeSelector } from './TimeframeSelector';
 import { TypeSelector } from './TypeSelector';
 import { Button, IconButton } from '@mui/material';
-import { Add, Clear, MoreVert } from '@mui/icons-material';
+import { Add, MoreVert } from '@mui/icons-material';
 import Link from 'next/link';
 import { useUtilityProviderContext } from './UtilityContext';
 import { SideMenu } from '@/components/New/SideMenu';
