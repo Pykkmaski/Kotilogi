@@ -8,6 +8,7 @@ import { Add, MoreVert } from '@mui/icons-material';
 import Link from 'next/link';
 import { useUtilityProviderContext } from './UtilityContext';
 import { SideMenu } from '@/components/New/SideMenu';
+import colors from 'kotilogi-app/colors';
 
 export function ControlBar() {
   const { selectedTypes, years } = useUtilityProviderContext();
@@ -38,7 +39,9 @@ export function ControlBar() {
           {getTimeframeSelector()}
           {getTypeSelector()}
         </div>
+      </ScrollOnX>
 
+      <div className='flex items-center'>
         <div className='xs:block md:hidden'>
           <SideMenu
             trigger={
@@ -51,19 +54,26 @@ export function ControlBar() {
             {getTypeSelector()}
           </SideMenu>
         </div>
-      </ScrollOnX>
+        <Link
+          href='utility/add'
+          className='text-nowrap'>
+          <div className='xs:hidden md:block'>
+            <Button
+              variant='contained'
+              size='small'
+              type='button'
+              startIcon={<Add />}>
+              Lisää Uusi
+            </Button>
+          </div>
 
-      <Link
-        href='utility/add'
-        className='text-nowrap'>
-        <Button
-          variant='contained'
-          size='small'
-          type='button'
-          startIcon={<Add />}>
-          Lisää Uusi
-        </Button>
-      </Link>
+          <div className='xs:block md:hidden'>
+            <IconButton>
+              <Add sx={{ color: colors.primary }} />
+            </IconButton>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 }

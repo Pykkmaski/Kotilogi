@@ -6,7 +6,9 @@ export function LabelGrid({ children, header }: LabelGridProps) {
   return (
     <div className='flex flex-col w-full'>
       {header}
-      <div className='flex flex-wrap items-center gap-4 w-full'>{children}</div>
+      <div className='md:flex md:flex-wrap xs:grid xs:grid-flow-dense xs:grid-cols-2 items-center md:gap-4 xs:gap-1 w-full'>
+        {children}
+      </div>
     </div>
   );
 }
