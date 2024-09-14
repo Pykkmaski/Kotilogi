@@ -78,7 +78,7 @@ export function Breadcrumb() {
           <Link
             href={href}
             className={[
-              'text-primary',
+              'text-primary xs:text-sm sm:text-base text-nowrap',
               i == links.length - 1 ? 'font-semibold' : 'font-normal',
             ].join(' ')}>
             {tranlsatePathname(href)}
