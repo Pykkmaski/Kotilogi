@@ -1,17 +1,12 @@
 'use client';
 
-import { MobileMenu } from '@/components/App/MobileMenu';
-import { AppHeader } from '@/components/New/AppHeader';
-import { Margin } from '@/components/New/Margin';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 import { Header } from './Header';
-import { useMediaQuery } from '@mui/material';
 import { Menu } from '@/components/New/Menu';
-import { HamburgerButton } from '@/components/UI/HamburgerButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Logo } from '@/components/App/Logo';
 
 export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
   const { data, status } = useSession();
@@ -69,12 +64,7 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
   return (
     <div className='flex flex-col bg-white h-screen'>
       <Header>
-        <Link
-          href='/'
-          className='2xl:text-2xl xs:text-xl font-bold 2xl:text-white xs:text-black flex gap-2 items-baseline hover:no-underline'>
-          KOTIDOK
-          <small className='text-xs 2xl:text-primary xs:text-black'>BETA</small>
-        </Link>
+        <Logo />
         {getNavElement()}
       </Header>
 

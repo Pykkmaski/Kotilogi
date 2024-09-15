@@ -1,18 +1,10 @@
 import { Main } from '@/components/New/Main';
-import { Heading } from '@/components/UI/Heading';
-import { Add, Clear, MoreVert } from '@mui/icons-material';
-import { Button, IconButton } from '@mui/material';
 import { getUtilityData, getUtilityYears } from 'kotilogi-app/dataAccess/utilities';
 import { UtilityPieChart } from './UtilityPieChart';
 import { UtilityProvider } from './UtilityContext';
 import { UtilityLineChart } from './UtilityLineChart';
-import { TimeframeSelector } from './TimeframeSelector';
-import Link from 'next/link';
-import { TypeSelector } from './TypeSelector';
 import db from 'kotilogi-app/dbconfig';
 import { DataTable } from './DataTable';
-import { ScrollOnX } from '@/components/New/ScrollOnX';
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { ControlBar } from './ControlBar';
 
 export default async function UtilityPage({ params, searchParams }) {

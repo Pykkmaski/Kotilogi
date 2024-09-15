@@ -9,7 +9,8 @@ import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 
 function getUtilityDTO(data: UtilityDataType) {
   return {
-    ...data,
+    time: data.time,
+    id: data.id,
     monetaryAmount: data.monetaryAmount / 100,
     unitAmount: data.unitAmount / 100,
   };
@@ -34,13 +35,7 @@ export async function getUtilityData(propertyId: string, year?: number, types: s
   const dbQuery = db('data_utilities')
     .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
     .join('ref_utilityTypes', { 'ref_utilityTypes.id': 'data_utilities.typeId' })
-    .select(
-      'data_objects.*',
-      'data_utilities.time',
-      'data_utilities.monetaryAmount',
-      'data_utilities.unitAmount',
-      'ref_utilityTypes.name as typeLabel'
-    )
+    .select('data_objects.*', 'data_utilities.*', 'ref_utilityTypes.name as typeLabel')
     .where(function () {
       if (!year) return;
 

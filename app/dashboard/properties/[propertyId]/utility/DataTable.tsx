@@ -19,6 +19,7 @@ export function DataTable() {
     {
       headerCheckboxSelection: true, // Display the checkbox in the header
       checkboxSelection: true, // Enable checkbox for each row
+      rowSelection: 'single',
       headerName: 'Valitse',
       width: 100,
     },
