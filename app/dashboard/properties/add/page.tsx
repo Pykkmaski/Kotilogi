@@ -1,8 +1,18 @@
 import { Main } from '@/components/New/Main';
 import { PropertyForm } from './_components/PropertyForm';
 import { getRefTableContent } from '@/actions/util/getRefTableContent';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
+import { verifyUserPropertyCount } from 'kotilogi-app/dataAccess/properties';
+import { redirect } from 'next/navigation';
 
 export default async function AddPropertyPage() {
+  const session = await verifySession();
+  try {
+    await verifyUserPropertyCount(session);
+  } catch (err) {
+    return redirect('/dashboard');
+  }
+
   const [
     propertyTypes,
     energyClasses,

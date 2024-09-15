@@ -23,7 +23,7 @@ const verifyPropertyOwnership = async (session: { user: { id: string } }, proper
 };
 
 /**Throws an error if the user with the provided id already has the maximum allowed number of properties. */
-const verifyUserPropertyCount = async (session: { user: { id: string } }) => {
+export const verifyUserPropertyCount = async (session: { user: { id: string } }) => {
   const [{ numProperties }] = await db('data_properties')
     .join('data_objects', { 'data_objects.id': 'data_properties.id' })
     .where({ authorId: session.user.id })
