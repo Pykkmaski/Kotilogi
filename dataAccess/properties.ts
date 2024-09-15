@@ -22,6 +22,18 @@ const verifyPropertyOwnership = async (session: { user: { id: string } }, proper
   }
 };
 
+/**Throws an error if the user with the provided id already has the maximum allowed number of properties. */
+const verifyUserPropertyCount = async (session: { user: { id: string } }) => {
+  const [{ numProperties }] = await db('data_properties')
+    .join('data_objects', { 'data_objects.id': 'data_properties.id' })
+    .where({ authorId: session.user.id })
+    .count('* as numProperties');
+
+  if (numProperties >= 1) {
+    throw new Error('Et voi lisätä enempää taloja!');
+  }
+};
+
 export async function getProperty(id: string): Promise<HouseDataType | AppartmentDataType> {
   //Get the type of the property.
   const [type] = await db('data_properties')
@@ -64,14 +76,7 @@ export async function createProperty(
 ) {
   //Only allow one property per user.
   const session = await verifySession();
-  const [{ numProperties }] = await db('data_properties')
-    .join('data_objects', { 'data_objects.id': 'data_properties.id' })
-    .where({ authorId: session.user.id })
-    .count('* as numProperties');
-
-  if (numProperties >= 1) {
-    throw new Error('Et voi lisätä enempää taloja!');
-  }
+  await verifyUserPropertyCount(session);
 
   return await createObject(data, async (obj, trx) => {
     const data_properties = {

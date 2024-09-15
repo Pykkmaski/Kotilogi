@@ -1,6 +1,5 @@
 'use client';
 
-import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
 import {
   Button,
@@ -19,11 +18,9 @@ import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_
 import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/TargetTypeField';
 import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/YardField';
 
-import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import toast from 'react-hot-toast';
-import { createPropertyAction, updatePropertyAction } from './actions';
+import { createPropertyAction } from './actions';
 import { DialogControl } from '@/components/Util/DialogControl';
 import { usePropertyForm } from './PropertyForm.hooks';
 
@@ -114,7 +111,6 @@ export function PropertyForm<T extends PropertyDataType>({
           heatingTypes,
           mainColors,
         }}>
-        {!property && <TargetTypeField />}
         <GeneralField hidePropertyIdentifier={property !== undefined} />
         <ExteriorField />
         <YardField />

@@ -91,7 +91,7 @@ describe('Testing deleteUser', () => {
     await expect(promise).rejects.toThrow(/user is active/);
   });
 
-  it('Throws an error if the active user themselves is not then one doing the deletion.', async () => {
+  it('Throws an error if the active user themselves is not the one doing the deletion.', async () => {
     db().select.mockResolvedValueOnce([{ status: 0 }]);
     (loadSession as jest.Mock).mockResolvedValueOnce({
       user: {

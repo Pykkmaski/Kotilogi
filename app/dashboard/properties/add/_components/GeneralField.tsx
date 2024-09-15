@@ -86,7 +86,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
         </div>
       ) : null}
 
-      <div className='flex flex-row gap-2 w-full'>
+      <div className='flex lg:flex-row xs:flex-col gap-2 w-full'>
         <div className='w-full'>
           <FormControl
             label='Osoite'
