@@ -5,9 +5,22 @@ import { useUtilityProviderContext } from './UtilityContext';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
+import { useState } from 'react';
+import { Button } from '@mui/material';
+import { Menu } from '@/components/New/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import { deleteUtilityAction } from './actions';
 
 export function DataTable() {
   const { data } = useUtilityProviderContext();
+
+  const deleteEntry = async (id: string) => {
+    const c = confirm('Poistetaanko tieto?');
+    if (!c) return;
+
+    await deleteUtilityAction(id);
+  };
+
   const rows = data.map(d => {
     return {
       ...d,
@@ -17,11 +30,14 @@ export function DataTable() {
 
   const cols = [
     {
-      headerCheckboxSelection: true, // Display the checkbox in the header
-      checkboxSelection: true, // Enable checkbox for each row
-      rowSelection: 'single',
-      headerName: 'Valitse',
-      width: 100,
+      headerName: 'Toiminnot',
+      cellRenderer: params => {
+        return (
+          <Menu trigger={<MenuIcon />}>
+            <button onClick={() => deleteEntry(params.data.id)}>Poista</button>
+          </Menu>
+        );
+      },
     },
 
     {
@@ -41,6 +57,7 @@ export function DataTable() {
       field: 'monetaryAmount',
       headerName: 'Hinta (€)',
       filter: true,
+      editable: true,
     },
     {
       field: 'unitAmount',

@@ -9,8 +9,7 @@ import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 
 function getUtilityDTO(data: UtilityDataType) {
   return {
-    time: data.time,
-    id: data.id,
+    ...data,
     monetaryAmount: data.monetaryAmount / 100,
     unitAmount: data.unitAmount / 100,
   };
