@@ -31,6 +31,7 @@ export function DataTable() {
   const cols = [
     {
       headerName: 'Toiminnot',
+      width: '100px',
       cellRenderer: params => {
         return (
           <Menu trigger={<MenuIcon />}>

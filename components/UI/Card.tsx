@@ -10,7 +10,7 @@ type CardContainerProps = React.PropsWithChildren & {
 
 function CardContainer({ children, selected }: CardContainerProps) {
   const className = [
-    'flex flex-col rounded-md overflow-hidden shadow-md xs:w-[170px] md:h-[300px] xs:h-[170px] relative',
+    'flex flex-col rounded-md overflow-hidden shadow-md xs:w-[200px] md:h-[300px] xs:h-[170px] relative',
     selected ? 'border border-orange-500' : 'border-none',
   ];
 
@@ -59,7 +59,7 @@ type CardTitleProps = {
 
 function CardTitle({ content }: CardTitleProps) {
   return (
-    <div className='absolute bottom-0 left-0 px-2 pb-2 z-20 text-white font-semibold'>
+    <div className='absolute bottom-0 left-0 px-2 pb-2 z-20 text-white font-semibold xs:text-sm sm:text-base'>
       {content || 'Ei Otsikkoa'}
     </div>
   );
