@@ -7,6 +7,35 @@ import { Knex } from 'knex';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
+import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
+
+export const verifyPropertyEventCount = async (propertyId: string) => {
+  const [{ numEvents }] = await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+    .where({ 'data_objects.parentId': propertyId })
+    .count('* as numEvents');
+
+  if (numEvents >= 100) {
+    throw new Error('Et voi lisätä talolle enempää tapahtumia!');
+  }
+};
+
+/**Throws an error if the event is at least 30 days old. */
+export const verifyEventIsNotLocked = async (eventId: string) => {
+  const [timestamp] = await db('data_propertyEvents')
+    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+    .where({ id: eventId })
+    .select('data_objects.timestamp');
+
+  const now = Date.now();
+  const maxEventAge = getDaysInMilliseconds(30);
+  const eventAge = now - timestamp;
+  if (eventAge >= maxEventAge) {
+    throw new Error(
+      'Tapahtuma on vähintään 30 päivää vanha, joten sitä ei voi enää muokata tai poistaa!'
+    );
+  }
+};
 
 /**Returns the events of a specified property. */
 export async function getEventsOfProperty(propertyId: string, query?: string, limit: number = 10) {
@@ -47,14 +76,7 @@ export async function createEvent(
   data: Partial<EventDataType> & Required<Pick<EventDataType, 'parentId'>>,
   callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
-  const [{ eventCount }] = await db('data_objects')
-    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
-    .where({ 'data_objects.parentId': data.parentId })
-    .count('* as eventCount');
-
-  if (eventCount >= 100) {
-    throw new Error('Olet saavuttanut talon tapahtumien määrän rajan!');
-  }
+  await verifyPropertyEventCount(data.parentId);
 
   await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
@@ -91,5 +113,6 @@ export async function updateEvent(id: string, data: Partial<EventDataType>) {
 export async function deleteEvent(id: string) {
   //Only allow the author of the event to delete it.
   await verifySessionUserIsAuthor(id);
+  await verifyEventIsNotLocked(id);
   await deleteObject(id);
 }
