@@ -65,12 +65,18 @@ export function OverviewBox({
                   <Link
                     href={editUrl}
                     title={editContentText || 'Näytä'}>
-                    <IconButton color='primary'>{editIcon || <Visibility />}</IconButton>
+                    <IconButton
+                      color='primary'
+                      size='small'>
+                      {editIcon || <Visibility />}
+                    </IconButton>
                   </Link>
                 )}
                 {deleteUrl && (
                   <Link href={deleteUrl}>
-                    <IconButton color='warning'>
+                    <IconButton
+                      color='warning'
+                      size='small'>
                       <Delete />
                     </IconButton>
                   </Link>
