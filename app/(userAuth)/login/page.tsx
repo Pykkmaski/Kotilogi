@@ -13,6 +13,8 @@ import { Clear } from '@mui/icons-material';
 import { Main } from '../_components/Main';
 import { Form } from '../_components/Form';
 import { InputContainer } from '../_components/InputContainer';
+import { FormButtonContainer } from '../_components/FormButtonContainer';
+import { AltActionLink } from '../_components/AltActionLink';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -94,9 +96,7 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <div
-          id='login-form-controls'
-          className='flex xs:flex-col lg:flex-row items-center gap-8'>
+        <FormButtonContainer>
           <SubmitButton
             loading={loading}
             disabled={submitDisabled}
@@ -104,12 +104,8 @@ export default function LoginPage() {
             type='submit'>
             KIRJAUDU
           </SubmitButton>
-          <Link
-            href='/register'
-            className='text-[#757575] font-[600] text-[18px]'>
-            Eikö sinulla ole tiliä?
-          </Link>
-        </div>
+          <AltActionLink href='/register'>Eikö sinulla ole tiliä?</AltActionLink>
+        </FormButtonContainer>
       </Form>
     </Main>
   );

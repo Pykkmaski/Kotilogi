@@ -11,6 +11,9 @@ import { SubmitButton } from '../_components/Button';
 import { Checkbox } from '../_components/Checkbox';
 import { ErrorBadge, SuccessBadge } from '../_components/InputBadge';
 import { InputContainer } from '../_components/InputContainer';
+import { FormHeading } from '../_components/FormHeading';
+import { FormButtonContainer } from '../_components/FormButtonContainer';
+import { AltActionLink } from '../_components/AltActionLink';
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
@@ -24,9 +27,7 @@ export default function RegisterPage() {
         onSubmit={registerHandler}
         data-testid='register-form'
         onChange={updateData}>
-        <h1 className='lg:text-6xl xs:text-3xl text-primary lg:text-start xs:text-center font-semibold'>
-          Rekisteröidy
-        </h1>
+        <FormHeading>Rekisteröidy</FormHeading>
         <InputContainer>
           <Input
             placeholder='Sähköpostiosoite...'
@@ -101,7 +102,7 @@ export default function RegisterPage() {
           </span>
         </div>
 
-        <div className='flex lg:flex-row xs:flex-col items-center mt-4 pt-[1rem] gap-4 w-full'>
+        <FormButtonContainer>
           <SubmitButton
             type='submit'
             title='Rekisteröidy Kotidokin käyttäjäksi'
@@ -110,13 +111,12 @@ export default function RegisterPage() {
             loading={loading}>
             Rekisteröidy
           </SubmitButton>
-          <Link
+          <AltActionLink
             href='/login'
-            className='text-[#757575] font-[600] text-[18px]'
             data-testid='register-cancel-btn'>
             Onko sinulla tili? Kirjaudu sisään
-          </Link>
-        </div>
+          </AltActionLink>
+        </FormButtonContainer>
       </Form>
     </Main>
   );

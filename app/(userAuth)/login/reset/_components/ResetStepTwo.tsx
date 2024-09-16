@@ -1,18 +1,13 @@
-import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
-import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
-import { Group } from '@/components/UI/Group';
-
-import { ContentCard } from '@/components/UI/RoundedBox';
 import Link from 'next/link';
 import { useResetStepTwo } from './hooks/useResetStepTwo';
 import { ErrorText } from '@/components/UI/Text';
-import { useResetFormProvider } from './ResetFormContext';
-import { Button } from '@mui/material';
-import Spinner from '@/components/UI/Spinner';
-import { Check } from '@mui/icons-material';
 import { Form } from 'kotilogi-app/app/(userAuth)/_components/Form';
 import { Input } from 'kotilogi-app/app/(userAuth)/_components/Input';
 import { SubmitButton } from 'kotilogi-app/app/(userAuth)/_components/Button';
+import { FormButtonContainer } from 'kotilogi-app/app/(userAuth)/_components/FormButtonContainer';
+import { InputContainer } from 'kotilogi-app/app/(userAuth)/_components/InputContainer';
+import { FormHeading } from 'kotilogi-app/app/(userAuth)/_components/FormHeading';
+import { AltActionLink } from 'kotilogi-app/app/(userAuth)/_components/AltActionLink';
 
 export function StepTwo() {
   const { data, status, resetStepTwoHandler, updateData } = useResetStepTwo();
@@ -23,7 +18,7 @@ export function StepTwo() {
     <Form
       onSubmit={resetStepTwoHandler}
       onChange={updateData}>
-      <h1 className='text-[64px] text-primary'>Nollaa salasana</h1>
+      <FormHeading>Nollaa salasana</FormHeading>
 
       <Input
         data-testid='password-input1'
@@ -35,7 +30,7 @@ export function StepTwo() {
         minLength={8}
       />
 
-      <div className='flex flex-col gap-2'>
+      <InputContainer>
         <Input
           data-testid='password-input2'
           placeholder='Kirjoita salasana uudelleen...'
@@ -49,9 +44,9 @@ export function StepTwo() {
             <ErrorText data-testid='password-error-text'>Salasanat eivät täsmää!</ErrorText>
           </div>
         ) : null}
-      </div>
+      </InputContainer>
 
-      <div className='mt-4 w-full flex items-center gap-4'>
+      <FormButtonContainer>
         <SubmitButton
           data-testid='submit-btn'
           type='submit'
@@ -59,12 +54,8 @@ export function StepTwo() {
           loading={loading}>
           LÄHETÄ
         </SubmitButton>
-        <Link
-          href='/login'
-          className='text-[18px] text-[#757575] font-[600]'>
-          Tai kirjaudu sisään
-        </Link>
-      </div>
+        <AltActionLink href='/login'>Tai kirjaudu sisään</AltActionLink>
+      </FormButtonContainer>
     </Form>
   );
 }

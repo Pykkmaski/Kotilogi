@@ -12,6 +12,10 @@ import { Form } from 'kotilogi-app/app/(userAuth)/_components/Form';
 import { Input } from 'kotilogi-app/app/(userAuth)/_components/Input';
 import { Button, SubmitButton } from 'kotilogi-app/app/(userAuth)/_components/Button';
 import Link from 'next/link';
+import { FormHeading } from 'kotilogi-app/app/(userAuth)/_components/FormHeading';
+import { InputContainer } from 'kotilogi-app/app/(userAuth)/_components/InputContainer';
+import { FormButtonContainer } from 'kotilogi-app/app/(userAuth)/_components/FormButtonContainer';
+import { AltActionLink } from 'kotilogi-app/app/(userAuth)/_components/AltActionLink';
 
 export function StepOne() {
   const router = useRouter();
@@ -23,11 +27,11 @@ export function StepOne() {
     <Form
       onSubmit={resetStepOneHandler}
       onChange={updateData}>
-      <h1 className='text-[64px] text-primary'>Nollaa salasana</h1>
-      <p className='text-[24px] text-[#757575]'>
+      <FormHeading>Nollaa salasana</FormHeading>
+      <p className='lg:text-[24px] xs:text-base text-[#757575]'>
         Anna ensin sähköpostiosoitteesi. Lähetämme sinulle salasanasi nollauslinkin.
       </p>
-      <div className='flex flex-col gap-2'>
+      <InputContainer>
         <Input
           data-testid='reset-pass-email-input'
           type='email'
@@ -43,9 +47,9 @@ export function StepOne() {
             </ErrorText>
           </div>
         ) : null}
-      </div>
+      </InputContainer>
 
-      <div className='mt-4 flex items-center gap-4'>
+      <FormButtonContainer>
         <SubmitButton
           loading={status === 'loading'}
           data-testid='submit-btn'
@@ -55,12 +59,8 @@ export function StepOne() {
           LÄHETÄ
         </SubmitButton>
 
-        <Link
-          href='/login'
-          className='text-[18px] text-[#757575] font-[600]'>
-          Tai kirjaudu sisään
-        </Link>
-      </div>
+        <AltActionLink href='/login'>Tai kirjaudu sisään</AltActionLink>
+      </FormButtonContainer>
     </Form>
   );
 }
