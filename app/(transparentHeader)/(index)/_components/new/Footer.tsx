@@ -46,7 +46,8 @@ export const Footer = () => {
                 <Link
                   href='mailto:kotidok.service@gmail.com'
                   className='text-primary'>
-                  Ota yhteyttä sähköpostitse
+                  <i className='fa fa-envelope mr-4' />
+                  Ota yhteyttä
                 </Link>
               </>
             </List>
@@ -59,7 +60,7 @@ export const Footer = () => {
                 <Link
                   href='https://www.instagram.com/kotidok.fi'
                   target='_blank'>
-                  <span className='fa fa-instagram' />
+                  <i className='fa fa-instagram' />
                 </Link>
               </>
             </List>
