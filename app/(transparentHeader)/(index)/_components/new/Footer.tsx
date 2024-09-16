@@ -30,7 +30,7 @@ export const Footer = () => {
     <footer className='relative bg-white w-full 2xl:px-36 xs:px-4 text-gray-700 pt-24 pb-72 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
       <div className='flex flex-col flex-1'>
         <header className='w-full mb-24'>
-          <h2 className='text-3xl font-semibold xs:text-center 2xl:text-start text-gray-400'>
+          <h2 className='text-2xl font-semibold xs:text-center 2xl:text-start text-gray-400'>
             KOTIDOK
           </h2>
         </header>
