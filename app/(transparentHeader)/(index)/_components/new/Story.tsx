@@ -1,10 +1,11 @@
 import { Heading } from './Heading';
 import { Paragraph } from './Paragraph';
+import { TextContainer } from './TextContainer';
 
 export const Story = () => {
   return (
-    <section className='py-36 flex xs:flex-col xl:flex-row w-full bg-gray-800 2xl:px-36 xs:px-4 gap-24 text-white xs:items-center xl:items-start'>
-      <div className='flex flex-col gap-8'>
+    <section className='py-36 lg:px-36 flex xs:flex-col xl:flex-row w-full bg-gray-800 2xl:px-36 xs:px-4 gap-24 text-white xs:items-center xl:items-start'>
+      <TextContainer>
         <Heading>Idea omasta tarpeesta</Heading>
         <Paragraph>
           Jani Ö ja Marika L ostivat rintamamiestalon Vaasassa vuonna 2021.
@@ -30,7 +31,7 @@ export const Story = () => {
           <br /> Syntyi idea että kyllä taloillakin täytyisi olla sähköinen huoltokirja missä nämä
           tositteet säilyisi varmasti myös seuraavalle omistajalle vuosien päästä.
         </Paragraph>
-      </div>
+      </TextContainer>
       <img
         alt='story-image'
         loading='lazy'
