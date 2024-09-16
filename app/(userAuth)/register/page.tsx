@@ -14,6 +14,7 @@ import { InputContainer } from '../_components/InputContainer';
 import { FormHeading } from '../_components/FormHeading';
 import { FormButtonContainer } from '../_components/FormButtonContainer';
 import { AltActionLink } from '../_components/AltActionLink';
+import { InputErrorTextContainer } from '../_components/InputErrorTextContainer';
 
 /**This component is responsible for displaying the contents of the register page. */
 export default function RegisterPage() {
@@ -45,11 +46,11 @@ export default function RegisterPage() {
           />
 
           {status === 'user_exists' ? (
-            <div className='w-full flex flex-row xs:justify-normal xl:justify-end text-sm absolute -bottom-6'>
+            <InputErrorTextContainer>
               <ErrorText data-testid='email-error-text'>
                 Tili annetulle sähköpostiosoitteelle on jo olemassa!
               </ErrorText>
-            </div>
+            </InputErrorTextContainer>
           ) : null}
         </InputContainer>
 
@@ -77,9 +78,9 @@ export default function RegisterPage() {
 
           {/**Align the error to the right if on a bigger than mobile device */}
           {status === 'password_mismatch' ? (
-            <div className='w-full flex xs:justify-normal xl:justify-end text-sm'>
+            <InputErrorTextContainer>
               <ErrorText data-testid='password-error-text'>Salasanat eivät täsmää</ErrorText>
-            </div>
+            </InputErrorTextContainer>
           ) : null}
         </InputContainer>
 

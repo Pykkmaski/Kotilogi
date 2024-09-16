@@ -15,6 +15,7 @@ import { Form } from '../_components/Form';
 import { InputContainer } from '../_components/InputContainer';
 import { FormButtonContainer } from '../_components/FormButtonContainer';
 import { AltActionLink } from '../_components/AltActionLink';
+import { InputErrorTextContainer } from '../_components/InputErrorTextContainer';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -64,11 +65,11 @@ export default function LoginPage() {
             required
           />
           {invalidUser && (
-            <span className='w-full flex justify-end'>
+            <InputErrorTextContainer>
               <ErrorText data-testid='invalid-email-text'>
                 Tiliä annetulla sähköpostiosoitteella ei ole!
               </ErrorText>
-            </span>
+            </InputErrorTextContainer>
           )}
         </InputContainer>
 
@@ -81,9 +82,9 @@ export default function LoginPage() {
             required
           />
           {invalidPassword && (
-            <span className='w-full flex justify-end'>
+            <InputErrorTextContainer>
               <ErrorText data-testid='invalid-password-text'>Salasana on virheellinen!</ErrorText>
-            </span>
+            </InputErrorTextContainer>
           )}
         </InputContainer>
 
