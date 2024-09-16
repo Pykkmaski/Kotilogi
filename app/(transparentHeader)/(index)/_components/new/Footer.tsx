@@ -27,7 +27,7 @@ const ListHeading = ({ children }: React.PropsWithChildren) => (
 
 export const Footer = () => {
   return (
-    <footer className='relative bg-white w-full 2xl:px-36 xs:px-4 text-gray-700 pt-24 pb-72 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
+    <footer className='relative bg-white w-full 2xl:px-36 xs:px-4 text-gray-700 py-24 flex 3xl:flex-row xs:flex-col-reverse 3xl:justify-evenly xs:justify-none xs:gap-20 3xl:gap-0'>
       <div className='flex flex-col flex-1'>
         <header className='w-full mb-24'>
           <h2 className='text-2xl font-semibold xs:text-center 2xl:text-start text-gray-400'>
@@ -59,7 +59,7 @@ export const Footer = () => {
                 <Link
                   href='https://www.instagram.com/kotidok.fi'
                   target='_blank'>
-                  Instagram
+                  <span className='fa fa-instagram' />
                 </Link>
               </>
             </List>
