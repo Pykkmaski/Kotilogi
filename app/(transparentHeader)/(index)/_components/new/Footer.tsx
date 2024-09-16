@@ -20,7 +20,7 @@ const List = ({ children }) => (
 );
 
 const ListHeading = ({ children }: React.PropsWithChildren) => (
-  <h2 className='text-2xl tracking-[5px] mb-6 xs:text-center 3xl:text-start font-semibold'>
+  <h2 className='text-2xl tracking-[5px] mb-6 xs:text-center 3xl:text-start font-medium'>
     {children}
   </h2>
 );
@@ -77,19 +77,19 @@ export const Footer = () => {
           <h1 className='3xl:text-3xl xs:text-xl xs:text-center 3xl:text-start font-semibold mb-4'>
             Aloita sinäkin Kotidokin käyttö jo tänään.
           </h1>
-          <div className='flex 2xl:flex-row xs:flex-col 3xl:gap-20 xs:gap-8 w-full text-xl items-center justify-center'>
-            <div className='flex items-center gap-4'>
+          <ul className='flex 2xl:flex-row xs:flex-col 3xl:gap-20 xs:gap-8 w-full text-xl items-center justify-center'>
+            <li className='flex items-center gap-4'>
               <Checkmark /> Yhden talon tiedot.
-            </div>
+            </li>
 
-            <div className='flex items-center gap-4'>
+            <li className='flex items-center gap-4'>
               <Checkmark /> 100 Tapahtumaa.
-            </div>
+            </li>
 
-            <div className='flex items-center gap-4'>
+            <li className='flex items-center gap-4'>
               <Checkmark /> Kulutustiedot.
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
 
         <div className='flex 3xl:justify-start xs:justify-center mt-4'>
