@@ -40,20 +40,10 @@ export function DataTable() {
         );
       },
     },
-
-    {
-      field: 'id',
-      headerName: 'Tunnus',
-    },
-    {
-      field: 'time',
-      headerName: 'Aika',
-    },
     {
       field: 'typeLabel',
       headerName: 'Tyyppi',
     },
-
     {
       field: 'monetaryAmount',
       headerName: 'Hinta (€)',
@@ -63,6 +53,10 @@ export function DataTable() {
     {
       field: 'unitAmount',
       headerName: 'Yksikkömäärä',
+    },
+    {
+      field: 'time',
+      headerName: 'Aika',
     },
   ] as TODO;
 

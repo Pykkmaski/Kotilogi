@@ -42,27 +42,25 @@ export const Footer = () => {
               <>Y-Tunnus: 3426507-4</>
               <>Timontie 13 Vaasa</>
               <>Puh: 0451310749</>
-              <>
-                <Link
-                  href='mailto:kotidok.service@gmail.com'
-                  className='text-primary'>
-                  <i className='fa fa-envelope mr-4' />
-                  Ota yhteyttä
-                </Link>
-              </>
+
+              <Link
+                href='mailto:kotidok.service@gmail.com'
+                className='text-primary'>
+                <i className='fa fa-envelope mr-4' />
+                Ota yhteyttä
+              </Link>
             </List>
           </div>
 
           <div className='flex flex-col text-2xl gap-4 xs:items-center 3xl:items-start'>
             <ListHeading>SOMET</ListHeading>
             <List>
-              <>
-                <Link
-                  href='https://www.instagram.com/kotidok.fi'
-                  target='_blank'>
-                  <i className='fa fa-instagram' />
-                </Link>
-              </>
+              <Link
+                href='https://www.instagram.com/kotidok.fi'
+                target='_blank'>
+                <i className='fa fa-instagram mr-4' />
+                Instagram
+              </Link>
             </List>
           </div>
         </div>
