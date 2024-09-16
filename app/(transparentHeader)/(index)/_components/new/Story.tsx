@@ -1,11 +1,12 @@
+import { Heading } from './Heading';
+import { Paragraph } from './Paragraph';
+
 export const Story = () => {
   return (
-    <section className='py-36 flex xs:flex-col 3xl:flex-row w-full bg-gray-800 2xl:px-36 xs:px-4 gap-24 text-white items-center'>
+    <section className='py-36 flex xs:flex-col xl:flex-row w-full bg-gray-800 2xl:px-36 xs:px-4 gap-24 text-white xs:items-center xl:items-start'>
       <div className='flex flex-col gap-8'>
-        <h2 className='xs:text-4xl 2xl:text-5xl font-semibold xs:text-center 3xl:text-left'>
-          Idea omasta tarpeesta
-        </h2>
-        <p className='text-2xl xs:text-center 2xl:text-start'>
+        <Heading>Idea omasta tarpeesta</Heading>
+        <Paragraph>
           Jani Ö ja Marika L ostivat rintamamiestalon Vaasassa vuonna 2021.
           <br />
           Omaa kotia etsiessä kiinnittyi huomio siihen kuinka monissa varteen otettavissa
@@ -28,13 +29,13 @@ export const Story = () => {
           tukeen lämmitysmuodon vaihdosta varten.
           <br /> Syntyi idea että kyllä taloillakin täytyisi olla sähköinen huoltokirja missä nämä
           tositteet säilyisi varmasti myös seuraavalle omistajalle vuosien päästä.
-        </p>
+        </Paragraph>
       </div>
       <img
         alt='story-image'
         loading='lazy'
         src='/img/about_page/house.jpg'
-        className='aspect-auto lg:h-[500px] xs:h-[250px] shadow-md rounded-xl'
+        className='aspect-auto w-auto xl:h-[400px] xs:h-[250px] sm:h-[350px] shadow-md rounded-xl'
       />
     </section>
   );
