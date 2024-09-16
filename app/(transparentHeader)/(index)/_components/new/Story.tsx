@@ -16,10 +16,10 @@ export const Story = () => {
           Tehtyjä korjauksia oli selkeästi tehty mutta tositteita ei ollut enää tallella.
           <br />
           <br />
-          Ostamassaan kohteessa oli se hyvä puoli että suurin osa tositteista löytyi isossa mapissa
-          säilytettynä.
-          <br /> Tämä tarkkuus johtuu varmasti Janin ammatista jossa huoltokuittien tarkistaminen on
-          arkipäivää. <br />
+          Lopulta ostetussa kohteessa oli se hyvä puoli että suurin osa tositteista löytyi isossa
+          mapissa säilytettynä.
+          <br />
+          <br />
           Taloa tuli remontoitua heti oston jälkeen nopeasti oman maun mukaisesti. Myös suurempia
           peruskorjauksia tuli tehtyä, salaojat ja lämmitysmuodon vaihdos öljystä kaukolämpöön.
           <br />
