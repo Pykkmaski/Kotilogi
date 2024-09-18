@@ -5,6 +5,7 @@ import { RoundedBox } from '../UI/RoundedBox';
 import { Button, Switch } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { Cookie } from '@mui/icons-material';
+import { acceptCookiesAction } from './actions/acceptCookiesAction';
 
 const showCookieNoticeKey = 'kotidok-show-cookie-notice';
 
@@ -27,9 +28,10 @@ export function CookieNotice() {
   const [cookies, setCookie] = useCookies();
   const cookieNoticeRef = useRef<HTMLDivElement>(null);
 
-  const acceptCookies = () => {
+  const acceptCookies = async () => {
     localStorage.setItem(showCookieNoticeKey, 'false');
     setShow(false);
+    await acceptCookiesAction();
   };
 
   const handleClickOutside = e => {
@@ -68,8 +70,7 @@ export function CookieNotice() {
                   <strong>Evästeasetukset</strong>
                   <p>
                     Pakollisten, sovelluksen toiminnan kannalta välttämättömien evästeiden lisäksi
-                    käytämme myös muita evästeitä tilastointiin, kuten kävijöiden määrän
-                    seuraamiseen.
+                    käytämme myös evästeitä tilastointiin, kuten kävijöiden määrän seuraamiseen.
                     <br />
                     Voit halutessasi sallia näiden vaihtoehtoisten evästeiden käytön.
                   </p>
