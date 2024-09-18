@@ -33,8 +33,7 @@ export function PreviewContentBase({
           <SpaceBetween
             firstElement={
               <div className='flex gap-2 text-slate-500 items-center text-lg'>
-                <div>{icon}</div>
-
+                {icon}
                 <SecondaryHeading>{headingText}</SecondaryHeading>
               </div>
             }

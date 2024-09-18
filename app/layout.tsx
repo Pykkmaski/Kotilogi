@@ -15,6 +15,7 @@ import { theme } from 'kotilogi-app/muiTheme';
 import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
 import Script from 'next/script';
 import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers';
 
 export const metadata = {
   title: 'Kotidok',
@@ -23,6 +24,27 @@ export const metadata = {
 
 export default async function RootLayout({ children }: React.PropsWithChildren) {
   const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-50 to-gray-100'];
+  const analyticsCookie = cookies().get('kotidok-analytics-accepted');
+
+  const getAnalyticsScript = () =>
+    analyticsCookie?.value == 'true' && (
+      <>
+        <Script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=G-YQC6Y54WHT'></Script>
+        <Script
+          dangerouslySetInnerHTML={{
+            __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-YQC6Y54WHT');
+`,
+          }}
+        />
+      </>
+    );
 
   return (
     <html lang='en'>
@@ -31,19 +53,7 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
           rel='stylesheet'
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'></link>
 
-        <Script
-          async
-          src='https://www.googletagmanager.com/gtag/js?id=G-YQC6Y54WHT'></Script>
-        <Script
-          dangerouslySetInnerHTML={{
-            __html: `
-   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-YQC6Y54WHT');
-  `,
-          }}></Script>
+        {getAnalyticsScript()}
 
         <Script
           async
@@ -56,6 +66,7 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
           <body className={bodyClassName.join(' ')}>
             <ThemeProvider theme={theme}>
               <AppProvider>{children}</AppProvider>
+              <CookieNotice />
             </ThemeProvider>
 
             <Toaster
@@ -67,7 +78,6 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
                 },
               }}
             />
-            <CookieNotice />
           </body>
         </AuthProvider>
       </AppRouterCacheProvider>
