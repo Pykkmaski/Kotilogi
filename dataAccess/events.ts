@@ -6,8 +6,24 @@ import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
-import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
+import { formatDate } from 'kotilogi-app/utils/formatDate';
+
+const getEventDTO = (eventData: TODO, mode: 'save' | 'load') => {
+  if (mode == 'load') {
+    return {
+      ...eventData,
+      labourExpenses: eventData.labourExpenses / 100,
+      materialExpenses: eventData.materialExpenses / 100,
+    };
+  } else {
+    return {
+      ...eventData,
+      labourExpenses: eventData.labourExpenses * 100,
+      materialExpenses: eventData.materialExpenses * 100,
+    };
+  }
+};
 
 export const verifyPropertyEventCount = async (propertyId: string) => {
   const [{ numEvents }] = await db('data_propertyEvents')
@@ -46,7 +62,7 @@ export async function getEventsOfProperty(propertyId: string, query?: string, li
     throw new Error('Vain talon omistaja voi nähdä sen tapahtumat!');
   }
 
-  return db('data_objects')
+  const events = await db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .where(function () {
       if (!query) return;
@@ -59,7 +75,9 @@ export async function getEventsOfProperty(propertyId: string, query?: string, li
       'data_objects.parentId': propertyId,
     })
     .limit(limit)
-    .orderBy('data_objects.timestamp', 'desc');
+    .orderBy('data_propertyEvents.date', 'desc');
+
+  return events;
 }
 
 /**Returns an event by id. */
@@ -81,16 +99,15 @@ export async function createEvent(
   await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
     const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));
-    const startTime = insertObj.startTime && new Date(insertObj.startTime).getTime();
-    const endTime = insertObj.endTime && new Date(insertObj.endTime).getTime();
-
-    await trx('data_propertyEvents').insert({
-      id: eventId,
+    console.log(insertObj);
+    const eventData = {
       ...insertObj,
-      startTime,
-      endTime,
-    });
+      id: eventId,
+      workTypeId: (insertObj.workTypeId as any) == 'null' ? null : insertObj.workTypeId,
+    };
 
+    await trx('data_propertyEvents').insert(eventData);
+    console.log(eventId);
     callback && (await callback(eventId, trx));
   });
 }
@@ -104,8 +121,6 @@ export async function updateEvent(id: string, data: Partial<EventDataType>) {
       .where({ id: data.id })
       .update({
         ...filterValidColumns(data, await getTableColumns('data_propertyEvents', trx)),
-        startTime: new Date(data.startTime).getTime(),
-        endTime: data.endTime && new Date(data.endTime).getTime(),
       });
   });
 }

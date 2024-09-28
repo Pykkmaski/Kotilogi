@@ -36,6 +36,11 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
           href: '/register',
           text: 'Rekisteröidy',
         },
+
+        {
+          href: '/tos',
+          text: 'Käyttöehdot',
+        },
       ];
     }
   };

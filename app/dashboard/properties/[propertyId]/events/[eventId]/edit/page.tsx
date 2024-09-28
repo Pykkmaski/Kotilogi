@@ -4,6 +4,8 @@ import { Main } from '@/components/New/Main';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { redirect } from 'next/navigation';
 import { verifySessionUserIsAuthor } from 'kotilogi-app/dataAccess/utils/verifySessionUserIsAuthor';
+import { EventTypeProvider } from '../../add/_components/EventTypeProvider';
+import { getEventRefs } from '../../add/_utils/getEventRefs';
 
 export default async function EditEventPage({ params }) {
   const [event] = await db('data_propertyEvents')
@@ -23,14 +25,18 @@ export default async function EditEventPage({ params }) {
     allowed = false;
   }
 
+  const refs = await getEventRefs();
+  console.log(refs);
   return (
-    <Main>
+    <main className='flex justify-center'>
       {(allowed && (
-        <EventForm
-          eventData={event}
-          propertyId={event.parentId}
-        />
+        <EventTypeProvider refs={refs}>
+          <EventForm
+            eventData={event}
+            propertyId={event.parentId}
+          />
+        </EventTypeProvider>
       )) || <span>Vain tapahtuman laatija voi muokata sitä!</span>}
-    </Main>
+    </main>
   );
 }

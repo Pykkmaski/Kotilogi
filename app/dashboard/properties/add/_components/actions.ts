@@ -4,6 +4,7 @@ import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
 import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 require('dotenv').config();
@@ -91,4 +92,8 @@ export const fetchPropertyInfo = async (propertyIdentifier: string): Promise<Inf
     console.error(err.message);
     return null;
   }
+};
+
+export const getSelectorOptions = async (tablename: string) => {
+  return await db(tablename);
 };

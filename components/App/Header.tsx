@@ -20,8 +20,6 @@ export function Logo2() {
         src='/logo_text.png'
         className='aspect-auto xs:w-[100px] lg:w-[120px]'
       />
-
-      <span className='text-sm font-semibold text-white'>Beta</span>
     </Link>
   );
 }
@@ -35,8 +33,6 @@ export function Logo3() {
         src='/logo_text_black.png'
         className='aspect-auto xs:w-[100px] lg:w-[120px]'
       />
-
-      <span className='text-sm font-semibold text-black'>Beta</span>
     </Link>
   );
 }

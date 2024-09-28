@@ -15,7 +15,7 @@ export function ExteriorField() {
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Rakennusmateriaali</Label>
           <RadioGroup groupName='buildingMaterialId'>
-            {Object.entries(buildingMaterials).map(([name, id]: [string, number]) => {
+            {buildingMaterials.map(({ name, id }) => {
               return (
                 <RadioButton
                   data-testid={`building-material-radio-${id}`}
@@ -33,7 +33,7 @@ export function ExteriorField() {
           <Label boldText>Väri</Label>
           <div className='grid grid-flow-row gap-4 grid-cols-2'>
             <RadioGroup groupName='mainColorId'>
-              {Object.entries(mainColors).map(([name, id]: [string, number]) => {
+              {mainColors.map(({ name, id }) => {
                 return (
                   <RadioButton
                     data-testid={`main-color-radio-${id}`}
@@ -54,7 +54,7 @@ export function ExteriorField() {
           <Label boldText>Katon tyyppi</Label>
 
           <RadioGroup groupName='roofTypeId'>
-            {Object.entries(roofTypes).map(([name, id]: [string, number]) => {
+            {roofTypes.map(({ name, id }) => {
               return (
                 <RadioButton
                   data-testid={`roof-type-radio-${id}`}
@@ -72,7 +72,7 @@ export function ExteriorField() {
           <Label boldText>Katon materiaali</Label>
 
           <RadioGroup groupName='roofMaterialId'>
-            {Object.entries(roofMaterials).map(([name, id]: [string, number]) => (
+            {roofMaterials.map(({ name, id }) => (
               <RadioButton
                 data-testid={`roof-material-radio-${id}`}
                 label={name}

@@ -28,7 +28,7 @@ export function usePropertyForm(
       streetAddress: streetName,
       houseNumber,
     }) || {
-      propertyTypeId: propertyTypes['Kiinteistö'].toString(),
+      propertyTypeId: propertyTypes.find(type => type.name === 'Kiinteistö').id.toString(),
     }
   );
   const [isValid, setIsValid] = useState(false);

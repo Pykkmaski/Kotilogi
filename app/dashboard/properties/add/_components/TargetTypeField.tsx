@@ -16,7 +16,7 @@ export function TargetTypeField() {
       </Label>
 
       <RadioGroup groupName='propertyTypeId'>
-        {Object.entries(propertyTypes).map(([name, id]: [name: string, id: number]) => (
+        {propertyTypes.map(({ name, id }) => (
           <RadioButton
             label={name}
             value={id}

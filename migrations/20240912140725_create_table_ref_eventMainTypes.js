@@ -4,10 +4,11 @@
  */
 
 const table = 'ref_mainEventTypes';
+
 exports.up = function (knex) {
   return knex.schema.createTable(table, tbl => {
     tbl.increments('id');
-    tbl.string('name', 32).notNullable();
+    tbl.string('label', 32).notNullable().unique();
   });
 };
 

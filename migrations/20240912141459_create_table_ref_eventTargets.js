@@ -1,16 +1,16 @@
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
+ *
+ * The parts of a property events can be defined for. Each will refer to a main event type, under which it is logical the part should belong.
  */
 
-const table = 'ref_colorCodes';
+const table = 'ref_eventTargets';
 
 exports.up = function (knex) {
   return knex.schema.createTable(table, tbl => {
     tbl.increments('id');
-    tbl.string('key', 10).notNullable().comment('The official code of the color.');
-    tbl.string('name', 20).comment('The name of the color.');
-    tbl.string('hex', 20).comment('The hex-code of the color.');
+    tbl.string('label', 24).notNullable().unique();
   });
 };
 

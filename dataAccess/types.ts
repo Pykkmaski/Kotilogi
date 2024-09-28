@@ -63,8 +63,12 @@ export type HistoryDataType = {
 
 export type EventDataType = ObjectDataType & {
   propertyId: string;
-  startTime: string;
-  endTime: string;
+  date: Date;
+  labourExpenses: number;
+  materialExpenses: number;
+  mainTypeId: number;
+  targetId: number;
+  workTypeId: number;
 };
 
 export type EventStepDataType = ObjectDataType & {

@@ -6,11 +6,9 @@ type LabelProps = React.ComponentProps<'label'> & {
   boldText?: boolean;
 };
 export const Label = ({ children, required, boldText }: LabelProps) => {
+  const classes = [boldText ? 'font-medium' : 'font-normal'];
   return (
-    <label
-      className={`
-      ${boldText ? 'font-semibold' : 'font-normal'}
-    `}>
+    <label className={classes.join(' ')}>
       {children}
       {required ? <span className='text-red-700 text-sm'> *</span> : null}
     </label>
@@ -106,7 +104,9 @@ export const FormControl = ({
 }: FormControlProps) => {
   return (
     <div
-      className={[props.className ? props.className.split(' ') : '' + 'flex flex-col'].join(' ')}>
+      className={[props.className ? props.className.split(' ') : '' + 'flex flex-col gap-2'].join(
+        ' '
+      )}>
       <Label
         boldText={boldLabelText}
         required={required}>
@@ -134,3 +134,16 @@ export const CheckboxLabel = ({ label, control }: CheckboxLabelProps) => {
     </div>
   );
 };
+
+export const RadioGroupContainer = ({ children }) => (
+  <div className='flex flex-col gap-2'>{children}</div>
+);
+
+export const NullOption = ({ children, disabled = true }) => (
+  <option
+    value='null'
+    disabled={disabled}
+    selected>
+    {children}
+  </option>
+);

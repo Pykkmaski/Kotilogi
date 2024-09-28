@@ -1,3 +1,5 @@
+'use client';
+
 import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Group, Input, Label } from '@/components/UI/FormUtils';
@@ -15,24 +17,12 @@ export function YardField() {
     propertyTypes: TODO;
   };
 
-  console.log(yardOwnershipTypes);
-
-  return data.propertyTypeId == propertyTypes['Kiinteistö'] ? (
+  return data.propertyTypeId == propertyTypes.find(type => type.name === 'Kiinteistö').id ? (
     <Fieldset legend='Tontti'>
       <Label boldText>Omistus</Label>
-      <RadioGroup groupName='yardOwnershipTypeId'>
-        {Object.entries(yardOwnershipTypes).map(([name, id]: [string, number]) => (
-          <RadioButton
-            data-testid={`yard-ownership-radio-${id}`}
-            label={name}
-            value={id}
-            type='radio'
-            defaultChecked={id == data.yardOwnershipTypeId}
-          />
-        ))}
-      </RadioGroup>
 
-      {data && data.yardOwnershipTypeId != yardOwnershipTypes['Ei Mitään'] ? (
+      {data &&
+      data.yardOwnershipTypeId != yardOwnershipTypes.find(type => type.name == 'Ei Mitään').id ? (
         <Group>
           <Label>
             Pinta-ala <sup className='text-super'>m2</sup>

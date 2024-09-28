@@ -16,6 +16,8 @@ import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
 import Script from 'next/script';
 import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryProvider } from './ReactQueryProvider';
 
 export const metadata = {
   title: 'Kotidok',
@@ -62,22 +64,24 @@ gtag('config', 'G-YQC6Y54WHT');
 
       <AppRouterCacheProvider>
         <AuthProvider>
-          <body className={bodyClassName.join(' ')}>
-            <ThemeProvider theme={theme}>
-              <AppProvider>{children}</AppProvider>
-              <CookieNotice />
-            </ThemeProvider>
+          <ReactQueryProvider>
+            <body className={bodyClassName.join(' ')}>
+              <ThemeProvider theme={theme}>
+                <AppProvider>{children}</AppProvider>
+                <CookieNotice />
+              </ThemeProvider>
 
-            <Toaster
-              position='bottom-right'
-              toastOptions={{
-                duration: 5000,
-                style: {
-                  fontSize: '1.2rem',
-                },
-              }}
-            />
-          </body>
+              <Toaster
+                position='bottom-right'
+                toastOptions={{
+                  duration: 5000,
+                  style: {
+                    fontSize: '1.2rem',
+                  },
+                }}
+              />
+            </body>
+          </ReactQueryProvider>
         </AuthProvider>
       </AppRouterCacheProvider>
     </html>

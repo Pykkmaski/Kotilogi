@@ -1,11 +1,20 @@
 'use client';
 
-import { ObjectSubmissionForm } from '@/components/New/Forms/ObjectSubmissionForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Fieldset } from '@/components/UI/Fieldset';
-import { FormControl, Input } from '@/components/UI/FormUtils';
+import { FormControl } from '@/components/UI/FormUtils';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventProvider } from './EventContext';
+import { useState } from 'react';
+import { useEventForm } from './EventForm.hooks';
+import { SharedEventDataInputs } from './SharedEventDataInputs';
+import Button from '@mui/material/Button';
+import { MainEventTypeSelector } from './Selectors/MainEventTypeSelector';
+import { EventTargetSelector } from './Selectors/EventTargetSelector';
 import { createEventAction, updateEventAction } from './actions';
+import { EventWorkSelector } from './Selectors/EventWorkSelector';
+import { WindowRenovationContent } from './FormContent/WindowRenovationContent';
+import { HeatingRenovationContent } from './FormContent/HeatingRenovationContent';
 
 type EventFormProps = {
   propertyId: string;
@@ -13,82 +22,69 @@ type EventFormProps = {
 };
 
 export function EventForm({ propertyId, eventData }: EventFormProps) {
-  const startTime =
-    eventData &&
-    eventData.startTime &&
-    new Date(parseInt(eventData.startTime.toString())).toISOString().split('T').at(0);
-  const endTime =
-    eventData &&
-    eventData.endTime &&
-    new Date(parseInt(eventData.endTime.toString())).toISOString().split('T').at(0);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
+  const { data, additionalData, updateData, getIdByLabel, refs } = useEventForm({
+    ...eventData,
+  });
 
+  const getContent = () => {
+    const { targetId } = data;
+
+    var content = null;
+    if (targetId == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
+      content = <WindowRenovationContent />;
+    } else if (targetId == getIdByLabel(refs.eventTargets, 'Lämmitys')) {
+      content = <HeatingRenovationContent />;
+    } else {
+      console.error(
+        'Additional content not implemented for event type with id ' + data.secondaryEventTypeId
+      );
+    }
+
+    return (content && <Fieldset legend='Tiedot'>{content}</Fieldset>) || null;
+  };
+
+  const onSubmit = async e => {
+    e.preventDefault();
+
+    if (eventData) {
+      await updateEventAction(eventData.id, data);
+    } else {
+      await createEventAction(propertyId, data, []);
+    }
+  };
   return (
-    <ObjectSubmissionForm
-      initialData={{
-        ...eventData,
-        startTime,
-        endTime,
-      }}
-      onSubmit={async (data, files) => {
-        if (eventData) {
-          await updateEventAction(eventData.id, data);
-        } else {
-          await createEventAction(propertyId, data, files);
-        }
-      }}>
-      <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
-      <Fieldset legend='Tiedot'>
-        <FormControl
-          label='Otsikko'
-          required
-          control={
-            <Input
-              placeholder='Kirjoita tapahtuman otsikko...'
-              name='title'
-              required
-              defaultValue={eventData && eventData.title}
-            />
-          }
-        />
-
-        <FormControl
-          label='Aloitusaika'
-          required
-          control={
-            <Input
-              type='date'
-              name='startTime'
-              defaultValue={startTime}
-            />
-          }
-        />
-
-        {eventData ? (
+    <EventProvider
+      event={data}
+      additionalData={additionalData}
+      propertyId={propertyId}>
+      <form
+        onSubmit={onSubmit}
+        onChange={updateData}
+        className='md:w-[50%] xs:w-full flex flex-col gap-4'>
+        <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
+        <Fieldset legend='Osastojen valinta'>
           <FormControl
-            label='Lopetusaika'
-            control={
-              <Input
-                type='date'
-                name='endTime'
-                defaultValue={endTime}
-              />
-            }
+            boldLabelText
+            label='Osasto'
+            control={<MainEventTypeSelector />}
           />
-        ) : null}
 
-        <FormControl
-          label='Kuvaus'
-          control={
-            <textarea
-              placeholder='Kirjoita tapahtuman kuvaus...'
-              name='description'
-              spellCheck={false}
-              required
-              defaultValue={eventData && eventData.description}
-            />
-          }
-        />
-      </Fieldset>
-    </ObjectSubmissionForm>
+          <EventTargetSelector />
+          <EventWorkSelector />
+        </Fieldset>
+        {getContent()}
+        <SharedEventDataInputs />
+
+        <div className='flex justify-end w-full'>
+          <Button
+            variant='contained'
+            type='submit'
+            disabled={data.mainTypeId == 'null' || data.targetId == 'null' || status !== 'idle'}>
+            Vahvista
+          </Button>
+        </div>
+      </form>
+    </EventProvider>
   );
 }

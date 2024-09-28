@@ -20,6 +20,7 @@
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@mui/material-nextjs": "^5.15.11",
+    "@tanstack/react-query": "^5.56.2",
     "@vscode/sqlite3": "^5.1.6-vscode",
     "ag-grid-react": "^32.1.0",
     "apexcharts": "^3.42.0",

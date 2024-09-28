@@ -13,19 +13,6 @@ type EventOverviewProps<T extends EventDataType> = {
 
 export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
-  const startTime =
-    (event.startTime &&
-      new Date(
-        typeof event.startTime == 'string' ? parseInt(event.startTime) : event.startTime
-      ).toLocaleDateString('fi')) ||
-    'Ei määritetty';
-
-  const endTime =
-    (event.endTime &&
-      new Date(
-        typeof event.endTime == 'string' ? parseInt(event.endTime) : event.endTime
-      ).toLocaleDateString('fi')) ||
-    'Ei määritelty';
 
   return (
     <OverviewBox
@@ -36,12 +23,8 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
           <Paragraph>{event.description}</Paragraph>
           <LabelGrid header={<h1 className='text-sm font-semibold'>Tiedot</h1>}>
             <LabelGrid.Entry
-              label='Aloitettu'
-              value={startTime}
-            />
-            <LabelGrid.Entry
-              label='Valmistunut'
-              value={endTime}
+              label='Päiväys'
+              value={event.date.toLocaleDateString()}
             />
           </LabelGrid>
         </div>

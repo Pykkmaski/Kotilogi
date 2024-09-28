@@ -8,6 +8,7 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import db from 'kotilogi-app/dbconfig';
 import { verifyPassword } from './users';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
+import { z } from 'zod';
 
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
@@ -151,4 +152,22 @@ export async function getPropertiesOfUser(
   //Filter out undefined properties that may be present due to an error.
   const properties = await Promise.all(promises);
   return properties.filter(property => property !== undefined);
+}
+
+export async function getPropertyParts(propertyId: string) {
+  const [rooms, heatingCircuits, heatingSystems, [yard], [roof]] = await Promise.all([
+    db('data_rooms').where({ propertyId }),
+    db('data_heatingCircuits').where({ propertyId }),
+    db('data_heatingSystems').where({ propertyId }),
+    db('data_yards').where({ propertyId }),
+    db('data_roofs').where({ propertyId }),
+  ]);
+
+  return {
+    rooms,
+    heatingCircuits,
+    heatingSystems,
+    yard,
+    roof,
+  };
 }

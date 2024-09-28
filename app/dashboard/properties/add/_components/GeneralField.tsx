@@ -50,7 +50,9 @@ export function GeneralField({ hidePropertyIdentifier }) {
     return () => clearTimeout(timeout);
   }, [(data as any).propertyNumber]);
 
-  const isHouse = data && data.propertyTypeId == propertyTypes['Kiinteistö'];
+  const isHouse =
+    data && data.propertyTypeId == propertyTypes.find(type => type.name === 'Kiinteistö').id;
+
   const getAddressDescription = () => {
     return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita talon osoite...';
   };
@@ -119,7 +121,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             }
           />
         </div>
-        {data.propertyTypeId == propertyTypes['Kiinteistö'] && (
+        {isHouse && (
           <div className='w-full'>
             <FormControl
               label='Talon numero'
@@ -154,7 +156,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
         }
       />
 
-      {data && data.propertyTypeId == propertyTypes['Huoneisto'] ? (
+      {!isHouse ? (
         <div className='w-full'>
           <FormControl
             label='Huoneiston numero'
@@ -197,7 +199,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               </Label>
               <div className='grid grid-flow-row grid-cols-2 gap-4'>
                 <RadioGroup groupName='buildingTypeId'>
-                  {Object.entries(buildingTypes).map(([name, id]: [string, number]) => {
+                  {buildingTypes.map(({ name, id }) => {
                     return (
                       <RadioButton
                         label={name}
@@ -218,7 +220,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
             <div className='grid grid-flow-row grid-cols-2 gap-4'>
               <RadioGroup groupName='energyClassId'>
-                {Object.entries(energyClasses).map(([name, id]: [string, number]) => (
+                {energyClasses.map(({ name, id }) => (
                   <RadioButton
                     label={name}
                     value={id}

@@ -13,20 +13,13 @@ export const PropertyFormContext = createContext<{
   yardOwnershipTypes: TODO;
   roofMaterials: TODO;
   roofTypes: TODO;
-  heatingTypes: TODO;
+  heatingTypes: any[];
   mainColors: TODO;
   isValid: boolean;
   resetData: (data?: any) => void;
 
   updatePropertyInfo: (data: TODO, valid: boolean) => void;
 } | null>(null);
-
-type SubmitFormProps = {
-  id: string;
-  onChange: (e: TODO) => void;
-  onSubmit: (e: FormEvent) => Promise<void>;
-  property?: PropertyDataType;
-};
 
 /*
 function Component(

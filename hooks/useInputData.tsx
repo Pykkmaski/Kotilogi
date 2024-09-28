@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * A hook to store the data of inputs as they are changed.
@@ -13,7 +13,7 @@ export function useInputData<T extends {}>(initialData: T) {
 
   /**Updates the property with the name of the event in the stored data.*/
 
-  const updateData = (e: TODO) => {
+  const updateData = useCallback((e: TODO) => {
     if (!e.target.name) return;
 
     if (e.target.type == 'file') {
@@ -29,23 +29,23 @@ export function useInputData<T extends {}>(initialData: T) {
             : e.target.value,
       }));
     }
-  };
+  }, []);
 
-  const updateDataViaProperty = (name: string, value: string | number) => {
+  const updateDataViaProperty = useCallback((name: string, value: string | number) => {
     setData(prev => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }, []);
 
   /**Resets the stored data back to what was passed as the initial data. */
-  const resetData = (data?: T) => {
+  const resetData = useCallback((data?: T) => {
     if (data) {
       setData(() => data);
     } else {
       setData(initialData);
     }
-  };
+  }, []);
 
   return {
     data,

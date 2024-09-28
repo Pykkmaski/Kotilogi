@@ -1,16 +1,25 @@
 import { Main } from '@/components/New/Main';
 import { PropertyForm } from './_components/PropertyForm';
-import { getRefTableContent } from '@/actions/util/getRefTableContent';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { verifyUserPropertyCount } from 'kotilogi-app/dataAccess/properties';
 import { redirect } from 'next/navigation';
+import db from 'kotilogi-app/dbconfig';
+import assert from 'assert';
+
+const getRefTableContent = async (tablename: string) => {
+  if (!tablename.includes('ref_')) {
+    throw new Error('The table name must point to a ref_ table!');
+  }
+
+  return db(tablename);
+};
 
 export default async function AddPropertyPage() {
   const session = await verifySession();
   try {
     await verifyUserPropertyCount(session);
   } catch (err) {
-    return redirect('/dashboard');
+    //return redirect('/dashboard');
   }
 
   const [
@@ -34,7 +43,7 @@ export default async function AddPropertyPage() {
     getRefTableContent('ref_heatingTypes'),
     getRefTableContent('ref_mainColors'),
   ]);
-
+  console.log(heatingTypes);
   return (
     <Main>
       <PropertyForm
@@ -45,8 +54,8 @@ export default async function AddPropertyPage() {
         roofMaterials={roofMaterials}
         roofTypes={roofTypes}
         yardOwnershipTypes={yardOwnershipTypes}
-        heatingTypes={heatingTypes}
         mainColors={mainColors}
+        heatingTypes={heatingTypes}
       />
     </Main>
   );
