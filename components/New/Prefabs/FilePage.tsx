@@ -4,7 +4,7 @@ import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
 import { Button, ImageList, ImageListItem } from '@mui/material';
 import Image from 'next/image';
 import { FileCard } from '../FileCard';
-import { SpaceBetween } from '../Spacers';
+import { SpaceBetween } from '../Spacer';
 import { Add } from '@mui/icons-material';
 import Link from 'next/link';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';

@@ -5,23 +5,19 @@ import { ActionType } from './Gallery.reducer';
 import { useGallery, StateType } from './Gallery.hooks';
 import { Heading } from '@/components/UI/Heading';
 import { Group } from '@/components/UI/Group';
-import { ListItemProps } from '@/components/Feature/ListItem/ListItem';
 import React from 'react';
 import Button from '@/components/UI/Button/Button';
 import toast from 'react-hot-toast';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
-import { List } from '@/components/Feature/List';
+import { List } from '@/components/New/List';
 import { Modal } from '@/components/UI/Modal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import Image from 'next/image';
 import Link from 'next/link';
 import { DialogControl } from '@/components/Util/DialogControl';
 import { Delete } from '@mui/icons-material';
-import MuiButton from '@mui/material/Button';
-import { ConfirmDialog } from '../ConfirmDialog';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 
@@ -53,7 +49,7 @@ function Header(
 type BodyProps = {
   contentType?: 'image' | 'other';
   displayStyle?: 'vertical' | 'horizontal';
-  itemComponent: React.FC<ListItemProps<any>>;
+  itemComponent: React.FC<any>;
   errorElement: JSX.Element;
 };
 
@@ -101,14 +97,11 @@ function Body({
       );
     } else {
       return (
-        <div style={bodyStyle}>
-          <List
-            data={data}
-            Component={({ item }) => {
-              return <ItemComponent item={item} />;
-            }}
-          />
-        </div>
+        <List direction='col'>
+          {data.map(d => (
+            <ItemComponent item={d} />
+          ))}
+        </List>
       );
     }
   };

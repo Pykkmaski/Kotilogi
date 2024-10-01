@@ -1,9 +1,9 @@
-import { FormControl, NullOption } from '@/components/UI/FormUtils';
+import { FormControl } from '@/components/UI/FormUtils';
 import { useEventContext } from '../EventContext';
-import { useEventTypeContext } from '../EventTypeProvider';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
 import { useQuery } from '@tanstack/react-query';
+import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
 
 const getTargets = async (mainTypeId: number) => {
   return await axios
@@ -25,35 +25,37 @@ export const EventTargetSelector = () => {
     queryFn: () => getTargets(data.mainTypeId),
   });
 
-  return (
-    data.mainTypeId &&
-    data.mainTypeId !== 'null' && (
-      <FormControl
-        boldLabelText
-        label='Kohde'
-        control={
-          <select
+  return isLoading ? (
+    <Spinner
+      size='1rem'
+      message='Ladataan kohteita...'
+    />
+  ) : (
+    <FormControl
+      boldLabelText
+      label='Kohde'
+      required
+      control={
+        <RadioGroup name='targetId'>
+          {targets.map(type => (
+            <ChipButton
+              value={type.id}
+              label={type.label}
+              required
+              name='targetId'
+              checked={data.targetId == type.id}
+              disabled={isLoading}></ChipButton>
+          ))}
+
+          <ChipButton
             required
-            disabled={isLoading}
-            className='animate-slideup-fast'
+            value={-1}
             name='targetId'
-            value={!data.targetId ? 'null' : data.targetId}>
-            {isLoading ? (
-              <NullOption>
-                <Spinner size='1rem' />
-                Ladataan...
-              </NullOption>
-            ) : (
-              <>
-                <NullOption>Valitse tapahtuman kohde...</NullOption>
-                {targets.map(type => (
-                  <option value={type.id}>{type.label}</option>
-                ))}
-              </>
-            )}
-          </select>
-        }
-      />
-    )
+            label='Muu'
+            checked={data.targetId == -1}
+          />
+        </RadioGroup>
+      }
+    />
   );
 };

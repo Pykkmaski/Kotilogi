@@ -1,6 +1,8 @@
 import { NullOption } from '@/components/UI/FormUtils';
 import { useEventContext } from '../EventContext';
 import { useEventTypeContext } from '../EventTypeProvider';
+import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { useEffect } from 'react';
 
 export const MainEventTypeSelector = () => {
   const {
@@ -9,14 +11,14 @@ export const MainEventTypeSelector = () => {
   const { event: data } = useEventContext();
 
   return (
-    <select
-      name='mainTypeId'
-      required
-      value={!data.mainTypeId ? 'null' : data.mainTypeId}>
-      <NullOption>Valitse tapahtuman osasto...</NullOption>
-      {mainEventTypes.map(type => (
-        <option value={type.id}>{type.label}</option>
+    <RadioGroup name='mainTypeId'>
+      {mainEventTypes.map((type, i) => (
+        <ChipButton
+          value={type.id}
+          label={type.label}
+          name='mainTypeId'
+        />
       ))}
-    </select>
+    </RadioGroup>
   );
 };

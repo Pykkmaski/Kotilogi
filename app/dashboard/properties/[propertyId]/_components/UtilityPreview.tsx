@@ -2,9 +2,9 @@
 
 import { PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
 import { Bolt } from '@mui/icons-material';
-import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { useUtilityProviderContext } from '../utility/UtilityContext';
 import { UtilityLineChart } from '../utility/UtilityLineChart';
+import { Spacer } from '@/components/New/Spacer';
 
 export function UtilityPreview({ propertyId }: { propertyId: string }) {
   const { data: utilityData } = useUtilityProviderContext();
@@ -24,9 +24,13 @@ export function UtilityPreview({ propertyId }: { propertyId: string }) {
       {!utilityData.length ? (
         <span className='text-slate-500'>Ei Kulutustietoja.</span>
       ) : (
-        <div className='flex w-full justify-start gap-4 items-center'>
+        <Spacer
+          width='full'
+          justifyItems='start'
+          gap={4}
+          alignItems='center'>
           <UtilityLineChart />
-        </div>
+        </Spacer>
       )}
     </PreviewContentBase>
   );

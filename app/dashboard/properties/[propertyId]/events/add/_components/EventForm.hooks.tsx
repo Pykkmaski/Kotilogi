@@ -1,51 +1,57 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useEventTypeContext } from './EventTypeProvider';
 import { useInputData } from '@/hooks/useInputData';
+import { reducer } from './EventForm.reducer';
+
+function initInputData(eventData: TODO) {
+  return (
+    eventData ||
+    ({
+      targetId: 'null',
+      mainTypeId: 'null',
+      workTypeId: 'null',
+    } as TODO)
+  );
+}
 
 export function useEventForm(eventData: TODO) {
   const { refs, getIdByLabel } = useEventTypeContext();
-  /**Some work types, like a window renovation event, take extra data. Store them here. */
-  const [additionalData, setAdditionalData] = useState<any[]>([]);
-  const { data, updateData, resetData } = useInputData(
-    eventData ||
-      ({
-        targetId: 'null',
-        mainTypeId: 'null',
-        workTypeId: 'null',
-      } as TODO)
-  );
 
-  const addExtraData = useCallback(data => {
-    setAdditionalData(prev => [...prev, data]);
+  const { data, updateData, resetData, setData } = useInputData(initInputData(eventData));
+  //const [data, dispatch] = useReducer(reducer, initInputData(eventData));
+
+  const update = useCallback(e => {
+    switch (e.target.name) {
+      case 'mainTypeId':
+        {
+          setData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+            targetId: 'null',
+            workTypeId: 'null',
+          }));
+        }
+        break;
+
+      case 'targetId':
+        {
+          setData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+            workTypeId: 'null',
+          }));
+        }
+        break;
+
+      default:
+        updateData(e);
+    }
   }, []);
-
-  const deleteExtraData = useCallback(data => {
-    setAdditionalData(prev => prev.filter(d => JSON.stringify(d) != JSON.stringify(data)));
-  }, []);
-
-  useEffect(() => {
-    resetData({
-      ...data,
-      targetId: 'null',
-      workTypeId: 'null',
-    });
-  }, [data.mainTypeId]);
-
-  useEffect(() => {
-    resetData({
-      ...data,
-      workTypeId: 'null',
-    });
-  }, [data.workTargetId]);
 
   return {
     data,
-    additionalData,
     getIdByLabel,
-    updateData,
-    resetData,
-    addExtraData,
-    deleteExtraData,
+    update,
     refs,
   };
 }

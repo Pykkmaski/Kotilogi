@@ -23,7 +23,13 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, eventData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
-  const { data, additionalData, updateData, getIdByLabel, refs } = useEventForm({
+  const {
+    data,
+    additionalData,
+    update: updateData,
+    getIdByLabel,
+    refs,
+  } = useEventForm({
     ...eventData,
   });
 
@@ -53,6 +59,11 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
       await createEventAction(propertyId, data, []);
     }
   };
+
+  const mainTypeDefined = () => data.mainTypeId && data.mainTypeId != 'null';
+  const targetDefined = () => data.targetId && data.targetId != 'null';
+  const workTypeDefined = () => data.workTypeId && data.workTypeId != 'null';
+
   return (
     <EventProvider
       event={data}
@@ -66,15 +77,21 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
         <Fieldset legend='Osastojen valinta'>
           <FormControl
             boldLabelText
+            required
             label='Osasto'
             control={<MainEventTypeSelector />}
           />
 
-          <EventTargetSelector />
-          <EventWorkSelector />
+          {mainTypeDefined() && <EventTargetSelector />}
+          {mainTypeDefined() && targetDefined() && <EventWorkSelector />}
         </Fieldset>
-        {getContent()}
-        <SharedEventDataInputs />
+
+        {mainTypeDefined() && targetDefined() && workTypeDefined() && (
+          <>
+            {getContent()}
+            <SharedEventDataInputs />
+          </>
+        )}
 
         <div className='flex justify-end w-full'>
           <Button

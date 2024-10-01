@@ -4,6 +4,7 @@ import { isUUID } from 'kotilogi-app/utils/isUUID';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Spacer } from './Spacer';
 
 const tranlsatePathname = (href: string) => {
   const current = href.split('/').at(-1);
@@ -90,10 +91,10 @@ export function Breadcrumb() {
   };
 
   return (
-    <div
-      style={noScrollBar}
-      className='flex flex-row gap-2 overflow-x-scroll mb-2'>
+    <Spacer
+      direction='row'
+      gap={2}>
       {generateCrumbs()}
-    </div>
+    </Spacer>
   );
 }

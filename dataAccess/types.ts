@@ -69,6 +69,9 @@ export type EventDataType = ObjectDataType & {
   mainTypeId: number;
   targetId: number;
   workTypeId: number;
+  mainTypeLabel?: string;
+  workTypeLabel?: string;
+  targetLabel?: string;
 };
 
 export type EventStepDataType = ObjectDataType & {

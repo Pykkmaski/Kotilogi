@@ -14,6 +14,7 @@ const ExpensesField = () => {
           <Input
             name='materialExpenses'
             type='number'
+            defaultValue={0}
             value={data && data.materialExpenses}
             placeholder='Anna kulujen materiaaliosuus...'
             step={0.01}
@@ -28,6 +29,7 @@ const ExpensesField = () => {
           <Input
             name='labourExpenses'
             type='number'
+            defaultValue={0}
             value={data && data.materialExpenses}
             step={0.01}
             placeholder='Anna kulujen työosuus...'
@@ -42,7 +44,8 @@ const DescriptionInput = () => {
   const { event: data } = useEventContext();
 
   return (
-    data.workTypeId === 'null' && (
+    data.workTypeId === 'null' ||
+    (data.workTypeId == '-1' && (
       <FormControl
         boldLabelText
         label='Kuvaus'
@@ -56,7 +59,7 @@ const DescriptionInput = () => {
           />
         }
       />
-    )
+    ))
   );
 };
 
@@ -65,19 +68,22 @@ const OtherField = () => {
 
   return (
     <Fieldset legend='Yleistiedot'>
-      <FormControl
-        boldLabelText
-        label='Otsikko'
-        required
-        control={
-          <Input
-            placeholder='Kirjoita tapahtuman otsikko...'
-            name='title'
-            required
-            value={data.title}
-          />
-        }
-      />
+      {data.workTypeId == '-1' && (
+        <FormControl
+          boldLabelText
+          label='Otsikko'
+          required
+          control={
+            <Input
+              placeholder='Kirjoita tapahtuman otsikko...'
+              name='title'
+              required
+              value={data.title}
+            />
+          }
+        />
+      )}
+
       <DescriptionInput />
       <FormControl
         boldLabelText

@@ -9,20 +9,74 @@ import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { formatDate } from 'kotilogi-app/utils/formatDate';
 
-const getEventDTO = (eventData: TODO, mode: 'save' | 'load') => {
-  if (mode == 'load') {
-    return {
-      ...eventData,
-      labourExpenses: eventData.labourExpenses / 100,
-      materialExpenses: eventData.materialExpenses / 100,
-    };
-  } else {
-    return {
-      ...eventData,
-      labourExpenses: eventData.labourExpenses * 100,
-      materialExpenses: eventData.materialExpenses * 100,
-    };
+const getEventDTO = (eventData: TODO) => {
+  return {
+    id: eventData.id,
+    title:
+      eventData.title ||
+      `${eventData.mainTypeLabel} - ${eventData.targetLabel} - ${eventData.workTypeLabel}`,
+    description: eventData.description,
+    date: eventData.date,
+    mainTypeLabel: eventData.mainTypeLabel,
+    targetLabel: eventData.targetLabel,
+    workTypeLabel: eventData.workTypeLabel,
+  };
+};
+
+const getBaseEventQuery = () => {
+  return db('data_objects')
+    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+    .join('ref_eventTargets', { 'ref_eventTargets.id': 'data_propertyEvents.targetId' })
+    .join('ref_eventWorkTypes', { 'ref_eventWorkTypes.id': 'data_propertyEvents.workTypeId' })
+    .join('ref_mainEventTypes', {
+      'ref_mainEventTypes.id': 'data_propertyEvents.mainTypeId',
+    })
+    .select(
+      'data_objects.*',
+      'data_propertyEvents.*',
+      'ref_eventTargets.label as targetLabel',
+      'ref_eventWorkTypes.label as workTypeLabel',
+      'ref_mainEventTypes.label as mainTypeLabel'
+    );
+};
+
+export const getEvents = async (query: TODO, search?: string, limit: number = 10) => {
+  //Only allow fetching of events for owners of the property.
+  const session = await loadSession();
+  const [owner] = await db('data_propertyOwners').where({
+    propertyId: query.parentId,
+    userId: session.user.id,
+  });
+  if (!owner) {
+    throw new Error('Vain talon omistaja voi nähdä sen tapahtumat!');
   }
+
+  const events = await db('data_objects')
+    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+    .leftJoin('ref_eventTargets', { 'data_propertyEvents.targetId': 'ref_eventTargets.id' })
+    .leftJoin('ref_eventWorkTypes', { 'data_propertyEvents.workTypeId': 'ref_eventWorkTypes.id' })
+    .leftJoin('ref_mainEventTypes', {
+      'data_propertyEvents.mainTypeId': 'ref_mainEventTypes.id',
+    })
+    .where(function () {
+      if (!search) return;
+      const q = `%${search}%`;
+      this.whereILike('data_objects.title', q)
+        .orWhereILike('data_objects.description', q)
+        .orWhereILike('data_propertyEvents.date', q);
+    })
+    .andWhere(query)
+    .limit(limit)
+    .orderBy('data_propertyEvents.date', 'desc')
+    .select(
+      'data_objects.*',
+      'data_propertyEvents.*',
+      'ref_eventTargets.label as targetLabel',
+      'ref_eventWorkTypes.label as workTypeLabel',
+      'ref_mainEventTypes.label as mainTypeLabel'
+    );
+
+  return events.map(e => getEventDTO(e));
 };
 
 export const verifyPropertyEventCount = async (propertyId: string) => {
@@ -62,8 +116,7 @@ export async function getEventsOfProperty(propertyId: string, query?: string, li
     throw new Error('Vain talon omistaja voi nähdä sen tapahtumat!');
   }
 
-  const events = await db('data_objects')
-    .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
+  const events = await getBaseEventQuery()
     .where(function () {
       if (!query) return;
       this.whereILike('data_objects.title', `%${query}%`).orWhereILike(
@@ -77,16 +130,12 @@ export async function getEventsOfProperty(propertyId: string, query?: string, li
     .limit(limit)
     .orderBy('data_propertyEvents.date', 'desc');
 
-  return events;
+  return events.map(e => getEventDTO(e));
 }
 
 /**Returns an event by id. */
 export async function getEvent(id: string) {
-  const event = await db('data_objects')
-    .join('data_propertyEvents')
-    .where({ 'data_objects.id': id });
-
-  return event;
+  return await getBaseEventQuery().where({ 'data_objects.id': id });
 }
 
 /**Creates a new event for a property. */
@@ -99,11 +148,11 @@ export async function createEvent(
   await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
     const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));
-    console.log(insertObj);
     const eventData = {
       ...insertObj,
       id: eventId,
-      workTypeId: (insertObj.workTypeId as any) == 'null' ? null : insertObj.workTypeId,
+      workTypeId: (insertObj.workTypeId as any) == -1 ? null : insertObj.workTypeId,
+      targetId: (insertObj.targetId as any) == -1 ? null : insertObj.targetId,
     };
 
     await trx('data_propertyEvents').insert(eventData);

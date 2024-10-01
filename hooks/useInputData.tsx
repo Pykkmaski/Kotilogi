@@ -51,6 +51,7 @@ export function useInputData<T extends {}>(initialData: T) {
     data,
     files,
     updateData,
+    setData,
     updateDataViaProperty,
     resetData,
   };

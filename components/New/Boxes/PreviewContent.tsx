@@ -1,5 +1,5 @@
 import { ContentBox } from './ContentBox';
-import { SpaceBetween, Spacer } from '../Spacers';
+import { Spacer } from '../Spacer';
 import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
 import { BoxHeader } from './BoxHeader';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { IconButton } from '@mui/material';
 import { Add, Visibility, Warning } from '@mui/icons-material';
 import { Paragraph } from '../Typography/Paragraph';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
+import { List } from '../List';
 
 type PreviewContentBaseProps = React.PropsWithChildren & {
   icon?: React.ReactNode;
@@ -28,56 +29,62 @@ export function PreviewContentBase({
 }: PreviewContentBaseProps) {
   return (
     <ContentBox>
-      <Spacer direction='col'>
+      <Spacer
+        direction='col'
+        width='full'>
         <BoxHeader>
-          <SpaceBetween
-            firstElement={
-              <div className='flex gap-2 text-slate-500 items-center text-lg'>
+          <Spacer
+            justifyItems='between'
+            width='full'>
+            <div className='text-slate-500 text-lg'>
+              <Spacer
+                gap={2}
+                alignItems='center'
+                width='auto'>
                 {icon}
                 <SecondaryHeading>{headingText}</SecondaryHeading>
-              </div>
-            }
-            secondElement={
-              <div className='flex flex-row gap-1'>
-                {!preview && showAllUrl ? (
-                  <>
-                    <Link
-                      href={showAllUrl}
-                      title='Näytä kaikki'>
-                      <IconButton color='primary'>
-                        <Visibility />
-                      </IconButton>
-                    </Link>
-                  </>
-                ) : null}
-                {!preview && addNewUrl ? (
-                  <>
-                    <Link
-                      href={addNewUrl}
-                      title='Lisää uusi'>
-                      <IconButton color='primary'>
-                        <Add />
-                      </IconButton>
-                    </Link>
-                  </>
-                ) : null}
-              </div>
-            }
-          />
+              </Spacer>
+            </div>
+
+            <List
+              direction='row'
+              alignItems='center'
+              gap={1}>
+              {!preview && showAllUrl ? (
+                <Link
+                  href={showAllUrl}
+                  title='Näytä kaikki'>
+                  <IconButton color='primary'>
+                    <Visibility />
+                  </IconButton>
+                </Link>
+              ) : null}
+              {!preview && addNewUrl ? (
+                <Link
+                  href={addNewUrl}
+                  title='Lisää uusi'>
+                  <IconButton color='primary'>
+                    <Add />
+                  </IconButton>
+                </Link>
+              ) : null}
+            </List>
+          </Spacer>
         </BoxHeader>
 
         {!preview ? (
           children
         ) : (
-          <div
-            className='flex flex-col gap-4 w-full'
-            style={noScrollBar}>
+          <Spacer
+            gap={4}
+            direction='col'
+            height='full'>
             <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
               <Warning sx={{ color: 'orange' }} />
               <span className='font-semibold'>Tulossa pian!</span>
             </div>
             <Paragraph>{previewDescription}</Paragraph>
-          </div>
+          </Spacer>
         )}
       </Spacer>
     </ContentBox>
@@ -128,9 +135,12 @@ export function PreviewContentBox({ title, href, FooterContentComponent }: Previ
       className='rounded-lg shadow-md aspect-square relative p-2 overflow-hidden'
       href={href}
       style={noScrollBar}>
-      <div className='flex justify-between w-full'>
+      <Spacer
+        direction='row'
+        justifyItems='between'
+        width='full'>
         <TertiaryHeading>{title}</TertiaryHeading>
-      </div>
+      </Spacer>
 
       <div className='flex absolute bottom-0 left-0 w-full p-2'>
         <FooterContentComponent />

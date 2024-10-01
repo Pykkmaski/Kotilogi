@@ -1,21 +1,29 @@
-import React from 'react';
+import { Chip } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { List } from '../New/List';
+import { Spacer } from '../New/Spacer';
 
 type RadioGroupProps = React.PropsWithChildren & {
-  groupName: string;
+  name: string;
 };
 
-export function RadioGroup({ children, groupName }: RadioGroupProps) {
-  return React.Children.map(children as React.ReactElement, child => {
-    if (!child) return null;
-    return (
-      <div className='flex flex-row gap-4'>
-        {React.cloneElement(child, {
+/**Renders its provided radio-inputs inside a ul, automatically adding the name-prop on each child. */
+export function RadioGroup({ children, name }: RadioGroupProps) {
+  return (
+    <List
+      direction='row'
+      gap={2}
+      alignItems='center'>
+      {React.Children.map(children as React.ReactElement, (child, index) => {
+        if (!child) return null;
+
+        return React.cloneElement(child, {
           ...child.props,
-          name: groupName,
-        })}
-      </div>
-    );
-  });
+          name,
+        });
+      })}
+    </List>
+  );
 }
 
 export function RadioButton({
@@ -25,7 +33,7 @@ export function RadioButton({
   ...props
 }: React.ComponentProps<'input'> & { label: string }) {
   return (
-    <div className='flex flex-row gap-4'>
+    <Spacer gap={4}>
       <input
         name={name}
         value={value}
@@ -33,6 +41,40 @@ export function RadioButton({
         type='radio'
       />
       <label>{label}</label>
-    </div>
+    </Spacer>
+  );
+}
+
+export function ChipButton({
+  label,
+  type = 'radio',
+  ...props
+}: React.ComponentProps<'input'> & { label: string }) {
+  const [checked, setChecked] = useState(props.checked);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setChecked(inputRef.current?.checked);
+  }, [inputRef.current?.checked]);
+  return (
+    <>
+      <input
+        {...props}
+        type='radio'
+        ref={inputRef}
+        hidden
+        onChange={e => {
+          props.onChange && props.onChange(e);
+        }}
+      />
+      <Chip
+        variant={checked ? 'filled' : 'outlined'}
+        color='primary'
+        label={label}
+        onClick={() => {
+          inputRef.current?.click();
+        }}
+      />
+    </>
   );
 }

@@ -1,10 +1,9 @@
 'use client';
 
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
 import Link from 'next/link';
 import { DialogControl } from '../Util/DialogControl';
-import { useRef, useState } from 'react';
-import { HamburgerButton } from '../UI/HamburgerButton';
+import { useState } from 'react';
 import { ProfileCircle } from '../New/ProfileCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 

@@ -3,6 +3,7 @@ import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
+import { Spacer } from '@/components/New/Spacer';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -43,7 +44,9 @@ export async function PropertyOverview({
         (('appartmentNumber' in property && property.appartmentNumber) || '')
       }
       description={
-        <div className='flex flex-col h-full gap-4'>
+        <Spacer
+          direction='col'
+          height='full'>
           <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
 
           <div className='w-full xs:hidden md:block'>
@@ -79,7 +82,7 @@ export async function PropertyOverview({
               />
             </LabelGrid>
           </div>
-        </div>
+        </Spacer>
       }
       imageUrl={
         (mainImageId && `/api/protected/files/${mainImageId}`) || '/img/Properties/default-bg.jpg'

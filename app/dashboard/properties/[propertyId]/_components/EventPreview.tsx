@@ -6,10 +6,10 @@ import { History, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { Menu } from '@/components/New/Menu';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
-import { getEventsOfProperty } from 'kotilogi-app/dataAccess/events';
+import { getEvents, getEventsOfProperty } from 'kotilogi-app/dataAccess/events';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
-  const events = await getEventsOfProperty(propertyId, null, 4);
+  const events = await getEvents({ parentId: propertyId }, null, 4);
 
   return (
     <PreviewContentRow<EventDataType>

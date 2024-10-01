@@ -2,7 +2,7 @@
 
 import { ContentBox } from './ContentBox';
 import { MainHeading } from '../Typography/Headings';
-import { SpaceBetween, Spacer } from '../Spacers';
+import { Spacer } from '../Spacer';
 import Image from 'next/image';
 import { IconButton } from '@mui/material';
 import { Delete, Visibility } from '@mui/icons-material';
@@ -36,7 +36,10 @@ export function OverviewBox({
 }: OverviewBoxProps) {
   return (
     <ContentBox>
-      <Spacer direction='row'>
+      <Spacer
+        direction='row'
+        gap={2}
+        width='full'>
         <div
           className='relative md:w-[25%] xs:w-[50%] aspect-square rounded-lg overflow-hidden border border-slate-200'
           style={noScrollBar}>
@@ -48,51 +51,60 @@ export function OverviewBox({
           />
         </div>
 
-        <Spacer direction='col'>
-          <SpaceBetween
-            firstElement={
-              showUrl ? (
-                <Link href={showUrl}>
-                  <MainHeading>{title}</MainHeading>
-                </Link>
-              ) : (
+        <Spacer
+          direction='col'
+          width='full'
+          gap={4}>
+          <Spacer
+            width='full'
+            justifyItems='between'
+            direction='row'>
+            {showUrl ? (
+              <Link href={showUrl}>
                 <MainHeading>{title}</MainHeading>
-              )
-            }
-            secondElement={
-              <div className='flex'>
-                {editUrl && (
-                  <Link
-                    href={editUrl}
-                    title={editContentText || 'Näytä'}>
-                    <IconButton
-                      color='primary'
-                      size='small'>
-                      {editIcon || <Visibility />}
-                    </IconButton>
-                  </Link>
-                )}
-                {deleteUrl && (
-                  <Link href={deleteUrl}>
-                    <IconButton
-                      color='warning'
-                      size='small'>
-                      <Delete />
-                    </IconButton>
-                  </Link>
-                )}
-              </div>
-            }
-          />
-
-          <div>{description}</div>
-
-          <div className='flex justify-end w-full mt-auto'>
-            {selectableItem && (
-              <SelectablesProvider.SelectTrigger item={selectableItem}>
-                <input type='checkbox'></input>
-              </SelectablesProvider.SelectTrigger>
+              </Link>
+            ) : (
+              <MainHeading>{title}</MainHeading>
             )}
+
+            <Spacer
+              justifyItems='end'
+              width='auto'>
+              {editUrl && (
+                <Link
+                  href={editUrl}
+                  title={editContentText || 'Näytä'}>
+                  <IconButton
+                    color='primary'
+                    size='small'>
+                    {editIcon || <Visibility />}
+                  </IconButton>
+                </Link>
+              )}
+              {deleteUrl && (
+                <Link href={deleteUrl}>
+                  <IconButton
+                    color='warning'
+                    size='small'>
+                    <Delete />
+                  </IconButton>
+                </Link>
+              )}
+            </Spacer>
+          </Spacer>
+
+          <p>{description}</p>
+
+          <div className='mt-auto'>
+            <Spacer
+              justifyItems='end'
+              width='full'>
+              {selectableItem && (
+                <SelectablesProvider.SelectTrigger item={selectableItem}>
+                  <input type='checkbox'></input>
+                </SelectablesProvider.SelectTrigger>
+              )}
+            </Spacer>
           </div>
         </Spacer>
       </Spacer>
