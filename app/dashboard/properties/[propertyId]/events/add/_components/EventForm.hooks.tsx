@@ -1,17 +1,9 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useEventTypeContext } from './EventTypeProvider';
 import { useInputData } from '@/hooks/useInputData';
-import { reducer } from './EventForm.reducer';
 
 function initInputData(eventData: TODO) {
-  return (
-    eventData ||
-    ({
-      targetId: 'null',
-      mainTypeId: 'null',
-      workTypeId: 'null',
-    } as TODO)
-  );
+  return eventData || ({} as TODO);
 }
 
 export function useEventForm(eventData: TODO) {
@@ -27,8 +19,8 @@ export function useEventForm(eventData: TODO) {
           setData(prev => ({
             ...prev,
             [e.target.name]: e.target.value,
-            targetId: 'null',
-            workTypeId: 'null',
+            targetId: null,
+            workTypeId: null,
           }));
         }
         break;
@@ -38,7 +30,7 @@ export function useEventForm(eventData: TODO) {
           setData(prev => ({
             ...prev,
             [e.target.name]: e.target.value,
-            workTypeId: 'null',
+            workTypeId: null,
           }));
         }
         break;

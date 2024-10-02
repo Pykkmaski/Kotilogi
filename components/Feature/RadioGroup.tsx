@@ -55,7 +55,8 @@ export function ChipButton({
 
   useEffect(() => {
     setChecked(inputRef.current?.checked);
-  }, [inputRef.current?.checked]);
+  }, [inputRef.current?.checked, props.checked]);
+
   return (
     <>
       <input

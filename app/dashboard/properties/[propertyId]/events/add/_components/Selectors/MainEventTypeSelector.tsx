@@ -17,6 +17,7 @@ export const MainEventTypeSelector = () => {
           value={type.id}
           label={type.label}
           name='mainTypeId'
+          checked={data.mainTypeId == type.id}
         />
       ))}
     </RadioGroup>

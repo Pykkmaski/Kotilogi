@@ -22,6 +22,7 @@ export const EventWorkSelector = () => {
     queryKey: [`workTypes-${data.mainTypeId}-${data.targetId}`],
   });
 
+  console.log(data.workTypeId);
   return isLoading ? (
     <Spinner
       size='1rem'
@@ -34,25 +35,22 @@ export const EventWorkSelector = () => {
       required
       control={
         <RadioGroup name='workTypeId'>
-          {workTypes.map((t, i) => (
-            <ChipButton
-              key={`workType-${i}`}
-              value={t.id}
-              name='workTypeId'
-              required
-              checked={data.workTypeId == t.id}
-              label={t.label}
-            />
-          ))}
-
-          <ChipButton
-            key={'workType-other'}
-            value={-1}
-            name='workTypeId'
-            required
-            label='Muu'
-            checked={data.workTypeId == -1}
-          />
+          {[...workTypes, { id: -1, label: 'Muu' }].map((t, i) => {
+            const checked = data.workTypeId == t.id;
+            if (t.label == 'Muu') {
+              console.log(t.id, data.workTypeId, checked);
+            }
+            return (
+              <ChipButton
+                key={`workType-${i}`}
+                value={t.id}
+                name='workTypeId'
+                required
+                checked={data.workTypeId == t.id}
+                label={t.label}
+              />
+            );
+          })}
         </RadioGroup>
       }
     />

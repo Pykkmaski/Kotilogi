@@ -25,7 +25,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
   const {
     data,
-    additionalData,
+
     update: updateData,
     getIdByLabel,
     refs,
@@ -60,14 +60,11 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
     }
   };
 
-  const mainTypeDefined = () => data.mainTypeId && data.mainTypeId != 'null';
-  const targetDefined = () => data.targetId && data.targetId != 'null';
-  const workTypeDefined = () => data.workTypeId && data.workTypeId != 'null';
+  const isDefined = (val: any) => val != null && val != undefined;
 
   return (
     <EventProvider
       event={data}
-      additionalData={additionalData}
       propertyId={propertyId}>
       <form
         onSubmit={onSubmit}
@@ -82,11 +79,11 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
             control={<MainEventTypeSelector />}
           />
 
-          {mainTypeDefined() && <EventTargetSelector />}
-          {mainTypeDefined() && targetDefined() && <EventWorkSelector />}
+          {isDefined(data.mainTypeId) && <EventTargetSelector />}
+          {isDefined(data.mainTypeId) && isDefined(data.targetId) && <EventWorkSelector />}
         </Fieldset>
 
-        {mainTypeDefined() && targetDefined() && workTypeDefined() && (
+        {isDefined(data.mainTypeId) && isDefined(data.targetId) && isDefined(data.workTypeId) && (
           <>
             {getContent()}
             <SharedEventDataInputs />

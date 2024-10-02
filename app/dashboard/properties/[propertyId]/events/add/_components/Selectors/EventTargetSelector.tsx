@@ -37,8 +37,9 @@ export const EventTargetSelector = () => {
       required
       control={
         <RadioGroup name='targetId'>
-          {targets.map(type => (
+          {[...targets, { id: -1, label: 'Muu' }].map((type, i) => (
             <ChipButton
+              key={`target-${i}`}
               value={type.id}
               label={type.label}
               required
@@ -46,14 +47,6 @@ export const EventTargetSelector = () => {
               checked={data.targetId == type.id}
               disabled={isLoading}></ChipButton>
           ))}
-
-          <ChipButton
-            required
-            value={-1}
-            name='targetId'
-            label='Muu'
-            checked={data.targetId == -1}
-          />
         </RadioGroup>
       }
     />
