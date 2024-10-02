@@ -29,9 +29,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
     update: updateData,
     getIdByLabel,
     refs,
-  } = useEventForm({
-    ...eventData,
-  });
+  } = useEventForm(eventData);
 
   const getContent = () => {
     const { targetId } = data;
@@ -61,6 +59,11 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
   };
 
   const isDefined = (val: any) => val != null && val != undefined;
+  const submitDisabled =
+    !isDefined(data.mainTypeId) ||
+    !isDefined(data.targetId) ||
+    !isDefined(data.workTypeId) ||
+    status !== 'idle';
 
   return (
     <EventProvider
@@ -94,8 +97,8 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
           <Button
             variant='contained'
             type='submit'
-            disabled={data.mainTypeId == 'null' || data.targetId == 'null' || status !== 'idle'}>
-            Vahvista
+            disabled={submitDisabled}>
+            {(eventData && 'Päivitä') || 'Vahvista'}
           </Button>
         </div>
       </form>

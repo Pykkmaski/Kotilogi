@@ -26,7 +26,6 @@ export default async function EditEventPage({ params }) {
   }
 
   const refs = await getEventRefs();
-  console.log(refs);
   return (
     <main className='flex justify-center'>
       {(allowed && (

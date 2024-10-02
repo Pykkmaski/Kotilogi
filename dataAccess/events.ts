@@ -9,6 +9,19 @@ import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { formatDate } from 'kotilogi-app/utils/formatDate';
 
+/**
+ * Prepares event data for insertion into the db.
+ * @param data
+ * @returns
+ */
+const getEventInsertObject = (data: TODO) => {
+  return {
+    ...data,
+    workTypeId: (data.workTypeId as any) == -1 ? null : data.workTypeId,
+    targetId: (data.targetId as any) == -1 ? null : data.targetId,
+  };
+};
+
 const getEventDTO = (eventData: TODO) => {
   return {
     id: eventData.id,
@@ -107,7 +120,9 @@ export const verifyEventIsNotLocked = async (eventId: string) => {
   }
 };
 
-/**Returns the events of a specified property. */
+/**Returns the events of a specified property.
+ * @deprecated
+ */
 export async function getEventsOfProperty(propertyId: string, query?: string, limit: number = 10) {
   //Only allow fetching of events for owners of the property.
   const session = await loadSession();
@@ -133,7 +148,9 @@ export async function getEventsOfProperty(propertyId: string, query?: string, li
   return events.map(e => getEventDTO(e));
 }
 
-/**Returns an event by id. */
+/**Returns an event by id.
+ * @deprecated
+ */
 export async function getEvent(id: string) {
   return await getBaseEventQuery().where({ 'data_objects.id': id });
 }
@@ -147,13 +164,11 @@ export async function createEvent(
 
   await createObject(data, async (obj, trx) => {
     const eventId = obj.id;
-    const insertObj = filterValidColumns(data, await getTableColumns('data_propertyEvents', trx));
-    const eventData = {
-      ...insertObj,
+
+    const eventData = getEventInsertObject({
+      ...filterValidColumns(data, await getTableColumns('data_propertyEvents', trx)),
       id: eventId,
-      workTypeId: (insertObj.workTypeId as any) == -1 ? null : insertObj.workTypeId,
-      targetId: (insertObj.targetId as any) == -1 ? null : insertObj.targetId,
-    };
+    });
 
     await trx('data_propertyEvents').insert(eventData);
     console.log(eventId);

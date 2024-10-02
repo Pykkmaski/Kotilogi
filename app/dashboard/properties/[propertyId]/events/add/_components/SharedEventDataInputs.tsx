@@ -30,7 +30,7 @@ const ExpensesField = () => {
             name='labourExpenses'
             type='number'
             defaultValue={0}
-            value={data && data.materialExpenses}
+            value={data && data.labourExpenses}
             step={0.01}
             placeholder='Anna kulujen työosuus...'
             min={0}></Input>

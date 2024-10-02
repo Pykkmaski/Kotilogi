@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useEventTypeContext } from './EventTypeProvider';
 import { useInputData } from '@/hooks/useInputData';
+import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
 function initInputData(eventData: TODO) {
-  return eventData || ({} as TODO);
+  return (
+    (eventData && { ...eventData, date: timestampToISOString(eventData.date.getTime()) }) ||
+    ({} as TODO)
+  );
 }
 
 export function useEventForm(eventData: TODO) {
