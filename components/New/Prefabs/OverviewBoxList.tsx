@@ -1,14 +1,13 @@
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { SecondaryHeading } from '../Typography/Headings';
 import Link from 'next/link';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import { OverviewBox } from '../Boxes/OverviewBox';
-import { NoUnderlineLink } from '../Links/NoUnderlineLink';
 import React from 'react';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { SearchBar } from '@/components/Feature/SearchBar';
 import colors from 'kotilogi-app/colors';
+import { Button } from '../Button';
 
 type OverviewBoxListProps<T extends ObjectDataType> = {
   items: T[];
@@ -45,7 +44,6 @@ export function OverviewBoxList<T extends ObjectDataType>({
             <div className='lg:block xs:hidden'>
               <Button
                 variant='contained'
-                size='small'
                 startIcon={<Add />}>
                 Lisää Uusi
               </Button>

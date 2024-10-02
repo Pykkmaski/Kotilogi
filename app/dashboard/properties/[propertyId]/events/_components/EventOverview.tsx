@@ -21,7 +21,10 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
       deleteUrl={`events/${event.id}/delete`}
       title={event.title}
       description={
-        <div className='flex flex-col gap-4 h-full'>
+        <Spacer
+          direction='col'
+          gap={4}
+          height='full'>
           <Paragraph>{event.description || 'Ei kuvausta.'}</Paragraph>
           <Spacer
             direction='row'
@@ -40,7 +43,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
               value={event.date.toLocaleDateString()}
             />
           </LabelGrid>
-        </div>
+        </Spacer>
       }
       imageUrl={(mainImageId && `/api/protected/files/${mainImageId}`) || '/img/kitchen.jpg'}
       editUrl={`/dashboard/properties/${event.parentId}/events/${event.id}/edit`}

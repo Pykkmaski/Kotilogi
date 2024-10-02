@@ -37,6 +37,10 @@ const getEventDTO = (eventData: TODO) => {
   };
 };
 
+/**
+ * @deprecated
+ * @returns
+ */
 const getBaseEventQuery = () => {
   return db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })

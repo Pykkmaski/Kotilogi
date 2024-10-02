@@ -8,7 +8,6 @@ import { EventProvider } from './EventContext';
 import { useState } from 'react';
 import { useEventForm } from './EventForm.hooks';
 import { SharedEventDataInputs } from './SharedEventDataInputs';
-import Button from '@mui/material/Button';
 import { MainEventTypeSelector } from './Selectors/MainEventTypeSelector';
 import { EventTargetSelector } from './Selectors/EventTargetSelector';
 import { createEventAction, updateEventAction } from './actions';
@@ -16,6 +15,9 @@ import { EventWorkSelector } from './Selectors/EventWorkSelector';
 import { WindowRenovationContent } from './FormContent/WindowRenovationContent';
 import { HeatingRenovationContent } from './FormContent/HeatingRenovationContent';
 import toast from 'react-hot-toast';
+import { Button } from '@/components/New/Button';
+import { Spacer } from '@/components/New/Spacer';
+import { useRouter } from 'next/navigation';
 
 type EventFormProps = {
   propertyId: string;
@@ -24,13 +26,7 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, eventData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
-  const {
-    data,
-
-    update: updateData,
-    getIdByLabel,
-    refs,
-  } = useEventForm(eventData);
+  const { data, cancel, update: updateData, getIdByLabel, refs } = useEventForm(eventData);
 
   const getContent = () => {
     const { targetId } = data;
@@ -100,14 +96,24 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
           </>
         )}
 
-        <div className='flex justify-end w-full'>
+        <Spacer
+          direction='row'
+          gap={4}
+          width='full'
+          justifyItems='end'>
+          <Button
+            variant='text'
+            onClick={cancel}>
+            Peruuta
+          </Button>
+
           <Button
             variant='contained'
             type='submit'
             disabled={submitDisabled}>
             {(eventData && 'Päivitä') || 'Vahvista'}
           </Button>
-        </div>
+        </Spacer>
       </form>
     </EventProvider>
   );

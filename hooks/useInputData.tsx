@@ -8,16 +8,17 @@ import { useCallback, useState } from 'react';
  * @returns
  */
 export function useInputData<T extends {}>(initialData: T) {
-  const [data, setData] = useState<T>(initialData);
+  const [data, setDataState] = useState<T>(initialData);
   const [files, setFiles] = useState<File[]>([]);
+  const [hasChanges, setHasChanges] = useState(false);
 
   /**Updates the property with the name of the event in the stored data.*/
-
   const updateData = useCallback((e: TODO) => {
     if (!e.target.name) return;
 
     if (e.target.type == 'file') {
       setFiles(prev => [...prev, ...e.target.files]);
+      setHasChanges(true);
     } else {
       setData(prev => ({
         ...prev,
@@ -47,9 +48,15 @@ export function useInputData<T extends {}>(initialData: T) {
     }
   }, []);
 
+  const setData = (data: TODO) => {
+    setDataState(data);
+    setHasChanges(true);
+  };
+
   return {
     data,
     files,
+    hasChanges,
     updateData,
     setData,
     updateDataViaProperty,
