@@ -6,6 +6,8 @@ import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { Chip } from '@mui/material';
+import { Spacer } from '@/components/New/Spacer';
 
 type EventOverviewProps<T extends EventDataType> = {
   event: T;
@@ -20,7 +22,18 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
       title={event.title}
       description={
         <div className='flex flex-col gap-4 h-full'>
-          <Paragraph>{event.description}</Paragraph>
+          <Paragraph>{event.description || 'Ei kuvausta.'}</Paragraph>
+          <Spacer
+            direction='row'
+            gap={2}>
+            <Chip
+              label={event.mainTypeLabel || 'Muu'}
+              color='primary'
+            />
+            <Chip label={event.targetLabel || 'Muu'} />
+            <Chip label={event.workTypeLabel || 'Muu'} />
+          </Spacer>
+
           <LabelGrid header={<h1 className='text-sm font-semibold'>Tiedot</h1>}>
             <LabelGrid.Entry
               label='Päiväys'
