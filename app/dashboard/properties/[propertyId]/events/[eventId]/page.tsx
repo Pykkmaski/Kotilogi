@@ -3,17 +3,16 @@ import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
-import { EventDataType, EventStepDataType, FileDataType } from 'kotilogi-app/dataAccess/types';
+import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { FileCard } from '@/components/New/FileCard';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
-import { getEvent } from 'kotilogi-app/dataAccess/events';
+import { getEvents } from 'kotilogi-app/dataAccess/events';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
 
   //Fetch data back-to-back to conserve db connection pool.
-  const [event] = await getEvent(eventId);
-  console.log(event);
+  const [event] = await getEvents({ id: eventId });
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
     .where({ parentId: eventId })

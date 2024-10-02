@@ -54,16 +54,17 @@ const getBaseEventQuery = () => {
 };
 
 export const getEvents = async (query: TODO, search?: string, limit: number = 10) => {
-  //Only allow fetching of events for owners of the property.
-  const session = await loadSession();
-  const [owner] = await db('data_propertyOwners').where({
-    propertyId: query.parentId,
-    userId: session.user.id,
-  });
-  if (!owner) {
-    throw new Error('Vain talon omistaja voi nähdä sen tapahtumat!');
+  const newQuery = {
+    ...query,
+  };
+
+  if (query.id) {
+    newQuery['data_objects.id'] = query.id;
   }
 
+  delete newQuery.id;
+
+  console.log(newQuery);
   const events = await db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .leftJoin('ref_eventTargets', { 'data_propertyEvents.targetId': 'ref_eventTargets.id' })
@@ -78,7 +79,7 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
         .orWhereILike('data_objects.description', q)
         .orWhereILike('data_propertyEvents.date', q);
     })
-    .andWhere(query)
+    .andWhere(newQuery)
     .limit(limit)
     .orderBy('data_propertyEvents.date', 'desc')
     .select(
