@@ -70,6 +70,12 @@ export function ChipButton({
       />
       <Chip
         variant={checked ? 'filled' : 'outlined'}
+        sx={
+          checked && {
+            color: 'white',
+            fontWeight: 600,
+          }
+        }
         color='primary'
         label={label}
         onClick={() => {

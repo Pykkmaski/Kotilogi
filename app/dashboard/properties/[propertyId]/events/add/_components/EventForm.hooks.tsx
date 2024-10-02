@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useCallback } from 'react';
 import { useEventTypeContext } from './EventTypeProvider';
 import { useInputData } from '@/hooks/useInputData';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
@@ -18,11 +18,8 @@ function initInputData(eventData: TODO) {
 
 export function useEventForm(eventData: TODO) {
   const { refs, getIdByLabel } = useEventTypeContext();
-  const { data, updateData, resetData, setData, hasChanges } = useInputData(
-    initInputData(eventData)
-  );
+  const { data, updateData, setData, hasChanges } = useInputData(initInputData(eventData));
   const router = useRouter();
-  //const [data, dispatch] = useReducer(reducer, initInputData(eventData));
 
   const update = useCallback(
     e => {
