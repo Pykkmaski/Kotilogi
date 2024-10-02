@@ -11,6 +11,7 @@ export const updateEventAction = async (eventId: string, data: Partial<EventData
   z.string().parse(eventId);
   await updateEvent(eventId, data);
   revalidatePath('/dashboard/properties/[propertyId]');
+  redirect(`/dashboard/properties/${data.parentId}/events/${eventId}`);
 };
 
 export const createEventAction = async (
