@@ -65,7 +65,6 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
 
   delete newQuery.id;
 
-  console.log(newQuery);
   const events = await db('data_objects')
     .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
     .leftJoin('ref_eventTargets', { 'data_propertyEvents.targetId': 'ref_eventTargets.id' })
@@ -183,11 +182,10 @@ export async function updateEvent(id: string, data: Partial<EventDataType>) {
   await verifySessionUserIsAuthor(id);
 
   await updateObject(id, data, async trx => {
-    await trx('data_propertyEvents')
-      .where({ id: data.id })
-      .update({
-        ...filterValidColumns(data, await getTableColumns('data_propertyEvents', trx)),
-      });
+    const insertObj = getEventInsertObject(
+      filterValidColumns(data, await getTableColumns('data_propertyEvents', trx))
+    );
+    await trx('data_propertyEvents').where({ id: data.id }).update(insertObj);
   });
 }
 

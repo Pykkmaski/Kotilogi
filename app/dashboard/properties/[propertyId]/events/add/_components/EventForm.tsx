@@ -15,6 +15,7 @@ import { createEventAction, updateEventAction } from './actions';
 import { EventWorkSelector } from './Selectors/EventWorkSelector';
 import { WindowRenovationContent } from './FormContent/WindowRenovationContent';
 import { HeatingRenovationContent } from './FormContent/HeatingRenovationContent';
+import toast from 'react-hot-toast';
 
 type EventFormProps = {
   propertyId: string;
@@ -50,11 +51,17 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
 
   const onSubmit = async e => {
     e.preventDefault();
-
-    if (eventData) {
-      await updateEventAction(eventData.id, data);
-    } else {
-      await createEventAction(propertyId, data, []);
+    setStatus('loading');
+    try {
+      if (eventData) {
+        await updateEventAction(eventData.id, data);
+      } else {
+        await createEventAction(propertyId, data, []);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setStatus(prev => (prev != 'done' ? 'idle' : prev));
     }
   };
 
