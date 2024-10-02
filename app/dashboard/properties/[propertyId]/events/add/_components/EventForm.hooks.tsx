@@ -5,7 +5,12 @@ import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
 function initInputData(eventData: TODO) {
   return (
-    (eventData && { ...eventData, date: timestampToISOString(eventData.date.getTime()) }) ||
+    (eventData && {
+      ...eventData,
+      date: timestampToISOString(eventData.date.getTime()),
+      targetId: eventData.targetId == null ? -1 : eventData.targetId,
+      workTypeId: eventData.workTypeId == null ? -1 : eventData.workTypeId,
+    }) ||
     ({} as TODO)
   );
 }
