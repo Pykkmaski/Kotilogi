@@ -7,12 +7,10 @@ type ButtonProps = React.ComponentProps<'button'> & {
 };
 
 export const Button = ({ children, ...props }: ButtonProps) => {
-  const classes = [props.className, styles.button, 'shadow-md'];
-
   return (
     <button
       {...props}
-      className='shadow-lg text-white bg-primary lg:text-2xl xs:text-xl sm:w-96 xs:w-full rounded-full py-4 font-semibold uppercase'>
+      className='shadow-lg text-white bg-primary lg:text-2xl xs:text-xl sm:w-96 xs:w-full rounded-full py-4 font-semibold uppercase flex items-center justify-center'>
       {children}
     </button>
   );
