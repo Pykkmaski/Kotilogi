@@ -25,6 +25,7 @@ const getEventInsertObject = (data: TODO) => {
 const getEventDTO = (eventData: TODO) => {
   return {
     id: eventData.id,
+    parentId: eventData.parentId,
     title:
       eventData.title ||
       `${eventData.mainTypeLabel} - ${eventData.targetLabel} - ${eventData.workTypeLabel}`,
