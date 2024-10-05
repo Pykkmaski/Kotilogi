@@ -1,5 +1,5 @@
 import { FormControl, NullOption } from '@/components/UI/FormUtils';
-import { useEventContext } from '../EventContext';
+import { useEventFormContext } from '../EventFormContext';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
@@ -16,13 +16,12 @@ const fetchWorkTypes = async (targetId: number) =>
   });
 
 export const EventWorkSelector = () => {
-  const { event: data } = useEventContext();
+  const { mainData, typeData } = useEventFormContext();
   const { data: workTypes, isLoading } = useQuery({
-    queryFn: async () => await fetchWorkTypes(data.targetId),
-    queryKey: [`workTypes-${data.mainTypeId}-${data.targetId}`],
+    queryFn: async () => await fetchWorkTypes(typeData.targetId),
+    queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
   });
 
-  console.log(data.workTypeId);
   return isLoading ? (
     <Spinner
       size='1rem'
@@ -36,9 +35,9 @@ export const EventWorkSelector = () => {
       control={
         <RadioGroup name='workTypeId'>
           {[...workTypes, { id: -1, label: 'Muu' }].map((t, i) => {
-            const checked = data.workTypeId == t.id;
+            const checked = typeData.workTypeId == t.id;
             if (t.label == 'Muu') {
-              console.log(t.id, data.workTypeId, checked);
+              console.log(t.id, typeData.workTypeId, checked);
             }
             return (
               <ChipButton
@@ -46,7 +45,7 @@ export const EventWorkSelector = () => {
                 value={t.id}
                 name='workTypeId'
                 required
-                checked={data.workTypeId == t.id}
+                checked={typeData.workTypeId == t.id}
                 label={t.label}
               />
             );

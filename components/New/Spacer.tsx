@@ -9,6 +9,7 @@ export type SpacerProps = React.PropsWithChildren & {
   justifyItems?: 'center' | 'between' | 'evenly' | 'start' | 'end';
   width?: number | 'full' | 'auto' | string;
   height?: number | 'full' | 'auto' | string;
+  wrap?: boolean;
 };
 
 /**Arranges its children within a vertical or horizontal row, with gaps. */
@@ -21,6 +22,7 @@ export function Spacer({
   justifyItems = 'start',
   width = 'auto',
   height = 'auto',
+  wrap = false,
 }: SpacerProps) {
   const w =
     typeof width == 'number' || width == 'full' || width == 'auto' ? `w-${width}` : `w-[${width}]`;
@@ -30,8 +32,13 @@ export function Spacer({
       : `h-[${height}]`;
 
   const className = [
-    `flex flex-${direction} gap-${gap} ${h} ${w} items-${alignItems} justify-${justifyItems} overflow-x-scroll`,
+    `flex flex-${direction} gap-${gap} ${h} ${w} items-${alignItems} justify-${justifyItems} overflow-x-scroll snap-mandatory`,
+    wrap && 'flex-wrap',
   ];
 
-  return React.createElement(Component, { className, style: noScrollBar }, children);
+  return React.createElement(
+    Component,
+    { className: className.join(' '), style: noScrollBar },
+    children
+  );
 }

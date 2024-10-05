@@ -1,5 +1,5 @@
 import { NullOption } from '@/components/UI/FormUtils';
-import { useEventContext } from '../EventContext';
+import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
 import { useEffect } from 'react';
@@ -8,7 +8,7 @@ export const MainEventTypeSelector = () => {
   const {
     refs: { mainEventTypes },
   } = useEventTypeContext();
-  const { event: data } = useEventContext();
+  const { typeData } = useEventFormContext();
 
   return (
     <RadioGroup name='mainTypeId'>
@@ -17,7 +17,7 @@ export const MainEventTypeSelector = () => {
           value={type.id}
           label={type.label}
           name='mainTypeId'
-          checked={data.mainTypeId == type.id}
+          checked={typeData.mainTypeId == type.id}
         />
       ))}
     </RadioGroup>

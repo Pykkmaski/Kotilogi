@@ -112,7 +112,7 @@ export function PreviewContentRow<T>({
         onEmptyElement || null
       ) : (
         <div
-          className='flex flex-row w-full xs:items-center lg:items-none overflow-x-scroll md:gap-4 xs:gap-1'
+          className='flex flex-row w-full xs:items-center lg:items-none overflow-x-scroll md:gap-4 xs:gap-1 snap-mandatory snap-x'
           style={noScrollBar}>
           {data.map(item => (
             <PreviewComponent item={item} />

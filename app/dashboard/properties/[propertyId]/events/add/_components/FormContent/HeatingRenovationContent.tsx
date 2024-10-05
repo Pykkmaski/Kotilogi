@@ -1,10 +1,16 @@
 import { FormControl, Input, NullOption } from '@/components/UI/FormUtils';
 import { useQuery } from '@tanstack/react-query';
 import { getPreviousHeatingSystem } from '../actions';
-import { useEventContext } from '../EventContext';
+import { useEventFormContext } from '../EventFormContext';
+import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import axios from 'axios';
+import Spinner from '@/components/UI/Spinner';
+import { Spacer } from '@/components/New/Spacer';
+import { Button } from '@/components/New/Button';
+import { Add } from '@mui/icons-material';
 
 const OldSystemSelector = () => {
-  const { propertyId } = useEventContext();
+  const { propertyId } = useEventFormContext();
   const { isLoading, data: oldEntry } = useQuery({
     queryFn: async () => await getPreviousHeatingSystem(propertyId),
     queryKey: ['heatingSystem'],
@@ -24,9 +30,44 @@ const OldSystemSelector = () => {
   );
 };
 
+const HeatingSystemSelector = () => {
+  const { data: heatingSystems, isLoading } = useQuery({
+    queryKey: ['heatingSystemTypes'],
+    queryFn: async () =>
+      await axios.get('/api/protected/properties/heatingTypes').then(res => {
+        return res.status == 200 ? res.data : [];
+      }),
+  });
+
+  return isLoading ? (
+    <Spinner
+      size='1rem'
+      message='Ladataan lämmitysjärjestelmiä...'
+    />
+  ) : (
+    <FormControl
+      label='Järjestelmän tyyppi'
+      control={
+        <RadioGroup name='typeId'>
+          {heatingSystems.map((t, i) => {
+            return (
+              <ChipButton
+                label={t.name}
+                value={t.id}
+                key={`heatingType-${i}`}
+              />
+            );
+          })}
+        </RadioGroup>
+      }
+    />
+  );
+};
+
 export const HeatingRenovationContent = () => {
   return (
     <>
+      <HeatingSystemSelector />
       <FormControl
         required
         label='Merkki'
@@ -48,6 +89,19 @@ export const HeatingRenovationContent = () => {
           />
         }
       />
+
+      <Spacer
+        direction='row'
+        alignItems='center'
+        justifyItems='end'
+        width='full'>
+        <Button
+          variant='contained'
+          type='button'
+          startIcon={<Add />}>
+          Lisää...jotain
+        </Button>
+      </Spacer>
     </>
   );
 };

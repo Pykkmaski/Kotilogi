@@ -1,55 +1,92 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useEventTypeContext } from './EventTypeProvider';
 import { useInputData } from '@/hooks/useInputData';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 import { useRouter } from 'next/navigation';
+import { useBatch } from '@/hooks/useBatch';
+import { AnyRecord } from 'dns';
 
-function initInputData(eventData: TODO) {
-  return (
-    (eventData && {
-      ...eventData,
-      date: timestampToISOString(eventData.date.getTime()),
-      targetId: eventData.targetId == null ? -1 : eventData.targetId,
-      workTypeId: eventData.workTypeId == null ? -1 : eventData.workTypeId,
-    }) ||
-    ({} as TODO)
-  );
+function initTypeData(eventData: TODO) {
+  if (eventData) {
+    const { mainTypeId, targetId, workTypeId } = eventData;
+    return {
+      mainTypeId,
+      targetId,
+      workTypeId,
+    };
+  } else {
+    return {
+      mainTypeId: null,
+      targetId: null,
+      workTypeId: null,
+    };
+  }
 }
 
-export function useEventForm(eventData: TODO) {
+function initMainData(eventData) {
+  if (eventData) {
+    const d = {
+      ...eventData,
+      date: timestampToISOString(eventData.date.getTime()),
+    };
+
+    delete d.mainTypeId;
+    delete d.targetId;
+    delete d.workTypeId;
+    return d;
+  } else {
+    return {};
+  }
+}
+
+export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
   const { refs, getIdByLabel } = useEventTypeContext();
-  const { data, updateData, setData, hasChanges } = useInputData(initInputData(eventData));
+
+  const { data: extraData, updateData: updateExtraData } = useInputData(initialExtraData || {});
+  const {
+    data: typeData,
+    updateData: updateTypeData,
+    setData: setTypeData,
+    hasChanges: typeDataHasChanges,
+  } = useInputData(initTypeData(eventData));
+
+  const {
+    data: mainData,
+    updateData: updateMainData,
+    setData: setMainData,
+    hasChanges: mainDataHasChanges,
+  } = useInputData(initMainData(eventData));
+
   const router = useRouter();
+  const hasChanges = mainDataHasChanges || typeDataHasChanges;
 
   const update = useCallback(
     e => {
       switch (e.target.name) {
         case 'mainTypeId':
           {
-            setData(prev => ({
-              ...prev,
-              [e.target.name]: e.target.value,
+            setTypeData({
+              mainTypeId: e.target.value,
               targetId: null,
               workTypeId: null,
-            }));
+            });
           }
           break;
 
         case 'targetId':
           {
-            setData(prev => ({
-              ...prev,
-              [e.target.name]: e.target.value,
+            setTypeData({
+              targetId: e.target.value,
               workTypeId: null,
-            }));
+            });
           }
           break;
 
         default:
-          updateData(e);
+          updateMainData(e);
       }
     },
-    [setData, updateData]
+    [setTypeData, updateMainData]
   );
 
   const cancel = useCallback(() => {
@@ -57,15 +94,24 @@ export function useEventForm(eventData: TODO) {
       const c = confirm('Lomake sisältää muutoksia. Haluatko varmasti peruuttaa?');
       if (!c) return;
     }
-
+    localStorage.removeItem('kotidok-event-extra-data');
     router.back();
   }, [hasChanges, router]);
 
   return {
-    data,
+    mainData,
+
+    extraData,
+
+    updateExtraData,
     getIdByLabel,
     update,
     cancel,
+
+    updateTypeData,
+    updateMainData,
+
+    typeData,
     refs,
   };
 }

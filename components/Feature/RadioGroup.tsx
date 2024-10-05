@@ -13,7 +13,8 @@ export function RadioGroup({ children, name }: RadioGroupProps) {
     <List
       direction='row'
       gap={2}
-      alignItems='center'>
+      alignItems='center'
+      wrap>
       {React.Children.map(children as React.ReactElement, (child, index) => {
         if (!child) return null;
 

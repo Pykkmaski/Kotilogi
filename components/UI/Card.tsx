@@ -1,5 +1,4 @@
 import { CSSProperties, ReactNode } from 'react';
-import { ListItemProps } from '../Feature/ListItem/ListItem';
 import Image from 'next/image';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
@@ -10,7 +9,7 @@ type CardContainerProps = React.PropsWithChildren & {
 
 function CardContainer({ children, selected }: CardContainerProps) {
   const className = [
-    'flex flex-col rounded-md overflow-hidden shadow-md xs:w-[200px] md:h-[300px] xs:h-[170px] relative',
+    'flex flex-col rounded-md overflow-hidden shadow-md xs:w-[200px] md:h-[300px] relative snap-center shrink-0 h-[350px]',
     selected ? 'border border-orange-500' : 'border-none',
   ];
 

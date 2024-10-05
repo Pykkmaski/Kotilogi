@@ -1,9 +1,11 @@
+'use client';
+
 import { Fieldset } from '@/components/UI/Fieldset';
-import { useEventContext } from './EventContext';
+import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 
 const ExpensesField = () => {
-  const { event: data } = useEventContext();
+  const { mainData } = useEventFormContext();
 
   return (
     <Fieldset legend='Kulut'>
@@ -15,7 +17,7 @@ const ExpensesField = () => {
             name='materialExpenses'
             type='number'
             defaultValue={0}
-            value={data && data.materialExpenses}
+            value={mainData && mainData.materialExpenses}
             placeholder='Anna kulujen materiaaliosuus...'
             step={0.01}
             min={0}></Input>
@@ -30,7 +32,7 @@ const ExpensesField = () => {
             name='labourExpenses'
             type='number'
             defaultValue={0}
-            value={data && data.labourExpenses}
+            value={mainData && mainData.labourExpenses}
             step={0.01}
             placeholder='Anna kulujen työosuus...'
             min={0}></Input>
@@ -41,11 +43,11 @@ const ExpensesField = () => {
 };
 
 const DescriptionInput = () => {
-  const { event: data } = useEventContext();
+  const { mainData, typeData } = useEventFormContext();
 
   return (
-    data.workTypeId === 'null' ||
-    (data.workTypeId == '-1' && (
+    typeData.workTypeId == null ||
+    (typeData.workTypeId == -1 && (
       <FormControl
         boldLabelText
         label='Kuvaus'
@@ -55,7 +57,7 @@ const DescriptionInput = () => {
             name='description'
             spellCheck={false}
             required
-            value={data.description}
+            value={mainData.description}
           />
         }
       />
@@ -64,11 +66,11 @@ const DescriptionInput = () => {
 };
 
 const OtherField = () => {
-  const { event: data } = useEventContext();
+  const { mainData, typeData } = useEventFormContext();
 
   return (
     <Fieldset legend='Yleistiedot'>
-      {data.workTypeId == '-1' && (
+      {typeData.workTypeId == -1 && (
         <FormControl
           boldLabelText
           label='Otsikko'
@@ -78,7 +80,7 @@ const OtherField = () => {
               placeholder='Kirjoita tapahtuman otsikko...'
               name='title'
               required
-              value={data.title}
+              value={mainData.title}
             />
           }
         />
@@ -93,7 +95,7 @@ const OtherField = () => {
           <Input
             type='date'
             name='date'
-            defaultValue={data.date}
+            defaultValue={mainData.date}
           />
         }
       />

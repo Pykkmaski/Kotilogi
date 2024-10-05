@@ -1,5 +1,5 @@
 import { FormControl } from '@/components/UI/FormUtils';
-import { useEventContext } from '../EventContext';
+import { useEventFormContext } from '../EventFormContext';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
 import { useQuery } from '@tanstack/react-query';
@@ -18,11 +18,11 @@ const getTargets = async (mainTypeId: number) => {
 };
 
 export const EventTargetSelector = () => {
-  const { event: data } = useEventContext();
+  const { mainData, typeData } = useEventFormContext();
 
   const { isLoading, data: targets } = useQuery({
-    queryKey: [`targets-${data.mainTypeId}`],
-    queryFn: () => getTargets(data.mainTypeId),
+    queryKey: [`targets-${typeData.mainTypeId}`],
+    queryFn: () => getTargets(typeData.mainTypeId),
   });
 
   return isLoading ? (
@@ -44,7 +44,7 @@ export const EventTargetSelector = () => {
               label={type.label}
               required
               name='targetId'
-              checked={data.targetId == type.id}
+              checked={typeData.targetId == type.id}
               disabled={isLoading}></ChipButton>
           ))}
         </RadioGroup>

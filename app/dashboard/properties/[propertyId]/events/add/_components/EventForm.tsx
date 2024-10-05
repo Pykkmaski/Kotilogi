@@ -4,7 +4,7 @@ import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl } from '@/components/UI/FormUtils';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
-import { EventProvider } from './EventContext';
+import { EventFormProvider, useEventFormContext } from './EventFormContext';
 import { useState } from 'react';
 import { useEventForm } from './EventForm.hooks';
 import { SharedEventDataInputs } from './SharedEventDataInputs';
@@ -17,7 +17,6 @@ import { HeatingRenovationContent } from './FormContent/HeatingRenovationContent
 import toast from 'react-hot-toast';
 import { Button } from '@/components/New/Button';
 import { Spacer } from '@/components/New/Spacer';
-import { useRouter } from 'next/navigation';
 
 type EventFormProps = {
   propertyId: string;
@@ -26,10 +25,25 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, eventData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
-  const { data, cancel, update: updateData, getIdByLabel, refs } = useEventForm(eventData);
+  const {
+    mainData,
+    typeData,
+    updateMainData,
+    updateTypeData,
+
+    extraData,
+
+    cancel,
+
+    update: updateData,
+    updateExtraData,
+
+    getIdByLabel,
+    refs,
+  } = useEventForm(eventData);
 
   const getContent = () => {
-    const { targetId } = data;
+    const { targetId } = typeData;
 
     var content = null;
     if (targetId == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
@@ -38,7 +52,7 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
       content = <HeatingRenovationContent />;
     } else {
       console.error(
-        'Additional content not implemented for event type with id ' + data.secondaryEventTypeId
+        'Additional content not implemented for target type with id ' + typeData.targetId
       );
     }
 
@@ -50,10 +64,12 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
     setStatus('loading');
     try {
       if (eventData) {
-        await updateEventAction(eventData.id, data);
+        await updateEventAction(eventData.id, mainData, typeData);
       } else {
-        await createEventAction(propertyId, data, []);
+        await createEventAction(propertyId, mainData, typeData);
       }
+      setStatus('done');
+      localStorage.removeItem('kotidok-event-extra-data');
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -63,58 +79,78 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
 
   const isDefined = (val: any) => val != null && val != undefined;
   const submitDisabled =
-    !isDefined(data.mainTypeId) ||
-    !isDefined(data.targetId) ||
-    !isDefined(data.workTypeId) ||
+    !isDefined(typeData.mainTypeId) ||
+    !isDefined(typeData.targetId) ||
+    !isDefined(typeData.workTypeId) ||
     status !== 'idle';
 
   return (
-    <EventProvider
-      event={data}
+    <EventFormProvider
+      mainData={mainData}
+      typeData={typeData}
+      extraData={extraData}
       propertyId={propertyId}>
-      <form
-        onSubmit={onSubmit}
-        onChange={updateData}
-        className='md:w-[50%] xs:w-full flex flex-col gap-4'>
-        <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
-        <Fieldset legend='Osastojen valinta'>
-          <FormControl
-            boldLabelText
-            required
-            label='Osasto'
-            control={<MainEventTypeSelector />}
-          />
+      <div className='md:w-[50%] xs:w-full flex flex-col gap-4'>
+        <form
+          className='flex flex-col gap-4'
+          id='typeForm'
+          onChange={updateTypeData}>
+          <SecondaryHeading>
+            {eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}
+          </SecondaryHeading>
+          <Fieldset legend='Osastojen valinta'>
+            <FormControl
+              boldLabelText
+              required
+              label='Osasto'
+              control={<MainEventTypeSelector />}
+            />
 
-          {isDefined(data.mainTypeId) && <EventTargetSelector />}
-          {isDefined(data.mainTypeId) && isDefined(data.targetId) && <EventWorkSelector />}
-        </Fieldset>
+            {isDefined(typeData.mainTypeId) && <EventTargetSelector />}
+            {isDefined(typeData.mainTypeId) && isDefined(typeData.targetId) && (
+              <EventWorkSelector />
+            )}
+          </Fieldset>
+        </form>
 
-        {isDefined(data.mainTypeId) && isDefined(data.targetId) && isDefined(data.workTypeId) && (
-          <>
-            {getContent()}
-            <SharedEventDataInputs />
-          </>
-        )}
+        <form
+          id='extraDataForm'
+          className='flex flex-col gap-4'
+          onChange={updateExtraData}>
+          {getContent()}
+        </form>
 
-        <Spacer
-          direction='row'
-          gap={4}
-          width='full'
-          justifyItems='end'>
-          <Button
-            variant='text'
-            onClick={cancel}>
-            Peruuta
-          </Button>
+        {isDefined(typeData.mainTypeId) &&
+          isDefined(typeData.targetId) &&
+          isDefined(typeData.workTypeId) && (
+            <form
+              id='mainDataForm'
+              onSubmit={onSubmit}
+              onChange={updateMainData}
+              className='flex flex-col gap-4'>
+              <SharedEventDataInputs />
 
-          <Button
-            variant='contained'
-            type='submit'
-            disabled={submitDisabled}>
-            {(eventData && 'Päivitä') || 'Vahvista'}
-          </Button>
-        </Spacer>
-      </form>
-    </EventProvider>
+              <Spacer
+                direction='row'
+                gap={4}
+                width='full'
+                justifyItems='end'>
+                <Button
+                  variant='text'
+                  onClick={cancel}>
+                  Peruuta
+                </Button>
+
+                <Button
+                  variant='contained'
+                  type='submit'
+                  disabled={submitDisabled}>
+                  {(eventData && 'Päivitä') || 'Vahvista'}
+                </Button>
+              </Spacer>
+            </form>
+          )}
+      </div>
+    </EventFormProvider>
   );
 }
