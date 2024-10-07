@@ -1,6 +1,7 @@
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Label } from '@/components/UI/FormUtils';
 import { useEventTypeContext } from '../EventTypeProvider';
+import { RadioButton } from '@/components/Feature/RadioGroup/RadioButton';
 
 export const DrainageDitchEventContent = () => {
   const { refs } = useEventTypeContext();

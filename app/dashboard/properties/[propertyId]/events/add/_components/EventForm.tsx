@@ -3,7 +3,7 @@
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import { EventFormProvider } from './EventFormContext';
 import { useState } from 'react';
-import { useEventForm } from './EventForm.hooks';
+import { useEventForm } from './hooks/useEventForm';
 import { createEventAction, updateEventAction } from './actions';
 import toast from 'react-hot-toast';
 import { isDefined } from './util';
@@ -21,16 +21,11 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
   const {
     mainData,
     typeData,
+    extraData,
     updateMainData,
     updateTypeData,
-
-    extraData,
-
-    cancel,
-
-    update: updateData,
     updateExtraData,
-
+    cancel,
     getIdByLabel,
     refs,
   } = useEventForm(eventData);

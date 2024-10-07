@@ -2,12 +2,13 @@ import { FormControl, Input, NullOption } from '@/components/UI/FormUtils';
 import { useQuery } from '@tanstack/react-query';
 import { getPreviousHeatingSystem } from '../actions';
 import { useEventFormContext } from '../EventFormContext';
-import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
 import { Spacer } from '@/components/New/Spacer';
 import { Button } from '@/components/New/Button';
 import { Add } from '@mui/icons-material';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 const OldSystemSelector = () => {
   const { propertyId } = useEventFormContext();
