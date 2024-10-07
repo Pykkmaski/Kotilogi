@@ -1,6 +1,6 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { BatchUploadForm } from '@/components/New/Forms/BatchUploadForm';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';

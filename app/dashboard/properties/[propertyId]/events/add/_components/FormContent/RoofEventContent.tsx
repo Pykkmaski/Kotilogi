@@ -1,16 +1,21 @@
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Label } from '@/components/UI/FormUtils';
 import { useEventTypeContext } from '../EventTypeProvider';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const RoofEventContent = () => {
   const { refs } = useEventTypeContext();
   return (
     <>
       <div className='flex flex-col gap-2'>
-        <Label boldText>Materiaali</Label>
-        <RadioGroup groupName='roofMaterialId'>
+        <Label
+          boldText
+          required>
+          Materiaali
+        </Label>
+        <RadioGroup name='roofMaterialId'>
           {refs.roofMaterials.map(type => (
-            <RadioButton
+            <ChipButton
               required
               label={type.name}
               value={type.id}
@@ -20,10 +25,14 @@ export const RoofEventContent = () => {
       </div>
 
       <div className='flex flex-col gap-2'>
-        <Label boldText>Tyyppi</Label>
-        <RadioGroup groupName='roofTypeId'>
+        <Label
+          boldText
+          required>
+          Tyyppi
+        </Label>
+        <RadioGroup name='roofTypeId'>
           {refs.roofTypes.map(type => (
-            <RadioButton
+            <ChipButton
               required
               label={type.name}
               value={type.id}

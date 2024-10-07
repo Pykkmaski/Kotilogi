@@ -1,4 +1,4 @@
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Label } from '@/components/UI/FormUtils';
 import { useEventTypeContext } from '../EventTypeProvider';
 
@@ -8,7 +8,7 @@ export const DrainageDitchEventContent = () => {
     <>
       <div className='flex flex-col gap-2'>
         <Label boldText>Materiaali</Label>
-        <RadioGroup groupName='roofMaterialId'>
+        <RadioGroup name='roofMaterialId'>
           {refs.roofMaterials.map(type => (
             <RadioButton
               required
@@ -21,7 +21,7 @@ export const DrainageDitchEventContent = () => {
 
       <div className='flex flex-col gap-2'>
         <Label boldText>Tyyppi</Label>
-        <RadioGroup groupName='roofTypeId'>
+        <RadioGroup name='roofTypeId'>
           {refs.roofTypes.map(type => (
             <RadioButton
               required

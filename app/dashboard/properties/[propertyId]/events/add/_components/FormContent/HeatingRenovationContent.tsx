@@ -2,7 +2,7 @@ import { FormControl, Input, NullOption } from '@/components/UI/FormUtils';
 import { useQuery } from '@tanstack/react-query';
 import { getPreviousHeatingSystem } from '../actions';
 import { useEventFormContext } from '../EventFormContext';
-import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
 import { Spacer } from '@/components/New/Spacer';

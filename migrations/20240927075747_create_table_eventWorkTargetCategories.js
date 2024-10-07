@@ -21,7 +21,14 @@ exports.up = function (knex) {
       .inTable('ref_eventTargets')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
-    tbl.primary(['eventMainTypeId', 'workTargetId']);
+    tbl
+      .integer('workTypeId')
+      .references('id')
+      .inTable('ref_eventWorkTypes')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+
+    tbl.primary(['eventMainTypeId', 'workTargetId', 'workTypeId']);
   });
 };
 

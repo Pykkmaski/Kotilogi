@@ -1,6 +1,6 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyFormContext';

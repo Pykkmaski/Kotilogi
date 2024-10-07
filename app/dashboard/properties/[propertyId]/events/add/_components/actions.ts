@@ -58,3 +58,27 @@ export const getPreviousHeatingSystem = async (propertyId: string) => {
 export const getRooms = async () => {
   return await db('ref_rooms');
 };
+
+export const getEventTargets = async (eventMainTypeId: number) => {
+  //Return all targets if selecting 'Muu' or 'Peruskorjaus', otherwise, return targets under the selected main type.
+  const [renovationTypeId] = await db('ref_mainEventTypes')
+    .where({ label: 'Peruskorjaus' })
+    .pluck('id');
+  const [otherMainTypeId] = await db('ref_mainEventTypes').where({ label: 'Muu' }).pluck('id');
+
+  if (eventMainTypeId == renovationTypeId || eventMainTypeId == otherMainTypeId) {
+    return db('ref_eventTargets');
+  } else {
+    const targetIds = await db('ref_eventWorkTargetCategories')
+      .where({ eventMainTypeId })
+      .pluck('workTargetId');
+    return await db('ref_eventTargets').whereIn('id', targetIds);
+  }
+};
+
+export const getEventWorkTypes = async (eventMainTypeId: number, targetId: number) => {
+  const workTypeIds = await db('ref_eventWorkTargetCategories')
+    .where({ eventMainTypeId, workTargetId: targetId })
+    .pluck('workTypeId');
+  return await db('ref_eventWorkTypes').whereIn('id', workTypeIds);
+};

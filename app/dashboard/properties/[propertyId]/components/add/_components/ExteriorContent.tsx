@@ -1,4 +1,4 @@
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Label, RadioGroupContainer } from '@/components/UI/FormUtils';
 import { useAddComponentContext } from '../AddComponentProvider';
 

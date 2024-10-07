@@ -3,11 +3,12 @@
  * @returns { Promise<void> }
  */
 
-const table = 'ref_rooms';
+const table = 'ref_eventTargetCategories';
+
 exports.up = function (knex) {
   return knex.schema.createTable(table, tbl => {
     tbl.increments('id');
-    tbl.string('label', 32).notNullable().unique();
+    tbl.string(32, 'label');
   });
 };
 

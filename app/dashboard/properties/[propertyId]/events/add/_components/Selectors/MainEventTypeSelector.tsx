@@ -1,8 +1,7 @@
-import { NullOption } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
-import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
-import { useEffect } from 'react';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const MainEventTypeSelector = () => {
   const {

@@ -45,7 +45,7 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
   const { data: extraData, updateData: updateExtraData } = useInputData(initialExtraData || {});
   const {
     data: typeData,
-    updateData: updateTypeData,
+    updateData: _updateTypeData,
     setData: setTypeData,
     hasChanges: typeDataHasChanges,
   } = useInputData(initTypeData(eventData));
@@ -59,6 +59,36 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
 
   const router = useRouter();
   const hasChanges = mainDataHasChanges || typeDataHasChanges;
+
+  const updateTypeData = useCallback(
+    e => {
+      switch (e.target.name) {
+        case 'mainTypeId':
+          {
+            setTypeData({
+              mainTypeId: e.target.value,
+              targetId: null,
+              workTypeId: null,
+            });
+          }
+          break;
+
+        case 'targetId':
+          {
+            setTypeData({
+              ...typeData,
+              targetId: e.target.value,
+              workTypeId: null,
+            });
+          }
+          break;
+
+        default:
+          _updateTypeData(e);
+      }
+    },
+    [setTypeData, _updateTypeData]
+  );
 
   const update = useCallback(
     e => {
@@ -75,7 +105,9 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
 
         case 'targetId':
           {
+            console.log(typeData);
             setTypeData({
+              ...typeData,
               targetId: e.target.value,
               workTypeId: null,
             });

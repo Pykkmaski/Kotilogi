@@ -46,22 +46,19 @@ const DescriptionInput = () => {
   const { mainData, typeData } = useEventFormContext();
 
   return (
-    typeData.workTypeId == null ||
-    (typeData.workTypeId == -1 && (
-      <FormControl
-        boldLabelText
-        label='Kuvaus'
-        control={
-          <textarea
-            placeholder='Kirjoita tapahtuman kuvaus...'
-            name='description'
-            spellCheck={false}
-            required
-            value={mainData.description}
-          />
-        }
-      />
-    ))
+    <FormControl
+      boldLabelText
+      label='Lisätiedot'
+      control={
+        <textarea
+          placeholder='Kirjoita esimerkiksi tietoja materiaaleista, väreistä, huoneesta, yms.'
+          name='description'
+          spellCheck={false}
+          required
+          value={mainData.description}
+        />
+      }
+    />
   );
 };
 

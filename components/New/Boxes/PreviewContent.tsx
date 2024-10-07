@@ -33,9 +33,7 @@ export function PreviewContentBase({
         direction='col'
         width='full'>
         <BoxHeader>
-          <Spacer
-            justifyItems='between'
-            width='full'>
+          <div className='flex items-center gap-4 w-full justify-between'>
             <div className='text-slate-500 text-lg'>
               <Spacer
                 gap={2}
@@ -69,7 +67,7 @@ export function PreviewContentBase({
                 </Link>
               ) : null}
             </List>
-          </Spacer>
+          </div>
         </BoxHeader>
 
         {!preview ? (

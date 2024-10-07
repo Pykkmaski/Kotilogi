@@ -3,15 +3,17 @@
  * @returns { Promise<void> }
  */
 
-const types = ['Patolevy', 'Isodränlevy', 'Routaeristys', 'Suodatinkangas', 'Pumppukaivo'];
+const drainageDitchTypes = [
+  'Patolevy',
+  'Isodränlevy',
+  'Routaeristys',
+  'Suodatinkangas',
+  'Pumppukaivo',
+];
 
 const table = 'ref_drainageDitchTypes';
 exports.seed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex(table).del();
-  for (const type of types) {
-    await knex(table).insert({
-      label: type,
-    });
+  for (const type of drainageDitchTypes) {
+    await knex(table).insert({ label: type }).onConflict('label').ignore();
   }
 };

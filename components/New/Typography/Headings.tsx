@@ -5,7 +5,7 @@ export function MainHeading({ children }: React.PropsWithChildren) {
 
 /**Renders text within an h2 with the tailwind text-lg property. */
 export function SecondaryHeading({ children }: React.PropsWithChildren) {
-  return <h2 className='lg:text-2xl xs:text-base text-slate-500 font-semibold'>{children}</h2>;
+  return <h2 className='lg:text-xl xs:text-base text-slate-500 font-semibold'>{children}</h2>;
 }
 
 export function TertiaryHeading({ children }: React.PropsWithChildren) {

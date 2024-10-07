@@ -1,6 +1,6 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { AddComponentForm } from '@/components/New/AddComponentForm';
 import { Label, RadioGroupContainer } from '@/components/UI/FormUtils';
 import { SecondaryHeading } from '@/components/UI/Heading';

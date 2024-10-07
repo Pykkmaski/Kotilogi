@@ -2,14 +2,36 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+
+const eventTargets = [
+  'Hormi',
+  'Ikkunat',
+  'Katto',
+  'Julkisivu',
+  'Keittiö',
+  'WC',
+  'Olohuone',
+  'Makuuhuone',
+  'Kodinhoitohuone',
+  'Muu',
+  'Salaojat',
+  'Käyttövesiputket',
+  'Viemäriputket',
+  'Eristys',
+
+  'Eteinen',
+  'Savupiippu',
+  'Vesikourut',
+  'Huippuimuri',
+];
+
 exports.seed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex('ref_eventTargets').del();
-  const targets = ['Hormi', 'Lämmitys', 'Ikkunat', 'Katto', 'Julkisivu'];
-  const promises = targets.map(t =>
-    knex('ref_eventTargets').insert({
-      label: t,
-    })
-  );
-  await Promise.all(promises);
+  for (const target of eventTargets) {
+    await knex('ref_eventTargets')
+      .insert({
+        label: target,
+      })
+      .onConflict('label')
+      .ignore();
+  }
 };

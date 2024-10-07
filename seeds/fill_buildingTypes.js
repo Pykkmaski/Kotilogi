@@ -2,25 +2,27 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+
+const table = 'ref_buildingTypes';
+
+const buildingTypes = [
+  'Omakotitalo',
+  'Kerrostalo',
+  'Paritalo',
+  'Puutalo-osake',
+  'Rivitalo',
+  'Erillistalo',
+  'Luhtitalo',
+  'Muu',
+];
+
 exports.seed = async function (knex) {
-  const trx = await knex.transaction();
-  try {
-    const table = 'ref_buildingTypes';
-    await trx(table).del();
-    const types = [
-      'Omakotitalo',
-      'Kerrostalo',
-      'Paritalo',
-      'Puutalo-osake',
-      'Rivitalo',
-      'Erillistalo',
-      'Luhtitalo',
-      'Muu',
-    ];
-    await Promise.all(types.map(type => trx(table).insert({ name: type })));
-    await trx.commit();
-  } catch (err) {
-    console.log(err.message);
-    await trx.rollback();
+  for (const type of buildingTypes) {
+    await knex(table)
+      .insert({
+        label: type,
+      })
+      .onConflict('label')
+      .ignore();
   }
 };

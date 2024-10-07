@@ -1,6 +1,6 @@
 import { FormControl, Input, Label, RadioGroupContainer } from '@/components/UI/FormUtils';
 import { useAddComponentContext } from '../AddComponentProvider';
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 
 export const YardContent = () => {
   const { refs } = useAddComponentContext();

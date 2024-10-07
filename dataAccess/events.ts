@@ -7,7 +7,7 @@ import { Knex } from 'knex';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
-import { formatDate } from 'kotilogi-app/utils/formatDate';
+import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 
 /**
  * Prepares event data for insertion into the db.
@@ -76,25 +76,36 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
     .leftJoin('ref_mainEventTypes', {
       'data_propertyEvents.mainTypeId': 'ref_mainEventTypes.id',
     })
-    .where(function () {
-      if (!search) return;
-      const q = `%${search}%`;
-      this.whereILike('data_objects.title', q)
-        .orWhereILike('data_objects.description', q)
-        .orWhereILike('data_propertyEvents.date', q);
-    })
-    .andWhere(newQuery)
-    .limit(limit)
-    .orderBy('data_propertyEvents.date', 'desc')
+
     .select(
       'data_objects.*',
       'data_propertyEvents.*',
       'ref_eventTargets.label as targetLabel',
       'ref_eventWorkTypes.label as workTypeLabel',
       'ref_mainEventTypes.label as mainTypeLabel'
-    );
+    )
+    .where(function () {
+      if (!search) return;
+      const q = `%${search}%`;
+      this.whereILike('data_objects.title', q).orWhereILike('data_objects.description', q);
+    })
+    .andWhere(newQuery)
+    .limit(limit)
+    .orderBy('data_propertyEvents.date', 'desc');
 
-  return events.map(e => getEventDTO(e));
+  console.log(search);
+  return events
+    .filter(e => {
+      console.log(e);
+
+      return (
+        e.workTypeLabel?.includes(search) ||
+        e.mainTypeLabel?.includes(search) ||
+        e.targetLabel?.includes(search) ||
+        true
+      );
+    })
+    .map(e => getEventDTO(e));
 };
 
 export const verifyPropertyEventCount = async (propertyId: string) => {

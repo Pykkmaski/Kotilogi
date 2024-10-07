@@ -3,26 +3,16 @@ import { useEventFormContext } from '../EventFormContext';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
 import { useQuery } from '@tanstack/react-query';
-import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
-
-const getTargets = async (mainTypeId: number) => {
-  return await axios
-    .get(`/api/protected/properties/events/targets?mainTypeId=${mainTypeId}`)
-    .then(res => {
-      if (res.status !== 200) {
-        return [];
-      }
-
-      return res.data;
-    });
-};
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { getEventTargets } from '../actions';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const EventTargetSelector = () => {
   const { mainData, typeData } = useEventFormContext();
 
   const { isLoading, data: targets } = useQuery({
     queryKey: [`targets-${typeData.mainTypeId}`],
-    queryFn: () => getTargets(typeData.mainTypeId),
+    queryFn: async () => await getEventTargets(typeData.mainTypeId),
   });
 
   return isLoading ? (
@@ -45,7 +35,8 @@ export const EventTargetSelector = () => {
               required
               name='targetId'
               checked={typeData.targetId == type.id}
-              disabled={isLoading}></ChipButton>
+              disabled={isLoading}
+            />
           ))}
         </RadioGroup>
       }

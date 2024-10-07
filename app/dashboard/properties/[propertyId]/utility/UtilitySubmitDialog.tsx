@@ -7,7 +7,7 @@ import { Add } from '@mui/icons-material';
 import { DialogControl } from '@/components/Util/DialogControl';
 import axios from 'axios';
 import { FormControl, Input, SubLabel } from '@/components/UI/FormUtils';
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 
 export const UtilitySubmitDialog = ({ propertyId, allTypes }) => (
   <DialogControl

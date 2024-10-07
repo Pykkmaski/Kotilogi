@@ -9,8 +9,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { getRooms } from '../actions';
 import { useQuery } from '@tanstack/react-query';
-import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import Spinner from '@/components/UI/Spinner';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const WindowRenovationContent = () => {
   const { extraData: windowData } = useEventFormContext();

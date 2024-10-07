@@ -3,22 +3,15 @@ import { useEventFormContext } from '../EventFormContext';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Spinner from '@/components/UI/Spinner';
-import { ChipButton, RadioGroup } from '@/components/Feature/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { useEffect } from 'react';
-
-const fetchWorkTypes = async (targetId: number) =>
-  await axios.get(`/api/protected/properties/events/workTypes?targetId=${targetId}`).then(res => {
-    if (res.status !== 200) {
-      return [];
-    }
-
-    return res.data;
-  });
+import { getEventWorkTypes } from '../actions';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const EventWorkSelector = () => {
   const { mainData, typeData } = useEventFormContext();
   const { data: workTypes, isLoading } = useQuery({
-    queryFn: async () => await fetchWorkTypes(typeData.targetId),
+    queryFn: async () => await getEventWorkTypes(typeData.mainTypeId, typeData.targetId),
     queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
   });
 
