@@ -23,6 +23,11 @@ const getEventInsertObject = (data: TODO) => {
   };
 };
 
+/**
+ * Creates a data-transform-object of an event. Creates a title based on the types of an event, if an actual title is not defined.
+ * @param eventData
+ * @returns
+ */
 const getEventDTO = (eventData: TODO) => {
   const labels = [eventData.mainTypeLabel, eventData.targetLabel, eventData.workTypeLabel].filter(
     t => t != null
@@ -66,7 +71,20 @@ const getBaseEventQuery = () => {
     );
 };
 
-export const getEvents = async (query: TODO, search?: string, limit: number = 10) => {
+/**
+ * Fetches events from the database.
+ * @param query The knex query-object to use.
+ * @param search An optional search-string with which to filter the results based on the title, description, main type, target or work type labels.
+ * @param limit An optional limit to how many results are returned. Defaults to 10.
+ * @param page An optional page number to offset the results by. Defaults to 0 (The first page).
+ * @returns
+ */
+export const getEvents = async (
+  query: TODO,
+  search?: string,
+  limit: number = 10,
+  page: number = 0
+) => {
   const newQuery = {
     ...query,
   };
@@ -103,6 +121,7 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
     })
     .andWhere(newQuery)
     .limit(limit)
+    .offset(page * limit)
     .orderBy('data_propertyEvents.date', 'desc');
 
   return events
@@ -117,6 +136,11 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
     .map(e => getEventDTO(e));
 };
 
+/**Fetches the additional data associated with an event
+ * @param eventId The id of the event to fetch additional data for.
+ * @returns An array containing the extra data.
+ * @throws An error if the event has a main type, or target id, for which no functionality is implemented yet.
+ */
 export const getExtraEventData = async (eventId: string) => {
   const [typeData] = await db('data_propertyEvents')
     .where({ id: eventId })
@@ -133,10 +157,13 @@ export const getExtraEventData = async (eventId: string) => {
       );
     }
   } else {
-    return null;
+    throw new Error(
+      'Extra data read logic not implemented for main type id ' + typeData.mainTypeId
+    );
   }
 };
 
+/**Throws an error if the user already has the maximum number of allowed events for a property. */
 export const verifyPropertyEventCount = async (propertyId: string) => {
   const [{ numEvents }] = await db('data_propertyEvents')
     .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
@@ -200,13 +227,19 @@ export async function getEvent(id: string) {
   return await getBaseEventQuery().where({ 'data_objects.id': id });
 }
 
-/**Creates a new event for a property. */
+/**Creates a new event for a property.
+ * @param mainData The main event data, containing its title, description, etc.
+ * @param typeData The data containing the main type id, id of the target the event refers to, and optionally the id of the work type.
+ * @param extraData The additional data to include with the main data.
+ * @param selectedSurfaceIds The ids of the surfaces the event refers to. Used only for surface renovation events (Pintaremontti).
+ * @param callback An optional callback function to run before commiting the data.
+ */
 export async function createEvent(
   mainData: Partial<EventDataType> & Required<Pick<EventDataType, 'parentId'>>,
   typeData: {
     mainTypeId: number;
     targetId: number;
-    workTypeId: number;
+    workTypeId?: number;
   },
   extraData: any,
   selectedSurfaceIds: number[],
@@ -272,6 +305,11 @@ export async function createEvent(
   });
 }
 
+/**Updates the additional data associated with an event.
+ * @param id The id of the event.
+ * @param extraData The additional data to update with.
+ * @param trx The knex transaction currently being used.
+ */
 export async function updateExtraEventData(id: string, extraData: any, trx: Knex.Transaction) {
   console.log(extraData);
   const mainTypes = await trx('ref_mainEventTypes');
@@ -307,6 +345,11 @@ export async function updateExtraEventData(id: string, extraData: any, trx: Knex
   }
 }
 
+/**Updates the main event data.
+ * @param id The id of the event to update.
+ * @param data The main event data to update with.
+ * @param extraData An array containing the additional data associated with the event.
+ */
 export async function updateEvent(id: string, data: Partial<EventDataType>, extraData: any[]) {
   //Only allow the author of an event to update it.
   await verifySessionUserIsAuthor(id);
@@ -321,6 +364,9 @@ export async function updateEvent(id: string, data: Partial<EventDataType>, extr
   });
 }
 
+/**Deletes an event. Throws an error if the logged in user is not the author of the event, or if the event is locked.
+ * @param id The id of the event to delete.
+ */
 export async function deleteEvent(id: string) {
   //Only allow the author of the event to delete it.
   await verifySessionUserIsAuthor(id);
