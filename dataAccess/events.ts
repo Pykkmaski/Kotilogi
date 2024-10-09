@@ -98,7 +98,8 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
       this.whereILike('data_objects.title', q)
         .orWhereILike('data_objects.description', q)
         .orWhereILike('ref_mainEventTypes.label', q)
-        .orWhereILike('ref_eventTargets.label', q);
+        .orWhereILike('ref_eventTargets.label', q)
+        .orWhereILike('ref_eventWorkTypes.label', q);
     })
     .andWhere(newQuery)
     .limit(limit)
