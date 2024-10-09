@@ -4,6 +4,30 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 
+const ContractorInput = () => {
+  const contractors = ['Vesivek', 'Blaablaa'];
+  return (
+    contractors.length > 0 && (
+      <FormControl
+        label='Työn tekijä'
+        helper='Itse tehdyssä työssä tämän voi jättää tyhjäksi.'
+        control={
+          <select>
+            <option
+              disabled
+              selected>
+              Valitse työn tekijä...
+            </option>
+            {contractors.map(c => (
+              <option>{c}</option>
+            ))}
+          </select>
+        }
+      />
+    )
+  );
+};
+
 const FilesField = () => {
   return (
     <FormControl
@@ -83,6 +107,7 @@ const OtherField = () => {
 
   return (
     <Fieldset legend='Yleistiedot'>
+      <ContractorInput />
       {typeData.workTypeId == -1 && (
         <FormControl
           boldLabelText
@@ -100,6 +125,7 @@ const OtherField = () => {
       )}
 
       <DescriptionInput />
+
       <FormControl
         boldLabelText
         label='Päiväys'

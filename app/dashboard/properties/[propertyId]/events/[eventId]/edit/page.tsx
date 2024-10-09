@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { verifySessionUserIsAuthor } from 'kotilogi-app/dataAccess/utils/verifySessionUserIsAuthor';
 import { EventTypeProvider } from '../../add/_components/EventTypeProvider';
 import { getEventRefs } from '../../add/_utils/getEventRefs';
-import { getExtraEventData } from 'kotilogi-app/dataAccess/events';
+import { getEvents, getExtraEventData } from 'kotilogi-app/dataAccess/events';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
 export default async function EditEventPage({ params }) {
@@ -15,10 +15,9 @@ export default async function EditEventPage({ params }) {
     redirect('/login');
   }
 
-  const [event] = await db('data_propertyEvents')
-    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-    .where({ 'data_propertyEvents.id': params.eventId });
-  //For some reason, the day drops by one every time it is read. Increment it by one.
+  const [event] = await getEvents({ id: params.eventId });
+  console.log(event.date);
+  //For some reason, the day drops by one when it is read. Increment it by one.
   event.date.setDate(event.date.getDate() + 1);
 
   const [extraData] = await getExtraEventData(event.id);
@@ -30,7 +29,7 @@ export default async function EditEventPage({ params }) {
   } catch (err) {
     allowed = false;
   }
-  //console.log(timestampToISOString(event.date.getTime()));
+
   const refs = await getEventRefs();
   return (
     <main className='flex justify-center'>

@@ -13,6 +13,7 @@ export default async function EventPage({ params }) {
 
   //Fetch data back-to-back to conserve db connection pool.
   const [event] = await getEvents({ id: eventId });
+  console.log(event.date);
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
     .where({ parentId: eventId })

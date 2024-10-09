@@ -29,6 +29,7 @@ const getEventDTO = (eventData: TODO) => {
   );
 
   const title = labels.length ? labels.join(' - ') : eventData.title || 'Ei Otsikkoa.';
+
   return {
     id: eventData.id,
     parentId: eventData.parentId,
@@ -38,6 +39,9 @@ const getEventDTO = (eventData: TODO) => {
     mainTypeLabel: eventData.mainTypeLabel,
     targetLabel: eventData.targetLabel,
     workTypeLabel: eventData.workTypeLabel,
+    mainTypeId: eventData.mainTypeId,
+    targetId: eventData.targetId,
+    workTypeId: eventData.workTypeId,
   };
 };
 
@@ -91,7 +95,10 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
     .where(function () {
       if (!search) return;
       const q = `%${search}%`;
-      this.whereILike('data_objects.title', q).orWhereILike('data_objects.description', q);
+      this.whereILike('data_objects.title', q)
+        .orWhereILike('data_objects.description', q)
+        .orWhereILike('ref_mainEventTypes.label', q)
+        .orWhereILike('ref_eventTargets.label', q);
     })
     .andWhere(newQuery)
     .limit(limit)
