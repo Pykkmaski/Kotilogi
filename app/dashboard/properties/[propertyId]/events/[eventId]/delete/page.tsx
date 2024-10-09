@@ -13,8 +13,8 @@ export default async function DeleteEventPage({ params }) {
     .where({ 'data_propertyEvents.id': eventId });
 
   return (
-    <Main>
+    <main className='flex items-center'>
       <DeleteEventForm event={event} />
-    </Main>
+    </main>
   );
 }

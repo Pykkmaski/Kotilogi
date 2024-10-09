@@ -7,7 +7,7 @@ export function ChipButton({
   type = 'radio',
   ...props
 }: React.ComponentProps<'input'> & { label: string; type?: 'radio' | 'checkbox' }) {
-  const [checked, setChecked] = useState(props.checked);
+  const [checked, setChecked] = useState(props.checked || false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export function ChipButton({
         sx={
           checked && {
             color: 'white',
-            fontWeight: 600,
           }
         }
         color='primary'

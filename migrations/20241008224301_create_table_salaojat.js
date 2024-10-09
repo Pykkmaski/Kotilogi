@@ -3,12 +3,19 @@
  * @returns { Promise<void> }
  */
 
-const table = 'ref_eventTargetCategories';
+const table = 'data_drainageDitchEvents';
 
 exports.up = function (knex) {
   return knex.schema.createTable(table, tbl => {
-    tbl.increments('id');
-    tbl.string(32, 'label');
+    tbl
+      .uuid('id')
+      .notNullable()
+      .references('id')
+      .inTable('data_propertyEvents')
+      .onUpdate('CASCADE');
+    tbl.float('salaojaSepeli');
+    tbl.float('routaEristys');
+    tbl.float('murskeReunus');
   });
 };
 

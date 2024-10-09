@@ -3,15 +3,28 @@ import { useEventFormContext } from '../EventFormContext';
 import { SharedEventDataInputs } from '../SharedEventDataInputs';
 import { Button } from '@/components/New/Button';
 import { isDefined } from '../util';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
+import { useEventTypeContext } from '../EventTypeProvider';
 
 export function MainDataForm({ editing }) {
-  const { updateMainData, mainData, cancel, onSubmit, typeData, status } = useEventFormContext();
+  const { updateMainData, mainData, cancel, onSubmit, typeData, status, selectedSurfaceIds } =
+    useEventFormContext();
+  const { refs } = useEventTypeContext();
 
-  const submitDisabled =
-    !isDefined(typeData.mainTypeId) ||
-    !isDefined(typeData.targetId) ||
-    !isDefined(typeData.workTypeId) ||
-    status !== 'idle';
+  const isSubmitDisabled = () => {
+    var state;
+    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+      state = !isDefined(typeData.targetId);
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainTypeId, 'Huoltotyö')) {
+      state = !isDefined(typeData.targetId) || !isDefined(typeData.workTypeId);
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainTypeId, 'Pintaremontti')) {
+      state = !isDefined(typeData.targetId) || selectedSurfaceIds.length == 0;
+    } else {
+      state = true;
+    }
+
+    return state && status != 'idle';
+  };
 
   return (
     <form
@@ -19,7 +32,7 @@ export function MainDataForm({ editing }) {
       onSubmit={onSubmit}
       onChange={updateMainData}
       className='flex flex-col gap-4'>
-      <SharedEventDataInputs />
+      <SharedEventDataInputs isEditing={editing} />
 
       <Spacer
         direction='row'
@@ -35,7 +48,7 @@ export function MainDataForm({ editing }) {
         <Button
           variant='contained'
           type='submit'
-          disabled={submitDisabled}>
+          disabled={isSubmitDisabled()}>
           {(editing && 'Päivitä') || 'Vahvista'}
         </Button>
       </Spacer>

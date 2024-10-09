@@ -4,10 +4,12 @@ import { useEventTypeContext } from '../EventTypeProvider';
 import { HeatingRenovationContent } from '../FormContent/HeatingRenovationContent';
 import { WindowRenovationContent } from '../FormContent/WindowRenovationContent';
 import { RoofEventContent } from '../FormContent/RoofEventContent';
+import { DrainageDitchEventContent } from '../FormContent/DrainageDitchEventContent';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
 export function ExtraDataForm({ editing }) {
   const { updateExtraData, extraData, typeData } = useEventFormContext();
-  const { getIdByLabel, refs } = useEventTypeContext();
+  const { refs } = useEventTypeContext();
 
   const getContent = () => {
     const { targetId } = typeData;
@@ -19,6 +21,8 @@ export function ExtraDataForm({ editing }) {
       content = <HeatingRenovationContent />;
     } else if (targetId == getIdByLabel(refs.eventTargets, 'Katto')) {
       content = <RoofEventContent />;
+    } else if (targetId == getIdByLabel(refs.eventTargets, 'Salaojat')) {
+      content = <DrainageDitchEventContent />;
     } else {
       console.error(
         'Additional content not implemented for target type with id ' + typeData.targetId

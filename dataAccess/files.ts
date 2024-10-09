@@ -2,48 +2,57 @@ import { readFile, unlink, writeFile } from 'fs/promises';
 import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
 
 import sharp from 'sharp';
-import { createObject } from './objects';
+import { batchCreateObjects } from './objects';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';
+import { FileDataType } from './types';
+import { Knex } from 'knex';
+
+const createFileBuffer = async (file: File) => {
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  const metadata = await sharp(buffer).metadata();
+
+  //Resize image-files
+  const outputBuffer: Buffer =
+    file.type == 'image/jpeg'
+      ? metadata.width > 1000
+        ? await sharp(buffer).rotate(0).resize(1000).jpeg({ quality: 80 }).toBuffer()
+        : //Leave images narrower than 1000px as they are. Just lower the quality.
+          await sharp(buffer).jpeg({ quality: 80 }).toBuffer()
+      : buffer;
+
+  return outputBuffer;
+};
 
 export async function uploadFiles(files: File[], parentId: string) {
-  const uploadedFiles = [];
-  try {
-    for (const file of files) {
+  const uploadedFileNames: string[] = [];
+
+  await batchCreateObjects(
+    files.length,
+    parentId,
+    async (objId, currentIndex, trx) => {
+      const file = files[currentIndex];
+      const outputBuffer = await createFileBuffer(file);
       const filename = Date.now() + fileNameTimestampSeparator + file.name;
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      const metadata = await sharp(buffer).metadata();
 
-      //Resize image-files
-      const outputBuffer =
-        file.type == 'image/jpeg'
-          ? metadata.width > 1000
-            ? await sharp(buffer).rotate(0).resize(1000).jpeg({ quality: 80 }).toBuffer()
-            : //Leave images narrower than 1000px as they are. Just lower the quality.
-              await sharp(buffer).jpeg({ quality: 80 }).toBuffer()
-          : buffer;
-
-      await writeFile(uploadPath + filename, outputBuffer);
-
-      await createObject({ parentId }, async (obj, trx) => {
-        await trx('data_files').insert({
-          id: obj.id,
-          name: filename,
-          type: file.type,
-          size: outputBuffer.length,
-        });
+      await trx('data_files').insert({
+        name: filename,
+        type: file.type,
+        size: outputBuffer.length,
+        id: objId,
       });
 
-      uploadedFiles.push(filename);
+      await writeFile(uploadPath + filename, outputBuffer as any);
+      uploadedFileNames.push(filename);
+    },
+    async err => {
+      console.error(err.message);
+      for (const fn of uploadedFileNames) {
+        await unlink(uploadPath + fn);
+      }
     }
-  } catch (err) {
-    console.log(err.message);
-    for (const fn of uploadedFiles) {
-      await unlink(uploadPath + fn);
-    }
-    throw err;
-  }
+  );
 }
 
 export async function deleteFile(id: string) {

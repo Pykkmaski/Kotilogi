@@ -16,6 +16,9 @@ type EventFormProviderProps = {
     mainTypeId: number;
     targetId: number;
     workTypeId: number;
+
+    /**In surface renovations, the id of the surface the event pertains to. */
+    surfaceId?: number;
   };
   updateTypeData: (e) => void;
 
@@ -24,36 +27,21 @@ type EventFormProviderProps = {
   updateExtraData: (e) => void;
 
   propertyId: string;
+
+  toggleSurfaceId: (id: number) => void;
+  selectedSurfaceIds: number[];
 };
 
 const EventContext = React.createContext<EventFormProviderProps | null>(null);
 
 export function EventFormProvider({
   children,
-  cancel,
-  status,
-  onSubmit,
-  mainData,
-  updateMainData,
-  typeData,
-  updateTypeData,
-  propertyId,
-  extraData,
-  updateExtraData,
+  ...props
 }: EventFormProviderProps & React.PropsWithChildren) {
   return (
     <EventContext.Provider
       value={{
-        status,
-        cancel,
-        onSubmit,
-        mainData,
-        updateMainData,
-        typeData,
-        updateTypeData,
-        propertyId,
-        extraData,
-        updateExtraData,
+        ...props,
       }}>
       {children}
     </EventContext.Provider>

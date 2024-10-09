@@ -1,6 +1,6 @@
 import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from './types';
-import { createObject, deleteObject, updateObject } from './objects';
+import { batchUpdateObjects, createObject, deleteObject, updateObject } from './objects';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { Knex } from 'knex';
@@ -8,6 +8,7 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
 /**
  * Prepares event data for insertion into the db.
@@ -23,12 +24,15 @@ const getEventInsertObject = (data: TODO) => {
 };
 
 const getEventDTO = (eventData: TODO) => {
+  const labels = [eventData.mainTypeLabel, eventData.targetLabel, eventData.workTypeLabel].filter(
+    t => t != null
+  );
+
+  const title = labels.length ? labels.join(' - ') : eventData.title || 'Ei Otsikkoa.';
   return {
     id: eventData.id,
     parentId: eventData.parentId,
-    title:
-      eventData.title ||
-      `${eventData.mainTypeLabel} - ${eventData.targetLabel} - ${eventData.workTypeLabel}`,
+    title,
     description: eventData.description,
     date: eventData.date,
     mainTypeLabel: eventData.mainTypeLabel,
@@ -93,11 +97,8 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
     .limit(limit)
     .orderBy('data_propertyEvents.date', 'desc');
 
-  console.log(search);
   return events
     .filter(e => {
-      console.log(e);
-
       return (
         e.workTypeLabel?.includes(search) ||
         e.mainTypeLabel?.includes(search) ||
@@ -106,6 +107,26 @@ export const getEvents = async (query: TODO, search?: string, limit: number = 10
       );
     })
     .map(e => getEventDTO(e));
+};
+
+export const getExtraEventData = async (eventId: string) => {
+  const [typeData] = await db('data_propertyEvents')
+    .where({ id: eventId })
+    .select('mainTypeId', 'targetId', 'workTypeId');
+  const mainTypes = await db('ref_mainEventTypes');
+
+  if (typeData.mainTypeId == getIdByLabel(mainTypes, 'Peruskorjaus')) {
+    const targets = await db('ref_eventTargets');
+    if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
+      return await db('data_roofEvents').where({ id: eventId });
+    } else {
+      throw new Error(
+        'Extra data read logic for event with target ' + typeData.targetId + ' not implemented!'
+      );
+    }
+  } else {
+    return null;
+  }
 };
 
 export const verifyPropertyEventCount = async (propertyId: string) => {
@@ -123,7 +144,7 @@ export const verifyPropertyEventCount = async (propertyId: string) => {
 export const verifyEventIsNotLocked = async (eventId: string) => {
   const [timestamp] = await db('data_propertyEvents')
     .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-    .where({ id: eventId })
+    .where({ 'data_propertyEvents.id': eventId })
     .select('data_objects.timestamp');
 
   const now = Date.now();
@@ -173,26 +194,112 @@ export async function getEvent(id: string) {
 
 /**Creates a new event for a property. */
 export async function createEvent(
-  data: Partial<EventDataType> & Required<Pick<EventDataType, 'parentId'>>,
+  mainData: Partial<EventDataType> & Required<Pick<EventDataType, 'parentId'>>,
+  typeData: {
+    mainTypeId: number;
+    targetId: number;
+    workTypeId: number;
+  },
+  extraData: any,
+  selectedSurfaceIds: number[],
   callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {
-  await verifyPropertyEventCount(data.parentId);
+  await verifyPropertyEventCount(mainData.parentId);
 
-  await createObject(data, async (obj, trx) => {
+  await createObject(mainData, async (obj, trx) => {
     const eventId = obj.id;
-
     const eventData = getEventInsertObject({
-      ...filterValidColumns(data, await getTableColumns('data_propertyEvents', trx)),
+      ...filterValidColumns(
+        { ...mainData, ...typeData },
+        await getTableColumns('data_propertyEvents', trx)
+      ),
       id: eventId,
     });
 
+    //Save the main event data.
     await trx('data_propertyEvents').insert(eventData);
-    console.log(eventId);
+
+    //Create the additional data entries.
+
+    const [mainRenovationId] = await trx('ref_mainEventTypes')
+      .where({ label: 'Peruskorjaus' })
+      .pluck('id');
+
+    const [maintenanceRenovationId] = await trx('ref_mainEventTypes')
+      .where({ label: 'Huoltotyö' })
+      .pluck('id');
+
+    const [surfaceRenovationId] = await trx('ref_mainEventTypes')
+      .where({ label: 'Pintaremontti' })
+      .pluck('id');
+
+    if (typeData.mainTypeId == mainRenovationId) {
+      //Save the extra data based on the target.
+      const mainRenovationTargets = await trx('map_workTargetsToMainEventType')
+        .join('ref_eventTargets', {
+          'ref_eventTargets.id': 'map_workTargetsToMainEventType.targetId',
+        })
+        .select('ref_eventTargets.*');
+
+      if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lämmitysmuoto')) {
+        //Save heating method data.
+        throw new Error('Saving logic for heating renovation event not implemented!');
+      } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Katto')) {
+        //Save roof data.
+
+        await trx('data_roofEvents').insert({ ...extraData, id: eventId });
+      } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
+        //Save drainage ditch data.
+        throw new Error('Saving logic for drainage ditch renovation event not implemented!');
+      } else {
+        throw new Error('Unsupported targetId ' + typeData.targetId);
+      }
+    } else if (typeData.mainTypeId == maintenanceRenovationId) {
+      throw new Error('Logic for maintenance event types not implemented!');
+    } else if (typeData.mainTypeId == surfaceRenovationId) {
+      //Save the surfaces.
+      throw new Error('Logic for surface events types not implemented!');
+    }
     callback && (await callback(eventId, trx));
   });
 }
 
-export async function updateEvent(id: string, data: Partial<EventDataType>) {
+export async function updateExtraEventData(id: string, extraData: any, trx: Knex.Transaction) {
+  console.log(extraData);
+  const mainTypes = await trx('ref_mainEventTypes');
+  const [typeData] = await trx('data_propertyEvents')
+    .where({ id })
+    .select('mainTypeId', 'targetId', 'workTypeId');
+
+  const runUpdate = async (table: string) => {
+    await trx(table)
+      .where({ id })
+      .update({
+        ...extraData,
+      });
+  };
+
+  if (typeData.mainTypeId == getIdByLabel(mainTypes, 'Peruskorjaus')) {
+    const targets = await trx('ref_eventTargets');
+    if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
+      await runUpdate('data_roofEvents');
+    } else {
+      throw new Error(
+        'Update logic for extra event data with type ' +
+          typeData.mainTypeId +
+          ' and target ' +
+          typeData.targetId +
+          ' not implemented!'
+      );
+    }
+  } else {
+    throw new Error(
+      'Update logic for event with main type ' + typeData.mainTypeId + ' not implemented!'
+    );
+  }
+}
+
+export async function updateEvent(id: string, data: Partial<EventDataType>, extraData: any[]) {
   //Only allow the author of an event to update it.
   await verifySessionUserIsAuthor(id);
 
@@ -201,6 +308,8 @@ export async function updateEvent(id: string, data: Partial<EventDataType>) {
       filterValidColumns(data, await getTableColumns('data_propertyEvents', trx))
     );
     await trx('data_propertyEvents').where({ id: data.id }).update(insertObj);
+    const extraDataPromises = extraData.map(d => updateExtraEventData(id, d, trx));
+    await Promise.all(extraDataPromises);
   });
 }
 

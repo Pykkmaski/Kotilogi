@@ -6,11 +6,11 @@ export default async function AddUtilityPage({ params }) {
   const propertyId = params.propertyId;
   const utilityTypes = await db('ref_utilityTypes');
   return (
-    <Main>
+    <main className='flex justify-center'>
       <UtilityBatchForm
         propertyId={propertyId}
         utilityTypes={utilityTypes}
       />
-    </Main>
+    </main>
   );
 }

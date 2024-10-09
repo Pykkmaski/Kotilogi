@@ -1,56 +1,38 @@
-import { useCallback, useRef, useState } from 'react';
-import { useInputData } from './useInputData';
+import { useCallback, useState } from 'react';
 
-/**A hook for building components for adding multiple objects of the same type in a single batch.*/
-export function useBatch<T>(initBatch?: () => any) {
-  const nextId = useRef(0);
-  const {
-    data: currentCommit,
-    updateData,
-    resetData,
-  } = useInputData<T & { batchId: number }>({
-    batchId: nextId.current,
-  } as any);
-
-  const [entries, setEntries] = useState<(T & { batchId: number })[]>(
-    (initBatch && initBatch()) || []
+export function useBatch<T>() {
+  const [entries, setEntries] = useState([]);
+  const addEntry = useCallback(
+    (item: T) => {
+      setEntries([...entries, item]);
+    },
+    [entries, setEntries]
   );
 
-  /**Commits the current unsaved data into the entries. */
-  const commit = useCallback(() => {
-    setEntries(prev => [...prev, currentCommit]);
-    resetData({
-      batchId: nextId.current++,
-    } as any);
-  }, [nextId.current, setEntries]);
+  const removeEntry = useCallback(
+    (predicate: (item: T) => boolean) => {
+      //Flip the result, as we need to exclude elements that match the predicate.
+      setEntries(entries.filter(item => !predicate(item)));
+    },
+    [entries, setEntries]
+  );
 
   const updateEntry = useCallback(
-    (batchId: number, key: string, value: any) => {
-      setEntries(prev => {
-        const newData = [...prev];
-        const e = newData.find(d => d.batchId == batchId);
-        if (e) {
-          e[key] = value;
-        }
-        return newData;
-      });
+    (predicate: (item: T) => boolean, action: (item: T) => void) => {
+      const newEntries = [...entries];
+      const itemToUpdate = newEntries.find(predicate);
+      if (itemToUpdate) {
+        action(itemToUpdate);
+        setEntries(newEntries);
+      }
     },
-    [setEntries]
-  );
-
-  const deleteEntry = useCallback(
-    (entry: T) => setEntries(() => entries.filter(item => item != entry)),
-    []
+    [entries, setEntries]
   );
 
   return {
     entries,
-    /**The current unsaved data, that has yet to be committed into a batch. */
-    currentCommit,
-    nextId: nextId.current,
-    commit,
-    updateCurrentCommit: updateData,
+    addEntry,
+    removeEntry,
     updateEntry,
-    deleteEntry,
   };
 }

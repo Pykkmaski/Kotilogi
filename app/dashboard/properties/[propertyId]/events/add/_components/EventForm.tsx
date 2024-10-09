@@ -10,13 +10,16 @@ import { isDefined } from './util';
 import { TypeDataForm } from './Forms/TypeDataForm';
 import { MainDataForm } from './Forms/MainDataForm';
 import { ExtraDataForm } from './Forms/ExtraDataForm';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
 
 type EventFormProps = {
   propertyId: string;
   eventData?: EventDataType & Required<Pick<EventDataType, 'id'>>;
+  initialExtraData?: any;
 };
 
-export function EventForm({ propertyId, eventData }: EventFormProps) {
+export function EventForm({ propertyId, eventData, initialExtraData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
   const {
     mainData,
@@ -26,18 +29,31 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
     updateTypeData,
     updateExtraData,
     cancel,
-    getIdByLabel,
+    files,
+    selectedSurfaceIds,
+    toggleSurfaceId,
     refs,
-  } = useEventForm(eventData);
+  } = useEventForm(eventData, initialExtraData);
 
   const onSubmit = async e => {
     e.preventDefault();
     setStatus('loading');
     try {
       if (eventData) {
-        await updateEventAction(eventData.id, mainData, typeData);
+        await updateEventAction(eventData.id, mainData, typeData, extraData);
       } else {
-        await createEventAction(propertyId, mainData, typeData);
+        await createEventAction(
+          propertyId,
+          mainData,
+          typeData,
+          extraData,
+          selectedSurfaceIds,
+          files.map(f => {
+            const fd = new FormData();
+            fd.append('file', f);
+            return fd;
+          })
+        );
       }
       setStatus('done');
       localStorage.removeItem('kotidok-event-extra-data');
@@ -49,12 +65,16 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
   };
 
   const showMainDataForm = () => {
-    return (
-      isDefined(typeData.mainTypeId) &&
-      isDefined(typeData.targetId) &&
-      (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus') ||
-        isDefined(typeData.workTypeId))
-    );
+    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
+      //Display the form when at least one surface is selected.
+      return selectedSurfaceIds.length != 0;
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+      return isDefined(typeData.targetId);
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
+      return isDefined(typeData.targetId) && isDefined(typeData.workTypeId);
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -68,9 +88,12 @@ export function EventForm({ propertyId, eventData }: EventFormProps) {
       updateTypeData={updateTypeData}
       extraData={extraData}
       updateExtraData={updateExtraData}
+      selectedSurfaceIds={selectedSurfaceIds}
+      toggleSurfaceId={toggleSurfaceId}
       propertyId={propertyId}>
       <div className='md:w-[50%] xs:w-full flex flex-col gap-4'>
-        <TypeDataForm editing={eventData} />
+        <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
+        {!eventData && <TypeDataForm />}
         <ExtraDataForm editing={eventData} />
         {showMainDataForm() && <MainDataForm editing={eventData} />}
       </div>

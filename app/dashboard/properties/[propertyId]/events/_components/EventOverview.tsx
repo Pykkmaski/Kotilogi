@@ -18,7 +18,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
 
   return (
     <OverviewBox
-      deleteUrl={`events/${event.id}/delete`}
+      deleteUrl={`/dashboard/properties/${event.parentId}/events/${event.id}/delete`}
       title={event.title}
       description={
         <Spacer
@@ -33,8 +33,9 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
               label={event.mainTypeLabel || 'Muu'}
               color='primary'
             />
-            <Chip label={event.targetLabel || 'Muu'} />
-            <Chip label={event.workTypeLabel || 'Muu'} />
+
+            {event.targetLabel && <Chip label={event.targetLabel} />}
+            {event.workTypeLabel && <Chip label={event.workTypeLabel} />}
           </Spacer>
 
           <LabelGrid header={<h1 className='text-sm font-semibold'>Tiedot</h1>}>

@@ -1,8 +1,19 @@
 import { useInputData } from '@/hooks/useInputData';
+import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { useCallback } from 'react';
 
-function initTypeData(eventData: TODO) {
-  if (eventData) {
+const dataStorageKey = 'kotidok-event-type-data';
+
+function initTypeData(eventData: TODO): {
+  mainTypeId: number | null;
+  targetId: number | null;
+  workTypeId: number | null;
+  surfaceId?: number;
+} {
+  const savedData = sessionStorage.getItem(dataStorageKey);
+  if (savedData) {
+    return JSON.parse(savedData);
+  } else if (eventData) {
     const { mainTypeId, targetId, workTypeId } = eventData;
     return {
       mainTypeId,
@@ -27,8 +38,11 @@ export const useTypeData = (eventData: TODO, resetMainData: (d: any) => void) =>
     hasChanges: typeDataHasChanges,
   } = useInputData(initTypeData(eventData));
 
+  useSaveToSessionStorage(dataStorageKey, typeData);
+
   const updateTypeData = useCallback(
     e => {
+      console.log(e.target.name);
       switch (e.target.name) {
         case 'mainTypeId':
           {

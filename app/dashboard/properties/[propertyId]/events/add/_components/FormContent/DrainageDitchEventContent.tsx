@@ -1,37 +1,55 @@
 import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { Label } from '@/components/UI/FormUtils';
+import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { RadioButton } from '@/components/Feature/RadioGroup/RadioButton';
+import { useEventFormContext } from '../EventFormContext';
 
 export const DrainageDitchEventContent = () => {
+  const { extraData } = useEventFormContext();
   const { refs } = useEventTypeContext();
   return (
     <>
-      <div className='flex flex-col gap-2'>
-        <Label boldText>Materiaali</Label>
-        <RadioGroup name='roofMaterialId'>
-          {refs.roofMaterials.map(type => (
-            <RadioButton
-              required
-              label={type.name}
-              value={type.id}
-            />
-          ))}
-        </RadioGroup>
-      </div>
+      <FormControl
+        label={<>Salaojasepeli (mm)</>}
+        control={
+          <Input
+            name='salaojaSepeli'
+            type='number'
+            step='0.01'
+            min='0'
+            value={extraData && extraData.salaojaSepeli}
+            placeholder='Anna salaojasepelin syvyys...'
+          />
+        }
+      />
 
-      <div className='flex flex-col gap-2'>
-        <Label boldText>Tyyppi</Label>
-        <RadioGroup name='roofTypeId'>
-          {refs.roofTypes.map(type => (
-            <RadioButton
-              required
-              label={type.name}
-              value={type.id}
-            />
-          ))}
-        </RadioGroup>
-      </div>
+      <FormControl
+        label={<>Routaeristys (mm)</>}
+        control={
+          <Input
+            name='routaEristys'
+            type='number'
+            step='0.01'
+            min='0'
+            value={extraData && extraData.routaEristys}
+            placeholder='Anna routaeristyksen syvyys...'
+          />
+        }
+      />
+
+      <FormControl
+        label={<>Murskereunus (cm)</>}
+        control={
+          <Input
+            name='murskeReunus'
+            type='number'
+            step='0.01'
+            min='0'
+            value={extraData && extraData.murskeReunus}
+            placeholder='Anna murskereunuksen paksuus...'
+          />
+        }
+      />
     </>
   );
 };

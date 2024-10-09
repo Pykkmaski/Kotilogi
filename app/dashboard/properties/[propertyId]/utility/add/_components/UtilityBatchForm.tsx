@@ -1,16 +1,22 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { BatchUploadForm } from '@/components/New/Forms/BatchUploadForm';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';
-import { Close } from '@mui/icons-material';
+import { Add, Check, Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import { createContext } from 'react';
+import { createContext, useId, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { onSubmit } from './actions';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
+import { useBatch } from '@/hooks/useBatch';
+import { useInputData } from '@/hooks/useInputData';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import { Button } from '@/components/New/Button';
+import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
 const UtilityBatchFormContext = createContext<{
   utilityTypes: { id: number; name: string }[];
@@ -22,74 +28,114 @@ type UtilityBatchFormProps = {
 };
 
 export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormProps) {
+  const { entries, addEntry, removeEntry, updateEntry } = useBatch<Partial<UtilityDataType>>();
+  const { data, updateData } = useInputData<Partial<UtilityDataType>>({
+    parentId: propertyId,
+  } as UtilityDataType);
+  const formRef = useRef<HTMLFormElement>(null);
+  const formId = useId();
+  const commit = () => {
+    addEntry(data);
+    formRef.current?.reset();
+  };
+
   return (
-    <UtilityBatchFormContext.Provider value={{ utilityTypes }}>
-      <BatchUploadForm<UtilityDataType>
-        isAddingDisabled={data => {
-          return (
-            data.monetaryAmount === undefined ||
-            data.unitAmount === undefined ||
-            data.time === undefined ||
-            data.typeId === undefined
-          );
-        }}
-        onSubmit={async entries => {
-          await onSubmit(propertyId, entries);
-          toast.success('Kulutustiedot tallennettu!');
-        }}
-        title='Lisää Kulutustietoja'
-        entryComponent={EntryComponent}>
-        <div className='flex flex-col gap-2'>
-          <RadioGroup groupName='typeId'>
-            {utilityTypes.map(type => (
-              <RadioButton
-                label={type.name}
-                value={type.id}
+    <div className='flex flex-col gap-4 lg:w-[50%] xs:w-full'>
+      <UtilityBatchFormContext.Provider value={{ utilityTypes }}>
+        <form
+          id={`utility-form-${formId}`}
+          ref={formRef}
+          className='flex flex-col gap-2'
+          onChange={updateData}>
+          <SecondaryHeading>Lisää kulutustietoja</SecondaryHeading>
+
+          <FormControl
+            label='Tyyppi'
+            required
+            control={
+              <RadioGroup name='typeId'>
+                {utilityTypes.map(type => (
+                  <ChipButton
+                    label={type.name}
+                    value={type.id}
+                    checked={data.typeId == type.id}
+                  />
+                ))}
+              </RadioGroup>
+            }
+          />
+
+          <FormControl
+            label='Hinta'
+            required
+            control={
+              <Input
+                name='monetaryAmount'
+                type='number'
+                step={0.01}
+                placeholder='Kirjoita laskun hinta...'
+                value={data.monetaryAmount}
               />
-            ))}
-          </RadioGroup>
+            }
+          />
+
+          <FormControl
+            label='Yksikkömäärä'
+            required
+            helper={<SubLabel>Esim. sähkölaskussa määrä kilovattitunneissa.</SubLabel>}
+            control={
+              <Input
+                name='unitAmount'
+                type='number'
+                step={0.01}
+                placeholder='Kirjoita kulutuksen määrä yksiköissä...'
+                value={data.unitAmount}
+              />
+            }
+          />
+
+          <FormControl
+            label='Päivämäärä'
+            required
+            helper={<SubLabel>Laskun päivämäärä.</SubLabel>}
+            control={
+              <Input
+                type='date'
+                name='time'
+                placeholder='Anna päivämäärä...'
+                value={data.time && timestampToISOString(data.time)}
+              />
+            }
+          />
+        </form>
+        <div className='flex justify-end gap-4'>
+          <Button
+            variant='text'
+            startIcon={<Add />}
+            onClick={commit}>
+            Lisää toinen tieto
+          </Button>
+
+          <Button
+            form={formId}
+            type='submit'
+            startIcon={<Check />}
+            variant='contained'>
+            Vahvista kaikki
+          </Button>
         </div>
-        <FormControl
-          label='Hinta'
-          required
-          control={
-            <Input
-              name='monetaryAmount'
-              type='number'
-              step={0.01}
-              placeholder='Kirjoita laskun hinta...'
-            />
-          }
-        />
 
-        <FormControl
-          label='Yksikkömäärä'
-          required
-          helper={<SubLabel>Esim. sähkölaskussa määrä kilovattitunneissa.</SubLabel>}
-          control={
-            <Input
-              name='unitAmount'
-              type='number'
-              step={0.01}
-              placeholder='Kirjoita kulutuksen määrä yksiköissä...'
+        <div className='flex flex-col gap-4 border-t border-slate-300 pt-4'>
+          <SecondaryHeading>Vahvistamattomat tiedot</SecondaryHeading>
+          {entries.map(e => (
+            <EntryComponent
+              entry={e}
+              deleteEntry={item => removeEntry(i => JSON.stringify(i) == JSON.stringify(item))}
             />
-          }
-        />
-
-        <FormControl
-          label='Päivämäärä'
-          required
-          helper={<SubLabel>Laskun päivämäärä.</SubLabel>}
-          control={
-            <Input
-              type='date'
-              name='time'
-              placeholder='Anna päivämäärä...'
-            />
-          }
-        />
-      </BatchUploadForm>
-    </UtilityBatchFormContext.Provider>
+          ))}
+        </div>
+      </UtilityBatchFormContext.Provider>
+    </div>
   );
 }
 

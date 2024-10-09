@@ -4,6 +4,22 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 
+const FilesField = () => {
+  return (
+    <FormControl
+      helper='Voit lisätä tapahtumaan liittyviä kuvia, tai PDF-tiedostoja.'
+      label='Liitteet'
+      control={
+        <Input
+          type='file'
+          name='file'
+          accept='image/jpeg,application/pdf'
+          multiple
+        />
+      }
+    />
+  );
+};
 const ExpensesField = () => {
   const { mainData } = useEventFormContext();
 
@@ -100,11 +116,13 @@ const OtherField = () => {
   );
 };
 
-export const SharedEventDataInputs = () => {
+export const SharedEventDataInputs = ({ isEditing }) => {
+  console.log(isEditing);
   return (
     <>
       <OtherField />
       <ExpensesField />
+      {!isEditing && <FilesField />}
     </>
   );
 };

@@ -22,7 +22,7 @@ type BatchUploadFormProps<T> = React.PropsWithChildren & {
     deleteEntry,
   }: {
     entry: T;
-    deleteEntry: (entry: T) => void;
+    deleteEntry: (item: T) => void;
   }) => ReactNode;
 
   onSubmit: (entries: T[]) => Promise<void>;
@@ -36,13 +36,14 @@ export function BatchUploadForm<T>({
   title,
   isAddingDisabled,
 }: BatchUploadFormProps<T>) {
-  const { entries, addEntry, deleteEntry } = useBatch<T>();
+  const { entries, addEntry, removeEntry } = useBatch<T>();
   const [status, setStatus] = useState(FormStatus.IDLE);
   const { data, updateData, resetData, files } = useInputData({} as T);
   const router = useRouter();
   const loading = status == FormStatus.LOADING;
   const addFormRef = useRef<HTMLFormElement | null>(null);
   const formId = useId();
+
   const add = () => {
     addEntry(data);
     resetData({} as T);
@@ -64,7 +65,7 @@ export function BatchUploadForm<T>({
 
   const addDisabled = isAddingDisabled(data);
   return (
-    <form className='w-full flex flex-col gap-4'>
+    <div className='w-full flex flex-col gap-4'>
       <div className='flex w-full items-center justify-between'>
         <h1 className='text-lg'>{title}</h1>
         <div className='flex gap-4'>
@@ -82,7 +83,10 @@ export function BatchUploadForm<T>({
         <form
           id={formId}
           className='flex flex-col gap-2'
-          onChange={updateData}
+          onChange={(e: any) => {
+            console.log(e.target.checked, e.target.value, e.target.name);
+            updateData(e);
+          }}
           ref={addFormRef}>
           {children}
 
@@ -103,9 +107,9 @@ export function BatchUploadForm<T>({
         <EntryComponent
           key={`entry-comp-${i}`}
           entry={entry}
-          deleteEntry={deleteEntry}
+          deleteEntry={item => removeEntry(i => i == item)}
         />
       ))}
-    </form>
+    </div>
   );
 }

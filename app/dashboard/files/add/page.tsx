@@ -4,8 +4,8 @@ import { Main } from '@/components/New/Main';
 export default async function AddFilesPage({ searchParams }) {
   const parentId = searchParams?.parentId;
   return (
-    <Main>
+    <main className='flex justify-center'>
       <FileUploadForm fileParentId={parentId} />
-    </Main>
+    </main>
   );
 }

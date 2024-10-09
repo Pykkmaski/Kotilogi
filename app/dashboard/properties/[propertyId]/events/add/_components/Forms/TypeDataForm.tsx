@@ -7,17 +7,35 @@ import { MainEventTypeSelector } from '../Selectors/MainEventTypeSelector';
 import { EventWorkSelector } from '../Selectors/EventWorkSelector';
 import { isDefined } from '../util';
 import { useEventTypeContext } from '../EventTypeProvider';
+import { SurfaceSelector } from '../Selectors/SurfaceSelector';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
-export function TypeDataForm({ editing }) {
+export function TypeDataForm() {
   const { typeData, updateTypeData } = useEventFormContext();
-  const { getIdByLabel, refs } = useEventTypeContext();
+  const { refs } = useEventTypeContext();
+
+  const showSurfaceSelector = () => {
+    return (
+      isDefined(typeData.mainTypeId) &&
+      isDefined(typeData.targetId) &&
+      typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')
+    );
+  };
+
+  const showWorkTypeSelector = () => {
+    return (
+      isDefined(typeData.mainTypeId) &&
+      isDefined(typeData.targetId) &&
+      typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Peruskorjaus') &&
+      typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Pintaremontti')
+    );
+  };
 
   return (
     <form
       className='flex flex-col gap-4'
       id='typeForm'
       onChange={updateTypeData}>
-      <SecondaryHeading>{editing ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
       <Fieldset legend='Osastojen valinta'>
         <FormControl
           boldLabelText
@@ -27,11 +45,8 @@ export function TypeDataForm({ editing }) {
         />
 
         {isDefined(typeData.mainTypeId) && <EventTargetSelector />}
-        {isDefined(typeData.mainTypeId) &&
-          isDefined(typeData.targetId) &&
-          typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Peruskorjaus') && (
-            <EventWorkSelector />
-          )}
+        {showSurfaceSelector() && <SurfaceSelector />}
+        {showWorkTypeSelector() && <EventWorkSelector />}
       </Fieldset>
     </form>
   );

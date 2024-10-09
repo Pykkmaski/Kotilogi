@@ -11,8 +11,8 @@ import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 export const EventWorkSelector = () => {
   const { mainData, typeData } = useEventFormContext();
   const { data: workTypes, isLoading } = useQuery({
-    queryFn: async () => await getEventWorkTypes(typeData.mainTypeId, typeData.targetId),
-    queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
+    queryFn: async () => await getEventWorkTypes(typeData.targetId),
+    queryKey: [`workTypes-${typeData.targetId}`],
   });
 
   return isLoading ? (

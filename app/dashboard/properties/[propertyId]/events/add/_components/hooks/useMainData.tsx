@@ -1,7 +1,14 @@
 import { useInputData } from '@/hooks/useInputData';
+import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
+const mainDataStorageKey = 'kotidok-event-main-data';
+
 function initMainData(eventData: TODO) {
+  const savedData = sessionStorage.getItem(mainDataStorageKey);
+  if (savedData) {
+    return JSON.parse(savedData);
+  }
   if (eventData) {
     const d = {
       ...eventData,
@@ -25,12 +32,15 @@ export const useMainData = (eventData: TODO) => {
     setData: setMainData,
     hasChanges: mainDataHasChanges,
     resetData: resetMainData,
+    files,
   } = useInputData(initMainData(eventData));
 
+  useSaveToSessionStorage(mainDataStorageKey, mainData);
   return {
     mainData,
     updateMainData,
     mainDataHasChanges,
     resetMainData,
+    files,
   };
 };

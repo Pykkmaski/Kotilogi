@@ -3,32 +3,25 @@
  * @returns { Promise<void> }
  */
 
-const table = 'ref_eventWorkTargetCategories';
+const table = 'map_workTargetsToMainEventType';
 
 exports.up = function (knex) {
   return knex.schema.createTable(table, tbl => {
     tbl
-      .integer('eventMainTypeId')
+      .integer('mainEventTypeId')
       .notNullable()
       .references('id')
       .inTable('ref_mainEventTypes')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+      .onDelete('CASCADE')
+      .onUpdate('CASCADE');
     tbl
-      .integer('workTargetId')
+      .integer('targetId')
       .notNullable()
       .references('id')
       .inTable('ref_eventTargets')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
-    tbl
-      .integer('workTypeId')
-      .references('id')
-      .inTable('ref_eventWorkTypes')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
-
-    tbl.primary(['eventMainTypeId', 'workTargetId', 'workTypeId']);
+      .onDelete('CASCADE')
+      .onUpdate('CASCADE');
+    tbl.primary(['mainEventTypeId', 'targetId']);
   });
 };
 

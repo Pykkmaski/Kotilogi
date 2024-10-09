@@ -9,6 +9,78 @@ import { getTableColumns } from './utils/getTableColumns';
 import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
+export async function batchCreateObjects(
+  /**The number of objects to create. */
+  count: number,
+
+  /**The parentId of the objects. */
+  parentId: string | null,
+
+  /**The operation to perform in relation to each created object. */
+  callback: (objId: string, currentIndex: number, trx: Knex.Transaction) => Promise<void>,
+
+  onError?: (err: any) => Promise<void>
+) {
+  const trx = await db.transaction();
+  try {
+    const session = await verifySession();
+    for (let i = 0; i < count; ++i) {
+      const [obj] = await trx('data_objects').insert(
+        {
+          parentId,
+          timestamp: Date.now(),
+          authorId: session.user.id,
+        },
+        '*'
+      );
+
+      await callback(obj.id, i, trx);
+    }
+
+    await trx.commit();
+  } catch (err) {
+    console.error(err.message);
+    await trx.rollback();
+    await onError(err);
+    throw err;
+  }
+}
+
+export async function batchUpdateObjects<T extends ObjectDataType>(
+  data: T[],
+  callback: (index: number, trx: Knex.Transaction) => Promise<void>
+) {
+  const trx = await db.transaction();
+  try {
+    const promises: Promise<void>[] = [];
+    for (let i = 0; i < data.length; ++i) {
+      promises.push(
+        new Promise<void>(async (resolve, reject) => {
+          try {
+            const current = data[i];
+            await trx('data_objects')
+              .where({ id: current.id })
+              .update({
+                ...filterValidColumns(data, await getTableColumns('data_objects', trx)),
+              });
+
+            await callback(i, trx);
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        })
+      );
+    }
+
+    await Promise.all(promises);
+    await trx.commit();
+  } catch (err) {
+    await trx.rollback();
+    throw err;
+  }
+}
+
 export async function createObject<T extends ObjectDataType>(
   data: Partial<T>,
   callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>

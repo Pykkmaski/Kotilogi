@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { createEvent, updateEvent } from 'kotilogi-app/dataAccess/events';
+import { uploadFiles } from 'kotilogi-app/dataAccess/files';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
@@ -14,13 +15,18 @@ export const updateEventAction = async (
     mainTypeId: number;
     targetId: number;
     workTypeId: number;
-  }
+  },
+  extraData: any
 ) => {
   z.string().parse(eventId);
-  await updateEvent(eventId, {
-    ...mainData,
-    ...typeData,
-  });
+  await updateEvent(
+    eventId,
+    {
+      ...mainData,
+      ...typeData,
+    },
+    [extraData]
+  );
   revalidatePath('/dashboard/properties/[propertyId]');
   redirect(`/dashboard/properties/${mainData.parentId}/events/${eventId}`);
 };
@@ -33,14 +39,33 @@ export const createEventAction = async (
     targetId: number;
     workTypeId: number;
   },
-  files?: File[]
+  extraData: any,
+  selectedSurfaceIds: number[],
+  files?: FormData[]
 ) => {
   z.string().parse(propertyId);
   let eventId;
 
-  await createEvent({ ...mainData, ...typeData, parentId: propertyId }, async (id, trx) => {
-    eventId = id;
-  });
+  await createEvent(
+    { ...mainData, parentId: propertyId },
+    typeData,
+    extraData,
+    selectedSurfaceIds,
+    async (id, trx) => {
+      //Save the id of the event for use in the following redirections and path revalidations.
+      eventId = id;
+    }
+  );
+
+  if (files) {
+    try {
+      const fdata = files.map(fd => fd.get('file') as unknown as File);
+      await uploadFiles(fdata, eventId);
+    } catch (err) {
+      //Ignore file upload errors for now.
+      console.error(err.message);
+    }
+  }
 
   revalidatePath('/dashboard/properties/[propertyId]');
   redirect(`/dashboard/properties/${propertyId}/events/${eventId}`);
@@ -59,26 +84,19 @@ export const getRooms = async () => {
   return await db('ref_rooms');
 };
 
-export const getEventTargets = async (eventMainTypeId: number) => {
-  //Return all targets if selecting 'Muu' or 'Peruskorjaus', otherwise, return targets under the selected main type.
-  const [renovationTypeId] = await db('ref_mainEventTypes')
-    .where({ label: 'Peruskorjaus' })
-    .pluck('id');
-  const [otherMainTypeId] = await db('ref_mainEventTypes').where({ label: 'Muu' }).pluck('id');
-
-  if (eventMainTypeId == renovationTypeId || eventMainTypeId == otherMainTypeId) {
-    return db('ref_eventTargets');
-  } else {
-    const targetIds = await db('ref_eventWorkTargetCategories')
-      .where({ eventMainTypeId })
-      .pluck('workTargetId');
-    return await db('ref_eventTargets').whereIn('id', targetIds);
-  }
+export const getEventTargets = async (mainEventTypeId: number) => {
+  const targetIds = await db('map_workTargetsToMainEventType')
+    .where({ mainEventTypeId })
+    .pluck('targetId');
+  return await db('ref_eventTargets').whereIn('id', targetIds);
 };
 
-export const getEventWorkTypes = async (eventMainTypeId: number, targetId: number) => {
-  const workTypeIds = await db('ref_eventWorkTargetCategories')
-    .where({ eventMainTypeId, workTargetId: targetId })
-    .pluck('workTypeId');
+export const getEventWorkTypes = async (targetId: number) => {
+  const workTypeIds = await db('map_workTypesToTarget').where({ targetId }).pluck('workTypeId');
   return await db('ref_eventWorkTypes').whereIn('id', workTypeIds);
+};
+
+export const getSurfaces = async () => {
+  const surfaces = await db('ref_surfaces');
+  return surfaces;
 };

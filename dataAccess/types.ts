@@ -74,10 +74,25 @@ export type EventDataType = ObjectDataType & {
   targetLabel?: string;
 };
 
-export type EventStepDataType = ObjectDataType & {
-  eventId: string;
-  time: string;
-  finished?: boolean;
+export type RoofDataType = {
+  roofMaterialId: number;
+  roofTypeId: number;
+  neliometrit: number;
+  kaltevuus: string;
+  raystasTyyppiId: number;
+  otsalautaTyyppiId: number;
+  aluskateTyyppiId: number;
+  colorId: number;
+  harjatuuletusAluskatteella: boolean;
+  suojakasiteltyPuutavara: boolean;
+  piipunpellitys: boolean;
+  seinatikas: boolean;
+  lapetikas: boolean;
+  lumieste: boolean;
+  kattosilta: boolean;
+  turvatikas: boolean;
+  kourut: boolean;
+  syoksysarja: boolean;
 };
 
 export type FileDataType = ObjectDataType & {

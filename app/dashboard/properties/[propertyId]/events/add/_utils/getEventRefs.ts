@@ -7,6 +7,5 @@ export const getEventRefs = async () =>
     'ref_mainEventTypes',
     'ref_eventTargets',
     'ref_eventWorkTypes',
-    'ref_heatingTypes',
-    'ref_eventWorkTargetCategories'
+    'ref_heatingTypes'
   );
