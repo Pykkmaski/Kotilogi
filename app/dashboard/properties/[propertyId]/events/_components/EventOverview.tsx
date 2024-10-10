@@ -31,7 +31,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
             gap={2}>
             <Chip
               label={event.mainTypeLabel || 'Muu'}
-              color='primary'
+              color='secondary'
             />
 
             {event.targetLabel && <Chip label={event.targetLabel} />}

@@ -22,7 +22,7 @@ LabelGrid.Entry = ({ label, value }: any) => {
     <div className='text-left'>
       <Spacer direction='col'>
         <span className='text-sm text-slate-500'>{label}</span>
-        <span className='font-semibold text-primary xs:text-sm sm:text-base'>{value}</span>
+        <span className='font-semibold text-secondary xs:text-sm sm:text-base'>{value}</span>
       </Spacer>
     </div>
   );

@@ -1,7 +1,7 @@
 import { ContentBox } from './ContentBox';
 import { Spacer } from '../Spacer';
 import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
-import { BoxHeader } from './BoxHeader';
+import { BoxHeader, BoxTitle } from './BoxHeader';
 import Link from 'next/link';
 import { IconButton } from '@mui/material';
 import { Add, Visibility, Warning } from '@mui/icons-material';
@@ -34,15 +34,10 @@ export function PreviewContentBase({
         width='full'>
         <BoxHeader>
           <div className='flex items-center gap-4 w-full justify-between'>
-            <div className='text-slate-500 text-lg'>
-              <Spacer
-                gap={2}
-                alignItems='center'
-                width='auto'>
-                {icon}
-                <SecondaryHeading>{headingText}</SecondaryHeading>
-              </Spacer>
-            </div>
+            <BoxTitle
+              icon={icon}
+              text={headingText}
+            />
 
             <List
               direction='row'
@@ -52,7 +47,7 @@ export function PreviewContentBase({
                 <Link
                   href={showAllUrl}
                   title='Näytä kaikki'>
-                  <IconButton color='primary'>
+                  <IconButton color='secondary'>
                     <Visibility />
                   </IconButton>
                 </Link>
@@ -61,7 +56,7 @@ export function PreviewContentBase({
                 <Link
                   href={addNewUrl}
                   title='Lisää uusi'>
-                  <IconButton color='primary'>
+                  <IconButton color='secondary'>
                     <Add />
                   </IconButton>
                 </Link>
@@ -110,7 +105,7 @@ export function PreviewContentRow<T>({
         onEmptyElement || null
       ) : (
         <div
-          className='flex flex-row w-full xs:items-center lg:items-none overflow-x-scroll md:gap-4 xs:gap-1 snap-mandatory snap-x'
+          className='flex md:flex-row xs:flex-col w-full xs:items-center lg:items-none overflow-x-scroll md:gap-4 xs:gap-1 snap-mandatory snap-x'
           style={noScrollBar}>
           {data.map(item => (
             <PreviewComponent item={item} />

@@ -52,9 +52,9 @@ export function CookieNotice() {
       <div
         className='flex gap-2 items-center fixed z-50 bottom-4 right-4 cursor-pointer'
         onClick={() => setShow(prev => !prev)}>
-        <span className='uppercase text-primary text-sm xs:hidden lg:block'>Evästeasetukset</span>
-        <button className='sm:p-2 xs:p-1 rounded-full border-primary border'>
-          <Cookie color='primary' />
+        <span className='uppercase text-secondary text-sm xs:hidden lg:block'>Evästeasetukset</span>
+        <button className='sm:p-2 xs:p-1 rounded-full border-secondary border'>
+          <Cookie color='secondary' />
         </button>
       </div>
 
@@ -76,6 +76,7 @@ export function CookieNotice() {
                   </p>
                   <SwitchContainer>
                     <Switch
+                      color='secondary'
                       disabled
                       checked
                     />
@@ -83,6 +84,7 @@ export function CookieNotice() {
                   </SwitchContainer>
                   <SwitchContainer>
                     <Switch
+                      color='secondary'
                       name='kotidok-analytics-accepted'
                       onChange={e => setCookie(e.target.name, e.target.checked)}
                       checked={cookies['kotidok-analytics-accepted']}
@@ -96,7 +98,7 @@ export function CookieNotice() {
                 <div className='w-[100px] [&>*]:w-full'>
                   <Button
                     variant='contained'
-                    color='primary'
+                    color='secondary'
                     onClick={acceptCookies}>
                     Vahvista
                   </Button>

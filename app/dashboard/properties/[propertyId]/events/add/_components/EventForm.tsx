@@ -12,6 +12,16 @@ import { MainDataForm } from './Forms/MainDataForm';
 import { ExtraDataForm } from './Forms/ExtraDataForm';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
+import { Button } from '@/components/New/Button';
+import { Check } from '@mui/icons-material';
+import Spinner from '@/components/UI/Spinner';
 
 type EventFormProps = {
   propertyId: string;
@@ -21,6 +31,7 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, eventData, initialExtraData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
+
   const {
     mainData,
     typeData,
@@ -28,8 +39,11 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
     updateMainData,
     updateTypeData,
     updateExtraData,
+    showConfirmationDialog,
+    setShowConfirmationDialog,
     cancel,
     files,
+    editing,
     selectedSurfaceIds,
     toggleSurfaceId,
     refs,
@@ -37,6 +51,7 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
 
   const onSubmit = async e => {
     e.preventDefault();
+
     setStatus('loading');
     try {
       if (eventData) {
@@ -79,6 +94,8 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
 
   return (
     <EventFormProvider
+      setShowConfirmationDialog={setShowConfirmationDialog}
+      editing={editing}
       status={status}
       onSubmit={onSubmit}
       cancel={cancel}
@@ -91,6 +108,35 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
       selectedSurfaceIds={selectedSurfaceIds}
       toggleSurfaceId={toggleSurfaceId}
       propertyId={propertyId}>
+      <Dialog open={showConfirmationDialog}>
+        <DialogTitle>Vahvista tapahtuma</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Vahvistettuja tapahtumia ei voi muokata. Haluatko varmasti vahvistaa tapahtuman?
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            disabled={status == 'loading' || status == 'done'}
+            variant='text'
+            color='secondary'
+            onClick={() => setShowConfirmationDialog(false)}>
+            Peruuta
+          </Button>
+
+          <Button
+            disabled={status == 'loading' || status == 'done'}
+            startIcon={status == 'done' || status == 'idle' ? <Check /> : <Spinner size='1rem' />}
+            variant='contained'
+            color='secondary'
+            type='submit'
+            form='mainDataForm'>
+            Vahvista
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <div className='md:w-[50%] xs:w-full flex flex-col gap-4'>
         <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
         {!eventData && <TypeDataForm />}

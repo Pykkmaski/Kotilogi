@@ -1,4 +1,6 @@
 import Chip from '@mui/material/Chip';
+import { blue } from '@mui/material/colors';
+import colors from 'kotilogi-app/colors';
 import { useEffect, useRef, useState } from 'react';
 
 /**Renders a chip that functions as a radio-button or a checkbox. */
@@ -30,12 +32,14 @@ export function ChipButton({
         sx={
           checked && {
             color: 'white',
+            backgroundColor: colors.secondary,
           }
         }
-        color='primary'
         label={label}
         onClick={() => {
-          inputRef.current?.click();
+          if (inputRef.current) {
+            inputRef.current.click();
+          }
         }}
       />
     </>

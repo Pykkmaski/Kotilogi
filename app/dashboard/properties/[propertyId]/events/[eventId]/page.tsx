@@ -6,13 +6,19 @@ import { EventOverview } from '../_components/EventOverview';
 import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { FileCard } from '@/components/New/FileCard';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
-import { getEvents } from 'kotilogi-app/dataAccess/events';
+import { getEvents, getExtraEventData } from 'kotilogi-app/dataAccess/events';
+import { ContentBox } from '@/components/New/Boxes/ContentBox';
+import { BoxHeader, BoxTitle } from '@/components/New/Boxes/BoxHeader';
+import { Info } from '@mui/icons-material';
+import { DataContent } from './DataContent';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
 
   //Fetch data back-to-back to conserve db connection pool.
   const [event] = await getEvents({ id: eventId });
+  const extraData = await getExtraEventData(eventId);
+
   console.log(event.date);
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })

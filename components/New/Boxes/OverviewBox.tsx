@@ -36,20 +36,8 @@ export function OverviewBox({
 }: OverviewBoxProps) {
   return (
     <ContentBox>
-      <Spacer
-        direction='row'
-        gap={2}
-        width='full'>
-        <div
-          className='relative md:w-[25%] xs:w-[50%] aspect-square rounded-lg overflow-hidden border border-slate-200'
-          style={noScrollBar}>
-          <Image
-            src={imageUrl}
-            fill={true}
-            alt=''
-            objectFit='contain'
-          />
-        </div>
+      <div className='flex flex-row lg:gap-8 xs:gap-2 w-full'>
+        <OverviewImage src={imageUrl} />
 
         <Spacer
           direction='col'
@@ -75,7 +63,7 @@ export function OverviewBox({
                   href={editUrl}
                   title={editContentText || 'Näytä'}>
                   <IconButton
-                    color='primary'
+                    color='secondary'
                     size='small'>
                     {editIcon || <Visibility />}
                   </IconButton>
@@ -107,7 +95,40 @@ export function OverviewBox({
             </Spacer>
           </div>
         </Spacer>
-      </Spacer>
+      </div>
     </ContentBox>
   );
 }
+
+type OverviewImageProps = {
+  src: string;
+  /**A width of the container to occupy in percentage, on medium-size devices. Defaults to 25.*/
+  mediumScreenWidth?: number;
+
+  /**A width of the container to occupy in percentage, on small-size devices. Defaults to 30.*/
+  smallScreenWidth?: number;
+};
+
+export const OverviewImage = ({
+  src,
+  mediumScreenWidth = 25,
+  smallScreenWidth = 30,
+}: OverviewImageProps) => {
+  const classes = [
+    'relative aspect-square flex-shrink-0 rounded-full overflow-hidden border border-slate-200',
+    `md:w-[${mediumScreenWidth}%] xs:w-[${smallScreenWidth}%]`,
+  ];
+
+  return (
+    <div
+      className={classes.join(' ')}
+      style={noScrollBar}>
+      <Image
+        src={src}
+        fill={true}
+        alt=''
+        objectFit='cover'
+      />
+    </div>
+  );
+};

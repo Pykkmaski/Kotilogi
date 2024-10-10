@@ -1,11 +1,20 @@
 import { Spacer } from '../Spacer';
+import { SecondaryHeading } from '../Typography/Headings';
 
 export function BoxHeader({ children }: React.PropsWithChildren) {
+  return <div className='flex items-center justify-between lg:mb-8 xs:mb-4 w-full'>{children}</div>;
+}
+
+export function BoxTitle({ icon, text }) {
   return (
-    <Spacer
-      alignItems='center'
-      width='full'>
-      {children}
-    </Spacer>
+    <div className='text-slate-500 text-lg'>
+      <Spacer
+        gap={2}
+        alignItems='center'
+        width='auto'>
+        {icon}
+        <SecondaryHeading>{text}</SecondaryHeading>
+      </Spacer>
+    </div>
   );
 }

@@ -107,7 +107,6 @@ const OtherField = () => {
 
   return (
     <Fieldset legend='Yleistiedot'>
-      <ContractorInput />
       {typeData.workTypeId == -1 && (
         <FormControl
           boldLabelText

@@ -12,7 +12,7 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
   const { typeData, updateTypeData, typeDataHasChanges } = useTypeData(eventData, resetMainData);
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
   const { extraData, updateExtraData } = useExtraData(initialExtraData);
-
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const router = useRouter();
   const hasChanges = mainDataHasChanges || typeDataHasChanges;
 
@@ -38,6 +38,7 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
   };
 
   return {
+    editing: eventData != undefined && eventData != null,
     mainData,
     updateMainData,
     typeData,
@@ -49,5 +50,7 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
     selectedSurfaceIds,
     toggleSurfaceId,
     refs,
+    showConfirmationDialog,
+    setShowConfirmationDialog,
   };
 }

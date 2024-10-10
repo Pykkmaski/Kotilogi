@@ -10,7 +10,7 @@ type EventFormProviderProps = {
   /**The main event data. Not including the type-id references. */
   mainData?: TODO;
   updateMainData: (e) => void;
-
+  editing: boolean;
   /**The ids of the type references. */
   typeData?: {
     mainTypeId: number;
@@ -30,6 +30,8 @@ type EventFormProviderProps = {
 
   toggleSurfaceId: (id: number) => void;
   selectedSurfaceIds: number[];
+
+  setShowConfirmationDialog: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const EventContext = React.createContext<EventFormProviderProps | null>(null);

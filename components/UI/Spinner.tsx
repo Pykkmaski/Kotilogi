@@ -13,7 +13,7 @@ export default function Spinner({ message, animated, size, ...props }: SpinnerPr
   return (
     <div className='flex items-center gap-2'>
       <div
-        className={[styles.spinner, 'border-white', 'border-t-primary'].join(' ')}
+        className={[styles.spinner, 'border-white', 'border-t-secondary'].join(' ')}
         style={{ width: size, height: size }}
       />
       {message && <span className='tex-sm text-gray-500'>{message}</span>}

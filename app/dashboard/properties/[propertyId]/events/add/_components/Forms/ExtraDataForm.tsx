@@ -1,10 +1,10 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
-import { HeatingRenovationContent } from '../FormContent/HeatingRenovationContent';
+import { HeatingRenovationContent } from '../FormContent/HeatingRenovationContent/HeatingRenovationContent';
 import { WindowRenovationContent } from '../FormContent/WindowRenovationContent';
-import { RoofEventContent } from '../FormContent/RoofEventContent';
-import { DrainageDitchEventContent } from '../FormContent/DrainageDitchEventContent';
+import { RoofEventContent } from '../FormContent/RoofEventContent/RoofEventContent';
+import { DrainageDitchEventContent } from '../FormContent/DrainageDitchEventContent/DrainageDitchEventContent';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
 export function ExtraDataForm({ editing }) {
@@ -17,7 +17,7 @@ export function ExtraDataForm({ editing }) {
     var content = null;
     if (targetId == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
       content = <WindowRenovationContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Lämmitys')) {
+    } else if (targetId == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto')) {
       content = <HeatingRenovationContent />;
     } else if (targetId == getIdByLabel(refs.eventTargets, 'Katto')) {
       content = <RoofEventContent />;

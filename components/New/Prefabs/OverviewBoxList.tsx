@@ -44,6 +44,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
             <div className='lg:block xs:hidden'>
               <Button
                 variant='contained'
+                color='secondary'
                 startIcon={<Add />}>
                 Lisää Uusi
               </Button>
@@ -51,7 +52,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
 
             <div className='xs:block lg:hidden'>
               <IconButton size='small'>
-                <Add sx={{ color: colors.primary }} />
+                <Add sx={{ color: colors.secondary }} />
               </IconButton>
             </div>
           </Link>

@@ -7,8 +7,16 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useEventTypeContext } from '../EventTypeProvider';
 
 export function MainDataForm({ editing }) {
-  const { updateMainData, mainData, cancel, onSubmit, typeData, status, selectedSurfaceIds } =
-    useEventFormContext();
+  const {
+    updateMainData,
+    mainData,
+    cancel,
+    onSubmit,
+    typeData,
+    status,
+    selectedSurfaceIds,
+    setShowConfirmationDialog,
+  } = useEventFormContext();
   const { refs } = useEventTypeContext();
 
   const isSubmitDisabled = () => {
@@ -40,6 +48,7 @@ export function MainDataForm({ editing }) {
         width='full'
         justifyItems='end'>
         <Button
+          color='secondary'
           variant='text'
           onClick={cancel}>
           Peruuta
@@ -47,7 +56,8 @@ export function MainDataForm({ editing }) {
 
         <Button
           variant='contained'
-          type='submit'
+          onClick={() => setShowConfirmationDialog(true)}
+          color='secondary'
           disabled={isSubmitDisabled()}>
           {(editing && 'Päivitä') || 'Vahvista'}
         </Button>
