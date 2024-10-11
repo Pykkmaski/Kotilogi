@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { History, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { Menu } from '@/components/New/Menu';
-import { CardMenuButton } from '@/components/New/CardMenuButton';
-import { getEvents, getEventsOfProperty } from 'kotilogi-app/dataAccess/events';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
+import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
   const events = await getEvents({ parentId: propertyId }, null, 4);

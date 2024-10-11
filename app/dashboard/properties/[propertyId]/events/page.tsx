@@ -4,7 +4,7 @@ import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import { EventOverview } from './_components/EventOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
-import { getEvents, getEventsOfProperty } from 'kotilogi-app/dataAccess/events';
+import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
 
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;

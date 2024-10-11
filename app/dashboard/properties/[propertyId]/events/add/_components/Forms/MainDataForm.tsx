@@ -23,9 +23,9 @@ export function MainDataForm({ editing }) {
     var state;
     if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
       state = !isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainTypeId, 'Huoltotyö')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
       state = !isDefined(typeData.targetId) || !isDefined(typeData.workTypeId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainTypeId, 'Pintaremontti')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
       state = !isDefined(typeData.targetId) || selectedSurfaceIds.length == 0;
     } else {
       state = true;

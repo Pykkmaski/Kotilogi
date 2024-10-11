@@ -9,3 +9,5 @@ export const getColors = async () => await db('ref_mainColors');
 export const getDrainageDitchMethods = async () => db('ref_drainageDitchMethods');
 export const getHeatingSystems = async () => db('ref_heatingTypes');
 export const getElectricHeatingMethods = async () => db('ref_electricHeatingMethodTypes');
+export const getLockTypes = async () => db('ref_lockTypes');
+export const getElectricityJobTargets = async () => db('ref_electricityJobTargets');

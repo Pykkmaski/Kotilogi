@@ -6,11 +6,8 @@ import { EventOverview } from '../_components/EventOverview';
 import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { FileCard } from '@/components/New/FileCard';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
-import { getEvents, getExtraEventData } from 'kotilogi-app/dataAccess/events';
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { BoxHeader, BoxTitle } from '@/components/New/Boxes/BoxHeader';
-import { Info } from '@mui/icons-material';
-import { DataContent } from './DataContent';
+import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
+import { getExtraEventData } from 'kotilogi-app/dataAccess/events/getExtraEventData';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;

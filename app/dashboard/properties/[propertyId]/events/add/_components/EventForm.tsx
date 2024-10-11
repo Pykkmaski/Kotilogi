@@ -92,6 +92,24 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
     }
   };
 
+  /**
+   * @todo
+   */
+  const isSubmitButtonDisabled = () => {
+    const defaultRequiredFieldsDefined = () => {
+      return isDefined(mainData.date);
+    };
+
+    var state: boolean;
+    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+      if (typeData.targetId == getIdByLabel(refs.eventTargets, 'Katto')) {
+        state = isDefined(extraData.roofTypeId) && isDefined(extraData.roofMaterialId);
+      } else if (typeData.targetId == getIdByLabel(refs.eventTargets, 'Salaojat')) {
+        state = isDefined(extraData.toteutusTapaId);
+      }
+    }
+  };
+
   return (
     <EventFormProvider
       setShowConfirmationDialog={setShowConfirmationDialog}

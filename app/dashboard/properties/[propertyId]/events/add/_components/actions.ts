@@ -1,7 +1,8 @@
 'use server';
 
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { createEvent, updateEvent } from 'kotilogi-app/dataAccess/events';
+import { createEvent } from 'kotilogi-app/dataAccess/events/createEvent';
+import { updateEvent } from 'kotilogi-app/dataAccess/events/updateEvent';
 import { uploadFiles } from 'kotilogi-app/dataAccess/files';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
@@ -92,7 +93,7 @@ export const getEventTargets = async (mainEventTypeId: number) => {
 };
 
 export const getEventWorkTypes = async (targetId: number) => {
-  const workTypeIds = await db('map_workTypesToTarget').where({ targetId }).pluck('workTypeId');
+  const workTypeIds = await db('map_workTypeToTarget').where({ targetId }).pluck('workTypeId');
   return await db('ref_eventWorkTypes').whereIn('id', workTypeIds);
 };
 

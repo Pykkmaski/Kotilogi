@@ -6,7 +6,6 @@ exports.seed = async function (knex) {
   const trx = await knex.transaction();
   try {
     const table = 'ref_mainColors';
-    await trx(table).del();
     const propertyTypes = [
       'Punainen',
       'Sininen',
@@ -18,7 +17,9 @@ exports.seed = async function (knex) {
       'Vihreä',
       'Muu',
     ];
-    await Promise.all(propertyTypes.map(type => trx(table).insert({ name: type })));
+    await Promise.all(
+      propertyTypes.map(type => trx(table).insert({ name: type }).onConflict('name').ignore())
+    );
     await trx.commit();
   } catch (err) {
     console.log(err.message);

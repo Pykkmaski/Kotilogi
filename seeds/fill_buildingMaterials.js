@@ -10,9 +10,9 @@ exports.seed = async function (knex) {
   for (const material of buildingMaterials) {
     await knex(table)
       .insert({
-        label: material,
+        name: material,
       })
-      .onConflict('label')
+      .onConflict('name')
       .ignore();
   }
 };
