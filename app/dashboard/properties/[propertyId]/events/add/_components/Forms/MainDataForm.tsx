@@ -5,6 +5,14 @@ import { Button } from '@/components/New/Button';
 import { isDefined } from '../util';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useEventTypeContext } from '../EventTypeProvider';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { VPDialog } from '@/components/UI/VPDialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContentText from '@mui/material/DialogContentText';
+import { Check } from '@mui/icons-material';
+import Spinner from '@/components/UI/Spinner';
 
 export function MainDataForm({ editing }) {
   const {
@@ -54,13 +62,50 @@ export function MainDataForm({ editing }) {
           Peruuta
         </Button>
 
-        <Button
-          variant='contained'
-          onClick={() => setShowConfirmationDialog(true)}
-          color='secondary'
-          disabled={isSubmitDisabled()}>
-          {(editing && 'Päivitä') || 'Vahvista'}
-        </Button>
+        <VisibilityProvider>
+          <VisibilityProvider.Target>
+            <VPDialog>
+              <DialogTitle>Vahvista tapahtuma</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Vahvistettuja tapahtumia ei voi muokata. Haluatko varmasti vahvistaa tapahtuman?
+                </DialogContentText>
+              </DialogContent>
+
+              <DialogActions>
+                <VisibilityProvider.Trigger>
+                  <Button
+                    disabled={status == 'loading' || status == 'done'}
+                    variant='text'
+                    color='secondary'>
+                    Peruuta
+                  </Button>
+                </VisibilityProvider.Trigger>
+
+                <Button
+                  disabled={status == 'loading' || status == 'done'}
+                  startIcon={
+                    status == 'done' || status == 'idle' ? <Check /> : <Spinner size='1rem' />
+                  }
+                  variant='contained'
+                  color='secondary'
+                  type='submit'
+                  form='mainDataForm'>
+                  Vahvista
+                </Button>
+              </DialogActions>
+            </VPDialog>
+          </VisibilityProvider.Target>
+
+          <VisibilityProvider.Trigger>
+            <Button
+              variant='contained'
+              color='secondary'
+              disabled={isSubmitDisabled()}>
+              {(editing && 'Päivitä') || 'Vahvista'}
+            </Button>
+          </VisibilityProvider.Trigger>
+        </VisibilityProvider>
       </Spacer>
     </form>
   );

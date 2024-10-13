@@ -2,6 +2,7 @@ import Button, { ButtonProps } from './Button';
 
 /**
  * Short-hand component for defining secondary-buttons.
+ * @deprecated
  * @param props
  * @returns
  */

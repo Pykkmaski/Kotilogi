@@ -4,9 +4,10 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 import { Header } from './Header';
-import { Menu } from '@/components/New/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Logo } from '@/components/App/Logo';
+import { VPMenu } from '@/components/UI/VPMenu';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 
 export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
   const { data, status } = useSession();
@@ -60,7 +61,15 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
         </ul>
 
         <div className='xs:block md:hidden'>
-          <Menu trigger={<MenuIcon sx={{ color: 'black' }} />}>{linkElements}</Menu>
+          <VisibilityProvider>
+            <VisibilityProvider.Trigger>
+              <MenuIcon sx={{ color: 'black' }} />
+            </VisibilityProvider.Trigger>
+
+            <VisibilityProvider.Target>
+              <VPMenu>{linkElements}</VPMenu>
+            </VisibilityProvider.Target>
+          </VisibilityProvider>
         </div>
       </nav>
     );

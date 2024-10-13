@@ -1,6 +1,6 @@
 type ProfileCircleProps = {
   email: string;
-  onClick: (e: TODO) => void;
+  onClick?: (e: TODO) => void;
 };
 
 export function ProfileCircle({ email, onClick }: ProfileCircleProps) {

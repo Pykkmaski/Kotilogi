@@ -7,8 +7,9 @@ import { Button, IconButton } from '@mui/material';
 import { Add, MoreVert } from '@mui/icons-material';
 import Link from 'next/link';
 import { useUtilityProviderContext } from './UtilityContext';
-import { SideMenu } from '@/components/New/SideMenu';
+import { VPSideMenu } from '@/components/UI/VPSideMenu';
 import colors from 'kotilogi-app/colors';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 
 export function ControlBar() {
   const { selectedTypes, years } = useUtilityProviderContext();
@@ -43,16 +44,20 @@ export function ControlBar() {
 
       <div className='flex items-center'>
         <div className='xs:block md:hidden'>
-          <SideMenu
-            trigger={
+          <VisibilityProvider>
+            <VisibilityProvider.Trigger>
               <IconButton id='mobile-menu-trigger'>
                 <MoreVert />
               </IconButton>
-            }
-            title='Suodata'>
-            {getTimeframeSelector()}
-            {getTypeSelector()}
-          </SideMenu>
+            </VisibilityProvider.Trigger>
+
+            <VisibilityProvider.Target>
+              <VPSideMenu title='Suodata'>
+                {getTimeframeSelector()}
+                {getTypeSelector()}
+              </VPSideMenu>
+            </VisibilityProvider.Target>
+          </VisibilityProvider>
         </div>
         <Link
           href='utility/add'

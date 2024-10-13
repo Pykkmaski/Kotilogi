@@ -5,6 +5,11 @@ export type ButtonProps = React.ComponentProps<'button'> & {
   variant?: 'primary' | 'accent';
 };
 
+/**
+ *
+ * @deprecated
+ * @returns
+ */
 export default function Button({ children, variant = 'primary', ...props }: ButtonProps) {
   const className = [
     props.className,

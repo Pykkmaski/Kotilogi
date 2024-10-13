@@ -8,15 +8,16 @@ import { FileCard } from '@/components/New/FileCard';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
 import { getExtraEventData } from 'kotilogi-app/dataAccess/events/getExtraEventData';
+import { EventDetails } from './_EventDetails/EventDetails';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
 
   //Fetch data back-to-back to conserve db connection pool.
-  const [event] = await getEvents({ id: eventId });
-  const extraData = await getExtraEventData(eventId);
+  const [eventData] = await getEvents({ id: eventId });
+  const [extraData] = await getExtraEventData(eventId);
 
-  console.log(event.date);
+  console.log(eventData.date);
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
     .where({ parentId: eventId })
@@ -32,11 +33,14 @@ export default async function EventPage({ params }) {
       <SecondaryHeading>Tapahtuma</SecondaryHeading>
       <EventOverview
         event={{
-          ...event,
+          ...eventData,
           numSteps,
         }}
       />
-
+      <EventDetails
+        eventData={eventData}
+        extraData={extraData}
+      />
       <FileOverview
         files={files}
         addNewUrl={`/dashboard/files/add?parentId=${eventId}`}

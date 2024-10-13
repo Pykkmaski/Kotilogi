@@ -2,7 +2,6 @@ import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
 import Notice from 'kotilogi-app/components/App/Notice';
-import { CookieNotice } from '@/components/App/CookieNotice';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 import '@fontsource/roboto/300.css';
@@ -18,6 +17,7 @@ import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryProvider } from './ReactQueryProvider';
+import { VPCookieNotice } from '@/components/App/VPCookieNotice';
 
 export const metadata = {
   title: 'Kotidok',
@@ -68,7 +68,7 @@ gtag('config', 'G-YQC6Y54WHT');
             <body className={bodyClassName.join(' ')}>
               <ThemeProvider theme={theme}>
                 <AppProvider>{children}</AppProvider>
-                <CookieNotice />
+                <VPCookieNotice />
               </ThemeProvider>
 
               <Toaster

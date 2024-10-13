@@ -43,10 +43,7 @@ export function OverviewBox({
           direction='col'
           width='full'
           gap={4}>
-          <Spacer
-            width='full'
-            justifyItems='between'
-            direction='row'>
+          <div className='flex w-full justify-between'>
             {showUrl ? (
               <Link href={showUrl}>
                 <MainHeading>{title}</MainHeading>
@@ -55,9 +52,7 @@ export function OverviewBox({
               <MainHeading>{title}</MainHeading>
             )}
 
-            <Spacer
-              justifyItems='end'
-              width='auto'>
+            <div className='justify-end w-auto'>
               {editUrl && (
                 <Link
                   href={editUrl}
@@ -78,8 +73,8 @@ export function OverviewBox({
                   </IconButton>
                 </Link>
               )}
-            </Spacer>
-          </Spacer>
+            </div>
+          </div>
 
           <p>{description}</p>
 
@@ -102,26 +97,26 @@ export function OverviewBox({
 
 type OverviewImageProps = {
   src: string;
-  /**A width of the container to occupy in percentage, on medium-size devices. Defaults to 25.*/
+  /**The width of the image in pixels on medium-size devices. Defaults to 150.*/
   mediumScreenWidth?: number;
 
-  /**A width of the container to occupy in percentage, on small-size devices. Defaults to 30.*/
+  /**A width of the image in pixels on small-size devices. Defaults to 100.*/
   smallScreenWidth?: number;
 };
 
 export const OverviewImage = ({
   src,
-  mediumScreenWidth = 25,
-  smallScreenWidth = 30,
+  mediumScreenWidth = 150,
+  smallScreenWidth = 100,
 }: OverviewImageProps) => {
   const classes = [
-    'relative aspect-square flex-shrink-0 rounded-full overflow-hidden border border-slate-200',
-    `md:w-[${mediumScreenWidth}%] xs:w-[${smallScreenWidth}%]`,
+    'relative aspect-square flex-shrink-0 rounded-full overflow-hidden border border-slate-200 xs:w-[100px] xs:h-[100px] md:w-[200px] md:h-[200px]',
+    `md:w-[${mediumScreenWidth}px] md:h-[${mediumScreenWidth}px] xs:w-[${smallScreenWidth}px] xs:h-[${smallScreenWidth}px]`,
   ];
 
   return (
     <div
-      className={classes.join(' ')}
+      className={classes[0]}
       style={noScrollBar}>
       <Image
         src={src}

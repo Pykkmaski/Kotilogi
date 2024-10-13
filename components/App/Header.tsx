@@ -8,8 +8,9 @@ import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../UI/Padding';
 
 import { HamburgerButton } from '../UI/HamburgerButton';
-import { MobileMenu } from './MobileMenu';
+import { VPMobileMenu } from './VPMobileMenu';
 import Button from '@mui/material/Button';
+import { VisibilityProvider } from '../Util/VisibilityProvider';
 
 export function Logo2() {
   return (
@@ -87,7 +88,11 @@ export default function Header({ variant = 'black' }: HeaderProps) {
           </div>
 
           <div className='xm:block xl:hidden flex'>
-            <MobileMenu session={null} />
+            <VisibilityProvider>
+              <VisibilityProvider.Trigger>
+                <VPMobileMenu session={null} />
+              </VisibilityProvider.Trigger>
+            </VisibilityProvider>
           </div>
         </>
       );
@@ -126,7 +131,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
           </nav>
 
           <div className='xs:block xl:hidden z-50'>
-            <MobileMenu session={null} />
+            <VPMobileMenu session={null} />
           </div>
         </>
       );

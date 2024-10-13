@@ -42,14 +42,15 @@ export default async function PropertyPage({ params }) {
         editUrl={`/dashboard/properties/${property.id}/edit`}
       />
 
-      <EventPreview propertyId={property.id} />
-
-      <UtilityProvider
-        data={utilityData}
-        year={null}
-        selectedTypes={[]}>
-        <UtilityPreview propertyId={property.id} />
-      </UtilityProvider>
+      <div className='w-full lg:gap-4 xs:gap-2 flex lg:flex-row xs:flex-col'>
+        <EventPreview propertyId={property.id} />
+        <UtilityProvider
+          data={utilityData}
+          year={null}
+          selectedTypes={[]}>
+          <UtilityPreview propertyId={property.id} />
+        </UtilityProvider>
+      </div>
 
       <FileOverview
         files={files}

@@ -2,26 +2,23 @@ import { Clear } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import { ReactElement, useState } from 'react';
+import { useVisibilityProviderContext } from '../Util/VisibilityProvider';
 
 type SideMenuProps = React.PropsWithChildren & {
-  trigger: ReactElement;
   title: string;
+  isVisible?: boolean;
 };
-
-export function SideMenu({ children, title, trigger }: SideMenuProps) {
-  const [showMenu, setShowMenu] = useState(false);
+/**A side-menu to be used as a VisibilityProvider target, that slides in from the right, when triggered. */
+export function VPSideMenu({ children, title, isVisible }: SideMenuProps) {
+  const { toggleState } = useVisibilityProviderContext();
 
   const menuClasses = [
     'xs:flex flex-col gap-2 md:hidden fixed top-0 right-0 w-[80%] shadow-lg bg-white border-l border-l-slate-200 h-full z-40 transition-transform',
-    showMenu ? 'translate-x-0' : 'translate-x-[100%]',
+    isVisible ? 'translate-x-0' : 'translate-x-[100%]',
   ];
 
   return (
     <>
-      {React.cloneElement(trigger, {
-        ...trigger.props,
-        onClick: () => setShowMenu(true),
-      })}
       <div
         id='utility-menu'
         className={menuClasses.join(' ')}>
@@ -30,7 +27,7 @@ export function SideMenu({ children, title, trigger }: SideMenuProps) {
           className='flex items-center border-b border-slate-200 mb-2'>
           <IconButton
             id='utility-menu-close-btn'
-            onClick={() => setShowMenu(false)}>
+            onClick={() => toggleState(false)}>
             <Clear sx={{ color: 'black' }} />
           </IconButton>
 

@@ -65,16 +65,19 @@ const targetsUnderMainType = {
     eventTargets.Ilmanvaihto,
     eventTargets.Lukitus,
     eventTargets.Eristys,
+    eventTargets.Muu,
   ],
 
-  [mainEventTypes.Huoltotyo]: [eventTargets.Hormi, eventTargets.Savupiippu],
+  [mainEventTypes.Huoltotyo]: [eventTargets.Hormi, eventTargets.Savupiippu, eventTargets.Muu],
   [mainEventTypes.Pintaremontti]: [
     eventTargets.Kodinhoitohuone,
     eventTargets.Olohuone,
     eventTargets.WC,
     eventTargets.Keittio,
     eventTargets.Makuuhuone,
+    eventTargets.Muu,
   ],
+  [mainEventTypes.Muu]: Object.values(eventTargets),
 };
 
 const workTypesUnderTarget = {

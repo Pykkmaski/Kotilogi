@@ -59,15 +59,16 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
               />
             </div>
             <div className='xs:block md:hidden w-full'>
-              <ContentBox>
-                <div className='h-full w-full flex gap-2 items-center'>
-                  <OverviewImage src={imageSrc} />
-                  <div className='flex flex-col text-sm'>
-                    <h1 className='font-semibold'>{item.title}</h1>
-                    <p>{item.description || 'Ei kuvausta.'}</p>
+              <Link href={`${propertyId}/events/${item.id}`}>
+                <ContentBox>
+                  <div className='h-full w-full flex gap-2 items-center'>
+                    <div className='flex flex-col text-sm'>
+                      <h1 className='font-semibold'>{item.title}</h1>
+                      <p>{item.description || 'Ei kuvausta.'}</p>
+                    </div>
                   </div>
-                </div>
-              </ContentBox>
+                </ContentBox>
+              </Link>
             </div>
           </>
         );

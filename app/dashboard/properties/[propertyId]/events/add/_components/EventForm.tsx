@@ -126,34 +126,7 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
       selectedSurfaceIds={selectedSurfaceIds}
       toggleSurfaceId={toggleSurfaceId}
       propertyId={propertyId}>
-      <Dialog open={showConfirmationDialog}>
-        <DialogTitle>Vahvista tapahtuma</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Vahvistettuja tapahtumia ei voi muokata. Haluatko varmasti vahvistaa tapahtuman?
-          </DialogContentText>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            disabled={status == 'loading' || status == 'done'}
-            variant='text'
-            color='secondary'
-            onClick={() => setShowConfirmationDialog(false)}>
-            Peruuta
-          </Button>
-
-          <Button
-            disabled={status == 'loading' || status == 'done'}
-            startIcon={status == 'done' || status == 'idle' ? <Check /> : <Spinner size='1rem' />}
-            variant='contained'
-            color='secondary'
-            type='submit'
-            form='mainDataForm'>
-            Vahvista
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Dialog open={showConfirmationDialog}></Dialog>
 
       <div className='md:w-[50%] xs:w-full flex flex-col gap-4'>
         <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
