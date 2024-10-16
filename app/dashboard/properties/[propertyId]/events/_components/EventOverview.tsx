@@ -15,6 +15,7 @@ type EventOverviewProps<T extends EventDataType> = {
 
 export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
+  const editUrl = `/dashboard/properties/${event.parentId}/events/${event.id}/edit`;
 
   return (
     <OverviewBox
@@ -47,7 +48,6 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
         </Spacer>
       }
       imageUrl={(mainImageId && `/api/protected/files/${mainImageId}`) || '/img/kitchen.jpg'}
-      editUrl={`/dashboard/properties/${event.parentId}/events/${event.id}/edit`}
       showUrl={`/dashboard/properties/${event.parentId}/events/${event.id}`}
       editContentText='Muokkaa'
       editIcon={<Edit />}

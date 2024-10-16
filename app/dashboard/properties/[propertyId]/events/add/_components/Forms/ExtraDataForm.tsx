@@ -8,6 +8,8 @@ import { DrainageDitchEventContent } from '../FormContent/DrainageDitchEventCont
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { LockEventContent } from '../FormContent/LockEventContent/LockEventContent';
 import { ElectricityEventContent } from '../FormContent/ElectricityEventContent/ElectricityEventContent';
+import { KayttoVesiEventContent } from '../FormContent/KayttovesiEventContent/KayttovesiEventContent';
+import { ViemariPutketEventContent } from '../FormContent/ViemariPutketEventContent/ViemariputketEventContent';
 
 export function ExtraDataForm({ editing }) {
   const { updateExtraData, extraData, typeData } = useEventFormContext();
@@ -29,6 +31,10 @@ export function ExtraDataForm({ editing }) {
       content = <LockEventContent />;
     } else if (targetId == getIdByLabel(refs.eventTargets, 'Sähköt')) {
       content = <ElectricityEventContent />;
+    } else if (targetId == getIdByLabel(refs.eventTargets, 'Käyttövesiputket')) {
+      content = <KayttoVesiEventContent />;
+    } else if (targetId == getIdByLabel(refs.eventTargets, 'Viemäriputket')) {
+      content = <ViemariPutketEventContent />;
     } else {
       console.error(
         'Additional content not implemented for target type with id ' + typeData.targetId

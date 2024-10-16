@@ -5,9 +5,15 @@ import Spinner from './Spinner';
 type SuspenseFormControlProps = FormControlProps & {
   isLoading: boolean;
   error?: boolean;
+  loadingText?: string;
 };
 
 /**A FormControl that displays a spinner in place of its content, if the isLoading-prop is set. */
-export function SuspenseFormControl({ isLoading, error, ...props }: SuspenseFormControlProps) {
-  return isLoading ? <Spinner message='Ladataan pintoja...' /> : <FormControl {...props} />;
+export function SuspenseFormControl({
+  isLoading,
+  error,
+  loadingText = 'Ladataan...',
+  ...props
+}: SuspenseFormControlProps) {
+  return isLoading ? <Spinner message={loadingText} /> : <FormControl {...props} />;
 }

@@ -11,6 +11,8 @@ import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { HeatingTypeContent } from './HeatingTypeContent';
 import { BoxHeader, BoxTitle } from '@/components/New/Boxes/BoxHeader';
 import { Info } from '@mui/icons-material';
+import { KayttovesiputketContent } from './KayttovesiputketContent';
+import { ViemariputketContent } from './ViemariputketContent';
 
 const EventDetailsContext = createContext<{ mainData: EventDataType; extraData: any } | null>(null);
 
@@ -32,6 +34,14 @@ export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
 
           case 'Lämmitysmuoto':
             content = <HeatingTypeContent />;
+            break;
+
+          case 'Käyttövesiputket':
+            content = <KayttovesiputketContent />;
+            break;
+
+          case 'Viemäriputket':
+            content = <ViemariputketContent />;
             break;
         }
       }

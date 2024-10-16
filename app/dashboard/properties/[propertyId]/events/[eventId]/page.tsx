@@ -37,23 +37,27 @@ export default async function EventPage({ params }) {
           numSteps,
         }}
       />
-      <EventDetails
-        eventData={eventData}
-        extraData={extraData}
-      />
-      <FileOverview
-        files={files}
-        addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
-        showAllUrl={`/dashboard/properties/${params.propertyId}/events/${eventId}/files`}
-        PreviewComponent={({ item }) => {
-          return (
-            <FileCard
-              file={item}
-              isMain={item.id == mainImageId}
-            />
-          );
-        }}
-      />
+
+      <div className='flex w-full gap-4 xs:flex-col lg:flex-row'>
+        <EventDetails
+          eventData={eventData}
+          extraData={extraData}
+        />
+
+        <FileOverview
+          files={files}
+          addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
+          showAllUrl={`/dashboard/properties/${params.propertyId}/events/${eventId}/files`}
+          PreviewComponent={({ item }) => {
+            return (
+              <FileCard
+                file={item}
+                isMain={item.id == mainImageId}
+              />
+            );
+          }}
+        />
+      </div>
     </Main>
   );
 }

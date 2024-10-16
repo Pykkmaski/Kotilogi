@@ -37,7 +37,9 @@ export function OverviewBox({
   return (
     <ContentBox>
       <div className='flex flex-row lg:gap-8 xs:gap-2 w-full'>
-        <OverviewImage src={imageUrl} />
+        <div className='xs:hidden md:block'>
+          <OverviewImage src={imageUrl} />
+        </div>
 
         <Spacer
           direction='col'

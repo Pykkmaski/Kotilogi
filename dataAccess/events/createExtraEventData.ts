@@ -28,16 +28,13 @@ export async function createExtraEventData(
       })
       .select('ref_eventTargets.*');
 
+    const runBaseInsert = async (tablename: string) =>
+      await trx(tablename).insert({ ...extraData, id: eventId });
+
     if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lämmitysmuoto')) {
       //Save heating event data.
-      const { newSystemId, oldSystemId, model, brand } = extraData;
-      await trx('data_baseHeatingEvents').insert({
-        id: eventId,
-        newSystemId,
-        oldSystemId,
-        model,
-        brand,
-      });
+      const { newSystemId } = extraData;
+      await runBaseInsert('data_baseHeatingEvents');
 
       const heatingTypes = await trx('ref_heatingTypes');
       if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
@@ -59,12 +56,17 @@ export async function createExtraEventData(
       await trx('data_roofEvents').insert({ ...extraData, id: eventId });
     } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
       //Save drainage ditch data.
-      await trx('data_drainageDitchEvents').insert({ ...extraData, id: eventId });
+      await runBaseInsert('data_drainageDitchEvents');
+    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Käyttövesiputket')) {
+      await runBaseInsert('data_kayttoVesiPutketEvents');
+    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Viemäriputket')) {
+      await runBaseInsert('data_viemariPutketEvents');
     } else {
       throw new Error('Unsupported targetId ' + typeData.targetId);
     }
   } else if (typeData.mainTypeId == maintenanceRenovationId) {
   } else if (typeData.mainTypeId == surfaceRenovationId) {
     //Save the surfaces.
+    throw new Error('Surface save-logic not implemented!');
   }
 }

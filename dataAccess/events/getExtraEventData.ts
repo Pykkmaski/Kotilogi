@@ -25,8 +25,7 @@ export const getExtraEventData = async (eventId: string) => {
           'ref_roofTypes.name as roofTypeLabel',
           'data_roofEvents.'
         );
-    }
-    if (typeData.targetId == getIdByLabel(targets, 'Salaojat')) {
+    } else if (typeData.targetId == getIdByLabel(targets, 'Salaojat')) {
       return await db('data_drainageDitchEvents')
         .join('ref_drainageDitchMethods', {
           'ref_drainageDitchMethods.id': 'data_drainageDitchEvents.toteutusTapaId',
@@ -75,6 +74,26 @@ export const getExtraEventData = async (eventId: string) => {
       }
 
       return await query.where({ 'data_baseHeatingEvents.id': eventId });
+    } else if (typeData.targetId == getIdByLabel(targets, 'Käyttövesiputket')) {
+      return await db('data_kayttoVesiPutketEvents')
+        .join('ref_kayttovesiPutketAsennusTavat', {
+          'ref_kayttovesiPutketAsennusTavat.id': 'data_kayttoVesiPutketEvents.asennusTapaId',
+        })
+        .where({ 'data_kayttoVesiPutketEvents.id': eventId })
+        .select(
+          'data_kayttoVesiPutketEvents.*',
+          'ref_kayttovesiPutketAsennusTavat.label as asennusTapaLabel'
+        );
+    } else if (typeData.targetId == getIdByLabel(targets, 'Viemäriputket')) {
+      return await db('data_viemariPutketEvents')
+        .join('ref_viemariPutketToteutusTapa', {
+          'ref_viemariPutketToteutusTapa.id': 'data_viemariPutketEvents.toteutusTapaId',
+        })
+        .where({ 'data_viemariPutketEvents.id': eventId })
+        .select(
+          'data_viemariPutketEvents.*',
+          'ref_viemariPutketToteutusTapa.label as toteutusTapaLabel'
+        );
     } else {
       throw new Error(
         'Extra data read logic for event with target ' + typeData.targetId + ' not implemented!'
