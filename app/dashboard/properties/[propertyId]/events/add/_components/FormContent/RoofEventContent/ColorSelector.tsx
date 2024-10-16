@@ -5,34 +5,28 @@ import { FormControl } from '@/components/UI/FormUtils';
 import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import Spinner from '@/components/UI/Spinner';
 import { useEventFormContext } from '../../EventFormContext';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const ColorSelector = () => {
   const { extraData } = useEventFormContext();
-  const { data: colors, isLoading: isColorsLoading } = useQuery({
+  const { data: colors, isLoading } = useQuery({
     queryKey: ['colors'],
     queryFn: async () => await getColors(),
   });
 
   return (
-    <FormControl
+    <SuspenseFormControl
+      isLoading={isLoading}
       label='Väri'
       control={
-        <RadioGroup name='colorId'>
-          {isColorsLoading ? (
-            <Spinner
-              size='1rem'
-              message='Ladataan värejä...'
-            />
-          ) : (
-            colors.map(t => (
-              <ChipButton
-                label={t.name}
-                value={t.id}
-                checked={extraData && extraData.colorId == t.id}
-              />
-            ))
-          )}
-        </RadioGroup>
+        <ChipRadioGroup
+          name='colorId'
+          currentValue={extraData.colorId}
+          labelKey='name'
+          valueKey='id'
+          dataArray={colors}
+        />
       }
     />
   );

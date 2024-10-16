@@ -13,6 +13,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContentText from '@mui/material/DialogContentText';
 import { Check } from '@mui/icons-material';
 import Spinner from '@/components/UI/Spinner';
+import { SurfaceSelector } from '../Selectors/SurfaceSelector';
+import { ContentBox } from '@/components/New/Boxes/ContentBox';
+import { Fieldset } from '@/components/UI/Fieldset';
 
 export function MainDataForm({ editing }) {
   const {
@@ -48,6 +51,11 @@ export function MainDataForm({ editing }) {
       onSubmit={onSubmit}
       onChange={updateMainData}
       className='flex flex-col gap-4'>
+      {typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti') && (
+        <Fieldset legend='Pinnat'>
+          <SurfaceSelector />
+        </Fieldset>
+      )}
       <SharedEventDataInputs isEditing={editing} />
 
       <Spacer
@@ -71,7 +79,6 @@ export function MainDataForm({ editing }) {
                   Vahvistettuja tapahtumia ei voi muokata. Haluatko varmasti vahvistaa tapahtuman?
                 </DialogContentText>
               </DialogContent>
-
               <DialogActions>
                 <VisibilityProvider.Trigger>
                   <Button
@@ -84,9 +91,7 @@ export function MainDataForm({ editing }) {
 
                 <Button
                   disabled={status == 'loading' || status == 'done'}
-                  startIcon={
-                    status == 'done' || status == 'idle' ? <Check /> : <Spinner size='1rem' />
-                  }
+                  startIcon={status == 'done' || status == 'idle' ? <Check /> : <Spinner />}
                   variant='contained'
                   color='secondary'
                   type='submit'
@@ -101,6 +106,7 @@ export function MainDataForm({ editing }) {
             <Button
               variant='contained'
               color='secondary'
+              startIcon={<Check />}
               disabled={isSubmitDisabled()}>
               {(editing && 'Päivitä') || 'Vahvista'}
             </Button>

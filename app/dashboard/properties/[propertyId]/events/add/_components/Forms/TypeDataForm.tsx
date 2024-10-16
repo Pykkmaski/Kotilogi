@@ -45,7 +45,6 @@ export function TypeDataForm() {
         />
 
         {isDefined(typeData.mainTypeId) && <EventTargetSelector />}
-        {showSurfaceSelector() && <SurfaceSelector />}
         {showWorkTypeSelector() && <EventWorkSelector />}
       </Fieldset>
     </form>

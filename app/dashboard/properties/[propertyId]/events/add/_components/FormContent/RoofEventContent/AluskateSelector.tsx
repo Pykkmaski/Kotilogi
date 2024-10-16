@@ -5,34 +5,29 @@ import Spinner from '@/components/UI/Spinner';
 import { useEventFormContext } from '../../EventFormContext';
 import { getAluskatetyypit } from '../actions';
 import { useQuery } from '@tanstack/react-query';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
 
 export const AluskateSelector = () => {
   const { extraData } = useEventFormContext();
-  const { data: aluskatetyypit, isLoading: isAluskatteetLoading } = useQuery({
+  const { data: aluskatetyypit, isLoading } = useQuery({
     queryKey: ['aluskatetyypit'],
     queryFn: async () => await getAluskatetyypit(),
   });
 
   return (
-    <FormControl
+    <SuspenseFormControl
+      isLoading={isLoading}
       label='Aluskate'
       control={
-        <RadioGroup name='aluskateTyyppiId'>
-          {isAluskatteetLoading ? (
-            <Spinner
-              size='1rem'
-              message='Ladataan aluskateTyyppejä...'
-            />
-          ) : (
-            aluskatetyypit.map(t => (
-              <ChipButton
-                label={t.label}
-                value={t.id}
-                checked={extraData && extraData.aluskateTyyppiId == t.id}
-              />
-            ))
-          )}
-        </RadioGroup>
+        <ChipRadioGroup
+          name='aluskateTyyppiId'
+          currentValue={extraData.aluskateTyyppiId}
+          dataArray={aluskatetyypit}
+          labelKey='label'
+          valueKey='id'
+        />
       }
     />
   );

@@ -86,7 +86,7 @@ export const ErrorMessage = ({ children, ...props }: React.PropsWithChildren) =>
   );
 };
 
-type FormControlProps = React.ComponentProps<'div'> & {
+export type FormControlProps = React.ComponentProps<'div'> & {
   control: React.ReactNode;
   label: React.ReactNode;
   helper?: React.ReactNode;

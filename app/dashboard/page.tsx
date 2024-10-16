@@ -1,6 +1,5 @@
 import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Main } from '@/components/New/Main';
-import { Menu } from '@/components/New/Menu';
 import { Card } from '@/components/UI/Card';
 import { Home, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
@@ -10,6 +9,10 @@ import Link from 'next/link';
 import { CardMenuButton } from '@/components/New/CardMenuButton';
 import { redirect } from 'next/navigation';
 import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { IconButton } from '@mui/material';
+import { VPMenu } from '@/components/UI/VPMenu';
+import { PropertyCardHeaderContent } from './_components/PropertyCardHeaderContent';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
@@ -40,35 +43,7 @@ export default async function newDashboardPage() {
                 (mainImageId && `/api/protected/files/${mainImageId}`) ||
                 '/img/Properties/default-bg.jpg'
               }
-              HeaderComponent={() => {
-                return (
-                  <>
-                    <Menu trigger={<MoreVert sx={{ color: 'white' }} />}>
-                      <Link href={`/dashboard/properties/${item.id}/edit`}>Muokkaa</Link>
-                      <Link
-                        href={`/dashboard/properties/${item.id}/events`}
-                        title='Näytä tapahtumat'>
-                        Tapahtumat
-                      </Link>
-                      <Link
-                        href={`/dashboard/properties/${item.id}/files`}
-                        title='Näytä tiedostot'>
-                        Tiedostot
-                      </Link>
-                      <Link
-                        href={`/dashboard/properties/${item.id}/utility`}
-                        title='Näytä kulutustiedot'>
-                        Kulutustiedot
-                      </Link>
-                      <Link
-                        title='Poista talo...'
-                        href={`/dashboard/properties/${item.id}/delete`}>
-                        Poista
-                      </Link>
-                    </Menu>
-                  </>
-                );
-              }}
+              HeaderComponent={() => <PropertyCardHeaderContent item={item} />}
             />
           );
         }}

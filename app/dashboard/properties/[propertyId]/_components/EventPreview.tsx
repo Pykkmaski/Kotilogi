@@ -4,10 +4,9 @@ import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
 import { History, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { Menu } from '@/components/New/Menu';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
+import { EventCardHeaderContent } from './EventCardHeaderContent';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
   const events = await getEvents({ parentId: propertyId }, null, 4);
@@ -38,22 +37,10 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
                 imageSrc={imageSrc}
                 HeaderComponent={() => {
                   return (
-                    <>
-                      <Menu trigger={<MoreVert sx={{ color: 'white' }} />}>
-                        <Link
-                          title='Muokkaa tietoja'
-                          href={`/dashboard/properties/${propertyId}/events/${item.id}/edit`}>
-                          Muokkaa
-                        </Link>
-
-                        <Link
-                          title='Näytä tiedostot'
-                          href={`/dashboard/properties/${propertyId}/events/${item.id}/files`}>
-                          Tiedostot
-                        </Link>
-                        <Link href={`${propertyId}/events/${item.id}/delete`}>Poista</Link>
-                      </Menu>
-                    </>
+                    <EventCardHeaderContent
+                      propertyId={propertyId}
+                      item={item}
+                    />
                   );
                 }}
               />

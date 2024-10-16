@@ -7,11 +7,10 @@ import { getSurfaces } from '../actions';
 import Spinner from '@/components/UI/Spinner';
 import { FormControl } from '@/components/UI/FormUtils';
 import { useState } from 'react';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 
 export const SurfaceSelector = () => {
-  const {
-    refs: { mainEventTypes },
-  } = useEventTypeContext();
   const { typeData, selectedSurfaceIds, toggleSurfaceId } = useEventFormContext();
 
   const { data: surfaces, isLoading } = useQuery({
@@ -19,29 +18,25 @@ export const SurfaceSelector = () => {
     queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
   });
 
-  return (
+  return isLoading ? (
+    <Spinner message='Ladataan pintoja...' />
+  ) : (
     <FormControl
       label='Pinnat'
       helper='Valitse yksi tai useampi.'
       control={
         <RadioGroup name='surfaceId'>
-          {isLoading ? (
-            <Spinner
-              size='1rem'
-              message='Ladataan pintoja...'
-            />
-          ) : (
-            surfaces.map((type, i) => (
+          {surfaces.map(s => {
+            return (
               <ChipButton
-                key={`checkbox-${i}`}
-                value={type.id}
                 type='checkbox'
-                label={type.label}
-                onChange={() => toggleSurfaceId(type.id)}
-                checked={selectedSurfaceIds.includes(type.id)}
+                label={s.label}
+                value={s.id}
+                onClick={() => toggleSurfaceId(s.id)}
+                checked={selectedSurfaceIds.includes(s.id)}
               />
-            ))
-          )}
+            );
+          })}
         </RadioGroup>
       }
     />

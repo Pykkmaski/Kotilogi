@@ -12,16 +12,7 @@ import { MainDataForm } from './Forms/MainDataForm';
 import { ExtraDataForm } from './Forms/ExtraDataForm';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
-import { Button } from '@/components/New/Button';
-import { Check } from '@mui/icons-material';
-import Spinner from '@/components/UI/Spinner';
+import { Dialog } from '@mui/material';
 
 type EventFormProps = {
   propertyId: string;
@@ -80,13 +71,12 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
   };
 
   const showMainDataForm = () => {
-    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
-      //Display the form when at least one surface is selected.
-      return selectedSurfaceIds.length != 0;
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
       return isDefined(typeData.targetId);
     } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
       return isDefined(typeData.targetId) && isDefined(typeData.workTypeId);
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
+      return true;
     } else {
       return false;
     }
@@ -130,7 +120,7 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
 
       <div className='md:w-[50%] xs:w-full flex flex-col gap-4'>
         <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
-        {!eventData && <TypeDataForm />}
+        {!editing && <TypeDataForm />}
         <ExtraDataForm editing={eventData} />
         {showMainDataForm() && <MainDataForm editing={eventData} />}
       </div>

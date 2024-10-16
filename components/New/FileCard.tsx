@@ -5,12 +5,13 @@ import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
-import { Menu } from './Menu';
 import { CardMenuButton } from './CardMenuButton';
 import { useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
+import { VisibilityProvider } from '../Util/VisibilityProvider';
+import { VPMenu } from '../UI/VPMenu';
 
 type FileCardProps = {
   file: FileDataType;
@@ -69,12 +70,20 @@ export function FileCard({ file, isMain }: FileCardProps) {
   return (
     <div className='relative flex flex-col aspect-square w-[25%] overflow-hidden rounded-md shadow-md'>
       <div className='flex p-2 gap-2 w-full z-20 justify-end bg-[#0004] items-center'>
-        <Menu trigger={<CardMenuButton />}>
-          {file.type == 'image/jpeg' && (
-            <span onClick={!loading && setMainImage}>Aseta pääkuvaksi</span>
-          )}
-          <span onClick={!loading && deleteFile}>Poista</span>
-        </Menu>
+        <VisibilityProvider>
+          <VisibilityProvider.Trigger setAsAnchorForMUI>
+            <CardMenuButton />
+          </VisibilityProvider.Trigger>
+
+          <VisibilityProvider.Target>
+            <VPMenu>
+              {file.type == 'image/jpeg' && (
+                <span onClick={!loading && setMainImage}>Aseta pääkuvaksi</span>
+              )}
+              <span onClick={!loading && deleteFile}>Poista</span>
+            </VPMenu>
+          </VisibilityProvider.Target>
+        </VisibilityProvider>
       </div>
       {file.type == 'image/jpeg' ? (
         <Image

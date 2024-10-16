@@ -1,6 +1,7 @@
 import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { useCallback } from 'react';
+import { useEventFormContext } from '../EventFormContext';
 
 const dataStorageKey = 'kotidok-event-type-data';
 
@@ -30,7 +31,11 @@ function initTypeData(eventData: TODO): {
 }
 
 /**Handles the type data of the event form. Should be used within the main useEventForm-hook. */
-export const useTypeData = (eventData: TODO, resetMainData: (d: any) => void) => {
+export const useTypeData = (
+  eventData: TODO,
+  resetMainData: (d: any) => void,
+  resetSelectedSurfaceIds: () => void
+) => {
   const {
     data: typeData,
     updateData: _updateTypeData,
@@ -65,6 +70,7 @@ export const useTypeData = (eventData: TODO, resetMainData: (d: any) => void) =>
             });
 
             resetMainData({});
+            resetSelectedSurfaceIds();
           }
           break;
 

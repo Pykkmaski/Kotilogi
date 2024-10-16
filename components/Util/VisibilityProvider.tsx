@@ -1,14 +1,14 @@
 'use client';
 
 import { useToggle } from '@/hooks/useToggle';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { cloneElement, useContext, useEffect, useRef, useState } from 'react';
 import { createContext } from 'react';
 
 type VisibilityProviderContextProps = {
   visible: boolean;
   toggleState: (state?: boolean) => void;
-  trigger: React.ReactElement;
-  updateTrigger: (el: React.ReactElement) => void;
+  anchorEl: Element | null;
+  updateAnchorEl: (e: any) => void;
 };
 
 const VisibilityProviderContext = createContext<VisibilityProviderContextProps | null>(null);
@@ -26,7 +26,7 @@ export function VisibilityProvider({
   const { state: visible, toggleState: toggle } = useToggle(
     (initVisibility && initVisibility()) || false
   );
-  const [trigger, setTrigger] = useState<React.ReactElement>(null);
+  const [anchorEl, setAnchorEl] = useState<Element>(null);
 
   const toggleState = (state?: boolean) => {
     if (toggleOverride) {
@@ -36,46 +36,52 @@ export function VisibilityProvider({
     }
   };
 
-  const updateTrigger = (el: React.ReactElement) => setTrigger(el);
+  const updateAnchorEl = (e: any) => setAnchorEl(e.currentTarget);
 
   return (
     <VisibilityProviderContext.Provider
       value={{
         visible,
         toggleState,
-        trigger,
-        updateTrigger,
+        anchorEl,
+        updateAnchorEl,
       }}>
       {children}
     </VisibilityProviderContext.Provider>
   );
 }
 
+type TriggerProps = React.PropsWithChildren & {
+  /**Tells the trigger to set itself as an anchor element, usable by material ui menus to position themselves.
+   * Each VisibilityProvider can only have one trigger with this set to true. */
+  setAsAnchorForMUI?: boolean;
+};
+
 /**Toggles the visibilty of the children of a VisibilityProvider.Target. */
-VisibilityProvider.Trigger = function ({ children }: React.PropsWithChildren) {
-  const { toggleState, trigger, updateTrigger } = useVisibilityProviderContext();
+VisibilityProvider.Trigger = function ({ children, setAsAnchorForMUI = false }: TriggerProps) {
   if (React.Children.count(children) > 1) {
-    throw new Error('A VisibilityProvider.Trigger can only have one child!');
+    throw new Error('A VisibilityProvider.Trigger must have exactly one child!');
+  }
+  const anchorCreated = useRef(false);
+  const { toggleState, updateAnchorEl, anchorEl } = useVisibilityProviderContext();
+
+  if (setAsAnchorForMUI && anchorEl != null && anchorCreated.current == false) {
+    throw new Error('The VisibiltyProvider in scope already has a trigger as a reference!');
   }
 
-  const triggerElement = React.Children.toArray(children).at(0) as React.ReactElement;
+  const [trigger] = React.Children.toArray(children) as [React.ReactElement];
 
-  useEffect(() => {
-    updateTrigger(
-      React.cloneElement(triggerElement, {
-        ...triggerElement.props,
-        onClick: () => {
-          if (triggerElement.props.onClick) {
-            triggerElement.props.onClick();
-          }
-
-          toggleState();
-        },
-      })
-    );
-  }, []);
-
-  return trigger;
+  return React.cloneElement(trigger, {
+    ...trigger.props,
+    onClick: e => {
+      trigger.props.onClick && trigger.props.onClick(e);
+      if (setAsAnchorForMUI) {
+        updateAnchorEl(e);
+        anchorCreated.current = true;
+      }
+      toggleState();
+    },
+  });
 };
 
 /**Passes an isVisible prop to its children, when the Trigger is clicked. */

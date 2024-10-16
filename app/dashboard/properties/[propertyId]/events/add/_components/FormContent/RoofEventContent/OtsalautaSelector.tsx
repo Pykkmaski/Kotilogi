@@ -5,34 +5,28 @@ import Spinner from '@/components/UI/Spinner';
 import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { FormControl } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../../EventFormContext';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const OtsalautaSelector = () => {
   const { extraData } = useEventFormContext();
-  const { data: otsalautatyypit, isLoading: isOtsalaudatLoading } = useQuery({
+  const { data: otsalautatyypit, isLoading } = useQuery({
     queryKey: ['otsalautatyypit'],
     queryFn: async () => await getOtsalautatyypit(),
   });
 
   return (
-    <FormControl
+    <SuspenseFormControl
+      isLoading={isLoading}
       label='Otsalaudat'
       control={
-        <RadioGroup name='otsalautaTyyppiId'>
-          {isOtsalaudatLoading ? (
-            <Spinner
-              size='1rem'
-              message='Ladataan otsalautatyyppejä...'
-            />
-          ) : (
-            otsalautatyypit.map(t => (
-              <ChipButton
-                label={t.label}
-                value={t.id}
-                checked={extraData.otsalautaTyyppiId == t.id}
-              />
-            ))
-          )}
-        </RadioGroup>
+        <ChipRadioGroup
+          name='otsalautaTyyppiId'
+          dataArray={otsalautatyypit}
+          currentValue={extraData.otsalautaTyyppiId}
+          labelKey='label'
+          valueKey='id'
+        />
       }
     />
   );

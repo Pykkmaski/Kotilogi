@@ -7,10 +7,19 @@ import { useEventTypeContext } from '../EventTypeProvider';
 
 export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
   const { refs } = useEventTypeContext();
+
   const { mainData, updateMainData, mainDataHasChanges, resetMainData, files } =
     useMainData(eventData);
-  const { typeData, updateTypeData, typeDataHasChanges } = useTypeData(eventData, resetMainData);
+
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
+  const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
+
+  const { typeData, updateTypeData, typeDataHasChanges } = useTypeData(
+    eventData,
+    resetMainData,
+    resetSelectedSurfaceIds
+  );
+
   const { extraData, updateExtraData } = useExtraData(initialExtraData);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const router = useRouter();
@@ -26,7 +35,6 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
   }, [hasChanges, router]);
 
   const toggleSurfaceId = id => {
-    console.log('Toggling ' + id);
     const alreadySelected = selectedSurfaceIds.find(selectedId => selectedId == id);
     if (alreadySelected) {
       //Deselect the id by removing it from the array.
@@ -52,5 +60,6 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
     refs,
     showConfirmationDialog,
     setShowConfirmationDialog,
+    resetSelectedSurfaceIds,
   };
 }

@@ -28,6 +28,7 @@ export function ChipButton({
         }}
       />
       <Chip
+        size='medium'
         variant={checked ? 'filled' : 'outlined'}
         sx={
           checked && {

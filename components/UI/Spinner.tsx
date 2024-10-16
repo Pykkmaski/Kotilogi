@@ -1,13 +1,13 @@
 import styles from './styles/Spinner.module.scss';
 
 export type SpinnerProps = {
-  size: string;
+  size?: string;
   message?: string;
   className?: string;
   animated?: boolean;
 };
 
-export default function Spinner({ message, animated, size, ...props }: SpinnerProps) {
+export default function Spinner({ message, animated, size = '1rem', ...props }: SpinnerProps) {
   const className = animated ? `${styles.container} ${styles.animated}` : styles.container;
 
   return (
