@@ -13,3 +13,5 @@ export const getLockTypes = async () => db('ref_lockTypes');
 export const getElectricityJobTargets = async () => db('ref_electricityJobTargets');
 export const getKayttovesiAsennusTavat = async () => db('ref_kayttovesiPutketAsennusTavat');
 export const getViemariPutketAsennusTavat = async () => db('ref_viemariPutketToteutusTapa');
+export const getEristeMateriaalit = async () => db('ref_eristeMateriaalit');
+export const getEristeKohteet = async () => db('ref_eristeKohde');

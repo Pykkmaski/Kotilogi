@@ -13,6 +13,7 @@ import { BoxHeader, BoxTitle } from '@/components/New/Boxes/BoxHeader';
 import { Info } from '@mui/icons-material';
 import { KayttovesiputketContent } from './KayttovesiputketContent';
 import { ViemariputketContent } from './ViemariputketContent';
+import { EristeContent } from './EristeContent';
 
 const EventDetailsContext = createContext<{ mainData: EventDataType; extraData: any } | null>(null);
 
@@ -42,6 +43,10 @@ export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
 
           case 'Viemäriputket':
             content = <ViemariputketContent />;
+            break;
+
+          case 'Eristys':
+            content = <EristeContent />;
             break;
         }
       }

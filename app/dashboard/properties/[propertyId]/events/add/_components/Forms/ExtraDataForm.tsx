@@ -9,7 +9,8 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { LockEventContent } from '../FormContent/LockEventContent/LockEventContent';
 import { ElectricityEventContent } from '../FormContent/ElectricityEventContent/ElectricityEventContent';
 import { KayttoVesiEventContent } from '../FormContent/KayttovesiEventContent/KayttovesiEventContent';
-import { ViemariPutketEventContent } from '../FormContent/ViemariPutketEventContent/ViemariputketEventContent';
+import { EristeEventContent } from '../FormContent/EristeEventContent/EristeEventContent';
+import { ViemariPutketEventContent } from '../FormContent/ViemariPutketEventContent/ViemariPutketEventContent';
 
 export function ExtraDataForm({ editing }) {
   const { updateExtraData, extraData, typeData } = useEventFormContext();
@@ -35,6 +36,8 @@ export function ExtraDataForm({ editing }) {
       content = <KayttoVesiEventContent />;
     } else if (targetId == getIdByLabel(refs.eventTargets, 'Viemäriputket')) {
       content = <ViemariPutketEventContent />;
+    } else if (targetId == getIdByLabel(refs.eventTargets, 'Eristys')) {
+      content = <EristeEventContent />;
     } else {
       console.error(
         'Additional content not implemented for target type with id ' + typeData.targetId

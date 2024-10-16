@@ -94,6 +94,18 @@ export const getExtraEventData = async (eventId: string) => {
           'data_viemariPutketEvents.*',
           'ref_viemariPutketToteutusTapa.label as toteutusTapaLabel'
         );
+    } else if (typeData.targetId == getIdByLabel(targets, 'Eristys')) {
+      return await db('data_eristeEvents')
+        .join('ref_eristeKohde', { 'ref_eristeKohde.id': 'data_eristeEvents.kohdeId' })
+        .join('ref_eristeMateriaalit', {
+          'ref_eristeMateriaalit.id': 'data_eristeEvents.materiaaliId',
+        })
+        .where({ 'data_eristeEvents.id': eventId })
+        .select(
+          'data_eristeEvents.*',
+          'ref_eristeMateriaalit.label as materialLabel',
+          'ref_eristeKohde.label as targetLabel'
+        );
     } else {
       throw new Error(
         'Extra data read logic for event with target ' + typeData.targetId + ' not implemented!'

@@ -61,6 +61,8 @@ export async function createExtraEventData(
       await runBaseInsert('data_kayttoVesiPutketEvents');
     } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Viemäriputket')) {
       await runBaseInsert('data_viemariPutketEvents');
+    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Eristys')) {
+      await runBaseInsert('data_eristeEvents');
     } else {
       throw new Error('Unsupported targetId ' + typeData.targetId);
     }
