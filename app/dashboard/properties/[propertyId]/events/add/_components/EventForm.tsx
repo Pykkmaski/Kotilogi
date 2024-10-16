@@ -23,22 +23,9 @@ type EventFormProps = {
 export function EventForm({ propertyId, eventData, initialExtraData }: EventFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
 
-  const {
-    mainData,
-    typeData,
-    extraData,
-    updateMainData,
-    updateTypeData,
-    updateExtraData,
-    showConfirmationDialog,
-    setShowConfirmationDialog,
-    cancel,
-    files,
-    editing,
-    selectedSurfaceIds,
-    toggleSurfaceId,
-    refs,
-  } = useEventForm(eventData, initialExtraData);
+  const eventFormProps = useEventForm(eventData, initialExtraData);
+  const { mainData, typeData, extraData, selectedSurfaceIds, files, refs, editing } =
+    eventFormProps;
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -76,48 +63,18 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
     } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
       return isDefined(typeData.targetId) && isDefined(typeData.workTypeId);
     } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
-      return true;
+      return isDefined(typeData.targetId);
     } else {
       return false;
     }
   };
 
-  /**
-   * @todo
-   */
-  const isSubmitButtonDisabled = () => {
-    const defaultRequiredFieldsDefined = () => {
-      return isDefined(mainData.date);
-    };
-
-    var state: boolean;
-    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
-      if (typeData.targetId == getIdByLabel(refs.eventTargets, 'Katto')) {
-        state = isDefined(extraData.roofTypeId) && isDefined(extraData.roofMaterialId);
-      } else if (typeData.targetId == getIdByLabel(refs.eventTargets, 'Salaojat')) {
-        state = isDefined(extraData.toteutusTapaId);
-      }
-    }
-  };
-
   return (
     <EventFormProvider
-      setShowConfirmationDialog={setShowConfirmationDialog}
-      editing={editing}
-      status={status}
+      {...eventFormProps}
       onSubmit={onSubmit}
-      cancel={cancel}
-      mainData={mainData}
-      updateMainData={updateMainData}
-      typeData={typeData}
-      updateTypeData={updateTypeData}
-      extraData={extraData}
-      updateExtraData={updateExtraData}
-      selectedSurfaceIds={selectedSurfaceIds}
-      toggleSurfaceId={toggleSurfaceId}
+      status={status}
       propertyId={propertyId}>
-      <Dialog open={showConfirmationDialog}></Dialog>
-
       <div className='md:w-[50%] xs:w-full flex flex-col gap-4'>
         <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
         {!editing && <TypeDataForm />}

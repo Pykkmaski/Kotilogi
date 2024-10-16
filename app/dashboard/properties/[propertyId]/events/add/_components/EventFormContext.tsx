@@ -30,8 +30,6 @@ type EventFormProviderProps = {
 
   toggleSurfaceId: (id: number) => void;
   selectedSurfaceIds: number[];
-
-  setShowConfirmationDialog: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const EventContext = React.createContext<EventFormProviderProps | null>(null);

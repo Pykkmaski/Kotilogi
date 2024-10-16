@@ -11,11 +11,17 @@ const init = (initialData: any) => {
 
 /**Handles the extra data of the event form. Should be used within the main useEventForm-hook. */
 export const useExtraData = (initialData: TODO) => {
-  const { data: extraData, updateData: updateExtraData } = useInputData(init(initialData));
+  const {
+    data: extraData,
+    updateData: updateExtraData,
+    resetData,
+  } = useInputData(init(initialData));
   useSaveToSessionStorage(extraDataStorageKey, extraData);
+  const resetExtraData = (d: any) => resetData(d);
 
   return {
     extraData,
     updateExtraData,
+    resetExtraData,
   };
 };

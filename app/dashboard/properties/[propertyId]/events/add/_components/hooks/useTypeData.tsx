@@ -34,7 +34,8 @@ function initTypeData(eventData: TODO): {
 export const useTypeData = (
   eventData: TODO,
   resetMainData: (d: any) => void,
-  resetSelectedSurfaceIds: () => void
+  resetSelectedSurfaceIds: () => void,
+  resetExtraData: (d: any) => void
 ) => {
   const {
     data: typeData,
@@ -47,7 +48,6 @@ export const useTypeData = (
 
   const updateTypeData = useCallback(
     e => {
-      console.log(e.target.name);
       switch (e.target.name) {
         case 'mainTypeId':
           {
@@ -71,6 +71,7 @@ export const useTypeData = (
 
             resetMainData({});
             resetSelectedSurfaceIds();
+            resetExtraData({});
           }
           break;
 

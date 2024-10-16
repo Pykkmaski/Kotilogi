@@ -13,14 +13,15 @@ export function useEventForm(eventData: TODO, initialExtraData?: TODO) {
 
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
   const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
+  const { extraData, updateExtraData, resetExtraData } = useExtraData(initialExtraData);
 
   const { typeData, updateTypeData, typeDataHasChanges } = useTypeData(
     eventData,
     resetMainData,
-    resetSelectedSurfaceIds
+    resetSelectedSurfaceIds,
+    resetExtraData
   );
 
-  const { extraData, updateExtraData } = useExtraData(initialExtraData);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const router = useRouter();
   const hasChanges = mainDataHasChanges || typeDataHasChanges;
