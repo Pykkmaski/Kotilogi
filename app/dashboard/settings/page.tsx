@@ -6,6 +6,7 @@ import { Main } from '@/components/New/Main';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { Heading } from '@/components/UI/Heading';
 import Spinner from '@/components/UI/Spinner';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useSession } from 'next-auth/react';
@@ -36,9 +37,9 @@ export default function SettingsPage() {
   return (
     <Main>
       <Heading>Asetukset</Heading>
-      {loading ? (
-        <Spinner size='1rem' />
-      ) : (
+      <RenderOnCondition
+        condition={!loading}
+        fallback={<Spinner />}>
         <>
           <FormBase onSubmit={updateEmail}>
             <FormControl
@@ -65,7 +66,7 @@ export default function SettingsPage() {
             </div>
           </FormBase>
         </>
-      )}
+      </RenderOnCondition>
     </Main>
   );
 }
