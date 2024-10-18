@@ -2,6 +2,7 @@ import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { useCallback } from 'react';
 import { useEventFormContext } from '../EventFormContext';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 
 const dataStorageKey = 'kotidok-event-type-data';
 
@@ -40,9 +41,9 @@ export const useTypeData = (
   const {
     data: typeData,
     updateData: _updateTypeData,
-    setData: setTypeData,
+    resetData: resetTypeData,
     hasChanges: typeDataHasChanges,
-  } = useInputData(initTypeData(eventData));
+  } = useFormOnChangeObject(initTypeData(eventData));
 
   useSaveToSessionStorage(dataStorageKey, typeData);
 
@@ -51,7 +52,7 @@ export const useTypeData = (
       switch (e.target.name) {
         case 'mainTypeId':
           {
-            setTypeData({
+            resetTypeData({
               mainTypeId: e.target.value,
               targetId: null,
               workTypeId: null,
@@ -63,7 +64,7 @@ export const useTypeData = (
 
         case 'targetId':
           {
-            setTypeData({
+            resetTypeData({
               ...typeData,
               targetId: e.target.value,
               workTypeId: null,
@@ -79,7 +80,7 @@ export const useTypeData = (
           _updateTypeData(e);
       }
     },
-    [setTypeData, _updateTypeData, resetMainData]
+    [resetTypeData, _updateTypeData, resetMainData]
   );
 
   return {

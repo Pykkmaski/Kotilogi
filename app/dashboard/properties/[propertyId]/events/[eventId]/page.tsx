@@ -16,8 +16,8 @@ export default async function EventPage({ params }) {
   //Fetch data back-to-back to conserve db connection pool.
   const [eventData] = await getEvents({ id: eventId });
   const [extraData] = await getExtraEventData(eventId);
+  console.log(extraData);
 
-  console.log(eventData.date);
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
     .where({ parentId: eventId })

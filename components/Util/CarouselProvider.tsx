@@ -4,6 +4,7 @@ import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import React, { useEffect } from 'react';
 import { createContext, useState } from 'react';
 import { Modal } from '../UI/Modal';
+import { PassProps } from './PassProps';
 
 const CarouselProviderContext = createContext<{
   stepForward: () => void;
@@ -109,35 +110,23 @@ CarouselProvider.SelectSlotTrigger = function ({
   ...props
 }: SelectSlotTriggerProps) {
   const { showSlot } = useCarouselProviderContext();
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child,
-      ...props,
-      onClick: () => showSlot(slotToSelect),
-    })
+  return (
+    <PassProps
+      {...props}
+      onClick={() => showSlot(slotToSelect)}>
+      {children}
+    </PassProps>
   );
 };
 
 CarouselProvider.NextTrigger = function ({ children }) {
   const { stepForward } = useCarouselProviderContext();
-
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      onClick: () => stepForward(),
-    })
-  );
+  return <PassProps onClick={() => stepForward()}>{children}</PassProps>;
 };
 
 CarouselProvider.PreviousTrigger = function ({ children }) {
   const { stepBackward } = useCarouselProviderContext();
-
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      onClick: stepBackward,
-    })
-  );
+  return <PassProps onClick={stepBackward}>{children}</PassProps>;
 };
 
 CarouselProvider.HideOnSlot = function ({ children, slotToHideOn }) {

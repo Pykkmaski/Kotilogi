@@ -101,3 +101,5 @@ export const getSurfaces = async () => {
   const surfaces = await db('ref_surfaces');
   return surfaces;
 };
+
+export const getEventCategories = async () => db('ref_eventCategories');

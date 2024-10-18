@@ -72,6 +72,7 @@ export const getExtraEventData = async (eventId: string) => {
             'ref_electricHeatingMethodTypes.label as methodLabel'
           );
       }
+      console.log(eventId);
 
       return await query.where({ 'data_baseHeatingEvents.id': eventId });
     } else if (typeData.targetId == getIdByLabel(targets, 'Käyttövesiputket')) {

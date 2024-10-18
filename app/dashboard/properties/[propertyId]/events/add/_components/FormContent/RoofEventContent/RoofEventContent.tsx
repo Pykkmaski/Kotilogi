@@ -1,10 +1,4 @@
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { FormControl, Input, Label } from '@/components/UI/FormUtils';
-import { useEventTypeContext } from '../../EventTypeProvider';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
-import { useQuery } from '@tanstack/react-query';
-import { getAluskatetyypit, getColors, getOtsalautatyypit, getRaystastyypit } from '../actions';
-import Spinner from '@/components/UI/Spinner';
+import { FormControl, Input } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../../EventFormContext';
 import { Checkbox } from '@/components/Feature/RadioGroup/Checkbox';
 import { RoofDataType } from 'kotilogi-app/dataAccess/types';

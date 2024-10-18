@@ -1,3 +1,4 @@
+import { useFormOnChange } from '@/hooks/useFormOnChange';
 import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
@@ -28,12 +29,11 @@ function initMainData(eventData: TODO) {
 export const useMainData = (eventData: TODO) => {
   const {
     data: mainData,
-    updateData: updateMainData,
-    setData: setMainData,
+    onChange: updateMainData,
     hasChanges: mainDataHasChanges,
     resetData: resetMainData,
     files,
-  } = useInputData(initMainData(eventData));
+  } = useFormOnChange(initMainData(eventData));
 
   useSaveToSessionStorage(mainDataStorageKey, mainData);
   return {

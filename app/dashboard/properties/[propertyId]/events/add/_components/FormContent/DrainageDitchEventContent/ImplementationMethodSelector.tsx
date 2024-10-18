@@ -5,6 +5,8 @@ import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import Spinner from '@/components/UI/Spinner';
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { useEventFormContext } from '../../EventFormContext';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const ImplementationMethodSelector = () => {
   const { extraData } = useEventFormContext();
@@ -14,26 +16,19 @@ export const ImplementationMethodSelector = () => {
   });
 
   return (
-    <FormControl
+    <SuspenseFormControl
+      isLoading={isLoading}
       label='Toteutustapa'
+      loadingText='Ladataan toteutustapoja...'
       required
       control={
-        <RadioGroup name='toteutusTapaId'>
-          {isLoading ? (
-            <Spinner
-              size='1rem'
-              message='Ladataan toteutustapoja...'
-            />
-          ) : (
-            drainageDitchMethods.map(m => (
-              <ChipButton
-                value={m.id}
-                label={m.label}
-                checked={extraData && extraData.toteutusTapaId == m.id}
-              />
-            ))
-          )}
-        </RadioGroup>
+        <ChipRadioGroup
+          name='toteutusTapaId'
+          valueKey='id'
+          labelKey='label'
+          dataArray={drainageDitchMethods}
+          currentValue={extraData.toteutusTapaId}
+        />
       }
     />
   );

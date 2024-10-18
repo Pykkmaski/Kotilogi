@@ -3,6 +3,7 @@ import { Checkbox, CheckboxLabel } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyFormContext';
 
 import { AppartmentDataType } from 'kotilogi-app/dataAccess/types';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 export function OtherInfoField() {
   const { property: data, propertyTypes } = usePropertyFormContext() as {
@@ -22,8 +23,7 @@ export function OtherInfoField() {
           />
         }
       />
-
-      {data.propertyTypeId == propertyTypes['Huoneisto'] ? (
+      <RenderOnCondition condition={data.propertyTypeId == propertyTypes['Huoneisto']}>
         <CheckboxLabel
           label='Parveke'
           control={
@@ -34,7 +34,7 @@ export function OtherInfoField() {
             />
           }
         />
-      ) : null}
+      </RenderOnCondition>
     </Fieldset>
   );
 }

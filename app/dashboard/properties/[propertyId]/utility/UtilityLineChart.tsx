@@ -1,6 +1,15 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { useUtilityProviderContext } from './UtilityContext';
 import { aggregateToMonths, aggregateToYears } from './aggregateData';
 import colors from 'kotilogi-app/colors';
@@ -49,7 +58,7 @@ export function UtilityLineChart() {
               return date.toLocaleDateString('fi', { month: 'long' });
             }}
           />
-          <YAxis />
+
           <XAxis
             dataKey='month'
             tickFormatter={entry => {

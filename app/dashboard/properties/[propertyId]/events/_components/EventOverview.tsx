@@ -8,6 +8,7 @@ import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import { Chip } from '@mui/material';
 import { Spacer } from '@/components/New/Spacer';
+import { deleteEventAction } from '../[eventId]/delete/_components/actions';
 
 type EventOverviewProps<T extends EventDataType> = {
   event: T;
@@ -16,10 +17,14 @@ type EventOverviewProps<T extends EventDataType> = {
 export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
   const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
   const editUrl = `/dashboard/properties/${event.parentId}/events/${event.id}/edit`;
+  const deleteUrl = `/dashboard/properties/${event.parentId}/events/${event.id}/delete`;
 
   return (
     <OverviewBox
-      deleteUrl={`/dashboard/properties/${event.parentId}/events/${event.id}/delete`}
+      deleteAction={async () => {
+        'use server';
+        await deleteEventAction(event.id);
+      }}
       title={event.title}
       description={
         <Spacer

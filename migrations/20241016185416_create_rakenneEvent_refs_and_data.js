@@ -3,12 +3,12 @@
  * @returns { Promise<void> }
  */
 
-const refTableName = 'ref_viemariPutketToteutusTapa';
-const dataTableName = 'data_viemariPutketEvents';
+const dataTableName = 'data_structureEvents';
+const targetsTableName = 'ref_structureEventTargets';
 
 exports.up = function (knex) {
   return knex.schema
-    .createTable(refTableName, tbl => {
+    .createTable(targetsTableName, tbl => {
       tbl.increments('id');
       tbl.string('label', 32).unique();
     })
@@ -19,12 +19,12 @@ exports.up = function (knex) {
         .references('id')
         .inTable('data_propertyEvents')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onUpdate('CASCADE');
       tbl
-        .integer('toteutusTapaId')
+        .integer('targetId')
         .notNullable()
         .references('id')
-        .inTable(refTableName)
+        .inTable(targetsTableName)
         .onUpdate('CASCADE');
     });
 };
@@ -34,5 +34,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists(dataTableName).dropTableIfExists(refTableName);
+  return knex.schema.dropTableIfExists(dataTableName).dropTableIfExists(targetsTableName);
 };

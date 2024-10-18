@@ -1,6 +1,6 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input, Label } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
@@ -11,6 +11,8 @@ import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_co
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 import { Check, Clear } from '@mui/icons-material';
 import { primary } from 'kotilogi-app/colors';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { RadioButton } from '@/components/Feature/RadioGroup/RadioButton';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
@@ -71,13 +73,16 @@ export function GeneralField({ hidePropertyIdentifier }) {
               <Input
                 data-testid='property-number-input'
                 icon={
-                  (data as TODO).propertyNumber && (data as TODO).propertyNumber.length > 0 ? (
-                    isValid ? (
+                  <RenderOnCondition
+                    condition={
+                      (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
+                    }>
+                    <RenderOnCondition
+                      condition={isValid}
+                      fallback={<Clear sx={{ color: 'red' }} />}>
                       <Check sx={{ color: 'lime' }} />
-                    ) : (
-                      <Clear sx={{ color: 'red' }} />
-                    )
-                  ) : null
+                    </RenderOnCondition>
+                  </RenderOnCondition>
                 }
                 name='propertyNumber'
                 placeholder='Kirjoita kiinteistötunnus...'
@@ -121,7 +126,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             }
           />
         </div>
-        {isHouse && (
+        <RenderOnCondition condition={isHouse}>
           <div className='w-full'>
             <FormControl
               label='Talon numero'
@@ -140,7 +145,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               }
             />
           </div>
-        )}
+        </RenderOnCondition>
       </div>
 
       <FormControl
@@ -156,7 +161,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
         }
       />
 
-      {!isHouse ? (
+      <RenderOnCondition condition={!isHouse}>
         <div className='w-full'>
           <FormControl
             label='Huoneiston numero'
@@ -173,7 +178,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             }
           />
         </div>
-      ) : null}
+      </RenderOnCondition>
 
       <FormControl
         label='Kuvaus'
@@ -198,7 +203,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
                 Talotyyppi
               </Label>
               <div className='grid grid-flow-row grid-cols-2 gap-4'>
-                <RadioGroup groupName='buildingTypeId'>
+                <RadioGroup name='buildingTypeId'>
                   {buildingTypes.map(({ name, id }) => {
                     return (
                       <RadioButton
@@ -219,7 +224,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             <Label boldText>Energialuokka</Label>
 
             <div className='grid grid-flow-row grid-cols-2 gap-4'>
-              <RadioGroup groupName='energyClassId'>
+              <RadioGroup name='energyClassId'>
                 {energyClasses.map(({ name, id }) => (
                   <RadioButton
                     label={name}

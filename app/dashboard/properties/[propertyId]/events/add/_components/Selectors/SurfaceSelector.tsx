@@ -1,13 +1,8 @@
 import { useEventFormContext } from '../EventFormContext';
-import { useEventTypeContext } from '../EventTypeProvider';
 import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { useQuery } from '@tanstack/react-query';
 import { getSurfaces } from '../actions';
-import Spinner from '@/components/UI/Spinner';
-import { FormControl } from '@/components/UI/FormUtils';
-import { useState } from 'react';
-import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 
 export const SurfaceSelector = () => {
@@ -18,10 +13,10 @@ export const SurfaceSelector = () => {
     queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
   });
 
-  return isLoading ? (
-    <Spinner message='Ladataan pintoja...' />
-  ) : (
-    <FormControl
+  return (
+    <SuspenseFormControl
+      isLoading={isLoading}
+      loadingText='Ladataan pintoja...'
       label='Pinnat'
       helper='Valitse yksi tai useampi.'
       control={

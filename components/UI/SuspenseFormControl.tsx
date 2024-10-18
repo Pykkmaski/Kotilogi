@@ -1,4 +1,5 @@
 import { ChipRadioGroup } from '../Feature/RadioGroup/ChipRadioGroup';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 import { FormControl, FormControlProps } from './FormUtils';
 import Spinner from './Spinner';
 
@@ -15,5 +16,11 @@ export function SuspenseFormControl({
   loadingText = 'Ladataan...',
   ...props
 }: SuspenseFormControlProps) {
-  return isLoading ? <Spinner message={loadingText} /> : <FormControl {...props} />;
+  return (
+    <RenderOnCondition
+      condition={!isLoading}
+      fallback={<Spinner message={loadingText} />}>
+      <FormControl {...props} />
+    </RenderOnCondition>
+  );
 }

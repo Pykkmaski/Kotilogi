@@ -1,9 +1,10 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyFormContext';
+import { RadioButton } from '@/components/Feature/RadioGroup/RadioButton';
 
 export function ExteriorField() {
   const { property, roofTypes, roofMaterials, buildingMaterials, mainColors } =
@@ -14,7 +15,7 @@ export function ExteriorField() {
       <div className='flex lg:flex-row xs:flex-col w-full'>
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Rakennusmateriaali</Label>
-          <RadioGroup groupName='buildingMaterialId'>
+          <RadioGroup name='buildingMaterialId'>
             {buildingMaterials.map(({ name, id }) => {
               return (
                 <RadioButton
@@ -32,7 +33,7 @@ export function ExteriorField() {
         <div className='flex flex-col gap-4 w-full xs:mt-8 lg:mt-0'>
           <Label boldText>Väri</Label>
           <div className='grid grid-flow-row gap-4 grid-cols-2'>
-            <RadioGroup groupName='mainColorId'>
+            <RadioGroup name='mainColorId'>
               {mainColors.map(({ name, id }) => {
                 return (
                   <RadioButton
@@ -53,7 +54,7 @@ export function ExteriorField() {
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Katon tyyppi</Label>
 
-          <RadioGroup groupName='roofTypeId'>
+          <RadioGroup name='roofTypeId'>
             {roofTypes.map(({ name, id }) => {
               return (
                 <RadioButton
@@ -71,7 +72,7 @@ export function ExteriorField() {
         <div className='flex flex-col gap-4 w-full'>
           <Label boldText>Katon materiaali</Label>
 
-          <RadioGroup groupName='roofMaterialId'>
+          <RadioGroup name='roofMaterialId'>
             {roofMaterials.map(({ name, id }) => (
               <RadioButton
                 data-testid={`roof-material-radio-${id}`}

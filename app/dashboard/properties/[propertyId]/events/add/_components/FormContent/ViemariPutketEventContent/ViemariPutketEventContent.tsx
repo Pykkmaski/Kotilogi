@@ -10,6 +10,7 @@ export const ViemariPutketEventContent = () => {
     queryKey: ['viemariputket-toteutustapa'],
     queryFn: async () => getViemariPutketAsennusTavat(),
   });
+
   return (
     <SuspenseFormControl
       isLoading={isLoading}

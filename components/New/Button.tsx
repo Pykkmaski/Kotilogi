@@ -1,7 +1,7 @@
 import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 import Spinner from '../UI/Spinner';
 
-type ButtonProps = MuiButtonProps & {
+export type ButtonProps = MuiButtonProps & {
   /**Displays a loading spinner as the start icon, if set to true. */
   loading?: boolean;
 };

@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getElectricityJobTargets, getLockTypes } from '../actions';
-import { FormControl } from '@/components/UI/FormUtils';
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
-import Spinner from '@/components/UI/Spinner';
+import { getElectricityJobTargets } from '../actions';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const TargetSelector = () => {
   const { data: targets, isLoading } = useQuery({
@@ -11,23 +9,18 @@ export const TargetSelector = () => {
     queryFn: async () => getElectricityJobTargets(),
   });
 
-  return isLoading ? (
-    <Spinner
-      size='1rem'
-      message='Ladataan kohteita...'
-    />
-  ) : (
-    <FormControl
+  return (
+    <SuspenseFormControl
+      isLoading={isLoading}
+      loadingText='Ladataan kohteita...'
       label='Kohde'
       control={
-        <RadioGroup name='jobTargetId'>
-          {targets.map(t => (
-            <ChipButton
-              label={t.label}
-              value={t.id}
-            />
-          ))}
-        </RadioGroup>
+        <ChipRadioGroup
+          name='jobTargetId'
+          dataArray={targets}
+          valueKey='id'
+          labelKey='label'
+        />
       }
     />
   );

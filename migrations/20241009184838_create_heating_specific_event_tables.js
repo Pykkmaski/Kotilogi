@@ -16,7 +16,8 @@ exports.up = function (knex) {
       .notNullable()
       .references('id')
       .inTable(baseHeatingEventTable)
-      .onUpdate('CASCADE');
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
 
   return knex.schema
     .createTable(electricHeatingMethodsTable, tbl => {
@@ -30,7 +31,9 @@ exports.up = function (knex) {
         .notNullable()
         .references('id')
         .inTable('data_propertyEvents')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+
       tbl.string('model');
       tbl.string('brand');
       tbl
@@ -63,8 +66,8 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema
-    .dropTableIfExists(electricHeatingMethodsTable)
     .dropTableIfExists(electricHeatingEventTable)
     .dropTableIfExists(oilHeatingEventTable)
-    .dropTableIfExists(baseHeatingEventTable);
+    .dropTableIfExists(baseHeatingEventTable)
+    .dropTableIfExists(electricHeatingMethodsTable);
 };

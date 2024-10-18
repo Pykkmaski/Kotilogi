@@ -4,6 +4,7 @@ import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import { createContext, useEffect, useRef } from 'react';
+import { PassProps } from './PassProps';
 
 const HighlightingNavbarProviderContext = createContext<{
   currentPath: string;
@@ -38,12 +39,7 @@ HighlightingNavbarProvider.Link = function ({ children }) {
     }
   }, [currentPath]);
 
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      selected,
-    })
-  );
+  return <PassProps selected={selected}>{children}</PassProps>;
 };
 
 const useHighlightingNavbarProviderContext = createUseContextHook(

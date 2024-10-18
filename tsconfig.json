@@ -57,7 +57,8 @@
     "components/new/Gallery/GalleryBase/Components/Error/GalleryError.test.jsx",
     "components/Util/HighlightingNavbar.Providertsx",
     "components/Util/__tests__/VisibilityProvider.test.tsx",
-    "migrations/20240724133036_create_ref_tables.js"
+    "migrations/20240724133036_create_ref_tables.js",
+    "seeds/fill_eventTypes.ts"
   ],
   "exclude": ["node_modules"]
 }

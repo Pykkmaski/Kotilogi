@@ -3,6 +3,7 @@
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
 import React from 'react';
 import { createContext, useState } from 'react';
+import { PassProps } from './PassProps';
 
 const SelectablesProviderContext = createContext<{
   selectedItems: TODO[];
@@ -49,20 +50,18 @@ type ActionTriggerProps = React.PropsWithChildren & {
 
 SelectablesProvider.ActionTrigger = function ({ children, action, ...props }: ActionTriggerProps) {
   const { selectedItems, resetSelected } = useSelectablesProviderContext();
+  const [trigger] = React.Children.toArray(children) as React.ReactElement[];
 
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      ...props,
-      onClick: async () => {
+  return (
+    <PassProps
+      {...props}
+      onClick={async e => {
+        trigger.props.onClick && trigger.props.onClick(e);
         await action(selectedItems);
-
-        if (child.props.onClick) {
-          child.props.onClick();
-        }
         resetSelected();
-      },
-    })
+      }}>
+      {trigger}
+    </PassProps>
   );
 };
 
@@ -80,78 +79,75 @@ SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
     });
   }
   const { selectItem, selectedItems } = useSelectablesProviderContext();
+  const [trigger] = React.Children.toArray(children) as React.ReactElement[];
 
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      ...props,
-      checked: selectedItems.includes(item),
-      onChange: () => {
+  return (
+    <PassProps
+      {...props}
+      checked={selectedItems.includes(item)}
+      onChange={() => {
         selectItem(item);
-        if (child.props.onClick) {
-          child.props.onClick();
+        if (trigger.props.onClick) {
+          trigger.props.onClick();
         }
-      },
-    })
+      }}>
+      {trigger}
+    </PassProps>
   );
 };
 
 SelectablesProvider.SelectAllTrigger = function ({ children, itemsToSelect, ...props }) {
   const { selectAll } = useSelectablesProviderContext();
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      ...props,
-      onClick: () => selectAll(itemsToSelect),
-    })
+  return (
+    <PassProps
+      {...props}
+      onClick={() => selectAll(itemsToSelect)}>
+      {children}
+    </PassProps>
   );
 };
 
 SelectablesProvider.HideIfNoneSelected = function ({ children, ...props }) {
   const { selectedItems } = useSelectablesProviderContext();
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      ...props,
-      hidden: !selectedItems.length,
-    })
+  return (
+    <PassProps
+      {...props}
+      hidden={!selectedItems.length}>
+      {children}
+    </PassProps>
   );
 };
 
 SelectablesProvider.DisabledIfNoneSelected = function ({ children, ...props }) {
   const { selectedItems } = useSelectablesProviderContext();
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      ...props,
-      disabled: !selectedItems.length,
-    })
+  return (
+    <PassProps
+      {...props}
+      disabled={!selectedItems.length}>
+      {children}
+    </PassProps>
   );
 };
 
 SelectablesProvider.HighlightIfSelected = function ({ children, item }) {
   const { selectedItems } = useSelectablesProviderContext();
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      selected: selectedItems.includes(item),
-    })
-  );
+  return <PassProps selected={selectedItems.includes(item)}>{children}</PassProps>;
 };
 
 SelectablesProvider.ResetSelectedTrigger = function ({ children, ...props }) {
   const { resetSelected } = useSelectablesProviderContext();
-  return React.Children.map(children as React.ReactElement, child =>
-    React.cloneElement(child, {
-      ...child.props,
-      ...props,
-      onClick: () => {
-        if (child.props.onClick) {
-          child.props.onClick();
+  const [trigger] = React.Children.toArray(children) as React.ReactElement[];
+  return (
+    <PassProps
+      {...props}
+      onClick={e => {
+        if (trigger.props.onClick) {
+          trigger.props.onClick();
         }
         resetSelected();
-      },
-    })
+      }}>
+      {trigger}
+    </PassProps>
   );
 };
 

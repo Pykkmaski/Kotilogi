@@ -1,9 +1,10 @@
 'use client';
 
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from './PropertyFormContext';
+import { RadioButton } from '@/components/Feature/RadioGroup/RadioButton';
 
 export function TargetTypeField() {
   const { propertyTypes, resetData, property: data } = usePropertyFormContext();
@@ -15,7 +16,7 @@ export function TargetTypeField() {
         Tyyppi
       </Label>
 
-      <RadioGroup groupName='propertyTypeId'>
+      <RadioGroup name='propertyTypeId'>
         {propertyTypes.map(({ name, id }) => (
           <RadioButton
             label={name}

@@ -2,16 +2,10 @@
 
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../EventFormContext';
-import { useEventTypeContext } from '../EventTypeProvider';
-import { Button, IconButton } from '@mui/material';
-import { Add, Clear, Delete } from '@mui/icons-material';
-import { useState } from 'react';
-import axios from 'axios';
 import { getRooms } from '../actions';
 import { useQuery } from '@tanstack/react-query';
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import Spinner from '@/components/UI/Spinner';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
+import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const WindowRenovationContent = () => {
   const { extraData: windowData } = useEventFormContext();
@@ -22,26 +16,18 @@ export const WindowRenovationContent = () => {
 
   return (
     <div className='flex flex-col gap-2'>
-      <FormControl
+      <SuspenseFormControl
+        isLoading={roomsLoading}
+        loadingText='Ladataan huoneita...'
         required
         label='Huone'
         control={
-          roomsLoading ? (
-            <Spinner
-              size='1rem'
-              message='Ladataan huoneita...'
-            />
-          ) : (
-            <RadioGroup name='roomId'>
-              {rooms.map((r, i) => (
-                <ChipButton
-                  key={`window-room-${i}`}
-                  label={r.label}
-                  value={r.id}
-                />
-              ))}
-            </RadioGroup>
-          )
+          <ChipRadioGroup
+            name='roomId'
+            valueKey='id'
+            labelKey='label'
+            dataArray={rooms}
+          />
         }
       />
       <FormControl

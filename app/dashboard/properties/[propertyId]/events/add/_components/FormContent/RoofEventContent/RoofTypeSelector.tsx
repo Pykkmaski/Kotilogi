@@ -1,8 +1,6 @@
-import { FormControl, Label } from '@/components/UI/FormUtils';
+import { FormControl } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../../EventFormContext';
 import { useEventTypeContext } from '../../EventTypeProvider';
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const RoofTypeSelector = () => {

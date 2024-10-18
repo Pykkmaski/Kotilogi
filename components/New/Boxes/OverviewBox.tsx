@@ -4,12 +4,22 @@ import { ContentBox } from './ContentBox';
 import { MainHeading } from '../Typography/Headings';
 import { Spacer } from '../Spacer';
 import Image from 'next/image';
-import { IconButton } from '@mui/material';
+import {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from '@mui/material';
 import { Delete, Visibility } from '@mui/icons-material';
 import Link from 'next/link';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { VPDialog } from '@/components/UI/VPDialog';
+import { Button } from '../Button';
+import { VPCloseOnActionButton } from '@/components/UI/VPCloseOnActionButton';
 
 type OverviewBoxProps = {
   title: string;
@@ -21,10 +31,12 @@ type OverviewBoxProps = {
   editIcon?: React.ReactNode;
   selectableItem?: ObjectDataType;
   deleteUrl?: string;
+  deleteAction?: () => Promise<void>;
 };
 
 export function OverviewBox({
   title,
+  deleteAction,
   description,
   imageUrl,
   editUrl,
@@ -66,14 +78,43 @@ export function OverviewBox({
                   </IconButton>
                 </Link>
               )}
-              {deleteUrl && (
-                <Link href={deleteUrl}>
-                  <IconButton
-                    color='warning'
-                    size='small'>
-                    <Delete />
-                  </IconButton>
-                </Link>
+              {deleteAction && (
+                <VisibilityProvider>
+                  <VisibilityProvider.Target>
+                    <VPDialog>
+                      <DialogTitle>Poista kohde</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Haluatko varmasti poistaa tämän kohteen?
+                        </DialogContentText>
+                      </DialogContent>
+
+                      <DialogActions>
+                        <VisibilityProvider.Trigger>
+                          <Button
+                            variant='text'
+                            color='secondary'>
+                            Peruuta
+                          </Button>
+                        </VisibilityProvider.Trigger>
+
+                        <VPCloseOnActionButton
+                          action={async () => await deleteAction()}
+                          startIcon={<Delete />}
+                          color='warning'>
+                          Poista
+                        </VPCloseOnActionButton>
+                      </DialogActions>
+                    </VPDialog>
+                  </VisibilityProvider.Target>
+                  <VisibilityProvider.Trigger>
+                    <IconButton
+                      color='warning'
+                      size='small'>
+                      <Delete />
+                    </IconButton>
+                  </VisibilityProvider.Trigger>
+                </VisibilityProvider>
               )}
             </div>
           </div>

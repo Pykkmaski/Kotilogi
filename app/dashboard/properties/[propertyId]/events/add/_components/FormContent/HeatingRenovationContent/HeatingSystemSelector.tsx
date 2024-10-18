@@ -1,6 +1,7 @@
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { FormControl } from '@/components/UI/FormUtils';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 export const HeatingSystemSelector = ({
   disabled = false,
@@ -33,14 +34,14 @@ export const HeatingSystemSelector = ({
             );
           })}
 
-          {includeNullOption == true && (
+          <RenderOnCondition condition={includeNullOption}>
             <ChipButton
               disabled={disabled}
               label='Ei mitään'
               value={null}
               defaultChecked={defaultCheckedValue === null}
             />
-          )}
+          </RenderOnCondition>
         </RadioGroup>
       }
     />

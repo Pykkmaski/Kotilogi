@@ -1,5 +1,6 @@
 import React from 'react';
 import { SublabelText } from './Text';
+import { PassProps } from '../Util/PassProps';
 
 type LabelProps = React.ComponentProps<'label'> & {
   required?: boolean;
@@ -112,10 +113,8 @@ export const FormControl = ({
         required={required}>
         {label}
       </Label>
-      {React.cloneElement(control as React.ReactElement, {
-        ...(control as React.ReactElement).props,
-        required: required,
-      })}
+      <PassProps required={required}>{control}</PassProps>
+
       <SubLabel>{helper}</SubLabel>
     </div>
   );

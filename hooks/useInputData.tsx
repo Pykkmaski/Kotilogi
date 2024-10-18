@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
  * A hook to store the data of inputs as they are changed.
  * @param initialData
  * @returns
+ * @deprecated use useFormOnChange instead.
  */
 export function useInputData<T extends {}>(initialData: T) {
   const [data, setDataState] = useState<T>(initialData);

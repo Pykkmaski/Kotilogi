@@ -1,6 +1,6 @@
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
-import { useEffect } from 'react';
 
 export const extraDataStorageKey = 'kotidok-event-extra-data';
 
@@ -15,7 +15,8 @@ export const useExtraData = (initialData: TODO) => {
     data: extraData,
     updateData: updateExtraData,
     resetData,
-  } = useInputData(init(initialData));
+  } = useFormOnChangeObject(init(initialData));
+
   useSaveToSessionStorage(extraDataStorageKey, extraData);
   const resetExtraData = (d: any) => resetData(d);
 

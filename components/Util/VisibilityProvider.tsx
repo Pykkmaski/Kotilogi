@@ -3,6 +3,7 @@
 import { useToggle } from '@/hooks/useToggle';
 import React, { cloneElement, useContext, useEffect, useRef, useState } from 'react';
 import { createContext } from 'react';
+import { PassProps } from './PassProps';
 
 type VisibilityProviderContextProps = {
   visible: boolean;
@@ -71,28 +72,26 @@ VisibilityProvider.Trigger = function ({ children, setAsAnchorForMUI = false }: 
 
   const [trigger] = React.Children.toArray(children) as [React.ReactElement];
 
-  return React.cloneElement(trigger, {
-    ...trigger.props,
-    onClick: e => {
-      trigger.props.onClick && trigger.props.onClick(e);
-      if (setAsAnchorForMUI) {
-        updateAnchorEl(e);
-        anchorCreated.current = true;
-      }
-      toggleState();
-    },
-  });
+  return (
+    <PassProps
+      {...trigger.props}
+      onClick={e => {
+        trigger.props.onClick && trigger.props.onClick(e);
+        if (setAsAnchorForMUI) {
+          updateAnchorEl(e);
+          anchorCreated.current = true;
+        }
+        toggleState();
+      }}>
+      {trigger}
+    </PassProps>
+  );
 };
 
 /**Passes an isVisible prop to its children, when the Trigger is clicked. */
 VisibilityProvider.Target = function ({ children }: React.PropsWithChildren) {
   const { visible } = useVisibilityProviderContext();
-  return React.Children.map(children, (child: React.ReactElement) =>
-    React.cloneElement(child, {
-      ...child.props,
-      isVisible: visible,
-    })
-  );
+  return <PassProps isVisible={visible}>{children}</PassProps>;
 };
 
 export function useVisibilityProviderContext() {

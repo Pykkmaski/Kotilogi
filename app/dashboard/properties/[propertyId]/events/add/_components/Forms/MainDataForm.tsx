@@ -16,18 +16,11 @@ import Spinner from '@/components/UI/Spinner';
 import { SurfaceSelector } from '../Selectors/SurfaceSelector';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { Fieldset } from '@/components/UI/Fieldset';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 export function MainDataForm({ editing }) {
-  const {
-    updateMainData,
-    mainData,
-    cancel,
-    onSubmit,
-    typeData,
-    status,
-    selectedSurfaceIds,
-    setShowConfirmationDialog,
-  } = useEventFormContext();
+  const { updateMainData, mainData, cancel, onSubmit, typeData, status, selectedSurfaceIds } =
+    useEventFormContext();
   const { refs } = useEventTypeContext();
 
   const isSubmitDisabled = () => {
@@ -51,11 +44,13 @@ export function MainDataForm({ editing }) {
       onSubmit={onSubmit}
       onChange={updateMainData}
       className='flex flex-col gap-4'>
-      {typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti') && (
+      <RenderOnCondition
+        condition={typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')}>
         <Fieldset legend='Pinnat'>
           <SurfaceSelector />
         </Fieldset>
-      )}
+      </RenderOnCondition>
+
       <SharedEventDataInputs isEditing={editing} />
 
       <Spacer
@@ -91,7 +86,13 @@ export function MainDataForm({ editing }) {
 
                 <Button
                   disabled={status == 'loading' || status == 'done'}
-                  startIcon={status == 'done' || status == 'idle' ? <Check /> : <Spinner />}
+                  startIcon={
+                    <RenderOnCondition
+                      condition={status == 'idle' || status == 'done'}
+                      fallback={<Spinner />}>
+                      <Check />
+                    </RenderOnCondition>
+                  }
                   variant='contained'
                   color='secondary'
                   type='submit'
@@ -108,7 +109,11 @@ export function MainDataForm({ editing }) {
               color='secondary'
               startIcon={<Check />}
               disabled={isSubmitDisabled()}>
-              {(editing && 'Päivitä') || 'Vahvista'}
+              <RenderOnCondition
+                condition={editing}
+                fallback='Vahvista'>
+                Päivitä
+              </RenderOnCondition>
             </Button>
           </VisibilityProvider.Trigger>
         </VisibilityProvider>

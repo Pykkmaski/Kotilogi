@@ -9,6 +9,7 @@ import { isDefined } from '../util';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { SurfaceSelector } from '../Selectors/SurfaceSelector';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 export function TypeDataForm() {
   const { typeData, updateTypeData } = useEventFormContext();
@@ -44,8 +45,13 @@ export function TypeDataForm() {
           control={<MainEventTypeSelector />}
         />
 
-        {isDefined(typeData.mainTypeId) && <EventTargetSelector />}
-        {showWorkTypeSelector() && <EventWorkSelector />}
+        <RenderOnCondition condition={isDefined(typeData.mainTypeId)}>
+          <EventTargetSelector />
+        </RenderOnCondition>
+
+        <RenderOnCondition condition={showWorkTypeSelector()}>
+          <EventWorkSelector />
+        </RenderOnCondition>
       </Fieldset>
     </form>
   );

@@ -1,7 +1,5 @@
-import { FormControl, Label } from '@/components/UI/FormUtils';
+import { FormControl } from '@/components/UI/FormUtils';
 import { useEventTypeContext } from '../../EventTypeProvider';
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { useEventFormContext } from '../../EventFormContext';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 

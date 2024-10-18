@@ -3,11 +3,12 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 const ContractorInput = () => {
   const contractors = ['Vesivek', 'Blaablaa'];
   return (
-    contractors.length > 0 && (
+    <RenderOnCondition condition={contractors.length > 0}>
       <FormControl
         label='Työn tekijä'
         helper='Itse tehdyssä työssä tämän voi jättää tyhjäksi.'
@@ -24,7 +25,7 @@ const ContractorInput = () => {
           </select>
         }
       />
-    )
+    </RenderOnCondition>
   );
 };
 
@@ -91,7 +92,7 @@ const DescriptionInput = () => {
       label='Lisätiedot'
       control={
         <textarea
-          placeholder='Kirjoita esimerkiksi tietoja materiaaleista, väreistä, huoneesta, yms.'
+          placeholder='Kirjoita lisätietoja tapahtumasta, materiaaleista, väreistä, huoneesta, yms.'
           name='description'
           spellCheck={false}
           required
@@ -107,7 +108,7 @@ const OtherField = () => {
 
   return (
     <Fieldset legend='Yleistiedot'>
-      {typeData.workTypeId == -1 && (
+      <RenderOnCondition condition={typeData.workTypeId == -1}>
         <FormControl
           boldLabelText
           label='Otsikko'
@@ -121,7 +122,7 @@ const OtherField = () => {
             />
           }
         />
-      )}
+      </RenderOnCondition>
 
       <DescriptionInput />
 
@@ -142,12 +143,13 @@ const OtherField = () => {
 };
 
 export const SharedEventDataInputs = ({ isEditing }) => {
-  console.log(isEditing);
   return (
     <>
       <OtherField />
       <ExpensesField />
-      {!isEditing && <FilesField />}
+      <RenderOnCondition condition={!isEditing}>
+        <FilesField />
+      </RenderOnCondition>
     </>
   );
 };

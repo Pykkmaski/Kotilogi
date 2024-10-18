@@ -48,6 +48,9 @@ export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
           case 'Eristys':
             content = <EristeContent />;
             break;
+
+          default:
+            content = null;
         }
       }
     }

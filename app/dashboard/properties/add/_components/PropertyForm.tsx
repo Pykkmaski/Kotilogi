@@ -23,6 +23,9 @@ import toast from 'react-hot-toast';
 import { createPropertyAction } from './actions';
 import { DialogControl } from '@/components/Util/DialogControl';
 import { usePropertyForm } from './PropertyForm.hooks';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { VPDialog } from '@/components/UI/VPDialog';
 
 enum FormStatus {
   IDLE = 0,
@@ -118,7 +121,7 @@ export function PropertyForm<T extends PropertyDataType>({
         <HeatingField />
         <OtherInfoField />
       </PropertyFormContext.Provider>
-      {!property ? (
+      <RenderOnCondition condition={!property}>
         <div className='flex flex-row w-full items-center justify-end gap-4'>
           <Button
             onClick={e => router.back()}
@@ -128,54 +131,50 @@ export function PropertyForm<T extends PropertyDataType>({
             Peruuta
           </Button>
 
-          <DialogControl
-            trigger={({ onClick }) => {
-              return (
-                <Button
-                  onClick={onClick}
-                  type='button'
-                  variant='contained'
-                  disabled={submitDisabled}
-                  startIcon={<Check />}>
-                  {property ? 'Päivitä' : 'Vahvista'}
-                </Button>
-              );
-            }}
-            control={({ show, handleClose }) => {
-              return (
-                <Dialog
-                  open={show}
-                  onClose={handleClose}>
-                  <DialogTitle>Vahvista talo</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      Olet lisäämässä taloa osoitteessa{' '}
-                      {`${(data as PropertyDataType).streetAddress} ${(data as TODO).houseNumber}`}.
-                      Oletko varma?
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
+          <VisibilityProvider>
+            <VisibilityProvider.Trigger setAsAnchorForMUI>
+              <Button
+                type='button'
+                variant='contained'
+                disabled={submitDisabled}
+                startIcon={<Check />}>
+                {property ? 'Päivitä' : 'Vahvista'}
+              </Button>
+            </VisibilityProvider.Trigger>
+
+            <VisibilityProvider.Target>
+              <VPDialog>
+                <DialogTitle>Vahvista talo</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Olet lisäämässä taloa osoitteessa{' '}
+                    {`${(data as PropertyDataType).streetAddress} ${(data as TODO).houseNumber}`}.
+                    Oletko varma?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <VisibilityProvider.Trigger>
                     <Button
                       variant='text'
-                      type='button'
-                      onClick={handleClose}>
+                      type='button'>
                       Peruuta
                     </Button>
-                    <Button
-                      form={formId}
-                      type='submit'
-                      variant='contained'
-                      disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
-                      startIcon={<Check />}>
-                      {property ? 'Päivitä' : 'Vahvista'}
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              );
-            }}
-          />
+                  </VisibilityProvider.Trigger>
+
+                  <Button
+                    form={formId}
+                    type='submit'
+                    variant='contained'
+                    disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                    startIcon={<Check />}>
+                    {property ? 'Päivitä' : 'Vahvista'}
+                  </Button>
+                </DialogActions>
+              </VPDialog>
+            </VisibilityProvider.Target>
+          </VisibilityProvider>
         </div>
-      ) : null}
+      </RenderOnCondition>
     </form>
   );
 }
