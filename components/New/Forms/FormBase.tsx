@@ -1,4 +1,5 @@
 import Spinner from '@/components/UI/Spinner';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
@@ -33,7 +34,13 @@ export function FormButtons({ backAction, loading, done, submitDisabled }: FormB
         type='submit'
         disabled={loading || done || submitDisabled}
         variant='contained'
-        startIcon={!loading ? <Check /> : <Spinner size='1rem' />}>
+        startIcon={
+          <RenderOnCondition
+            condition={!loading}
+            fallback={<Spinner />}>
+            <Check />
+          </RenderOnCondition>
+        }>
         Vahvista
       </Button>
     </div>

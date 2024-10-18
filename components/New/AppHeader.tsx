@@ -2,7 +2,6 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 import { VPMobileMenu } from '../App/VPMobileMenu';
 import { Logo } from '../App/Logo';
-import { VisibilityProvider } from '../Util/VisibilityProvider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ProfileCircle } from './ProfileCircle';

@@ -89,7 +89,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
 
           <div className='xm:block xl:hidden flex'>
             <VisibilityProvider>
-              <VisibilityProvider.Trigger setAsReference>
+              <VisibilityProvider.Trigger setAsAnchorForMUI>
                 <VPMobileMenu session={null} />
               </VisibilityProvider.Trigger>
             </VisibilityProvider>

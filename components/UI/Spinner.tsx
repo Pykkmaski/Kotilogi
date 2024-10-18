@@ -1,3 +1,4 @@
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 import styles from './styles/Spinner.module.scss';
 
 export type SpinnerProps = {
@@ -16,7 +17,9 @@ export default function Spinner({ message, animated, size = '1rem', ...props }: 
         className={[styles.spinner, 'border-white', 'border-t-secondary'].join(' ')}
         style={{ width: size, height: size }}
       />
-      {message && <span className='tex-sm text-gray-500'>{message}</span>}
+      <RenderOnCondition condition={message != undefined}>
+        <span className='tex-sm text-gray-500'>{message}</span>
+      </RenderOnCondition>
     </div>
   );
 }

@@ -1,12 +1,7 @@
 'use client';
 
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import Link from 'next/link';
-import { DialogControl } from '../Util/DialogControl';
-import { useState } from 'react';
-import { ProfileCircle } from '../New/ProfileCircle';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Visibility } from '@mui/icons-material';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
 import React from 'react';
 import { VPMenu } from '../UI/VPMenu';

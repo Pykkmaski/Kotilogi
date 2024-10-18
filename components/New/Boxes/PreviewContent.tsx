@@ -8,6 +8,7 @@ import { Add, Visibility, Warning } from '@mui/icons-material';
 import { Paragraph } from '../Typography/Paragraph';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import { List } from '../List';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 type PreviewContentBaseProps = React.PropsWithChildren & {
   icon?: React.ReactNode;
@@ -43,7 +44,7 @@ export function PreviewContentBase({
               direction='row'
               alignItems='center'
               gap={1}>
-              {!preview && showAllUrl ? (
+              <RenderOnCondition condition={!preview && showAllUrl != undefined}>
                 <Link
                   href={showAllUrl}
                   title='Näytä kaikki'>
@@ -51,8 +52,9 @@ export function PreviewContentBase({
                     <Visibility />
                   </IconButton>
                 </Link>
-              ) : null}
-              {!preview && addNewUrl ? (
+              </RenderOnCondition>
+
+              <RenderOnCondition condition={!preview && addNewUrl != undefined}>
                 <Link
                   href={addNewUrl}
                   title='Lisää uusi'>
@@ -60,25 +62,27 @@ export function PreviewContentBase({
                     <Add />
                   </IconButton>
                 </Link>
-              ) : null}
+              </RenderOnCondition>
             </List>
           </div>
         </BoxHeader>
 
-        {!preview ? (
-          children
-        ) : (
-          <Spacer
-            gap={4}
-            direction='col'
-            height='full'>
-            <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
-              <Warning sx={{ color: 'orange' }} />
-              <span className='font-semibold'>Tulossa pian!</span>
-            </div>
-            <Paragraph>{previewDescription}</Paragraph>
-          </Spacer>
-        )}
+        <RenderOnCondition
+          condition={!preview}
+          fallback={
+            <Spacer
+              gap={4}
+              direction='col'
+              height='full'>
+              <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
+                <Warning sx={{ color: 'orange' }} />
+                <span className='font-semibold'>Tulossa pian!</span>
+              </div>
+              <Paragraph>{previewDescription}</Paragraph>
+            </Spacer>
+          }>
+          {children}
+        </RenderOnCondition>
       </Spacer>
     </ContentBox>
   );
@@ -101,9 +105,9 @@ export function PreviewContentRow<T>({
 }: PreviewContentRowProps<T>) {
   return (
     <PreviewContentBase {...props}>
-      {!data.length ? (
-        onEmptyElement || null
-      ) : (
+      <RenderOnCondition
+        condition={data.length > 0}
+        fallback={onEmptyElement || null}>
         <div
           className='flex md:flex-row xs:flex-col w-full xs:items-center lg:items-none overflow-x-scroll md:gap-4 xs:gap-1 snap-mandatory snap-x'
           style={noScrollBar}>
@@ -111,7 +115,7 @@ export function PreviewContentRow<T>({
             <PreviewComponent item={item} />
           ))}
         </div>
-      )}
+      </RenderOnCondition>
     </PreviewContentBase>
   );
 }

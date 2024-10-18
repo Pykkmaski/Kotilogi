@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { createContext, useState } from 'react';
 import { Modal } from '../UI/Modal';
 import { PassProps } from './PassProps';
+import { RenderOnCondition } from './RenderOnCondition';
 
 const CarouselProviderContext = createContext<{
   stepForward: () => void;
@@ -97,7 +98,7 @@ type SlotProps = React.PropsWithChildren & {
 /**Adds its children into the slots-state of the provider, and renders them. */
 CarouselProvider.Slot = function ({ children, slotName }: SlotProps) {
   const { currentSlot } = useCarouselProviderContext();
-  return currentSlot === slotName ? children : null;
+  return <RenderOnCondition condition={currentSlot === slotName}>{children}</RenderOnCondition>;
 };
 
 type SelectSlotTriggerProps = React.PropsWithChildren & {
@@ -131,7 +132,7 @@ CarouselProvider.PreviousTrigger = function ({ children }) {
 
 CarouselProvider.HideOnSlot = function ({ children, slotToHideOn }) {
   const { currentSlot } = useCarouselProviderContext();
-  return currentSlot !== slotToHideOn ? children : null;
+  return <RenderOnCondition condition={currentSlot !== slotToHideOn}>{children}</RenderOnCondition>;
 };
 
 const useCarouselProviderContext = createUseContextHook(

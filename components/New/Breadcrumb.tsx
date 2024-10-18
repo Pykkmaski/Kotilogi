@@ -5,6 +5,7 @@ import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Spacer } from './Spacer';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 const tranlsatePathname = (href: string) => {
   const current = href.split('/').at(-1);
@@ -84,7 +85,7 @@ export function Breadcrumb() {
             ].join(' ')}>
             {tranlsatePathname(href)}
           </Link>
-          {i < links.length - 1 ? <span>/</span> : null}
+          <RenderOnCondition condition={i < links.length}>/</RenderOnCondition>
         </>
       );
     });

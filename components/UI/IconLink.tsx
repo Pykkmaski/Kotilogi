@@ -4,6 +4,7 @@ import Link from 'next/link';
 import style from './styles/IconLink.module.scss';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 /**The background of the link displayed when on the route the link points to. */
 function SelectedBackground() {
@@ -37,28 +38,18 @@ export default function IconLink({ imageSrc, selected, icon, ...props }: IconLin
     <Link
       {...props}
       className={className.toString()}>
-      {selected ? (
-        <>
-          <SelectedIndicator />
-          <SelectedBackground />
-        </>
-      ) : null}
+      <RenderOnCondition condition={selected}>
+        <SelectedIndicator />
+        <SelectedBackground />
+      </RenderOnCondition>
 
-      {icon ? (
+      <RenderOnCondition condition={icon != undefined}>
         <i
           className={`z-10 fa ${icon} text-center text-base ${
             selected ? 'text-black' : 'text-white'
           }`}
         />
-      ) : (
-        <img
-          className={imageClassName.join(' ')}
-          src={imageSrc}
-          alt='Link Icon'
-          width={17}
-          height={17}
-        />
-      )}
+      </RenderOnCondition>
 
       <div className={textClassName.join(' ')}>{props.children}</div>
     </Link>

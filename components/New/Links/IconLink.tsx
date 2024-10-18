@@ -1,3 +1,4 @@
+import { PassProps } from '@/components/Util/PassProps';
 import Link from 'next/link';
 import React from 'react';
 
@@ -10,10 +11,7 @@ export function IconLink({ icon, ...props }: IconLinkProps) {
     <Link
       className='p-2 rounded-md hover:bg-primary'
       {...props}>
-      {React.cloneElement(icon, {
-        ...icon.props,
-        sx: { color: 'white' },
-      })}
+      <PassProps sx={{ color: 'white' }}>{icon}</PassProps>
     </Link>
   );
 }

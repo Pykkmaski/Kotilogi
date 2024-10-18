@@ -13,9 +13,7 @@ export function NavBar({ children }: NavBarProps) {
     <nav className={style.navbar}>
       <HighlightingNavbarProvider>
         {React.Children.map(children as React.ReactElement, child => {
-          console.log(child.props.href);
           if (child && child.props && child.props.href) {
-            console.log(child.props.href);
             return <HighlightingNavbarProvider.Link>{child}</HighlightingNavbarProvider.Link>;
           } else {
             return child;

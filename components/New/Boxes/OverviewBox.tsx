@@ -20,6 +20,7 @@ import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { VPDialog } from '@/components/UI/VPDialog';
 import { Button } from '../Button';
 import { VPCloseOnActionButton } from '@/components/UI/VPCloseOnActionButton';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 type OverviewBoxProps = {
   title: string;
@@ -58,16 +59,16 @@ export function OverviewBox({
           width='full'
           gap={4}>
           <div className='flex w-full justify-between'>
-            {showUrl ? (
+            <RenderOnCondition
+              condition={showUrl != undefined}
+              fallback={<MainHeading>{title}</MainHeading>}>
               <Link href={showUrl}>
                 <MainHeading>{title}</MainHeading>
               </Link>
-            ) : (
-              <MainHeading>{title}</MainHeading>
-            )}
+            </RenderOnCondition>
 
             <div className='justify-end w-auto'>
-              {editUrl && (
+              <RenderOnCondition condition={editUrl != undefined}>
                 <Link
                   href={editUrl}
                   title={editContentText || 'Näytä'}>
@@ -77,8 +78,9 @@ export function OverviewBox({
                     {editIcon || <Visibility />}
                   </IconButton>
                 </Link>
-              )}
-              {deleteAction && (
+              </RenderOnCondition>
+
+              <RenderOnCondition condition={deleteAction != undefined}>
                 <VisibilityProvider>
                   <VisibilityProvider.Target>
                     <VPDialog>
@@ -115,7 +117,7 @@ export function OverviewBox({
                     </IconButton>
                   </VisibilityProvider.Trigger>
                 </VisibilityProvider>
-              )}
+              </RenderOnCondition>
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SublabelText } from './Text';
 import { PassProps } from '../Util/PassProps';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 type LabelProps = React.ComponentProps<'label'> & {
   required?: boolean;
@@ -11,7 +12,9 @@ export const Label = ({ children, required, boldText }: LabelProps) => {
   return (
     <label className={classes.join(' ')}>
       {children}
-      {required ? <span className='text-red-700 text-sm'> *</span> : null}
+      <RenderOnCondition condition={required}>
+        <span className='text-red-700 text-sm'> *</span>
+      </RenderOnCondition>
     </label>
   );
 };

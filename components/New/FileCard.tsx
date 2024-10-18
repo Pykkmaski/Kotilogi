@@ -12,6 +12,7 @@ import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
 import { VPMenu } from '../UI/VPMenu';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 type FileCardProps = {
   file: FileDataType;
@@ -77,15 +78,16 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
           <VisibilityProvider.Target>
             <VPMenu>
-              {file.type == 'image/jpeg' && (
+              <RenderOnCondition condition={file.type == 'image/jpeg'}>
                 <span onClick={!loading && setMainImage}>Aseta pääkuvaksi</span>
-              )}
+              </RenderOnCondition>
+
               <span onClick={!loading && deleteFile}>Poista</span>
             </VPMenu>
           </VisibilityProvider.Target>
         </VisibilityProvider>
       </div>
-      {file.type == 'image/jpeg' ? (
+      <RenderOnCondition condition={file.type == 'image/jpeg'}>
         <Image
           src={src}
           fill={true}
@@ -94,17 +96,19 @@ export function FileCard({ file, isMain }: FileCardProps) {
           alt={file.name}
           className='absolute top-0 left-0'
         />
-      ) : (
+      </RenderOnCondition>
+
+      <RenderOnCondition condition={file.type == 'application/pdf'}>
         <iframe
           src={`${src}#toolbar=0`}
           className='w-full h-full object-cover absolute top-0 left-0'
         />
-      )}
+      </RenderOnCondition>
       <Link
         href={src}
         target='_blank'
         className='w-full h-full z-10'
-      />{' '}
+      />
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { SearchBar } from '@/components/Feature/SearchBar';
 import colors from 'kotilogi-app/colors';
 import { Button } from '../Button';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 type OverviewBoxListProps<T extends ObjectDataType> = {
   items: T[];
@@ -39,7 +40,10 @@ export function OverviewBoxList<T extends ObjectDataType>({
       <div className={containerClasses.join(' ')}>
         <SecondaryHeading>{listTitle}</SecondaryHeading>
         <div className='flex gap-4 items-center xs:w-full lg:w-auto xs:mt-2 xl:mt-0'>
-          {searchBar && <SearchBar />}
+          <RenderOnCondition condition={searchBar}>
+            <SearchBar />
+          </RenderOnCondition>
+
           <Link href={addButtonUrl}>
             <div className='lg:block xs:hidden'>
               <Button

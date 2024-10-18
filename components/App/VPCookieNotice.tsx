@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import { Cookie } from '@mui/icons-material';
 import { acceptCookiesAction } from './actions/acceptCookiesAction';
 import { useVisibilityProviderContext, VisibilityProvider } from '../Util/VisibilityProvider';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 const showCookieNoticeKey = 'kotidok-show-cookie-notice';
 
@@ -51,7 +52,7 @@ function CookieNoticeTarget({ isVisible = null }) {
   }, []);
 
   return (
-    isVisible && (
+    <RenderOnCondition condition={isVisible}>
       <div
         onClick={handleClickOutside}
         ref={cookieNoticeRef}
@@ -100,7 +101,7 @@ function CookieNoticeTarget({ isVisible = null }) {
           </div>
         </div>
       </div>
-    )
+    </RenderOnCondition>
   );
 }
 

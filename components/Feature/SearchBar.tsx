@@ -2,6 +2,7 @@
 
 import { useQuery } from 'kotilogi-app/hooks/useQuery';
 import Spinner from '../UI/Spinner';
+import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 type SearchBarProps = React.ComponentProps<'input'>;
 
@@ -19,7 +20,11 @@ export function SearchBar(props: SearchBarProps) {
         className='flex-1 pl-7 shadow-md text-gray-500'
       />
       <div className='ml-2 absolute text-slate-500'>
-        {loading ? <Spinner size='1rem' /> : <i className='fa fa-search' />}
+        <RenderOnCondition
+          condition={!loading}
+          fallback={<Spinner />}>
+          <i className='fa fa-search' />
+        </RenderOnCondition>
       </div>
     </div>
   );
