@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode, useMemo } from 'react';
 import { PassProps } from './PassProps';
 
 type RenderOnConditionProps = React.PropsWithChildren & {
@@ -6,11 +6,18 @@ type RenderOnConditionProps = React.PropsWithChildren & {
   fallback?: ReactNode;
 };
 
+/**Renders its children when the provided condition is true, or the fallback if it is false.
+ * Memoizes the rendering condition internally.
+ */
 export function RenderOnCondition({
   children,
   condition,
   fallback = null,
   ...props
 }: RenderOnConditionProps) {
-  return (condition && <PassProps {...props}>{children}</PassProps>) || fallback;
+  const result = useMemo(() => {
+    return condition ? <PassProps {...props}>{children}</PassProps> : fallback;
+  }, [children, fallback, condition]);
+
+  return result;
 }

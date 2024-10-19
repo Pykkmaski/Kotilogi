@@ -1,7 +1,15 @@
 'use client';
 
 import { useToggle } from '@/hooks/useToggle';
-import React, { cloneElement, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  cloneElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { createContext } from 'react';
 import { PassProps } from './PassProps';
 
@@ -29,15 +37,18 @@ export function VisibilityProvider({
   );
   const [anchorEl, setAnchorEl] = useState<Element>(null);
 
-  const toggleState = (state?: boolean) => {
-    if (toggleOverride) {
-      toggleOverride(state);
-    } else {
-      toggle(state);
-    }
-  };
+  const toggleState = useCallback(
+    (state?: boolean) => {
+      if (toggleOverride) {
+        toggleOverride(state);
+      } else {
+        toggle(state);
+      }
+    },
+    [toggleOverride, toggle]
+  );
 
-  const updateAnchorEl = (e: any) => setAnchorEl(e.currentTarget);
+  const updateAnchorEl = useCallback((e: any) => setAnchorEl(e.currentTarget), []);
 
   return (
     <VisibilityProviderContext.Provider
@@ -60,7 +71,9 @@ type TriggerProps = React.PropsWithChildren & {
 
 /**Toggles the visibilty of the children of a VisibilityProvider.Target. */
 VisibilityProvider.Trigger = function ({ children, setAsAnchorForMUI = false }: TriggerProps) {
-  if (React.Children.count(children) > 1) {
+  const childCount = useMemo(() => React.Children.count(children), [children]);
+
+  if (childCount > 1) {
     throw new Error('A VisibilityProvider.Trigger must have exactly one child!');
   }
   const anchorCreated = useRef(false);
@@ -70,7 +83,10 @@ VisibilityProvider.Trigger = function ({ children, setAsAnchorForMUI = false }: 
     throw new Error('The VisibiltyProvider in scope already has a trigger as a reference!');
   }
 
-  const [trigger] = React.Children.toArray(children) as [React.ReactElement];
+  const [trigger] = useMemo(
+    () => React.Children.toArray(children) as [React.ReactElement],
+    [children]
+  );
 
   return (
     <PassProps

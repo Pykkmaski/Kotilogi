@@ -1,7 +1,7 @@
 'use client';
 
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createContext, useState } from 'react';
 import { PassProps } from './PassProps';
 
@@ -79,7 +79,10 @@ SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
     });
   }
   const { selectItem, selectedItems } = useSelectablesProviderContext();
-  const [trigger] = React.Children.toArray(children) as React.ReactElement[];
+  const [trigger] = useMemo(
+    () => React.Children.toArray(children) as React.ReactElement[],
+    [children]
+  );
 
   return (
     <PassProps
@@ -136,7 +139,11 @@ SelectablesProvider.HighlightIfSelected = function ({ children, item }) {
 
 SelectablesProvider.ResetSelectedTrigger = function ({ children, ...props }) {
   const { resetSelected } = useSelectablesProviderContext();
-  const [trigger] = React.Children.toArray(children) as React.ReactElement[];
+  const [trigger] = useMemo(
+    () => React.Children.toArray(children) as React.ReactElement[],
+    [children]
+  );
+
   return (
     <PassProps
       {...props}

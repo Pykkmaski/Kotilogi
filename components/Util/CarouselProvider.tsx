@@ -1,7 +1,7 @@
 'use client';
 
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { createContext, useState } from 'react';
 import { Modal } from '../UI/Modal';
 import { PassProps } from './PassProps';
@@ -19,7 +19,10 @@ type CarouselProviderProps = React.PropsWithChildren & {
 };
 /**Provides logic for creating carousels containing slots, which can be traversed sequentially, or by jumping to specific slots by key. */
 export function CarouselProvider({ children, defaultSlot }: CarouselProviderProps) {
-  const childArray = React.Children.toArray(children) as React.ReactElement[];
+  const childArray = useMemo(
+    () => React.Children.toArray(children) as React.ReactElement[],
+    [children]
+  );
 
   //Does a deep loop of the passed children, to find all the ones defining a slot.
   const getSlotChildren = (children: React.ReactElement[]) => {
