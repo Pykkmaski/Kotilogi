@@ -60,7 +60,7 @@ export function OverviewBox({
           gap={4}>
           <div className='flex w-full justify-between'>
             <RenderOnCondition
-              condition={showUrl != undefined}
+              condition={showUrl}
               fallback={<MainHeading>{title}</MainHeading>}>
               <Link href={showUrl}>
                 <MainHeading>{title}</MainHeading>
@@ -68,7 +68,7 @@ export function OverviewBox({
             </RenderOnCondition>
 
             <div className='justify-end w-auto'>
-              <RenderOnCondition condition={editUrl != undefined}>
+              <RenderOnCondition condition={editUrl}>
                 <Link
                   href={editUrl}
                   title={editContentText || 'Näytä'}>
@@ -127,11 +127,9 @@ export function OverviewBox({
             <Spacer
               justifyItems='end'
               width='full'>
-              {selectableItem && (
-                <SelectablesProvider.SelectTrigger item={selectableItem}>
-                  <input type='checkbox'></input>
-                </SelectablesProvider.SelectTrigger>
-              )}
+              <RenderOnCondition condition={selectableItem != undefined}>
+                <input type='checkbox'></input>
+              </RenderOnCondition>
             </Spacer>
           </div>
         </Spacer>

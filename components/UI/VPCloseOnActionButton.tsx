@@ -1,3 +1,5 @@
+'use client';
+
 import { useToggle } from '@/hooks/useToggle';
 import { Button, ButtonProps } from '../New/Button';
 import { useVisibilityProviderContext } from '../Util/VisibilityProvider';

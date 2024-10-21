@@ -1,9 +1,10 @@
+'use client';
+
 import { useEventFormContext } from '../EventFormContext';
 import { useQuery } from '@tanstack/react-query';
 import { getEventTargets } from '../actions';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
-import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
 
 export const EventTargetSelector = () => {
   const { typeData } = useEventFormContext();

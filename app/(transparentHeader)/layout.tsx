@@ -8,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Logo } from '@/components/App/Logo';
 import { VPMenu } from '@/components/UI/VPMenu';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { ElementReferenceProvider } from '@/components/Util/ElementReferenceProvider';
 
 export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
   const { data, status } = useSession();
@@ -62,7 +63,7 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
 
         <div className='xs:block md:hidden'>
           <VisibilityProvider>
-            <VisibilityProvider.Trigger>
+            <VisibilityProvider.Trigger setAsAnchorForMUI>
               <MenuIcon sx={{ color: 'black' }} />
             </VisibilityProvider.Trigger>
 

@@ -10,6 +10,7 @@ export type SpacerProps = React.PropsWithChildren & {
   width?: number | 'full' | 'auto' | string;
   height?: number | 'full' | 'auto' | string;
   wrap?: boolean;
+  [x: string]: any;
 };
 
 /**Arranges its children within a vertical or horizontal row, with gaps. */
@@ -23,6 +24,7 @@ export function Spacer({
   width = 'auto',
   height = 'auto',
   wrap = false,
+  ...props
 }: SpacerProps) {
   const w =
     typeof width == 'number' || width == 'full' || width == 'auto' ? `w-${width}` : `w-[${width}]`;

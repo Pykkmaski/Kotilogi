@@ -36,6 +36,7 @@ export function OverviewBoxList<T extends ObjectDataType>({
       'flex lg:flex-row justify-between w-full lg:items-center xs:items-start xs:mb-2',
       searchBar ? 'xs:flex-col' : 'xs:flex-row',
     ];
+
     return (
       <div className={containerClasses.join(' ')}>
         <SecondaryHeading>{listTitle}</SecondaryHeading>
@@ -68,18 +69,18 @@ export function OverviewBoxList<T extends ObjectDataType>({
   return (
     <div className='flex flex-col md:gap-4 xs:gap-1 w-full'>
       {getHeader()}
-      <SelectablesProvider>
-        {items.length
-          ? items.map((item, i) => {
-              return (
-                <OverviewComponent
-                  item={item}
-                  key={`listItem-${i}`}
-                />
-              );
-            })
-          : onEmptyElement}
-      </SelectablesProvider>
+      <RenderOnCondition
+        condition={items.length}
+        fallback={onEmptyElement}>
+        {items.map((item, i) => {
+          return (
+            <OverviewComponent
+              item={item}
+              key={`listItem-${i}`}
+            />
+          );
+        })}
+      </RenderOnCondition>
     </div>
   );
 }

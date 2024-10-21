@@ -1,11 +1,12 @@
 import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
 import { ChipButton } from './ChipButton';
 import { RadioGroup } from './RadioGroup';
+import { useCallback, useMemo } from 'react';
+import { useMapArray } from '@/hooks/useMapArray';
 
 type ChipRadioGroupProps<T> = {
   name: string;
   dataArray: T[];
-  chipType?: 'radio' | 'checkbox';
   valueKey: string;
   labelKey: string;
   currentValue?: number | string;
@@ -17,7 +18,6 @@ type ChipRadioGroupProps<T> = {
 /**A prefab radio group that renders its options as ChipButtons. */
 export function ChipRadioGroup<T extends Record<string, string | number>>({
   name,
-  chipType = 'radio',
   dataArray,
   valueKey,
   labelKey,
@@ -26,24 +26,28 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
   disabled,
   isChecked,
 }: ChipRadioGroupProps<T>) {
-  return (
-    <RadioGroup name={name}>
-      {putOtherOptionLast(dataArray).map((d, i) => {
-        const value = d[valueKey];
-        const label = d[labelKey];
+  const renderFn = useCallback(
+    item => {
+      const value = item[valueKey];
+      const label = item[labelKey];
 
-        return (
-          <ChipButton
-            type={chipType}
-            disabled={disabled}
-            required={required}
-            key={`mdk-${d}}`}
-            value={value}
-            label={label as string}
-            checked={(isChecked && isChecked(value)) || currentValue == value}
-          />
-        );
-      })}
-    </RadioGroup>
+      const checked = (isChecked && isChecked(value)) || currentValue == value;
+
+      return (
+        <ChipButton
+          type='radio'
+          disabled={disabled}
+          required={required}
+          value={value}
+          label={label as string}
+          checked={checked}
+          name={name}
+        />
+      );
+    },
+    [isChecked, currentValue, disabled, required, name]
   );
+
+  const content = useMapArray(dataArray, renderFn);
+  return <RadioGroup name={name}>{content}</RadioGroup>;
 }

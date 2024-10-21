@@ -13,6 +13,7 @@ export const MainEventTypeSelector = () => {
   };
   const { typeData } = useEventFormContext();
 
+  console.log(typeData.mainTypeId);
   return (
     <ChipRadioGroup
       currentValue={typeData.mainTypeId}

@@ -1,17 +1,11 @@
 import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Main } from '@/components/New/Main';
 import { Card } from '@/components/UI/Card';
-import { Home, MoreVert } from '@mui/icons-material';
+import { Home } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import Link from 'next/link';
-import { CardMenuButton } from '@/components/New/CardMenuButton';
-import { redirect } from 'next/navigation';
 import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
-import { IconButton } from '@mui/material';
-import { VPMenu } from '@/components/UI/VPMenu';
 import { PropertyCardHeaderContent } from './_components/PropertyCardHeaderContent';
 
 export default async function newDashboardPage() {

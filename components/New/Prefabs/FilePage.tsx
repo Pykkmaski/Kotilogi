@@ -1,3 +1,5 @@
+'use client';
+
 import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { Main } from '../Main';
 import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
@@ -15,7 +17,7 @@ type FilePageProps = {
   objectId: string;
 };
 
-export async function FilePage({ files, objectId }: FilePageProps) {
+export function FilePage({ files, objectId }: FilePageProps) {
   return (
     <Main>
       <div className='flex justify-between'>

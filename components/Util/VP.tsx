@@ -1,5 +1,7 @@
 'use client';
 
+import { ElementReferenceProvider } from './ElementReferenceProvider';
+import { RenderOnCondition } from './RenderOnCondition';
 import { VisibilityProvider } from './VisibilityProvider';
 
 type VPProps = {
@@ -10,12 +12,17 @@ type VPProps = {
 
 /**A prefab for constructing VisibilityProviders. */
 export function VP({ trigger, target, setTriggerAsReference = false }: VPProps) {
+  const Trigger = () => (
+    <VisibilityProvider.Trigger setAsAnchorForMUI={setTriggerAsReference}>
+      {trigger}
+    </VisibilityProvider.Trigger>
+  );
+  const Target = () => <VisibilityProvider.Target>{target}</VisibilityProvider.Target>;
+
   return (
     <VisibilityProvider>
-      <VisibilityProvider.Trigger setAsAnchorForMUI={setTriggerAsReference}>
-        {trigger}
-      </VisibilityProvider.Trigger>
-      <VisibilityProvider.Target>{target}</VisibilityProvider.Target>
+      <Trigger />
+      <Target />
     </VisibilityProvider>
   );
 }

@@ -18,12 +18,12 @@ export const getExtraEventData = async (eventId: string) => {
     if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
       return await db('data_roofEvents')
         .join('ref_roofTypes', { 'ref_roofTypes.id': 'data_roofEvents.roofTypeId' })
-        .join('ref_roofMaterials', { 'ref_roofMaterials.id': 'data_roofEvents.id' })
+        .join('ref_roofMaterials', { 'ref_roofMaterials.id': 'data_roofEvents.roofMaterialId' })
         .where({ 'data_roofEvents.id': eventId })
         .select(
           'ref_roofMaterials.name as roofMaterialLabel',
           'ref_roofTypes.name as roofTypeLabel',
-          'data_roofEvents.'
+          'data_roofEvents.*'
         );
     } else if (typeData.targetId == getIdByLabel(targets, 'Salaojat')) {
       return await db('data_drainageDitchEvents')

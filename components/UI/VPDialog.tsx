@@ -1,3 +1,5 @@
+'use client';
+
 import { Dialog } from '@mui/material';
 import { useVisibilityProviderContext } from '../Util/VisibilityProvider';
 

@@ -44,7 +44,7 @@ export function PreviewContentBase({
               direction='row'
               alignItems='center'
               gap={1}>
-              <RenderOnCondition condition={!preview && showAllUrl != undefined}>
+              <RenderOnCondition condition={!preview && showAllUrl}>
                 <Link
                   href={showAllUrl}
                   title='Näytä kaikki'>
@@ -54,7 +54,7 @@ export function PreviewContentBase({
                 </Link>
               </RenderOnCondition>
 
-              <RenderOnCondition condition={!preview && addNewUrl != undefined}>
+              <RenderOnCondition condition={!preview && addNewUrl}>
                 <Link
                   href={addNewUrl}
                   title='Lisää uusi'>
@@ -103,6 +103,7 @@ export function PreviewContentRow<T>({
   onEmptyElement,
   ...props
 }: PreviewContentRowProps<T>) {
+  console.log(data);
   return (
     <PreviewContentBase {...props}>
       <RenderOnCondition

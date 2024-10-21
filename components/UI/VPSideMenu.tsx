@@ -1,3 +1,5 @@
+'use client';
+
 import { Clear } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import React from 'react';

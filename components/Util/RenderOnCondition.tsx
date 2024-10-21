@@ -1,8 +1,11 @@
-import { memo, ReactNode, useMemo } from 'react';
+'use client';
+
+import { createContext, ReactNode, useMemo } from 'react';
 import { PassProps } from './PassProps';
 
 type RenderOnConditionProps = React.PropsWithChildren & {
-  condition: boolean;
+  [x: string]: any;
+  condition: boolean | string | number | object;
   fallback?: ReactNode;
 };
 
@@ -15,9 +18,10 @@ export function RenderOnCondition({
   fallback = null,
   ...props
 }: RenderOnConditionProps) {
-  const result = useMemo(() => {
-    return condition ? <PassProps {...props}>{children}</PassProps> : fallback;
-  }, [children, fallback, condition]);
+  const content = useMemo(
+    () => (condition ? <PassProps {...props}>{children}</PassProps> : fallback),
+    [children, condition, fallback, props]
+  );
 
-  return result;
+  return content;
 }

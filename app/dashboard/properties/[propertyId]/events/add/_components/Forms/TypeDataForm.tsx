@@ -1,4 +1,3 @@
-import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { useEventFormContext } from '../EventFormContext';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl } from '@/components/UI/FormUtils';
@@ -7,7 +6,6 @@ import { MainEventTypeSelector } from '../Selectors/MainEventTypeSelector';
 import { EventWorkSelector } from '../Selectors/EventWorkSelector';
 import { isDefined } from '../util';
 import { useEventTypeContext } from '../EventTypeProvider';
-import { SurfaceSelector } from '../Selectors/SurfaceSelector';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 

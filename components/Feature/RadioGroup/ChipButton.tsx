@@ -3,12 +3,13 @@ import { blue } from '@mui/material/colors';
 import colors from 'kotilogi-app/colors';
 import { useEffect, useRef, useState } from 'react';
 
+type ChipButtonProps = React.ComponentProps<'input'> & {
+  label: string;
+  type?: 'radio' | 'checkbox';
+};
+
 /**Renders a chip that functions as a radio-button or a checkbox. */
-export function ChipButton({
-  label,
-  type = 'radio',
-  ...props
-}: React.ComponentProps<'input'> & { label: string; type?: 'radio' | 'checkbox' }) {
+export function ChipButton({ label, type = 'radio', ...props }: ChipButtonProps) {
   const [checked, setChecked] = useState(props.checked || false);
   const inputRef = useRef<HTMLInputElement>(null);
 
