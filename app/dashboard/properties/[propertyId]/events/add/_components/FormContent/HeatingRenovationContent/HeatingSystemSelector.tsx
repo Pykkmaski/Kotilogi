@@ -30,6 +30,7 @@ export const HeatingSystemSelector = ({
                 key={`heatingType-${i}`}
                 defaultChecked={defaultCheckedValue == t.id}
                 checked={value == t.id}
+                name={name}
               />
             );
           })}
@@ -40,6 +41,7 @@ export const HeatingSystemSelector = ({
               label='Ei mitään'
               value={null}
               defaultChecked={defaultCheckedValue === null}
+              name={name}
             />
           </RenderOnCondition>
         </RadioGroup>

@@ -7,7 +7,9 @@ type RadioGroupProps = React.PropsWithChildren & {
   required?: boolean;
 };
 
-/**Renders its provided radio-inputs inside a ul, automatically adding the name-prop on each child. */
+/**Renders its provided radio-inputs inside a ul.
+ * @todo It should pass the name prop to its children. Currently it does not work.
+ */
 export function RadioGroup({ children, name, required, ...props }: RadioGroupProps) {
   const content = useMemo(() => {
     const childArray = React.Children.toArray(children);
@@ -24,12 +26,12 @@ export function RadioGroup({ children, name, required, ...props }: RadioGroupPro
         return child;
       }
     });
-  }, [children, props]);
+  }, [children, props, name, required]);
 
   return (
     <List
       direction='row'
-      gap={1}
+      gap={'small'}
       alignItems='center'
       wrap>
       {content}

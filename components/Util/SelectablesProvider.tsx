@@ -7,7 +7,7 @@ import { PassProps } from './PassProps';
 
 const SelectablesProviderContext = createContext<{
   selectedItems: TODO[];
-  selectItem: (item: unknown) => void;
+  toggleSelection: (item: unknown) => void;
   selectAll: (items: unknown) => void;
   resetSelected: () => void;
 }>(null);
@@ -15,17 +15,8 @@ const SelectablesProviderContext = createContext<{
 export function SelectablesProvider<T>({ children }) {
   const [selectedItems, setSelectedItems] = useState([]);
 
-  const selectItem = (item: T) => {
-    setSelectedItems(prev => {
-      const newItems = [...prev];
-      const index = newItems.findIndex(entry => entry == item);
-      if (index != -1) {
-        newItems.splice(index, 1);
-      } else {
-        newItems.push(item);
-      }
-      return newItems;
-    });
+  const toggleSelection = (item: T) => {
+    setSelectedItems(prev => prev.filter(i => i !== item));
   };
 
   const selectAll = (items: T[]) => {
@@ -38,7 +29,7 @@ export function SelectablesProvider<T>({ children }) {
 
   return (
     <SelectablesProviderContext.Provider
-      value={{ selectedItems, selectItem, selectAll, resetSelected }}>
+      value={{ selectedItems, toggleSelection, selectAll, resetSelected }}>
       {children}
     </SelectablesProviderContext.Provider>
   );
@@ -48,9 +39,11 @@ type ActionTriggerProps = React.PropsWithChildren & {
   action: (selectedItems: TODO[]) => Promise<void> | void;
 };
 
+/**Use to trigger an action on the selected items when its child is clicked. */
 SelectablesProvider.ActionTrigger = function ({ children, action, ...props }: ActionTriggerProps) {
+  useMustHaveOneChild(children, 'SelectablesProvider.ActionTrigger expects exactly one child!');
   const { selectedItems, resetSelected } = useSelectablesProviderContext();
-  const [trigger] = React.Children.toArray(children) as React.ReactElement[];
+  const trigger = useFirstChild(children);
 
   return (
     <PassProps
@@ -67,32 +60,19 @@ SelectablesProvider.ActionTrigger = function ({ children, action, ...props }: Ac
 
 /**Ads the item passed as a prop to the selectedItems. */
 SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
-  if (React.Children.count(children) != 1) {
-    throw new Error('SelectablesProvider.SelectTrigger must have exactly one child!');
-  } else {
-    React.Children.forEach(children as React.ReactElement, child => {
-      if (child.type !== 'input' || child.props.type !== 'checkbox') {
-        throw new Error(
-          'Only checkbox inputs can be passed to a SelectablesProvider.SelectTrigger!'
-        );
-      }
-    });
-  }
-  const { selectItem, selectedItems } = useSelectablesProviderContext();
-  const [trigger] = useMemo(
-    () => React.Children.toArray(children) as React.ReactElement[],
-    [children]
-  );
+  useMustHaveOneChild(children, 'SelectablesProvider.SelectTrigger expects exactly one child!');
+  const { toggleSelection, selectedItems } = useSelectablesProviderContext();
+  const trigger = useFirstChild(children);
 
   return (
     <PassProps
       {...props}
       checked={selectedItems.includes(item)}
       onChange={() => {
-        selectItem(item);
         if (trigger.props.onClick) {
           trigger.props.onClick();
         }
+        toggleSelection(item);
       }}>
       {trigger}
     </PassProps>
@@ -100,12 +80,14 @@ SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
 };
 
 SelectablesProvider.SelectAllTrigger = function ({ children, itemsToSelect, ...props }) {
+  useMustHaveOneChild(children, 'SelectablesProvider.SelectAllTrigger expects exactly one child!');
   const { selectAll } = useSelectablesProviderContext();
+  const child = useFirstChild(children);
   return (
     <PassProps
       {...props}
       onClick={() => selectAll(itemsToSelect)}>
-      {children}
+      {child}
     </PassProps>
   );
 };
@@ -167,3 +149,18 @@ export const useSelectablesProviderContext = createUseContextHook(
   'SelectablesProviderContext',
   SelectablesProviderContext
 );
+
+function useMustHaveOneChild(children: React.ReactNode, errorMessage: string) {
+  useMemo(() => {
+    if (React.Children.count(children) !== 1) {
+      throw new Error(errorMessage);
+    }
+  }, [children, errorMessage]);
+}
+
+function useFirstChild(children: React.ReactNode) {
+  return useMemo(() => {
+    const [child] = React.Children.toArray(children);
+    return child as React.ReactElement;
+  }, [children]);
+}

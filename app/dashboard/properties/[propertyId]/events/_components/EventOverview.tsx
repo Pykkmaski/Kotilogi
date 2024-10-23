@@ -7,7 +7,7 @@ import { Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import { Chip } from '@mui/material';
-import { Spacer } from '@/components/New/Spacer';
+import { Spacer } from '@/components/UI/Spacer';
 import { deleteEventAction } from '../[eventId]/delete/_components/actions';
 
 type EventOverviewProps<T extends EventDataType> = {

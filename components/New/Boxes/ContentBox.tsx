@@ -1,4 +1,4 @@
-import { Spacer } from '../Spacer';
+import { Spacer } from '../../UI/Spacer';
 
 /**Renders its children within a rounded box, with padding and a shadow. */
 export function ContentBox({

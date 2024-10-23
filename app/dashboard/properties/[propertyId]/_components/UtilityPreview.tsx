@@ -4,7 +4,7 @@ import { PreviewContentBase } from '@/components/New/Boxes/PreviewContent';
 import { Bolt } from '@mui/icons-material';
 import { useUtilityProviderContext } from '../utility/UtilityContext';
 import { UtilityLineChart } from '../utility/UtilityLineChart';
-import { Spacer } from '@/components/New/Spacer';
+import { Spacer } from '@/components/UI/Spacer';
 
 export function UtilityPreview({ propertyId }: { propertyId: string }) {
   const { data: utilityData } = useUtilityProviderContext();

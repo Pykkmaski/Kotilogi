@@ -4,7 +4,7 @@ import { isUUID } from 'kotilogi-app/utils/isUUID';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Spacer } from './Spacer';
+import { Spacer } from '../UI/Spacer';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 const tranlsatePathname = (href: string) => {
@@ -94,7 +94,7 @@ export function Breadcrumb() {
   return (
     <Spacer
       direction='row'
-      gap={2}>
+      gap={'small'}>
       {generateCrumbs()}
     </Spacer>
   );

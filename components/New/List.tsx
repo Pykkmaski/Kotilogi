@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Spacer, SpacerProps } from './Spacer';
+import { Spacer, SpacerProps } from '../UI/Spacer';
 
 /**A Spacer-component that wraps it's children inside li-elements, and renders them inside a ul-tag. */
 export function List({ children, ...props }: SpacerProps) {

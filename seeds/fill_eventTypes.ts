@@ -2,15 +2,15 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-
-import { eventTargets, targetsTable } from '../constants/eventTargets';
-import { mainEventTypes, mainTypesTable } from '../constants/mainEventTypes';
-import { targetsUnderMainType } from '../constants/targetsUnderMainType';
-import { workTypes, workTypesTable } from '../constants/workTypes';
-import { workTypesUnderTarget } from '../constants/workTypesUnderTarget';
+const { mainTypesTable, mainEventTypes } = require('../constants/mainEventTypes.ts');
+const { targetsTable, eventTargets } = require('../constants/eventTargets.ts');
+const { workTypesTable, workTypes } = require('../constants/workTypes.ts');
+const { targetsUnderMainType } = require('../constants/targetsUnderMainType.ts');
+const { workTypesUnderTarget } = require('../constants/workTypesUnderTarget.ts');
 
 exports.seed = async function (knex) {
   const insertTypeIntoTable = async (tablename, type) => {
+    //await knex(tablename).del();
     await knex(tablename)
       .insert({
         label: type,

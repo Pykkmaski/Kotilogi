@@ -18,7 +18,8 @@ exports.up = function (knex) {
         .notNullable()
         .references('id')
         .inTable('data_propertyEvents')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
 
       tbl
         .integer('toteutusTapaId')
@@ -44,5 +45,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists(methodRefTable).dropTableIfExists(table);
+  return knex.schema.dropTableIfExists(table).dropTableIfExists(methodRefTable);
 };

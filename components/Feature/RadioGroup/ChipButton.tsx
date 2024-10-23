@@ -17,6 +17,11 @@ export function ChipButton({ label, type = 'radio', ...props }: ChipButtonProps)
     setChecked(inputRef.current?.checked);
   }, [inputRef.current?.checked, props.checked]);
 
+  const baseChipStyling = {
+    color: checked && 'white',
+    backgroundColor: checked && colors.secondary,
+  };
+
   return (
     <>
       <input
@@ -29,14 +34,8 @@ export function ChipButton({ label, type = 'radio', ...props }: ChipButtonProps)
         }}
       />
       <Chip
-        size='medium'
         variant={checked ? 'filled' : 'outlined'}
-        sx={
-          checked && {
-            color: 'white',
-            backgroundColor: colors.secondary,
-          }
-        }
+        sx={baseChipStyling}
         label={label}
         onClick={() => {
           if (inputRef.current) {

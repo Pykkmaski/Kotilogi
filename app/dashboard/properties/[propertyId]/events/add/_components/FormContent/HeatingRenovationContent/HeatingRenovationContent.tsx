@@ -9,9 +9,11 @@ export const HeatingRenovationContent = () => {
   const { heatingSystems, isLoading, getAdditionalInputs, getBrandAndModelInputs } =
     useHeatingRenovationContent();
 
+  console.log(isLoading);
+
   return (
     <RenderOnCondition
-      condition={!isLoading}
+      condition={isLoading == false}
       fallback={<Spinner message='Ladataan...' />}>
       <HeatingSystemSelector
         helper='Jos olemassa oleva järjestelmä vaihdettiin, valitse vanhan järjestelmän tyyppi.'

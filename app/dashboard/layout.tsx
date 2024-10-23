@@ -1,7 +1,7 @@
 import Notice from '@/components/App/Notice';
 import { AppHeader } from '@/components/New/AppHeader';
 import { Breadcrumb } from '@/components/New/Breadcrumb';
-import { Margin } from '@/components/New/Margin';
+import { Margin } from '@/components/UI/Margin';
 import { Paper } from '@/components/New/Paper';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { redirect } from 'next/navigation';

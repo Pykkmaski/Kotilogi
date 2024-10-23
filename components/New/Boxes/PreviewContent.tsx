@@ -1,5 +1,5 @@
 import { ContentBox } from './ContentBox';
-import { Spacer } from '../Spacer';
+import { Spacer } from '../../UI/Spacer';
 import { SecondaryHeading, TertiaryHeading } from '../Typography/Headings';
 import { BoxHeader, BoxTitle } from './BoxHeader';
 import Link from 'next/link';

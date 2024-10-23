@@ -3,7 +3,7 @@ import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
-import { Spacer } from '@/components/New/Spacer';
+import { Spacer } from '@/components/UI/Spacer';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;

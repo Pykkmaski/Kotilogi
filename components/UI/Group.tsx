@@ -6,7 +6,9 @@ type GroupProps = React.PropsWithChildren & {
   align?: 'start' | 'end' | 'center' | 'baseline';
 };
 
-/**A wrapper to arrange it's children in a row or a column. */
+/**A wrapper to arrange it's children in a row or a column.
+ * @deprecated
+ */
 export function Group({
   children,
   justify = 'start',

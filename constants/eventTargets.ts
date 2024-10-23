@@ -1,23 +1,11 @@
-export const targetsTable = 'ref_eventTargets';
-export const eventTargets = {
+module.exports.targetsTable = 'ref_eventTargets';
+module.exports.eventTargets = {
   //Lämmitys
   Lammonjako: 'Lämmönjako',
   Lammitysmuoto: 'Lämmitysmuoto',
-  Oljykattila: 'Öljykattila',
-  Paisuntasailio: 'Paisuntasäiliö',
-  Lamminvesivaraaja: 'Lämminvesivaraaja',
-  Maalampopumppu: 'Maalämpöpumppu',
-  Ilmalampopumppu: 'Ilmalämpöpumppu',
-  VesiIlmaLampoPumppu: 'Vesi-Ilmalämpöpumppu',
-  Lammonjakokeskus: 'Lämmönjakokeskus',
-  Termostaatti: 'Termostaatti',
 
   //Ilmanvaihto
   Ilmanvaihto: 'Ilmanvaihto',
-  Huippuimuri: 'Huippuimuri',
-  Ilmanvaihtokone: 'Ilmanvaihtokone',
-  Ilmanvaihtokanavat: 'Ilmanvaihtokanavat',
-
   Hormi: 'Hormi',
   Ikkunat: 'Ikkunat',
   Katto: 'Katto',

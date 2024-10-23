@@ -1,4 +1,4 @@
-import { Spacer } from '@/components/New/Spacer';
+import { Spacer } from '@/components/UI/Spacer';
 
 /**Renders a regular round radio-button, with a label. */
 export function RadioButton({

@@ -1,4 +1,4 @@
-import { Spacer } from '../Spacer';
+import { Spacer } from '../../UI/Spacer';
 import { SecondaryHeading } from '../Typography/Headings';
 
 export function BoxHeader({ children }: React.PropsWithChildren) {

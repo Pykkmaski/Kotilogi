@@ -11,6 +11,7 @@ import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 import { UtilityProvider } from './utility/UtilityContext';
 import { getUtilityData } from 'kotilogi-app/dataAccess/utilities';
+import { Spacer } from '@/components/UI/Spacer';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -42,7 +43,7 @@ export default async function PropertyPage({ params }) {
         editUrl={`/dashboard/properties/${property.id}/edit`}
       />
 
-      <div className='w-full lg:gap-4 xs:gap-2 flex lg:flex-row xs:flex-col'>
+      <div className='flex w-full gap-4 xs:flex-col md:flex-row'>
         <EventPreview propertyId={property.id} />
         <UtilityProvider
           data={utilityData}

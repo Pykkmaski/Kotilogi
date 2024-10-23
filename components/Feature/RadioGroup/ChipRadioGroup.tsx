@@ -48,6 +48,6 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
     [isChecked, currentValue, disabled, required, name]
   );
 
-  const content = useMapArray(dataArray, renderFn);
+  const content = useMapArray(putOtherOptionLast(dataArray), renderFn);
   return <RadioGroup name={name}>{content}</RadioGroup>;
 }

@@ -1,4 +1,4 @@
-import { Spacer } from './Spacer';
+import { Spacer } from '../UI/Spacer';
 
 type LabelGridProps = React.PropsWithChildren & {
   header?: React.ReactNode;
@@ -20,7 +20,9 @@ export function LabelGrid({ children, header }: LabelGridProps) {
 LabelGrid.Entry = ({ label, value }: any) => {
   return (
     <div className='text-left'>
-      <Spacer direction='col'>
+      <Spacer
+        direction='col'
+        gap='small'>
         <span className='text-sm text-slate-500'>{label}</span>
         <span className='font-semibold text-secondary xs:text-sm sm:text-base'>{value}</span>
       </Spacer>

@@ -2,7 +2,7 @@
 
 import { ContentBox } from './ContentBox';
 import { MainHeading } from '../Typography/Headings';
-import { Spacer } from '../Spacer';
+import { Spacer } from '../../UI/Spacer';
 import Image from 'next/image';
 import {
   DialogActions,

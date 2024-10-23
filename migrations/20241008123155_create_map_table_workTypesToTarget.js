@@ -12,13 +12,15 @@ exports.up = function (knex) {
       .notNullable()
       .references('id')
       .inTable('ref_eventTargets')
-      .onUpdate('CASCADE');
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     tbl
       .integer('workTypeId')
       .notNullable()
       .references('id')
       .inTable('ref_eventWorkTypes')
-      .onUpdate('CASCADE');
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     tbl.primary(['targetId', 'workTypeId']);
   });
 };

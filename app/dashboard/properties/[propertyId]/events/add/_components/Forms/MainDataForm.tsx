@@ -1,4 +1,4 @@
-import { Spacer } from '@/components/New/Spacer';
+import { Spacer } from '@/components/UI/Spacer';
 import { useEventFormContext } from '../EventFormContext';
 import { SharedEventDataInputs } from '../SharedEventDataInputs';
 import { Button } from '@/components/New/Button';
@@ -55,7 +55,7 @@ export function MainDataForm({ editing }) {
 
       <Spacer
         direction='row'
-        gap={4}
+        gap={'medium'}
         width='full'
         justifyItems='end'>
         <Button
@@ -71,7 +71,8 @@ export function MainDataForm({ editing }) {
               <DialogTitle>Vahvista tapahtuma</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Vahvistettuja tapahtumia ei voi muokata. Haluatko varmasti vahvistaa tapahtuman?
+                  Vahvistettuja tapahtumia ei voi enää jälkikäteen muokata. Haluatko varmasti
+                  vahvistaa tapahtuman?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

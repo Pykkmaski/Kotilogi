@@ -1,7 +1,7 @@
-import { eventTargets } from './eventTargets';
-import { mainEventTypes } from './mainEventTypes';
+const { eventTargets } = require('./eventTargets.ts');
+const { mainEventTypes } = require('./mainEventTypes.ts');
 
-export const targetsUnderMainType = {
+module.exports.targetsUnderMainType = {
   [mainEventTypes.Peruskorjaus]: [
     eventTargets.Ikkunat,
     eventTargets.Sahkot,
@@ -15,20 +15,17 @@ export const targetsUnderMainType = {
   ],
 
   [mainEventTypes.Huoltotyo]: [
-    eventTargets.Hormi,
-    eventTargets.Savupiippu,
+    eventTargets.Ilmanvaihto,
+    eventTargets.Lammonjako,
+    eventTargets.Lammitysmuoto,
+    eventTargets.Eristys,
     eventTargets.Salaojat,
     eventTargets.Katto,
-    eventTargets.Sadevesikourut,
-    eventTargets.Paisuntasailio,
-    eventTargets.Oljykattila,
-    eventTargets.Lamminvesivaraaja,
-    eventTargets.Maalampopumppu,
-    eventTargets.Lammonjakokeskus,
-    eventTargets.Lammonjako,
-    eventTargets.Ilmanvaihtokanavat,
-    eventTargets.Ilmanvaihtokone,
+    eventTargets.Rakenteet,
+    eventTargets.Viemariputket,
+    eventTargets.Kayttovesiputket,
     eventTargets.Ikkunat,
+    eventTargets.Sahkot,
     eventTargets.Muu,
   ],
 

@@ -5,6 +5,7 @@ import { useEventFormContext } from '../../../EventFormContext';
 import { BrandAndModelInputs } from '../BrandModelInputs';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { ElectricHeatingMethodSelector } from '../ElectricHeatingMethodSelector';
+import { useCallback } from 'react';
 
 export function useHeatingRenovationContent() {
   const { extraData, editing } = useEventFormContext();
@@ -13,11 +14,11 @@ export function useHeatingRenovationContent() {
     queryFn: async () => await getHeatingSystems(),
   });
 
-  const getBrandAndModelInputs = () => {
+  const getBrandAndModelInputs = useCallback(() => {
     var modelLabel, brandLabel, modelPlaceholder, brandPlaceholder;
 
     const { newSystemId } = extraData;
-
+    console.log(heatingSystems);
     if (newSystemId == getIdByLabel(heatingSystems, 'Kaukolämpö', 'name')) {
       modelLabel = 'Lämmönjakajan malli';
       brandLabel = 'Lämmönjakajan merkki';
@@ -55,12 +56,14 @@ export function useHeatingRenovationContent() {
         brandPlaceholder={brandPlaceholder}
       />
     );
-  };
+  }, [heatingSystems, extraData]);
 
   /**Returns inputs pertaining to the new selected system. */
-  const getAdditionalInputs = () => {
-    const { newSystemId } = extraData;
+  const getAdditionalInputs = useCallback(() => {
+    if (isLoading) return null;
 
+    const { newSystemId } = extraData;
+    console.log(heatingSystems, isLoading);
     if (newSystemId == getIdByLabel(heatingSystems, 'Öljy', 'name')) {
       return (
         <>
@@ -96,7 +99,7 @@ export function useHeatingRenovationContent() {
     } else {
       return null;
     }
-  };
+  }, [extraData, heatingSystems]);
 
   return {
     getBrandAndModelInputs,

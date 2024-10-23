@@ -19,7 +19,7 @@ exports.up = function (knex) {
         .references('id')
         .inTable('data_propertyEvents')
         .onUpdate('CASCADE')
-        .onUpdate('CASCADE');
+        .onDelete('CASCADE');
       tbl
         .integer('targetId')
         .notNullable()

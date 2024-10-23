@@ -1,5 +1,5 @@
-export const mainTypesTable = 'ref_mainEventTypes';
-export const mainEventTypes = {
+module.exports.mainTypesTable = 'ref_mainEventTypes';
+module.exports.mainEventTypes = {
   Peruskorjaus: 'Peruskorjaus',
   Huoltotyo: 'Huoltotyö',
   Pintaremontti: 'Pintaremontti',

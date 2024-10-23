@@ -1,5 +1,3 @@
-import { Spacer } from '@/components/New/Spacer';
-
 /**Renders a regular round radio-button, with a label. */
 export function Checkbox({
   name,
