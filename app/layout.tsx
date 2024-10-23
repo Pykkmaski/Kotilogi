@@ -25,7 +25,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: React.PropsWithChildren) {
-  const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-50 to-gray-100'];
+  const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-100 to-gray-200'];
   const analyticsCookie = cookies().get('kotidok-analytics-accepted');
   const getAnalyticsScript = () =>
     analyticsCookie?.value == 'true' && (

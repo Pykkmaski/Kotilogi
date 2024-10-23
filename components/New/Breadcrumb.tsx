@@ -94,7 +94,7 @@ export function Breadcrumb() {
   return (
     <Spacer
       direction='row'
-      gap={'small'}>
+      gap={'medium'}>
       {generateCrumbs()}
     </Spacer>
   );

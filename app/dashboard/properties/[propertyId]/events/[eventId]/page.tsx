@@ -38,7 +38,7 @@ export default async function EventPage({ params }) {
         }}
       />
 
-      <div className='flex w-full gap-4 xs:flex-col lg:flex-row'>
+      <div className='flex w-full md:gap-4 xs:gap-1 xs:flex-col lg:flex-row'>
         <EventDetails
           eventData={eventData}
           extraData={extraData}

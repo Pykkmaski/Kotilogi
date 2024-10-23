@@ -43,7 +43,7 @@ export function PreviewContentBase({
             <List
               direction='row'
               alignItems='center'
-              gap={1}>
+              gap={'small'}>
               <RenderOnCondition condition={!preview && showAllUrl}>
                 <Link
                   href={showAllUrl}
@@ -71,7 +71,7 @@ export function PreviewContentBase({
           condition={!preview}
           fallback={
             <Spacer
-              gap={4}
+              gap={'medium'}
               direction='col'
               height='full'>
               <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
@@ -103,7 +103,6 @@ export function PreviewContentRow<T>({
   onEmptyElement,
   ...props
 }: PreviewContentRowProps<T>) {
-  console.log(data);
   return (
     <PreviewContentBase {...props}>
       <RenderOnCondition

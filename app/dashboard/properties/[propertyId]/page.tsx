@@ -43,7 +43,7 @@ export default async function PropertyPage({ params }) {
         editUrl={`/dashboard/properties/${property.id}/edit`}
       />
 
-      <div className='flex w-full gap-4 xs:flex-col md:flex-row'>
+      <div className='flex w-full md:gap-4 xs:gap-2 xs:flex-col md:flex-row'>
         <EventPreview propertyId={property.id} />
         <UtilityProvider
           data={utilityData}
