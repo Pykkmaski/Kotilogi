@@ -11,6 +11,7 @@ module.exports.targetsUnderMainType = {
     eventTargets.Ilmanvaihto,
     eventTargets.Lukitus,
     eventTargets.Eristys,
+    eventTargets.Lammitysmuoto,
     eventTargets.Muu,
   ],
 

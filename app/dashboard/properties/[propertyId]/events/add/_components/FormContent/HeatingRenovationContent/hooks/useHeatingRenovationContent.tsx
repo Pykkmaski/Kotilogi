@@ -15,6 +15,7 @@ export function useHeatingRenovationContent() {
   });
 
   const getBrandAndModelInputs = useCallback(() => {
+    if (isLoading) return null;
     var modelLabel, brandLabel, modelPlaceholder, brandPlaceholder;
 
     const { newSystemId } = extraData;

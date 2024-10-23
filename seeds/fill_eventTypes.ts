@@ -10,7 +10,7 @@ const { workTypesUnderTarget } = require('../constants/workTypesUnderTarget.ts')
 
 exports.seed = async function (knex) {
   const insertTypeIntoTable = async (tablename, type) => {
-    //await knex(tablename).del();
+    await knex(tablename).del();
     await knex(tablename)
       .insert({
         label: type,

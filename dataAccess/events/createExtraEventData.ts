@@ -30,7 +30,7 @@ export async function createExtraEventData(
 
     const runBaseInsert = async (tablename: string) =>
       await trx(tablename).insert({ ...extraData, id: eventId });
-
+    //Lämmitysmuoto
     if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lämmitysmuoto')) {
       //Save heating event data.
       const { newSystemId } = extraData;
@@ -51,24 +51,39 @@ export async function createExtraEventData(
           methodId: extraData.methodId,
         });
       }
-    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Katto')) {
+    }
+    //Katto
+    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Katto')) {
       //Save roof data.
       await trx('data_roofEvents').insert({ ...extraData, id: eventId });
-    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
+    }
+    //Salaojat
+    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
       //Save drainage ditch data.
       await runBaseInsert('data_drainageDitchEvents');
-    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Käyttövesiputket')) {
+    }
+    //Käyttövesiputket
+    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Käyttövesiputket')) {
       await runBaseInsert('data_kayttoVesiPutketEvents');
-    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Viemäriputket')) {
+    }
+    //Viemäriputket
+    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Viemäriputket')) {
       await runBaseInsert('data_viemariPutketEvents');
-    } else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Eristys')) {
+    }
+    //Eristys
+    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Eristys')) {
       await runBaseInsert('data_eristeEvents');
     } else {
       throw new Error('Unsupported targetId ' + typeData.targetId);
     }
-  } else if (typeData.mainTypeId == maintenanceRenovationId) {
   } else if (typeData.mainTypeId == surfaceRenovationId) {
     //Save the surfaces.
+    for (const s of selectedSurfaceIds) {
+      await trx('data_surfaces').insert({
+        eventId,
+        s,
+      });
+    }
     throw new Error('Surface save-logic not implemented!');
   }
 }

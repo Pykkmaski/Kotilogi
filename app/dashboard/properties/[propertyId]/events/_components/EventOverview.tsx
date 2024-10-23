@@ -29,12 +29,12 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
       description={
         <Spacer
           direction='col'
-          gap={4}
+          gap={'medium'}
           height='full'>
           <Paragraph>{event.description || 'Ei kuvausta.'}</Paragraph>
           <Spacer
             direction='row'
-            gap={2}>
+            gap={'small'}>
             <Chip
               label={event.mainTypeLabel || 'Muu'}
               color='secondary'

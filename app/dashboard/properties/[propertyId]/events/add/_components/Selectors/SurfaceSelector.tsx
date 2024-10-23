@@ -13,27 +13,29 @@ export const SurfaceSelector = () => {
     queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
   });
 
+  const getSurfaceButtons = () => {
+    return isLoading
+      ? null
+      : surfaces.map(s => {
+          return (
+            <ChipButton
+              type='checkbox'
+              label={s.label}
+              value={s.id}
+              onClick={() => toggleSurfaceId(s.id)}
+              checked={selectedSurfaceIds.includes(s.id)}
+            />
+          );
+        });
+  };
+
   return (
     <SuspenseFormControl
       isLoading={isLoading}
       loadingText='Ladataan pintoja...'
       label='Pinnat'
       helper='Valitse yksi tai useampi.'
-      control={
-        <RadioGroup name='surfaceId'>
-          {surfaces.map(s => {
-            return (
-              <ChipButton
-                type='checkbox'
-                label={s.label}
-                value={s.id}
-                onClick={() => toggleSurfaceId(s.id)}
-                checked={selectedSurfaceIds.includes(s.id)}
-              />
-            );
-          })}
-        </RadioGroup>
-      }
+      control={<RadioGroup name='surfaceId'>{getSurfaceButtons()}</RadioGroup>}
     />
   );
 };
