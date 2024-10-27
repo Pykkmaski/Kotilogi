@@ -1,10 +1,11 @@
 'use client';
 
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { StatusType } from '@/hooks/useStatusWithAsyncMethod';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import React from 'react';
 
 type EventFormProviderProps = {
-  status: 'idle' | 'loading' | 'done';
+  status: StatusType;
   onSubmit: (e) => void;
   cancel: () => void;
   /**The main event data. Not including the type-id references. */

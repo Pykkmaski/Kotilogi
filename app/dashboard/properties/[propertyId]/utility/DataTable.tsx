@@ -4,12 +4,11 @@ import { AgGridReact } from 'ag-grid-react';
 import { useUtilityProviderContext } from './UtilityContext';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
-import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
-import { useState } from 'react';
-import { Button } from '@mui/material';
-import { Menu } from '@/components/New/Menu';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import { deleteUtilityAction } from './actions';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { VPMenu } from '@/components/UI/VPMenu';
 
 export function DataTable() {
   const { data } = useUtilityProviderContext();
@@ -34,9 +33,17 @@ export function DataTable() {
       width: '100px',
       cellRenderer: params => {
         return (
-          <Menu trigger={<MenuIcon />}>
-            <button onClick={() => deleteEntry(params.data.id)}>Poista</button>
-          </Menu>
+          <VisibilityProvider>
+            <VisibilityProvider.Trigger setAsAnchorForMUI>
+              <MenuIcon />
+            </VisibilityProvider.Trigger>
+
+            <VisibilityProvider.Target>
+              <VPMenu>
+                <button onClick={() => deleteEntry(params.data.id)}>Poista</button>
+              </VPMenu>
+            </VisibilityProvider.Target>
+          </VisibilityProvider>
         );
       },
     },

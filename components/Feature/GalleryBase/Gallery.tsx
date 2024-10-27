@@ -12,7 +12,7 @@ import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { List } from '@/components/New/List';
 import { Modal } from '@/components/UI/Modal';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Link from 'next/link';

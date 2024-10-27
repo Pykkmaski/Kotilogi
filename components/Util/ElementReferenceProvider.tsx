@@ -1,4 +1,4 @@
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import React, { useMemo } from 'react';
 import { createContext, useCallback, useState } from 'react';
 import { PassProps } from './PassProps';

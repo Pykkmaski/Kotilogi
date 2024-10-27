@@ -8,11 +8,11 @@ import { createEventAction, updateEventAction } from '../actions';
 import toast from 'react-hot-toast';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { isDefined } from '../util';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
 
 export function useEventForm(propertyId: string, eventData: TODO, initialExtraData?: TODO) {
   const { refs } = useEventTypeContext();
-  const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
-
   const { mainData, updateMainData, mainDataHasChanges, resetMainData, files } =
     useMainData(eventData);
 
@@ -27,7 +27,28 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
     resetExtraData
   );
 
-  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const { method: submitMethod, status } = useStatusWithAsyncMethod(async () => {
+    if (eventData) {
+      await updateEventAction(eventData.id, mainData, typeData, extraData);
+    } else {
+      await createEventAction(
+        propertyId,
+        mainData,
+        typeData,
+        extraData,
+        selectedSurfaceIds,
+        files.map(f => {
+          const fd = new FormData();
+          fd.append('file', f);
+          return fd;
+        })
+      );
+    }
+    localStorage.removeItem('kotidok-event-extra-data');
+  });
+
+  const onSubmit = usePreventDefault(submitMethod);
+
   const router = useRouter();
   const hasChanges = mainDataHasChanges || typeDataHasChanges;
 
@@ -36,55 +57,25 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
       const c = confirm('Lomake sisältää muutoksia. Haluatko varmasti peruuttaa?');
       if (!c) return;
     }
-    localStorage.removeItem('kotidok-event-extra-data');
+    //localStorage.removeItem('kotidok-event-extra-data');
     router.back();
   }, [hasChanges, router]);
 
-  const toggleSurfaceId = id => {
-    const alreadySelected = selectedSurfaceIds.find(selectedId => selectedId == id);
-    if (alreadySelected) {
-      //Deselect the id by removing it from the array.
-      const newSelectedIds = selectedSurfaceIds.filter(selectedId => selectedId != id);
-      setSelectedSurfaceIds(newSelectedIds);
-    } else {
-      setSelectedSurfaceIds([...selectedSurfaceIds, id]);
-    }
-  };
-
-  const onSubmit = useCallback(
-    async e => {
-      e.preventDefault();
-
-      setStatus('loading');
-      try {
-        if (eventData) {
-          await updateEventAction(eventData.id, mainData, typeData, extraData);
-        } else {
-          await createEventAction(
-            propertyId,
-            mainData,
-            typeData,
-            extraData,
-            selectedSurfaceIds,
-            files.map(f => {
-              const fd = new FormData();
-              fd.append('file', f);
-              return fd;
-            })
-          );
-        }
-        setStatus('done');
-        localStorage.removeItem('kotidok-event-extra-data');
-      } catch (err) {
-        toast.error(err.message);
-      } finally {
-        setStatus(prev => (prev != 'done' ? 'idle' : prev));
+  const toggleSurfaceId = useCallback(
+    id => {
+      const alreadySelected = selectedSurfaceIds.find(selectedId => selectedId == id);
+      if (alreadySelected) {
+        //Deselect the id by removing it from the array.
+        const newSelectedIds = selectedSurfaceIds.filter(selectedId => selectedId != id);
+        setSelectedSurfaceIds(newSelectedIds);
+      } else {
+        setSelectedSurfaceIds([...selectedSurfaceIds, id]);
       }
     },
-    [files, selectedSurfaceIds, mainData, typeData, extraData, propertyId, eventData, setStatus]
+    [selectedSurfaceIds, setSelectedSurfaceIds]
   );
 
-  const showMainDataForm = () => {
+  const showMainDataForm = useCallback(() => {
     if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
       return isDefined(typeData.targetId);
     } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
@@ -94,15 +85,15 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
     } else {
       return false;
     }
-  };
+  }, [typeData.targetId, typeData.mainTypeId, refs.mainEventTypes, typeData.workTypeId]);
 
-  const showExtraDataForm = () => {
+  const showExtraDataForm = useCallback(() => {
     if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
       return true;
     } else {
       return false;
     }
-  };
+  }, [typeData.workTypeId, typeData.mainTypeId, refs.mainEventTypes]);
 
   return {
     status,
@@ -119,8 +110,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
     selectedSurfaceIds,
     toggleSurfaceId,
     refs,
-    showConfirmationDialog,
-    setShowConfirmationDialog,
+
     resetSelectedSurfaceIds,
     showMainDataForm,
     showExtraDataForm,

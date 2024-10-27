@@ -1,18 +1,17 @@
 'use client';
 
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import React, { useEffect, useMemo } from 'react';
-import { createContext, useState } from 'react';
-import { Modal } from '../UI/Modal';
+import React, { useMemo } from 'react';
+import { useState } from 'react';
 import { PassProps } from './PassProps';
 import { RenderOnCondition } from './RenderOnCondition';
+import { createContextWithHook } from 'kotilogi-app/utils/createContextWithHook';
 
-const CarouselProviderContext = createContext<{
+const [CarouselProviderContext, useCarouselProviderContext] = createContextWithHook<{
   stepForward: () => void;
   stepBackward: () => void;
   showSlot: (slotName: string) => void;
   currentSlot: string;
-}>(null);
+}>('CarouselProviderContext');
 
 type CarouselProviderProps = React.PropsWithChildren & {
   defaultSlot?: string;
@@ -137,8 +136,3 @@ CarouselProvider.HideOnSlot = function ({ children, slotToHideOn }) {
   const { currentSlot } = useCarouselProviderContext();
   return <RenderOnCondition condition={currentSlot !== slotToHideOn}>{children}</RenderOnCondition>;
 };
-
-const useCarouselProviderContext = createUseContextHook(
-  'CarouselProviderContext',
-  CarouselProviderContext
-);

@@ -44,13 +44,18 @@ export default async function PropertyPage({ params }) {
       />
 
       <div className='flex w-full md:gap-4 xs:gap-2 xs:flex-col md:flex-row'>
-        <EventPreview propertyId={property.id} />
-        <UtilityProvider
-          data={utilityData}
-          year={null}
-          selectedTypes={[]}>
-          <UtilityPreview propertyId={property.id} />
-        </UtilityProvider>
+        <div className='w-full'>
+          <EventPreview propertyId={property.id} />
+        </div>
+
+        <div className='w-full'>
+          <UtilityProvider
+            data={utilityData}
+            year={null}
+            selectedTypes={[]}>
+            <UtilityPreview propertyId={property.id} />
+          </UtilityProvider>
+        </div>
       </div>
 
       <FileOverview

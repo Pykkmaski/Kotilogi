@@ -5,7 +5,7 @@ import { VisibilityProvider } from '../Util/VisibilityProvider';
 import { MutableRefObject, createContext, useEffect, useId, useRef } from 'react';
 import Button from '../UI/Button/Button';
 import { useSubmitData } from '@/hooks/useSubmitData';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import React from 'react';
 
 const SubmitDataModalProviderContext = createContext<{

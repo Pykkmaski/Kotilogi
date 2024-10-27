@@ -4,19 +4,38 @@ import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { BatchUploadForm } from '@/components/New/Forms/BatchUploadForm';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';
-import { Add, Check, Close } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { Add, Check, Close, Delete } from '@mui/icons-material';
+import {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from '@mui/material';
 import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext, useId, useRef } from 'react';
-import toast from 'react-hot-toast';
-import { onSubmit } from './actions';
+
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
-import { useBatch } from '@/hooks/useBatch';
+import { BatchEntryType, useBatch } from '@/hooks/useBatch';
 import { useInputData } from '@/hooks/useInputData';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Button } from '@/components/New/Button';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
+import { useMapArray } from '@/hooks/useMapArray';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { VPDialog } from '@/components/UI/VPDialog';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { createUtilityDataAction } from './actions';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
+import { Spacer } from '@/components/UI/Spacer';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { BatchProvider } from '@/components/Feature/BatchForm';
+import { List } from '@/components/New/List';
+import { useBatchForm } from '@/hooks/useBatchForm';
 
 const UtilityBatchFormContext = createContext<{
   utilityTypes: { id: number; name: string }[];
@@ -28,19 +47,47 @@ type UtilityBatchFormProps = {
 };
 
 export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormProps) {
-  const { entries, addEntry, removeEntry, updateEntry } = useBatch<Partial<UtilityDataType>>();
-  const { data, updateData } = useInputData<Partial<UtilityDataType>>({
+  const { data, updateData, entries, addEntry, removeEntry, updateEntry, resetData } = useBatchForm<
+    Partial<UtilityDataType>
+  >({
     parentId: propertyId,
-  } as UtilityDataType);
+  });
+  const entryContent = useMapArray(entries, item => (
+    <EntryComponent
+      item={item}
+      onDelete={itemToDelete => removeEntry(item => item.id === itemToDelete.id)}
+    />
+  ));
+  const router = useRouter();
+
+  const { method: submitMethod, status } = useStatusWithAsyncMethod(
+    async () => {
+      await createUtilityDataAction(
+        propertyId,
+        entries.map(e => e.value)
+      );
+      router.back();
+    },
+    err => toast.error(err.message)
+  );
+
+  const onSubmit = usePreventDefault(submitMethod);
+
   const formRef = useRef<HTMLFormElement>(null);
   const formId = useId();
+
   const commit = () => {
     addEntry(data);
     formRef.current?.reset();
+    resetData({});
   };
 
+  const isSubmitDisabled = () => entries.length == 0 || status == 'loading' || status == 'done';
+  const isCommitDisabled = () =>
+    !data.monetaryAmount || !data.unitAmount || !data.typeId || !data.time;
+
   return (
-    <div className='flex flex-col gap-4 lg:w-[50%] xs:w-full'>
+    <div className='flex flex-col gap-4 lg:w-[50%] xs:w-full bg-white p-2'>
       <UtilityBatchFormContext.Provider value={{ utilityTypes }}>
         <form
           id={`utility-form-${formId}`}
@@ -53,15 +100,13 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
             label='Tyyppi'
             required
             control={
-              <RadioGroup name='typeId'>
-                {utilityTypes.map(type => (
-                  <ChipButton
-                    label={type.name}
-                    value={type.id}
-                    checked={data.typeId == type.id}
-                  />
-                ))}
-              </RadioGroup>
+              <ChipRadioGroup
+                name='typeId'
+                currentValue={data.typeId}
+                dataArray={utilityTypes}
+                labelKey='name'
+                valueKey='id'
+              />
             }
           />
 
@@ -108,31 +153,37 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
             }
           />
         </form>
+
         <div className='flex justify-end gap-4'>
           <Button
+            onClick={commit}
+            disabled={isCommitDisabled()}
             variant='text'
-            startIcon={<Add />}
-            onClick={commit}>
-            Lisää toinen tieto
-          </Button>
-
-          <Button
-            form={formId}
-            type='submit'
-            startIcon={<Check />}
-            variant='contained'>
-            Vahvista kaikki
+            color='secondary'
+            startIcon={<Add />}>
+            Lisää tieto
           </Button>
         </div>
-
         <div className='flex flex-col gap-4 border-t border-slate-300 pt-4'>
-          <SecondaryHeading>Vahvistamattomat tiedot</SecondaryHeading>
-          {entries.map(e => (
-            <EntryComponent
-              entry={e}
-              deleteEntry={item => removeEntry(i => JSON.stringify(i) == JSON.stringify(item))}
-            />
-          ))}
+          <Spacer justifyItems='between'>
+            <SecondaryHeading>Vahvistamattomat tiedot</SecondaryHeading>
+            <Button
+              onClick={onSubmit}
+              form={formId}
+              disabled={isSubmitDisabled()}
+              color='secondary'
+              startIcon={<Check />}
+              loading={status === 'loading'}
+              variant='contained'>
+              Vahvista kaikki
+            </Button>
+          </Spacer>
+
+          <List
+            direction='col'
+            gap='small'>
+            {entryContent}
+          </List>
         </div>
       </UtilityBatchFormContext.Provider>
     </div>
@@ -140,11 +191,11 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
 }
 
 function EntryComponent({
-  entry,
-  deleteEntry,
+  item,
+  onDelete,
 }: {
-  entry: UtilityDataType;
-  deleteEntry: (entry: TODO) => void;
+  item: BatchEntryType<Partial<UtilityDataType>>;
+  onDelete: (item: BatchEntryType<Partial<UtilityDataType>>) => void;
 }) {
   const { utilityTypes } = useUtilityBatchFormContext();
 
@@ -152,7 +203,7 @@ function EntryComponent({
   const EntryContainer = ({ label, value }) => (
     <div className='flex flex-col'>
       <span className='text-sm text-slate-500'>{label}</span>
-      <span className='text-lg text-primary font-semibold'>{value}</span>
+      <span className='text-lg text-secondary font-semibold'>{value}</span>
     </div>
   );
 
@@ -162,26 +213,54 @@ function EntryComponent({
         <div className='flex gap-8 items-center'>
           <EntryContainer
             label='Tiedon tyyppi'
-            value={utilityTypes.find(t => t.id == entry.typeId).name}></EntryContainer>
+            value={utilityTypes.find(t => t.id == item.value.typeId).name}></EntryContainer>
           <Separator />
           <EntryContainer
             label='Hinta'
-            value={entry.monetaryAmount + '€'}
+            value={item.value.monetaryAmount + '€'}
           />
           <Separator />
           <EntryContainer
             label='Yksikkömäärä'
-            value={entry.unitAmount}
+            value={item.value.unitAmount}
           />
           <Separator />
           <EntryContainer
             label='Päiväys'
-            value={new Date(entry.time).toLocaleDateString('fi')}
+            value={new Date(item.value.time).toLocaleDateString('fi')}
           />
         </div>
-        <IconButton onClick={() => deleteEntry(entry)}>
-          <Close />
-        </IconButton>
+        <VisibilityProvider>
+          <VisibilityProvider.Trigger>
+            <IconButton>
+              <Close />
+            </IconButton>
+          </VisibilityProvider.Trigger>
+
+          <VisibilityProvider.Target>
+            <VPDialog>
+              <DialogTitle>Poista tieto</DialogTitle>
+              <DialogContent>
+                <DialogContentText>Haluatko varmasti poistaa tiedon?</DialogContentText>
+              </DialogContent>
+
+              <DialogActions>
+                <Button
+                  variant='text'
+                  color='secondary'>
+                  Peruuta
+                </Button>
+
+                <Button
+                  onClick={() => onDelete(item)}
+                  color='warning'
+                  startIcon={<Delete />}>
+                  Poista
+                </Button>
+              </DialogActions>
+            </VPDialog>
+          </VisibilityProvider.Target>
+        </VisibilityProvider>
       </div>
     </ContentBox>
   );

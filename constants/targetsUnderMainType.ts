@@ -12,6 +12,8 @@ module.exports.targetsUnderMainType = {
     eventTargets.Lukitus,
     eventTargets.Eristys,
     eventTargets.Lammitysmuoto,
+    eventTargets.Lammonjako,
+    eventTargets.Katto,
     eventTargets.Muu,
   ],
 

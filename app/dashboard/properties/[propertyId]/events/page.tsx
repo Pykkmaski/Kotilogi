@@ -1,10 +1,8 @@
 import { Main } from '@/components/New/Main';
-import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
-import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
-import { EventOverview } from './_components/EventOverview';
-import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
+import { EventCardGrid } from './_components/EventCardGrid';
+import { EventBoxList } from './_components/EventBoxList';
 
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
@@ -14,35 +12,10 @@ export default async function EventsPage({ params, searchParams }) {
 
   return (
     <Main>
-      <OverviewBoxList
-        searchBar
-        listTitle='Tapahtumat'
-        onEmptyElement={
-          search ? (
-            <GalleryError
-              title='Ei osumia'
-              message={`Haulla '${search}' ei löytynyt tapahtumia.`}
-              icon={'fa fa-history'}
-            />
-          ) : (
-            <GalleryError
-              title='Ei tapahtumia'
-              message='Kohteelle ei ole vielä lisätty tapahtumia'
-              icon='fa fa-history'
-            />
-          )
-        }
-        items={events}
-        addButtonUrl={`/dashboard/properties/${propertyId}/events/add`}
-        OverviewComponent={async ({ item }) => {
-          return (
-            <EventOverview
-              event={{
-                ...item,
-              }}
-            />
-          );
-        }}
+      <EventBoxList
+        search={search}
+        events={events}
+        propertyId={propertyId}
       />
     </Main>
   );

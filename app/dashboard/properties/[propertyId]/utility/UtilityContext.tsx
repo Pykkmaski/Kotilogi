@@ -1,14 +1,14 @@
 'use client';
 
 import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext } from 'react';
 
 type UtilityProviderProps = {
   data: UtilityDataType[];
   selectedTypes: string[];
   allTypes?: string[];
-  year: null | number;
+  year: null | string;
   years?: number[];
 };
 

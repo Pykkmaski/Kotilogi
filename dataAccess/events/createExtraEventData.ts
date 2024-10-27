@@ -1,6 +1,25 @@
 import { Knex } from 'knex';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
+async function createHeatingEventData(eventId: string, extraData: any, trx: Knex.Transaction) {
+  const { newSystemId } = extraData;
+  const heatingTypes = await trx('ref_heatingTypes');
+  if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
+    //Oil heating event
+    await trx('data_oilHeatingEvents').insert({
+      id: eventId,
+      vesselVolume: extraData.vesselVolume,
+      location: extraData.location,
+    });
+  } else if (newSystemId == getIdByLabel(heatingTypes, 'Sähkö', 'name')) {
+    //Electrical heating event
+    await trx('data_electricHeatingEvents').insert({
+      id: eventId,
+      methodId: extraData.methodId,
+    });
+  }
+}
+
 export async function createExtraEventData(
   eventId: string,
   extraData: any,
@@ -8,12 +27,9 @@ export async function createExtraEventData(
   selectedSurfaceIds: number[],
   trx: Knex.Transaction
 ) {
+  /**The id for Peruskorjaus */
   const [mainRenovationId] = await trx('ref_mainEventTypes')
     .where({ label: 'Peruskorjaus' })
-    .pluck('id');
-
-  const [maintenanceRenovationId] = await trx('ref_mainEventTypes')
-    .where({ label: 'Huoltotyö' })
     .pluck('id');
 
   const [surfaceRenovationId] = await trx('ref_mainEventTypes')
@@ -30,32 +46,17 @@ export async function createExtraEventData(
 
     const runBaseInsert = async (tablename: string) =>
       await trx(tablename).insert({ ...extraData, id: eventId });
+
     //Lämmitysmuoto
     if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lämmitysmuoto')) {
       //Save heating event data.
-      const { newSystemId } = extraData;
       await runBaseInsert('data_baseHeatingEvents');
-
-      const heatingTypes = await trx('ref_heatingTypes');
-      if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
-        //Oil heating event
-        await trx('data_oilHeatingEvents').insert({
-          id: eventId,
-          vesselVolume: extraData.vesselVolume,
-          location: extraData.location,
-        });
-      } else if (newSystemId == getIdByLabel(heatingTypes, 'Sähkö', 'name')) {
-        //Electrical heating event
-        await trx('data_electricHeatingEvents').insert({
-          id: eventId,
-          methodId: extraData.methodId,
-        });
-      }
+      await createHeatingEventData(eventId, extraData, trx);
     }
     //Katto
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Katto')) {
       //Save roof data.
-      await trx('data_roofEvents').insert({ ...extraData, id: eventId });
+      await runBaseInsert('data_roofEvents');
     }
     //Salaojat
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
@@ -73,6 +74,10 @@ export async function createExtraEventData(
     //Eristys
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Eristys')) {
       await runBaseInsert('data_eristeEvents');
+    }
+    //Sähköt
+    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Sähköt')) {
+      await runBaseInsert('data_electricityEvents');
     } else {
       throw new Error('Unsupported targetId ' + typeData.targetId);
     }
@@ -84,6 +89,6 @@ export async function createExtraEventData(
         s,
       });
     }
-    throw new Error('Surface save-logic not implemented!');
+    //throw new Error('Surface save-logic not implemented!');
   }
 }

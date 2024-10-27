@@ -1,16 +1,19 @@
 'use client';
 
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
-import React, { useMemo } from 'react';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
+import React, { ReactElement, useMemo } from 'react';
 import { createContext, useState } from 'react';
 import { PassProps } from './PassProps';
+import { createContextWithHook } from 'kotilogi-app/utils/createContextWithHook';
+import { useChildCount } from '@/hooks/useChildCount';
+import { useFirstChild } from '@/hooks/useFirstChild';
 
-const SelectablesProviderContext = createContext<{
+const [SelectablesProviderContext, useSelectablesProviderContext] = createContextWithHook<{
   selectedItems: TODO[];
   toggleSelection: (item: unknown) => void;
   selectAll: (items: unknown) => void;
   resetSelected: () => void;
-}>(null);
+}>('SelectablesProviderContext');
 
 export function SelectablesProvider<T>({ children }) {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -41,9 +44,9 @@ type ActionTriggerProps = React.PropsWithChildren & {
 
 /**Use to trigger an action on the selected items when its child is clicked. */
 SelectablesProvider.ActionTrigger = function ({ children, action, ...props }: ActionTriggerProps) {
-  useMustHaveOneChild(children, 'SelectablesProvider.ActionTrigger expects exactly one child!');
+  useChildCount(children, 1, 'SelectablesProvider.ActionTrigger expects exactly one child!');
   const { selectedItems, resetSelected } = useSelectablesProviderContext();
-  const trigger = useFirstChild(children);
+  const trigger = useFirstChild(children) as ReactElement;
 
   return (
     <PassProps
@@ -60,9 +63,9 @@ SelectablesProvider.ActionTrigger = function ({ children, action, ...props }: Ac
 
 /**Ads the item passed as a prop to the selectedItems. */
 SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
-  useMustHaveOneChild(children, 'SelectablesProvider.SelectTrigger expects exactly one child!');
+  useChildCount(children, 1, 'SelectablesProvider.SelectTrigger expects exactly one child!');
   const { toggleSelection, selectedItems } = useSelectablesProviderContext();
-  const trigger = useFirstChild(children);
+  const trigger = useFirstChild(children) as ReactElement;
 
   return (
     <PassProps
@@ -80,9 +83,9 @@ SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
 };
 
 SelectablesProvider.SelectAllTrigger = function ({ children, itemsToSelect, ...props }) {
-  useMustHaveOneChild(children, 'SelectablesProvider.SelectAllTrigger expects exactly one child!');
+  useChildCount(children, 1, 'SelectablesProvider.SelectAllTrigger expects exactly one child!');
   const { selectAll } = useSelectablesProviderContext();
-  const child = useFirstChild(children);
+  const child = useFirstChild(children) as ReactElement;
   return (
     <PassProps
       {...props}
@@ -144,23 +147,3 @@ SelectablesProvider.SelectedItems = function ({ Component }) {
   const { selectedItems } = useSelectablesProviderContext();
   return selectedItems.map(item => <Component item={item} />);
 };
-
-export const useSelectablesProviderContext = createUseContextHook(
-  'SelectablesProviderContext',
-  SelectablesProviderContext
-);
-
-function useMustHaveOneChild(children: React.ReactNode, errorMessage: string) {
-  useMemo(() => {
-    if (React.Children.count(children) !== 1) {
-      throw new Error(errorMessage);
-    }
-  }, [children, errorMessage]);
-}
-
-function useFirstChild(children: React.ReactNode) {
-  return useMemo(() => {
-    const [child] = React.Children.toArray(children);
-    return child as React.ReactElement;
-  }, [children]);
-}

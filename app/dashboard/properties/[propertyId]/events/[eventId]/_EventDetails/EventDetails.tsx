@@ -2,7 +2,7 @@
 
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { createContext } from 'react';
 import { HormiContent } from './HormiContent';

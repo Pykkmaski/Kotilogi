@@ -1,16 +1,31 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useId, useRef, useState } from 'react';
+
+export type BatchEntryType<T> = {
+  id: string;
+  value: T;
+};
 
 export function useBatch<T>() {
-  const [entries, setEntries] = useState([]);
+  const batchId = useId();
+  const nextId = useRef(0);
+
+  const [entries, setEntries] = useState<BatchEntryType<T>[]>([]);
+
   const addEntry = useCallback(
     (item: T) => {
-      setEntries([...entries, item]);
+      const id = `${batchId} ${nextId.current++}`;
+      const newEntry = {
+        id,
+        value: item,
+      };
+
+      setEntries([...entries, newEntry]);
     },
     [entries, setEntries]
   );
 
   const removeEntry = useCallback(
-    (predicate: (item: T) => boolean) => {
+    (predicate: (item: BatchEntryType<T>) => boolean) => {
       //Flip the result, as we need to exclude elements that match the predicate.
       setEntries(entries.filter(item => !predicate(item)));
     },
@@ -18,12 +33,18 @@ export function useBatch<T>() {
   );
 
   const updateEntry = useCallback(
-    (predicate: (item: T) => boolean, action: (item: T) => void) => {
+    (predicate: (item: BatchEntryType<T>) => boolean, action: (valueToUpdate: T) => T) => {
       const newEntries = [...entries];
       const itemToUpdate = newEntries.find(predicate);
       if (itemToUpdate) {
-        action(itemToUpdate);
+        const index = newEntries.indexOf(itemToUpdate);
+        newEntries[index].value = action(itemToUpdate.value);
+
         setEntries(newEntries);
+      } else {
+        throw new Error(
+          "Couldn't update batch, as an item according to the predicate was not found!"
+        );
       }
     },
     [entries, setEntries]

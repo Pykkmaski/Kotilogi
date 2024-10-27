@@ -67,6 +67,7 @@ export function ControlBar() {
               variant='contained'
               size='small'
               type='button'
+              color='secondary'
               startIcon={<Add />}>
               Lisää Uusi
             </Button>

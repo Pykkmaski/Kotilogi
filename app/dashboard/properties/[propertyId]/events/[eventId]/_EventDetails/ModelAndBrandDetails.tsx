@@ -1,5 +1,6 @@
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { useEventDetailsContext } from './EventDetails';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 /**All heating events refer to a model and a brand, of whatever is producing or distributing the heat, like the oil-vessel in oil heating. */
 export const ModelAndBrandDetails = () => {
@@ -13,15 +14,15 @@ export const ModelAndBrandDetails = () => {
   };
 
   return (
-    <div className='flex flex-col gap-4'>
-      <h1 className='text-sm font-semibold'>{getTitle()}</h1>
+    <div className='flex flex-row gap-8 w-full'>
       <LabelGrid.Entry
         label='Malli'
-        value={extraData.model}
+        value={extraData.model || 'Ei määritelty'}
       />
+
       <LabelGrid.Entry
         label='Merkki'
-        value={extraData.brand}
+        value={extraData.brand || 'Ei määritelty'}
       />
     </div>
   );

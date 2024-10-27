@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, createContext } from 'react';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 
 export const PropertyFormContext = createContext<{

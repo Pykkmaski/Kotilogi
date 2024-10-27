@@ -1,6 +1,6 @@
 import { useContext, createContext } from 'react';
 import { State } from './reducers/resetFormReducer';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 
 const ResetFormContext = createContext<{
   state: State;

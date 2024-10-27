@@ -26,7 +26,8 @@ exports.up = function (knex) {
         .notNullable()
         .references('id')
         .inTable(refTableName)
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
     });
 };
 

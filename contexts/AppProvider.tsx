@@ -1,6 +1,6 @@
 'use client';
 
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
 const AppContext = createContext<{

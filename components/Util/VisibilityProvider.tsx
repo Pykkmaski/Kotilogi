@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 import { createContext } from 'react';
 import { PassProps } from './PassProps';
+import { createContextWithHook } from 'kotilogi-app/utils/createContextWithHook';
 
 type VisibilityProviderContextProps = {
   visible: boolean;
@@ -20,7 +21,8 @@ type VisibilityProviderContextProps = {
   updateAnchorEl: (e: any) => void;
 };
 
-const VisibilityProviderContext = createContext<VisibilityProviderContextProps | null>(null);
+export const [VisibilityProviderContext, useVisibilityProviderContext] =
+  createContextWithHook<VisibilityProviderContextProps>('VisibilityProviderContext');
 
 type VisibilityProviderProps = React.PropsWithChildren & {
   initVisibility?: () => boolean;
@@ -110,12 +112,3 @@ VisibilityProvider.Target = function ({ children }: React.PropsWithChildren) {
   const { visible } = useVisibilityProviderContext();
   return <PassProps isVisible={visible}>{children}</PassProps>;
 };
-
-export function useVisibilityProviderContext() {
-  const ctx = useContext(VisibilityProviderContext);
-  if (!ctx)
-    throw new Error(
-      'useVisibilityProviderContext must be used within the scope of a VisibilityProviderContext!'
-    );
-  return ctx;
-}

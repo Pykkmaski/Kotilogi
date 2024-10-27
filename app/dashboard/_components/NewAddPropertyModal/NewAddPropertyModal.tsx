@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext } from 'react';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 const AddPropertyModalContext = createContext<{

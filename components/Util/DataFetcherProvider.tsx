@@ -1,5 +1,5 @@
 import { QueryFunction, useQuery } from '@tanstack/react-query';
-import { createUseContextHook } from 'kotilogi-app/utils/createUseContext';
+import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext } from 'react';
 
 const DataFetcherProviderContext = createContext<{

@@ -10,7 +10,6 @@ const { workTypesUnderTarget } = require('../constants/workTypesUnderTarget.ts')
 
 exports.seed = async function (knex) {
   const insertTypeIntoTable = async (tablename, type) => {
-    await knex(tablename).del();
     await knex(tablename)
       .insert({
         label: type,
@@ -19,12 +18,15 @@ exports.seed = async function (knex) {
       .ignore();
   };
 
+  await knex(mainTypesTable).del();
   //Fill the main types
   await Promise.all(Object.values(mainEventTypes).map(t => insertTypeIntoTable(mainTypesTable, t)));
 
+  await knex(targetsTable).del();
   //Fill the targets.
   await Promise.all(Object.values(eventTargets).map(t => insertTypeIntoTable(targetsTable, t)));
 
+  await knex(workTypesTable).del();
   //Fill The work types.
   await Promise.all(Object.values(workTypes).map(t => insertTypeIntoTable(workTypesTable, t)));
 
