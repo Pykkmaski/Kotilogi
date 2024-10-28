@@ -69,10 +69,6 @@ export const aggregate = (data: UtilityDataType[]) => {
         total: monetaryAmount,
       };
 
-      labels.forEach(label => {
-        newEntry[label] = 0;
-      });
-
       newEntry[typeLabel] = monetaryAmount;
       q.push(newEntry);
     }
@@ -88,13 +84,31 @@ export const aggregate = (data: UtilityDataType[]) => {
       addMonthData(q, currentDate.getMonth(), entry);
     } else {
       //Add an entry for the current year, and an entry for the first month, with all labels set to 0.
-      const newEntry = {
-        month: currentDate.getMonth(),
+      const month = currentDate.getMonth();
+      const entries: DataEntryType[] = [];
+      const newEntry: DataEntryType = {
+        month,
         [entry.typeLabel]: entry.monetaryAmount,
         total: entry.monetaryAmount,
       };
 
-      aggregatedDataMap.set(currentYear, [newEntry]);
+      if (month == 0) {
+        labels
+          .filter(l => l != entry.typeLabel)
+          .forEach(label => {
+            newEntry[label] = 0;
+          });
+      } else {
+        const firstMonthEntry: DataEntryType = {
+          month: 0,
+          total: 0,
+        };
+
+        labels.forEach(label => (firstMonthEntry[label] = 0));
+        entries.push(firstMonthEntry);
+      }
+      entries.push(newEntry);
+      aggregatedDataMap.set(currentYear, entries);
     }
   }
 

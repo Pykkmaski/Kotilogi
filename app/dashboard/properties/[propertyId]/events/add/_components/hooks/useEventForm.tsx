@@ -82,6 +82,8 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
       return isDefined(typeData.targetId) && isDefined(typeData.workTypeId);
     } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
       return isDefined(typeData.targetId);
+    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Muu')) {
+      return isDefined(typeData.targetId);
     } else {
       return false;
     }
@@ -98,7 +100,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
   return {
     status,
     onSubmit,
-    editing: eventData != undefined && eventData != null,
+    editing: isDefined(eventData),
     mainData,
     updateMainData,
     typeData,

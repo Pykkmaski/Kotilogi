@@ -26,7 +26,8 @@ export function TypeDataForm() {
       isDefined(typeData.mainTypeId) &&
       isDefined(typeData.targetId) &&
       typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Peruskorjaus') &&
-      typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Pintaremontti')
+      typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Pintaremontti') &&
+      typeData.mainTypeId != getIdByLabel(refs.mainEventTypes, 'Muu')
     );
   };
 
