@@ -46,8 +46,6 @@ export function UtilityLineChart() {
           .flat(1);
   }, [aggregatedData, year]);
 
-  console.log(dataToDisplay);
-
   const getColor = useCallback((typeLabel: string) => {
     return typeLabel == 'Lämmitys'
       ? colors.heat
@@ -137,8 +135,9 @@ export function UtilityLineChart() {
           </defs>
           <CartesianGrid strokeDasharray={'3 3'} />
           <Tooltip
-            labelFormatter={timestamp => {
-              const date = new Date(parseInt(timestamp));
+            labelFormatter={month => {
+              const date = new Date();
+              date.setMonth(month);
               return date.toLocaleDateString('fi', { month: 'long' });
             }}
           />
@@ -148,6 +147,7 @@ export function UtilityLineChart() {
             tickFormatter={month => {
               const date = new Date();
               date.setMonth(month);
+
               return date.toLocaleDateString('fi', { month: 'long' });
             }}
           />
