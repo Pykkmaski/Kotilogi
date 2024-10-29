@@ -35,7 +35,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
         propertyId,
         mainData,
         typeData,
-        extraData,
+        [extraData],
         selectedSurfaceIds,
         files.map(f => {
           const fd = new FormData();

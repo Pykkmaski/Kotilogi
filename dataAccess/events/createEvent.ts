@@ -22,7 +22,7 @@ export async function createEvent(
     targetId: number;
     workTypeId?: number;
   },
-  extraData: any,
+  extraData: any[],
   selectedSurfaceIds: number[],
   callback?: (id: string, trx: Knex.Transaction) => Promise<void>
 ) {

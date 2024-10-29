@@ -40,7 +40,7 @@ export const createEventAction = async (
     targetId: number;
     workTypeId: number;
   },
-  extraData: any,
+  extraData: any[],
   selectedSurfaceIds: number[],
   files?: FormData[]
 ) => {

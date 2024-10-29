@@ -110,6 +110,13 @@ async function getElectricityEvent(eventId: string) {
     .select('data_electricityEvents.*', 'ref_electricityJobTargets.label as jobTargetLabel');
 }
 
+async function getLockEvent(eventId: string) {
+  return await db('data_lockEvents')
+    .join('ref_lockTypes', { 'ref_lockTypes.id': 'data_lockEvents.lockTypeId' })
+    .where({ 'data_lockEvents.id': eventId })
+    .select('data_lockEvents.*', 'ref_lockTypes.label as lockTypeLabel');
+}
+
 /**Fetches the additional data associated with an event
  * @param eventId The id of the event to fetch additional data for.
  * @returns An array containing the extra data.
@@ -138,12 +145,13 @@ export const getExtraEventData = async (eventId: string) => {
       return await getInsulationEvent(eventId);
     } else if (typeData.targetId == getIdByLabel(targets, 'Sähköt')) {
       return await getElectricityEvent(eventId);
+    } else if (typeData.targetId == getIdByLabel(targets, 'Lukitus')) {
+      return await getLockEvent(eventId);
     } else {
-      throw new Error(
-        'Extra data read logic for event with target ' + typeData.targetId + ' not implemented!'
+      console.log(
+        `Received an event with target id ${typeData.targetId}, but no read logic for that id is implemented. Make sure this is intentional.`
       );
     }
-  } else {
-    return [];
   }
+  return [];
 };

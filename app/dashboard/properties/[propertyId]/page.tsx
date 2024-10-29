@@ -44,11 +44,11 @@ export default async function PropertyPage({ params }) {
       />
 
       <div className='flex w-full md:gap-4 xs:gap-2 xs:flex-col md:flex-row'>
-        <div className='w-full'>
+        <div className='w-full max-w-[50%]'>
           <EventPreview propertyId={property.id} />
         </div>
 
-        <div className='w-full'>
+        <div className='w-full max-w-[50%]'>
           <UtilityProvider
             data={utilityData}
             year={null}
