@@ -1,10 +1,15 @@
 'use client';
 
+import { BatchEntryType } from '@/hooks/useBatch';
 import { StatusType } from '@/hooks/useStatusWithAsyncMethod';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import React from 'react';
 
 type EventFormProviderProps = {
+  addEntry: (entry: BatchEntryType<any>) => void;
+  removeEntry: (id: string) => void;
+  updateEntry: (predicate: TODO, updateFn: TODO) => void;
+  entries: BatchEntryType<any>[];
   status: StatusType;
   onSubmit: (e) => void;
   cancel: () => void;

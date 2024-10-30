@@ -2,7 +2,7 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { HeatingRenovationContent } from '../FormContent/HeatingRenovationContent/HeatingRenovationContent';
-import { WindowRenovationContent } from '../FormContent/WindowRenovationContent';
+import { WindowRenovationContent } from '../FormContent/WindowRenovationEvent/WindowRenovationContent';
 import { RoofEventContent } from '../FormContent/RoofEventContent/RoofEventContent';
 import { DrainageDitchEventContent } from '../FormContent/DrainageDitchEventContent/DrainageDitchEventContent';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
@@ -11,9 +11,12 @@ import { ElectricityEventContent } from '../FormContent/ElectricityEventContent/
 import { KayttoVesiEventContent } from '../FormContent/KayttovesiEventContent/KayttovesiEventContent';
 import { EristeEventContent } from '../FormContent/EristeEventContent/EristeEventContent';
 import { ViemariPutketEventContent } from '../FormContent/ViemariPutketEventContent/ViemariPutketEventContent';
+import { Add } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
+/**Collects the additional data related to some types of events. */
 export function ExtraDataForm({ editing }) {
-  const { updateExtraData, extraData, typeData } = useEventFormContext();
+  const { updateExtraData, extraData, typeData, addEntry } = useEventFormContext();
   const { refs } = useEventTypeContext();
 
   const getContent = () => {
@@ -47,12 +50,36 @@ export function ExtraDataForm({ editing }) {
     return (content && <Fieldset legend='Tiedot'>{content}</Fieldset>) || null;
   };
 
+  const displaySubmitButton = () => {
+    if (typeData.targetId == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <form
       id='extraDataForm'
       className='flex flex-col gap-4'
-      onChange={updateExtraData}>
+      onChange={updateExtraData}
+      onSubmit={e => {
+        //Add an entry to the batch.
+        e.preventDefault();
+        addEntry(extraData);
+      }}>
       {getContent()}
+      {displaySubmitButton() && (
+        <div className='flex justify-end w-full'>
+          <Button
+            type='submit'
+            variant='text'
+            color='secondary'
+            startIcon={<Add />}>
+            Lisää Toinen
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

@@ -18,7 +18,8 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
 
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
   const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
-  const { extraData, updateExtraData, resetExtraData } = useExtraData(initialExtraData);
+  const { extraData, updateExtraData, resetExtraData, ...extraDataProps } =
+    useExtraData(initialExtraData);
 
   const { typeData, updateTypeData, typeDataHasChanges } = useTypeData(
     eventData,
@@ -98,6 +99,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
   }, [typeData.workTypeId, typeData.mainTypeId, refs.mainEventTypes]);
 
   return {
+    ...extraDataProps,
     status,
     onSubmit,
     editing: isDefined(eventData),

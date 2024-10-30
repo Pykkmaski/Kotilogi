@@ -5,46 +5,56 @@ export type BatchEntryType<T> = {
   value: T;
 };
 
-export function useBatch<T>() {
+export function useBatch<T>(initialEntries: T[] = []) {
   const batchId = useId();
   const nextId = useRef(0);
-
-  const [entries, setEntries] = useState<BatchEntryType<T>[]>([]);
-
-  const addEntry = useCallback(
+  const createEntry = useCallback(
     (item: T) => {
       const id = `${batchId} ${nextId.current++}`;
       const newEntry = {
         id,
         value: item,
       };
-
-      setEntries([...entries, newEntry]);
+      return newEntry;
     },
-    [entries, setEntries]
+    [nextId.current, batchId]
+  );
+
+  const [entries, setEntries] = useState<BatchEntryType<T>[]>(() => {
+    const batch: BatchEntryType<T>[] = [];
+    for (const entry of initialEntries) {
+      batch.push(createEntry(entry));
+    }
+    return batch;
+  });
+
+  const addEntry = useCallback(
+    (item: T) => {
+      setEntries([...entries, createEntry(item)]);
+    },
+    [entries, setEntries, createEntry]
   );
 
   const removeEntry = useCallback(
-    (predicate: (item: BatchEntryType<T>) => boolean) => {
+    (id: string) => {
       //Flip the result, as we need to exclude elements that match the predicate.
-      setEntries(entries.filter(item => !predicate(item)));
+      setEntries(entries.filter(item => item.id !== id));
     },
     [entries, setEntries]
   );
 
   const updateEntry = useCallback(
-    (predicate: (item: BatchEntryType<T>) => boolean, action: (valueToUpdate: T) => T) => {
+    (
+      predicate: (item: BatchEntryType<T>) => boolean,
+      updateFn: (valueToUpdate: BatchEntryType<T>) => void
+    ) => {
       const newEntries = [...entries];
-      const itemToUpdate = newEntries.find(predicate);
-      if (itemToUpdate) {
-        const index = newEntries.indexOf(itemToUpdate);
-        newEntries[index].value = action(itemToUpdate.value);
-
+      const entry = newEntries.find(predicate);
+      if (entry) {
+        updateFn(entry);
         setEntries(newEntries);
       } else {
-        throw new Error(
-          "Couldn't update batch, as an item according to the predicate was not found!"
-        );
+        throw new Error('Predicate did not find an element to update!');
       }
     },
     [entries, setEntries]

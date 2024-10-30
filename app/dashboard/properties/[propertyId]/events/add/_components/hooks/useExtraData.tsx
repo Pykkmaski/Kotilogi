@@ -1,3 +1,4 @@
+import { useBatch } from '@/hooks/useBatch';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
@@ -11,6 +12,9 @@ const init = (initialData: any) => {
 
 /**Handles the extra data of the event form. Should be used within the main useEventForm-hook. */
 export const useExtraData = (initialData: TODO) => {
+  /**Only used for certain events, like on window-related renovations. */
+  const batchProps = useBatch<any>();
+
   const {
     data: extraData,
     updateData: updateExtraData,
@@ -21,6 +25,7 @@ export const useExtraData = (initialData: TODO) => {
   const resetExtraData = (d: any) => resetData(d);
 
   return {
+    ...batchProps,
     extraData,
     updateExtraData,
     resetExtraData,

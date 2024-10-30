@@ -1,35 +1,23 @@
 'use client';
 
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { useEventFormContext } from '../EventFormContext';
-import { getRooms } from '../actions';
+import { useEventFormContext } from '../../EventFormContext';
+import { getRooms } from '../../actions';
 import { useQuery } from '@tanstack/react-query';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const WindowRenovationContent = () => {
-  const { extraData: windowData } = useEventFormContext();
-  const { data: rooms, isLoading: roomsLoading } = useQuery({
-    queryKey: ['room-windows'],
-    queryFn: async () => await getRooms(),
-  });
+  const {
+    extraData: windowData,
+    entries,
+    addEntry,
+    removeEntry,
+    updateEntry,
+  } = useEventFormContext();
 
   return (
     <div className='flex flex-col gap-2'>
-      <SuspenseFormControl
-        isLoading={roomsLoading}
-        loadingText='Ladataan huoneita...'
-        required
-        label='Huone'
-        control={
-          <ChipRadioGroup
-            name='roomId'
-            valueKey='id'
-            labelKey='label'
-            dataArray={rooms}
-          />
-        }
-      />
       <FormControl
         required
         label='U-Arvo'
