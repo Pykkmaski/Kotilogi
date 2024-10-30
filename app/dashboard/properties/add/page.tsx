@@ -45,7 +45,7 @@ export default async function AddPropertyPage() {
   ]);
   console.log(heatingTypes);
   return (
-    <Main>
+    <main className='flex justify-center'>
       <PropertyForm
         propertyTypes={propertyTypes}
         energyClasses={energyClasses}
@@ -57,6 +57,6 @@ export default async function AddPropertyPage() {
         mainColors={mainColors}
         heatingTypes={heatingTypes}
       />
-    </Main>
+    </main>
   );
 }

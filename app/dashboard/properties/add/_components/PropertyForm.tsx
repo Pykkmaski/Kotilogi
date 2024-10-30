@@ -124,6 +124,7 @@ export function PropertyForm<T extends PropertyDataType>({
       <RenderOnCondition condition={!property}>
         <div className='flex flex-row w-full items-center justify-end gap-4'>
           <Button
+            color='secondary'
             onClick={e => router.back()}
             type='button'
             variant='text'
@@ -134,6 +135,7 @@ export function PropertyForm<T extends PropertyDataType>({
           <VisibilityProvider>
             <VisibilityProvider.Trigger setAsAnchorForMUI>
               <Button
+                color='secondary'
                 type='button'
                 variant='contained'
                 disabled={submitDisabled}

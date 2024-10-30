@@ -13,6 +13,7 @@ import { Check, Clear } from '@mui/icons-material';
 import { primary } from 'kotilogi-app/colors';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { RadioButton } from '@/components/Feature/RadioGroup/RadioButton';
+import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
@@ -64,7 +65,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
   return (
     <Fieldset legend='Yleistiedot'>
-      {!hidePropertyIdentifier && isHouse ? (
+      {!hidePropertyIdentifier && isHouse && (
         <div className='w-full'>
           <FormControl
             label='Kiinteistötunnus'
@@ -91,7 +92,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             }
           />
         </div>
-      ) : null}
+      )}
 
       <div className='flex lg:flex-row xs:flex-col gap-2 w-full'>
         <div className='w-full'>
@@ -197,44 +198,34 @@ export function GeneralField({ hidePropertyIdentifier }) {
         <div className='flex flex-col gap-4 flex-1'>
           <div className='flex lg:flex-row xs:flex-col w-full'>
             <div className='flex flex-col gap-4 xs:w-full lg:w-[40%] xs:mt-8 lg:mt-0'>
-              <Label
-                required
-                boldText>
-                Talotyyppi
-              </Label>
-              <div className='grid grid-flow-row grid-cols-2 gap-4'>
-                <RadioGroup name='buildingTypeId'>
-                  {buildingTypes.map(({ name, id }) => {
-                    return (
-                      <RadioButton
-                        label={name}
-                        required
-                        type='radio'
-                        value={id}
-                        defaultChecked={data && data.buildingTypeId == id}
-                      />
-                    );
-                  })}
-                </RadioGroup>
-              </div>
+              <FormControl
+                label='Talotyyppi'
+                control={
+                  <ChipRadioGroup
+                    dataArray={buildingTypes}
+                    labelKey='name'
+                    valueKey='id'
+                    currentValue={data.buildingTypeId}
+                    name='buildingTypeId'
+                  />
+                }
+              />
             </div>
           </div>
 
           <div className='flex flex-col lg:w-[35%] xs:w-full gap-4 mt-8'>
-            <Label boldText>Energialuokka</Label>
-
-            <div className='grid grid-flow-row grid-cols-2 gap-4'>
-              <RadioGroup name='energyClassId'>
-                {energyClasses.map(({ name, id }) => (
-                  <RadioButton
-                    label={name}
-                    value={id}
-                    type='radio'
-                    defaultChecked={data && data.energyClassId == id}
-                  />
-                ))}
-              </RadioGroup>
-            </div>
+            <FormControl
+              label='Energialuokka'
+              control={
+                <ChipRadioGroup
+                  dataArray={energyClasses}
+                  labelKey='name'
+                  valueKey='id'
+                  currentValue={data.energyClassId}
+                  name='energyClassId'
+                />
+              }
+            />
           </div>
         </div>
       </div>
