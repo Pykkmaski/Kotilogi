@@ -1,6 +1,6 @@
 import Header from '@/components/App/Header';
 
-export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
+export default function BlackHeaderLayout({ children }: React.PropsWithChildren) {
   return (
     <>
       <Header />

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { CardMenuButton } from './CardMenuButton';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
@@ -41,7 +41,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     setStatus(FormStatus.IDLE);
   };
 
-  const setMainImage = async () => {
+  const setMainImage = useCallback(async () => {
     const c = confirm('Haluatko varmasti asettaa kuvan pääkuvaksi?');
     if (!c) return;
 
@@ -64,12 +64,12 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
     toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);
-  };
+  }, [setStatus, file]);
 
   const loading = status == FormStatus.LOADING;
 
   return (
-    <div className='relative flex flex-col aspect-square w-[25%] overflow-hidden rounded-md shadow-md'>
+    <div className='relative flex flex-col aspect-square w-[250px] overflow-hidden rounded-md shadow-md'>
       <div className='flex p-2 gap-2 w-full z-20 justify-end bg-[#0004] items-center'>
         <VisibilityProvider>
           <VisibilityProvider.Trigger setAsAnchorForMUI>

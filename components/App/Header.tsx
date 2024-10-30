@@ -7,10 +7,13 @@ import Spinner from '../UI/Spinner';
 import { serviceName } from 'kotilogi-app/constants';
 import { Padding } from '../UI/Padding';
 
-import { HamburgerButton } from '../UI/HamburgerButton';
 import { VPMobileMenu } from './VPMobileMenu';
 import Button from '@mui/material/Button';
 import { VisibilityProvider } from '../Util/VisibilityProvider';
+import { Spacer } from '../UI/Spacer';
+import { useCallback, useMemo } from 'react';
+import { Menu, Visibility } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 export function Logo2() {
   return (
@@ -66,7 +69,21 @@ export default function Header({ variant = 'black' }: HeaderProps) {
   const userEmail = data?.user?.email;
   //<Image src={Logo} alt="Kotidok logo"/>
 
-  const getNavContent = () => {
+  const menuElement = (
+    <VisibilityProvider>
+      <VisibilityProvider.Trigger setAsAnchorForMUI>
+        <IconButton>
+          <Menu />
+        </IconButton>
+      </VisibilityProvider.Trigger>
+
+      <VisibilityProvider.Target>
+        <VPMobileMenu session={null} />
+      </VisibilityProvider.Target>
+    </VisibilityProvider>
+  );
+
+  const navContent = useMemo(() => {
     if (status === 'loading') {
       return <Spinner size='2rem' />;
     } else if (userIsLoggedIn) {
@@ -87,13 +104,7 @@ export default function Header({ variant = 'black' }: HeaderProps) {
             </Link>
           </div>
 
-          <div className='xm:block xl:hidden flex'>
-            <VisibilityProvider>
-              <VisibilityProvider.Trigger setAsAnchorForMUI>
-                <VPMobileMenu session={null} />
-              </VisibilityProvider.Trigger>
-            </VisibilityProvider>
-          </div>
+          <div className='xm:block xl:hidden flex'>{menuElement}</div>
         </>
       );
     } else {
@@ -130,34 +141,36 @@ export default function Header({ variant = 'black' }: HeaderProps) {
             </Link>
           </nav>
 
-          <div className='xs:block xl:hidden z-50'>
-            <VPMobileMenu session={null} />
-          </div>
+          <div className='xs:block xl:hidden z-50'>{menuElement}</div>
         </>
       );
     }
-  };
+  }, [status]);
 
-  const className = [
-    'w-full py-2 h-[4em] items-center flex z-0',
-    variant === 'black'
-      ? 'bg-black'
-      : 'bg-gradient-to-l from-secondary to-transparent to-60% absolute top-0 left-0',
-  ];
+  const className = useMemo(
+    () =>
+      [
+        'w-full py-2 h-[4em] items-center flex z-0',
+        variant === 'black'
+          ? 'bg-black'
+          : 'bg-gradient-to-l from-secondary to-transparent to-60% absolute top-0 left-0',
+      ].join(' '),
+    [variant]
+  );
 
   return (
     <header
-      className={className.join(' ')}
+      className={className}
       id='main-header'>
       <div className='w-full'>
         <Padding>
-          <Group
+          <Spacer
             direction='row'
-            justify='between'
-            align='center'>
+            justifyItems='between'
+            alignItems='center'>
             <Logo2 />
-            {getNavContent()}
-          </Group>
+            {navContent}
+          </Spacer>
         </Padding>
       </div>
     </header>
