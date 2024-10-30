@@ -8,7 +8,7 @@ import { createContextWithHook } from 'kotilogi-app/utils/createContextWithHook'
 import { useChildCount } from '@/hooks/useChildCount';
 import { useFirstChild } from '@/hooks/useFirstChild';
 
-const [SelectablesProviderContext, useSelectablesProviderContext] = createContextWithHook<{
+export const [SelectablesProviderContext, useSelectablesProviderContext] = createContextWithHook<{
   selectedItems: TODO[];
   toggleSelection: (item: unknown) => void;
   selectAll: (items: unknown) => void;

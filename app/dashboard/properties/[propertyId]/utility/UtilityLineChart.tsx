@@ -38,9 +38,7 @@ export function UtilityLineChart() {
   const dataToDisplay = useMemo(() => {
     return year !== null
       ? aggregatedData.get(parseInt(year))
-      : aggregatedData
-          .entries()
-          .toArray()
+      : Array.from(aggregatedData.entries())
           .sort((a, b) => a[0] - b[0])
           .map(([key, value]) => value)
           .flat(1);

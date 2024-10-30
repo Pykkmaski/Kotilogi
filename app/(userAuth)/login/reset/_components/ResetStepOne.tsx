@@ -1,17 +1,10 @@
 import { useRouter } from 'next/navigation';
-import { ContentCard } from '@/components/UI/RoundedBox';
-import { Group } from '@/components/UI/Group';
-import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
-import { SecondaryButton } from '@/components/UI/Button/SecondaryButton';
 import { ErrorText } from '@/components/UI/Text';
 import { useResetStepOne } from './hooks/useResetStepOne';
 
-import Spinner from '@/components/UI/Spinner';
-import { Check } from '@mui/icons-material';
 import { Form } from 'kotilogi-app/app/(userAuth)/_components/Form';
 import { Input } from 'kotilogi-app/app/(userAuth)/_components/Input';
-import { Button, SubmitButton } from 'kotilogi-app/app/(userAuth)/_components/Button';
-import Link from 'next/link';
+import { SubmitButton } from 'kotilogi-app/app/(userAuth)/_components/Button';
 import { FormHeading } from 'kotilogi-app/app/(userAuth)/_components/FormHeading';
 import { InputContainer } from 'kotilogi-app/app/(userAuth)/_components/InputContainer';
 import { FormButtonContainer } from 'kotilogi-app/app/(userAuth)/_components/FormButtonContainer';

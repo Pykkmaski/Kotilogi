@@ -8,7 +8,7 @@ export function RadioButton({
   ...props
 }: React.ComponentProps<'input'> & { label: string }) {
   return (
-    <Spacer gap={4}>
+    <Spacer gap={'medium'}>
       <input
         name={name}
         value={value}

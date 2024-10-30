@@ -27,7 +27,7 @@ export function UtilityPreview({ propertyId }: { propertyId: string }) {
         <Spacer
           width='full'
           justifyItems='start'
-          gap={4}
+          gap={'medium'}
           alignItems='center'>
           <UtilityLineChart />
         </Spacer>

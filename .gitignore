@@ -48,3 +48,5 @@ pelican/
 dbtest.js
 homeboy.js
 
+/constants
+

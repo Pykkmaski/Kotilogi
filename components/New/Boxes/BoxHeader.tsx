@@ -9,7 +9,7 @@ export function BoxTitle({ icon, text }) {
   return (
     <div className='text-slate-500 text-lg'>
       <Spacer
-        gap={2}
+        gap={'small'}
         alignItems='center'
         width='auto'>
         {icon}

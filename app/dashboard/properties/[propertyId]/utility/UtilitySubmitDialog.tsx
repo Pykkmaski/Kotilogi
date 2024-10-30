@@ -7,7 +7,8 @@ import { Add } from '@mui/icons-material';
 import { DialogControl } from '@/components/Util/DialogControl';
 import axios from 'axios';
 import { FormControl, Input, SubLabel } from '@/components/UI/FormUtils';
-import { RadioButton, RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const UtilitySubmitDialog = ({ propertyId, allTypes }) => (
   <DialogControl
@@ -34,9 +35,9 @@ export const UtilitySubmitDialog = ({ propertyId, allTypes }) => (
           handleClose={handleClose}
           title='Lisää kulutustietoja'>
           <div className='flex flex-col gap-2'>
-            <RadioGroup groupName='typeId'>
+            <RadioGroup name='typeId'>
               {allTypes.map(type => (
-                <RadioButton
+                <ChipButton
                   label={type.name}
                   value={type.id}
                 />

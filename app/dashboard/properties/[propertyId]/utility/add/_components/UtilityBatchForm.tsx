@@ -1,8 +1,6 @@
 'use client';
 
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { BatchUploadForm } from '@/components/New/Forms/BatchUploadForm';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';
 import { Add, Check, Close, Delete } from '@mui/icons-material';
 import {
@@ -16,14 +14,11 @@ import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext, useId, useRef } from 'react';
 
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
-import { BatchEntryType, useBatch } from '@/hooks/useBatch';
-import { useInputData } from '@/hooks/useInputData';
+import { BatchEntryType } from '@/hooks/useBatch';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Button } from '@/components/New/Button';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 import { useMapArray } from '@/hooks/useMapArray';
-import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { VPDialog } from '@/components/UI/VPDialog';
@@ -33,7 +28,6 @@ import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { Spacer } from '@/components/UI/Spacer';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { BatchProvider } from '@/components/Feature/BatchForm';
 import { List } from '@/components/New/List';
 import { useBatchForm } from '@/hooks/useBatchForm';
 
@@ -55,7 +49,7 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
   const entryContent = useMapArray(entries, item => (
     <EntryComponent
       item={item}
-      onDelete={itemToDelete => removeEntry(item => item.id === itemToDelete.id)}
+      onDelete={itemToDelete => removeEntry(itemToDelete.id)}
     />
   ));
   const router = useRouter();

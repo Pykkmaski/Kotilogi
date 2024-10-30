@@ -1,5 +1,5 @@
-const { eventTargets } = require('./eventTargets.ts');
-const { mainEventTypes } = require('./mainEventTypes.ts');
+const { mainEventTypes } = require('./mainEventTypes');
+const { eventTargets } = require('./eventTargets');
 
 module.exports.targetsUnderMainType = {
   [mainEventTypes.Peruskorjaus]: [

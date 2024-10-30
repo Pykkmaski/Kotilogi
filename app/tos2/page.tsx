@@ -8,7 +8,7 @@ export default function TOS() {
       </p>
 
       <p>
-        Tervetuloa Kotilogiin, verkkosovellukseen, joka mahdollistaa käyttäjille kiinteistöjensä
+        Tervetuloa Kotidokiin, verkkosovellukseen, joka mahdollistaa käyttäjille kiinteistöjensä
         tietojen tallentamisen. Lue nämä <em>Käyttöehdot</em> ("Ehdot") huolellisesti ennen
         palveluidemme käyttämistä. Käyttämällä Kotilogia hyväksyt nämä Ehdot.
       </p>

@@ -4,9 +4,8 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import db from 'kotilogi-app/dbconfig';
 import jwt from 'jsonwebtoken';
-import domainName from 'kotilogi-app/domain.config';
 import { sendHTMLEmail } from '../app/api/_lib/sendHTMLEmail';
-import { ErrorCode, serviceName } from 'kotilogi-app/constants';
+import { serviceName } from 'kotilogi-app/constants';
 
 /**
  * Resets the password of the user encoded into the verification code.

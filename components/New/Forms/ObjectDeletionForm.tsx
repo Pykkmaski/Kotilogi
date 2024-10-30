@@ -2,11 +2,8 @@
 
 import { useForm } from '@/hooks/useForm';
 import { FormBase, FormButtons } from './FormBase';
-import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import toast from 'react-hot-toast';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { AxiosResponse } from 'axios';
-import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 
 type ObjectDeletionFormProps<T extends { id: string }> = React.PropsWithChildren & {
   objectId: string;

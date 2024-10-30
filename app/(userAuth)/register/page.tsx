@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ErrorText } from '@/components/UI/Text';
-import { MIN_PASSWORD_LENGTH, serviceName } from 'kotilogi-app/constants';
+import { serviceName } from 'kotilogi-app/constants';
 import { useRegister } from './useRegister';
 import { Main } from '../_components/Main';
 import { Form } from '../_components/Form';
@@ -63,7 +63,7 @@ export default function RegisterPage() {
               placeholder='Kirjoita salasana...'
               autoComplete='new-password'
               name='password'
-              minLength={MIN_PASSWORD_LENGTH}
+              minLength={8}
             />
 
             <Input

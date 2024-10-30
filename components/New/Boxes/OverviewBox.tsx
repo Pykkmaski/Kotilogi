@@ -57,7 +57,7 @@ export function OverviewBox({
         <Spacer
           direction='col'
           width='full'
-          gap={4}>
+          gap={'medium'}>
           <div className='flex w-full justify-between'>
             <RenderOnCondition
               condition={showUrl}

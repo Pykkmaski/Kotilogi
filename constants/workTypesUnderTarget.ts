@@ -1,5 +1,4 @@
-const { eventTargets } = require('./eventTargets.ts');
-const { workTypes } = require('./workTypes.ts');
+const { workTypes } = require('./workTypes');
 
 module.exports.workTypesUnderTarget = {
   [eventTargets.Ilmanvaihto]: [
