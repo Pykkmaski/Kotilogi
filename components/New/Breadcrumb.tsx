@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Spacer } from '../UI/Spacer';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
+import { useMemo } from 'react';
+import { useMapArray } from '@/hooks/useMapArray';
 
 const tranlsatePathname = (href: string) => {
   const current = href.split('/').at(-1);
@@ -59,10 +61,13 @@ const tranlsatePathname = (href: string) => {
 /**Renders a breadcrumb of the current path, where each step is a clickable link. Will translate the names of the paths if a translation is available. */
 export function Breadcrumb() {
   const path = usePathname();
-  const links = path.split('/');
-  links.shift();
+  const links = useMemo(() => {
+    const result = path.split('/');
+    result.shift();
+    return result;
+  }, [path]);
 
-  const getHrefs = () => {
+  const hrefs = useMemo(() => {
     const hrefs: string[] = [];
     for (let i = 0; i < links.length; ++i) {
       const current = links[i];
@@ -71,31 +76,29 @@ export function Breadcrumb() {
     }
 
     return hrefs;
-  };
+  }, [links]);
 
-  const generateCrumbs = () => {
-    return getHrefs().map((href, i) => {
-      return (
-        <>
-          <Link
-            href={href}
-            className={[
-              'text-secondary xs:text-sm sm:text-base text-nowrap',
-              i == links.length - 1 ? 'font-semibold' : 'font-normal',
-            ].join(' ')}>
-            {tranlsatePathname(href)}
-          </Link>
-          <RenderOnCondition condition={i < links.length}>/</RenderOnCondition>
-        </>
-      );
-    });
-  };
+  const breadcrumbs = useMapArray(hrefs, (href, i) => {
+    return (
+      <>
+        <Link
+          href={href}
+          className={[
+            'text-secondary xs:text-sm sm:text-base text-nowrap',
+            i == links.length - 1 ? 'font-semibold' : 'font-normal',
+          ].join(' ')}>
+          {tranlsatePathname(href)}
+        </Link>
+        <RenderOnCondition condition={i < links.length}>/</RenderOnCondition>
+      </>
+    );
+  });
 
   return (
     <Spacer
       direction='row'
       gap={'medium'}>
-      {generateCrumbs()}
+      {breadcrumbs}
     </Spacer>
   );
 }

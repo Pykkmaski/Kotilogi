@@ -1,11 +1,15 @@
 import { PassProps } from '@/components/Util/PassProps';
 import { ReactNode, useId, useMemo } from 'react';
 
-export function useMapArray<T>(data: T[], renderMethod: (item: T) => ReactNode, props?: any) {
+export function useMapArray<T>(
+  data: T[],
+  renderMethod: (item: T, index: number) => ReactNode,
+  props?: any
+) {
   const mapId = useId();
   const elements = useMemo(() => {
     return data.map((item, index) => {
-      const element = renderMethod(item);
+      const element = renderMethod(item, index);
       return (
         <PassProps
           {...props}
