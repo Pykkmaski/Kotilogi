@@ -22,7 +22,7 @@ export function FileOverview({
       icon={<Image />}
       preview={preview}
       headingText='Tiedostot ja kuvat'
-      itemsToDisplay={3}
+      itemsToDisplay={8}
       data={files}
       addNewUrl={addNewUrl}
       showAllUrl={showAllUrl}
