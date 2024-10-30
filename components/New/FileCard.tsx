@@ -23,7 +23,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
   const src = `/api/protected/files/${file.id}`;
   const [status, setStatus] = useState(0);
 
-  const deleteFile = async () => {
+  const deleteFile = useCallback(async () => {
     const c = confirm('Haluatko varmasti poistaa valitsemasi tiedoston?');
     if (!c) return;
 
@@ -39,7 +39,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
     toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);
-  };
+  }, [file.id, setStatus, deleteFileAction]);
 
   const setMainImage = useCallback(async () => {
     const c = confirm('Haluatko varmasti asettaa kuvan pääkuvaksi?');
@@ -64,7 +64,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
     toast.dismiss(loadingToast);
     setStatus(FormStatus.IDLE);
-  }, [setStatus, file]);
+  }, [setStatus, file.id, file.parentId, axios]);
 
   const loading = status == FormStatus.LOADING;
 
