@@ -51,9 +51,9 @@ const ExpensesField = () => {
   const { mainData } = useEventFormContext();
 
   const total = useMemo(() => {
-    const material = mainData.materialExpenses || '0';
-    const labour = mainData.labourExpenses || '0';
-    return parseFloat(material + labour);
+    const material = mainData.materialExpenses || 0;
+    const labour = mainData.labourExpenses || 0;
+    return material + labour;
   }, [mainData.materialExpenses, mainData.labourExpenses]);
 
   return (
@@ -87,13 +87,15 @@ const ExpensesField = () => {
             min={0}></Input>
         }
       />
-      <Spacer
-        direction='row'
-        justifyItems='between'
-        width='full'>
-        <label>Yhteensä</label>
-        <span className='font-semibold'>{total}€</span>
-      </Spacer>
+      <div className='md:text-lg xs:text-base'>
+        <Spacer
+          direction='row'
+          justifyItems='between'
+          width='full'>
+          <label>Yhteensä</label>
+          <span className='font-semibold'>{total}€</span>
+        </Spacer>
+      </div>
     </Fieldset>
   );
 };
