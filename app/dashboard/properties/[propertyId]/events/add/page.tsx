@@ -1,4 +1,3 @@
-import { Main } from '@/components/New/Main';
 import { EventForm } from './_components/EventForm';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 

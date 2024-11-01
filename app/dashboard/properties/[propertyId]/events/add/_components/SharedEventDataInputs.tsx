@@ -4,6 +4,8 @@ import { Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { useMemo, useState } from 'react';
+import { Spacer } from '@/components/UI/Spacer';
 
 const ContractorInput = () => {
   const contractors = ['Vesivek', 'Blaablaa'];
@@ -48,6 +50,12 @@ const FilesField = () => {
 const ExpensesField = () => {
   const { mainData } = useEventFormContext();
 
+  const total = useMemo(() => {
+    const material = mainData.materialExpenses || '0';
+    const labour = mainData.labourExpenses || '0';
+    return parseFloat(material + labour);
+  }, [mainData.materialExpenses, mainData.labourExpenses]);
+
   return (
     <Fieldset legend='Kulut'>
       <FormControl
@@ -79,6 +87,13 @@ const ExpensesField = () => {
             min={0}></Input>
         }
       />
+      <Spacer
+        direction='row'
+        justifyItems='between'
+        width='full'>
+        <label>Yhteensä</label>
+        <span className='font-semibold'>{total}€</span>
+      </Spacer>
     </Fieldset>
   );
 };

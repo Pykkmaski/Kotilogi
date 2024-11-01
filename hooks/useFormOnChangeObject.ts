@@ -14,7 +14,9 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T) {
         throw new Error('Cannot update form data using a file!');
       }
 
-      setData({ ...data, [e.target.name]: e.target.value });
+      const value = e.target.type == 'number' ? e.target.valueAsNumber : e.target.value;
+
+      setData({ ...data, [e.target.name]: value });
       markAsChanged();
     },
     [setData, markAsChanged, data]
