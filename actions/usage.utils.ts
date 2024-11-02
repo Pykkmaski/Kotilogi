@@ -6,7 +6,7 @@ export function mergeByMonth(data: UtilityDataType[], accumulate: boolean = fals
 
   const getDataForMonth = (month: number, data: UtilityDataType[]) =>
     data.filter(d => {
-      const dataMonth = new Date(d.time).getMonth();
+      const dataMonth = new Date(d.date).getMonth();
       return dataMonth === month;
     });
 
@@ -39,7 +39,7 @@ export function splitByMonth(data: UtilityDataType[]) {
   const newData: UtilityDataType[][] = Array(12).fill([]);
 
   for (let month = 0; month < 12; ++month) {
-    const dataOnMonth = data.filter(d => new Date(d.time).getMonth() === month);
+    const dataOnMonth = data.filter(d => new Date(d.date).getMonth() === month);
     newData[month] = dataOnMonth;
   }
 
@@ -50,7 +50,7 @@ export function getYears(data: UtilityDataType[]): number[] {
   const years: number[] = [];
 
   for (const entry of data) {
-    const year = new Date(entry.time).getFullYear();
+    const year = new Date(entry.date).getFullYear();
     if (!years.find(item => item === year)) {
       years.push(year);
     }

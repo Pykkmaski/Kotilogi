@@ -61,7 +61,7 @@ export default async function PropertyPage({ params }) {
       <FileOverview
         files={files}
         addNewUrl={`/dashboard/files/add?parentId=${property.id}`}
-        showAllUrl={`/dashboard/properties/${id}/files`}
+        showAllUrl={`/dashboard/files?parentId=${property.id}`}
         PreviewComponent={({ item }) => {
           return (
             <FileCard

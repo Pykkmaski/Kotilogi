@@ -9,7 +9,7 @@ import {
   SelectablesProvider,
   useSelectablesProviderContext,
 } from '@/components/Util/SelectablesProvider';
-import { CancelSelectionButton, ListHeaderControlButtons } from '@/components/Prefabs/List.prefabs';
+
 import { ImageError } from './GalleryBase/Components/Error/ImageError';
 import { Gallery } from './GalleryBase/Gallery';
 import { AddButton, DeleteButton } from './GalleryBase/Buttons';
@@ -88,12 +88,10 @@ export function FilesGallery({
       <Gallery.Header title={variant === 'image' ? 'Kuvat' : 'Tiedostot'}>
         <SelectablesProvider.HideIfNoneSelected>
           <div className='animate-slideup-fast'>
-            <ListHeaderControlButtons>
-              <SelectablesProvider.ResetSelectedTrigger>
-                <CancelSelectionButton />
-              </SelectablesProvider.ResetSelectedTrigger>
-              <DeleteModalTrigger tablename={tablename} />
-            </ListHeaderControlButtons>
+            <SelectablesProvider.ResetSelectedTrigger>
+              <span>cancel</span>
+            </SelectablesProvider.ResetSelectedTrigger>
+            <DeleteModalTrigger tablename={tablename} />
           </div>
         </SelectablesProvider.HideIfNoneSelected>
         <SubmitModalPrefab

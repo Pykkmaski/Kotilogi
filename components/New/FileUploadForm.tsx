@@ -46,7 +46,7 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
 
   return (
     <form
-      className='flex w-full flex-col gap-4'
+      className='flex xs:w-full md:w-[50%] flex-col gap-4'
       onChange={updateData}
       onSubmit={upload}>
       <ProgressBar

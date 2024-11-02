@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import { FileError } from '@/components/Feature/GalleryBase/Components/Error/FileError';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { Spacer } from '@/components/UI/Spacer';
+import { useRouter } from 'next/navigation';
 
 type FilePageProps = {
   files: FileDataType[];
@@ -18,13 +20,27 @@ type FilePageProps = {
 };
 
 export function FilePage({ files, objectId }: FilePageProps) {
+  const router = useRouter();
   return (
     <Main>
       <div className='flex justify-between'>
-        <SecondaryHeading>Tiedostot</SecondaryHeading>
-        <Link href={`/newDashboard/files/add?parentId=${objectId}`}>
+        <Spacer
+          dir='row'
+          gap='medium'
+          items='center'>
+          <SecondaryHeading>Tiedostot</SecondaryHeading>
           <Button
             variant='text'
+            color='secondary'
+            onClick={() => router.back()}>
+            Takaisin Kohteeseen
+          </Button>
+        </Spacer>
+
+        <Link href={`/dashboard/files/add?parentId=${objectId}`}>
+          <Button
+            color='secondary'
+            variant='contained'
             startIcon={<Add />}>
             Lisää Uusi
           </Button>

@@ -28,7 +28,7 @@ export async function AUpdateUtilityData(
   data: Required<Pick<UtilityDataType, 'id'>> & Partial<UtilityDataType>
 ) {
   const updateObject = filterValidColumns(data, await getTableColumns(table, db));
-  const { monetaryAmount, unitAmount, time } = updateObject;
+  const { monetaryAmount, unitAmount, date } = updateObject;
 
   await db(table)
     .where({ id: data.id })

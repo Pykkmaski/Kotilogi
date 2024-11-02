@@ -15,7 +15,7 @@ export const filterUtilityDataByOptions = (
   const { years, labels, months } = options;
   return data
     .filter(d => {
-      const date = new Date(parseInt(d.time));
+      const date = d.date;
       let result = true;
 
       if (years) {
@@ -33,8 +33,8 @@ export const filterUtilityDataByOptions = (
       return result;
     })
     .sort((a, b) => {
-      const ats = new Date(parseInt(a.time)).getTime();
-      const bts = new Date(parseInt(b.time)).getTime();
+      const ats = a.date.getTime();
+      const bts = b.date.getTime();
       return ats - bts;
     });
 };
