@@ -13,7 +13,7 @@ export type SpinnerProps = {
 export default function Spinner({ message, animated, size = '1rem' }: SpinnerProps) {
   return (
     <Spacer
-      alignItems='center'
+      items='center'
       gap='small'>
       <div
         className={[styles.spinner, 'border-white', 'border-t-secondary'].join(' ')}

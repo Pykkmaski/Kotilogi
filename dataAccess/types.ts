@@ -49,7 +49,7 @@ export type UtilityDataType = ObjectDataType & {
   typeId: number;
   typeLabel: string;
   unitSymbol: string;
-  time: string;
+  date: Date;
 };
 
 export type HistoryDataType = {

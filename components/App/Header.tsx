@@ -165,9 +165,9 @@ export default function Header({ variant = 'black' }: HeaderProps) {
       <div className='w-full'>
         <Padding>
           <Spacer
-            direction='row'
-            justifyItems='between'
-            alignItems='center'>
+            dir='row'
+            justify='between'
+            items='center'>
             <Logo2 />
             {navContent}
           </Spacer>

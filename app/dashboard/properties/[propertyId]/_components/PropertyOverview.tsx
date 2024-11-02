@@ -45,8 +45,8 @@ export async function PropertyOverview({
       }
       description={
         <Spacer
-          direction='col'
-          height='full'>
+          dir='col'
+          full>
           <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
 
           <div className='w-full xs:hidden md:block'>

@@ -13,12 +13,13 @@ export const RoofContent = () => {
       />
     </div>
   );
+
   return (
     <>
       <div className='w-full gap-4 items-center'>
         <ChipEntry
           label='Katon tyyppi'
-          value={extraData.roofTypeLabel}
+          value={extraData && extraData.roofTypeLabel}
         />
       </div>
     </>

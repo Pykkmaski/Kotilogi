@@ -11,7 +11,7 @@ export function ContentBox({
   ];
   return (
     <div className={classes.join(' ')}>
-      <Spacer direction='col'>{children}</Spacer>
+      <Spacer dir='col'>{children}</Spacer>
     </div>
   );
 }

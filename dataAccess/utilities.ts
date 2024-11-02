@@ -22,9 +22,9 @@ export async function createUtilityData(
   return createObject(data, async (obj, trx) => {
     await trx('data_utilities').insert({
       id: obj.id,
-      time: new Date(data.time).getTime(),
-      monetaryAmount: data.monetaryAmount * 100,
-      unitAmount: data.unitAmount * 100,
+      date: data.date,
+      monetaryAmount: Math.round(data.monetaryAmount * 100),
+      unitAmount: Math.round(data.unitAmount * 100),
       typeId: data.typeId,
     });
   });
@@ -46,7 +46,7 @@ export async function getUtilityData(propertyId: string, year?: number, types: s
       const endTime = new Date(time);
       endTime.setFullYear(time.getFullYear() + 1);
 
-      this.where('time', '>=', time.getTime()).andWhere('time', '<', endTime.getTime());
+      this.where('date', '>=', time).andWhere('date', '<', endTime);
     })
     .andWhere({ 'data_objects.parentId': propertyId });
 
@@ -71,14 +71,13 @@ export async function updateUtilityData(id: string, data: Partial<UtilityDataTyp
 }
 
 export async function getUtilityYears(propertyId: string) {
-  const timestamps = (await db('data_utilities')
+  const dates = (await db('data_utilities')
     .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
     .where({ parentId: propertyId })
-    .pluck('time')) as string[];
+    .pluck('date')) as Date[];
 
   const yearSet = new Set<number>();
-  for (const timestamp of timestamps) {
-    const date = new Date(parseInt(timestamp));
+  for (const date of dates) {
     const year = date.getFullYear();
     yearSet.add(year);
   }

@@ -10,8 +10,7 @@ export function BoxTitle({ icon, text }) {
     <div className='text-slate-500 text-lg'>
       <Spacer
         gap={'small'}
-        alignItems='center'
-        width='auto'>
+        items='center'>
         {icon}
         <SecondaryHeading>{text}</SecondaryHeading>
       </Spacer>

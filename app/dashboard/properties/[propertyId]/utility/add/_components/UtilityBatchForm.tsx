@@ -78,7 +78,7 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
 
   const isSubmitDisabled = () => entries.length == 0 || status == 'loading' || status == 'done';
   const isCommitDisabled = () =>
-    !data.monetaryAmount || !data.unitAmount || !data.typeId || !data.time;
+    !data.monetaryAmount || !data.unitAmount || !data.typeId || !data.date;
 
   return (
     <div className='flex flex-col gap-4 lg:w-[50%] xs:w-full bg-white p-2'>
@@ -140,9 +140,9 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
             control={
               <Input
                 type='date'
-                name='time'
+                name='date'
                 placeholder='Anna päivämäärä...'
-                value={data.time && timestampToISOString(data.time)}
+                value={data.date as any}
               />
             }
           />
@@ -159,7 +159,7 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
           </Button>
         </div>
         <div className='flex flex-col gap-4 border-t border-slate-300 pt-4'>
-          <Spacer justifyItems='between'>
+          <Spacer justify='between'>
             <SecondaryHeading>Vahvistamattomat tiedot</SecondaryHeading>
             <Button
               onClick={onSubmit}
@@ -173,11 +173,15 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
             </Button>
           </Spacer>
 
-          <List
-            direction='col'
-            gap='small'>
-            {entryContent}
-          </List>
+          <div className='w-full'>
+            <List
+              grow
+              dir='col'
+              gap='small'
+              className='w-full'>
+              {entryContent}
+            </List>
+          </div>
         </div>
       </UtilityBatchFormContext.Provider>
     </div>
@@ -203,8 +207,8 @@ function EntryComponent({
 
   return (
     <ContentBox>
-      <div className='flex w-full items-center justify-between'>
-        <div className='flex gap-8 items-center'>
+      <div className='flex w-full items-center justify-between flex-grow-1'>
+        <div className='flex gap-8 items-center w-full'>
           <EntryContainer
             label='Tiedon tyyppi'
             value={utilityTypes.find(t => t.id == item.value.typeId).name}></EntryContainer>
@@ -221,7 +225,7 @@ function EntryComponent({
           <Separator />
           <EntryContainer
             label='Päiväys'
-            value={new Date(item.value.time).toLocaleDateString('fi')}
+            value={new Date(item.value.date).toLocaleDateString('fi')}
           />
         </div>
         <VisibilityProvider>

@@ -96,7 +96,7 @@ export function Breadcrumb() {
 
   return (
     <Spacer
-      direction='row'
+      dir='row'
       gap={'medium'}>
       {breadcrumbs}
     </Spacer>

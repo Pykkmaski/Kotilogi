@@ -25,10 +25,10 @@ export function UtilityPreview({ propertyId }: { propertyId: string }) {
         <span className='text-slate-500'>Ei Kulutustietoja.</span>
       ) : (
         <Spacer
-          width='full'
-          justifyItems='start'
+          full
+          justify='start'
           gap={'medium'}
-          alignItems='center'>
+          items='center'>
           <UtilityLineChart />
         </Spacer>
       )}

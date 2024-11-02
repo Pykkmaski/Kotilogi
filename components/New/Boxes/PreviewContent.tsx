@@ -30,60 +30,62 @@ export function PreviewContentBase({
 }: PreviewContentBaseProps) {
   return (
     <ContentBox>
-      <Spacer
-        direction='col'
-        width='full'>
-        <BoxHeader>
-          <div className='flex items-center gap-4 w-full justify-between'>
-            <BoxTitle
-              icon={icon}
-              text={headingText}
-            />
+      <div className='w-full'>
+        <Spacer
+          dir='col'
+          grow>
+          <BoxHeader>
+            <div className='flex items-center gap-4 w-full justify-between'>
+              <BoxTitle
+                icon={icon}
+                text={headingText}
+              />
 
-            <List
-              direction='row'
-              alignItems='center'
-              gap={'small'}>
-              <RenderOnCondition condition={!preview && showAllUrl}>
-                <Link
-                  href={showAllUrl}
-                  title='Näytä kaikki'>
-                  <IconButton color='secondary'>
-                    <Visibility />
-                  </IconButton>
-                </Link>
-              </RenderOnCondition>
+              <List
+                direction='row'
+                alignItems='center'
+                gap={'small'}>
+                <RenderOnCondition condition={!preview && showAllUrl}>
+                  <Link
+                    href={showAllUrl}
+                    title='Näytä kaikki'>
+                    <IconButton color='secondary'>
+                      <Visibility />
+                    </IconButton>
+                  </Link>
+                </RenderOnCondition>
 
-              <RenderOnCondition condition={!preview && addNewUrl}>
-                <Link
-                  href={addNewUrl}
-                  title='Lisää uusi'>
-                  <IconButton color='secondary'>
-                    <Add />
-                  </IconButton>
-                </Link>
-              </RenderOnCondition>
-            </List>
-          </div>
-        </BoxHeader>
+                <RenderOnCondition condition={!preview && addNewUrl}>
+                  <Link
+                    href={addNewUrl}
+                    title='Lisää uusi'>
+                    <IconButton color='secondary'>
+                      <Add />
+                    </IconButton>
+                  </Link>
+                </RenderOnCondition>
+              </List>
+            </div>
+          </BoxHeader>
 
-        <RenderOnCondition
-          condition={!preview}
-          fallback={
-            <Spacer
-              gap={'medium'}
-              direction='col'
-              height='full'>
-              <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
-                <Warning sx={{ color: 'orange' }} />
-                <span className='font-semibold'>Tulossa pian!</span>
-              </div>
-              <Paragraph>{previewDescription}</Paragraph>
-            </Spacer>
-          }>
-          {children}
-        </RenderOnCondition>
-      </Spacer>
+          <RenderOnCondition
+            condition={!preview}
+            fallback={
+              <Spacer
+                gap={'medium'}
+                dir='col'
+                full>
+                <div className='text-slate-500 text-lg w-full flex items-center gap-4'>
+                  <Warning sx={{ color: 'orange' }} />
+                  <span className='font-semibold'>Tulossa pian!</span>
+                </div>
+                <Paragraph>{previewDescription}</Paragraph>
+              </Spacer>
+            }>
+            {children}
+          </RenderOnCondition>
+        </Spacer>
+      </div>
     </ContentBox>
   );
 }
@@ -133,9 +135,8 @@ export function PreviewContentBox({ title, href, FooterContentComponent }: Previ
       href={href}
       style={noScrollBar}>
       <Spacer
-        direction='row'
-        justifyItems='between'
-        width='full'>
+        dir='row'
+        justify='between'>
         <TertiaryHeading>{title}</TertiaryHeading>
       </Spacer>
 

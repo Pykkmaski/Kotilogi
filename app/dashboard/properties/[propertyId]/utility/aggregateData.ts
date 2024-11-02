@@ -75,7 +75,7 @@ export const aggregate = (data: UtilityDataType[]) => {
   };
 
   for (const entry of data) {
-    const currentDate = new Date(parseInt(entry.time));
+    const currentDate = entry.date;
     const currentYear = currentDate.getFullYear();
 
     const q = aggregatedDataMap.get(currentYear);
@@ -126,7 +126,7 @@ export const aggregateToMonths = (data: UtilityDataType[], year?: number) => {
   const dataMap = new Map<number, { month: number; year: number; [x: string]: number }[]>();
 
   for (const entry of data) {
-    const currentDate = new Date(parseInt(entry.time));
+    const currentDate = entry.date;
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
     const entryOnYear = dataMap.get(currentYear);
@@ -201,7 +201,7 @@ export const aggregateToMonths = (data: UtilityDataType[], year?: number) => {
 export const aggregateToYears = (data: UtilityDataType[]) => {
   return data
     .reduce((acc, cur) => {
-      const currentYear = new Date(parseInt(cur.time)).getFullYear();
+      const currentYear = cur.date.getFullYear();
       const existingEntry = acc.find(d => d.year == currentYear);
       if (!existingEntry) {
         acc.push({

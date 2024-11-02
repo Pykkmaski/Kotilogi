@@ -15,14 +15,14 @@ const gaps: Record<GapWidthType, string> = {
 
 export type SpacerProps = React.PropsWithChildren & {
   as?: string;
-  direction?: DirectionType;
-  directionFlipBreakpoint?: BreakpointType;
+  dir?: DirectionType;
+  dirFlipBreakpoint?: BreakpointType;
   gap?: GapWidthType;
-  alignItems?: AlignType;
-  justifyItems?: JustifyType;
-  width?: number | 'full' | 'auto' | string;
-  height?: number | 'full' | 'auto' | string;
+  items?: AlignType;
+  justify?: JustifyType;
   wrap?: boolean;
+  full?: boolean;
+  grow?: boolean;
   [x: string]: any;
 };
 
@@ -30,25 +30,25 @@ export type SpacerProps = React.PropsWithChildren & {
 export function Spacer({
   children,
   as: Component = 'div',
-  direction = 'row',
+  dir = 'row',
   gap = 'medium',
-  alignItems = 'start',
-  justifyItems = 'start',
-  width = 'auto',
-  height = 'auto',
-  directionFlipBreakpoint,
+  items = 'start',
+  justify = 'start',
+  dirFlipBreakpoint,
   wrap,
+  grow,
+  full,
   ...props
 }: SpacerProps) {
   const className = useSpacerClassName({
-    direction,
+    dir,
     gap,
-    alignItems,
-    justifyItems,
-    width,
-    height,
+    items,
+    justify,
+    full,
     wrap,
-    directionFlipBreakpoint,
+    dirFlipBreakpoint,
+    grow,
   });
 
   return React.createElement(Component, { className, style: noScrollBar, ...props }, children);
@@ -56,32 +56,16 @@ export function Spacer({
 
 function useSpacerClassName(props: SpacerProps) {
   return useMemo(() => {
-    const {
-      direction,
-      alignItems,
-      justifyItems,
-      gap,
-      wrap,
-      width,
-      height,
-      directionFlipBreakpoint,
-    } = props;
-    const w =
-      typeof width == 'number' || width == 'full' || width == 'auto'
-        ? `w-${width}`
-        : `w-[${width}]`;
-    const h =
-      typeof height == 'number' || height == 'full' || height == 'auto'
-        ? `h-${height}`
-        : `h-[${height}]`;
+    const { dir, items, justify, gap, wrap, dirFlipBreakpoint, full, grow } = props;
 
     return [
-      `flex flex-${direction} ${h} ${w} items-${alignItems} justify-${justifyItems} overflow-x-scroll snap-mandatory`,
-      directionFlipBreakpoint &&
-        `${directionFlipBreakpoint}:flex-${direction == 'row' ? 'col' : 'row'}`,
+      `flex flex-${dir} items-${items} justify-${justify} overflow-x-scroll snap-mandatory`,
+      dirFlipBreakpoint && `${dirFlipBreakpoint}:flex-${dir == 'row' ? 'col' : 'row'}`,
+      full && ((dir === 'row' && 'w-full') || 'h-full'),
 
       gaps[gap],
       wrap && 'flex-wrap',
+      grow && 'flex-grow-1',
     ]
       .join(' ')
       .trim();

@@ -23,7 +23,7 @@ export function DataTable() {
   const rows = data.map(d => {
     return {
       ...d,
-      time: new Date(parseInt(d.time)),
+      time: d.date,
     };
   });
 

@@ -25,7 +25,7 @@ export function EventCardGrid({ events, propertyId }: EventCardGridProps) {
 
   return (
     <Spacer
-      direction='row'
+      dir='row'
       gap='medium'>
       {content}
 
@@ -35,10 +35,10 @@ export function EventCardGrid({ events, propertyId }: EventCardGridProps) {
         title='Lisää Uusi Tapahtuma'>
         <SkeletonCard>
           <Spacer
-            direction='col'
+            dir='col'
             gap='small'
-            alignItems='center'
-            justifyItems='center'>
+            items='center'
+            justify='center'>
             <Add />
             <span>Lisää Uusi</span>
           </Spacer>

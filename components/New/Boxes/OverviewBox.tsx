@@ -53,86 +53,86 @@ export function OverviewBox({
         <div className='xs:hidden md:block'>
           <OverviewImage src={imageUrl} />
         </div>
-
-        <Spacer
-          direction='col'
-          width='full'
-          gap={'medium'}>
-          <div className='flex w-full justify-between'>
-            <RenderOnCondition
-              condition={showUrl}
-              fallback={<MainHeading>{title}</MainHeading>}>
-              <Link href={showUrl}>
-                <MainHeading>{title}</MainHeading>
-              </Link>
-            </RenderOnCondition>
-
-            <div className='justify-end w-auto'>
-              <RenderOnCondition condition={editUrl}>
-                <Link
-                  href={editUrl}
-                  title={editContentText || 'Näytä'}>
-                  <IconButton
-                    color='secondary'
-                    size='small'>
-                    {editIcon || <Visibility />}
-                  </IconButton>
+        <div className='w-full'>
+          <Spacer
+            dir='col'
+            gap={'medium'}>
+            <div className='flex w-full justify-between'>
+              <RenderOnCondition
+                condition={showUrl}
+                fallback={<MainHeading>{title}</MainHeading>}>
+                <Link href={showUrl}>
+                  <MainHeading>{title}</MainHeading>
                 </Link>
               </RenderOnCondition>
 
-              <RenderOnCondition condition={deleteAction != undefined}>
-                <VisibilityProvider>
-                  <VisibilityProvider.Target>
-                    <VPDialog>
-                      <DialogTitle>Poista kohde</DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          Haluatko varmasti poistaa tämän kohteen?
-                        </DialogContentText>
-                      </DialogContent>
-
-                      <DialogActions>
-                        <VisibilityProvider.Trigger>
-                          <Button
-                            variant='text'
-                            color='secondary'>
-                            Peruuta
-                          </Button>
-                        </VisibilityProvider.Trigger>
-
-                        <VPCloseOnActionButton
-                          action={async () => await deleteAction()}
-                          startIcon={<Delete />}
-                          color='warning'>
-                          Poista
-                        </VPCloseOnActionButton>
-                      </DialogActions>
-                    </VPDialog>
-                  </VisibilityProvider.Target>
-                  <VisibilityProvider.Trigger>
+              <div className='justify-end w-auto'>
+                <RenderOnCondition condition={editUrl}>
+                  <Link
+                    href={editUrl}
+                    title={editContentText || 'Näytä'}>
                     <IconButton
-                      color='warning'
+                      color='secondary'
                       size='small'>
-                      <Delete />
+                      {editIcon || <Visibility />}
                     </IconButton>
-                  </VisibilityProvider.Trigger>
-                </VisibilityProvider>
-              </RenderOnCondition>
+                  </Link>
+                </RenderOnCondition>
+
+                <RenderOnCondition condition={deleteAction != undefined}>
+                  <VisibilityProvider>
+                    <VisibilityProvider.Target>
+                      <VPDialog>
+                        <DialogTitle>Poista kohde</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Haluatko varmasti poistaa tämän kohteen?
+                          </DialogContentText>
+                        </DialogContent>
+
+                        <DialogActions>
+                          <VisibilityProvider.Trigger>
+                            <Button
+                              variant='text'
+                              color='secondary'>
+                              Peruuta
+                            </Button>
+                          </VisibilityProvider.Trigger>
+
+                          <VPCloseOnActionButton
+                            action={async () => await deleteAction()}
+                            startIcon={<Delete />}
+                            color='warning'>
+                            Poista
+                          </VPCloseOnActionButton>
+                        </DialogActions>
+                      </VPDialog>
+                    </VisibilityProvider.Target>
+                    <VisibilityProvider.Trigger>
+                      <IconButton
+                        color='warning'
+                        size='small'>
+                        <Delete />
+                      </IconButton>
+                    </VisibilityProvider.Trigger>
+                  </VisibilityProvider>
+                </RenderOnCondition>
+              </div>
             </div>
-          </div>
 
-          <p>{description}</p>
+            <p>{description}</p>
 
-          <div className='mt-auto'>
-            <Spacer
-              justifyItems='end'
-              width='full'>
-              <RenderOnCondition condition={selectableItem != undefined}>
-                <input type='checkbox'></input>
-              </RenderOnCondition>
-            </Spacer>
-          </div>
-        </Spacer>
+            <div className='mt-auto w-full'>
+              <Spacer
+                justify='end'
+                width='full'>
+                <RenderOnCondition condition={selectableItem != undefined}>
+                  <input type='checkbox'></input>
+                </RenderOnCondition>
+              </Spacer>
+            </div>
+          </Spacer>
+        </div>
       </div>
     </ContentBox>
   );

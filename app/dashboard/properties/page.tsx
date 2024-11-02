@@ -18,7 +18,7 @@ export default async function PropertiesPage() {
     | AppartmentDataType
   )[];
 
-  if (properties.length == 1) {
+  if (false && properties.length == 1) {
     console.log('Redirecting');
     console.log(properties.at(0).id);
     redirect(`properties/${properties.at(0).id}`);

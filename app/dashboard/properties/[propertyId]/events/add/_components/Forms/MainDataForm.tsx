@@ -54,10 +54,10 @@ export function MainDataForm({ editing }) {
       <SharedEventDataInputs isEditing={editing} />
 
       <Spacer
-        direction='row'
+        dir='row'
         gap={'medium'}
-        width='full'
-        justifyItems='end'>
+        full
+        justify='end'>
         <Button
           color='secondary'
           variant='text'

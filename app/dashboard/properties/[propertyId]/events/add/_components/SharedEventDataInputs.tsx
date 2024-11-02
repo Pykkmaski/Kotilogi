@@ -89,9 +89,9 @@ const ExpensesField = () => {
       />
       <div className='md:text-lg xs:text-base'>
         <Spacer
-          direction='row'
-          justifyItems='between'
-          width='full'>
+          dir='row'
+          justify='between'
+          full>
           <label>Yhteensä</label>
           <span className='font-semibold'>{total}€</span>
         </Spacer>
@@ -152,6 +152,7 @@ const OtherField = () => {
             type='date'
             name='date'
             defaultValue={mainData.date}
+            value={mainData.date}
           />
         }
       />

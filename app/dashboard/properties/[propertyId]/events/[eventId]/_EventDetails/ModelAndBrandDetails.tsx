@@ -17,12 +17,12 @@ export const ModelAndBrandDetails = () => {
     <div className='flex flex-row gap-8 w-full'>
       <LabelGrid.Entry
         label='Malli'
-        value={extraData.model || 'Ei määritelty'}
+        value={(extraData && extraData.model) || 'Ei määritelty'}
       />
 
       <LabelGrid.Entry
         label='Merkki'
-        value={extraData.brand || 'Ei määritelty'}
+        value={(extraData && extraData.brand) || 'Ei määritelty'}
       />
     </div>
   );
