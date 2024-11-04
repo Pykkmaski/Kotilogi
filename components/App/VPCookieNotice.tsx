@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Switch } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { Cookie } from '@mui/icons-material';
 import { acceptCookiesAction } from './actions/acceptCookiesAction';
 import { useVisibilityProviderContext, VisibilityProvider } from '../Util/VisibilityProvider';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
+import { ToggleProvider } from '../Util/ToggleProvider';
 
 const showCookieNoticeKey = 'kotidok-show-cookie-notice';
 
@@ -27,20 +28,19 @@ function CookieNoticeTrigger({ onClick = null }) {
   );
 }
 
-function CookieNoticeTarget({ isVisible = null }) {
-  const { toggleState } = useVisibilityProviderContext();
+function CookieNoticeTarget({ isToggled: isVisible = null, onClose = null }) {
   const [cookies, setCookie] = useCookies();
   const cookieNoticeRef = useRef<HTMLDivElement>(null);
 
   const acceptCookies = async () => {
     localStorage.setItem(showCookieNoticeKey, 'false');
-    toggleState(false);
+    onClose();
     await acceptCookiesAction();
   };
 
   const handleClickOutside = e => {
     if (cookieNoticeRef.current && !cookieNoticeRef.current.contains(e.target)) {
-      toggleState(false);
+      onClose();
     }
   };
 
@@ -106,25 +106,26 @@ function CookieNoticeTarget({ isVisible = null }) {
 }
 
 export function VPCookieNotice() {
+  const getInitialState = useCallback(() => {
+    if (typeof window === 'undefined') return false;
+    const savedState = localStorage.getItem(showCookieNoticeKey);
+
+    if (!savedState) {
+      return true;
+    } else {
+      return savedState === 'true';
+    }
+  }, []);
+
   return (
-    <VisibilityProvider
-      initVisibility={() => {
-        if (typeof window === 'undefined') return false;
-        const savedState = localStorage.getItem(showCookieNoticeKey);
-
-        if (!savedState) {
-          return true;
-        } else {
-          return savedState === 'true';
-        }
-      }}>
-      <VisibilityProvider.Trigger>
+    <ToggleProvider initialState={getInitialState}>
+      <ToggleProvider.Trigger>
         <CookieNoticeTrigger />
-      </VisibilityProvider.Trigger>
+      </ToggleProvider.Trigger>
 
-      <VisibilityProvider.Target>
+      <ToggleProvider.MUITarget>
         <CookieNoticeTarget />
-      </VisibilityProvider.Target>
-    </VisibilityProvider>
+      </ToggleProvider.MUITarget>
+    </ToggleProvider>
   );
 }

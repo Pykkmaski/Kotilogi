@@ -1,6 +1,7 @@
 'use client';
 
 import { VPMenu } from '@/components/UI/VPMenu';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { MoreVert } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
@@ -9,14 +10,14 @@ import Link from 'next/link';
 export const PropertyCardHeaderContent = ({ item }) => {
   return (
     <>
-      <VisibilityProvider>
-        <VisibilityProvider.Trigger setAsAnchorForMUI>
+      <ToggleProvider>
+        <ToggleProvider.Trigger>
           <IconButton>
             <MoreVert sx={{ color: 'white' }} />
           </IconButton>
-        </VisibilityProvider.Trigger>
+        </ToggleProvider.Trigger>
 
-        <VisibilityProvider.Target>
+        <ToggleProvider.MUITarget>
           <VPMenu>
             <Link href={`/dashboard/properties/${item.id}/edit`}>Muokkaa</Link>
             <Link
@@ -40,8 +41,8 @@ export const PropertyCardHeaderContent = ({ item }) => {
               Poista
             </Link>
           </VPMenu>
-        </VisibilityProvider.Target>
-      </VisibilityProvider>
+        </ToggleProvider.MUITarget>
+      </ToggleProvider>
     </>
   );
 };

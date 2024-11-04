@@ -20,7 +20,7 @@ import { Button } from '@/components/New/Button';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 import { useMapArray } from '@/hooks/useMapArray';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { VPDialog } from '@/components/UI/VPDialog';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { createUtilityDataAction } from './actions';
@@ -228,14 +228,14 @@ function EntryComponent({
             value={new Date(item.value.date).toLocaleDateString('fi')}
           />
         </div>
-        <VisibilityProvider>
-          <VisibilityProvider.Trigger>
+        <ToggleProvider>
+          <ToggleProvider.Trigger>
             <IconButton>
               <Close />
             </IconButton>
-          </VisibilityProvider.Trigger>
+          </ToggleProvider.Trigger>
 
-          <VisibilityProvider.Target>
+          <ToggleProvider.Target>
             <VPDialog>
               <DialogTitle>Poista tieto</DialogTitle>
               <DialogContent>
@@ -257,8 +257,8 @@ function EntryComponent({
                 </Button>
               </DialogActions>
             </VPDialog>
-          </VisibilityProvider.Target>
-        </VisibilityProvider>
+          </ToggleProvider.Target>
+        </ToggleProvider>
       </div>
     </ContentBox>
   );

@@ -9,11 +9,12 @@ import { Padding } from '../UI/Padding';
 
 import { VPMobileMenu } from './VPMobileMenu';
 import Button from '@mui/material/Button';
-import { VisibilityProvider } from '../Util/VisibilityProvider';
+import { ToggleProvider } from '../Util/ToggleProvider';
 import { Spacer } from '../UI/Spacer';
 import { useCallback, useMemo } from 'react';
 import { Menu, Visibility } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { ElementReferenceProvider } from '../Util/ElementReferenceProvider copy';
 
 export function Logo2() {
   return (
@@ -62,6 +63,11 @@ type HeaderProps = {
   variant?: 'black' | 'transparent';
 };
 
+/**
+ * @deprecated
+ * @param param0
+ * @returns
+ */
 export default function Header({ variant = 'black' }: HeaderProps) {
   const { data, status } = useSession();
   const userIsLoggedIn = status === 'authenticated';
@@ -70,17 +76,23 @@ export default function Header({ variant = 'black' }: HeaderProps) {
   //<Image src={Logo} alt="Kotidok logo"/>
 
   const menuElement = (
-    <VisibilityProvider>
-      <VisibilityProvider.Trigger setAsAnchorForMUI>
-        <IconButton>
-          <Menu />
-        </IconButton>
-      </VisibilityProvider.Trigger>
+    <ToggleProvider>
+      <ElementReferenceProvider>
+        <ElementReferenceProvider.Element>
+          <ToggleProvider.Trigger>
+            <IconButton>
+              <Menu />
+            </IconButton>
+          </ToggleProvider.Trigger>
+        </ElementReferenceProvider.Element>
 
-      <VisibilityProvider.Target>
-        <VPMobileMenu session={null} />
-      </VisibilityProvider.Target>
-    </VisibilityProvider>
+        <ElementReferenceProvider.Target>
+          <ToggleProvider.MUITarget>
+            <VPMobileMenu session={null} />
+          </ToggleProvider.MUITarget>
+        </ElementReferenceProvider.Target>
+      </ElementReferenceProvider>
+    </ToggleProvider>
   );
 
   const navContent = useMemo(() => {

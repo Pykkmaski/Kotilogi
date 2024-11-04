@@ -1,25 +1,17 @@
-import { FormControl } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../../EventFormContext';
-import { useEventTypeContext } from '../../EventTypeProvider';
-import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import { OptionSelector } from '@/components/Feature/OptionSelector';
 
 export const RoofTypeSelector = () => {
   const { extraData } = useEventFormContext();
-  const { refs } = useEventTypeContext();
 
   return (
-    <FormControl
-      required
+    <OptionSelector
       label='Katon tyyppi'
-      control={
-        <ChipRadioGroup
-          name='roofTypeId'
-          dataArray={refs.roofTypes}
-          labelKey='name'
-          valueKey='id'
-          currentValue={extraData.roofTypeId}
-        />
-      }
+      labelKey='name'
+      valueKey='id'
+      tablename='ref_roofTypes'
+      propertyName='roofTypeId'
+      useContextValue={extraData}
     />
   );
 };

@@ -1,15 +1,15 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Checkbox, CheckboxLabel } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyFormContext';
+import { usePropertyFormContext } from '../../PropertyFormContext';
 
 import { AppartmentDataType } from 'kotilogi-app/dataAccess/types';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 export function OtherInfoField() {
-  const { property: data, propertyTypes } = usePropertyFormContext() as {
-    property: AppartmentDataType;
-    propertyTypes: TODO;
-  };
+  const {
+    property: data,
+    refs: { propertyTypes },
+  } = usePropertyFormContext() as TODO;
 
   return (
     <Fieldset legend='Muut tiedot'>

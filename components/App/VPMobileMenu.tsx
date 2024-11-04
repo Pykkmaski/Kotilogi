@@ -2,54 +2,59 @@
 
 import { MenuItem } from '@mui/material';
 import Link from 'next/link';
-import { VisibilityProvider } from '../Util/VisibilityProvider';
-import React from 'react';
+import { ToggleProvider } from '../Util/ToggleProvider';
+import React, { useMemo } from 'react';
 import { VPMenu } from '../UI/VPMenu';
 
 type MobileMenuProps = {
   session?: TODO;
-  isVisible?: boolean;
+  [x: string]: any;
 };
 
-export function VPMobileMenu({ session, isVisible }: MobileMenuProps) {
-  const getContent = () => {
+export function VPMobileMenu({ session, ...props }: MobileMenuProps) {
+  const content = useMemo(() => {
+    const loggedInLinks = [
+      {
+        href: '/dashboard',
+        content: 'Hallintapaneeli',
+      },
+      {
+        href: '/logout',
+        content: 'Kirjaudu Ulos',
+      },
+    ];
+
+    const loggedOutLinks = [
+      {
+        href: '/',
+        content: 'Etusivulle',
+      },
+      {
+        href: '/about',
+        content: 'Tietoja Meistä',
+      },
+      {
+        href: '/register',
+        content: 'Rekisteröidy',
+      },
+      {
+        href: '/login',
+        content: 'Kirjaudu Sisään',
+      },
+    ];
+
+    const TriggerWithLink = ({ link }) => (
+      <ToggleProvider.Trigger>
+        <Link href={link.href}>{link.content}</Link>
+      </ToggleProvider.Trigger>
+    );
+
     if (session) {
-      return (
-        <VisibilityProvider.Trigger>
-          <div className='flex flex-col'>
-            <MenuItem>
-              <Link href='/dashboard'>Hallintapaneeli</Link>
-            </MenuItem>
-            <MenuItem>
-              <Link href='/logout'>Kirjaudu Ulos</Link>
-            </MenuItem>
-          </div>
-        </VisibilityProvider.Trigger>
-      );
+      return loggedInLinks.map(link => <TriggerWithLink link={link} />);
     } else {
-      return (
-        <VisibilityProvider.Trigger>
-          <div className='flex flex-col'>
-            <MenuItem>
-              <Link href='/'>Etusivulle</Link>
-            </MenuItem>
-
-            <MenuItem>
-              <Link href='/about'>Tietoa Meistä</Link>
-            </MenuItem>
-
-            <MenuItem>
-              <Link href='/register'>Rekisteröidy</Link>
-            </MenuItem>
-
-            <MenuItem>
-              <Link href='/login'>Kirjaudu Sisään</Link>
-            </MenuItem>
-          </div>
-        </VisibilityProvider.Trigger>
-      );
+      return loggedOutLinks.map(link => <TriggerWithLink link={link} />);
     }
-  };
+  }, [session]);
 
-  return <VPMenu isVisible={isVisible}>{getContent()}</VPMenu>;
+  return <VPMenu {...props}>{content}</VPMenu>;
 }

@@ -1,29 +1,16 @@
-import { useQuery } from '@tanstack/react-query';
-import { getOtsalautatyypit } from '../actions';
 import { useEventFormContext } from '../../EventFormContext';
-import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
-import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import { OptionSelector } from '@/components/Feature/OptionSelector';
 
 export const OtsalautaSelector = () => {
   const { extraData } = useEventFormContext();
-  const { data: otsalautatyypit, isLoading } = useQuery({
-    queryKey: ['otsalautatyypit'],
-    queryFn: async () => await getOtsalautatyypit(),
-  });
-
   return (
-    <SuspenseFormControl
-      isLoading={isLoading}
-      label='Otsalaudat'
-      control={
-        <ChipRadioGroup
-          name='otsalautaTyyppiId'
-          dataArray={otsalautatyypit}
-          currentValue={extraData.otsalautaTyyppiId}
-          labelKey='label'
-          valueKey='id'
-        />
-      }
+    <OptionSelector
+      label='Otsalautatyyppi'
+      labelKey='label'
+      valueKey='id'
+      tablename='ref_otsalautatyypit'
+      propertyName='otsalautaTyyppiId'
+      useContextValue={extraData}
     />
   );
 };

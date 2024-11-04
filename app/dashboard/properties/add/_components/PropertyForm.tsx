@@ -9,14 +9,14 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { ExteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/ExteriorField';
-import { GeneralField } from 'kotilogi-app/app/dashboard/properties/add/_components/GeneralField';
-import { HeatingField } from 'kotilogi-app/app/dashboard/properties/add/_components/HeatingField';
-import { InteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/InteriorField';
-import { OtherInfoField } from 'kotilogi-app/app/dashboard/properties/add/_components/OtherInfoField';
+import { ExteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/ExteriorField';
+import { GeneralField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/GeneralField';
+import { HeatingField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/HeatingField';
+import { InteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/InteriorField';
+import { OtherInfoField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/OtherInfoField';
 import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyFormContext';
-import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/TargetTypeField';
-import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/YardField';
+import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/TargetTypeField';
+import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/YardField';
 
 import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import toast from 'react-hot-toast';
@@ -26,6 +26,7 @@ import { usePropertyForm } from './PropertyForm.hooks';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { VPDialog } from '@/components/UI/VPDialog';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
 enum FormStatus {
   IDLE = 0,
@@ -36,29 +37,10 @@ enum FormStatus {
 
 type PropertyFormProps<T extends PropertyDataType> = React.PropsWithChildren & {
   property?: T;
-  propertyTypes: TODO;
-  energyClasses: TODO;
-  buildingTypes: TODO;
-  buildingMaterials: TODO;
-  roofTypes: TODO;
-  roofMaterials: TODO;
-  yardOwnershipTypes: TODO;
-  heatingTypes: TODO;
-  mainColors: TODO;
+  refs: TODO;
 };
 
-export function PropertyForm<T extends PropertyDataType>({
-  property,
-  propertyTypes,
-  energyClasses,
-  buildingTypes,
-  buildingMaterials,
-  roofTypes,
-  roofMaterials,
-  yardOwnershipTypes,
-  heatingTypes,
-  mainColors,
-}: PropertyFormProps<T>) {
+export function PropertyForm<T extends PropertyDataType>({ property, refs }: PropertyFormProps<T>) {
   const {
     status,
     data,
@@ -68,15 +50,16 @@ export function PropertyForm<T extends PropertyDataType>({
     resetData,
     updatePropertyInfo,
     isValid,
-  } = usePropertyForm(property as TODO, propertyTypes);
+  } = usePropertyForm(property as TODO, refs);
 
   const formId = 'submit-property-form';
   const loading = status === FormStatus.LOADING;
   const done = status === FormStatus.DONE;
+
   const submitDisabled =
     loading ||
     done ||
-    (data.propertyTypeId == propertyTypes['Kiinteistö'] &&
+    (data.propertyTypeId == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') &&
       (!(data as TODO).houseNumber || !(data as TODO).propertyNumber)) ||
     !(data as TODO).streetAddress ||
     !(data as TODO).zipCode;
@@ -104,16 +87,9 @@ export function PropertyForm<T extends PropertyDataType>({
           isValid,
           updatePropertyInfo,
           property: data,
-          propertyTypes,
-          energyClasses,
-          buildingTypes,
-          buildingMaterials,
-          roofTypes,
-          roofMaterials,
-          yardOwnershipTypes,
-          heatingTypes,
-          mainColors,
+          refs,
         }}>
+        <TargetTypeField />
         <GeneralField hidePropertyIdentifier={property !== undefined} />
         <ExteriorField />
         <YardField />
@@ -157,6 +133,7 @@ export function PropertyForm<T extends PropertyDataType>({
                 <DialogActions>
                   <VisibilityProvider.Trigger>
                     <Button
+                      color='secondary'
                       variant='text'
                       type='button'>
                       Peruuta
@@ -167,6 +144,7 @@ export function PropertyForm<T extends PropertyDataType>({
                     form={formId}
                     type='submit'
                     variant='contained'
+                    color='secondary'
                     disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
                     startIcon={<Check />}>
                     {property ? 'Päivitä' : 'Vahvista'}

@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { updatePropertyAction } from './actions';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 
 export function usePropertyForm(
   property: HouseDataType | AppartmentDataType | undefined,
-  propertyTypes: TODO[]
+  refs: TODO
 ) {
   const [hasChanges, setHasChanges] = useState(false);
   const address = property && property.streetAddress.split(' ');
@@ -22,13 +23,13 @@ export function usePropertyForm(
     streetName = address.join(' ');
   }
 
-  const { data, updateData, resetData } = useInputData(
+  const { data, updateData, resetData } = useFormOnChangeObject(
     (property !== undefined && {
       ...property,
       streetAddress: streetName,
       houseNumber,
     }) || {
-      propertyTypeId: propertyTypes.find(type => type.name === 'Kiinteistö').id.toString(),
+      propertyTypeId: refs.propertyTypes.find(type => type.name === 'Kiinteistö').id.toString(),
     }
   );
   const [isValid, setIsValid] = useState(false);

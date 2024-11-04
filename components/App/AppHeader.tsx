@@ -1,11 +1,12 @@
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 
-import { VPMobileMenu } from '../App/VPMobileMenu';
-import { Logo } from '../App/Logo';
+import { VPMobileMenu } from './VPMobileMenu';
+import { Logo } from './Logo';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { ProfileCircle } from './ProfileCircle';
+import { ProfileCircle } from '../New/ProfileCircle';
 import { VP } from '../Util/VP';
+import { MenuPrefab } from '../UI/VPMenu';
 
 export async function AppHeader() {
   const session = await loadSession().catch(err => console.log(err.message));
@@ -13,8 +14,7 @@ export async function AppHeader() {
   return (
     <header className='w-full flex items-center justify-between py-2 lg:mb-8 xs:mb-4 border-b border-slate-200'>
       <Logo variant='gray' />
-      <VP
-        setTriggerAsReference
+      <MenuPrefab
         trigger={
           !session ? (
             <IconButton

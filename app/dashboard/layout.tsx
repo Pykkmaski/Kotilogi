@@ -1,5 +1,5 @@
 import Notice from '@/components/App/Notice';
-import { AppHeader } from '@/components/New/AppHeader';
+import { AppHeader } from '@/components/App/AppHeader';
 import { Breadcrumb } from '@/components/New/Breadcrumb';
 import { Margin } from '@/components/UI/Margin';
 import { Paper } from '@/components/New/Paper';

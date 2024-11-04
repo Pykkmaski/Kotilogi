@@ -5,6 +5,9 @@ import { verifyUserPropertyCount } from 'kotilogi-app/dataAccess/properties';
 import { redirect } from 'next/navigation';
 import db from 'kotilogi-app/dbconfig';
 import assert from 'assert';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import { getRefs } from 'kotilogi-app/dataAccess/ref';
+import { getPropertyRefs } from '../actions';
 
 const getRefTableContent = async (tablename: string) => {
   if (!tablename.includes('ref_')) {
@@ -22,41 +25,15 @@ export default async function AddPropertyPage() {
     //return redirect('/dashboard');
   }
 
-  const [
-    propertyTypes,
-    energyClasses,
-    buildingMaterials,
-    buildingTypes,
-    roofMaterials,
-    roofTypes,
-    yardOwnershipTypes,
-    heatingTypes,
-    mainColors,
-  ] = await Promise.all([
-    getRefTableContent('ref_propertyTypes'),
-    getRefTableContent('ref_energyClasses'),
-    getRefTableContent('ref_buildingMaterials'),
-    getRefTableContent('ref_buildingTypes'),
-    getRefTableContent('ref_roofMaterials'),
-    getRefTableContent('ref_roofTypes'),
-    getRefTableContent('ref_yardOwnershipTypes'),
-    getRefTableContent('ref_heatingTypes'),
-    getRefTableContent('ref_mainColors'),
-  ]);
-  console.log(heatingTypes);
+  const refs = await getPropertyRefs();
+  console.log(refs);
+
   return (
-    <main className='flex justify-center'>
-      <PropertyForm
-        propertyTypes={propertyTypes}
-        energyClasses={energyClasses}
-        buildingMaterials={buildingMaterials}
-        buildingTypes={buildingTypes}
-        roofMaterials={roofMaterials}
-        roofTypes={roofTypes}
-        yardOwnershipTypes={yardOwnershipTypes}
-        mainColors={mainColors}
-        heatingTypes={heatingTypes}
-      />
+    <main className='flex justify-center w-full'>
+      <div className='xs:w-full md:w-[50%] flex flex-col gap-4'>
+        <SecondaryHeading>Lisää Talo</SecondaryHeading>
+        <PropertyForm refs={refs} />
+      </div>
     </main>
   );
 }

@@ -1,20 +1,13 @@
 'use client';
 
-import { FormEvent, createContext } from 'react';
+import { createContext } from 'react';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
-import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 export const PropertyFormContext = createContext<{
   property?: Partial<AppartmentDataType | HouseDataType>;
-  propertyTypes: TODO;
-  buildingTypes: TODO;
-  energyClasses: TODO;
-  buildingMaterials: TODO;
-  yardOwnershipTypes: TODO;
-  roofMaterials: TODO;
-  roofTypes: TODO;
-  heatingTypes: any[];
-  mainColors: TODO;
+  refs: any;
+
   isValid: boolean;
   resetData: (data?: any) => void;
 

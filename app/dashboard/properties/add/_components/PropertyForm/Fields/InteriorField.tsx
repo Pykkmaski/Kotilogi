@@ -1,9 +1,12 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { Input, FormControl } from '@/components/UI/FormUtils';
-import { usePropertyFormContext } from './PropertyFormContext';
+import { usePropertyFormContext } from '../../PropertyFormContext';
 
 export function InteriorField() {
-  const { property: data, propertyTypes } = usePropertyFormContext();
+  const {
+    property: data,
+    refs: { propertyTypes },
+  } = usePropertyFormContext();
 
   return (
     <Fieldset legend='Sisätilat'>

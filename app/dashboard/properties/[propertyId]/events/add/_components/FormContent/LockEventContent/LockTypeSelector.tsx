@@ -3,28 +3,19 @@ import { getLockTypes } from '../actions';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { useEventFormContext } from '../../EventFormContext';
+import { OptionSelector } from '@/components/Feature/OptionSelector';
 
 export const LockTypeSelector = () => {
   const { extraData } = useEventFormContext();
-  const { data: lockTypes, isLoading } = useQuery({
-    queryKey: ['lockTypes'],
-    queryFn: async () => getLockTypes(),
-  });
 
   return (
-    <SuspenseFormControl
-      loadingText='Ladataan lukkotyyppejä...'
-      isLoading={isLoading}
-      label='Lukituksen tyyppi'
-      control={
-        <ChipRadioGroup
-          name='lockTypeId'
-          dataArray={lockTypes}
-          valueKey='id'
-          labelKey='label'
-          currentValue={extraData.lockTypeId}
-        />
-      }
+    <OptionSelector
+      label='Lukon tyyppi'
+      labelKey='label'
+      valueKey='id'
+      tablename='ref_lockTypes'
+      propertyName='lockTypeId'
+      useContextValue={extraData}
     />
   );
 };

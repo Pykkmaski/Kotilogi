@@ -2,20 +2,17 @@
 
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { Header } from './Header';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Logo } from '@/components/App/Logo';
-import { VPMenu } from '@/components/UI/VPMenu';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
-import { ElementReferenceProvider } from '@/components/Util/ElementReferenceProvider';
-import { VP } from '@/components/Util/VP';
+import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
 
 export default function TransparentHeaderLayout({ children }: React.PropsWithChildren) {
   const { data, status } = useSession();
   const isLoggedIn = status == 'authenticated';
 
-  const getLinks = useCallback(() => {
+  const links = useMemo(() => {
     if (isLoggedIn) {
       return [
         {
@@ -48,8 +45,7 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
     }
   }, [isLoggedIn]);
 
-  const getNavElement = useCallback(() => {
-    const links = getLinks();
+  const navElement = useMemo(() => {
     const linkElements = links.map(({ href, text }) => <Link href={href}>{text}</Link>);
 
     return (
@@ -63,22 +59,21 @@ export default function TransparentHeaderLayout({ children }: React.PropsWithChi
         </ul>
 
         <div className='xs:block md:hidden'>
-          {/*This is probably causing problems when logging out, and the page loads. */}
-          <VP
-            setTriggerAsReference
+          {/*This is probably causing problems when logging out, when the page loads. */}
+          <MenuPrefab
             trigger={<MenuIcon sx={{ color: 'black' }} />}
             target={<VPMenu>{linkElements}</VPMenu>}
           />
         </div>
       </nav>
     );
-  }, [getLinks]);
+  }, [links]);
 
   return (
     <div className='flex flex-col bg-white h-screen'>
       <Header>
         <Logo />
-        {getNavElement()}
+        {navElement}
       </Header>
 
       {children}

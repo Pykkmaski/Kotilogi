@@ -1,22 +1,36 @@
 'use client';
 
 import { Dialog } from '@mui/material';
-import { useVisibilityProviderContext } from '../Util/VisibilityProvider';
+import { ReactNode } from 'react';
+import { ToggleProvider } from '../Util/ToggleProvider';
 
 type VPDialogProps = React.PropsWithChildren & {
   /**This prop is passed automatically by a VisibilityProvider.Target. Should usually be left undefined. */
-  isVisible?: boolean;
+  isToggled?: boolean;
+  onClose?: () => void;
 };
 
-/**A wrapper component for a Material UI Dialog, to make it work with the VisibilityProvider. */
-export function VPDialog({ children, isVisible }: VPDialogProps) {
-  const { toggleState } = useVisibilityProviderContext();
-
+/**A wrapper component for a Material UI Dialog. Should be used as a MUITarget for ToggleProviders.*/
+export function VPDialog({ children, isToggled, onClose }: VPDialogProps) {
   return (
     <Dialog
-      open={isVisible}
-      onClose={() => toggleState(false)}>
+      open={isToggled}
+      onClose={onClose}>
       {children}
     </Dialog>
+  );
+}
+
+type DialogPrefabProps = {
+  trigger: ReactNode;
+  target: ReactNode;
+};
+
+export function DialogPrefab({ trigger, target }: DialogPrefabProps) {
+  return (
+    <ToggleProvider>
+      <ToggleProvider.Trigger>{trigger}</ToggleProvider.Trigger>
+      <ToggleProvider.MUITarget>{target}</ToggleProvider.MUITarget>
+    </ToggleProvider>
   );
 }

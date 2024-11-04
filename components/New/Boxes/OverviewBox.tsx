@@ -16,8 +16,8 @@ import Link from 'next/link';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
-import { VPDialog } from '@/components/UI/VPDialog';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
+import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
 import { Button } from '../Button';
 import { VPCloseOnActionButton } from '@/components/UI/VPCloseOnActionButton';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
@@ -80,8 +80,8 @@ export function OverviewBox({
                 </RenderOnCondition>
 
                 <RenderOnCondition condition={deleteAction != undefined}>
-                  <VisibilityProvider>
-                    <VisibilityProvider.Target>
+                  <ToggleProvider>
+                    <ToggleProvider.MUITarget>
                       <VPDialog>
                         <DialogTitle>Poista kohde</DialogTitle>
                         <DialogContent>
@@ -91,13 +91,13 @@ export function OverviewBox({
                         </DialogContent>
 
                         <DialogActions>
-                          <VisibilityProvider.Trigger>
+                          <ToggleProvider.Trigger>
                             <Button
                               variant='text'
                               color='secondary'>
                               Peruuta
                             </Button>
-                          </VisibilityProvider.Trigger>
+                          </ToggleProvider.Trigger>
 
                           <VPCloseOnActionButton
                             action={async () => await deleteAction()}
@@ -107,15 +107,15 @@ export function OverviewBox({
                           </VPCloseOnActionButton>
                         </DialogActions>
                       </VPDialog>
-                    </VisibilityProvider.Target>
-                    <VisibilityProvider.Trigger>
+                    </ToggleProvider.MUITarget>
+                    <ToggleProvider.Trigger>
                       <IconButton
                         color='warning'
                         size='small'>
                         <Delete />
                       </IconButton>
-                    </VisibilityProvider.Trigger>
-                  </VisibilityProvider>
+                    </ToggleProvider.Trigger>
+                  </ToggleProvider>
                 </RenderOnCondition>
               </div>
             </div>

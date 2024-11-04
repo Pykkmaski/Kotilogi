@@ -1,17 +1,15 @@
 'use client';
 
-import { ADeleteFile, ASetMainImage } from '@/actions/files';
 import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
-import { CardMenuButton } from './CardMenuButton';
+import { MenuButton } from './MenuButton';
 import { useCallback, useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
-import { VisibilityProvider } from '../Util/VisibilityProvider';
-import { VPMenu } from '../UI/VPMenu';
+import { MenuPrefab, VPMenu } from '../UI/VPMenu';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
 
 type FileCardProps = {
@@ -71,12 +69,9 @@ export function FileCard({ file, isMain }: FileCardProps) {
   return (
     <div className='relative flex flex-col aspect-square lg:w-[250px] xs:w-[50%] overflow-hidden rounded-md shadow-md'>
       <div className='flex p-2 gap-2 w-full z-20 justify-end bg-[#0004] items-center'>
-        <VisibilityProvider>
-          <VisibilityProvider.Trigger setAsAnchorForMUI>
-            <CardMenuButton />
-          </VisibilityProvider.Trigger>
-
-          <VisibilityProvider.Target>
+        <MenuPrefab
+          trigger={<MenuButton />}
+          target={
             <VPMenu>
               <RenderOnCondition condition={file.type == 'image/jpeg'}>
                 <span onClick={!loading && setMainImage}>Aseta pääkuvaksi</span>
@@ -84,8 +79,8 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
               <span onClick={!loading && deleteFile}>Poista</span>
             </VPMenu>
-          </VisibilityProvider.Target>
-        </VisibilityProvider>
+          }
+        />
       </div>
       <RenderOnCondition condition={file.type == 'image/jpeg'}>
         <Image

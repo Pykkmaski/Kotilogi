@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useUtilityProviderContext } from './UtilityContext';
 import { VPSideMenu } from '@/components/UI/VPSideMenu';
 import colors from 'kotilogi-app/colors';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
 
 export function ControlBar() {
   const { selectedTypes, years } = useUtilityProviderContext();
@@ -44,20 +44,20 @@ export function ControlBar() {
 
       <div className='flex items-center'>
         <div className='xs:block md:hidden'>
-          <VisibilityProvider>
-            <VisibilityProvider.Trigger>
+          <ToggleProvider>
+            <ToggleProvider.Trigger>
               <IconButton id='mobile-menu-trigger'>
                 <MoreVert />
               </IconButton>
-            </VisibilityProvider.Trigger>
+            </ToggleProvider.Trigger>
 
-            <VisibilityProvider.Target>
+            <ToggleProvider.MUITarget>
               <VPSideMenu title='Suodata'>
                 {getTimeframeSelector()}
                 {getTypeSelector()}
               </VPSideMenu>
-            </VisibilityProvider.Target>
-          </VisibilityProvider>
+            </ToggleProvider.MUITarget>
+          </ToggleProvider>
         </div>
         <Link
           href='utility/add'
@@ -74,8 +74,8 @@ export function ControlBar() {
           </div>
 
           <div className='xs:block md:hidden'>
-            <IconButton>
-              <Add sx={{ color: colors.primary }} />
+            <IconButton color='secondary'>
+              <Add sx={{ color: colors.secondary }} />
             </IconButton>
           </div>
         </Link>

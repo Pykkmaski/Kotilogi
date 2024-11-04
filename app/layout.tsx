@@ -1,7 +1,6 @@
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from 'kotilogi-app/contexts/AuthProvider';
-import Notice from 'kotilogi-app/components/App/Notice';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 import '@fontsource/roboto/300.css';
@@ -13,9 +12,7 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from 'kotilogi-app/muiTheme';
 import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
 import Script from 'next/script';
-import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryProvider } from './ReactQueryProvider';
 import { VPCookieNotice } from '@/components/App/VPCookieNotice';
 

@@ -1,26 +1,58 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { DialogControl } from '../Util/DialogControl';
+import { ReactNode, useMemo } from 'react';
 import React from 'react';
 import MuiMenu from '@mui/material/Menu';
 import { MenuItem } from '@mui/material';
-import { useVisibilityProviderContext } from '../Util/VisibilityProvider';
+import { ToggleProvider } from '../Util/ToggleProvider';
+import { ElementReferenceProvider } from '../Util/ElementReferenceProvider copy';
 
 type MenuProps = React.PropsWithChildren & {
-  isVisible?: boolean;
+  isToggled?: boolean;
+  reference?: HTMLElement;
+  onClose?: () => void;
 };
 
-/**A reusable Menu component. It handles all the anchoring and other logic within. Renders the children inside a toggleable menu. */
-export function VPMenu({ isVisible, children }: MenuProps) {
-  const { toggleState, anchorEl } = useVisibilityProviderContext();
+/**
+ * A wrapper for a Material UI Menu. Should be wrapped by a ToggleProvider.MUITarget and a ElementReferenceProvider.Element.
+ * @param param0
+ * @returns
+ */
+export function VPMenu({ isToggled, reference, onClose, children }: MenuProps) {
+  const content = useMemo(
+    () => React.Children.map(children, child => child && <MenuItem>{child}</MenuItem>),
+    [children]
+  );
 
   return (
     <MuiMenu
-      anchorEl={anchorEl}
-      open={isVisible}
-      onClose={() => toggleState(false)}>
-      {React.Children.map(children, child => child && <MenuItem>{child}</MenuItem>)}
+      anchorEl={reference}
+      open={isToggled}
+      onClose={onClose}>
+      {content}
     </MuiMenu>
+  );
+}
+
+type MenuPrefabProps = {
+  trigger: ReactNode;
+  target: ReactNode;
+};
+
+/**A prefab for creating menus that are anchored to their trigger element.
+ * Wraps the trigger as a MUITarget, within an ElementReferenceProvider.Element*/
+export function MenuPrefab({ trigger, target }: MenuPrefabProps) {
+  return (
+    <ToggleProvider>
+      <ElementReferenceProvider>
+        <ElementReferenceProvider.Element>
+          <ToggleProvider.Trigger>{trigger}</ToggleProvider.Trigger>
+        </ElementReferenceProvider.Element>
+
+        <ElementReferenceProvider.Target>
+          <ToggleProvider.MUITarget>{target}</ToggleProvider.MUITarget>
+        </ElementReferenceProvider.Target>
+      </ElementReferenceProvider>
+    </ToggleProvider>
   );
 }

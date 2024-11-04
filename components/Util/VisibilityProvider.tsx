@@ -29,6 +29,11 @@ type VisibilityProviderProps = React.PropsWithChildren & {
   toggleOverride?: (state?: boolean) => void;
 };
 
+/**
+ * @deprecated Use ToggleProvider instead.
+ * @param param0
+ * @returns
+ */
 export function VisibilityProvider({
   children,
   toggleOverride,

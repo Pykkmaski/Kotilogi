@@ -17,9 +17,10 @@ import { useRouter } from 'next/navigation';
 type FilePageProps = {
   files: FileDataType[];
   objectId: string;
+  returnUrl?: string;
 };
 
-export function FilePage({ files, objectId }: FilePageProps) {
+export function FilePage({ files, objectId, returnUrl }: FilePageProps) {
   const router = useRouter();
   return (
     <Main>
@@ -29,12 +30,15 @@ export function FilePage({ files, objectId }: FilePageProps) {
           gap='medium'
           items='center'>
           <SecondaryHeading>Tiedostot</SecondaryHeading>
-          <Button
-            variant='text'
-            color='secondary'
-            onClick={() => router.back()}>
-            Takaisin Kohteeseen
-          </Button>
+          {returnUrl && (
+            <Link href={returnUrl}>
+              <Button
+                variant='text'
+                color='secondary'>
+                Takaisin Kohteeseen
+              </Button>
+            </Link>
+          )}
         </Spacer>
 
         <Link href={`/dashboard/files/add?parentId=${objectId}`}>

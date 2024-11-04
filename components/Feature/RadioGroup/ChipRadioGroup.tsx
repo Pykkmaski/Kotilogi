@@ -13,6 +13,7 @@ type ChipRadioGroupProps<T> = {
   isChecked?: <K>(v: K) => boolean;
   required?: boolean;
   disabled?: boolean;
+  onChange?: (currentValue: any) => void;
 };
 
 /**A prefab radio group that renders its options as ChipButtons. */
@@ -25,6 +26,7 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
   required,
   disabled,
   isChecked,
+  onChange,
 }: ChipRadioGroupProps<T>) {
   const renderFn = useCallback(
     item => {
@@ -35,6 +37,7 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
 
       return (
         <ChipButton
+          onChange={onChange}
           type='radio'
           disabled={disabled}
           required={required}
