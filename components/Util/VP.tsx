@@ -1,7 +1,5 @@
 'use client';
 
-import { ElementReferenceProvider } from './ElementReferenceProvider';
-import { RenderOnCondition } from './RenderOnCondition';
 import { VisibilityProvider } from './VisibilityProvider';
 
 type VPProps = {
