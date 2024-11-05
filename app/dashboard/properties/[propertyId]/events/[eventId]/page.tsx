@@ -46,7 +46,7 @@ export default async function EventPage({ params }) {
         <FileOverview
           files={files}
           addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
-          showAllUrl={`/dashboard/files?parentId=${eventId}`}
+          showAllUrl={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}
           PreviewComponent={({ item }) => {
             return (
               <FileCard

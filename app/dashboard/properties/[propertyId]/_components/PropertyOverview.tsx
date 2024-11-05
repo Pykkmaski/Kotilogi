@@ -39,7 +39,6 @@ export async function PropertyOverview({
     ' ' +
     (('appartmentNumber' in property && property.appartmentNumber) || '');
 
-  console.log(title);
   return (
     <OverviewBox
       showUrl={showUrl}

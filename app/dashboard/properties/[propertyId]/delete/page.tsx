@@ -16,10 +16,10 @@ export default async function DeletePropertyPage({ params, searchParams }) {
   const allowed = owner !== undefined;
 
   return (
-    <Main>
+    <main className='flex justify-center'>
       {(allowed && <DeletePropertyForm property={property} />) || (
         <span>Sinulla ei ole talon poisto-oikeutta!</span>
       )}
-    </Main>
+    </main>
   );
 }

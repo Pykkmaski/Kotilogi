@@ -78,7 +78,13 @@ export function OverviewBox({
                     </IconButton>
                   </Link>
                 </RenderOnCondition>
-
+                <RenderOnCondition condition={deleteUrl}>
+                  <Link href={deleteUrl}>
+                    <IconButton>
+                      <Delete color='warning' />
+                    </IconButton>
+                  </Link>
+                </RenderOnCondition>
                 <RenderOnCondition condition={deleteAction != undefined}>
                   <ToggleProvider>
                     <ToggleProvider.MUITarget>

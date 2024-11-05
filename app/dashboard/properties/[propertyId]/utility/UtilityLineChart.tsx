@@ -3,22 +3,16 @@
 import {
   Area,
   AreaChart,
-  Bar,
-  BarChart,
   CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { useUtilityProviderContext } from './UtilityContext';
-import { aggregate, aggregateToMonths, aggregateToYears } from './aggregateData';
+import { aggregate } from './aggregateData';
 import colors from 'kotilogi-app/colors';
 import { BlankChart } from '@/components/New/BlankChart';
-import { filterUtilityDataByOptions } from './_util/filterUtilityDataByOptions';
-import { timeStamp } from 'console';
 import { useCallback, useMemo } from 'react';
 
 export function UtilityLineChart() {
@@ -142,6 +136,7 @@ export function UtilityLineChart() {
 
           <XAxis
             dataKey='month'
+            padding='no-gap'
             tickFormatter={month => {
               const date = new Date();
               date.setMonth(month);
