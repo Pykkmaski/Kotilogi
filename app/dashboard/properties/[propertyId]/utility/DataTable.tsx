@@ -7,8 +7,10 @@ import 'ag-grid-community/styles/ag-theme-quartz.css';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import { deleteUtilityAction } from './actions';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
-import { VPMenu } from '@/components/UI/VPMenu';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
+import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
+import { IconButton } from '@mui/material';
+import { useMemo } from 'react';
 
 export function DataTable() {
   const { data } = useUtilityProviderContext();
@@ -20,52 +22,61 @@ export function DataTable() {
     await deleteUtilityAction(id);
   };
 
-  const rows = data.map(d => {
-    return {
-      ...d,
-      time: d.date,
-    };
-  });
+  const rows = useMemo(
+    () =>
+      data.map(d => {
+        return {
+          ...d,
+          time: d.date,
+        };
+      }),
+    [data]
+  );
 
-  const cols = [
-    {
-      headerName: 'Toiminnot',
-      width: '100px',
-      cellRenderer: params => {
-        return (
-          <VisibilityProvider>
-            <VisibilityProvider.Trigger setAsAnchorForMUI>
-              <MenuIcon />
-            </VisibilityProvider.Trigger>
-
-            <VisibilityProvider.Target>
-              <VPMenu>
-                <button onClick={() => deleteEntry(params.data.id)}>Poista</button>
-              </VPMenu>
-            </VisibilityProvider.Target>
-          </VisibilityProvider>
-        );
-      },
-    },
-    {
-      field: 'typeLabel',
-      headerName: 'Tyyppi',
-    },
-    {
-      field: 'monetaryAmount',
-      headerName: 'Hinta (€)',
-      filter: true,
-      editable: true,
-    },
-    {
-      field: 'unitAmount',
-      headerName: 'Yksikkömäärä',
-    },
-    {
-      field: 'time',
-      headerName: 'Aika',
-    },
-  ] as TODO;
+  const cols = useMemo(
+    () =>
+      [
+        {
+          headerName: 'Toiminnot',
+          width: '100px',
+          cellRenderer: params => {
+            return (
+              <MenuPrefab
+                trigger={
+                  <IconButton>
+                    <MenuIcon />
+                  </IconButton>
+                }
+                target={
+                  <VPMenu>
+                    <button onClick={() => deleteEntry(params.data.id)}>Poista</button>
+                  </VPMenu>
+                }
+              />
+            );
+          },
+        },
+        {
+          field: 'typeLabel',
+          headerName: 'Tyyppi',
+        },
+        {
+          field: 'monetaryAmount',
+          headerName: 'Hinta (€)',
+          filter: true,
+          editable: true,
+        },
+        {
+          field: 'unitAmount',
+          headerName: 'Yksikkömäärä',
+        },
+        {
+          field: 'time',
+          headerName: 'Aika',
+        },
+      ] as TODO,
+    []
+  );
 
   return (
     <div
