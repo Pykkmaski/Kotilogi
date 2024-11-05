@@ -8,15 +8,26 @@ export type SpinnerProps = {
   message?: string;
   className?: string;
   animated?: boolean;
+  color?: 'primary' | 'secondary';
 };
 
-export default function Spinner({ message, animated, size = '1rem' }: SpinnerProps) {
+export default function Spinner({ message, color = 'secondary', size = '1rem' }: SpinnerProps) {
+  const spinnerClassName = useMemo(() => {
+    const className = [styles.spinner, 'border-white'];
+    if (color === 'primary') {
+      className.push('border-t-primary');
+    } else {
+      className.push('border-t-secondary');
+    }
+    return className.join(' ');
+  }, [color]);
+
   return (
     <Spacer
       items='center'
       gap='small'>
       <div
-        className={[styles.spinner, 'border-white', 'border-t-secondary'].join(' ')}
+        className={spinnerClassName}
         style={{ width: size, height: size }}
       />
       <RenderOnCondition condition={message != undefined}>

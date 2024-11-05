@@ -25,7 +25,14 @@ export const SubmitButton = ({ children, loading = false, ...props }: SubmitButt
     <Button
       {...props}
       className={styles.submitButton}>
-      {loading ? <Spinner size='2rem' /> : children}
+      {loading ? (
+        <Spinner
+          size='2rem'
+          color='primary'
+        />
+      ) : (
+        children
+      )}
     </Button>
   );
 };

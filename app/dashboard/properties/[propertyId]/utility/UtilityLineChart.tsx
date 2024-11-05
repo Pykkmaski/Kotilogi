@@ -127,6 +127,9 @@ export function UtilityLineChart() {
           </defs>
           <CartesianGrid strokeDasharray={'3 3'} />
           <Tooltip
+            formatter={value => {
+              return value + '€';
+            }}
             labelFormatter={month => {
               const date = new Date();
               date.setMonth(month);
