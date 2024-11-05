@@ -1,9 +1,9 @@
-import Header from '@/components/App/Header';
+import { SiteHeader } from '../../components/App/SiteHeader';
 
 export default function BlackHeaderLayout({ children }: React.PropsWithChildren) {
   return (
     <>
-      <Header />
+      <SiteHeader variant='auth' />
       {children}
     </>
   );

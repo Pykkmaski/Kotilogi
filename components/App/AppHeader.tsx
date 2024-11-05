@@ -8,12 +8,16 @@ import { ProfileCircle } from '../New/ProfileCircle';
 import { VP } from '../Util/VP';
 import { MenuPrefab } from '../UI/VPMenu';
 
+/**The header displayed when using the app-portion of the site. */
 export async function AppHeader() {
   const session = await loadSession().catch(err => console.log(err.message));
 
   return (
     <header className='w-full flex items-center justify-between py-2 lg:mb-8 xs:mb-4 border-b border-slate-200'>
-      <Logo variant='gray' />
+      <Logo
+        labelColorVariant='gray'
+        backgroundVariant='auth'
+      />
       <MenuPrefab
         trigger={
           !session ? (
