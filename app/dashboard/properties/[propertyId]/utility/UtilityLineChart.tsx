@@ -139,7 +139,6 @@ export function UtilityLineChart() {
 
           <XAxis
             dataKey='month'
-            padding='no-gap'
             tickFormatter={month => {
               const date = new Date();
               date.setMonth(month);
