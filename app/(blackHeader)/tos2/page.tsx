@@ -1,6 +1,6 @@
 export default function TOS() {
   return (
-    <main>
+    <main className='mt-8'>
       <h1>Kotilogin Käyttöehdot</h1>
 
       <p>
