@@ -24,9 +24,10 @@ import { createPropertyAction } from './actions';
 import { DialogControl } from '@/components/Util/DialogControl';
 import { usePropertyForm } from './PropertyForm.hooks';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+
 import { VPDialog } from '@/components/UI/VPDialog';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
 
 enum FormStatus {
   IDLE = 0,
@@ -49,6 +50,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
     updateChanges,
     resetData,
     updatePropertyInfo,
+    onSubmit,
     isValid,
   } = usePropertyForm(property as TODO, refs);
 
@@ -67,15 +69,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
   return (
     <form
       id={formId}
-      onSubmit={async e => {
-        e.preventDefault();
-        try {
-          await createPropertyAction(data as PropertyDataType);
-          toast.success('Talo luotu!');
-        } catch (err) {
-          toast.error(err.message);
-        }
-      }}
+      onSubmit={onSubmit}
       onChange={e => {
         updateData(e);
         updateChanges(true);
@@ -108,8 +102,8 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
             Peruuta
           </Button>
 
-          <VisibilityProvider>
-            <VisibilityProvider.Trigger setAsAnchorForMUI>
+          <ToggleProvider>
+            <ToggleProvider.Trigger setAsAnchorForMUI>
               <Button
                 color='secondary'
                 type='button'
@@ -118,27 +112,29 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
                 startIcon={<Check />}>
                 {property ? 'Päivitä' : 'Vahvista'}
               </Button>
-            </VisibilityProvider.Trigger>
+            </ToggleProvider.Trigger>
 
-            <VisibilityProvider.Target>
+            <ToggleProvider.Target>
               <VPDialog>
                 <DialogTitle>Vahvista talo</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
                     Olet lisäämässä taloa osoitteessa{' '}
-                    {`${(data as PropertyDataType).streetAddress} ${(data as TODO).houseNumber}`}.
-                    Oletko varma?
+                    {`${(data as PropertyDataType).streetAddress} ${
+                      (data as TODO).houseNumber || ''
+                    }`}
+                    . Oletko varma?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <VisibilityProvider.Trigger>
+                  <ToggleProvider.Trigger>
                     <Button
                       color='secondary'
                       variant='text'
                       type='button'>
                       Peruuta
                     </Button>
-                  </VisibilityProvider.Trigger>
+                  </ToggleProvider.Trigger>
 
                   <Button
                     form={formId}
@@ -151,8 +147,8 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
                   </Button>
                 </DialogActions>
               </VPDialog>
-            </VisibilityProvider.Target>
-          </VisibilityProvider>
+            </ToggleProvider.Target>
+          </ToggleProvider>
         </div>
       </RenderOnCondition>
     </form>

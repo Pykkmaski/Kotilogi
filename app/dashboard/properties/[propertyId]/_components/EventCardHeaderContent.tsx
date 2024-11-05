@@ -23,7 +23,7 @@ export function EventCardHeaderContent({ propertyId, item }) {
 
           <Link
             title='Näytä tiedostot'
-            href={`/dashboard/properties/${propertyId}/events/${item.id}/files`}>
+            href={`/dashboard/files?parentId=${item.id}&returnUrl=/dashboard/properties/${propertyId}/`}>
             Tiedostot
           </Link>
           <Link href={`${propertyId}/events/${item.id}/delete`}>Poista</Link>

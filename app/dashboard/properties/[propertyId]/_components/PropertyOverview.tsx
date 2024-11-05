@@ -34,15 +34,17 @@ export async function PropertyOverview({
     .where({ parentId: property.id })
     .count('*', { as: 'numEvents' });
 
+  const title =
+    property.streetAddress +
+    ' ' +
+    (('appartmentNumber' in property && property.appartmentNumber) || '');
+
+  console.log(title);
   return (
     <OverviewBox
       showUrl={showUrl}
       deleteUrl={`/dashboard/properties/${property.id}/delete`}
-      title={
-        property.streetAddress +
-        ' ' +
-        (('appartmentNumber' in property && property.appartmentNumber) || '')
-      }
+      title={title}
       description={
         <Spacer
           dir='col'

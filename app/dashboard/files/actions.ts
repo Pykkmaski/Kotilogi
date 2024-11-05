@@ -21,7 +21,7 @@ export const deleteFileAction = async (fileId: string): Promise<ServerActionResp
 export const createFileAction = async (fdata: FormData) => {
   try {
     const res = await axios.post('/api/protected/files', fdata);
-    revalidatePath('/dashboard');
+    revalidatePath('/dashboard/');
     return {
       status: res.status,
     };

@@ -154,6 +154,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
       <RenderOnCondition condition={!isHouse}>
         <FormControl
           label='Huoneiston numero'
+          required
           control={
             <Input
               defaultValue={data && (data as AppartmentDataType).appartmentNumber}

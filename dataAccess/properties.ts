@@ -10,6 +10,16 @@ import { verifyPassword } from './users';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { z } from 'zod';
 
+const getPropertyDTO = <T extends AppartmentDataType | HouseDataType>(property: T) => {
+  return {
+    ...property,
+    streetAddress:
+      property.streetAddress + property.propertyTypeName === 'Huoneisto'
+        ? ` ${(property as AppartmentDataType).appartmentNumber}`
+        : '',
+  };
+};
+
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
   return typeId == houseTypeId ? 'data_houses' : 'data_appartments';
@@ -30,7 +40,7 @@ export const verifyUserPropertyCount = async (session: { user: { id: string } })
     .where({ authorId: session.user.id })
     .count('* as numProperties');
 
-  if (numProperties >= 1) {
+  if (numProperties >= 2) {
     throw new Error('Et voi lisätä enempää taloja!');
   }
 };
@@ -80,10 +90,12 @@ export async function createProperty(
   await verifyUserPropertyCount(session);
 
   return await createObject(data, async (obj, trx) => {
+    const streetAddress =
+      'houseNumber' in data ? `${data.streetAddress} ${data.houseNumber}` : data.streetAddress;
     const data_properties = {
       id: obj.id,
       ...filterValidColumns(data, await getTableColumns('data_properties', trx)),
-      streetAddress: `${data.streetAddress} ${data.houseNumber}`,
+      streetAddress,
     };
 
     await trx('data_properties').insert(data_properties);

@@ -5,8 +5,8 @@ import { useForm } from '@/hooks/useForm';
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { FormButtons } from './Forms/FormBase';
-import { ProgressBar } from './ProgressBar';
+import { FormButtons } from '../Forms/FormBase';
+import { ProgressBar } from '../ProgressBar';
 import { createFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 
 type FileUploadFormProps = {

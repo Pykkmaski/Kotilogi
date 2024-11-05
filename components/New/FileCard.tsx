@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { MenuButton } from './MenuButton';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
@@ -64,7 +64,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     setStatus(FormStatus.IDLE);
   }, [setStatus, file.id, file.parentId, axios]);
 
-  const loading = status == FormStatus.LOADING;
+  const loading = useMemo(() => status == FormStatus.LOADING, [status]);
 
   return (
     <div className='relative flex flex-col aspect-square lg:w-[250px] xs:w-[50%] overflow-hidden rounded-md shadow-md'>

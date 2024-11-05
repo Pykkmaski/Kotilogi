@@ -2,9 +2,9 @@ import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import { useInputData } from '@/hooks/useInputData';
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { updatePropertyAction } from './actions';
+import { createPropertyAction, updatePropertyAction } from './actions';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 
 export function usePropertyForm(
@@ -52,6 +52,23 @@ export function usePropertyForm(
 
   const updateChanges = (state: boolean) => setHasChanges(state);
 
+  const onSubmit = useCallback(
+    async (e: any) => {
+      e.preventDefault();
+      setStatus(FormStatus.LOADING);
+      try {
+        await createPropertyAction(data as PropertyDataType);
+        toast.success('Talo luotu!');
+        setStatus(FormStatus.DONE);
+      } catch (err) {
+        toast.error(err.message);
+      } finally {
+        setStatus(prev => (prev === FormStatus.LOADING ? FormStatus.IDLE : prev));
+      }
+    },
+    [createPropertyAction, toast]
+  );
+
   useEffect(() => {
     //Update the server-side data automatically if editing an existing property.
     if (!property || !hasChanges) return;
@@ -75,5 +92,6 @@ export function usePropertyForm(
     resetData,
     updatePropertyInfo,
     updateChanges,
+    onSubmit,
   };
 }
