@@ -1,14 +1,12 @@
 'use client';
 
-import { AUploadFile } from '@/actions/files';
 import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import { useForm } from '@/hooks/useForm';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FormButtons } from './Forms/FormBase';
 import { ProgressBar } from './ProgressBar';
-import axios from 'axios';
 import { createFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 
 type FileUploadFormProps = {

@@ -26,6 +26,7 @@ export function FormButtons({ backAction, loading, done, submitDisabled }: FormB
       <Button
         type='button'
         variant='text'
+        color='secondary'
         onClick={backAction}
         disabled={loading || done}>
         Takaisin
@@ -34,6 +35,7 @@ export function FormButtons({ backAction, loading, done, submitDisabled }: FormB
         type='submit'
         disabled={loading || done || submitDisabled}
         variant='contained'
+        color='secondary'
         startIcon={
           <RenderOnCondition
             condition={!loading}
