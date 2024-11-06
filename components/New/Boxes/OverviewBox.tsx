@@ -21,6 +21,7 @@ import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
 import { Button } from '../Button';
 import { VPCloseOnActionButton } from '@/components/UI/VPCloseOnActionButton';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { useMemo } from 'react';
 
 type OverviewBoxProps = {
   title: string;
@@ -78,6 +79,7 @@ export function OverviewBox({
                     </IconButton>
                   </Link>
                 </RenderOnCondition>
+
                 <RenderOnCondition condition={deleteUrl}>
                   <Link href={deleteUrl}>
                     <IconButton>
@@ -85,6 +87,7 @@ export function OverviewBox({
                     </IconButton>
                   </Link>
                 </RenderOnCondition>
+
                 <RenderOnCondition condition={deleteAction != undefined}>
                   <ToggleProvider>
                     <ToggleProvider.MUITarget>
@@ -157,16 +160,22 @@ export const OverviewImage = ({
   src,
   mediumScreenWidth = 150,
   smallScreenWidth = 100,
+  ...props
 }: OverviewImageProps) => {
-  const classes = [
-    'relative aspect-square flex-shrink-0 rounded-full overflow-hidden border border-slate-200 xs:w-[100px] xs:h-[100px] md:w-[200px] md:h-[200px]',
-    `md:w-[${mediumScreenWidth}px] md:h-[${mediumScreenWidth}px] xs:w-[${smallScreenWidth}px] xs:h-[${smallScreenWidth}px]`,
-  ];
+  const classes = useMemo(
+    () => [
+      'cursor-pointer relative aspect-square flex-shrink-0 rounded-full overflow-hidden border border-slate-200 xs:w-[100px] xs:h-[100px] md:w-[200px] md:h-[200px]',
+      `md:w-[${mediumScreenWidth}px] md:h-[${mediumScreenWidth}px] xs:w-[${smallScreenWidth}px] xs:h-[${smallScreenWidth}px]`,
+    ],
+    [mediumScreenWidth, smallScreenWidth]
+  );
 
   return (
     <div
+      {...props}
       className={classes[0]}
-      style={noScrollBar}>
+      style={noScrollBar}
+      title='Valitse pääkuva'>
       <Image
         src={src}
         fill={true}

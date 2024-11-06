@@ -1,9 +1,13 @@
-import { OverviewBox } from '@/components/New/Boxes/OverviewBox';
+import { OverviewBox, OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { Spacer } from '@/components/UI/Spacer';
+import { ContentBox } from '@/components/New/Boxes/ContentBox';
+import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
+import { DialogContent, DialogTitle } from '@mui/material';
+import { SelectImageDialog } from '@/components/New/Boxes/SelectImageDialog';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -25,6 +29,7 @@ export async function PropertyOverview({
 }: PropertyOverviewProps) {
   const [mainImageId] =
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
+
   const [buildingType] = await db('ref_buildingTypes')
     .where({ id: property.buildingTypeId })
     .pluck('name');
@@ -40,6 +45,22 @@ export async function PropertyOverview({
     (('appartmentNumber' in property && property.appartmentNumber) || '');
 
   return (
+    <ContentBox>
+      <Spacer full>
+        <DialogPrefab
+          target={<SelectImageDialog parentId={property.id} />}
+          trigger={
+            <OverviewImage
+              src={
+                (mainImageId && `/api/protected/files/${mainImageId}`) ||
+                '/img/Properties/default-bg.jpg'
+              }
+            />
+          }
+        />
+      </Spacer>
+    </ContentBox>
+    /*
     <OverviewBox
       showUrl={showUrl}
       deleteUrl={`/dashboard/properties/${property.id}/delete`}
@@ -92,5 +113,6 @@ export async function PropertyOverview({
       editContentText={editContentText}
       editIcon={editIcon}
     />
+    */
   );
 }

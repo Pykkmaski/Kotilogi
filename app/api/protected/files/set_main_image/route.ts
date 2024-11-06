@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
     }).parse(data);
 
     const { objectId, imageId } = data;
-    const [idOfPrevious] = await db('data_mainImages').where({ objectId, imageId }).pluck('id');
+
+    const [idOfPrevious] = await db('data_mainImages').where({ objectId }).pluck('id');
 
     if (idOfPrevious) {
       await db('data_mainImages').where({ id: idOfPrevious }).update({ imageId });
