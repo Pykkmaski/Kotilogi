@@ -9,14 +9,17 @@ import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
 import { getExtraEventData } from 'kotilogi-app/dataAccess/events/getExtraEventData';
 import { EventDetails } from './_EventDetails/EventDetails';
+import { redirect } from 'next/navigation';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
 
   //Fetch data back-to-back to conserve db connection pool.
   const [eventData] = await getEvents({ id: eventId });
+  if (!eventData) redirect(`/dashboard/properties/${params.propertyId}/events`);
+
   const [extraData] = await getExtraEventData(eventId);
-  console.log(extraData);
+
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
     .where({ parentId: eventId })

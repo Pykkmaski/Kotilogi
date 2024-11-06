@@ -5,7 +5,6 @@ import { Button } from '@/components/New/Button';
 import { isDefined } from '../util';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useEventTypeContext } from '../EventTypeProvider';
-import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
 import { VPDialog } from '@/components/UI/VPDialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,6 +16,7 @@ import { SurfaceSelector } from '../Selectors/SurfaceSelector';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { ToggleProvider } from '@/components/Util/ToggleProvider';
 
 export function MainDataForm({ editing }) {
   const { updateMainData, mainData, cancel, onSubmit, typeData, status, selectedSurfaceIds } =
@@ -65,8 +65,8 @@ export function MainDataForm({ editing }) {
           Peruuta
         </Button>
 
-        <VisibilityProvider>
-          <VisibilityProvider.Target>
+        <ToggleProvider>
+          <ToggleProvider.Target>
             <VPDialog>
               <DialogTitle>Vahvista tapahtuma</DialogTitle>
               <DialogContent>
@@ -76,14 +76,14 @@ export function MainDataForm({ editing }) {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <VisibilityProvider.Trigger>
+                <ToggleProvider.Trigger>
                   <Button
                     disabled={status == 'loading' || status == 'done'}
                     variant='text'
                     color='secondary'>
                     Peruuta
                   </Button>
-                </VisibilityProvider.Trigger>
+                </ToggleProvider.Trigger>
 
                 <Button
                   disabled={status == 'loading' || status == 'done'}
@@ -102,9 +102,9 @@ export function MainDataForm({ editing }) {
                 </Button>
               </DialogActions>
             </VPDialog>
-          </VisibilityProvider.Target>
+          </ToggleProvider.Target>
 
-          <VisibilityProvider.Trigger>
+          <ToggleProvider.Trigger>
             <Button
               variant='contained'
               color='secondary'
@@ -116,8 +116,8 @@ export function MainDataForm({ editing }) {
                 Päivitä
               </RenderOnCondition>
             </Button>
-          </VisibilityProvider.Trigger>
-        </VisibilityProvider>
+          </ToggleProvider.Trigger>
+        </ToggleProvider>
       </Spacer>
     </form>
   );

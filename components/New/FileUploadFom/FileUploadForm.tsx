@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 import { FormButtons } from '../Forms/FormBase';
 import { ProgressBar } from '../ProgressBar';
 import { createFileAction } from 'kotilogi-app/app/dashboard/files/actions';
+import { useFormOnChangeFiles } from '@/hooks/useFormOnChangeFiles';
+import { FileList } from '../FileList';
 
 type FileUploadFormProps = {
   fileParentId: string;
@@ -16,6 +18,7 @@ type FileUploadFormProps = {
 
 export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps) {
   const { updateData, status, setStatus, files, router } = useForm({});
+
   const [filesUploaded, setFilesUploaded] = useState(0);
 
   const upload = async e => {
@@ -64,6 +67,8 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
         loading={loading || status == -1}
         backAction={() => router.back()}
       />
+
+      <FileList files={files} />
     </form>
   );
 }

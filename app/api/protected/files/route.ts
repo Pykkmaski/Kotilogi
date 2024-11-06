@@ -5,7 +5,7 @@ import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { handleServerError, response } from '../../_utils/responseUtils';
 import { deleteObject } from 'kotilogi-app/dataAccess/objects';
 
-import { uploadFiles } from 'kotilogi-app/dataAccess/files';
+import { setDefaultMainImage, uploadFiles } from 'kotilogi-app/dataAccess/files';
 import { revalidatePath } from 'next/cache';
 
 export async function GET(req: NextRequest) {
@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     await uploadFiles([file], parentId);
+    await setDefaultMainImage(parentId);
     revalidatePath('/dashboard');
     return response('success', null, 'Tiedostot lisätty onnistuneesti!');
   } catch (err) {

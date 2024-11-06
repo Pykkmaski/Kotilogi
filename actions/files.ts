@@ -17,6 +17,12 @@ export async function ADeleteFile(id: string) {
   return 0;
 }
 
+/**
+ *@deprecated
+ * @param objectId
+ * @param imageId
+ * @returns
+ */
 export async function ASetMainImage(objectId: string, imageId: string) {
   const [previousMainImage] = await db('data_mainImages').where({ objectId });
 
@@ -35,4 +41,21 @@ export async function ASetMainImage(objectId: string, imageId: string) {
 
   revalidatePath('/newDashboard/*');
   return 0;
+}
+
+export async function setMainImageAction(objectId: string, imageId: string) {
+  const [idOfPrevious] = await db('data_mainImages').where({ objectId }).pluck('id');
+
+  if (idOfPrevious) {
+    await db('data_mainImages').where({ id: idOfPrevious }).update({ imageId });
+  } else {
+    console.log('Setting main image...');
+    await db('data_mainImages').insert({ objectId, imageId });
+  }
+  revalidatePath('/dashboard/');
+
+  return {
+    status: 200,
+    statusText: 'Pääkuvan vaihto onnistui!',
+  };
 }

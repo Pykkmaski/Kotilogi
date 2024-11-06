@@ -6,8 +6,12 @@ import { LabelGrid } from '@/components/New/LabelGrid';
 import { Spacer } from '@/components/UI/Spacer';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
-import { DialogContent, DialogTitle } from '@mui/material';
-import { SelectImageDialog } from '@/components/New/Boxes/SelectImageDialog';
+import { DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
+import { SecondaryHeading } from '@/components/New/Typography/Headings';
+import { Delete, Edit } from '@mui/icons-material';
+import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import Link from 'next/link';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -27,8 +31,18 @@ export async function PropertyOverview({
   showUrl,
   owners,
 }: PropertyOverviewProps) {
+  const [{ imageCount }] = await db('data_files')
+    .join('data_objects', { 'data_objects.id': 'data_files.id' })
+    .where({ parentId: property.id })
+    .count('*', { as: 'imageCount' });
+
   const [mainImageId] =
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
+
+  const images = await db('data_files')
+    .join('data_objects', { 'data_objects.id': 'data_files.id' })
+    .where({ parentId: property.id, type: 'image/jpeg' })
+    .select('data_files.id as id', 'data_objects.parentId as parentId');
 
   const [buildingType] = await db('ref_buildingTypes')
     .where({ id: property.buildingTypeId })
@@ -44,20 +58,96 @@ export async function PropertyOverview({
     ' ' +
     (('appartmentNumber' in property && property.appartmentNumber) || '');
 
+  console.log(images);
   return (
     <ContentBox>
-      <Spacer full>
-        <DialogPrefab
-          target={<SelectImageDialog parentId={property.id} />}
-          trigger={
-            <OverviewImage
-              src={
-                (mainImageId && `/api/protected/files/${mainImageId}`) ||
-                '/img/Properties/default-bg.jpg'
-              }
-            />
-          }
-        />
+      <Spacer
+        full
+        gap='medium'
+        dir='row'>
+        {images.length > 0 ? (
+          <DialogPrefab
+            target={<SelectImageDialog images={images} />}
+            trigger={
+              <OverviewImage
+                src={
+                  (mainImageId && `/api/protected/files/${mainImageId}`) ||
+                  '/img/Properties/default-bg.jpg'
+                }
+              />
+            }
+          />
+        ) : (
+          <OverviewImage
+            src={
+              (mainImageId && `/api/protected/files/${mainImageId}`) ||
+              '/img/Properties/default-bg.jpg'
+            }
+          />
+        )}
+
+        <div className='flex flex-col w-full gap-2'>
+          <Spacer
+            dir='row'
+            justify='between'
+            items='center'
+            grow
+            full>
+            <Link href={`/dashboard/properties/${property.id}`}>
+              <SecondaryHeading>{title}</SecondaryHeading>
+            </Link>
+
+            <Spacer
+              dir='row'
+              gap='small'>
+              <Link href={editUrl}>
+                <IconButton color='secondary'>
+                  <Edit />
+                </IconButton>
+              </Link>
+
+              <Link href={`/dashboard/properties/${property.id}/delete`}>
+                <IconButton color='warning'>
+                  <Delete />
+                </IconButton>
+              </Link>
+            </Spacer>
+          </Spacer>
+          <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
+          <div className='w-full xs:hidden md:block'>
+            <LabelGrid
+              header={
+                <div className='flex gap-2 items-center'>
+                  <h1 className='text-sm font-semibold'>Tiedot</h1>
+                </div>
+              }>
+              <LabelGrid.Entry
+                label={'Kiinteistötyyppi'}
+                value={property.propertyTypeName}
+              />
+
+              <LabelGrid.Entry
+                label='Rakennustyyppi'
+                value={buildingType}
+              />
+
+              <LabelGrid.Entry
+                label='Rakennusvuosi'
+                value={property.buildYear || 'Ei määritelty'}
+              />
+
+              <LabelGrid.Entry
+                label={'Omistajat'}
+                value={owners.length}
+              />
+
+              <LabelGrid.Entry
+                label='Tapahtumien lukumäärä'
+                value={numEvents}
+              />
+            </LabelGrid>
+          </div>
+        </div>
       </Spacer>
     </ContentBox>
     /*

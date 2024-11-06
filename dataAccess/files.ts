@@ -7,6 +7,9 @@ import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';
 import { FileDataType } from './types';
 import { Knex } from 'knex';
+import axios from 'axios';
+import { revalidatePath } from 'next/cache';
+import { setMainImageAction } from '@/actions/files';
 
 const createFileBuffer = async (file: File) => {
   const bytes = await file.arrayBuffer();
@@ -83,5 +86,23 @@ export async function deleteFile(id: string) {
     await writeFile(uploadPath + filename, fileBackup);
 
     return -1;
+  }
+}
+
+/**Sets the most recent uploaded image as the default image of an object, if it doesn't have one defined already. */
+export async function setDefaultMainImage(objectId: string) {
+  const [currentMainImage] = await db('data_mainImages').where({ objectId }).pluck('id');
+  console.log(currentMainImage);
+  if (currentMainImage) return;
+
+  const [image] = await db('data_files')
+    .join('data_objects', { 'data_objects.id': 'data_files.id' })
+    .where({ parentId: objectId, type: 'image/jpeg' })
+    .orderBy('data_objects.timestamp', 'asc')
+    .pluck('data_files.id');
+
+  if (image) {
+    await setMainImageAction(objectId, image);
+    revalidatePath('/dashboard/');
   }
 }

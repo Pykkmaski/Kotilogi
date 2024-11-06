@@ -11,6 +11,8 @@ import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 import { MenuPrefab, VPMenu } from '../UI/VPMenu';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
+import { setMainImageAction } from '@/actions/files';
+import { useRouter } from 'next/navigation';
 
 type FileCardProps = {
   file: FileDataType;
@@ -20,6 +22,7 @@ type FileCardProps = {
 export function FileCard({ file, isMain }: FileCardProps) {
   const src = `/api/protected/files/${file.id}`;
   const [status, setStatus] = useState(0);
+  const router = useRouter();
 
   const deleteFile = useCallback(async () => {
     const c = confirm('Haluatko varmasti poistaa valitsemasi tiedoston?');
@@ -31,6 +34,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     const response = await deleteFileAction(file.id);
     if (response.status === 200) {
       toast.success(response.statusText);
+      router.refresh();
     } else {
       toast.error(response.statusText);
     }
@@ -46,11 +50,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     setStatus(FormStatus.LOADING);
     const loadingToast = toast.loading('Päivitetään pääkuvaa...');
 
-    await axios
-      .post('/api/protected/files/set_main_image', {
-        objectId: file.parentId,
-        imageId: file.id,
-      })
+    await setMainImageAction(file.parentId, file.id)
       .then(res => {
         if (res.status == 200) {
           toast.success(res.statusText);

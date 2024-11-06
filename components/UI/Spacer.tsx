@@ -1,7 +1,7 @@
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import React, { useMemo } from 'react';
 
-type GapWidthType = 'small' | 'medium' | 'large';
+type GapWidthType = 'small' | 'medium' | 'large' | 'none';
 type AlignType = 'center' | 'start' | 'end' | 'baseline';
 type JustifyType = 'center' | 'between' | 'evenly' | 'start' | 'end';
 type DirectionType = 'row' | 'col';
@@ -11,6 +11,7 @@ const gaps: Record<GapWidthType, string> = {
   small: 'xs:gap-0 sm:gap-1',
   medium: 'xs:gap-2 sm:gap-4',
   large: 'xs:gap-4 sm:gap-8',
+  none: 'gap-0',
 };
 
 export type SpacerProps = React.PropsWithChildren & {
