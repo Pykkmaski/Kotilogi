@@ -11,16 +11,18 @@ import { Knex } from 'knex';
 const createFileBuffer = async (file: File) => {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
-  const metadata = await sharp(buffer).metadata();
 
-  //Resize image-files
-  const outputBuffer: Buffer =
-    file.type == 'image/jpeg'
-      ? metadata.width > 1000
+  let outputBuffer: Buffer;
+  if (file.type === 'image/jpeg') {
+    const metadata = await sharp(buffer).metadata();
+    outputBuffer =
+      metadata.width > 1000
         ? await sharp(buffer).rotate(0).resize(1000).jpeg({ quality: 80 }).toBuffer()
         : //Leave images narrower than 1000px as they are. Just lower the quality.
-          await sharp(buffer).jpeg({ quality: 80 }).toBuffer()
-      : buffer;
+          await sharp(buffer).jpeg({ quality: 80 }).toBuffer();
+  } else {
+    outputBuffer = buffer;
+  }
 
   return outputBuffer;
 };
@@ -33,6 +35,7 @@ export async function uploadFiles(files: File[], parentId: string) {
     parentId,
     async (objId, currentIndex, trx) => {
       const file = files[currentIndex];
+      console.log(file.type);
       const outputBuffer = await createFileBuffer(file);
       const filename = Date.now() + fileNameTimestampSeparator + file.name;
 

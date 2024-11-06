@@ -6,15 +6,10 @@ import { getRooms } from '../../actions';
 import { useQuery } from '@tanstack/react-query';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import Button from '@mui/material/Button';
 
 export const WindowRenovationContent = () => {
-  const {
-    extraData: windowData,
-    entries,
-    addEntry,
-    removeEntry,
-    updateEntry,
-  } = useEventFormContext();
+  const { extraData: windowData, addEntry } = useEventFormContext();
 
   return (
     <div className='flex flex-col gap-2'>

@@ -38,7 +38,7 @@ export const RoofEventContent = () => {
           <Input
             name='neliometrit'
             type='number'
-            placeholder='Anna katon kaltevuus...'
+            placeholder='Anna katto neliömetreinä...'
             value={extraData && extraData.neliometrit}
           />
         }

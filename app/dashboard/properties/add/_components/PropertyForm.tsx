@@ -28,6 +28,7 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { VPDialog } from '@/components/UI/VPDialog';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
+import { useMemo } from 'react';
 
 enum FormStatus {
   IDLE = 0,
@@ -47,7 +48,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
     data,
     router,
     updateData,
-    updateChanges,
+
     resetData,
     updatePropertyInfo,
     onSubmit,
@@ -58,13 +59,24 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
   const loading = status === FormStatus.LOADING;
   const done = status === FormStatus.DONE;
 
-  const submitDisabled =
-    loading ||
-    done ||
-    (data.propertyTypeId == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') &&
-      (!(data as TODO).houseNumber || !(data as TODO).propertyNumber)) ||
-    !(data as TODO).streetAddress ||
-    !(data as TODO).zipCode;
+  const submitDisabled = useMemo(() => {
+    return (
+      loading ||
+      done ||
+      (data.propertyTypeId == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') &&
+        (!(data as TODO).houseNumber || !(data as TODO).propertyNumber)) ||
+      !(data as TODO).streetAddress ||
+      !(data as TODO).zipCode
+    );
+  }, [
+    loading,
+    done,
+    data.propertyTypeId,
+    refs.propertyTypes,
+    (data as TODO).propertyNumber,
+    (data as TODO).streetAddress,
+    (data as TODO).zipCode,
+  ]);
 
   return (
     <form
@@ -72,7 +84,6 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
       onSubmit={onSubmit}
       onChange={e => {
         updateData(e);
-        updateChanges(true);
       }}
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
@@ -114,7 +125,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
               </Button>
             </ToggleProvider.Trigger>
 
-            <ToggleProvider.Target>
+            <ToggleProvider.MUITarget>
               <VPDialog>
                 <DialogTitle>Vahvista talo</DialogTitle>
                 <DialogContent>
@@ -147,7 +158,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
                   </Button>
                 </DialogActions>
               </VPDialog>
-            </ToggleProvider.Target>
+            </ToggleProvider.MUITarget>
           </ToggleProvider>
         </div>
       </RenderOnCondition>

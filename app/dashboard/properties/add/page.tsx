@@ -26,7 +26,6 @@ export default async function AddPropertyPage() {
   }
 
   const refs = await getPropertyRefs();
-  console.log(refs);
 
   return (
     <main className='flex justify-center w-full'>

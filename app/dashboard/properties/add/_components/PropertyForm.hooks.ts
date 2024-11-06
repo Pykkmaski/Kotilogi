@@ -6,12 +6,12 @@ import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { createPropertyAction, updatePropertyAction } from './actions';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
+import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 
 export function usePropertyForm(
   property: HouseDataType | AppartmentDataType | undefined,
   refs: TODO
 ) {
-  const [hasChanges, setHasChanges] = useState(false);
   const address = property && property.streetAddress.split(' ');
 
   let streetName;
@@ -23,7 +23,7 @@ export function usePropertyForm(
     streetName = address.join(' ');
   }
 
-  const { data, updateData, resetData } = useFormOnChangeObject(
+  const { data, updateData, resetData, hasChanges } = useFormOnChangeObject(
     (property !== undefined && {
       ...property,
       streetAddress: streetName,
@@ -32,25 +32,27 @@ export function usePropertyForm(
       propertyTypeId: refs.propertyTypes.find(type => type.name === 'Kiinteistö').id.toString(),
     }
   );
+
   const [isValid, setIsValid] = useState(false);
   const [status, setStatus] = useState(FormStatus.IDLE);
 
   const router = useRouter();
 
-  const updatePropertyInfo = (info: TODO, valid: boolean = false) => {
-    if (!info) {
-      toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
-    } else {
-      resetData({
-        ...data,
-        ...info,
-      });
-    }
+  const updatePropertyInfo = useCallback(
+    (info: TODO, valid: boolean = false) => {
+      if (!info) {
+        toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
+      } else {
+        resetData({
+          ...data,
+          ...info,
+        });
+      }
 
-    setIsValid(valid);
-  };
-
-  const updateChanges = (state: boolean) => setHasChanges(state);
+      setIsValid(valid);
+    },
+    [setIsValid, data]
+  );
 
   const onSubmit = useCallback(
     async (e: any) => {
@@ -91,7 +93,6 @@ export function usePropertyForm(
     updateData,
     resetData,
     updatePropertyInfo,
-    updateChanges,
     onSubmit,
   };
 }
