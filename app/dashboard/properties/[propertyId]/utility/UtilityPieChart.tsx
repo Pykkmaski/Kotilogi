@@ -56,7 +56,7 @@ export function UtilityPieChart() {
   ) : (
     <BlankChart
       variant='pie'
-      width={'40%'}
+      width={chartWidth}
       height={300}
       dummyLen={12}
     />

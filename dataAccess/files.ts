@@ -10,6 +10,8 @@ import { Knex } from 'knex';
 import axios from 'axios';
 import { revalidatePath } from 'next/cache';
 import { setMainImageAction } from '@/actions/files';
+import { verifyAuthorization } from 'kotilogi-app/app/api/_utils/verifyAuthorization';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 const createFileBuffer = async (file: File) => {
   const bytes = await file.arrayBuffer();
@@ -31,15 +33,36 @@ const createFileBuffer = async (file: File) => {
 };
 
 export async function uploadFiles(files: File[], parentId: string) {
+  //TODO: prevent uploading more files if the user already has uploaded a certain amount.
+  console.log('Nonii-i');
+  const session = await verifySession();
+
+  const [{ totalFileSizeUploaded }] = await db('data_objects')
+    .join('data_files', { 'data_files.id': 'data_objects.id' })
+    .where({ authorId: session.user.id })
+    .sum('data_files.size', { as: 'totalFileSizeUploaded' });
+  const fileBuffers: Buffer[] = [];
+  for (const file of files) {
+    fileBuffers.push(await createFileBuffer(file));
+  }
+
+  const sizeOfFilesToBeUploaded = fileBuffers.reduce((acc, cur) => (acc += cur.length), 0);
+  const nextFileSizeUploaded = sizeOfFilesToBeUploaded + parseInt(totalFileSizeUploaded);
+
+  if (nextFileSizeUploaded > 2e7) {
+    throw new Error(
+      'Tiedostoja ei voida lähettää, koska yhteenlaskettu ladattujen tiedostojen koko ylittää suurimman sallitun rajan!'
+    );
+  }
+
   const uploadedFileNames: string[] = [];
 
   await batchCreateObjects(
     files.length,
     parentId,
     async (objId, currentIndex, trx) => {
+      const outputBuffer = fileBuffers[currentIndex];
       const file = files[currentIndex];
-      console.log(file.type);
-      const outputBuffer = await createFileBuffer(file);
       const filename = Date.now() + fileNameTimestampSeparator + file.name;
 
       await trx('data_files').insert({

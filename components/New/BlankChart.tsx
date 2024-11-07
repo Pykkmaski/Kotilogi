@@ -1,6 +1,15 @@
 'use client';
 
-import { Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import {
+  Area,
+  AreaChart,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+} from 'recharts';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
 import { useMemo } from 'react';
 
@@ -39,27 +48,27 @@ export function BlankChart({
       <ResponsiveContainer
         width={width}
         height={height}>
-        <>
-          {variant === 'pie' ? (
-            <PieChart>
-              <Pie
-                animationDuration={200}
-                data={dummyData}
-                dataKey='dummy'>
-                {dummyData.map((d, i) => {
-                  return <Cell key={`no-data-cell-${i}`} />;
-                })}
-              </Pie>
-            </PieChart>
-          ) : (
-            <LineChart data={dummyData}>
-              <Line
-                dataKey={'dummy'}
-                fill={'gray'}
-              />
-            </LineChart>
-          )}
-        </>
+        {variant === 'pie' ? (
+          <PieChart>
+            <Pie
+              animationDuration={200}
+              data={dummyData}
+              dataKey='dummy'>
+              {dummyData.map((d, i) => {
+                return <Cell key={`no-data-cell-${i}`} />;
+              })}
+            </Pie>
+          </PieChart>
+        ) : (
+          <AreaChart data={dummyData}>
+            <Area
+              dataKey={'dummy'}
+              fill={'gray'}
+              stroke='none'
+              type='monotone'
+            />
+          </AreaChart>
+        )}
       </ResponsiveContainer>
     </div>
   );
