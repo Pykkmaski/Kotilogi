@@ -11,12 +11,20 @@ export function UtilityPieChart() {
   const { data } = useUtilityProviderContext();
   const [chartWidth, setChartWidth] = useState<'100%' | '30%'>('30%');
   const aggregatedData = useMemo(() => arraysToValues(aggregate_old(data)), [data]);
+  const total = useMemo(
+    () => aggregatedData.reduce((acc, cur) => (acc += cur.monetaryValue), 0),
+    [aggregatedData]
+  );
+
+  const containerClassName = useMemo(
+    () => ['flex flex-col', `w-[${chartWidth}]`, 'h-[300px]'].join(' '),
+    [chartWidth]
+  );
 
   useEffect(() => {
     //Only works when the page is loaded.
     setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '30%'));
   }, [window.innerWidth]);
-
   return (
     <ResponsiveContainer
       width={chartWidth}

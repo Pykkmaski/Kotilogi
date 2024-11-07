@@ -6,6 +6,7 @@ import { FormControl, Input } from '@/components/UI/FormUtils';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { useMemo, useState } from 'react';
 import { Spacer } from '@/components/UI/Spacer';
+import { FileList } from '@/components/New/FileList';
 
 const ContractorInput = () => {
   const contractors = ['Vesivek', 'Blaablaa'];
@@ -32,19 +33,27 @@ const ContractorInput = () => {
 };
 
 const FilesField = () => {
+  const { files, removeFile } = useEventFormContext();
+
   return (
-    <FormControl
-      helper='Voit lisätä tapahtumaan liittyviä kuvia, tai PDF-tiedostoja.'
-      label='Liitteet'
-      control={
-        <Input
-          type='file'
-          name='file'
-          accept='image/jpeg,application/pdf'
-          multiple
-        />
-      }
-    />
+    <div className='flex flex-col gap-2'>
+      <FormControl
+        helper='Voit lisätä tapahtumaan liittyviä kuvia, tai PDF-tiedostoja.'
+        label='Liitteet'
+        control={
+          <Input
+            type='file'
+            name='file'
+            accept='image/jpeg,application/pdf'
+            multiple
+          />
+        }
+      />
+      <FileList
+        files={files}
+        onDelete={file => removeFile(file.name)}
+      />
+    </div>
   );
 };
 const ExpensesField = () => {

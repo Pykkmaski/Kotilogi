@@ -13,6 +13,8 @@ type EventFormProviderProps = {
   status: StatusType;
   onSubmit: (e) => void;
   cancel: () => void;
+  files: File[];
+  removeFile: (name: string) => void;
   /**The main event data. Not including the type-id references. */
   mainData?: TODO;
   updateMainData: (e) => void;

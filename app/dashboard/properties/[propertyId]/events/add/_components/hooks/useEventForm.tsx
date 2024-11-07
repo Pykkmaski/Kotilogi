@@ -13,7 +13,7 @@ import { usePreventDefault } from '@/hooks/usePreventDefault';
 
 export function useEventForm(propertyId: string, eventData: TODO, initialExtraData?: TODO) {
   const { refs } = useEventTypeContext();
-  const { mainData, updateMainData, mainDataHasChanges, resetMainData, files } =
+  const { mainData, updateMainData, mainDataHasChanges, resetMainData, files, removeFile } =
     useMainData(eventData);
 
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
@@ -114,7 +114,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
     selectedSurfaceIds,
     toggleSurfaceId,
     refs,
-
+    removeFile,
     resetSelectedSurfaceIds,
     showMainDataForm,
     showExtraDataForm,

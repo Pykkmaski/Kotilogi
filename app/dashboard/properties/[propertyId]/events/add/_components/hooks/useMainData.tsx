@@ -32,6 +32,7 @@ export const useMainData = (eventData: TODO) => {
     onChange: updateMainData,
     hasChanges: mainDataHasChanges,
     resetData: resetMainData,
+    removeFile,
     files,
   } = useFormOnChange(initMainData(eventData));
 
@@ -42,5 +43,6 @@ export const useMainData = (eventData: TODO) => {
     mainDataHasChanges,
     resetMainData,
     files,
+    removeFile,
   };
 };

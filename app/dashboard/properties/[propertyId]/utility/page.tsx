@@ -29,7 +29,6 @@ export default async function UtilityPage({ params, searchParams }) {
         <ControlBar />
         <div className='flex flex-nowrap xs:flex-col xl:flex-row w-full gap-4 bg-white shadow-sm py-2 xs:items-center xl:items-none'>
           <UtilityPieChart />
-
           <UtilityLineChart />
         </div>
         <DataTable />
