@@ -48,7 +48,7 @@ export default async function PropertyPage({ params }) {
           <EventPreview propertyId={property.id} />
         </div>
 
-        <div className='xs:w-full lg:max-w-[50%]'>
+        <div className='xs:w-full lg:max-w-[50%] h-full'>
           <UtilityProvider
             data={utilityData}
             year={null}

@@ -22,6 +22,7 @@ const getPropertyDTO = <T extends AppartmentDataType | HouseDataType>(property: 
 
 const getPropertyTableNameByType = async (typeId: number, trx: Knex.Transaction) => {
   const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
+  console.log(typeId, houseTypeId);
   return typeId == houseTypeId ? 'data_houses' : 'data_appartments';
 };
 
@@ -101,6 +102,7 @@ export async function createProperty(
     await trx('data_properties').insert(data_properties);
 
     const propTableName = await getPropertyTableNameByType(data.propertyTypeId, trx);
+    console.log(propTableName);
     const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));
     await trx(propTableName).insert({
       ...propObj,

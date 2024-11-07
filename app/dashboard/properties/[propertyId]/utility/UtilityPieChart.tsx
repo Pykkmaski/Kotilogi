@@ -25,45 +25,40 @@ export function UtilityPieChart() {
     //Only works when the page is loaded.
     setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '30%'));
   }, [window.innerWidth]);
-  return (
+
+  return data.length > 0 ? (
     <ResponsiveContainer
       width={chartWidth}
       height={300}>
-      {data.length > 0 ? (
-        <PieChart>
-          <Pie
-            animationDuration={200}
-            data={aggregatedData}
-            dataKey={'amount'}>
-            {aggregatedData.map((d, i) => {
-              return (
-                <Cell
-                  key={`data-${d.typeLabel}-${i}`}
-                  fill={
-                    d.typeLabel == 'Lämmitys'
-                      ? colors.heat
-                      : d.typeLabel == 'Vesi'
-                      ? colors.water
-                      : d.typeLabel == 'Sähkö'
-                      ? colors.electric
-                      : 'gray'
-                  }>
-                  <Label
-                    value='Kalja'
-                    position={'center'}
-                  />
-                </Cell>
-              );
-            })}
-          </Pie>
-        </PieChart>
-      ) : (
-        <BlankChart
-          variant='pie'
-          width={'40%'}
-          height={300}
-        />
-      )}
+      <PieChart>
+        <Pie
+          animationDuration={200}
+          data={aggregatedData}
+          dataKey={'amount'}>
+          {aggregatedData.map((d, i) => {
+            return (
+              <Cell
+                key={`data-${d.typeLabel}-${i}`}
+                fill={
+                  d.typeLabel == 'Lämmitys'
+                    ? colors.heat
+                    : d.typeLabel == 'Vesi'
+                    ? colors.water
+                    : d.typeLabel == 'Sähkö'
+                    ? colors.electric
+                    : 'gray'
+                }></Cell>
+            );
+          })}
+        </Pie>
+      </PieChart>
     </ResponsiveContainer>
+  ) : (
+    <BlankChart
+      variant='pie'
+      width={'40%'}
+      height={300}
+      dummyLen={12}
+    />
   );
 }

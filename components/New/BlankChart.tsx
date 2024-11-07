@@ -1,7 +1,8 @@
 'use client';
 
-import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, XAxis } from 'recharts';
+import { Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
+import { useMemo } from 'react';
 
 type BlankChartProps = {
   width: number | string;
@@ -10,20 +11,25 @@ type BlankChartProps = {
   dummyLen?: number;
 };
 
-export function BlankChart({ width, height, variant = 'bar', dummyLen = 3 }: BlankChartProps) {
-  const genDummyData = () => {
+export function BlankChart({
+  width = 100,
+  height = 100,
+  variant = 'bar',
+  dummyLen = 3,
+}: BlankChartProps) {
+  const dummyData = useMemo(() => {
     const randDummy = () => ({ dummy: Math.round(Math.random() * 100) });
     const arr = [];
     for (let i = 0; i < dummyLen; ++i) {
       arr.push(randDummy());
     }
     return arr;
-  };
-  const dummyData = genDummyData();
+  }, [dummyLen]);
 
   const titleClasses = [
     'text-lg z-20 absolute font-semibold p-2 text-white bg-black rounded-md shadow-md',
   ];
+
   return (
     <div className='relative flex items-center justify-center w-full h-full'>
       <RenderOnCondition condition={variant == 'bar'}>
@@ -34,7 +40,7 @@ export function BlankChart({ width, height, variant = 'bar', dummyLen = 3 }: Bla
         width={width}
         height={height}>
         <>
-          <RenderOnCondition condition={variant == 'pie'}>
+          {variant === 'pie' ? (
             <PieChart>
               <Pie
                 animationDuration={200}
@@ -45,16 +51,14 @@ export function BlankChart({ width, height, variant = 'bar', dummyLen = 3 }: Bla
                 })}
               </Pie>
             </PieChart>
-          </RenderOnCondition>
-
-          <RenderOnCondition condition={variant == 'bar'}>
-            <BarChart data={dummyData}>
-              <Bar
+          ) : (
+            <LineChart data={dummyData}>
+              <Line
                 dataKey={'dummy'}
                 fill={'gray'}
               />
-            </BarChart>
-          </RenderOnCondition>
+            </LineChart>
+          )}
         </>
       </ResponsiveContainer>
     </div>

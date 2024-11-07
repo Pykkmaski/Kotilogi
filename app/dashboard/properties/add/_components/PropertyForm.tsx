@@ -82,9 +82,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
     <form
       id={formId}
       onSubmit={onSubmit}
-      onChange={e => {
-        updateData(e);
-      }}
+      onChange={updateData}
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
         value={{

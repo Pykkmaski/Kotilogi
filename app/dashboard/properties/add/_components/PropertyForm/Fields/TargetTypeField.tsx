@@ -10,7 +10,7 @@ import { OptionSelector } from '@/components/Feature/OptionSelector';
 
 export function TargetTypeField() {
   const { property: data, refs } = usePropertyFormContext();
-
+  console.log(data.propertyTypeId);
   return (
     <Fieldset legend='Kohde'>
       <FormControl
