@@ -9,6 +9,7 @@ import db from 'kotilogi-app/dbconfig';
 import { verifyPassword } from './users';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { z } from 'zod';
+import jwt from 'jsonwebtoken';
 
 const getPropertyDTO = <T extends AppartmentDataType | HouseDataType>(property: T) => {
   return {

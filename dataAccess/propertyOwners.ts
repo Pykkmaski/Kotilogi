@@ -1,5 +1,7 @@
 import db from 'kotilogi-app/dbconfig';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
+import jwt from 'jsonwebtoken';
+require('dotenv').config();
 
 export async function addPropertyOwner(userId: string, propertyId: string) {
   //Only an owner of the property can add new owners.
