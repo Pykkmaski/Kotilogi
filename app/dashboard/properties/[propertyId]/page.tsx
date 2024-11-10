@@ -9,8 +9,8 @@ import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 import { UtilityProvider } from './utility/UtilityContext';
-import { getUtilityData } from 'kotilogi-app/dataAccess/utilities';
 import { properties } from 'kotilogi-app/dataAccess/properties';
+import { utilities } from 'kotilogi-app/dataAccess/utilities';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -22,12 +22,10 @@ export default async function PropertyPage({ params }) {
     .join('data_users', { 'data_users.id': 'data_propertyOwners.userId' })
     .pluck('email');
 
-  const utilityData = await getUtilityData(data.id);
-
+  const utilityData = await utilities.get(data.id);
   const files = await getFiles({ parentId: id }, 4);
-
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
-
+  console.log(utilityData);
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>

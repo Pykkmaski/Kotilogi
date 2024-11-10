@@ -1,23 +1,24 @@
 import { Main } from '@/components/New/Main';
-import { getUtilityData, getUtilityYears } from 'kotilogi-app/dataAccess/utilities';
+
 import { UtilityPieChart } from './UtilityPieChart';
 import { UtilityProvider } from './UtilityContext';
 import { UtilityLineChart } from './UtilityLineChart';
 import db from 'kotilogi-app/dbconfig';
 import { DataTable } from './DataTable';
 import { ControlBar } from './ControlBar';
+import { utilities } from 'kotilogi-app/dataAccess/utilities';
 
 export default async function UtilityPage({ params, searchParams }) {
   const { year, types } = searchParams;
   const propertyId = params.propertyId;
-  const utilityData = await getUtilityData(
+  const utilityData = await utilities.get(
     propertyId,
     year && parseInt(year),
     (types && types.split(';')) || []
   );
   const allTypes = await db('ref_utilityTypes').pluck('name');
-  const years = await getUtilityYears(propertyId);
-
+  const years = await utilities.getYears(propertyId);
+  console.log(utilityData);
   return (
     <UtilityProvider
       data={utilityData}

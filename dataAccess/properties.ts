@@ -154,6 +154,13 @@ class Properties {
     const properties = await Promise.all(promises);
     return properties.filter(property => property !== undefined);
   }
+
+  /**Updates an owner of a property. */
+  async updateOwner(oldOwnerId: string, newOwnerId: string, propertyId: string) {
+    await db('data_propertyOwners').where({ userId: oldOwnerId, propertyId }).update({
+      userId: newOwnerId,
+    });
+  }
 }
 
 /**Accesses property data on the db. All accesses to that data should be done through this object. */

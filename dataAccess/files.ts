@@ -2,7 +2,6 @@ import { readFile, unlink, writeFile } from 'fs/promises';
 import { fileNameTimestampSeparator } from 'kotilogi-app/constants';
 
 import sharp from 'sharp';
-import { batchCreateObjects } from './objects';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import db from 'kotilogi-app/dbconfig';
 import { FileDataType } from './types';
@@ -12,6 +11,7 @@ import { revalidatePath } from 'next/cache';
 import { setMainImageAction } from '@/actions/files';
 import { verifyAuthorization } from 'kotilogi-app/app/api/_utils/verifyAuthorization';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
+import { objects } from './objects';
 
 const createFileBuffer = async (file: File) => {
   const bytes = await file.arrayBuffer();
@@ -57,7 +57,7 @@ export async function uploadFiles(files: File[], parentId: string) {
 
   const uploadedFileNames: string[] = [];
 
-  await batchCreateObjects(
+  await objects.batchCreate(
     files.length,
     parentId,
     async (objId, currentIndex, trx) => {

@@ -10,6 +10,7 @@ import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 class Objects {
+  /**Creates a new object. */
   async create<T extends ObjectDataType>(
     data: Partial<T>,
     callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>
@@ -31,6 +32,7 @@ class Objects {
     }
   }
 
+  /**Updates an object. */
   async update<T extends ObjectDataType>(
     objectId: string,
     data: Partial<T>,
@@ -52,6 +54,7 @@ class Objects {
     }
   }
 
+  /**Deletes an object. Will cascade the deletion to all db entries that refer to the deleted object. */
   async del(id: string, callback?: (trx: Knex.Transaction) => Promise<void>) {
     const trx = await db.transaction();
     try {
@@ -65,6 +68,12 @@ class Objects {
     }
   }
 
+  /**Creates multiple objects at once.
+   * @param count The number of objects to create.
+   * @param parentId The id of the parent object.
+   * @param callback The async operation to perform in relation to each created object.
+   * @param onError Callback in case of an error.
+   */
   async batchCreate(
     /**The number of objects to create. */
     count: number,
