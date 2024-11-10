@@ -25,7 +25,6 @@ export default async function PropertyPage({ params }) {
   const utilityData = await utilities.get(data.id);
   const files = await getFiles({ parentId: id }, 4);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
-  console.log(utilityData);
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>

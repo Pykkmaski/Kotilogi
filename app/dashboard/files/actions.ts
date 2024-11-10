@@ -1,13 +1,12 @@
 'use server';
 
 import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
-import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { deleteFile, uploadFiles } from 'kotilogi-app/dataAccess/files';
+import { files } from 'kotilogi-app/dataAccess/files';
 
 export const deleteFileAction = async (fileId: string): Promise<ServerActionResponse> => {
   try {
-    await deleteFile(fileId);
+    await files.del(fileId);
     revalidatePath('/dashboard');
     return {
       status: 200,
@@ -24,7 +23,7 @@ export const deleteFileAction = async (fileId: string): Promise<ServerActionResp
 export const createFileAction = async (fdata: FormData) => {
   try {
     const fd = fdata.get('file') as unknown as File;
-    uploadFiles([fd], fdata.get('parentId') as unknown as string);
+    files.upload([fd], fdata.get('parentId') as unknown as string);
     revalidatePath('/dashboard/');
     return {
       status: 200,
