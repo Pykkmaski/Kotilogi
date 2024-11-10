@@ -6,26 +6,25 @@ import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import db from 'kotilogi-app/dbconfig';
-
-import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/dataAccess/properties';
 import { redirect } from 'next/navigation';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 export default async function PropertiesPage() {
   const session = await verifySession();
-  const properties = (await getPropertiesOfUser(session.user.id)) as (
+  const data = (await properties.getPropertiesOfUser(session.user.id)) as (
     | HouseDataType
     | AppartmentDataType
   )[];
 
-  if (properties.length == 1) {
-    redirect(`properties/${properties.at(0).id}`);
+  if (data.length == 1) {
+    redirect(`properties/${data.at(0).id}`);
   }
 
   return (
     <Main>
       <OverviewBoxList
-        items={properties}
+        items={data}
         listTitle='Talot'
         onEmptyElement={
           <GalleryError

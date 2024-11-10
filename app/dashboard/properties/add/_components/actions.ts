@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { createProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/dataAccess/properties';
 import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
@@ -18,7 +18,7 @@ export const updatePropertyAction = async (
     propertyTypeId: z.number(),
   }).parse(data);
 
-  await updateProperty(propertyId, data);
+  await properties.update(propertyId, data);
   revalidatePath('/dashboard/properties');
 };
 
@@ -30,7 +30,7 @@ export const createPropertyAction = async (
   }).parse(data);
 
   let pid;
-  await createProperty(data, async (id, trx) => {
+  await properties.create(data, async (id, trx) => {
     pid = id;
   });
 
