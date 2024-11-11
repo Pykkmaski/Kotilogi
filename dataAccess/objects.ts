@@ -2,14 +2,20 @@ import 'server-only';
 import { Knex } from 'knex';
 import { ObjectDataType } from './types';
 import db from 'kotilogi-app/dbconfig';
-import { getServerSession } from 'next-auth';
-import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
-import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 class Objects {
+  async verifySessionUserIsAuthor(objectId: string) {
+    const session = await verifySession();
+
+    const [authorId] = await db('data_objects').where({ id: objectId }).pluck('authorId');
+    if (session.user.id !== authorId) {
+      throw new Error('Vain tiedon laatija voi muokata- tai poistaa sen!');
+    }
+  }
+
   /**Creates a new object. */
   async create<T extends ObjectDataType>(
     data: Partial<T>,

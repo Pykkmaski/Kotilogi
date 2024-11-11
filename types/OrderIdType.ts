@@ -1,1 +1,0 @@
-export type OrderIdType = 'add_property' | 'add_event' | 'add_usage' | 'add_file';

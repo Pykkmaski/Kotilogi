@@ -1,12 +1,12 @@
 import { Knex } from 'knex';
-import { verifyEventIsNotLocked, verifyPropertyEventCount } from './events/util/verification';
 import { objects } from './objects';
 import { EventDataType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import db from 'kotilogi-app/dbconfig';
-import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
+import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
+import { properties } from './properties';
 
 class Events {
   /**
@@ -219,7 +219,7 @@ class Events {
     selectedSurfaceIds: number[],
     callback?: (id: string, trx: Knex.Transaction) => Promise<void>
   ) {
-    await verifyPropertyEventCount(mainData.parentId);
+    await properties.verifyEventCount(mainData.parentId);
 
     await objects.create(mainData, async (obj, trx) => {
       const eventId = obj.id;
@@ -462,7 +462,7 @@ class Events {
    */
   async update(id: string, data: Partial<EventDataType>, extraData: any[]) {
     //Only allow the author of an event to update it.
-    await verifySessionUserIsAuthor(id);
+    await objects.verifySessionUserIsAuthor(id);
 
     await objects.update(id, data, async trx => {
       const insertObj = this.getInsertObject(
@@ -479,9 +479,26 @@ class Events {
    */
   async del(id: string) {
     //Only allow the author of the event to delete it.
-    await verifySessionUserIsAuthor(id);
-    await verifyEventIsNotLocked(id);
+    await objects.verifySessionUserIsAuthor(id);
+    await this.verifyNotLocked(id);
     await objects.del(id);
+  }
+
+  /**Throws an error if the event is at least 30 days old. */
+  async verifyNotLocked(eventId: string) {
+    const [timestamp] = await db('data_propertyEvents')
+      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+      .where({ 'data_propertyEvents.id': eventId })
+      .select('data_objects.timestamp');
+
+    const now = Date.now();
+    const maxEventAge = getDaysInMilliseconds(30);
+    const eventAge = now - timestamp;
+    if (eventAge >= maxEventAge) {
+      throw new Error(
+        'Tapahtuma on vähintään 30 päivää vanha, joten sitä ei voi enää muokata tai poistaa!'
+      );
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import db from 'kotilogi-app/dbconfig';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import { verifySessionUserIsAuthor } from '../verifySessionUserIsAuthor';
 import { redirect } from 'next/navigation';
+import { objects } from '../objects';
 
 const testUserId = 'test_user_id';
 
@@ -20,7 +20,7 @@ describe('Testing verifySessionUserIsAuthor', () => {
   it('Redirects to the login-page if not logged in.', async () => {
     (loadSession as jest.Mock).mockResolvedValueOnce(undefined);
 
-    const promise = verifySessionUserIsAuthor('1');
+    const promise = objects.verifySessionUserIsAuthor('1');
     await expect(promise).rejects.toThrow();
     expect(redirect).toHaveBeenCalledWith('/login');
   });
@@ -33,7 +33,7 @@ describe('Testing verifySessionUserIsAuthor', () => {
     });
 
     db().pluck.mockResolvedValueOnce(['1234']);
-    const promise = verifySessionUserIsAuthor('1');
+    const promise = objects.verifySessionUserIsAuthor('1');
     await expect(promise).rejects.toThrow();
   });
 });

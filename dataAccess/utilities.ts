@@ -2,7 +2,6 @@ import db from 'kotilogi-app/dbconfig';
 import { UtilityDataType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
-import { verifySessionUserIsAuthor } from './utils/verifySessionUserIsAuthor';
 import { objects } from './objects';
 
 class Utilities {
@@ -58,7 +57,7 @@ class Utilities {
 
   async update(id: string, data: Partial<UtilityDataType>) {
     //Only allow the author of a utility entry to edit it.
-    await verifySessionUserIsAuthor(data.id);
+    await objects.verifySessionUserIsAuthor(data.id);
 
     return objects.update(id, data, async trx => {
       const updateObject = filterValidColumns(data, await getTableColumns('data_utilities', trx));
@@ -84,7 +83,7 @@ class Utilities {
   }
 
   async del(id: string) {
-    await verifySessionUserIsAuthor(id);
+    await objects.verifySessionUserIsAuthor(id);
     await objects.del(id);
   }
 }

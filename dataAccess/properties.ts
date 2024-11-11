@@ -11,6 +11,18 @@ import { users } from './users';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
+  /**Throws an error if the user already has the maximum number of allowed events for a property. */
+  async verifyEventCount(propertyId: string) {
+    const [{ numEvents }] = await db('data_propertyEvents')
+      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+      .where({ 'data_objects.parentId': propertyId })
+      .count('* as numEvents');
+
+    if (numEvents >= 100) {
+      throw new Error('Et voi lisätä talolle enempää tapahtumia!');
+    }
+  }
+
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
     const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
     return typeId == houseTypeId ? 'data_houses' : 'data_appartments';

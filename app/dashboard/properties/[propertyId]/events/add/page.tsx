@@ -3,11 +3,11 @@ import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 import { EventTypeProvider } from './_components/EventTypeProvider';
 import { getEventRefs } from './_utils/getEventRefs';
-import { verifyPropertyEventCount } from 'kotilogi-app/dataAccess/events/util/verification';
+import { properties } from 'kotilogi-app/dataAccess/properties';
 
 export default async function AddEventPage({ params }) {
   await verifySession();
-  await verifyPropertyEventCount(params.propertyId);
+  await properties.verifyEventCount(params.propertyId);
 
   const refs = await getEventRefs();
 
