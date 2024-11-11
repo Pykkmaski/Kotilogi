@@ -2,14 +2,17 @@ import Spinner from '@/components/UI/Spinner';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { Check } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import { ContentBox } from '../Boxes/ContentBox';
 
 export function FormBase({ children, ...props }: React.ComponentProps<'form'>) {
   return (
-    <form
-      {...props}
-      className='flex flex-col gap-4 p-2 bg-white shadow-md rounded-lg'>
-      {children}
-    </form>
+    <ContentBox>
+      <form
+        {...props}
+        className='flex flex-col gap-4'>
+        {children}
+      </form>
+    </ContentBox>
   );
 }
 

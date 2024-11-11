@@ -1,12 +1,11 @@
-import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { useInputData } from '@/hooks/useInputData';
 import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { createPropertyAction, updatePropertyAction } from './actions';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
-import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
 
 export function usePropertyForm(
   property: HouseDataType | AppartmentDataType | undefined,
@@ -34,7 +33,11 @@ export function usePropertyForm(
   );
 
   const [isValid, setIsValid] = useState(false);
-  const [status, setStatus] = useState(FormStatus.IDLE);
+  const { method, status } = useStatusWithAsyncMethod(async () => {
+    await createPropertyAction(data as PropertyDataType);
+    toast.success('Talo luotu!');
+  });
+  const onSubmit = usePreventDefault(method);
 
   const router = useRouter();
 
@@ -52,23 +55,6 @@ export function usePropertyForm(
       setIsValid(valid);
     },
     [setIsValid, data]
-  );
-
-  const onSubmit = useCallback(
-    async (e: any) => {
-      e.preventDefault();
-      setStatus(FormStatus.LOADING);
-      try {
-        await createPropertyAction(data as PropertyDataType);
-        toast.success('Talo luotu!');
-        setStatus(FormStatus.DONE);
-      } catch (err) {
-        toast.error(err.message);
-      } finally {
-        setStatus(prev => (prev === FormStatus.LOADING ? FormStatus.IDLE : prev));
-      }
-    },
-    [createPropertyAction, toast]
   );
 
   useEffect(() => {

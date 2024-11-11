@@ -1,7 +1,6 @@
-import { ALoginUser } from '@/actions/users';
-import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -18,7 +17,7 @@ export type LoginStatusType =
 export function useLogin() {
   const router = useRouter();
   const [status, setStatus] = useState<LoginStatusType>('idle');
-  const { data, updateData } = useInputData({});
+  const { data, updateData } = useFormOnChangeObject({} as { email: string; password: string });
 
   const loginHandler = e => {
     e.preventDefault();

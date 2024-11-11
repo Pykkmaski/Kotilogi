@@ -47,7 +47,7 @@ export function DeleteUserForm() {
             status === 'loading' ||
             status === 'done'
           }
-          variant='contained'
+          variant='text'
           startIcon={<Delete />}>
           Poista Käyttäjä
         </Button>

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { MenuButton } from './MenuButton';
 import { useCallback, useMemo, useState } from 'react';
-import { FormStatus } from '@/hooks/useDataSubmissionForm';
 import axios from 'axios';
 import { deleteFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 import { MenuPrefab, VPMenu } from '../UI/VPMenu';
@@ -21,14 +20,14 @@ type FileCardProps = {
 
 export function FileCard({ file, isMain }: FileCardProps) {
   const src = `/api/protected/files/${file.id}`;
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
   const router = useRouter();
 
   const deleteFile = useCallback(async () => {
     const c = confirm('Haluatko varmasti poistaa valitsemasi tiedoston?');
     if (!c) return;
 
-    setStatus(FormStatus.LOADING);
+    setStatus('loading');
     const loadingToast = toast.loading('Poistetaan tiedostoa...');
 
     const response = await deleteFileAction(file.id);
@@ -40,14 +39,14 @@ export function FileCard({ file, isMain }: FileCardProps) {
     }
 
     toast.dismiss(loadingToast);
-    setStatus(FormStatus.IDLE);
+    setStatus('idle');
   }, [file.id, setStatus, deleteFileAction]);
 
   const setMainImage = useCallback(async () => {
     const c = confirm('Haluatko varmasti asettaa kuvan pääkuvaksi?');
     if (!c) return;
 
-    setStatus(FormStatus.LOADING);
+    setStatus('loading');
     const loadingToast = toast.loading('Päivitetään pääkuvaa...');
 
     await setMainImageAction(file.parentId, file.id)
@@ -61,10 +60,10 @@ export function FileCard({ file, isMain }: FileCardProps) {
       .catch(err => toast.error(err.message));
 
     toast.dismiss(loadingToast);
-    setStatus(FormStatus.IDLE);
+    setStatus('idle');
   }, [setStatus, file.id, file.parentId, axios]);
 
-  const loading = useMemo(() => status == FormStatus.LOADING, [status]);
+  const loading = useMemo(() => status == 'loading', [status]);
 
   return (
     <div className='relative flex flex-col aspect-square lg:w-[250px] xs:w-[50%] overflow-hidden rounded-md shadow-md'>

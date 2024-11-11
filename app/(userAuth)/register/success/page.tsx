@@ -1,5 +1,4 @@
 import { MainAllCentered } from '@/components/UI/Main';
-import { Padding } from '@/components/UI/Padding';
 import { TitleWithParagraphLayout } from '@/components/UI/TitleWithParagraphLayout';
 import Link from 'next/link';
 

@@ -1,9 +1,11 @@
 'use client';
 
-import { useForm } from '@/hooks/useForm';
 import { FormBase, FormButtons } from './FormBase';
 import toast from 'react-hot-toast';
-import { FormStatus } from '@/hooks/useDataSubmissionForm';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { useRouter } from 'next/navigation';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
 
 type ObjectDeletionFormProps<T extends { id: string }> = React.PropsWithChildren & {
   objectId: string;
@@ -17,35 +19,23 @@ export function ObjectDeletionForm<T extends { id: string }>({
   deleteMethod,
   returnUrl,
 }: ObjectDeletionFormProps<T>) {
-  const { data, updateData, status, setStatus, router } = useForm({ id: objectId });
+  const router = useRouter();
+  const { data, updateData } = useFormOnChangeObject({ id: objectId });
+  const { method, status } = useStatusWithAsyncMethod(async () => {
+    await deleteMethod(data as TODO);
+    toast.success('Poisto onnistui!');
+    router.push(returnUrl);
+  });
+  const onSubmit = usePreventDefault(method);
 
   return (
     <FormBase
       onChange={updateData}
-      onSubmit={async e => {
-        e.preventDefault();
-        setStatus(FormStatus.LOADING);
-        try {
-          await deleteMethod(data as TODO);
-          toast.success('Poisto onnistui!');
-          setStatus(FormStatus.DONE);
-          router.push(returnUrl);
-        } catch (err) {
-          toast.error(err.message);
-        } finally {
-          setStatus(prev => {
-            if (prev === FormStatus.DONE) {
-              return prev;
-            } else {
-              return FormStatus.IDLE;
-            }
-          });
-        }
-      }}>
+      onSubmit={onSubmit}>
       {children}
       <FormButtons
-        done={status == FormStatus.DONE}
-        loading={status == FormStatus.LOADING}
+        done={status === 'done'}
+        loading={status === 'loading'}
         backAction={() => router.back()}
       />
     </FormBase>

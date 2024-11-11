@@ -5,17 +5,13 @@ import {
   handleServerError,
 } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
-import { z } from 'zod';
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const data = await req.json();
-    z.object({
-      token: z.string(),
-      email: z.string().email(),
-    }).parse(data);
-
-    const { email, token } = data;
+    const token = req.nextUrl.searchParams.get('token');
+    if (!token) {
+      return new NextResponse(createResponseMessage('Varmenne puuttuu!'));
+    }
 
     let decoded;
     try {
@@ -25,11 +21,11 @@ export async function POST(req: NextRequest) {
     }
 
     await db('data_users').where({ id: decoded.id }).update({
-      email,
+      email: decoded.email,
     });
 
     const redirectUrl = req.nextUrl.searchParams.get('redirectUrl');
-    return NextResponse.redirect(redirectUrl || '/');
+    return NextResponse.redirect(redirectUrl || '/dashboard');
   } catch (err: any) {
     return handleServerError(req, err);
   }

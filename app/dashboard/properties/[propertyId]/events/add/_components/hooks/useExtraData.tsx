@@ -1,6 +1,5 @@
 import { useBatch } from '@/hooks/useBatch';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
-import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 
 export const extraDataStorageKey = 'kotidok-event-extra-data';

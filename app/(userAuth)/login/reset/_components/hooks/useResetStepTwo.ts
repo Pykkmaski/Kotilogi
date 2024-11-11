@@ -2,8 +2,8 @@ import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import axios from 'axios';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 
 type ResetStepTwoStatus =
   | 'idle'
@@ -16,7 +16,9 @@ type ResetStepTwoStatus =
 export function useResetStepTwo() {
   const params = useSearchParams();
   const router = useRouter();
-  const { data, updateData } = useInputData({});
+  const { data, updateData } = useFormOnChangeObject(
+    {} as { password1: string; password2: string }
+  );
   const [status, setStatus] = useState<ResetStepTwoStatus>('idle');
 
   const resetStepTwoHandler = async e => {

@@ -1,8 +1,5 @@
 'use client';
 
-import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { useForm } from '@/hooks/useForm';
-
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FormButtons } from '../Forms/FormBase';
@@ -10,6 +7,9 @@ import { ProgressBar } from '../ProgressBar';
 import { createFileAction } from 'kotilogi-app/app/dashboard/files/actions';
 import { useFormOnChangeFiles } from '@/hooks/useFormOnChangeFiles';
 import { FileList } from '../FileList';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { useRouter } from 'next/navigation';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
 
 type FileUploadFormProps = {
   fileParentId: string;
@@ -17,14 +17,9 @@ type FileUploadFormProps = {
 };
 
 export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps) {
-  const { updateData, status, setStatus, files, router } = useForm({});
-
-  const [filesUploaded, setFilesUploaded] = useState(0);
-
-  const upload = async e => {
-    e.preventDefault();
-    setStatus(FormStatus.LOADING);
-
+  const router = useRouter();
+  const { files, updateFiles } = useFormOnChangeFiles();
+  const { method, status } = useStatusWithAsyncMethod(async () => {
     for (const file of files) {
       const fdata = new FormData();
       fdata.append('parentId', fileParentId);
@@ -38,18 +33,17 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
       });
     }
 
-    setStatus(-1);
     setTimeout(() => router.back(), 1000);
-  };
-
-  const loading = status == FormStatus.LOADING;
+  });
+  const onSubmit = usePreventDefault(method);
+  const [filesUploaded, setFilesUploaded] = useState(0);
   const totalFiles = files.length;
 
   return (
     <form
       className='flex xs:w-full md:w-[50%] flex-col gap-4'
-      onChange={updateData}
-      onSubmit={upload}>
+      onChange={(e: any) => updateFiles(e)}
+      onSubmit={onSubmit}>
       <ProgressBar
         className='w-full h-4'
         maxProgress={totalFiles}
@@ -64,7 +58,7 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
 
       <FormButtons
         submitDisabled={files.length == 0}
-        loading={loading || status == -1}
+        loading={status === 'loading' || status === 'done'}
         backAction={() => router.back()}
       />
 

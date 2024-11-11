@@ -4,7 +4,8 @@ export type StatusType = 'idle' | 'loading' | 'error' | 'done';
 
 export function useStatusWithAsyncMethod(
   action: () => Promise<void>,
-  onError?: (err: any) => void
+  onError?: (err: any) => void,
+  onDone?: () => void
 ) {
   const [status, setStatus] = useState<StatusType>('idle');
   const method = useCallback(async () => {
@@ -12,6 +13,7 @@ export function useStatusWithAsyncMethod(
     try {
       await action();
       setStatus('done');
+      onDone && onDone();
     } catch (err) {
       onError && onError(err);
       setStatus('error');

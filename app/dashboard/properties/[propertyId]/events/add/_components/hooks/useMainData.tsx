@@ -1,5 +1,4 @@
 import { useFormOnChange } from '@/hooks/useFormOnChange';
-import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 

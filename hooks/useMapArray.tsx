@@ -1,6 +1,7 @@
 import { PassProps } from '@/components/Util/PassProps';
 import { ReactNode, useId, useMemo } from 'react';
 
+/**Renders the provided data into as elements according to the render method. Automatically adds a key to each element created. */
 export function useMapArray<T>(
   data: T[],
   renderMethod: (item: T, index: number) => ReactNode,

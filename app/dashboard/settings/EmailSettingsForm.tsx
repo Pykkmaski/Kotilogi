@@ -6,14 +6,30 @@ import { FormControl, Input } from '@/components/UI/FormUtils';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { Check } from '@mui/icons-material';
-import { updateUserAction } from './actions';
+import { updateEmailAction } from './actions';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { ErrorText, SuccessText } from '@/components/UI/Text';
 
 export function EmailSettingsForm() {
   const { data, updateData } = useFormOnChangeObject({} as { email: string });
-  const { method, status } = useStatusWithAsyncMethod(async () => {
-    await updateUserAction(data);
-  });
+  const [errorMsg, setErrorMsg] = useState<string>(null);
+
+  const { method, status } = useStatusWithAsyncMethod(
+    async () => {
+      setErrorMsg(null);
+      await updateEmailAction(data.email).then(res => {
+        if (res.status !== 200) {
+          setErrorMsg(res.statusText);
+          throw new Error(res.statusText);
+        } else {
+          toast.success('Sähköpostin vaihtolinkki lähetetty!');
+        }
+      });
+    },
+    err => toast.error(err.message)
+  );
 
   const onSubmit = usePreventDefault(method);
 
@@ -33,6 +49,13 @@ export function EmailSettingsForm() {
             value={data.email}
           />
         }
+        helper={
+          errorMsg ? (
+            <ErrorText>{errorMsg}</ErrorText>
+          ) : status === 'done' ? (
+            <SuccessText>Sähköpostiosoitteen vaihtolinkki lähetetty!</SuccessText>
+          ) : null
+        }
       />
       <div className='flex justify-start w-full'>
         <Button
@@ -45,7 +68,7 @@ export function EmailSettingsForm() {
             status === 'loading' ||
             status === 'done'
           }
-          variant='contained'
+          variant='text'
           startIcon={<Check />}>
           Päivitä
         </Button>

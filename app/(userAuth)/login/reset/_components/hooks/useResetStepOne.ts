@@ -1,5 +1,5 @@
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import axios from 'axios';
-import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -7,7 +7,7 @@ export type ResetStepOneStatus = 'idle' | 'unknown' | 'invalid_email' | 'success
 
 export function useResetStepOne() {
   const [status, setStatus] = useState<ResetStepOneStatus>('idle');
-  const { data, updateData } = useInputData({});
+  const { data, updateData } = useFormOnChangeObject({} as { email: string });
 
   const resetStepOneHandler = async e => {
     e.preventDefault();

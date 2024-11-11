@@ -1,4 +1,3 @@
-import { useInputData } from '@/hooks/useInputData';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { useCallback } from 'react';
 import { useEventFormContext } from '../EventFormContext';

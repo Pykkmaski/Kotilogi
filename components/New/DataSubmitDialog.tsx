@@ -1,13 +1,14 @@
 'use client';
 
-import { FormStatus } from '@/hooks/useDataSubmissionForm';
-import { useInputData } from '@/hooks/useInputData';
 import { Check } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { AxiosResponse } from 'axios';
-import { useId, useState } from 'react';
+import { useId } from 'react';
 import toast from 'react-hot-toast';
-import Spinner from '../UI/Spinner';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
+import { Button } from './Button';
 
 type DataSubmitDialogProps<T extends {}> = React.PropsWithChildren & {
   onSubmit: (data: T) => Promise<AxiosResponse>;
@@ -26,9 +27,20 @@ export function DataSubmitDialog<T extends {}>({
   initialData,
 }: DataSubmitDialogProps<T>) {
   const formId = useId();
-  const { data, updateData } = useInputData(initialData);
-  const [status, setStatus] = useState(FormStatus.IDLE);
-  const loading = status == FormStatus.LOADING;
+  const { data, updateData } = useFormOnChangeObject(initialData);
+  const { method, status } = useStatusWithAsyncMethod(async () => {
+    await onSubmit(data)
+      .then(res => {
+        if (res.status == 200) {
+          toast.success(res.statusText);
+          handleClose();
+        } else {
+          toast.error(res.statusText);
+        }
+      })
+      .catch(err => toast.error(err.message));
+  });
+  const submitMethod = usePreventDefault(method);
 
   return (
     <Dialog
@@ -41,22 +53,7 @@ export function DataSubmitDialog<T extends {}>({
         <form
           id={`form-${formId}`}
           onChange={updateData}
-          onSubmit={async e => {
-            e.preventDefault();
-            setStatus(FormStatus.LOADING);
-
-            await onSubmit(data)
-              .then(res => {
-                if (res.status == 200) {
-                  toast.success(res.statusText);
-                  handleClose();
-                } else {
-                  toast.error(res.statusText);
-                }
-              })
-              .catch(err => toast.success(err.message))
-              .finally(() => setStatus(FormStatus.IDLE));
-          }}>
+          onSubmit={submitMethod}>
           {children}
         </form>
       </DialogContent>
@@ -68,9 +65,10 @@ export function DataSubmitDialog<T extends {}>({
           Peruuta
         </Button>
         <Button
+          loading={status === 'loading'}
           variant='contained'
           type='submit'
-          startIcon={loading ? <Spinner size='1rem' /> : <Check />}>
+          startIcon={<Check />}>
           Vahvista
         </Button>
       </DialogActions>

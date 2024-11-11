@@ -3,7 +3,6 @@
 import { Check } from '@mui/icons-material';
 import {
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -19,9 +18,6 @@ import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_comp
 import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/YardField';
 
 import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
-import toast from 'react-hot-toast';
-import { createPropertyAction } from './actions';
-import { DialogControl } from '@/components/Util/DialogControl';
 import { usePropertyForm } from './PropertyForm.hooks';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
@@ -56,8 +52,8 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
   } = usePropertyForm(property as TODO, refs);
 
   const formId = 'submit-property-form';
-  const loading = status === FormStatus.LOADING;
-  const done = status === FormStatus.DONE;
+  const loading = status === 'loading';
+  const done = status === 'done';
 
   const submitDisabled = useMemo(() => {
     return (
@@ -107,7 +103,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
             onClick={e => router.back()}
             type='button'
             variant='text'
-            disabled={status == FormStatus.LOADING || status == FormStatus.DONE}>
+            disabled={loading || done}>
             Peruuta
           </Button>
 
@@ -150,7 +146,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
                     type='submit'
                     variant='contained'
                     color='secondary'
-                    disabled={status == FormStatus.LOADING || status == FormStatus.DONE}
+                    disabled={loading || done}
                     startIcon={<Check />}>
                     {property ? 'Päivitä' : 'Vahvista'}
                   </Button>

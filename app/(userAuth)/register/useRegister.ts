@@ -1,9 +1,9 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { AUserExists } from '@/actions/users';
 import axios from 'axios';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 
 export type RegisterStatusType =
   | 'idle'
@@ -23,7 +23,12 @@ export type RegisterDataType = {
 
 export function useRegister() {
   const router = useRouter();
-  const { data, updateData } = useInputData({ plan: 'regular' });
+  const { data, updateData } = useFormOnChangeObject({ plan: 'regular' } as {
+    plan: string;
+    email: string;
+    password: string;
+    password2: string;
+  });
   const [status, setStatus] = useState<RegisterStatusType>('idle');
 
   const checkPasswordMatch = (password1: string, password2: string) => {

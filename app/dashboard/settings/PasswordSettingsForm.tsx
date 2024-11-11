@@ -2,12 +2,12 @@
 
 import { Button } from '@/components/New/Button';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { ErrorText } from '@/components/UI/Text';
+import { ErrorText, SuccessText } from '@/components/UI/Text';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { Check } from '@mui/icons-material';
 import { useMemo } from 'react';
-import { updateUserAction } from './actions';
+import { updatePasswordAction } from './actions';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 
 export function PasswordSettingsForm() {
@@ -24,7 +24,7 @@ export function PasswordSettingsForm() {
   }, [data.password1, data.password2, passwordsMatch]);
 
   const { method, status } = useStatusWithAsyncMethod(
-    async () => await updateUserAction({ password: data.password1 })
+    async () => await updatePasswordAction({ password: data.password1 })
   );
   const onSubmit = usePreventDefault(method);
 
@@ -70,7 +70,7 @@ export function PasswordSettingsForm() {
           type='submit'
           color='secondary'
           disabled={submitDisabled}
-          variant='contained'
+          variant='text'
           startIcon={<Check />}>
           Päivitä
         </Button>
