@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import db from 'kotilogi-app/dbconfig';
-import { sendEmail } from 'kotilogi-app/app/api/_lib/sendEmail';
 import { sendHTMLEmail } from 'kotilogi-app/app/api/_lib/sendHTMLEmail';
 
 export const deleteUserAction = async (password: string) => {
@@ -23,6 +22,7 @@ export const updatePasswordAction = async (newData: { password?: string }) => {
     email: z.string().email().optional(),
     password: z.string().optional(),
   });
+
   await users.update(newData);
   revalidatePath('/dashboard');
 };
@@ -30,8 +30,6 @@ export const updatePasswordAction = async (newData: { password?: string }) => {
 export const updateEmailAction = async (newEmail: string) => {
   z.string().parse(newEmail);
   const session = await verifySession();
-  //Verify the address is not the same as the current address.
-  console.log(session.user.email, newEmail);
   if (session.user.email === newEmail) {
     return {
       status: 400,

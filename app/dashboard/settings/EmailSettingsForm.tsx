@@ -1,6 +1,5 @@
 'use client';
 
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { Button } from '@/components/New/Button';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
@@ -15,7 +14,6 @@ import { ErrorText, SuccessText } from '@/components/UI/Text';
 export function EmailSettingsForm() {
   const { data, updateData } = useFormOnChangeObject({} as { email: string });
   const [errorMsg, setErrorMsg] = useState<string>(null);
-
   const { method, status } = useStatusWithAsyncMethod(
     async () => {
       setErrorMsg(null);

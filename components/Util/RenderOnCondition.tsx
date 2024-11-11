@@ -10,7 +10,7 @@ type RenderOnConditionProps = React.PropsWithChildren & {
 };
 
 /**Renders its children when the provided condition is true, or the fallback if it is false.
- * Memoizes the rendering condition internally.
+ * Memoizes the rendering condition.
  */
 export function RenderOnCondition({
   children,

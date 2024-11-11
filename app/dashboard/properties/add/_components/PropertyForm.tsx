@@ -26,13 +26,6 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { useMemo } from 'react';
 
-enum FormStatus {
-  IDLE = 0,
-  LOADING,
-  ERROR = -1,
-  DONE = -2,
-}
-
 type PropertyFormProps<T extends PropertyDataType> = React.PropsWithChildren & {
   property?: T;
   refs: TODO;

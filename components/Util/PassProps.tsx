@@ -2,8 +2,8 @@
 
 import React, { useMemo } from 'react';
 
-/**Clones the children and passes whatever props are given, to them.
- * Uses useMemo internally to memoize the enhanced children.
+/**Clones the children and passes whatever props are given to them.
+ * Memoizes the cloned children.
  */
 export function PassProps({ children, ...props }) {
   const enhancedChildren = useMemo(() => {
