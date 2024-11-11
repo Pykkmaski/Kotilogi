@@ -1,11 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { Button, Switch } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { Cookie } from '@mui/icons-material';
 import { acceptCookiesAction } from './acceptCookiesAction';
-import { useVisibilityProviderContext, VisibilityProvider } from '../../Util/VisibilityProvider';
 import { RenderOnCondition } from '../../Util/RenderOnCondition';
 import { ToggleProvider } from '../../Util/ToggleProvider';
 

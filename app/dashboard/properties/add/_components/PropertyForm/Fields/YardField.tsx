@@ -3,8 +3,6 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Group, Input, Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
-import { HouseDataType } from 'kotilogi-app/dataAccess/types';
-import { OptionSelector } from '@/components/Feature/OptionSelector';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function YardField() {

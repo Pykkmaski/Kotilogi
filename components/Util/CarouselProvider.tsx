@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { ReactNode, useCallback, useLayoutEffect, useMemo } from 'react';
 import { useState } from 'react';
 import { PassProps } from './PassProps';
 import { RenderOnCondition } from './RenderOnCondition';
@@ -55,26 +55,26 @@ export function CarouselProvider({ children, defaultSlot }: CarouselProviderProp
       : slotChildren.at(0).props.slotName;
   });
 
-  const [slots] = useState<string[]>(() => {
+  const [slots, setSlots] = useState<string[]>(() => {
     const slotChildren = childArray.filter(
       (child: React.ReactElement) => child.props?.slotName
     ) as React.ReactElement[];
     return slotChildren.map(child => child.props.slotName);
   });
 
-  const stepForward = () => {
+  const stepForward = useCallback(() => {
     const currentSlotIndex = slots.findIndex(slot => slot == currentSlot);
     if (currentSlotIndex === -1) return;
     const nextSlotName = slots.at(currentSlotIndex + 1);
     setCurrentSlot(nextSlotName || currentSlot);
-  };
+  }, [slots, setCurrentSlot]);
 
-  const stepBackward = () => {
+  const stepBackward = useCallback(() => {
     const currentSlotIndex = slots.findIndex(slot => slot == currentSlot);
     if (currentSlotIndex === -1) return;
     const previousSlotName = slots.at(currentSlotIndex - 1);
     setCurrentSlot(previousSlotName || currentSlot);
-  };
+  }, [slots, setCurrentSlot]);
 
   const showSlot = (slotName: string) => {
     setCurrentSlot(slotName);

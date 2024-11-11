@@ -1,5 +1,6 @@
-import { CloseButton } from '@/components/UI/CloseButton';
 import { VisibilityProvider } from '@/components/Util/VisibilityProvider';
+import { Clear } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
   const className = [
@@ -16,6 +17,11 @@ function Backdrop({ children, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+/**
+ *
+ * @param param0
+ * @deprecated
+ */
 export function Modal({ children, ...props }: React.ComponentProps<'div'>) {
   return <Backdrop {...props}>{children}</Backdrop>;
 }
@@ -37,7 +43,9 @@ Modal.HeaderWithTitle = function ({ title, icon }) {
       </div>
 
       <VisibilityProvider.Trigger>
-        <CloseButton />
+        <IconButton>
+          <Clear />
+        </IconButton>
       </VisibilityProvider.Trigger>
     </Modal.Header>
   );

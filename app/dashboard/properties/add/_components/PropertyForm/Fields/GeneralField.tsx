@@ -6,7 +6,7 @@ import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types
 
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { useEffect } from 'react';
-import { fetchPropertyInfo } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
+import { fetchPropertyInfoAction } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 import { Check, Clear } from '@mui/icons-material';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
@@ -33,7 +33,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
       const isValidPattern = isPropertyIdentifier((data as HouseDataType).propertyNumber);
 
       if (isValidPattern) {
-        fetchPropertyInfo((data as any).propertyNumber).then(result => {
+        fetchPropertyInfoAction((data as any).propertyNumber).then(result => {
           updatePropertyInfo(result, result !== null);
         });
       } else {

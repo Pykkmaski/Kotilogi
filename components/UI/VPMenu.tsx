@@ -5,7 +5,7 @@ import React from 'react';
 import MuiMenu from '@mui/material/Menu';
 import { MenuItem } from '@mui/material';
 import { ToggleProvider } from '../Util/ToggleProvider';
-import { ElementReferenceProvider } from '../Util/ElementReferenceProvider copy';
+import { ElementReferenceProvider } from '../Util/ElementReferenceProvider';
 
 type MenuProps = React.PropsWithChildren & {
   isToggled?: boolean;

@@ -3,7 +3,6 @@
 import { Fieldset } from '@/components/UI/Fieldset';
 import React from 'react';
 import { usePropertyFormContext } from '../../PropertyFormContext';
-import { OptionSelector } from '@/components/Feature/OptionSelector';
 import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 

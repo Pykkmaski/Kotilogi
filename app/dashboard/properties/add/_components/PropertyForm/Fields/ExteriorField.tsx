@@ -2,7 +2,6 @@
 
 import { Fieldset } from '@/components/UI/Fieldset';
 import { usePropertyFormContext } from '../../PropertyFormContext';
-import { OptionSelector } from '@/components/Feature/OptionSelector';
 import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 

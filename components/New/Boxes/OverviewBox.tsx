@@ -13,11 +13,10 @@ import {
 } from '@mui/material';
 import { Delete, Visibility } from '@mui/icons-material';
 import Link from 'next/link';
-import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
-import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
+import { VPDialog } from '@/components/UI/VPDialog';
 import { Button } from '../Button';
 import { VPCloseOnActionButton } from '@/components/UI/VPCloseOnActionButton';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';

@@ -1,9 +1,6 @@
 'use client';
 
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
-import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
-import { useQuery } from '@tanstack/react-query';
-import { getContent } from './actions';
 import { usePropertyFormContext } from '../PropertyFormContext';
 import { FormControl } from '@/components/UI/FormUtils';
 

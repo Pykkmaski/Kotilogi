@@ -3,14 +3,12 @@
 import { VPDialog } from '@/components/UI/VPDialog';
 import { DialogContent, DialogTitle } from '@mui/material';
 import { useState } from 'react';
-import { getImageIdsAction } from './actions';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import Spinner from '@/components/UI/Spinner';
 import { setMainImageAction } from '@/actions/files';
-import { useQuery } from '@tanstack/react-query';
 
 type SelectImageDialogProps = {
   images: TODO[];

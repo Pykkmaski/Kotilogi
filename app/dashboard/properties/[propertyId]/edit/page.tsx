@@ -1,6 +1,4 @@
-import { Main } from '@/components/New/Main';
 import { PropertyForm } from '../../add/_components/PropertyForm';
-import { getRefs } from 'kotilogi-app/dataAccess/ref';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getPropertyRefs } from '../../actions';
 import { properties } from 'kotilogi-app/dataAccess/properties';

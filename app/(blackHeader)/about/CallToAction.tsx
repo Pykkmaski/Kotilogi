@@ -1,4 +1,4 @@
-import Button from '@/components/UI/Button/Button';
+import { Button } from '@/components/New/Button';
 import Link from 'next/link';
 
 export function CallToAction() {
@@ -8,7 +8,7 @@ export function CallToAction() {
       <Link
         href='/register'
         className='shadow-lg'>
-        <Button variant='accent'>
+        <Button variant='contained'>
           <span className='mx-8'>Rekisteröidy</span>
         </Button>
       </Link>

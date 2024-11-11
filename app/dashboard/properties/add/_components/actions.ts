@@ -45,7 +45,9 @@ type InfoType = {
   zipCode: string;
 };
 
-export const fetchPropertyInfo = async (propertyIdentifier: string): Promise<InfoType | null> => {
+export const fetchPropertyInfoAction = async (
+  propertyIdentifier: string
+): Promise<InfoType | null> => {
   try {
     z.string().parse(propertyIdentifier);
 

@@ -4,9 +4,9 @@ import { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { ErrorText } from '@/components/UI/Text';
 import Spinner from '@/components/UI/Spinner';
-import Button from '@/components/UI/Button/Button';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import axios from 'axios';
+import { Button } from '@/components/New/Button';
 
 function ContactForm(props) {
   const [loading, setLoading] = useState(false);
@@ -100,7 +100,7 @@ function ContactForm(props) {
 
       <div className='w-full'>
         <Button
-          variant='primary'
+          variant='contained'
           type='submit'
           id='contact-submit-button'
           className='w-full text-center text-white justify-center font-semibold'>

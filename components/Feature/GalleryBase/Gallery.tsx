@@ -4,9 +4,7 @@ import { CSSProperties, createContext, useState } from 'react';
 import { ActionType } from './Gallery.reducer';
 import { useGallery, StateType } from './Gallery.hooks';
 import { Heading } from '@/components/UI/Heading';
-import { Group } from '@/components/UI/Group';
 import React from 'react';
-import Button from '@/components/UI/Button/Button';
 import toast from 'react-hot-toast';
 import { SelectablesProvider } from '@/components/Util/SelectablesProvider';
 import { List } from '@/components/New/List';
@@ -20,6 +18,8 @@ import { DialogControl } from '@/components/Util/DialogControl';
 import { Delete } from '@mui/icons-material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { ObjectDataType } from 'kotilogi-app/dataAccess/types';
+import { Button } from '@/components/New/Button';
+import { Spacer } from '@/components/UI/Spacer';
 
 function Header(
   props: React.PropsWithChildren & {
@@ -28,20 +28,20 @@ function Header(
 ) {
   return (
     <div className='mb-4 w-full'>
-      <Group
+      <Spacer
         direction='row'
         justify='between'
-        align='center'>
+        items='center'>
         <Heading>{props.title}</Heading>
 
-        <Group
+        <Spacer
           direction='row'
-          gap={4}
-          align='center'
+          gap={'medium'}
+          items='center'
           justify='center'>
           {props.children}
-        </Group>
-      </Group>
+        </Spacer>
+      </Spacer>
     </div>
   );
 }
@@ -123,6 +123,11 @@ type GalleryContextValueType = {
 
 const GalleryContext = createContext<GalleryContextValueType | null>(null);
 
+/**
+ *
+ * @param props
+ * @deprecated
+ */
 export function Gallery<T extends ObjectDataType>(props: GalleryProps<T>) {
   const { state, dispatch } = useGallery(props.data);
   const contextValue: GalleryContextValueType = {
@@ -183,7 +188,7 @@ Gallery.ConfirmDeleteModal = function ({
         <Modal.Footer>
           <VisibilityProvider.Trigger>
             <Button
-              variant='primary'
+              variant='contained'
               disabled={loading}>
               Ei
             </Button>
@@ -199,7 +204,7 @@ Gallery.ConfirmDeleteModal = function ({
                 .finally(() => setStatus('idle'));
             }}>
             <Button
-              variant='primary'
+              variant='contained'
               loading={loading}
               disabled={loading}>
               <span className='mx-4'>Kyllä</span>

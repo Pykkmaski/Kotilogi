@@ -1,4 +1,4 @@
-import Button from '@/components/UI/Button/Button';
+import { Button } from '@/components/New/Button';
 import { Add, Delete, PropaneTankSharp } from '@mui/icons-material';
 import { IconButton, IconButtonProps } from '@mui/material';
 import MuiButton, { ButtonProps } from '@mui/material/Button';
@@ -24,10 +24,10 @@ export function AddButton({ children, ...props }: ButtonProps) {
   );
 }
 
-export function DeactivateButton(props: React.ComponentProps<'button'>) {
+export function DeactivateButton(props: React.ComponentProps<typeof Button>) {
   return (
     <Button
-      variant='primary'
+      variant='contained'
       {...props}
       title='Poista valitut kohteet käytöstä...'>
       <div className='flex gap-2 border-slate-500 items-center'>

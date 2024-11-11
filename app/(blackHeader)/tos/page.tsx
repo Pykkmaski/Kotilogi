@@ -1,4 +1,3 @@
-import { Padding } from '@/components/UI/Padding';
 import { serviceName } from 'kotilogi-app/constants';
 
 const BigHeading = ({ children }) => {
