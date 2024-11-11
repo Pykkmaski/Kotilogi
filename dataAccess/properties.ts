@@ -5,9 +5,9 @@ import { AppartmentDataType, HouseDataType, PropertyDataType } from './types';
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
 import db from 'kotilogi-app/dbconfig';
-import { verifyPassword } from './users';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { objects } from './objects';
+import { users } from './users';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -25,7 +25,7 @@ class Properties {
   }
 
   /**Throws an error if the user with the provided id already has the maximum allowed number of properties. */
-  private async verifyUserPropertyCount(session: { user: { id: string } }) {
+  async verifyUserPropertyCount(session: { user: { id: string } }) {
     const [{ numProperties }] = await db('data_properties')
       .join('data_objects', { 'data_objects.id': 'data_properties.id' })
       .where({ authorId: session.user.id })
@@ -138,7 +138,7 @@ class Properties {
   async del(id: string, password: string) {
     const session = await verifySession();
     await this.verifyPropertyOwnership(session, id);
-    await verifyPassword(session.user.id, password);
+    await users.verifyPassword(session.user.id, password);
     await objects.del(id);
   }
 

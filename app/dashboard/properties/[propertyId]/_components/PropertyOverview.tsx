@@ -1,16 +1,15 @@
-import { OverviewBox, OverviewImage } from '@/components/New/Boxes/OverviewBox';
+import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { Spacer } from '@/components/UI/Spacer';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
-import { DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { DialogPrefab } from '@/components/UI/VPDialog';
+import { IconButton } from '@mui/material';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Delete, Edit } from '@mui/icons-material';
-import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import Link from 'next/link';
 
 type PropertyOverviewProps = {

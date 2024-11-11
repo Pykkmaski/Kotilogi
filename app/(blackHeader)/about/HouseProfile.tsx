@@ -1,5 +1,3 @@
-import { default as NextImage } from 'next/image';
-
 export function HouseProfile() {
   const Image = () => (
     <img

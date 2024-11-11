@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { History, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
 import { EventCardHeaderContent } from './EventCardHeaderContent';
+import { events } from 'kotilogi-app/dataAccess/events';
 
 export async function EventPreview({ propertyId }: { propertyId: string }) {
-  const events = await getEvents({ parentId: propertyId }, null, 4);
+  const eventData = await events.get({ parentId: propertyId }, null, 4);
 
   return (
     <PreviewContentRow<EventDataType>
@@ -17,7 +17,7 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
       headingText='Viimeisimmät tapahtumat'
       itemsToDisplay={3}
       showAllUrl={`/dashboard/properties/${propertyId}/events`}
-      data={events}
+      data={eventData}
       addNewUrl={`/dashboard/properties/${propertyId}/events/add`}
       PreviewComponent={async ({ item }) => {
         const [mainImageId] = await db('data_mainImages')

@@ -6,9 +6,7 @@ import { redirect } from 'next/navigation';
 import { verifySessionUserIsAuthor } from 'kotilogi-app/dataAccess/utils/verifySessionUserIsAuthor';
 import { EventTypeProvider } from '../../add/_components/EventTypeProvider';
 import { getEventRefs } from '../../add/_utils/getEventRefs';
-
-import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
-import { getExtraEventData } from 'kotilogi-app/dataAccess/events/getExtraEventData';
+import { events } from 'kotilogi-app/dataAccess/events';
 
 export default async function EditEventPage({ params }) {
   const session = await loadSession();
@@ -16,11 +14,11 @@ export default async function EditEventPage({ params }) {
     redirect('/login');
   }
 
-  const [event] = await getEvents({ id: params.eventId });
+  const [event] = await events.get({ id: params.eventId });
   //For some reason, the day drops by one when it is read. Increment it by one.
   event.date.setDate(event.date.getDate() + 1);
 
-  const [extraData] = await getExtraEventData(event.id);
+  const [extraData] = await events.getExtraData(event.id);
 
   let allowed;
   try {

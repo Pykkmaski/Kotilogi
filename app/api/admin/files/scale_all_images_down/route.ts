@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
             : await sharp(buffer).jpeg({ quality: 80 }).toBuffer();
 
         //Save the processed file.
-        await writeFile(uploadPath + filename, outputBuffer);
+        await writeFile(uploadPath + filename, outputBuffer as any);
 
         //Update the database entry with the new size:
         await trx('data_files').where({ id: file.id }).update({

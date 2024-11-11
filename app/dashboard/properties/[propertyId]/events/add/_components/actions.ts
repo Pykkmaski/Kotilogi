@@ -1,9 +1,8 @@
 'use server';
 
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { createEvent } from 'kotilogi-app/dataAccess/events/createEvent';
-import { updateEvent } from 'kotilogi-app/dataAccess/events/updateEvent';
-import { setDefaultMainImage, uploadFiles } from 'kotilogi-app/dataAccess/files';
+import { events } from 'kotilogi-app/dataAccess/events';
+import { files } from 'kotilogi-app/dataAccess/files';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
@@ -20,7 +19,7 @@ export const updateEventAction = async (
   extraData: any
 ) => {
   z.string().parse(eventId);
-  await updateEvent(
+  await events.update(
     eventId,
     {
       ...mainData,
@@ -42,12 +41,12 @@ export const createEventAction = async (
   },
   extraData: any[],
   selectedSurfaceIds: number[],
-  files?: FormData[]
+  fileFormData?: FormData[]
 ) => {
   z.string().parse(propertyId);
   let eventId;
 
-  await createEvent(
+  await events.create(
     { ...mainData, parentId: propertyId },
     typeData,
     extraData,
@@ -58,11 +57,11 @@ export const createEventAction = async (
     }
   );
 
-  if (files) {
+  if (fileFormData) {
     try {
-      const fdata = files.map(fd => fd.get('file') as unknown as File);
-      await uploadFiles(fdata, eventId);
-      await setDefaultMainImage(eventId);
+      const fdata = fileFormData.map(fd => fd.get('file') as unknown as File);
+      await files.upload(fdata, eventId);
+      await files.setDefaultMainImage(eventId);
     } catch (err) {
       //Ignore file upload errors for now.
       console.error(err.message);

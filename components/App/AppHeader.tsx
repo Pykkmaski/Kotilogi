@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ProfileCircle } from '../New/ProfileCircle';
 import { MenuPrefab } from '../UI/VPMenu';
-import { AddHomeOutlined } from '@mui/icons-material';
+import { AddHomeOutlined, Settings } from '@mui/icons-material';
 import Link from 'next/link';
 import db from 'kotilogi-app/dbconfig';
 
@@ -27,6 +27,12 @@ export async function AppHeader() {
       />
       <div className='flex gap-2 items-center'>
         <div className='flex gap-2 items-center mr-4'>
+          <Link href='/dashboard/settings'>
+            <IconButton>
+              <Settings />
+            </IconButton>
+          </Link>
+
           {!addPropertyDisabled && (
             <Link
               href='/dashboard/properties/add'

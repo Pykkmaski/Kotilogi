@@ -1,20 +1,19 @@
 import db from 'kotilogi-app/dbconfig';
-import { deleteObject } from 'kotilogi-app/dataAccess/objects';
-import { createProperty, getProperty, updateProperty } from 'kotilogi-app/dataAccess/properties';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-
 import { NextRequest } from 'next/server';
 import bcrypt from 'bcrypt';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import z from 'zod';
 import { handleServerError, response } from '../../_utils/responseUtils';
 import { revalidatePath } from '../../_utils/revalidatePath';
+import { properties } from 'kotilogi-app/dataAccess/properties';
+import { objects } from 'kotilogi-app/dataAccess/objects';
 
 export async function GET(req: NextRequest) {
   try {
     const { q, ...query } = searchParamsToObject(new URL(req.url).searchParams);
 
-    const property = await getProperty(query.id);
+    const property = await properties.get(query.id);
     return response('success', JSON.stringify(property));
   } catch (err) {
     return handleServerError(req, err);
@@ -32,7 +31,7 @@ export async function POST(req: NextRequest) {
       buildingTypeId: z.string(),
     }).parse(data);
 
-    await createProperty(data);
+    await properties.create(data);
     await revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon lisäys onnistui!', { revalidate: true });
   } catch (err: any) {
@@ -44,7 +43,7 @@ export async function PATCH(req: NextRequest) {
   try {
     const { id, ...data } = await req.json();
 
-    await updateProperty(id, data);
+    await properties.update(id, data);
     await revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon päivitys onnistui!', { revalidate: true });
   } catch (err: any) {
@@ -79,7 +78,7 @@ export async function DELETE(req: NextRequest) {
       return response('unauthorized', null, 'Käyttäjätilin salasana on väärä!');
     }
 
-    await deleteObject(propertyId);
+    await objects.del(propertyId);
     await revalidatePath('/dashboard/properties');
     return response('success', null, 'Talon poisto onnistui!');
   } catch (err: any) {

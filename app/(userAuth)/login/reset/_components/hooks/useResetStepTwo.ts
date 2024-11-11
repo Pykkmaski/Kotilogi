@@ -1,4 +1,3 @@
-import { resetPassword } from 'kotilogi-app/actions/resetPassword';
 import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';

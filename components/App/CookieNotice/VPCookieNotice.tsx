@@ -4,10 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Switch } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { Cookie } from '@mui/icons-material';
-import { acceptCookiesAction } from './actions/acceptCookiesAction';
-import { useVisibilityProviderContext, VisibilityProvider } from '../Util/VisibilityProvider';
-import { RenderOnCondition } from '../Util/RenderOnCondition';
-import { ToggleProvider } from '../Util/ToggleProvider';
+import { acceptCookiesAction } from './acceptCookiesAction';
+import { useVisibilityProviderContext, VisibilityProvider } from '../../Util/VisibilityProvider';
+import { RenderOnCondition } from '../../Util/RenderOnCondition';
+import { ToggleProvider } from '../../Util/ToggleProvider';
 
 const showCookieNoticeKey = 'kotidok-show-cookie-notice';
 

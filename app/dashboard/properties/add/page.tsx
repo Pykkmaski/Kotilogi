@@ -1,26 +1,13 @@
-import { Main } from '@/components/New/Main';
 import { PropertyForm } from './_components/PropertyForm';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
-import { verifyUserPropertyCount } from 'kotilogi-app/dataAccess/properties';
-import { redirect } from 'next/navigation';
-import db from 'kotilogi-app/dbconfig';
-import assert from 'assert';
+import { properties } from 'kotilogi-app/dataAccess/properties';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { getRefs } from 'kotilogi-app/dataAccess/ref';
 import { getPropertyRefs } from '../actions';
-
-const getRefTableContent = async (tablename: string) => {
-  if (!tablename.includes('ref_')) {
-    throw new Error('The table name must point to a ref_ table!');
-  }
-
-  return db(tablename);
-};
 
 export default async function AddPropertyPage() {
   const session = await verifySession();
   try {
-    await verifyUserPropertyCount(session);
+    await properties.verifyUserPropertyCount(session);
   } catch (err) {
     //return redirect('/dashboard');
   }

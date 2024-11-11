@@ -1,6 +1,6 @@
 import { Main } from '@/components/New/Main';
 import db from 'kotilogi-app/dbconfig';
-import { DeleteEventForm } from './_components/DeleteEventForm';
+import { DeleteEventForm } from './DeleteEventForm';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { verifySessionUserIsAuthor } from 'kotilogi-app/dataAccess/utils/verifySessionUserIsAuthor';
 

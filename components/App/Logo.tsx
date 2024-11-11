@@ -6,6 +6,7 @@ export type LogoProps = {
   backgroundVariant?: SiteHeaderProps['variant'];
   labelColorVariant?: 'main' | 'gray';
 };
+
 export const Logo = ({ backgroundVariant = 'index', labelColorVariant = 'main' }: LogoProps) => {
   const [appNameClassName, labelClassName] = useMemo(() => {
     const appNameClassName = [

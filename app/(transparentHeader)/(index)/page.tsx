@@ -1,8 +1,7 @@
-import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
-import { Footer } from './_components/new/Footer';
-import { Hero } from './_components/new/Hero';
-import { Introduction } from './_components/new/Introduction';
-import { Story } from './_components/new/Story';
+import { Footer } from './Footer';
+import { Hero } from './Hero';
+import { Introduction } from './Introduction';
+import { Story } from './Story';
 
 export default async function HomePage() {
   return (

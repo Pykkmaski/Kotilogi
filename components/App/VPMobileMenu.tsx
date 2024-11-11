@@ -1,6 +1,5 @@
 'use client';
 
-import { MenuItem } from '@mui/material';
 import Link from 'next/link';
 import { ToggleProvider } from '../Util/ToggleProvider';
 import React, { useMemo } from 'react';

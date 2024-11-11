@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Page from '../page';
-import { useLogin } from '../useLogin';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import userEvent from '@testing-library/user-event';
 import { signIn } from 'next-auth/react';
 

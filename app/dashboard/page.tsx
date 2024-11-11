@@ -5,12 +5,12 @@ import { Home } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import { getPropertiesOfUser } from 'kotilogi-app/dataAccess/properties';
 import { PropertyCardHeaderContent } from './_components/PropertyCardHeaderContent';
+import { properties } from 'kotilogi-app/dataAccess/properties';
 
 export default async function newDashboardPage() {
   const session = await loadSession();
-  const properties = await getPropertiesOfUser(session.user.id);
+  const data = await properties.getPropertiesOfUser(session.user.id);
 
   return (
     <Main>
@@ -21,7 +21,7 @@ export default async function newDashboardPage() {
         addNewUrl='/dashboard/properties/add'
         itemsToDisplay={3}
         onEmptyElement={<span className='text-slate-500'>Et ole lisännyt taloja.</span>}
-        data={properties}
+        data={data}
         PreviewComponent={async ({ item }) => {
           const [mainImageId] =
             (await db('data_mainImages').where({ objectId: item.id }).pluck('imageId')) || [];

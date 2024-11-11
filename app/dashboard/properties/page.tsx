@@ -2,7 +2,6 @@ import { Main } from '@/components/New/Main';
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
 import { Edit } from '@mui/icons-material';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import db from 'kotilogi-app/dbconfig';

@@ -1,6 +1,6 @@
 import { Main } from '@/components/New/Main';
 import db from 'kotilogi-app/dbconfig';
-import { UtilityBatchForm } from './_components/UtilityBatchForm';
+import { UtilityBatchForm } from './UtilityBatchForm';
 
 export default async function AddUtilityPage({ params }) {
   const propertyId = params.propertyId;

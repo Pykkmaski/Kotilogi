@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     if (!filename) throw new Error('A file with id ' + fileId + ' was not found!');
     const buffer = await readFile(uploadPath + filename);
     const outputBuffer = await sharp(buffer).rotate(parseFloat(amount)).toBuffer();
-    await writeFile(uploadPath + filename, outputBuffer);
+    await writeFile(uploadPath + filename, outputBuffer as any);
 
     return new NextResponse(null, {
       status: 200,

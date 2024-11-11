@@ -1,7 +1,7 @@
 'use client';
 
 import { DataSubmitDialog } from '@/components/New/DataSubmitDialog';
-import { UtilityBatchForm } from './add/_components/UtilityBatchForm';
+import { UtilityBatchForm } from './add/UtilityBatchForm';
 import Button from '@mui/material/Button';
 import { Add } from '@mui/icons-material';
 import { DialogControl } from '@/components/Util/DialogControl';

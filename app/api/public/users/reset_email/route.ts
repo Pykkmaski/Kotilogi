@@ -3,10 +3,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import {
   createResponseMessage,
   handleServerError,
-  response,
 } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
-import axios from 'axios';
 import { z } from 'zod';
 
 export async function POST(req: NextRequest) {

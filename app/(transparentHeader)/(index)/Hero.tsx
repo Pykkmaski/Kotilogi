@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CSSProperties } from 'react';
-import { HeroText as OldHeroText } from '../TextContent';
+import { HeroText as OldHeroText } from './TextContent';
 
 const HeroText = () => {
   return (

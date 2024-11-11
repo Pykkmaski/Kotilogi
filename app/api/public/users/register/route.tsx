@@ -4,10 +4,8 @@ import {
   createResponseMessage,
   handleServerError,
 } from 'kotilogi-app/app/api/_utils/responseUtils';
-import db from 'kotilogi-app/dbconfig';
 import { sendAccountActivationLink } from '@/app/api/_lib/sendAccountActivationLink';
-import { hashPassword } from 'kotilogi-app/dataAccess/utils/hashPassword';
-import { createUser } from 'kotilogi-app/dataAccess/users';
+import { users } from 'kotilogi-app/dataAccess/users';
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +18,7 @@ export async function POST(req: NextRequest) {
     const { email, password } = data;
 
     try {
-      await createUser({ email, password });
+      await users.create({ email, password });
     } catch (err) {
       const msg = err.message.toUpperCase();
       if (msg.includes('DUPLICATE')) {

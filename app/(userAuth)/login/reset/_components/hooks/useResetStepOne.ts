@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { sendResetCode } from 'kotilogi-app/actions/resetPassword';
 import { useInputData } from 'kotilogi-app/hooks/useInputFiles';
 import { useState } from 'react';
 import toast from 'react-hot-toast';

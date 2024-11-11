@@ -3,10 +3,9 @@ import { readFile, unlink } from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadPath } from 'kotilogi-app/uploadsConfig';
 import { handleServerError, response } from '../../_utils/responseUtils';
-import { deleteObject } from 'kotilogi-app/dataAccess/objects';
-
-import { setDefaultMainImage, uploadFiles } from 'kotilogi-app/dataAccess/files';
 import { revalidatePath } from 'next/cache';
+import { files } from 'kotilogi-app/dataAccess/files';
+import { objects } from 'kotilogi-app/dataAccess/objects';
 
 export async function GET(req: NextRequest) {
   try {
@@ -37,8 +36,8 @@ export async function POST(req: NextRequest) {
       return response('bad_request', null, 'Pyynnöstä puuttuu tiedostot!');
     }
 
-    await uploadFiles([file], parentId);
-    await setDefaultMainImage(parentId);
+    await files.upload([file], parentId);
+    await files.setDefaultMainImage(parentId);
     revalidatePath('/dashboard');
     return response('success', null, 'Tiedostot lisätty onnistuneesti!');
   } catch (err) {
@@ -51,7 +50,7 @@ export async function DELETE(req: NextRequest) {
     const fileId = req.nextUrl.searchParams.get('id');
     const [filename] = await db('data_files').where({ id: fileId }).pluck('name');
 
-    await deleteObject(fileId, async trx => {
+    await objects.del(fileId, async trx => {
       await unlink(uploadPath + filename);
     });
 

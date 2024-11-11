@@ -1,14 +1,11 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { sendContactMessage } from 'kotilogi-app/app/api/_lib/sendContactMessage';
 import toast from 'react-hot-toast';
-import { PrimaryButton } from '@/components/UI/Button/PrimaryButton';
 import { ErrorText } from '@/components/UI/Text';
 import Spinner from '@/components/UI/Spinner';
 import Button from '@/components/UI/Button/Button';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { Textarea } from '@/components/Feature/Input';
 import axios from 'axios';
 
 function ContactForm(props) {

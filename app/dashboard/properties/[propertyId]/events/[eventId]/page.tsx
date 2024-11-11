@@ -5,27 +5,25 @@ import db from 'kotilogi-app/dbconfig';
 import { EventOverview } from '../_components/EventOverview';
 import { FileDataType } from 'kotilogi-app/dataAccess/types';
 import { FileCard } from '@/components/New/FileCard';
-import { getFiles } from 'kotilogi-app/dataAccess/fileData';
-import { getEvents } from 'kotilogi-app/dataAccess/events/getEvents';
-import { getExtraEventData } from 'kotilogi-app/dataAccess/events/getExtraEventData';
 import { EventDetails } from './_EventDetails/EventDetails';
 import { redirect } from 'next/navigation';
+import { events } from 'kotilogi-app/dataAccess/events';
+import { files } from 'kotilogi-app/dataAccess/files';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
 
   //Fetch data back-to-back to conserve db connection pool.
-  const [eventData] = await getEvents({ id: eventId });
+  const [eventData] = await events.get({ id: eventId });
   if (!eventData) redirect(`/dashboard/properties/${params.propertyId}/events`);
-
-  const [extraData] = await getExtraEventData(eventId);
+  const [extraData] = await events.getExtraData(eventId);
 
   const [{ numSteps }] = (await db('data_propertyEventSteps')
     .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
     .where({ parentId: eventId })
     .count('*', { as: 'numSteps' })) as [{ numSteps: number }];
 
-  const files = (await getFiles({ parentId: eventId }, 4)) as FileDataType[];
+  const fileData = (await files.get({ parentId: eventId }, 4)) as FileDataType[];
   const [mainImageId] = (await db('data_mainImages')
     .where({ objectId: eventId })
     .pluck('imageId')) as [string];
@@ -47,7 +45,7 @@ export default async function EventPage({ params }) {
         />
 
         <FileOverview
-          files={files}
+          files={fileData}
           addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
           showAllUrl={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}
           PreviewComponent={({ item }) => {

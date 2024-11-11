@@ -1,9 +1,7 @@
-import { OverviewBox, OverviewImage } from '@/components/New/Boxes/OverviewBox';
-import { ChipData } from '@/components/New/ChipData';
+import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { LabelGrid } from '@/components/New/LabelGrid';
-import { NoUnderlineLink } from '@/components/New/Links/NoUnderlineLink';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import {
@@ -15,17 +13,12 @@ import {
   IconButton,
 } from '@mui/material';
 import { Spacer } from '@/components/UI/Spacer';
-import { deleteEventAction } from '../[eventId]/delete/_components/actions';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import Link from 'next/link';
-import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
-import { VPCloseOnActionButton } from '@/components/UI/VPCloseOnActionButton';
-import { Button } from '@/components/New/Button';
 import { EventDeleteButton } from './EventDeleteButton';
-import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { EventDeleteCancelButton } from './EventDeleteCancelButton';
 
 type EventOverviewProps<T extends EventDataType> = {

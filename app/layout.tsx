@@ -14,7 +14,7 @@ import { AppProvider } from 'kotilogi-app/contexts/AppProvider';
 import Script from 'next/script';
 import { cookies } from 'next/headers';
 import { ReactQueryProvider } from './ReactQueryProvider';
-import { VPCookieNotice } from '@/components/App/VPCookieNotice';
+import { VPCookieNotice } from '@/components/App/CookieNotice/VPCookieNotice';
 
 export const metadata = {
   title: 'Kotidok',

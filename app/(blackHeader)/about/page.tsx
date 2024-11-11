@@ -1,8 +1,8 @@
-import { CallToAction } from './_components/CallToAction';
-import { Footer } from './_components/Footer';
-import { Hero } from './_components/Hero';
-import { HouseProfile } from './_components/HouseProfile';
-import { Profile } from './_components/Profile';
+import { CallToAction } from './CallToAction';
+import { Footer } from './Footer';
+import { Hero } from './Hero';
+import { HouseProfile } from './HouseProfile';
+import { Profile } from './Profile';
 
 export default function AboutPage() {
   return (

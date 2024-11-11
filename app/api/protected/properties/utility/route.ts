@@ -1,11 +1,7 @@
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
+import { objects } from 'kotilogi-app/dataAccess/objects';
+import { utilities } from 'kotilogi-app/dataAccess/utilities';
 
-import { deleteObject } from 'kotilogi-app/dataAccess/objects';
-import {
-  createUtilityData,
-  getUtilityData,
-  updateUtilityData,
-} from 'kotilogi-app/dataAccess/utilities';
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import { revalidatePath } from 'next/cache';
 
@@ -16,7 +12,7 @@ const revalidationPath = '/dashboard/properties/[propertyId]';
 export async function GET(req: NextRequest) {
   try {
     const query = searchParamsToObject(req.nextUrl.searchParams);
-    const data = await getUtilityData(query);
+    const data = await utilities.get(query);
     return response('success', JSON.stringify(data));
   } catch (err: any) {
     console.log(err.message);
@@ -37,7 +33,7 @@ export async function POST(req: NextRequest) {
       })
     ).parse(data);
 
-    const promises = data.map(d => createUtilityData(d));
+    const promises = data.map(d => utilities.create(d));
     const uploadResults = await Promise.allSettled(promises);
 
     if (uploadResults.find(result => result.status === 'rejected')) {
@@ -63,7 +59,7 @@ export async function PATCH(req: NextRequest) {
       id: z.string(),
     }).parse(data);
 
-    await updateUtilityData(data.id, data);
+    await utilities.update(data.id, data);
     revalidatePath(revalidationPath, 'page');
     return response('success', null, 'Tiedon päivitys onnistui!');
   } catch (err: any) {
@@ -75,7 +71,7 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const { id } = (await req.json()) as { id: string };
-    await deleteObject(id);
+    await objects.del(id);
     revalidatePath(revalidationPath, 'page');
     return response('success', null, 'Tiedon poisto onnistui!');
   } catch (err: any) {

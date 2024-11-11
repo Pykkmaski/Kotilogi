@@ -7,10 +7,10 @@ import { FileOverview } from '@/components/New/Prefabs/FileOverview';
 import { PropertyOverview } from './_components/PropertyOverview';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { getFiles } from 'kotilogi-app/dataAccess/fileData';
 import { UtilityProvider } from './utility/UtilityContext';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import { utilities } from 'kotilogi-app/dataAccess/utilities';
+import { files } from 'kotilogi-app/dataAccess/files';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -23,8 +23,9 @@ export default async function PropertyPage({ params }) {
     .pluck('email');
 
   const utilityData = await utilities.get(data.id);
-  const files = await getFiles({ parentId: id }, 4);
+  const fileData = await files.get({ parentId: id }, 4);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
+
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
@@ -52,7 +53,7 @@ export default async function PropertyPage({ params }) {
       </div>
 
       <FileOverview
-        files={files}
+        files={fileData}
         addNewUrl={`/dashboard/files/add?parentId=${data.id}`}
         showAllUrl={`/dashboard/files?parentId=${data.id}&returnUrl=/dashboard/properties/${data.id}`}
         PreviewComponent={({ item }) => {
