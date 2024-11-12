@@ -24,8 +24,8 @@ export async function GET(req: NextRequest) {
       email: decoded.email,
     });
 
-    const redirectUrl = req.nextUrl.searchParams.get('redirectUrl');
-    return NextResponse.redirect(redirectUrl || '/dashboard');
+    const url = `${process.env.SERVICE_DOMAIN}/activated?action=email_updated&new_email=${decoded.email}`;
+    return NextResponse.redirect(url);
   } catch (err: any) {
     return handleServerError(req, err);
   }

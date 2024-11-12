@@ -31,9 +31,15 @@ export const options = {
 
   callbacks: {
     async jwt({ token, trigger, user, session }) {
-      if (trigger === 'update' && session?.status) {
-        console.log('Updating session status...');
-        token.status = session.status;
+      if (trigger === 'update') {
+        if (session?.status) {
+          token.status = session.status;
+        }
+
+        if (session?.email) {
+          token.email = session.email;
+        }
+
         return token;
       }
 
@@ -43,9 +49,9 @@ export const options = {
           const userActivatedDate = new Date(user.activatedOn);
 
           const yearsSinceActivation = currentDate.getFullYear() - userActivatedDate.getFullYear();
-          const nextPaymentDate = new Date();
-          nextPaymentDate.setFullYear(currentDate.getFullYear() + 1 + yearsSinceActivation);
-          token.nextPayment = nextPaymentDate.toLocaleDateString('fi');
+          //const nextPaymentDate = new Date();
+          //nextPaymentDate.setFullYear(currentDate.getFullYear() + 1 + yearsSinceActivation);
+          //token.nextPayment = nextPaymentDate.toLocaleDateString('fi');
         }
 
         token.status = user.status;

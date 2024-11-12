@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       activatedOn: Date.now(),
     });
 
-    const url = `${process.env.SERVICE_DOMAIN}/activated`;
+    const url = `${process.env.SERVICE_DOMAIN}/activated?action=user_activated`;
     return NextResponse.redirect(url);
   } catch (err) {
     return handleServerError(req, err);
