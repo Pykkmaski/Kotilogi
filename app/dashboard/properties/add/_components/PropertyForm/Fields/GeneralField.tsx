@@ -63,32 +63,33 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
   return (
     <Fieldset legend='Yleistiedot'>
-      {!hidePropertyIdentifier && isHouse && (
-        <FormControl
-          label='Kiinteistötunnus'
-          required
-          control={
-            <Input
-              data-testid='property-number-input'
-              icon={
-                <RenderOnCondition
-                  condition={
-                    (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
-                  }>
+      {!hidePropertyIdentifier ||
+        (isHouse && (
+          <FormControl
+            label='Kiinteistötunnus'
+            required
+            control={
+              <Input
+                data-testid='property-number-input'
+                icon={
                   <RenderOnCondition
-                    condition={isValid}
-                    fallback={<Clear sx={{ color: 'red' }} />}>
-                    <Check sx={{ color: 'lime' }} />
+                    condition={
+                      (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
+                    }>
+                    <RenderOnCondition
+                      condition={isValid}
+                      fallback={<Clear sx={{ color: 'red' }} />}>
+                      <Check sx={{ color: 'lime' }} />
+                    </RenderOnCondition>
                   </RenderOnCondition>
-                </RenderOnCondition>
-              }
-              name='propertyNumber'
-              placeholder='Kirjoita kiinteistötunnus...'
-              defaultValue={data && (data as HouseDataType).propertyNumber}
-            />
-          }
-        />
-      )}
+                }
+                name='propertyNumber'
+                placeholder='Kirjoita kiinteistötunnus...'
+                defaultValue={data && (data as HouseDataType).propertyNumber}
+              />
+            }
+          />
+        ))}
 
       <FormControl
         label='Osoite'

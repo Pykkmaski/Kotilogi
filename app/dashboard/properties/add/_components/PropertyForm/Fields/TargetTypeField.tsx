@@ -9,20 +9,22 @@ export function TargetTypeField() {
   const { property: data, refs } = usePropertyFormContext();
   console.log(data.propertyTypeId);
   return (
-    <Fieldset legend='Kohde'>
-      <FormControl
-        label='Kohteen tyyppi'
-        control={
-          <ChipRadioGroup
-            name='propertyTypeId'
-            currentValue={data.propertyTypeId}
-            labelKey='name'
-            valueKey='id'
-            required
-            dataArray={refs.propertyTypes}
-          />
-        }
-      />
-    </Fieldset>
+    !data && (
+      <Fieldset legend='Kohde'>
+        <FormControl
+          label='Kohteen tyyppi'
+          control={
+            <ChipRadioGroup
+              name='propertyTypeId'
+              currentValue={data.propertyTypeId}
+              labelKey='name'
+              valueKey='id'
+              required
+              dataArray={refs.propertyTypes}
+            />
+          }
+        />
+      </Fieldset>
+    )
   );
 }
