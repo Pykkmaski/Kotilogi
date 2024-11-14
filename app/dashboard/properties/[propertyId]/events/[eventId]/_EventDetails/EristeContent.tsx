@@ -1,21 +1,28 @@
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { useEventDetailsContext } from './EventDetails';
+import { FalseInput } from '@/components/UI/FalseInput';
+import { ignoreKeys } from 'kotilogi-app/utils/ignoreKeys';
+import { useMemo } from 'react';
 
 export const EristeContent = () => {
   const { extraData } = useEventDetailsContext();
+  const entries = useMemo(
+    () => Object.entries(ignoreKeys(extraData, ['id', 'materiaaliId', 'kohdeId'])),
+    [extraData]
+  );
+
   return (
     <>
-      <div className='flex items-center gap-8'>
-        <LabelGrid.Entry
-          label='Materiaali'
-          value={extraData.materialLabel}
-        />
-
-        <LabelGrid.Entry
-          label='Kohde'
-          value={extraData.targetLabel}
-        />
-      </div>
+      {entries.map(([key, val]) => {
+        const variant = typeof val === 'boolean' ? 'checkbox' : 'field';
+        return (
+          <FalseInput
+            label={key}
+            value={val}
+            variant={variant}
+          />
+        );
+      })}
     </>
   );
 };

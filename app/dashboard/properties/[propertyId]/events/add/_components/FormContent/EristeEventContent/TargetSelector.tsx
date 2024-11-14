@@ -7,10 +7,6 @@ import { OptionSelector } from '@/components/Feature/OptionSelector';
 
 export const TargetSelector = () => {
   const { extraData } = useEventFormContext();
-  const { data, isLoading } = useQuery({
-    queryKey: ['eristekohteet'],
-    queryFn: async () => getEristeKohteet(),
-  });
 
   return (
     <OptionSelector
@@ -18,7 +14,7 @@ export const TargetSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='ref_eristeKohde'
-      propertyName='targetId'
+      propertyName='kohdeId'
       useContextValue={extraData}
     />
   );

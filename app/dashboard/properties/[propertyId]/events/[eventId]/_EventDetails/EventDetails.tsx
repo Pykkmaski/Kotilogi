@@ -1,11 +1,8 @@
 'use client';
 
-import { LabelGrid } from '@/components/New/LabelGrid';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
-import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
-import { createContext } from 'react';
-import { HormiContent } from './HormiContent';
+import { createContext, useMemo } from 'react';
 import { RoofContent } from './RoofContent';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { HeatingTypeContent } from './HeatingTypeContent';
@@ -14,6 +11,8 @@ import { Info } from '@mui/icons-material';
 import { KayttovesiputketContent } from './KayttovesiputketContent';
 import { ViemariputketContent } from './ViemariputketContent';
 import { EristeContent } from './EristeContent';
+import { DrainageDitchContent } from './DrainageDitchContent';
+import { FalseInput } from '@/components/UI/FalseInput';
 
 const EventDetailsContext = createContext<{ mainData: EventDataType; extraData: any } | null>(null);
 
@@ -23,35 +22,212 @@ type EventDetailsProps = {
 };
 
 export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
-  const getContent = () => {
+  const content = useMemo(() => {
     const { mainTypeLabel, targetLabel } = eventData;
     let content = null;
-    switch (mainTypeLabel) {
-      case 'Peruskorjaus': {
-        switch (targetLabel) {
-          case 'Katto':
-            content = <RoofContent />;
-            break;
+    if (mainTypeLabel === 'Peruskorjaus') {
+      if (targetLabel === 'Salaojat') {
+        console.log(extraData);
+        content = (
+          <>
+            <FalseInput
+              label='Toteutustapa'
+              value={extraData.toteutusTapaLabel}
+              variant='field'
+            />
 
-          case 'Lämmitysmuoto':
-            content = <HeatingTypeContent />;
-            break;
+            <FalseInput
+              label={'Salaojasepeli'}
+              value={extraData.salaojaSepeli}
+              variant='field'
+            />
 
-          case 'Käyttövesiputket':
-            content = <KayttovesiputketContent />;
-            break;
+            <FalseInput
+              label={'Murskereunus'}
+              value={extraData.murskeReunus}
+              variant='field'
+            />
 
-          case 'Viemäriputket':
-            content = <ViemariputketContent />;
-            break;
+            <FalseInput
+              label={'Routaeristys'}
+              value={extraData.salaojaSepeli}
+              variant='field'
+            />
 
-          case 'Eristys':
-            content = <EristeContent />;
-            break;
+            <FalseInput
+              label={'Sadevesiputket'}
+              value={extraData.sadevesiPutket}
+              variant='checkbox'
+            />
 
-          default:
-            content = null;
-        }
+            <FalseInput
+              label={'Pumppukaivo'}
+              value={extraData.pumppuKaivo}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label={'Kalliotyö'}
+              value={extraData.kallioTyo}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label={'Suodatinkangas'}
+              value={extraData.suodatinKangas}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label={'Tarkastuskaivot'}
+              value={extraData.tarkastusKaivot}
+              variant='checkbox'
+            />
+          </>
+        );
+      } else if (targetLabel === 'Eristys') {
+        content = (
+          <>
+            <FalseInput
+              label='Materiaali'
+              value={extraData.materialLabel}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Kohde'
+              value={extraData.targetLabel}
+              variant='field'
+            />
+          </>
+        );
+      } else if (targetLabel === 'Katto') {
+        content = (
+          <>
+            <FalseInput
+              label='Tyyppi'
+              value={extraData.typeLabel}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Materiaali'
+              value={extraData.materialLabel}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Kaltevuus'
+              value={extraData.kaltevuus}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Neliömetrit'
+              value={extraData.neliometrit}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Väri'
+              value={extraData.colorLabel}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Räystästyyppi'
+              value={extraData.raystasTyyppiLabel}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Aluskatetyyppi'
+              value={extraData.aluskateTyyppiLabel}
+              variant='field'
+            />
+
+            <FalseInput
+              label='Harjatuuletus aluskatteella'
+              value={extraData.hajratuuletusAluskatteella}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Suojakäsitelty puutavara'
+              value={extraData.suojakasiteltyPuutavara}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Piipunpellitys'
+              value={extraData.piipunpellitys}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Seinätikas'
+              value={extraData.seinatikas}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Lapetikas'
+              value={extraData.lapetikas}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Lumieste'
+              value={extraData.lumieste}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Kattosilta'
+              value={extraData.kattosilta}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Turvatikas'
+              value={extraData.turvatikas}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Kourut'
+              value={extraData.kourut}
+              variant='checkbox'
+            />
+
+            <FalseInput
+              label='Syöksysarja'
+              value={extraData.syoksysarja}
+              variant='checkbox'
+            />
+          </>
+        );
+      } else if (targetLabel === 'Viemäriputket') {
+        content = (
+          <>
+            <FalseInput
+              label='Toteutustapa'
+              value={extraData.toteutustapaLabel}
+              variant='field'
+            />
+          </>
+        );
+      } else if (targetLabel === 'Käyttövesiputket') {
+        content = (
+          <>
+            <FalseInput
+              label='Asennustapa'
+              value={extraData.asennustapaLabel}
+              variant='field'
+            />
+          </>
+        );
+      } else if (targetLabel === 'Lämmitysmuoto') {
       }
     }
 
@@ -63,10 +239,10 @@ export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
             text='Lisätiedot'
           />
         </BoxHeader>
-        <div className='flex flex-col gap-4'>{content}</div>
+        <div className='flex gap-2 flex-wrap'>{content}</div>
       </ContentBox>
     ) : null;
-  };
+  }, [extraData, eventData.mainTypeLabel, eventData.targetLabel]);
 
   return (
     <EventDetailsContext.Provider
@@ -74,7 +250,7 @@ export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
         extraData,
         mainData: eventData,
       }}>
-      {getContent()}
+      {content}
     </EventDetailsContext.Provider>
   );
 };

@@ -45,6 +45,13 @@ type InfoType = {
   zipCode: string;
 };
 
+/**
+ * Hits the MML-api to get information on a property.
+ * The purpose of this action is mainly to determine if a property exists based on if data is returned in response to an identifier.
+ *  (The api is public, issues may arise if a lot of requests are made)
+ * @param propertyIdentifier The kiinteistötunnus of the property to get info on.
+ * @returns
+ */
 export const fetchPropertyInfoAction = async (
   propertyIdentifier: string
 ): Promise<InfoType | null> => {

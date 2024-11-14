@@ -10,7 +10,7 @@ export const RaystasSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='ref_raystastyypit'
-      propertyName='raystastyyppiId'
+      propertyName='raystasTyyppiId'
       useContextValue={extraData}
     />
   );

@@ -1,27 +1,25 @@
-import { Chip } from '@mui/material';
+import { ignoreKeys } from 'kotilogi-app/utils/ignoreKeys';
 import { useEventDetailsContext } from './EventDetails';
+import { FalseInput } from '@/components/UI/FalseInput';
+import { useMemo } from 'react';
 
 export const RoofContent = () => {
-  const { mainData, extraData } = useEventDetailsContext();
-
-  const ChipEntry = ({ label, value }) => (
-    <div className='flex flex-col gap-2'>
-      <label className='text-sm text-slate-500'>{label}</label>
-      <Chip
-        label={value}
-        color='secondary'
-      />
-    </div>
-  );
+  const { extraData } = useEventDetailsContext();
+  const entries = useMemo(() => Object.entries(ignoreKeys(extraData, ['id'])), [extraData]);
 
   return (
     <>
-      <div className='w-full gap-4 items-center'>
-        <ChipEntry
-          label='Katon tyyppi'
-          value={extraData && extraData.roofTypeLabel}
-        />
-      </div>
+      {entries.map(([key, val]) => {
+        const variant = typeof val === 'boolean' ? 'checkbox' : 'field';
+
+        return (
+          <FalseInput
+            label={key}
+            value={val}
+            variant={variant}
+          />
+        );
+      })}
     </>
   );
 };

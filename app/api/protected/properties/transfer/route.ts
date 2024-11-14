@@ -1,11 +1,51 @@
 import { handleServerError } from 'kotilogi-app/app/api/_utils/responseUtils';
 import db from 'kotilogi-app/dbconfig';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
-/**Creates a transfer token for a property. */
+export async function GET(req: NextRequest) {
+  const trx = await db.transaction();
+
+  try {
+    const token = req.nextUrl.searchParams.get('token');
+    if (!token) {
+      return new NextResponse('Pyynnöstä puuttuu varmenne!', {
+        status: 400,
+      });
+    }
+    const [transferCode] = await trx('data_propertyTransferCodes').where({ code: token });
+    if (!transferCode) {
+      return new NextResponse('Siirtopyyntöä ei ole!', { status: 404 });
+    }
+    console.log(transferCode);
+    if (Date.now() > new Date(transferCode).getTime()) {
+      return new NextResponse('Varmenne on vanhentunut!', { status: 410 });
+    }
+
+    const session = await verifySession();
+    await trx('data_propertyOwners').where({ propertyId: transferCode.propertyId }).update({
+      userId: session.user.id,
+    });
+
+    const [streetAddress] = await trx('data_properties')
+      .where({ id: transferCode.propertyId })
+      .pluck('streetAddress');
+
+    await trx('data_propertyTransferCodes').where({ code: token }).del();
+    await trx.commit();
+
+    //The user's dashboard is not updated afterwards. Consider moving this into a server action.
+    return NextResponse.redirect(
+      `${process.env.SERVICE_DOMAIN}/activated?action=property_transfer&streetAddress=${streetAddress}`
+    );
+  } catch (err) {
+    await trx.rollback();
+    return handleServerError(req, err);
+  }
+}
+
+/**Creates a transfer token for a property. 
 export async function GET(req: NextRequest) {
   try {
     const authorization = req.headers.get('Authorization');
@@ -57,4 +97,4 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     return handleServerError(req, err);
   }
-}
+}*/

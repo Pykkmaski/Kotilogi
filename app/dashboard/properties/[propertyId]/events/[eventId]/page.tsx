@@ -38,25 +38,29 @@ export default async function EventPage({ params }) {
         }}
       />
 
-      <div className='flex w-full md:gap-4 xs:gap-1 xs:flex-col lg:flex-row'>
-        <EventDetails
-          eventData={eventData}
-          extraData={extraData}
-        />
+      <div className='flex md:gap-4 xs:gap-1 xs:flex-col lg:flex-row'>
+        <div className='xs:w-full lg:w-[50%]'>
+          <EventDetails
+            eventData={eventData}
+            extraData={extraData}
+          />
+        </div>
 
-        <FileOverview
-          files={fileData}
-          addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
-          showAllUrl={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}
-          PreviewComponent={({ item }) => {
-            return (
-              <FileCard
-                file={item}
-                isMain={item.id == mainImageId}
-              />
-            );
-          }}
-        />
+        <div className='xs:w-full lg:w-[50%]'>
+          <FileOverview
+            files={fileData}
+            addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
+            showAllUrl={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}
+            PreviewComponent={({ item }) => {
+              return (
+                <FileCard
+                  file={item}
+                  isMain={item.id == mainImageId}
+                />
+              );
+            }}
+          />
+        </div>
       </div>
     </Main>
   );

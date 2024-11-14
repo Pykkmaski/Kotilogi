@@ -26,19 +26,12 @@ type EventOverviewProps<T extends EventDataType> = {
 };
 
 export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
-  const [{ imageCount }] = await db('data_files')
-    .join('data_objects', { 'data_objects.id': 'data_files.id' })
-    .where({ parentId: event.id })
-    .count('*', { as: 'imageCount' });
-
   const images = await db('data_files')
     .join('data_objects', { 'data_objects.id': 'data_files.id' })
     .where({ parentId: event.id, type: 'image/jpeg' })
     .select('data_files.id as id', 'data_objects.parentId as parentId');
 
   const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
-  const editUrl = `/dashboard/properties/${event.parentId}/events/${event.id}/edit`;
-  const deleteUrl = `/dashboard/properties/${event.parentId}/events/${event.id}/delete`;
 
   return (
     <ContentBox>
@@ -75,7 +68,7 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
             grow
             full>
             <Link href={`/dashboard/properties/${event.parentId}/events/${event.id}`}>
-              <SecondaryHeading>{event.title}</SecondaryHeading>
+              <h1 className='xs:text-sm md:text-lg font-semibold'>{event.title}</h1>
             </Link>
 
             <Spacer
@@ -83,7 +76,9 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
               gap='small'>
               <DialogPrefab
                 trigger={
-                  <IconButton color='warning'>
+                  <IconButton
+                    color='warning'
+                    sx={{ padding: 0 }}>
                     <Delete />
                   </IconButton>
                 }
@@ -107,27 +102,12 @@ export async function EventOverview<T extends EventDataType>({ event }: EventOve
 
           <Spacer
             dir='col'
-            gap={'medium'}
+            gap={'small'}
             full>
-            <Paragraph>{event.description || 'Ei kuvausta.'}</Paragraph>
-            <Spacer
-              dir='row'
-              gap={'small'}>
-              <Chip
-                label={event.mainTypeLabel || 'Muu'}
-                color='secondary'
-              />
-
-              {event.targetLabel && <Chip label={event.targetLabel} />}
-              {event.workTypeLabel && <Chip label={event.workTypeLabel} />}
-            </Spacer>
-
-            <LabelGrid header={<h1 className='text-sm font-semibold'>Tiedot</h1>}>
-              <LabelGrid.Entry
-                label='Päiväys'
-                value={event.date.toLocaleDateString()}
-              />
-            </LabelGrid>
+            <p className='xs:text-sm md:text-lg'>{event.description || 'Ei kuvausta.'}</p>
+            <span className='xs:text-sm md:text-lg text-slate-500'>
+              {event.date.toLocaleDateString('fi')}
+            </span>
           </Spacer>
         </div>
       </Spacer>

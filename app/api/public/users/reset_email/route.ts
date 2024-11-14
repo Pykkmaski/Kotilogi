@@ -13,11 +13,17 @@ export async function GET(req: NextRequest) {
       return new NextResponse(createResponseMessage('Varmenne puuttuu!'));
     }
 
-    let decoded;
+    let decoded: JwtPayload;
     try {
       decoded = jwt.verify(token, process.env.EMAIL_RESET_SECRET) as JwtPayload;
     } catch (err) {
       return new NextResponse(createResponseMessage('Varmenne on virheellinen!'));
+    }
+
+    if (!decoded.email) {
+      return new NextResponse(
+        createResponseMessage('Varmenne ei sisällä käyttäjän uutta sähköpostiosoitetta!')
+      );
     }
 
     await db('data_users').where({ id: decoded.id }).update({

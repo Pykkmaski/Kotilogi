@@ -17,36 +17,38 @@ export default async function PropertiesPage() {
   )[];
 
   if (data.length == 1) {
-    redirect(`properties/${data.at(0).id}`);
+    //redirect(`properties/${data.at(0).id}`);
   }
 
   return (
-    <Main>
-      <OverviewBoxList
-        items={data}
-        listTitle='Talot'
-        onEmptyElement={
-          <GalleryError
-            title='Ei taloja'
-            message='Et ole vielä lisännyt taloja.'
-            icon={'fa fa-home'}
-          />
-        }
-        addButtonUrl='/dashboard/properties/add'
-        OverviewComponent={async ({ item }) => {
-          const owners = await db('data_propertyOwners').where({ propertyId: item.id });
-          return (
-            <PropertyOverview
-              owners={owners}
-              property={item}
-              editUrl={`/dashboard/properties/${item.id}/edit`}
-              showUrl={`/dashboard/properties/${item.id}`}
-              editContentText='Muokkaa'
-              editIcon={<Edit />}
+    <main className='flex justify-center'>
+      <div className='md:w-[75%] xs:w-full'>
+        <OverviewBoxList
+          items={data}
+          listTitle='Talot'
+          onEmptyElement={
+            <GalleryError
+              title='Ei taloja'
+              message='Et ole vielä lisännyt taloja.'
+              icon={'fa fa-home'}
             />
-          );
-        }}
-      />
-    </Main>
+          }
+          addButtonUrl='/dashboard/properties/add'
+          OverviewComponent={async ({ item }) => {
+            const owners = await db('data_propertyOwners').where({ propertyId: item.id });
+            return (
+              <PropertyOverview
+                owners={owners}
+                property={item}
+                editUrl={`/dashboard/properties/${item.id}/edit`}
+                showUrl={`/dashboard/properties/${item.id}`}
+                editContentText='Muokkaa'
+                editIcon={<Edit />}
+              />
+            );
+          }}
+        />
+      </div>
+    </main>
   );
 }

@@ -2,6 +2,7 @@ import { Main } from '@/components/New/Main';
 import { EventDataType } from 'kotilogi-app/dataAccess/types';
 import { EventBoxList } from './_components/EventBoxList';
 import { events } from 'kotilogi-app/dataAccess/events';
+import { ListHeader } from '@/components/New/Prefabs/OverviewBoxList';
 
 export default async function EventsPage({ params, searchParams }) {
   const propertyId = params.propertyId;
@@ -10,12 +11,16 @@ export default async function EventsPage({ params, searchParams }) {
   const eventData = (await events.get({ parentId: propertyId }, search, 10)) as EventDataType[];
 
   return (
-    <Main>
-      <EventBoxList
-        search={search}
-        events={eventData}
-        propertyId={propertyId}
-      />
-    </Main>
+    <main className='flex justify-center w-full'>
+      <div
+        id='events-page-body'
+        className='lg:w-[75%] xs:w-full'>
+        <EventBoxList
+          search={search}
+          events={eventData}
+          propertyId={propertyId}
+        />
+      </div>
+    </main>
   );
 }

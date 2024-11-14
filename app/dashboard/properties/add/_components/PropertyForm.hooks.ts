@@ -15,6 +15,7 @@ export function usePropertyForm(
 
   let streetName;
   let houseNumber;
+
   if (address) {
     houseNumber = address.at(-1);
     //Remove the house number.
@@ -25,8 +26,6 @@ export function usePropertyForm(
   const { data, updateData, resetData, hasChanges } = useFormOnChangeObject(
     (property !== undefined && {
       ...property,
-      streetAddress: streetName,
-      houseNumber,
     }) || {
       propertyTypeId: refs.propertyTypes.find(type => type.name === 'Kiinteistö').id.toString(),
     }

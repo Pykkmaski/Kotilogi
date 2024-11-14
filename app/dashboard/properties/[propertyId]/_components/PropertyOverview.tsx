@@ -5,12 +5,14 @@ import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { Spacer } from '@/components/UI/Spacer';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
-import { DialogPrefab } from '@/components/UI/VPDialog';
-import { IconButton } from '@mui/material';
+import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
+import { DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { Delete, Edit } from '@mui/icons-material';
+import { CopyAll, Delete, Edit, Person } from '@mui/icons-material';
 import Link from 'next/link';
+import { FalseInput } from '@/components/UI/FalseInput';
+import { TokenGenerationField } from './TokenGenerationField/TokenGenerationField';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -85,7 +87,7 @@ export async function PropertyOverview({
           />
         )}
 
-        <div className='flex flex-col w-full gap-2'>
+        <div className='flex flex-col w-full gap-4'>
           <Spacer
             dir='row'
             justify='between'
@@ -99,6 +101,30 @@ export async function PropertyOverview({
             <Spacer
               dir='row'
               gap='small'>
+              <DialogPrefab
+                trigger={
+                  <IconButton
+                    color='secondary'
+                    title='Siirrä omistajuus'>
+                    <Person />
+                  </IconButton>
+                }
+                target={
+                  <VPDialog>
+                    <DialogTitle>Siirrä omistajuus</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Kopioi tämä linkki ja lähetä se Kotidokin käyttäjälle jolle haluat siirtää
+                        talon omistajuuden.
+                        <br />
+                        <br />
+                        <TokenGenerationField propertyId={property.id} />
+                      </DialogContentText>
+                    </DialogContent>
+                  </VPDialog>
+                }
+              />
+
               <Link href={editUrl}>
                 <IconButton color='secondary'>
                   <Edit />
@@ -112,7 +138,11 @@ export async function PropertyOverview({
               </Link>
             </Spacer>
           </Spacer>
-          <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
+
+          <div className='md:w-[50%] xs:w-full'>
+            <Paragraph>{property.description || 'Ei kuvausta.'}</Paragraph>
+          </div>
+
           <div className='w-full xs:hidden md:block'>
             <LabelGrid
               header={

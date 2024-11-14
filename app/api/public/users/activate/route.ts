@@ -27,12 +27,15 @@ export async function GET(req: NextRequest) {
       return response('conflict', 'Käyttäjätili on jo käytössä!');
     }
 
-    await db('data_users').where({ id: decoded.id }).update({
-      status: 1,
-      activatedOn: Date.now(),
-    });
+    const [{ email }] = await db('data_users')
+      .where({ id: decoded.id })
+      .update({
+        status: 1,
+        activatedOn: Date.now(),
+      })
+      .returning('email');
 
-    const url = `${process.env.SERVICE_DOMAIN}/activated?action=user_activated`;
+    const url = `${process.env.SERVICE_DOMAIN}/activated?action=user_activated?email=${email}`;
     return NextResponse.redirect(url);
   } catch (err) {
     return handleServerError(req, err);

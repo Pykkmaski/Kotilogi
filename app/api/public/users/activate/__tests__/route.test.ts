@@ -41,7 +41,7 @@ describe('Testing requests with valid token.', () => {
     });
 
     it('Calls the redirect-method with the correct arguments.', () => {
-      expect(redirectMock).toHaveBeenCalledWith(`${domain}/activated`);
+      expect(redirectMock).toHaveBeenCalledWith(`${domain}/activated?email=${testUser.email}`);
     });
 
     it("Updates the correct user's status to active.", () => {

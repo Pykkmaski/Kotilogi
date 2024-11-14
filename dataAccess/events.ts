@@ -15,17 +15,15 @@ class Events {
    * @returns
    */
   private getDTO(eventData: TODO) {
-    const labels = [eventData.mainTypeLabel, eventData.targetLabel, eventData.workTypeLabel].filter(
-      t => t != null
-    );
-
-    const title = labels.length ? labels.join(' - ') : eventData.title || 'Ei Otsikkoa.';
+    const labels = [eventData.mainTypeLabel, eventData.targetLabel].filter(t => t != null);
+    const title = labels.length ? labels.join(' > ') : eventData.title || 'Ei Otsikkoa.';
+    const description = eventData.description || eventData.workTypeLabel;
 
     return {
       id: eventData.id,
       parentId: eventData.parentId,
       title,
-      description: eventData.description,
+      description,
       date: eventData.date,
       mainTypeLabel: eventData.mainTypeLabel,
       targetLabel: eventData.targetLabel,
@@ -304,10 +302,22 @@ class Events {
     return await db('data_roofEvents')
       .join('ref_roofTypes', { 'ref_roofTypes.id': 'data_roofEvents.roofTypeId' })
       .join('ref_roofMaterials', { 'ref_roofMaterials.id': 'data_roofEvents.roofMaterialId' })
+      .join('ref_mainColors', { 'ref_mainColors.id': 'data_roofEvents.colorId' })
+      .join('ref_raystastyypit', { 'ref_raystastyypit.id': 'data_roofEvents.raystasTyyppiId' })
+      .join('ref_otsalautatyypit', {
+        'ref_otsalautatyypit.id': 'data_roofEvents.otsalautaTyyppiId',
+      })
+      .join('ref_aluskatetyypit', {
+        'ref_aluskatetyypit.id': 'data_roofEvents.aluskateTyyppiId',
+      })
       .where({ 'data_roofEvents.id': eventId })
       .select(
-        'ref_roofMaterials.name as roofMaterialLabel',
-        'ref_roofTypes.name as roofTypeLabel',
+        'ref_roofMaterials.name as materialLabel',
+        'ref_roofTypes.name as typeLabel',
+        'ref_mainColors.name as colorLabel',
+        'ref_raystastyypit.label as raystasTyyppiLabel',
+        'ref_otsalautatyypit.label as otsalautaTyyppiLabel',
+        'ref_aluskatetyypit.label as aluskateTyyppiLabel',
         'data_roofEvents.*'
       );
   }
@@ -336,7 +346,8 @@ class Events {
         'newSystem.id': 'data_baseHeatingEvents.newSystemId',
       })
       .select(
-        'data_baseHeatingEvents.*',
+        'data_baseHeatingEvents.brand as newSystemBrandLabel',
+        'data_baseHeatingEvents.model as newSystemModelLabel',
         'oldSystem.name as oldSystemLabel',
         'newSystem.name as newSystemLabel'
       );
@@ -370,7 +381,7 @@ class Events {
       .where({ 'data_kayttoVesiPutketEvents.id': eventId })
       .select(
         'data_kayttoVesiPutketEvents.*',
-        'ref_kayttovesiPutketAsennusTavat.label as asennusTapaLabel'
+        'ref_kayttovesiPutketAsennusTavat.label as asennustapaLabel'
       );
   }
 
@@ -380,10 +391,7 @@ class Events {
         'ref_viemariPutketToteutusTapa.id': 'data_viemariPutketEvents.toteutusTapaId',
       })
       .where({ 'data_viemariPutketEvents.id': eventId })
-      .select(
-        'data_viemariPutketEvents.*',
-        'ref_viemariPutketToteutusTapa.label as toteutusTapaLabel'
-      );
+      .select('data_viemariPutketEvents.*', 'ref_viemariPutketToteutusTapa.label as Toteutustapa');
   }
 
   private async getInsulationEvent(eventId: string) {
@@ -406,14 +414,14 @@ class Events {
         'ref_electricityJobTargets.id': 'data_electricityEvents.jobTargetId',
       })
       .where({ 'data_electricityEvents.id': eventId })
-      .select('data_electricityEvents.*', 'ref_electricityJobTargets.label as jobTargetLabel');
+      .select('data_electricityEvents.*', 'ref_electricityJobTargets.label as Työn kohde');
   }
 
   private async getLockEvent(eventId: string) {
     return await db('data_lockEvents')
       .join('ref_lockTypes', { 'ref_lockTypes.id': 'data_lockEvents.lockTypeId' })
       .where({ 'data_lockEvents.id': eventId })
-      .select('data_lockEvents.*', 'ref_lockTypes.label as lockTypeLabel');
+      .select('data_lockEvents.*', 'ref_lockTypes.label as Lukon tyyppi');
   }
 
   /**Fetches the additional data associated with an event

@@ -9,7 +9,7 @@ export const ColorSelector = () => {
       labelKey='name'
       valueKey='id'
       tablename='ref_mainColors'
-      propertyName='mainColorId'
+      propertyName='colorId'
       useContextValue={extraData}
     />
   );
