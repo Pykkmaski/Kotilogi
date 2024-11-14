@@ -18,9 +18,12 @@ export async function GET(req: NextRequest) {
     if (!transferCode) {
       return new NextResponse('Siirtopyyntöä ei ole!', { status: 404 });
     }
-    console.log(transferCode);
+
     if (Date.now() > new Date(transferCode).getTime()) {
-      return new NextResponse('Varmenne on vanhentunut!', { status: 410 });
+      return new NextResponse(
+        'Varmenne on vanhentunut! Pyydä talon nykyistä omistajaa luomaan uusi varmennelinkki.',
+        { status: 410 }
+      );
     }
 
     const session = await verifySession();
