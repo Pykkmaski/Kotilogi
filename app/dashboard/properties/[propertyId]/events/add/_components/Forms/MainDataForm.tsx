@@ -86,10 +86,10 @@ export function MainDataForm({ editing }) {
                 </ToggleProvider.Trigger>
 
                 <Button
-                  disabled={status == 'loading' || status == 'done'}
+                  disabled={status == 'loading' || status == 'done' || status === 'error'}
                   startIcon={
                     <RenderOnCondition
-                      condition={status == 'idle' || status == 'done'}
+                      condition={status == 'idle' || status == 'done' || status === 'error'}
                       fallback={<Spinner />}>
                       <Check />
                     </RenderOnCondition>

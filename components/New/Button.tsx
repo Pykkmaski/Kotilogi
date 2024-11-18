@@ -18,7 +18,7 @@ export function Button({ children, loading = false, ...props }: ButtonProps) {
           {props.startIcon}
         </RenderOnCondition>
       }
-      sx={props.variant == 'contained' && { color: 'white' }}>
+      sx={{ color: props.variant == 'contained' ? 'white' : 'black' }}>
       {children}
     </MuiButton>
   );

@@ -30,6 +30,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
 
   const { method: submitMethod, status } = useStatusWithAsyncMethod(async () => {
     if (eventData) {
+      console.log('kalja');
       await updateEventAction(eventData.id, mainData, typeData, extraData);
     } else {
       await createEventAction(
@@ -43,7 +44,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
           fd.append('file', f);
           return fd;
         })
-      );
+      ).catch(err => toast.error(err.message));
     }
     localStorage.removeItem('kotidok-event-extra-data');
   });

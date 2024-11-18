@@ -24,9 +24,7 @@ export default async function newDashboardLayout({ children }: React.PropsWithCh
         </Paper>
       </Margin>
       <div className='lg:hidden xs:block'>
-        <Notice
-          text={'Sovelluksen mobiiliversio on työn alla. Sivut eivät välttämättä näy oikein.'}
-        />
+        <Notice text={'Mobiiliversion kehitys on työn alla.'} />
       </div>
     </div>
   );

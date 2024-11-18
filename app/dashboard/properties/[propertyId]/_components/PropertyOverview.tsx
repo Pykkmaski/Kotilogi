@@ -9,10 +9,12 @@ import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
 import { DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { CopyAll, Delete, Edit, Person } from '@mui/icons-material';
+import { CopyAll, Delete, Edit, MoreVert, Person } from '@mui/icons-material';
 import Link from 'next/link';
 import { FalseInput } from '@/components/UI/FalseInput';
 import { TokenGenerationField } from './TokenGenerationField/TokenGenerationField';
+import { TransferDialogTrigger } from './TransferDialogTrigger';
+import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
 
 type PropertyOverviewProps = {
   property: AppartmentDataType | HouseDataType;
@@ -101,41 +103,19 @@ export async function PropertyOverview({
             <Spacer
               dir='row'
               gap='small'>
-              <DialogPrefab
+              <MenuPrefab
                 trigger={
-                  <IconButton
-                    color='secondary'
-                    title='Siirrä omistajuus'>
-                    <Person />
+                  <IconButton>
+                    <MoreVert />
                   </IconButton>
                 }
                 target={
-                  <VPDialog>
-                    <DialogTitle>Siirrä omistajuus</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        Kopioi tämä linkki ja lähetä se Kotidokin käyttäjälle jolle haluat siirtää
-                        talon omistajuuden.
-                        <br />
-                        <br />
-                        <TokenGenerationField propertyId={property.id} />
-                      </DialogContentText>
-                    </DialogContent>
-                  </VPDialog>
-                }
-              />
-
-              <Link href={editUrl}>
-                <IconButton color='secondary'>
-                  <Edit />
-                </IconButton>
-              </Link>
-
-              <Link href={`/dashboard/properties/${property.id}/delete`}>
-                <IconButton color='warning'>
-                  <Delete />
-                </IconButton>
-              </Link>
+                  <VPMenu>
+                    <Link href={editUrl}>Muokkaa</Link>
+                    <TransferDialogTrigger propertyId={property.id} />
+                    <Link href={`/dashboard/properties/${property.id}/delete`}>Poista</Link>
+                  </VPMenu>
+                }></MenuPrefab>
             </Spacer>
           </Spacer>
 

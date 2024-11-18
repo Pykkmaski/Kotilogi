@@ -137,7 +137,7 @@ class Events {
       for (const s of selectedSurfaceIds) {
         await trx('data_surfaces').insert({
           eventId,
-          s,
+          surfaceId: s,
         });
       }
       //throw new Error('Surface save-logic not implemented!');

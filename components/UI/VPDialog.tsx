@@ -1,14 +1,15 @@
 'use client';
 
-import { Dialog } from '@mui/material';
+import { Dialog, DialogProps } from '@mui/material';
 import { ReactNode } from 'react';
 import { ToggleProvider } from '../Util/ToggleProvider';
 
-type VPDialogProps = React.PropsWithChildren & {
-  /**This prop is passed automatically by a VisibilityProvider.Target. Should usually be left undefined. */
-  isToggled?: boolean;
-  onClose?: () => void;
-};
+type VPDialogProps = Partial<DialogProps> &
+  React.PropsWithChildren & {
+    /**This prop is passed automatically by a VisibilityProvider.Target. Should usually be left undefined. */
+    isToggled?: boolean;
+    onClose?: () => void;
+  };
 
 /**A wrapper component for a Material UI Dialog. Should be used as a MUITarget for ToggleProviders.*/
 export function VPDialog({ children, isToggled, onClose }: VPDialogProps) {

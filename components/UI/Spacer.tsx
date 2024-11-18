@@ -8,7 +8,7 @@ type DirectionType = 'row' | 'col';
 type BreakpointType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 
 const gaps: Record<GapWidthType, string> = {
-  small: 'xs:gap-0 sm:gap-1',
+  small: 'xs:gap-1 sm:gap-1',
   medium: 'xs:gap-2 sm:gap-4',
   large: 'xs:gap-4 sm:gap-8',
   none: 'gap-0',

@@ -20,6 +20,7 @@ export const SurfaceSelector = () => {
           return (
             <ChipButton
               type='checkbox'
+              name='surfaceId'
               label={s.label}
               value={s.id}
               onClick={() => toggleSurfaceId(s.id)}

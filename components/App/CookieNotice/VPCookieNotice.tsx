@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Button, Switch } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import { Cookie } from '@mui/icons-material';
+import { Check, Cookie } from '@mui/icons-material';
 import { acceptCookiesAction } from './acceptCookiesAction';
 import { RenderOnCondition } from '../../Util/RenderOnCondition';
 import { ToggleProvider } from '../../Util/ToggleProvider';
@@ -67,35 +67,30 @@ function CookieNoticeTarget({ isToggled: isVisible = null, onClose = null }) {
                   <br />
                   Voit halutessasi sallia näiden vaihtoehtoisten evästeiden käytön.
                 </p>
-                <SwitchContainer>
-                  <Switch
-                    color='secondary'
-                    disabled
-                    checked
-                  />
-                  <label>Pakolliset</label>
-                </SwitchContainer>
-                <SwitchContainer>
-                  <Switch
-                    color='secondary'
-                    name='kotidok-analytics-accepted'
-                    onChange={e => setCookie(e.target.name, e.target.checked)}
-                    checked={cookies['kotidok-analytics-accepted']}
-                  />
-                  <label>Tilastointi</label>
-                </SwitchContainer>
               </div>
             </div>
 
             <div className='flex gap-4 justify-end mt-4 border-t border-slate-200 pt-4 w-full'>
-              <div className='w-[100px] [&>*]:w-full'>
-                <Button
-                  variant='contained'
-                  color='secondary'
-                  onClick={acceptCookies}>
-                  Vahvista
-                </Button>
-              </div>
+              <Button
+                variant='text'
+                color='secondary'
+                onClick={async e => {
+                  setCookie('cookiesAccepted', 'only-necessary');
+                  await acceptCookies();
+                }}>
+                Vain pakolliset
+              </Button>
+
+              <Button
+                variant='contained'
+                color='secondary'
+                startIcon={<Check />}
+                onClick={async e => {
+                  setCookie('cookiesAccepted', 'all');
+                  await acceptCookies();
+                }}>
+                Hyväksy kaikki
+              </Button>
             </div>
           </div>
         </div>

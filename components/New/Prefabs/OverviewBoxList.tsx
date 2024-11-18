@@ -24,7 +24,7 @@ export function ListHeader({ searchBar, title, addButtonUrl }: ListHeaderProps) 
   return (
     <div className={containerClasses.join(' ')}>
       <SecondaryHeading>{title}</SecondaryHeading>
-      <div className='flex gap-4 items-center xs:w-full lg:w-auto xs:mt-2 xl:mt-0'>
+      <div className='flex xs:gap-2 md:gap-4 items-center xs:w-full lg:w-auto xs:mt-2 xl:mt-0'>
         <RenderOnCondition condition={searchBar}>
           <SearchBar />
         </RenderOnCondition>

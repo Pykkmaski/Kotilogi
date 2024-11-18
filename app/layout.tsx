@@ -25,11 +25,12 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
   const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-100 to-gray-200'];
   const analyticsCookie = cookies().get('kotidok-analytics-accepted');
   const getAnalyticsScript = () =>
-    analyticsCookie?.value == 'true' && (
+    analyticsCookie?.value == 'all' && (
       <>
         <Script
           async
           src='https://www.googletagmanager.com/gtag/js?id=G-YQC6Y54WHT'></Script>
+
         <Script
           dangerouslySetInnerHTML={{
             __html: `
