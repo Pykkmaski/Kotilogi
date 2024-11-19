@@ -9,6 +9,7 @@ import { EventDetails } from './_EventDetails/EventDetails';
 import { redirect } from 'next/navigation';
 import { events } from 'kotilogi-app/dataAccess/events';
 import { files } from 'kotilogi-app/dataAccess/files';
+import { EventDocument } from './_EventDetails/EventDocument';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
@@ -28,40 +29,85 @@ export default async function EventPage({ params }) {
     .where({ objectId: eventId })
     .pluck('imageId')) as [string];
 
+  const DataField = ({ label, value }) => (
+    <div className='flex flex-col'>
+      <label className='text-slate-500'>{label}</label>
+      <span className='font-semibold'>{value}</span>
+    </div>
+  );
+
+  const getHeatingSystemNamePrefix = () => {
+    const label = extraData.newSystemLabel;
+    return label == 'Kaukolämpö'
+      ? 'Lämmönjakokeskuksen'
+      : label === 'Öljy'
+      ? 'Öljylämmityskeskuksen'
+      : null;
+  };
+
+  const getDataContent = () => {
+    const { mainTypeLabel, targetLabel } = eventData;
+    console.log(extraData);
+
+    if (mainTypeLabel === 'Peruskorjaus') {
+      if (targetLabel === 'Lämmitysmuoto') {
+        return (
+          <>
+            <div className='flex flex-col gap-4'>
+              <DataField
+                label='Vanha järjestelmä'
+                value={extraData.oldSystemLabel}
+              />
+              <DataField
+                label='Uusi järjestelmä'
+                value={extraData.newSystemLabel}
+              />
+            </div>
+            <div className='flex flex-col gap-4'>
+              <DataField
+                label={getHeatingSystemNamePrefix() + ' ' + 'merkki'}
+                value={extraData.newSystemBrandLabel || 'Ei määritelty'}
+              />
+
+              <DataField
+                label={getHeatingSystemNamePrefix() + ' ' + 'malli'}
+                value={extraData.newSystemModelLabel || 'Ei määritelty'}
+              />
+            </div>
+          </>
+        );
+      } else if (targetLabel === 'Katto') {
+        return null;
+      }
+    }
+    return null;
+  };
+
   return (
     <Main>
       <SecondaryHeading>Tapahtuma</SecondaryHeading>
-      <EventOverview
-        event={{
-          ...eventData,
-          numSteps,
-        }}
-      />
-
-      <div className='flex md:gap-4 xs:gap-1 xs:flex-col lg:flex-row'>
-        <div className='xs:w-full lg:w-[50%]'>
-          <EventDetails
-            eventData={eventData}
-            extraData={extraData}
-          />
-        </div>
-
-        <div className='xs:w-full lg:w-[50%]'>
-          <FileOverview
-            files={fileData}
-            addNewUrl={`/dashboard/files/add?parentId=${eventId}`}
-            showAllUrl={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}
-            PreviewComponent={({ item }) => {
-              return (
+      <EventDocument
+        title={eventData.title}
+        description={eventData.description || 'Ei kuvausta.'}
+        date={eventData.date}>
+        <div className='flex lg:flex-row xs:flex-col w-full h-full'>
+          <div className='flex flex-col gap-4 w-full'>{getDataContent()}</div>
+          {fileData.length ? (
+            <div className='grid grid-cols-4 w-full gap-2'>
+              {fileData.map(f => (
                 <FileCard
-                  file={item}
-                  isMain={item.id == mainImageId}
+                  file={f}
+                  isMain={f.id == mainImageId}
                 />
-              );
-            }}
-          />
+              ))}
+            </div>
+          ) : (
+            <div className='flex w-full h-full items-center justify-center'>
+              <span>Ei tiedostoja</span>
+            </div>
+          )}
         </div>
-      </div>
+      </EventDocument>
     </Main>
   );
 }

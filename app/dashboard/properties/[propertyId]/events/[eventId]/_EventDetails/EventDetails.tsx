@@ -27,7 +27,6 @@ export const EventDetails = ({ eventData, extraData }: EventDetailsProps) => {
     let content = null;
     if (mainTypeLabel === 'Peruskorjaus') {
       if (targetLabel === 'Salaojat') {
-        console.log(extraData);
         content = (
           <>
             <FalseInput

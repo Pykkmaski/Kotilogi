@@ -1,60 +1,66 @@
-export enum ComponentType {
-  Property = 0,
-  HeatingCenter,
-}
-
-export enum EventType {
-  Replacement = 0,
-}
+import db from 'kotilogi-app/dbconfig';
 
 type ComponentData = {
   title?: string;
   description?: string;
-  children?: number[];
-  events?: TODO[];
-  typeId: ComponentType;
+  typeId: number;
 };
 
-/**
- * Models a basic unit that a property is composed of.
- */
-export class Component<DataT extends ComponentData> {
-  private events: TODO[] = [];
+abstract class Component<DataT extends ComponentData> {
+  static Type = {
+    HeatDistributor: 0,
+    Roof: 1,
+    Room: 2,
+    Property: 3,
+  };
 
-  protected populateData(data: DataT) {
+  static EventType = {
+    Replacement: 0,
+    Service: 1,
+    Repair: 2,
+    Surface: 3,
+    ServicePaint: 4,
+  };
+
+  protected id: string;
+  protected events: TODO[];
+  protected children: Component<ComponentData>[];
+
+  protected populateData(data) {
     Object.entries(data).forEach(([key, val]) => (this[key] = val));
   }
 
-  protected addEvent(eventData: TODO) {
-    this.events.push(eventData);
-  }
-
-  constructor(data: DataT) {
+  constructor(data) {
     this.populateData(data);
+    this.events = [];
+    this.children = [];
   }
 
-  public get title() {
-    return this.title;
+  addEvent(event) {
+    this.events.push({
+      ...event,
+      timestamp: Date.now(),
+    });
   }
 
-  public get description() {
-    return this.description;
+  addChild(child) {
+    this.children.push(child);
   }
 
-  public get typeId() {
-    return this.typeId;
+  static async loadComponent(id: string) {
+    const [data] = await db();
   }
-}
 
-export class ReplaceableComponent<DataT extends ComponentData> extends Component<DataT> {
-  /**Creates a replacement event for the component, and changes it's data to the passed newData. */
-  replace(newData: DataT, eventData: TODO) {
-    const newEvent = {
-      ...eventData,
-      typeId: EventType.Replacement,
-    };
+  static async getTypes(tablename: string) {
+    const types = await db(tablename);
+    if (types.length == 0) {
+      throw new Error('No types defined in table ' + tablename);
+    }
 
-    super.populateData(newData);
-    super.addEvent(newEvent);
+    return types.reduce((obj, cur) => {
+      const entries = Object.entries(cur) as [string, number][];
+      obj[entries[0][1]] = entries[1][1];
+      return obj;
+    }, {}) as Record<string, number>;
   }
 }
