@@ -9,19 +9,68 @@ import { Paragraph } from '../Typography/Paragraph';
 import { noScrollBar } from 'kotilogi-app/utils/noScrollBar';
 import { List } from '../List';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { ReactNode } from 'react';
 
-type PreviewContentBaseProps = React.PropsWithChildren & {
-  icon?: React.ReactNode;
-  headingText: string;
+type PreviewContentHeaderProps = {
+  title: string;
+  icon?: ReactNode;
+  preview?: boolean;
   showAllUrl?: string;
   addNewUrl?: string;
-  preview?: boolean;
-  previewDescription?: React.ReactNode;
 };
+
+export function PreviewContentHeader({
+  title,
+  icon,
+  preview,
+  showAllUrl,
+  addNewUrl,
+}: PreviewContentHeaderProps) {
+  return (
+    <BoxHeader>
+      <div className='flex items-center gap-4 w-full justify-between'>
+        <BoxTitle
+          icon={icon}
+          text={title}
+        />
+
+        <List
+          direction='row'
+          alignItems='center'
+          gap={'small'}>
+          <RenderOnCondition condition={!preview && showAllUrl}>
+            <Link
+              href={showAllUrl}
+              title='Näytä kaikki'>
+              <IconButton color='secondary'>
+                <Visibility />
+              </IconButton>
+            </Link>
+          </RenderOnCondition>
+
+          <RenderOnCondition condition={!preview && addNewUrl}>
+            <Link
+              href={addNewUrl}
+              title='Lisää uusi'>
+              <IconButton color='secondary'>
+                <Add />
+              </IconButton>
+            </Link>
+          </RenderOnCondition>
+        </List>
+      </div>
+    </BoxHeader>
+  );
+}
+
+type PreviewContentBaseProps = React.PropsWithChildren &
+  PreviewContentHeaderProps & {
+    previewDescription?: React.ReactNode;
+  };
 
 export function PreviewContentBase({
   children,
-  headingText,
+  title,
   showAllUrl,
   addNewUrl,
   preview,
@@ -34,39 +83,13 @@ export function PreviewContentBase({
         <Spacer
           dir='col'
           grow>
-          <BoxHeader>
-            <div className='flex items-center gap-4 w-full justify-between'>
-              <BoxTitle
-                icon={icon}
-                text={headingText}
-              />
-
-              <List
-                direction='row'
-                alignItems='center'
-                gap={'small'}>
-                <RenderOnCondition condition={!preview && showAllUrl}>
-                  <Link
-                    href={showAllUrl}
-                    title='Näytä kaikki'>
-                    <IconButton color='secondary'>
-                      <Visibility />
-                    </IconButton>
-                  </Link>
-                </RenderOnCondition>
-
-                <RenderOnCondition condition={!preview && addNewUrl}>
-                  <Link
-                    href={addNewUrl}
-                    title='Lisää uusi'>
-                    <IconButton color='secondary'>
-                      <Add />
-                    </IconButton>
-                  </Link>
-                </RenderOnCondition>
-              </List>
-            </div>
-          </BoxHeader>
+          <PreviewContentHeader
+            title={title}
+            showAllUrl={showAllUrl}
+            addNewUrl={addNewUrl}
+            preview={preview}
+            icon={icon}
+          />
 
           <RenderOnCondition
             condition={!preview}

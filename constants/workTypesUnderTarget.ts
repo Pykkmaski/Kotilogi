@@ -1,4 +1,5 @@
-const { workTypes } = require('./workTypes');
+const { workTypes } = require('./workTypes.ts');
+const { eventTargets } = require('./eventTargets.ts');
 
 module.exports.workTypesUnderTarget = {
   [eventTargets.Ilmanvaihto]: [
@@ -8,6 +9,13 @@ module.exports.workTypesUnderTarget = {
     workTypes.HorminNuohous,
     workTypes.HorminSukitus,
     workTypes.Muu,
+    workTypes.KanavienPuhdistus,
+    workTypes.SuodattimenVaihto,
+    workTypes.SuodattimenPuhdistus,
+    workTypes.IlmavirtaustenMittaus,
+    workTypes.SuodattimenVaihto,
+    workTypes.SuodattimenPuhdistus,
+    workTypes.IlmanvaihdonSaataminen,
   ],
 
   //Lämmönjako
@@ -66,4 +74,5 @@ module.exports.workTypesUnderTarget = {
   ],
 
   [eventTargets.Muu]: [workTypes.Muu],
+  [eventTargets.Palovaroittimet]: [workTypes.Muu],
 };

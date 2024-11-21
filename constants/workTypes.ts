@@ -72,4 +72,9 @@ module.exports.workTypes = {
   PiipunPellitys: 'Piipun Pellitys',
   PiipunhatunAsennus: 'Piipunhatun Asennus',
   PiipunhatunVaihto: 'Piipunhatun Vaihto',
+  SuodattimenVaihto: 'Suodattimen Vaihto',
+  IlmavirtaustenMittaus: 'Ilmavirtausten Mittaus',
+  IlmanvaihtoventtiilienPuhdistus: 'Ilmanvaihtoventtiilien Puhdistus',
+  SuodattimenPuhdistus: 'Suodattimen Puhdistus',
+  IlmanvaihdonSaataminen: 'Ilmanvaihdon Säätäminen',
 };

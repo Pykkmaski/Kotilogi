@@ -6,6 +6,10 @@ type ComponentData = {
   typeId: number;
 };
 
+/**
+ * Not in use!
+ * Just some brainstorming.
+ */
 abstract class Component<DataT extends ComponentData> {
   static Type = {
     HeatDistributor: 0,

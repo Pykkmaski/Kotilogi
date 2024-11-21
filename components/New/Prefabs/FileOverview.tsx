@@ -1,6 +1,12 @@
 import { FileDataType } from 'kotilogi-app/dataAccess/types';
-import { PreviewContentRow } from '../Boxes/PreviewContent';
-import { Image } from '@mui/icons-material';
+import {
+  PreviewContentBase,
+  PreviewContentHeader,
+  PreviewContentRow,
+} from '../Boxes/PreviewContent';
+import { FileCopy, Image } from '@mui/icons-material';
+import { ContentBox } from '../Boxes/ContentBox';
+import { FileCard } from '../FileCard';
 
 type FileOverviewProps = {
   files: FileDataType[];
@@ -18,16 +24,28 @@ export function FileOverview({
   PreviewComponent,
 }: FileOverviewProps) {
   return (
-    <PreviewContentRow
-      icon={<Image />}
-      preview={preview}
-      headingText='Tiedostot ja kuvat'
-      itemsToDisplay={8}
-      data={files}
-      addNewUrl={addNewUrl}
-      showAllUrl={showAllUrl}
-      onEmptyElement={<span className='text-slate-500'>Ei tiedostoja.</span>}
-      PreviewComponent={PreviewComponent}
-    />
+    <ContentBox>
+      <div className='flex flex-col'>
+        <PreviewContentHeader
+          title='Tiedostot ja kuvat'
+          preview={preview}
+          showAllUrl={showAllUrl}
+          addNewUrl={addNewUrl}
+          icon={<FileCopy />}
+        />
+        <div className='w-full xs:grid xs:grid-cols-2 md:flex md:flex-row gap-2'>
+          {files.length ? (
+            files.map(f => (
+              <FileCard
+                file={f}
+                isMain={false}
+              />
+            ))
+          ) : (
+            <span>Ei tiedostoja.</span>
+          )}
+        </div>
+      </div>
+    </ContentBox>
   );
 }

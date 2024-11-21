@@ -66,7 +66,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
   const loading = useMemo(() => status == 'loading', [status]);
 
   return (
-    <div className='relative flex flex-col aspect-square lg:w-[250px] xs:w-[50%] overflow-hidden rounded-md shadow-md'>
+    <div className='relative flex flex-col aspect-square lg:w-[250px] xs:w-[100%] overflow-hidden rounded-md shadow-md'>
       <div className='flex p-2 gap-2 w-full z-20 justify-end bg-[#0004] items-center'>
         <MenuPrefab
           trigger={<MenuButton />}

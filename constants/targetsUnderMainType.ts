@@ -1,5 +1,5 @@
-const { mainEventTypes } = require('./mainEventTypes');
-const { eventTargets } = require('./eventTargets');
+const { mainEventTypes } = require('./mainEventTypes.ts');
+const { eventTargets } = require('./eventTargets.ts');
 
 module.exports.targetsUnderMainType = {
   [mainEventTypes.Peruskorjaus]: [
@@ -30,6 +30,7 @@ module.exports.targetsUnderMainType = {
     eventTargets.Ikkunat,
     eventTargets.Sahkot,
     eventTargets.Muu,
+    eventTargets.Palovaroittimet,
   ],
 
   [mainEventTypes.Pintaremontti]: [
@@ -39,6 +40,8 @@ module.exports.targetsUnderMainType = {
     eventTargets.Keittio,
     eventTargets.Makuuhuone,
     eventTargets.Muu,
+    eventTargets.Vaatehuone,
+    eventTargets.Eteinen,
   ],
   [mainEventTypes.Muu]: Object.values(eventTargets),
 };

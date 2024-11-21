@@ -18,7 +18,7 @@ export function UtilityPreview({ propertyId }: { propertyId: string }) {
           olla.
         </>
       }
-      headingText='Kulutustiedot'
+      title='Kulutustiedot'
       addNewUrl={`/dashboard/properties/${propertyId}/utility/add`}
       showAllUrl={`${propertyId}/utility`}>
       {!utilityData.length ? (

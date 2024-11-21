@@ -18,6 +18,7 @@ module.exports.eventTargets = {
   Olohuone: 'Olohuone',
   Makuuhuone: 'Makuuhuone',
   Kodinhoitohuone: 'Kodinhoitohuone',
+  Vaatehuone: 'Vaatehuone',
 
   Salaojat: 'Salaojat',
   Kayttovesiputket: 'Käyttövesiputket',
@@ -40,4 +41,5 @@ module.exports.eventTargets = {
   Patterit: 'Patterit',
   Sokkeli: 'Sokkeli',
   Muu: 'Muu',
+  Palovaroittimet: 'Palovaroittimet',
 };

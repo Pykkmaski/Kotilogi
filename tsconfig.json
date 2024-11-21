@@ -38,6 +38,7 @@
     ]
   },
   "include": [
+    "./constants/*.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
@@ -57,7 +58,8 @@
     "components/new/Gallery/GalleryBase/Components/Error/GalleryError.test.jsx",
     "components/Util/HighlightingNavbar.Providertsx",
     "components/Util/__tests__/VisibilityProvider.test.tsx",
-    "migrations/20240724133036_create_ref_tables.js"
+    "migrations/20240724133036_create_ref_tables.js",
+    "seeds/fill_eventTypes.js"
   ],
-  "exclude": ["node_modules", "constants", "seeds"]
+  "exclude": ["node_modules", "seeds"]
 }

@@ -6,13 +6,13 @@ exports.seed = async function (knex) {
   const types = [
     'Kivivilla',
     'Lasivilla',
-    'Polystyreenivaahto (EPS ja XPS)',
-    'Polyuretaanivaahto (PUR ja PIR)',
+    'Polyuretaanivaahto',
     'Selluvilla',
     'Puu- ja sellukuitueristeet',
-    'Pellavaeriste',
-    'Lampaanvilla',
-    'Aerogeelieristeet',
+    'Ekovilla',
+    'Muu',
+    'Puhallusvilla',
+    'Vaahtomuovi',
   ];
 
   for (const t of types) {

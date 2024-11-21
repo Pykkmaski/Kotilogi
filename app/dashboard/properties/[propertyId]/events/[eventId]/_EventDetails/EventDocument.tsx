@@ -14,11 +14,11 @@ export function EventDocument({ children, title, description, date, files }: Eve
 
   return (
     <ContentBox>
-      <div className='flex flex-col gap-8 text-lg'>
+      <div className='flex flex-col gap-10 lg:text-lg xs:text-base'>
         {/**Document header */}
         <div className='flex flex-col'>
           <div className='flex justify-between items-start'>
-            <h1 className='text-xl font-semibold'>
+            <h1 className='lg:text-xl xs:text-base font-semibold'>
               <span className='text-secondary'>
                 {[splitTitle.at(0), splitTitle.at(1)].join(' ')}
               </span>

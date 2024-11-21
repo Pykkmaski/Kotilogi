@@ -14,7 +14,7 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
   return (
     <PreviewContentRow<EventDataType>
       icon={<History />}
-      headingText='Viimeisimmät tapahtumat'
+      title='Viimeisimmät tapahtumat'
       itemsToDisplay={3}
       showAllUrl={`/dashboard/properties/${propertyId}/events`}
       data={eventData}
