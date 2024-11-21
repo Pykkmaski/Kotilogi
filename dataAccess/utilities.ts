@@ -51,8 +51,9 @@ class Utilities {
     }
 
     const data = await dbQuery;
-    console.log(data);
-    return data.map(d => this.getDTO(d));
+    const returnResult = data.map(d => this.getDTO(d));
+    console.log('Return result at utilities.get: ', returnResult);
+    return returnResult;
   }
 
   async update(id: string, data: Partial<UtilityDataType>) {

@@ -18,7 +18,7 @@ export default async function UtilityPage({ params, searchParams }) {
   );
   const allTypes = await db('ref_utilityTypes').pluck('name');
   const years = await utilities.getYears(propertyId);
-  console.log(utilityData);
+  console.log('Data at page: ', utilityData);
   return (
     <UtilityProvider
       data={utilityData}

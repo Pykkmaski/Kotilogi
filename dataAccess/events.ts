@@ -150,7 +150,6 @@ class Events {
    * @param trx The knex transaction currently being used.
    */
   async updateExtraData(id: string, extraData: any, trx: Knex.Transaction) {
-    console.log(extraData);
     const mainTypes = await trx('ref_mainEventTypes');
     const [typeData] = await trx('data_propertyEvents')
       .where({ id })

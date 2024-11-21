@@ -11,8 +11,13 @@ export function UtilityPieChart() {
   const { data } = useUtilityProviderContext();
   const [chartWidth, setChartWidth] = useState<'100%' | '30%'>('30%');
   const aggregatedData = useMemo(() => arraysToValues(aggregate_old(data)), [data]);
+
   const total = useMemo(
-    () => aggregatedData.reduce((acc, cur) => (acc += cur.monetaryValue), 0),
+    () =>
+      aggregatedData.reduce((acc, cur) => {
+        acc += cur.amount;
+        return acc;
+      }, 0),
     [aggregatedData]
   );
 
@@ -26,39 +31,44 @@ export function UtilityPieChart() {
     setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '30%'));
   }, [window.innerWidth]);
 
-  return data.length > 0 ? (
-    <ResponsiveContainer
-      width={chartWidth}
-      height={300}>
-      <PieChart>
-        <Pie
-          animationDuration={200}
-          data={aggregatedData}
-          dataKey={'amount'}>
-          {aggregatedData.map((d, i) => {
-            return (
-              <Cell
-                key={`data-${d.typeLabel}-${i}`}
-                fill={
-                  d.typeLabel == 'Lämmitys'
-                    ? colors.heat
-                    : d.typeLabel == 'Vesi'
-                    ? colors.water
-                    : d.typeLabel == 'Sähkö'
-                    ? colors.electric
-                    : 'gray'
-                }></Cell>
-            );
-          })}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
-  ) : (
-    <BlankChart
-      variant='pie'
-      width={chartWidth}
-      height={300}
-      dummyLen={12}
-    />
+  return (
+    <div className='flex flex-col w-full h-full'>
+      {data.length > 0 ? (
+        <ResponsiveContainer
+          width={chartWidth}
+          height={300}>
+          <PieChart>
+            <Pie
+              animationDuration={200}
+              data={aggregatedData}
+              dataKey={'amount'}>
+              {aggregatedData.map((d, i) => {
+                return (
+                  <Cell
+                    key={`data-${d.typeLabel}-${i}`}
+                    fill={
+                      d.typeLabel == 'Lämmitys'
+                        ? colors.heat
+                        : d.typeLabel == 'Vesi'
+                        ? colors.water
+                        : d.typeLabel == 'Sähkö'
+                        ? colors.electric
+                        : 'gray'
+                    }></Cell>
+                );
+              })}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <BlankChart
+          variant='pie'
+          width={chartWidth}
+          height={300}
+          dummyLen={12}
+        />
+      )}
+      <div className='w-full flex justify-center'>Yhteensä: {total}€</div>
+    </div>
   );
 }

@@ -104,7 +104,7 @@ class Properties {
       await trx('data_properties').insert(data_properties);
 
       const propTableName = await this.getTableNameByType(data.propertyTypeId, trx);
-      console.log(propTableName);
+
       const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));
       await trx(propTableName).insert({
         ...propObj,
@@ -135,7 +135,6 @@ class Properties {
         await getTableColumns('data_properties', trx)
       );
 
-      console.log('Property update object: ' + JSON.stringify(propertyUpdateObject));
       await trx('data_properties')
         .where({ id })
         .update({

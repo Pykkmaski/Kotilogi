@@ -30,7 +30,7 @@ class Files {
 
   async upload(files: File[], parentId: string) {
     //TODO: prevent uploading more files if the user already has uploaded a certain amount.
-    console.log('Nonii-i');
+
     const session = await verifySession();
 
     const [{ totalFileSizeUploaded }] = await db('data_objects')
@@ -112,7 +112,7 @@ class Files {
   /**Sets the most recent uploaded image as the default image of an object, if it doesn't have one defined already. */
   async setDefaultMainImage(objectId: string) {
     const [currentMainImage] = await db('data_mainImages').where({ objectId }).pluck('id');
-    console.log(currentMainImage);
+
     if (currentMainImage) return;
 
     const [image] = await db('data_files')
