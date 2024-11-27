@@ -76,6 +76,7 @@ export function Report() {
             display: 'flex',
             flexDirection: 'column',
             gap: '24px',
+            width: '100%',
           }}>
           <View
             style={{
@@ -100,7 +101,6 @@ export function Report() {
               gap: '1rem',
               marginBottom: '24px',
               alignItems: 'center',
-              justifyContent: 'space-between',
             }}>
             <View
               style={{
@@ -108,8 +108,9 @@ export function Report() {
                 gap: '24px',
                 flexDirection: 'column',
                 fontSize: '12px',
+                width: '100%',
               }}>
-              <View style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <View style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
                 <View style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                   <Text style={{ fontSize: '16px' }}>
                     {(content.propertyType === 'Huoneisto' &&
@@ -119,36 +120,37 @@ export function Report() {
                   <Text>{content.property.zipCode}</Text>
                 </View>
 
-                <View style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <View
+                  style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
                   <Text style={{ marginBottom: '24px' }}>
                     {content.property.description || 'Ei kuvausta.'}
                   </Text>
                   <AttributeGroup>
                     <AttributeField
                       label='Rakennusvuosi'
-                      value={content.property.buildYear}
+                      value={content.property.buildYear || 'Ei määritelty'}
                     />
 
                     <AttributeField
                       label='Tyyppi'
-                      value={content.propertyType}
+                      value={content.propertyType || 'Ei määritelty'}
                     />
 
                     <AttributeField
                       label='Rakennusmateriaali'
-                      value={content.buildingMaterial}
+                      value={content.buildingMaterial || 'Ei määritelty'}
                     />
                     <AttributeField
                       label='Katon materiaali'
-                      value={content.roofMaterial}
+                      value={content.roofMaterial || 'Ei määritelty'}
                     />
                     <AttributeField
                       label='Katon tyyppi'
-                      value={content.roofType}
+                      value={content.roofType || 'Ei määritelty'}
                     />
                     <AttributeField
                       label='Lämmitysmuoto'
-                      value={content.heatingSystem}
+                      value={content.heatingSystem || 'Ei määritelty'}
                     />
 
                     <AttributeField
@@ -224,7 +226,7 @@ export function Report() {
                     }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                       <Text style={{ fontWeight: 700 }}>{e.title}</Text>
-                      <Text>{e.date.toLocaleDateString('fi')}</Text>
+                      <Text style={{ fontSize: '10px' }}>{e.date.toLocaleDateString('fi')}</Text>
                     </View>
 
                     <View
@@ -235,8 +237,16 @@ export function Report() {
                         width: '100%',
                         fontWeight: 400,
                       }}>
-                      <View style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <Text style={{ color: 'gray', fontWeight: 600 }}>Lisätiedot</Text>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '4px',
+                          fontSize: '10px',
+                        }}>
+                        <Text style={{ color: 'gray', fontSize: '10px', fontWeight: 600 }}>
+                          Lisätiedot
+                        </Text>
                         <Text>{e.description || 'Ei kuvausta.'}</Text>
                       </View>
 
