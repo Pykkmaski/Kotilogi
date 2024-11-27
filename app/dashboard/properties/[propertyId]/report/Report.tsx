@@ -108,7 +108,7 @@ export function Report() {
                 gap: '24px',
                 flexDirection: 'column',
                 fontSize: '12px',
-                width: '100%',
+                width: '80%',
               }}>
               <View style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
                 <View style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
@@ -208,6 +208,7 @@ export function Report() {
                 borderRadius: '100%',
                 width: '100px',
                 height: '100px',
+                flexShrink: 0,
               }}
             />
           </View>
