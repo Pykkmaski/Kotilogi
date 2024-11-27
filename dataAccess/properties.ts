@@ -8,7 +8,6 @@ import db from 'kotilogi-app/dbconfig';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { objects } from './objects';
 import { users } from './users';
-import { tablenames } from 'kotilogi-app/constants/tablenames';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -51,17 +50,17 @@ class Properties {
 
   async get(id: string): Promise<HouseDataType | AppartmentDataType> {
     //Get the type of the property.
-    const [type] = await db(tablenames.properties)
-      .join(tablenames.propertyTypes, {
-        [`${tablenames.propertyTypes}.id`]: `${tablenames.properties}.propertyTypeId`,
+    const [type] = await db('properties.base')
+      .join('properties.propertyTypes', {
+        'properties.propertyTypes.id': 'properties.base.propertyTypeId',
       })
-      .where({ [`${tablenames.properties}.id`]: id })
-      .pluck(`${tablenames.propertyTypes}.name`);
+      .where({ 'properties.base.id': id })
+      .pluck('properties.propertyTypes.name');
 
     const baseQuery = db('objects.data')
-      .join(tablenames.properties, { [tablenames.properties + '.id']: 'objects.data.id' })
-      .join(tablenames.propertyTypes, {
-        [tablenames.propertyTypes + '.id']: `${tablenames.properties}.propertyTypeId`,
+      .join('properties.base', { 'properties.base.id': 'objects.data.id' })
+      .join('properties.propertyTypes', {
+        'properties.propertyTypes.id': 'properties.base.propertyTypeId',
       });
 
     const baseColumnsToSelect = [
@@ -95,7 +94,7 @@ class Properties {
   ) {
     //Only allow one property per user.
     const session = await verifySession();
-    //await this.verifyUserPropertyCount(session);
+    await this.verifyUserPropertyCount(session);
 
     return await objects.create(data, async (obj, trx) => {
       const streetAddress =
