@@ -26,9 +26,10 @@ export const createPropertyAction = async (
   data: PropertyDataType & Required<Pick<PropertyDataType, 'propertyTypeId'>>
 ) => {
   z.object({
-    propertyTypeId: z.string(),
+    propertyTypeId: z.number(),
   }).parse(data);
 
+  console.log(data);
   let pid;
   await properties.create(data, async (id, trx) => {
     pid = id;

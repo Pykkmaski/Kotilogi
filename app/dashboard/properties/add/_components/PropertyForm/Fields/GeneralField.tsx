@@ -5,7 +5,7 @@ import { FormControl, Input } from '@/components/UI/FormUtils';
 import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from '../../PropertyFormContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchPropertyInfoAction } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 import { Check, Clear } from '@mui/icons-material';

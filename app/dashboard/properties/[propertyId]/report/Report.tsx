@@ -152,7 +152,7 @@ export function Report() {
                     />
 
                     <AttributeField
-                      label='Pinta-ala'
+                      label='Asuintilojen pinta-ala'
                       value={
                         <>
                           {pr.livingArea}

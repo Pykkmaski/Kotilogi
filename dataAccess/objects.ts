@@ -24,7 +24,7 @@ class Objects {
     const trx = await db.transaction();
     try {
       const session = await verifySession();
-      const dataToInsert = filterValidColumns(data, await getTableColumns('objects.data', trx));
+      const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
       const [obj] = (await trx('objects.data').insert(
         { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
         '*'
@@ -46,7 +46,7 @@ class Objects {
   ) {
     const trx = await db.transaction();
     try {
-      const validColumns = await getTableColumns('objects.data', trx);
+      const validColumns = await getTableColumns('data', trx, 'objects');
       await trx('objects.data')
         .where({ id: objectId })
         .update({

@@ -30,6 +30,7 @@ export function usePropertyForm(
         | HouseDataType
         | AppartmentDataType)
   );
+
   const isNew = property == undefined;
 
   const [isValid, setIsValid] = useState(false);

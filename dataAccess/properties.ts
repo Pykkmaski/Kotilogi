@@ -25,7 +25,7 @@ class Properties {
   }
 
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
-    const types = await db('properties.get_property_types');
+    const [{ result: types }] = await db('properties.get_property_types');
     return typeId == types['Kiinteistö'] ? 'properties.houses' : 'properties.appartments';
   }
 
@@ -95,25 +95,36 @@ class Properties {
   ) {
     //Only allow one property per user.
     const session = await verifySession();
-    await this.verifyUserPropertyCount(session);
+    //await this.verifyUserPropertyCount(session);
 
     return await objects.create(data, async (obj, trx) => {
       const streetAddress =
         'houseNumber' in data ? `${data.streetAddress} ${data.houseNumber}` : data.streetAddress;
-      const data_properties = {
-        id: obj.id,
-        ...filterValidColumns(data, await getTableColumns('properties.base', trx)),
+
+      const data_properties = filterValidColumns(
+        data,
+        await getTableColumns('base', trx, 'properties')
+      );
+
+      await trx('properties.base').insert({
+        ...data_properties,
         streetAddress,
+        id: obj.id,
+      });
+
+      const [propertySchema, propertyTablename] = (
+        await this.getTableNameByType(data.propertyTypeId, trx)
+      ).split('.');
+      const propObj = {
+        ...filterValidColumns(data, await getTableColumns(propertyTablename, trx, propertySchema)),
       };
 
-      await trx('properties.base').insert(data_properties);
-
-      const propTableName = await this.getTableNameByType(data.propertyTypeId, trx);
-
-      const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));
-      await trx(propTableName).insert({
-        ...propObj,
+      const property = data as any;
+      await trx([propertySchema, propertyTablename].join('.')).insert({
         id: obj.id,
+        yardArea: property.yardArea,
+        propertyNumber: property.propertyNumber,
+        yardOwnershipTypeId: property.yardOwnershipTypeId,
       });
 
       await trx('data_propertyOwners').insert({
@@ -137,7 +148,7 @@ class Properties {
     return objects.update(id, data, async trx => {
       const propertyUpdateObject = filterValidColumns(
         data,
-        await getTableColumns('properties.base', trx)
+        await getTableColumns('base', trx, 'properties')
       );
 
       await trx('properties.base')
@@ -146,9 +157,15 @@ class Properties {
           ...propertyUpdateObject,
         });
 
-      const propTableName = await this.getTableNameByType(data.propertyTypeId, trx);
-      const propObj = filterValidColumns(data, await getTableColumns(propTableName, trx));
-      await trx(propTableName).where({ id }).update(propObj);
+      const [propertySchema, propertyTablename] = (
+        await this.getTableNameByType(data.propertyTypeId, trx)
+      ).split('.');
+      console.log(propertyTablename, propertySchema);
+      const propObj = filterValidColumns(
+        data,
+        await getTableColumns(propertyTablename, trx, propertySchema)
+      );
+      await trx([propertySchema, propertyTablename].join('.')).where({ id }).update(propObj);
     });
   }
 

@@ -138,7 +138,7 @@ export async function PropertyOverview({
 
               <LabelGrid.Entry
                 label='Rakennustyyppi'
-                value={buildingType}
+                value={buildingType || 'Ei määritelty'}
               />
 
               <LabelGrid.Entry

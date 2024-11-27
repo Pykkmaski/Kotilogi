@@ -8,7 +8,7 @@ export const getPropertyRefs = async () => {
   const roofTypes = await db('roofs.types');
   const roofMaterials = await db('roofs.materials');
   const yardOwnershipTypes = await db('properties.yardOwnershipTypes');
-  const heatingTypes = await db('properties.heatingTypes');
+  const heatingTypes = await db('heating.types');
   const energyClasses = await db('properties.energyClasses');
   const refs = await getRefs('ref_mainColors');
 
