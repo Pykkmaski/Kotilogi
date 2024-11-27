@@ -1,6 +1,6 @@
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -18,6 +18,8 @@ export function useLogin() {
   const router = useRouter();
   const [status, setStatus] = useState<LoginStatusType>('idle');
   const { data, updateData } = useFormOnChangeObject({} as { email: string; password: string });
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callback');
 
   const loginHandler = e => {
     e.preventDefault();
@@ -36,7 +38,7 @@ export function useLogin() {
             setStatus(res.error as any);
           } else {
             setStatus('success');
-            router.push('/dashboard');
+            router.push(callbackUrl || '/dashboard');
           }
         }
       })

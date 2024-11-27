@@ -43,6 +43,9 @@ const tranlsatePathname = (href: string) => {
     case 'utility':
       return 'Kulutus';
 
+    case 'report':
+      return 'Raportti';
+
     default: {
       const previous = href.split('/').at(-2);
       if (previous && isUUID(current)) {

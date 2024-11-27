@@ -9,7 +9,7 @@ export const ImplementationMethodSelector = () => {
       label='Toeutustapa'
       labelKey='label'
       valueKey='id'
-      tablename='ref_drainageDitchMethods'
+      tablename='drainage_ditches.implementation_methods'
       propertyName='toteutusTapaId'
       useContextValue={extraData}
     />

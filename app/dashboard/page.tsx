@@ -16,7 +16,7 @@ export default async function newDashboardPage() {
     <Main>
       <PreviewContentRow<AppartmentDataType | HouseDataType>
         icon={<Home />}
-        headingText='Talot'
+        title='Talot'
         showAllUrl='/dashboard/properties'
         addNewUrl='/dashboard/properties/add'
         itemsToDisplay={3}

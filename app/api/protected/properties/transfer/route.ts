@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
         status: 400,
       });
     }
-    const [transferCode] = await trx('data_propertyTransferCodes').where({ code: token });
+    const [transferCode] = await trx('properties.transferCodes').where({ code: token });
     if (!transferCode) {
       return new NextResponse('Siirtopyyntöä ei ole!', { status: 404 });
     }
@@ -26,16 +26,16 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const session = await verifySession();
+    const session = await verifySession(req.nextUrl.toString());
     await trx('data_propertyOwners').where({ propertyId: transferCode.propertyId }).update({
       userId: session.user.id,
     });
 
-    const [streetAddress] = await trx('data_properties')
+    const [streetAddress] = await trx('properties.base')
       .where({ id: transferCode.propertyId })
       .pluck('streetAddress');
 
-    await trx('data_propertyTransferCodes').where({ code: token }).del();
+    await trx('properties.transferCodes').where({ code: token }).del();
     await trx.commit();
 
     //The user's dashboard is not updated afterwards. Consider moving this into a server action.

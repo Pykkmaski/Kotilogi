@@ -6,6 +6,7 @@ import { createPropertyAction, updatePropertyAction } from './actions';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
+import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
 export function usePropertyForm(
   property: HouseDataType | AppartmentDataType | undefined,
@@ -24,12 +25,12 @@ export function usePropertyForm(
   }
 
   const { data, updateData, resetData, hasChanges } = useFormOnChangeObject(
-    (property !== undefined && {
-      ...property,
-    }) || {
-      propertyTypeId: refs.propertyTypes.find(type => type.name === 'Kiinteistö').id.toString(),
-    }
+    property ||
+      ({ propertyTypeId: getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') } as
+        | HouseDataType
+        | AppartmentDataType)
   );
+  const isNew = property == undefined;
 
   const [isValid, setIsValid] = useState(false);
   const { method, status } = useStatusWithAsyncMethod(async () => {
@@ -74,6 +75,7 @@ export function usePropertyForm(
     data,
     status,
     isValid,
+    isNew,
     router,
     updateData,
     resetData,

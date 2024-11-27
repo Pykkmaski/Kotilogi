@@ -78,27 +78,28 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
   );
 
   const showMainDataForm = useCallback(() => {
-    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+    if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       return isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
       return isDefined(typeData.targetId) && isDefined(typeData.workTypeId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
       return isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Muu')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Muu')) {
       return isDefined(typeData.targetId);
     } else {
       return false;
     }
-  }, [typeData.targetId, typeData.mainTypeId, refs.mainEventTypes, typeData.workTypeId]);
+  }, [typeData.targetId, typeData.mainTypeId, refs.eventTypes, typeData.workTypeId]);
 
   const showExtraDataForm = useCallback(() => {
-    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+    if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       return true;
     } else {
       return false;
     }
-  }, [typeData.workTypeId, typeData.mainTypeId, refs.mainEventTypes]);
+  }, [typeData.workTypeId, typeData.mainTypeId, refs.eventTypes]);
 
+  console.log(refs);
   return {
     ...extraDataProps,
     status,

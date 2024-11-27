@@ -75,7 +75,8 @@ export function ExtraDataForm({ editing }) {
             type='submit'
             variant='text'
             color='secondary'
-            startIcon={<Add />}>
+            startIcon={<Add />}
+            onClick={() => addEntry(extraData)}>
             Lisää Toinen
           </Button>
         </div>

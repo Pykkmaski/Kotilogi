@@ -42,6 +42,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
     updatePropertyInfo,
     onSubmit,
     isValid,
+    isNew,
   } = usePropertyForm(property as TODO, refs);
 
   const formId = 'submit-property-form';
@@ -77,12 +78,12 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
         value={{
           resetData,
           isValid,
+          isNew,
           updatePropertyInfo,
           property: data,
           refs,
         }}>
-        <TargetTypeField />
-        <GeneralField hidePropertyIdentifier={property !== undefined} />
+        <GeneralField hidePropertyIdentifier={!isNew} />
         <ExteriorField />
         <YardField />
         <InteriorField />

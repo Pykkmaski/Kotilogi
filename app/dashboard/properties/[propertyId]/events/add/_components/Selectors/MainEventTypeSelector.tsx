@@ -5,22 +5,21 @@ import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export const MainEventTypeSelector = () => {
   const {
-    refs: { mainEventTypes },
+    refs: { eventTypes },
   } = useEventTypeContext() as {
     refs: {
-      mainEventTypes: { id: number; label: string }[];
+      eventTypes: { id: number; label: string }[];
     };
   };
   const { typeData } = useEventFormContext();
 
-  console.log(typeData.mainTypeId);
   return (
     <ChipRadioGroup
       currentValue={typeData.mainTypeId}
       name='mainTypeId'
       valueKey='id'
       labelKey='label'
-      dataArray={mainEventTypes}
+      dataArray={eventTypes}
     />
   );
 };

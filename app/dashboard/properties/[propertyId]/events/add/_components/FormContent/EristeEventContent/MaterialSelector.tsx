@@ -9,7 +9,7 @@ export const MaterialSelector = () => {
       label='Eristemateriaali'
       labelKey='label'
       valueKey='id'
-      tablename='ref_eristeMateriaalit'
+      tablename='insulation.materials'
       propertyName='materiaaliId'
       useContextValue={extraData}
     />

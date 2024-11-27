@@ -9,7 +9,7 @@ export const RoofTypeSelector = () => {
       label='Katon tyyppi'
       labelKey='name'
       valueKey='id'
-      tablename='ref_roofTypes'
+      tablename='roofs.types'
       propertyName='roofTypeId'
       useContextValue={extraData}
     />

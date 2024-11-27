@@ -35,7 +35,7 @@ export async function PropertyOverview({
   owners,
 }: PropertyOverviewProps) {
   const [{ imageCount }] = await db('data_files')
-    .join('data_objects', { 'data_objects.id': 'data_files.id' })
+    .join('objects.data', { 'objects.data.id': 'data_files.id' })
     .where({ parentId: property.id })
     .count('*', { as: 'imageCount' });
 
@@ -43,16 +43,16 @@ export async function PropertyOverview({
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
 
   const images = await db('data_files')
-    .join('data_objects', { 'data_objects.id': 'data_files.id' })
+    .join('objects.data', { 'objects.data.id': 'data_files.id' })
     .where({ parentId: property.id, type: 'image/jpeg' })
-    .select('data_files.id as id', 'data_objects.parentId as parentId');
+    .select('data_files.id as id', 'objects.data.parentId as parentId');
 
-  const [buildingType] = await db('ref_buildingTypes')
+  const [buildingType] = await db('properties.buildingTypes')
     .where({ id: property.buildingTypeId })
     .pluck('name');
 
-  const [{ numEvents }] = await db('data_propertyEvents')
-    .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
+  const [{ numEvents }] = await db('events.data')
+    .join('objects.data', { 'objects.data.id': 'events.data.id' })
     .where({ parentId: property.id })
     .count('*', { as: 'numEvents' });
 
@@ -112,6 +112,7 @@ export async function PropertyOverview({
                 target={
                   <VPMenu>
                     <Link href={editUrl}>Muokkaa</Link>
+                    <Link href={`/dashboard/properties/${property.id}/report`}>Luo raportti</Link>
                     <TransferDialogTrigger propertyId={property.id} />
                     <Link href={`/dashboard/properties/${property.id}/delete`}>Poista</Link>
                   </VPMenu>

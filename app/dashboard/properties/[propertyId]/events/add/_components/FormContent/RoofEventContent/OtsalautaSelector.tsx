@@ -8,7 +8,7 @@ export const OtsalautaSelector = () => {
       label='Otsalautatyyppi'
       labelKey='label'
       valueKey='id'
-      tablename='ref_otsalautatyypit'
+      tablename='roofs.ref_otsalautatyypit'
       propertyName='otsalautaTyyppiId'
       useContextValue={extraData}
     />

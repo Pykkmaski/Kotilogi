@@ -16,6 +16,7 @@ class Events {
    */
   private getDTO(eventData: TODO) {
     const labels = [eventData.mainTypeLabel, eventData.targetLabel].filter(t => t != null);
+
     const title = labels.length ? labels.join(' > ') : eventData.title || 'Ei Otsikkoa.';
     const description = eventData.description || eventData.workTypeLabel;
 
@@ -31,6 +32,8 @@ class Events {
       mainTypeId: eventData.mainTypeId,
       targetId: eventData.targetId,
       workTypeId: eventData.workTypeId,
+      labourExpenses: eventData.labourExpenses,
+      materialExpenses: eventData.materialExpenses,
     };
   }
 
@@ -40,7 +43,7 @@ class Events {
     const heatingTypes = await trx('ref_heatingTypes');
     if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
       //Oil heating event
-      await trx('data_oilHeatingEvents').insert({
+      await trx('oil_heating.vessels').insert({
         id: eventId,
         vesselVolume: data.vesselVolume,
         location: data.location,
@@ -62,10 +65,10 @@ class Events {
   ) {
     //Save the extra data based on the target.
     const mainRenovationTargets = await trx('map_workTargetsToMainEventType')
-      .join('ref_eventTargets', {
-        'ref_eventTargets.id': 'map_workTargetsToMainEventType.targetId',
+      .join('events.targets', {
+        'events.targets.id': 'map_workTargetsToMainEventType.targetId',
       })
-      .select('ref_eventTargets.*');
+      .select('events.targets.*');
 
     const runBaseInsert = async (tablename: string) => {
       const [data] = extraData;
@@ -81,12 +84,12 @@ class Events {
     //Katto
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Katto')) {
       //Save roof data.
-      await runBaseInsert('data_roofEvents');
+      await runBaseInsert('roofs.data');
     }
     //Salaojat
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
       //Save drainage ditch data.
-      await runBaseInsert('data_drainageDitchEvents');
+      await runBaseInsert('drainage_ditches.data');
     }
     //Käyttövesiputket
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Käyttövesiputket')) {
@@ -98,7 +101,7 @@ class Events {
     }
     //Eristys
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Eristys')) {
-      await runBaseInsert('data_eristeEvents');
+      await runBaseInsert('insulation.data');
     }
     //Sähköt
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Sähköt')) {
@@ -106,7 +109,7 @@ class Events {
     }
     //Lukitus
     else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lukitus')) {
-      await runBaseInsert('data_lockEvents');
+      await runBaseInsert('locking.data');
     } else {
       console.log(
         `Received an event with target id ${typeData.targetId}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
@@ -122,11 +125,11 @@ class Events {
     trx: Knex.Transaction
   ) {
     /**The id for Peruskorjaus */
-    const [mainRenovationId] = await trx('ref_mainEventTypes')
+    const [mainRenovationId] = await trx('events.types')
       .where({ label: 'Peruskorjaus' })
       .pluck('id');
 
-    const [surfaceRenovationId] = await trx('ref_mainEventTypes')
+    const [surfaceRenovationId] = await trx('events.types')
       .where({ label: 'Pintaremontti' })
       .pluck('id');
 
@@ -150,8 +153,8 @@ class Events {
    * @param trx The knex transaction currently being used.
    */
   async updateExtraData(id: string, extraData: any, trx: Knex.Transaction) {
-    const mainTypes = await trx('ref_mainEventTypes');
-    const [typeData] = await trx('data_propertyEvents')
+    const mainTypes = await trx('events.types');
+    const [typeData] = await trx('events.data')
       .where({ id })
       .select('mainTypeId', 'targetId', 'workTypeId');
 
@@ -164,11 +167,11 @@ class Events {
     };
 
     if (typeData.mainTypeId == getIdByLabel(mainTypes, 'Peruskorjaus')) {
-      const targets = await trx('ref_eventTargets');
+      const targets = await trx('events.targets');
       if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
-        await runUpdate('data_roofEvents');
+        await runUpdate('roofs.data');
       } else if (typeData.targetId == getIdByLabel(targets, 'Salaojat')) {
-        await runUpdate('data_drainageDitchEvents');
+        await runUpdate('drainage_ditches.data');
       } else {
         throw new Error(
           'Update logic for extra event data with type ' +
@@ -223,13 +226,13 @@ class Events {
       const eventData = this.getInsertObject({
         ...filterValidColumns(
           { ...mainData, ...typeData },
-          await getTableColumns('data_propertyEvents', trx)
+          await getTableColumns('events.data', trx)
         ),
         id: eventId,
       });
 
       //Save the main event data.
-      await trx('data_propertyEvents').insert(eventData);
+      await trx('events.data').insert(eventData);
 
       //Create the additional data entries.
       await this.createExtraData(eventId, extraData, typeData, selectedSurfaceIds, trx);
@@ -251,39 +254,41 @@ class Events {
     };
 
     if (query.id) {
-      newQuery['data_objects.id'] = query.id;
+      newQuery['objects.data.id'] = query.id;
     }
 
     delete newQuery.id;
 
-    const events = await db('data_objects')
-      .join('data_propertyEvents', { 'data_propertyEvents.id': 'data_objects.id' })
-      .leftJoin('ref_eventTargets', { 'data_propertyEvents.targetId': 'ref_eventTargets.id' })
-      .leftJoin('ref_eventWorkTypes', { 'data_propertyEvents.workTypeId': 'ref_eventWorkTypes.id' })
-      .leftJoin('ref_mainEventTypes', {
-        'data_propertyEvents.mainTypeId': 'ref_mainEventTypes.id',
+    const events = await db('objects.data')
+      .join('events.data', { 'events.data.id': 'objects.data.id' })
+      .leftJoin('events.targets', { 'events.data.targetId': 'events.targets.id' })
+      .leftJoin('public.ref_eventWorkTypes', {
+        'events.data.workTypeId': 'public.ref_eventWorkTypes.id',
+      })
+      .leftJoin('events.types', {
+        'events.data.mainTypeId': 'events.types.id',
       })
 
       .select(
-        'data_objects.*',
-        'data_propertyEvents.*',
-        'ref_eventTargets.label as targetLabel',
-        'ref_eventWorkTypes.label as workTypeLabel',
-        'ref_mainEventTypes.label as mainTypeLabel'
+        'objects.data.*',
+        'events.data.*',
+        'events.targets.label as targetLabel',
+        'public.ref_eventWorkTypes.label as workTypeLabel',
+        'events.types.label as mainTypeLabel'
       )
       .where(function () {
         if (!search) return;
         const q = `%${search}%`;
-        this.whereILike('data_objects.title', q)
-          .orWhereILike('data_objects.description', q)
-          .orWhereILike('ref_mainEventTypes.label', q)
-          .orWhereILike('ref_eventTargets.label', q)
+        this.whereILike('objects.data.title', q)
+          .orWhereILike('objects.data.description', q)
+          .orWhereILike('events.types.label', q)
+          .orWhereILike('events.targets.label', q)
           .orWhereILike('ref_eventWorkTypes.label', q);
       })
       .andWhere(newQuery)
       .limit(limit)
       .offset(page * limit)
-      .orderBy('data_propertyEvents.date', 'desc');
+      .orderBy('events.data.date', 'desc');
 
     return events
       .filter(e => {
@@ -298,36 +303,41 @@ class Events {
   }
 
   private async getRoofEvent(eventId: string) {
-    return await db('data_roofEvents')
-      .join('ref_roofTypes', { 'ref_roofTypes.id': 'data_roofEvents.roofTypeId' })
-      .join('ref_roofMaterials', { 'ref_roofMaterials.id': 'data_roofEvents.roofMaterialId' })
-      .join('ref_mainColors', { 'ref_mainColors.id': 'data_roofEvents.colorId' })
-      .join('ref_raystastyypit', { 'ref_raystastyypit.id': 'data_roofEvents.raystasTyyppiId' })
-      .join('ref_otsalautatyypit', {
-        'ref_otsalautatyypit.id': 'data_roofEvents.otsalautaTyyppiId',
+    return await db('roofs.data')
+      .join('roofs.types', { 'roofs.types.id': 'roofs.data.roofTypeId' })
+      .join('roofs.materials', { 'roofs.materials.id': 'roofs.data.roofMaterialId' })
+      .join('ref_mainColors', { 'ref_mainColors.id': 'roofs.data.colorId' })
+      .join('roofs.ref_raystastyypit', {
+        'roofs.ref_raystastyypit.id': 'roofs.data.raystasTyyppiId',
       })
-      .join('ref_aluskatetyypit', {
-        'ref_aluskatetyypit.id': 'data_roofEvents.aluskateTyyppiId',
+      .join('roofs.ref_otsalautatyypit', {
+        'roofs.ref_otsalautatyypit.id': 'roofs.data.otsalautaTyyppiId',
       })
-      .where({ 'data_roofEvents.id': eventId })
+      .join('roofs.ref_aluskatetyypit', {
+        'roofs.ref_aluskatetyypit.id': 'roofs.data.aluskateTyyppiId',
+      })
+      .where({ 'roofs.data.id': eventId })
       .select(
-        'ref_roofMaterials.name as materialLabel',
-        'ref_roofTypes.name as typeLabel',
+        'roofs.materials.name as materialLabel',
+        'roofs.types.name as typeLabel',
         'ref_mainColors.name as colorLabel',
-        'ref_raystastyypit.label as raystasTyyppiLabel',
-        'ref_otsalautatyypit.label as otsalautaTyyppiLabel',
-        'ref_aluskatetyypit.label as aluskateTyyppiLabel',
-        'data_roofEvents.*'
+        'roofs.ref_raystastyypit.label as raystasTyyppiLabel',
+        'roofs.ref_otsalautatyypit.label as otsalautaTyyppiLabel',
+        'roofs.ref_aluskatetyypit.label as aluskateTyyppiLabel',
+        'roofs.data.*'
       );
   }
 
   private async getDrainageDitchEvent(eventId: string) {
-    return await db('data_drainageDitchEvents')
-      .join('ref_drainageDitchMethods', {
-        'ref_drainageDitchMethods.id': 'data_drainageDitchEvents.toteutusTapaId',
+    return await db('drainage_ditches.data')
+      .join('drainage_ditches.implementation_methods', {
+        'drainage_ditches.implementation_methods.id': 'drainage_ditches.data.toteutusTapaId',
       })
-      .where({ 'data_drainageDitchEvents.id': eventId })
-      .select('data_drainageDitchEvents.*', 'ref_drainageDitchMethods.label as toteutusTapaLabel');
+      .where({ 'drainage_ditches.data.id': eventId })
+      .select(
+        'drainage_ditches.data.*',
+        'drainage_ditches.implementation_methods.label as toteutusTapaLabel'
+      );
   }
 
   private async getHeatingEvent(eventId: string) {
@@ -352,8 +362,8 @@ class Events {
       );
 
     if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
-      query.join('data_oilHeatingEvents', {
-        'data_oilHeatingEvents.id': 'data_baseHeatingEvents.id',
+      query.join('oil_heating.vessels', {
+        'oil_heating.vessels.id': 'data_baseHeatingEvents.id',
       });
     } else if (newSystemId == getIdByLabel(heatingTypes, 'Sähkö', 'name')) {
       query
@@ -394,16 +404,16 @@ class Events {
   }
 
   private async getInsulationEvent(eventId: string) {
-    return await db('data_eristeEvents')
-      .join('ref_eristeKohde', { 'ref_eristeKohde.id': 'data_eristeEvents.kohdeId' })
-      .join('ref_eristeMateriaalit', {
-        'ref_eristeMateriaalit.id': 'data_eristeEvents.materiaaliId',
+    return await db('insulation.data')
+      .join('insulation.targets', { 'insulation.targets.id': 'insulation.data.kohdeId' })
+      .join('insulation.materials', {
+        'insulation.materials.id': 'insulation.data.materiaaliId',
       })
-      .where({ 'data_eristeEvents.id': eventId })
+      .where({ 'insulation.data.id': eventId })
       .select(
-        'data_eristeEvents.*',
-        'ref_eristeMateriaalit.label as materialLabel',
-        'ref_eristeKohde.label as targetLabel'
+        'insulation.data.*',
+        'insulation.materials.label as materialLabel',
+        'insulation.targets.label as targetLabel'
       );
   }
 
@@ -417,10 +427,10 @@ class Events {
   }
 
   private async getLockEvent(eventId: string) {
-    return await db('data_lockEvents')
-      .join('ref_lockTypes', { 'ref_lockTypes.id': 'data_lockEvents.lockTypeId' })
-      .where({ 'data_lockEvents.id': eventId })
-      .select('data_lockEvents.*', 'ref_lockTypes.label as Lukon tyyppi');
+    return await db('locking.data')
+      .join('locking.types', { 'locking.types.id': 'locking.data.lockTypeId' })
+      .where({ 'locking.data.id': eventId })
+      .select('locking.data.*', 'locking.types.label as Lukon tyyppi');
   }
 
   /**Fetches the additional data associated with an event
@@ -429,13 +439,13 @@ class Events {
    * @throws An error if the event has a main type, or target id, for which no functionality is implemented yet.
    */
   async getExtraData(eventId: string) {
-    const [typeData] = await db('data_propertyEvents')
+    const [typeData] = await db('events.data')
       .where({ id: eventId })
       .select('mainTypeId', 'targetId', 'workTypeId');
-    const mainTypes = await db('ref_mainEventTypes');
+    const mainTypes = await db('events.types');
 
     if (typeData.mainTypeId == getIdByLabel(mainTypes, 'Peruskorjaus')) {
-      const targets = await db('ref_eventTargets');
+      const targets = await db('events.targets');
 
       if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
         return await this.getRoofEvent(eventId);
@@ -473,9 +483,9 @@ class Events {
 
     await objects.update(id, data, async trx => {
       const insertObj = this.getInsertObject(
-        filterValidColumns(data, await getTableColumns('data_propertyEvents', trx))
+        filterValidColumns(data, await getTableColumns('events.data', trx))
       );
-      await trx('data_propertyEvents').where({ id: data.id }).update(insertObj);
+      await trx('events.data').where({ id: data.id }).update(insertObj);
       const extraDataPromises = extraData.map(d => this.updateExtraData(id, d, trx));
       await Promise.all(extraDataPromises);
     });
@@ -493,10 +503,10 @@ class Events {
 
   /**Throws an error if the event is at least 30 days old. */
   async verifyNotLocked(eventId: string) {
-    const [timestamp] = await db('data_propertyEvents')
-      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-      .where({ 'data_propertyEvents.id': eventId })
-      .select('data_objects.timestamp');
+    const [timestamp] = await db('events.data')
+      .join('objects.data', { 'objects.data.id': 'events.data.id' })
+      .where({ 'events.data.id': eventId })
+      .select('objects.data.timestamp');
 
     const now = Date.now();
     const maxEventAge = getDaysInMilliseconds(30);

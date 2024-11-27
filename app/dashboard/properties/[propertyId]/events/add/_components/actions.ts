@@ -73,7 +73,7 @@ export const createEventAction = async (
 };
 
 export const getPreviousHeatingSystem = async (propertyId: string) => {
-  const [heatingTargetId] = await db('ref_eventTargets').where({ label: 'Lämmitys' }).pluck('id');
+  const [heatingTargetId] = await db('events.targets').where({ label: 'Lämmitys' }).pluck('id');
 
   return await db('data_heatingEvents')
     .join('data_objects', { 'data_objects.id': 'data_heatingEvents.id' })
@@ -89,7 +89,7 @@ export const getEventTargets = async (mainEventTypeId: number) => {
   const targetIds = await db('map_workTargetsToMainEventType')
     .where({ mainEventTypeId })
     .pluck('targetId');
-  return await db('ref_eventTargets').whereIn('id', targetIds);
+  return await db('events.targets').whereIn('id', targetIds);
 };
 
 export const getEventWorkTypes = async (targetId: number) => {

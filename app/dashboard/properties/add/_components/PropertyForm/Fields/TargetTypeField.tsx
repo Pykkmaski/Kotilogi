@@ -6,10 +6,11 @@ import { usePropertyFormContext } from '../../PropertyFormContext';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function TargetTypeField() {
-  const { property: data, refs } = usePropertyFormContext();
-  console.log(data.propertyTypeId);
+  const { property: data, refs, isNew } = usePropertyFormContext();
+  console.log('Adding new property: ' + isNew);
+
   return (
-    !data && (
+    isNew && (
       <Fieldset legend='Kohde'>
         <FormControl
           label='Kohteen tyyppi'

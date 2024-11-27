@@ -8,14 +8,15 @@ import db from 'kotilogi-app/dbconfig';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { objects } from './objects';
 import { users } from './users';
+import { tablenames } from 'kotilogi-app/constants/tablenames';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
   /**Throws an error if the user already has the maximum number of allowed events for a property. */
   async verifyEventCount(propertyId: string) {
-    const [{ numEvents }] = await db('data_propertyEvents')
-      .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })
-      .where({ 'data_objects.parentId': propertyId })
+    const [{ numEvents }] = await db('events.data')
+      .join('objects.data', { 'objects.data.id': 'events.data.id' })
+      .where({ 'objects.data.parentId': propertyId })
       .count('* as numEvents');
 
     if (numEvents >= 100) {
@@ -24,8 +25,8 @@ class Properties {
   }
 
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
-    const [houseTypeId] = await trx('ref_propertyTypes').where({ name: 'Kiinteistö' }).pluck('id');
-    return typeId == houseTypeId ? 'data_houses' : 'data_appartments';
+    const types = await db('properties.get_property_types');
+    return typeId == types['Kiinteistö'] ? 'properties.houses' : 'properties.appartments';
   }
 
   /**Verifies a property is owned by the user of the current session. Throws an error if not. */
@@ -38,8 +39,8 @@ class Properties {
 
   /**Throws an error if the user with the provided id already has the maximum allowed number of properties. */
   async verifyUserPropertyCount(session: { user: { id: string } }) {
-    const [{ numProperties }] = await db('data_properties')
-      .join('data_objects', { 'data_objects.id': 'data_properties.id' })
+    const [{ numProperties }] = await db('properties.base')
+      .join('objects.data', { 'objects.data.id': 'properties.base.id' })
       .where({ authorId: session.user.id })
       .count('* as numProperties');
 
@@ -50,26 +51,30 @@ class Properties {
 
   async get(id: string): Promise<HouseDataType | AppartmentDataType> {
     //Get the type of the property.
-    const [type] = await db('data_properties')
-      .join('ref_propertyTypes', { 'ref_propertyTypes.id': 'data_properties.propertyTypeId' })
-      .where({ 'data_properties.id': id })
-      .pluck('ref_propertyTypes.name');
+    const [type] = await db(tablenames.properties)
+      .join(tablenames.propertyTypes, {
+        [`${tablenames.propertyTypes}.id`]: `${tablenames.properties}.propertyTypeId`,
+      })
+      .where({ [`${tablenames.properties}.id`]: id })
+      .pluck(`${tablenames.propertyTypes}.name`);
 
-    const baseQuery = db('data_objects')
-      .join('data_properties', { 'data_properties.id': 'data_objects.id' })
-      .join('ref_propertyTypes', { 'ref_propertyTypes.id': 'data_properties.propertyTypeId' });
+    const baseQuery = db('objects.data')
+      .join(tablenames.properties, { [tablenames.properties + '.id']: 'objects.data.id' })
+      .join(tablenames.propertyTypes, {
+        [tablenames.propertyTypes + '.id']: `${tablenames.properties}.propertyTypeId`,
+      });
 
     const baseColumnsToSelect = [
-      'data_objects.*',
-      'data_properties.*',
-      'ref_propertyTypes.name as propertyTypeName',
+      'objects.data.*',
+      'properties.base.*',
+      'properties.propertyTypes.name as propertyTypeName',
     ];
 
-    const targetTableName = type == 'Kiinteistö' ? 'data_houses' : 'data_appartments';
+    const targetTableName = type == 'Kiinteistö' ? 'properties.houses' : 'properties.appartments';
 
     const [p] = await baseQuery
-      .join(targetTableName, { [`${targetTableName}.id`]: 'data_properties.id' })
-      .where({ [`data_properties.id`]: id })
+      .join(targetTableName, { [`${targetTableName}.id`]: 'properties.base.id' })
+      .where({ [`properties.base.id`]: id })
       .select([...baseColumnsToSelect, `${targetTableName}.*`]);
 
     if (!p) {
@@ -97,11 +102,11 @@ class Properties {
         'houseNumber' in data ? `${data.streetAddress} ${data.houseNumber}` : data.streetAddress;
       const data_properties = {
         id: obj.id,
-        ...filterValidColumns(data, await getTableColumns('data_properties', trx)),
+        ...filterValidColumns(data, await getTableColumns('properties.base', trx)),
         streetAddress,
       };
 
-      await trx('data_properties').insert(data_properties);
+      await trx('properties.base').insert(data_properties);
 
       const propTableName = await this.getTableNameByType(data.propertyTypeId, trx);
 
@@ -132,10 +137,10 @@ class Properties {
     return objects.update(id, data, async trx => {
       const propertyUpdateObject = filterValidColumns(
         data,
-        await getTableColumns('data_properties', trx)
+        await getTableColumns('properties.base', trx)
       );
 
-      await trx('data_properties')
+      await trx('properties.base')
         .where({ id })
         .update({
           ...propertyUpdateObject,

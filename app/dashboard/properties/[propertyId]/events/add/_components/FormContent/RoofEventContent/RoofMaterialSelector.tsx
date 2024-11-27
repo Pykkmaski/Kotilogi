@@ -12,7 +12,7 @@ export const RoofMaterialSelector = () => {
       label='Katon materiaali'
       labelKey='name'
       valueKey='id'
-      tablename='ref_roofMaterials'
+      tablename='roofs.materials'
       propertyName='roofMaterialId'
       useContextValue={extraData}
     />

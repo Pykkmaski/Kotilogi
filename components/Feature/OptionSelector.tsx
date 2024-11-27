@@ -16,6 +16,7 @@ type OptionSelectorProps<T> = Omit<FormControlProps, 'control'> & {
 
   useContextValue: T;
   loadingText?: string;
+  fetchFn?: () => Promise<any>;
   dataProcessingFn?: (data: TODO[]) => TODO[];
   onChange?: (currentValue: any) => void;
 };
@@ -26,14 +27,14 @@ export function OptionSelector<T extends Record<string, any>>({
   valueKey,
   propertyName,
   useContextValue,
-
+  fetchFn,
   dataProcessingFn,
   onChange,
   ...props
 }: OptionSelectorProps<T>) {
   const { data, isLoading } = useQuery({
     queryKey: [tablename],
-    queryFn: async () => await getContent(tablename),
+    queryFn: async () => (fetchFn ? await fetchFn() : await getContent(tablename)),
   });
 
   const dataToDisplay = !isLoading && dataProcessingFn ? dataProcessingFn(data) : data;

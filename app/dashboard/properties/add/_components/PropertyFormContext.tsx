@@ -9,6 +9,7 @@ export const PropertyFormContext = createContext<{
   refs: any;
 
   isValid: boolean;
+  isNew: boolean;
   resetData: (data?: any) => void;
 
   updatePropertyInfo: (data: TODO, valid: boolean) => void;

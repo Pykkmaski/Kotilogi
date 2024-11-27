@@ -25,11 +25,11 @@ export function MainDataForm({ editing }) {
 
   const isSubmitDisabled = () => {
     var state;
-    if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Peruskorjaus')) {
+    if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       state = !isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Huoltotyö')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
       state = !isDefined(typeData.targetId) || !isDefined(typeData.workTypeId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')) {
+    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
       state = !isDefined(typeData.targetId) || selectedSurfaceIds.length == 0;
     } else {
       state = true;
@@ -45,7 +45,7 @@ export function MainDataForm({ editing }) {
       onChange={updateMainData}
       className='flex flex-col gap-4'>
       <RenderOnCondition
-        condition={typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')}>
+        condition={typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')}>
         <Fieldset legend='Pinnat'>
           <SurfaceSelector />
         </Fieldset>
@@ -78,7 +78,7 @@ export function MainDataForm({ editing }) {
               <DialogActions>
                 <ToggleProvider.Trigger>
                   <Button
-                    disabled={status == 'loading' || status == 'done'}
+                    disabled={status == 'loading'}
                     variant='text'
                     color='secondary'>
                     Peruuta

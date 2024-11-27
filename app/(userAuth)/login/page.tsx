@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ErrorText } from '@/components/UI/Text';
 import { useLogin } from './useLogin';
@@ -16,6 +16,7 @@ import { InputContainer } from '../_components/InputContainer';
 import { FormButtonContainer } from '../_components/FormButtonContainer';
 import { AltActionLink } from '../_components/AltActionLink';
 import { InputErrorTextContainer } from '../_components/InputErrorTextContainer';
+import { loadSession } from 'kotilogi-app/utils/loadSession';
 
 export default function LoginPage() {
   const router = useRouter();

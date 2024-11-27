@@ -10,7 +10,7 @@ class Objects {
   async verifySessionUserIsAuthor(objectId: string) {
     const session = await verifySession();
 
-    const [authorId] = await db('data_objects').where({ id: objectId }).pluck('authorId');
+    const [authorId] = await db('objects.data').where({ id: objectId }).pluck('authorId');
     if (session.user.id !== authorId) {
       throw new Error('Vain tiedon laatija voi muokata- tai poistaa sen!');
     }
@@ -24,8 +24,8 @@ class Objects {
     const trx = await db.transaction();
     try {
       const session = await verifySession();
-      const dataToInsert = filterValidColumns(data, await getTableColumns('data_objects', trx));
-      const [obj] = (await trx('data_objects').insert(
+      const dataToInsert = filterValidColumns(data, await getTableColumns('objects.data', trx));
+      const [obj] = (await trx('objects.data').insert(
         { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
         '*'
       )) as [ObjectDataType];
@@ -46,8 +46,8 @@ class Objects {
   ) {
     const trx = await db.transaction();
     try {
-      const validColumns = await getTableColumns('data_objects', trx);
-      await trx('data_objects')
+      const validColumns = await getTableColumns('objects.data', trx);
+      await trx('objects.data')
         .where({ id: objectId })
         .update({
           ...filterValidColumns(data, validColumns),
@@ -64,7 +64,7 @@ class Objects {
   async del(id: string, callback?: (trx: Knex.Transaction) => Promise<void>) {
     const trx = await db.transaction();
     try {
-      await trx('data_objects').where({ id }).del();
+      await trx('objects.data').where({ id }).del();
       callback && (await callback(trx));
       await trx.commit();
     } catch (err) {
@@ -96,7 +96,7 @@ class Objects {
     try {
       const session = await verifySession();
       for (let i = 0; i < count; ++i) {
-        const [obj] = await trx('data_objects').insert(
+        const [obj] = await trx('objects.data').insert(
           {
             parentId,
             timestamp: Date.now(),
@@ -129,10 +129,10 @@ class Objects {
           new Promise<void>(async (resolve, reject) => {
             try {
               const current = data[i];
-              await trx('data_objects')
+              await trx('objects.data')
                 .where({ id: current.id })
                 .update({
-                  ...filterValidColumns(data, await getTableColumns('data_objects', trx)),
+                  ...filterValidColumns(data, await getTableColumns('objects.data', trx)),
                 });
 
               await callback(i, trx);

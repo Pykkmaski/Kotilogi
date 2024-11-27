@@ -8,7 +8,7 @@ export const AluskateSelector = () => {
       label='Aluskate'
       labelKey='label'
       valueKey='id'
-      tablename='ref_aluskatetyypit'
+      tablename='roofs.ref_aluskatetyypit'
       propertyName='aluskateTyyppiId'
       useContextValue={extraData}
     />

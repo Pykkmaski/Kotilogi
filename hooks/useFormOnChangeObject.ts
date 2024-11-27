@@ -5,7 +5,7 @@ import { useHasChanges } from './useHasChanges';
  * @param initialData The object to initialize the data with.
  */
 export function useFormOnChangeObject<T extends {}>(initialData?: T) {
-  const [data, setData] = useState(initialData || ({} as T));
+  const [data, setData] = useState(initialData);
   const { hasChanges, markAsChanged } = useHasChanges();
 
   const updateData = useCallback(
@@ -16,7 +16,13 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T) {
 
       const value = e.target.type == 'number' ? e.target.valueAsNumber : e.target.value;
 
-      setData({ ...data, [e.target.name]: value });
+      setData((prev: TODO) => {
+        if (prev) {
+          return { ...prev, [e.target.name]: value };
+        } else {
+          return { [e.target.name]: value };
+        }
+      });
       markAsChanged();
     },
     [setData, markAsChanged, data]

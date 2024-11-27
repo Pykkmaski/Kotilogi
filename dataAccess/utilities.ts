@@ -29,9 +29,9 @@ class Utilities {
   /**Fetches utility data. */
   async get(propertyId: string, year?: number, types: string[] = []) {
     const dbQuery = db('data_utilities')
-      .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
+      .join('objects.data', { 'objects.data.id': 'data_utilities.id' })
       .join('ref_utilityTypes', { 'ref_utilityTypes.id': 'data_utilities.typeId' })
-      .select('data_objects.*', 'data_utilities.*', 'ref_utilityTypes.name as typeLabel')
+      .select('objects.data.*', 'data_utilities.*', 'ref_utilityTypes.name as typeLabel')
       .where(function () {
         if (!year) return;
 
@@ -44,7 +44,7 @@ class Utilities {
 
         this.where('date', '>=', time).andWhere('date', '<', endTime);
       })
-      .andWhere({ 'data_objects.parentId': propertyId });
+      .andWhere({ 'objects.data.parentId': propertyId });
 
     if (types.length) {
       dbQuery.whereIn('ref_utilityTypes.name', types);
@@ -70,7 +70,7 @@ class Utilities {
 
   async getYears(propertyId: string) {
     const dates = (await db('data_utilities')
-      .join('data_objects', { 'data_objects.id': 'data_utilities.id' })
+      .join('objects.data', { 'objects.data.id': 'data_utilities.id' })
       .where({ parentId: propertyId })
       .pluck('date')) as Date[];
 

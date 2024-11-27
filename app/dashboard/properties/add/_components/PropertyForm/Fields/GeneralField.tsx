@@ -60,36 +60,36 @@ export function GeneralField({ hidePropertyIdentifier }) {
   const getZipCodeDescription = () => {
     return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita postinumero...';
   };
+  console.log(isHouse);
 
   return (
     <Fieldset legend='Yleistiedot'>
-      {!hidePropertyIdentifier ||
-        (isHouse && (
-          <FormControl
-            label='Kiinteistötunnus'
-            required
-            control={
-              <Input
-                data-testid='property-number-input'
-                icon={
+      {!hidePropertyIdentifier && isHouse && (
+        <FormControl
+          label='Kiinteistötunnus'
+          required
+          control={
+            <Input
+              data-testid='property-number-input'
+              icon={
+                <RenderOnCondition
+                  condition={
+                    (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
+                  }>
                   <RenderOnCondition
-                    condition={
-                      (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
-                    }>
-                    <RenderOnCondition
-                      condition={isValid}
-                      fallback={<Clear sx={{ color: 'red' }} />}>
-                      <Check sx={{ color: 'lime' }} />
-                    </RenderOnCondition>
+                    condition={isValid}
+                    fallback={<Clear sx={{ color: 'red' }} />}>
+                    <Check sx={{ color: 'lime' }} />
                   </RenderOnCondition>
-                }
-                name='propertyNumber'
-                placeholder='Kirjoita kiinteistötunnus...'
-                defaultValue={data && (data as HouseDataType).propertyNumber}
-              />
-            }
-          />
-        ))}
+                </RenderOnCondition>
+              }
+              name='propertyNumber'
+              placeholder='Kirjoita kiinteistötunnus...'
+              defaultValue={data && (data as HouseDataType).propertyNumber}
+            />
+          }
+        />
+      )}
 
       <FormControl
         label='Osoite'

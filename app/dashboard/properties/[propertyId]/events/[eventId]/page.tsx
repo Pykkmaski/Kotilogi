@@ -20,11 +20,6 @@ export default async function EventPage({ params }) {
   if (!eventData) redirect(`/dashboard/properties/${params.propertyId}/events`);
   const [extraData] = await events.getExtraData(eventId);
 
-  const [{ numSteps }] = (await db('data_propertyEventSteps')
-    .join('data_objects', { 'data_objects.id': 'data_propertyEventSteps.id' })
-    .where({ parentId: eventId })
-    .count('*', { as: 'numSteps' })) as [{ numSteps: number }];
-
   const fileData = (await files.get({ parentId: eventId }, 4)) as FileDataType[];
   const [mainImageId] = (await db('data_mainImages')
     .where({ objectId: eventId })
