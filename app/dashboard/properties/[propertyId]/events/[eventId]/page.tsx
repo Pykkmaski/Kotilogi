@@ -35,7 +35,7 @@ export default async function EventPage({ params }) {
     };
 
     return (
-      <div className='flex flex-col'>
+      <div className='flex flex-row w-full justify-between'>
         <label className='text-slate-500'>{label}</label>
         <span className='font-semibold'>{getValue() || 'Ei määritelty'}</span>
       </div>
@@ -43,7 +43,7 @@ export default async function EventPage({ params }) {
   };
 
   const DataGroup = ({ children }) => (
-    <div className='grid lg:grid-cols-3 xs:grid-cols-2 gap-4'>{children}</div>
+    <div className='flex flex-col gap-4 w-full text-base'>{children}</div>
   );
 
   const getHeatingSystemNamePrefix = () => {

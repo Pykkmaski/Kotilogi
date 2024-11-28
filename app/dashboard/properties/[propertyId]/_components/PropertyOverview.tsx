@@ -47,7 +47,7 @@ export async function PropertyOverview({
     .where({ parentId: property.id, type: 'image/jpeg' })
     .select('data_files.id as id', 'objects.data.parentId as parentId');
 
-  const [buildingType] = await db('properties.buildingTypes')
+  const [buildingType] = await db('buildings.types')
     .where({ id: property.buildingTypeId })
     .pluck('name');
 

@@ -226,7 +226,7 @@ class Events {
       const eventData = this.getInsertObject({
         ...filterValidColumns(
           { ...mainData, ...typeData },
-          await getTableColumns('events.data', trx)
+          await getTableColumns('data', trx, 'events')
         ),
         id: eventId,
       });
@@ -483,7 +483,7 @@ class Events {
 
     await objects.update(id, data, async trx => {
       const insertObj = this.getInsertObject(
-        filterValidColumns(data, await getTableColumns('events.data', trx))
+        filterValidColumns(data, await getTableColumns('data', trx, 'events'))
       );
       await trx('events.data').where({ id: data.id }).update(insertObj);
       const extraDataPromises = extraData.map(d => this.updateExtraData(id, d, trx));
