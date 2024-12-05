@@ -16,34 +16,34 @@ import { Button } from '@mui/material';
 
 /**Collects the additional data related to some types of events. */
 export function ExtraDataForm({ editing }) {
-  const { updateExtraData, extraData, typeData, addEntry } = useEventFormContext();
+  const { updateExtraData, eventData, extraData, addEntry } = useEventFormContext();
   const { refs } = useEventTypeContext();
 
   const getContent = () => {
-    const { targetId } = typeData;
+    const { target_id } = eventData;
 
     var content = null;
-    if (targetId == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
+    if (target_id == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
       content = <WindowRenovationContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto')) {
       content = <HeatingRenovationContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Katto')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Katto')) {
       content = <RoofEventContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Salaojat')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Salaojat')) {
       content = <DrainageDitchEventContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Lukitus')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Lukitus')) {
       content = <LockEventContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Sähköt')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Sähköt')) {
       content = <ElectricityEventContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Käyttövesiputket')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Käyttövesiputket')) {
       content = <KayttoVesiEventContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Viemäriputket')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Viemäriputket')) {
       content = <ViemariPutketEventContent />;
-    } else if (targetId == getIdByLabel(refs.eventTargets, 'Eristys')) {
+    } else if (target_id == getIdByLabel(refs.eventTargets, 'Eristys')) {
       content = <EristeEventContent />;
     } else {
       console.error(
-        'Additional content not implemented for target type with id ' + typeData.targetId
+        'Additional content not implemented for target type with id ' + eventData.target_id
       );
     }
 
@@ -51,7 +51,7 @@ export function ExtraDataForm({ editing }) {
   };
 
   const displaySubmitButton = () => {
-    if (typeData.targetId == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
+    if (eventData.target_id == getIdByLabel(refs.eventTargets, 'Ikkunat')) {
       return true;
     } else {
       return false;

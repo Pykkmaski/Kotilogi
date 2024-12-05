@@ -60,7 +60,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
   const getZipCodeDescription = () => {
     return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita postinumero...';
   };
-  console.log(isHouse);
+  console.log(data.build_year);
 
   return (
     <Fieldset legend='Yleistiedot'>
@@ -143,9 +143,9 @@ export function GeneralField({ hidePropertyIdentifier }) {
         label='Rakennusvuosi'
         control={
           <Input
-            name='buildYear'
+            name='build_year'
             type='number'
-            defaultValue={data && data.buildYear}
+            defaultValue={data && data.build_year}
             placeholder='Anna rakennusvuosi...'
             data-testid='build-year-input'
           />
@@ -158,10 +158,10 @@ export function GeneralField({ hidePropertyIdentifier }) {
           required
           control={
             <Input
-              defaultValue={data && (data as AppartmentDataType).appartmentNumber}
+              defaultValue={data && (data as AppartmentDataType).houseNumber}
               data-testid='appartment-number-input'
               type='number'
-              name='appartmentNumber'
+              name='residence_number'
               min='0'
               step='1'
               placeholder='Anna huoneiston numero...'
@@ -188,11 +188,11 @@ export function GeneralField({ hidePropertyIdentifier }) {
         label='Rakennuksen tyyppi'
         control={
           <ChipRadioGroup
-            name='buildingTypeId'
+            name='building_type_id'
             dataArray={refs.buildingTypes}
             labelKey='name'
             valueKey='id'
-            currentValue={data.buildingTypeId}
+            currentValue={data.building_type_id}
           />
         }
       />

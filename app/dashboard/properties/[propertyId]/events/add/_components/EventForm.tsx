@@ -19,6 +19,7 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
   const eventFormProps = useEventForm(propertyId, eventData, initialExtraData);
   const { editing, showMainDataForm, showExtraDataForm } = eventFormProps;
 
+  console.log('Is editing: ', editing);
   return (
     <EventFormProvider
       {...eventFormProps}

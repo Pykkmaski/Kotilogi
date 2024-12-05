@@ -7,17 +7,46 @@ export type ObjectDataType = {
   parentId?: string;
 };
 
+export type BuildingDataType = ObjectDataType & {
+  id?: string;
+  property_id: string;
+  building_type_id: string;
+  building_material_id: string;
+};
+
+export type ResidenceDataType = ObjectDataType & {
+  id?: string;
+  building_id: string;
+  floor_count: number;
+  room_count: number;
+  bathroom_count: number;
+  living_area: number;
+  other_area: number;
+  residence_number: number;
+  has_garage: boolean;
+};
+
+type NewPropertyDataType = ObjectDataType & {
+  id?: string;
+  street_name: string;
+  zip_code: string;
+  /**Kiinteistötunnus */
+  property_identifier: string;
+};
+/**
+ * @todo Remove columns that have been moved under separate tables.
+ */
 export type PropertyDataType = ObjectDataType & {
   streetAddress: string;
   zipCode: string;
   energyClassId: number;
-  buildingTypeId: number;
-  buildingMaterialId: number;
+  building_type_id: number;
+  building_material_id: number;
   roofTypeId: number;
   roofMaterialId: number;
   primaryHeatingSystemId: number;
   secondaryHeatingSystemId: number;
-  buildYear: number;
+  build_year: number;
   floorCount: number;
   roomCount: number;
   livingArea: number;
@@ -28,6 +57,7 @@ export type PropertyDataType = ObjectDataType & {
   houseNumber: number;
   mainColorId: number;
   hasGarage: boolean;
+  building_id: number;
 };
 
 export type HouseDataType = PropertyDataType & {
@@ -36,6 +66,9 @@ export type HouseDataType = PropertyDataType & {
   propertyNumber: string;
 };
 
+/**
+ * @todo Should extend the residence type in the future.
+ */
 export type AppartmentDataType = PropertyDataType & {
   appartmentNumber: number;
   floorNumber: number;
@@ -62,16 +95,50 @@ export type HistoryDataType = {
 };
 
 export type EventDataType = ObjectDataType & {
-  propertyId: string;
+  property_id: string;
   date: Date;
-  labourExpenses: number;
-  materialExpenses: number;
-  mainTypeId: number;
-  targetId: number;
-  workTypeId: number;
-  mainTypeLabel?: string;
-  workTypeLabel?: string;
-  targetLabel?: string;
+  labour_expenses: number;
+  material_expenses: number;
+  event_type_id: number;
+  target_id: number;
+  service_work_type_id?: number;
+};
+
+type HasEventId = { event_id: string };
+
+export type WaterPipeRestorationWorkType = HasEventId & {
+  installation_method_id: number;
+};
+
+export type SewerPipeRestorationWorkType = HasEventId & {
+  restoration_method_id: number;
+};
+
+export type ElectricityRestorationWorkType = HasEventId & {
+  restoration_work_target_id: number;
+};
+
+export type InsulationRestorationWorkType = HasEventId & {
+  insulation_material_id: number;
+  insulation_target_id: number;
+};
+
+export type HeatingMethodRestorationWorkType = HasEventId & {
+  old_system_id: number;
+  new_system_id: number;
+  heating_id: string;
+};
+
+export type HeatingDataType = {
+  id?: string;
+  property_id: string;
+  heating_type_id: number;
+};
+
+export type OilVesselDataType = {
+  volume: number;
+  location: string;
+  heating_id: string;
 };
 
 export type RoofDataType = {

@@ -16,19 +16,9 @@ type EventFormProviderProps = {
   files: File[];
   removeFile: (name: string) => void;
   /**The main event data. Not including the type-id references. */
-  mainData?: TODO;
-  updateMainData: (e) => void;
+  eventData?: TODO;
+  updateEventData: (e) => void;
   editing: boolean;
-  /**The ids of the type references. */
-  typeData?: {
-    mainTypeId: number;
-    targetId: number;
-    workTypeId: number;
-
-    /**In surface renovations, the id of the surface the event pertains to. */
-    surfaceId?: number;
-  };
-  updateTypeData: (e) => void;
 
   /**The data pertaining to specific types of events, like those related to windows. */
   extraData?: TODO;

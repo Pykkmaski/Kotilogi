@@ -7,30 +7,8 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { useMemo, useState } from 'react';
 import { Spacer } from '@/components/UI/Spacer';
 import { FileList } from '@/components/New/FileList';
-
-const ContractorInput = () => {
-  const contractors = ['Vesivek', 'Blaablaa'];
-  return (
-    <RenderOnCondition condition={contractors.length > 0}>
-      <FormControl
-        label='Työn tekijä'
-        helper='Itse tehdyssä työssä tämän voi jättää tyhjäksi.'
-        control={
-          <select>
-            <option
-              disabled
-              selected>
-              Valitse työn tekijä...
-            </option>
-            {contractors.map(c => (
-              <option>{c}</option>
-            ))}
-          </select>
-        }
-      />
-    </RenderOnCondition>
-  );
-};
+import { LabourExpensesInput } from './Inputs/LabourExpensesInput';
+import { MaterialExpensesInput } from './Inputs/MaterialExpensesInput';
 
 const FilesField = () => {
   const { files, removeFile } = useEventFormContext();
@@ -57,44 +35,26 @@ const FilesField = () => {
   );
 };
 const ExpensesField = () => {
-  const { mainData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   const total = useMemo(() => {
-    const material = mainData.materialExpenses || 0;
-    const labour = mainData.labourExpenses || 0;
+    const material = eventData.material_expenses || 0;
+    const labour = eventData.labour_expenses || 0;
     return material + labour;
-  }, [mainData.materialExpenses, mainData.labourExpenses]);
+  }, [eventData.material_expenses, eventData.labour_expenses]);
 
   return (
     <Fieldset legend='Kulut'>
       <FormControl
         boldLabelText
         label='Materiaalien osuus (€)'
-        control={
-          <Input
-            name='materialExpenses'
-            type='number'
-            defaultValue={0}
-            value={mainData && mainData.materialExpenses}
-            placeholder='Anna kulujen materiaaliosuus...'
-            step={0.01}
-            min={0}></Input>
-        }
+        control={<MaterialExpensesInput />}
       />
 
       <FormControl
         boldLabelText
         label='Työn osuus (€)'
-        control={
-          <Input
-            name='labourExpenses'
-            type='number'
-            defaultValue={0}
-            value={mainData && mainData.labourExpenses}
-            step={0.01}
-            placeholder='Anna kulujen työosuus...'
-            min={0}></Input>
-        }
+        control={<LabourExpensesInput />}
       />
       <div className='md:text-lg xs:text-base'>
         <Spacer
@@ -110,7 +70,7 @@ const ExpensesField = () => {
 };
 
 const DescriptionInput = () => {
-  const { mainData, typeData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <FormControl
@@ -122,7 +82,7 @@ const DescriptionInput = () => {
           name='description'
           spellCheck={false}
           required
-          value={mainData.description}
+          value={eventData.description}
         />
       }
     />
@@ -130,11 +90,11 @@ const DescriptionInput = () => {
 };
 
 const OtherField = () => {
-  const { mainData, typeData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <Fieldset legend='Yleistiedot'>
-      <RenderOnCondition condition={typeData.workTypeId == -1}>
+      <RenderOnCondition condition={eventData.service_work_type_id == -1}>
         <FormControl
           boldLabelText
           label='Otsikko'
@@ -144,7 +104,7 @@ const OtherField = () => {
               placeholder='Kirjoita tapahtuman otsikko...'
               name='title'
               required
-              value={mainData.title}
+              value={eventData.title}
             />
           }
         />
@@ -160,8 +120,8 @@ const OtherField = () => {
           <Input
             type='date'
             name='date'
-            defaultValue={mainData.date}
-            value={mainData.date}
+            defaultValue={eventData.date}
+            value={eventData.date}
           />
         }
       />

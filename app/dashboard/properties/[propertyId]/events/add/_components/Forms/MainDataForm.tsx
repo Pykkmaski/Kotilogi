@@ -19,18 +19,18 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
 
 export function MainDataForm({ editing }) {
-  const { updateMainData, mainData, cancel, onSubmit, typeData, status, selectedSurfaceIds } =
+  const { updateEventData, eventData, cancel, onSubmit, status, selectedSurfaceIds } =
     useEventFormContext();
   const { refs } = useEventTypeContext();
 
   const isSubmitDisabled = () => {
     var state;
-    if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
-      state = !isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
-      state = !isDefined(typeData.targetId) || !isDefined(typeData.workTypeId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      state = !isDefined(typeData.targetId) || selectedSurfaceIds.length == 0;
+    if (eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
+      state = !isDefined(eventData.targetId);
+    } else if (eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
+      state = !isDefined(eventData.targetId) || !isDefined(eventData.workTypeId);
+    } else if (eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
+      state = !isDefined(eventData.targetId) || selectedSurfaceIds.length == 0;
     } else {
       state = true;
     }
@@ -41,11 +41,9 @@ export function MainDataForm({ editing }) {
   return (
     <form
       id='mainDataForm'
-      onSubmit={onSubmit}
-      onChange={updateMainData}
-      className='flex flex-col gap-4'>
+      onSubmit={onSubmit}>
       <RenderOnCondition
-        condition={typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')}>
+        condition={eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')}>
         <Fieldset legend='Pinnat'>
           <SurfaceSelector />
         </Fieldset>
@@ -86,7 +84,7 @@ export function MainDataForm({ editing }) {
                 </ToggleProvider.Trigger>
 
                 <Button
-                  disabled={status == 'loading' || status == 'done' || status === 'error'}
+                  disabled={status == 'loading'}
                   startIcon={
                     <RenderOnCondition
                       condition={status == 'idle' || status == 'done' || status === 'error'}

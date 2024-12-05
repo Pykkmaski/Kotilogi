@@ -12,12 +12,12 @@ function initMainData(eventData: TODO) {
   if (eventData) {
     const d = {
       ...eventData,
-      date: timestampToISOString(eventData.date.getTime()),
+      date: eventData.date && timestampToISOString(eventData.date.getTime()),
     };
 
-    delete d.mainTypeId;
-    delete d.targetId;
-    delete d.workTypeId;
+    delete d.event_type_id;
+    delete d.target_id;
+    delete d.service_work_type_id;
     return d;
   } else {
     return {};
@@ -25,22 +25,24 @@ function initMainData(eventData: TODO) {
 }
 
 /**Handles the main data of the event form. Should be used within the main useEventForm-hook. */
-export const useMainData = (eventData: TODO) => {
+export const useEventData = (initialEventData: TODO) => {
   const {
-    data: mainData,
-    onChange: updateMainData,
-    hasChanges: mainDataHasChanges,
-    resetData: resetMainData,
+    data: eventData,
+    onChange: updateEventData,
+    hasChanges: eventDataHasChanges,
+    resetData: resetEventData,
     removeFile,
     files,
-  } = useFormOnChange(initMainData(eventData));
+  } = useFormOnChange(initMainData(initialEventData));
 
-  useSaveToSessionStorage(mainDataStorageKey, mainData);
+  useSaveToSessionStorage(mainDataStorageKey, eventData);
+
+  console.log('event data at useEventData: ', eventData);
   return {
-    mainData,
-    updateMainData,
-    mainDataHasChanges,
-    resetMainData,
+    eventData,
+    updateEventData,
+    eventDataHasChanges,
+    resetEventData,
     files,
     removeFile,
   };

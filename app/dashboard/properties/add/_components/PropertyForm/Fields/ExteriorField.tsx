@@ -14,11 +14,11 @@ export function ExteriorField() {
         label='Rakennusmateriaali'
         control={
           <ChipRadioGroup
-            name='buildingMaterialId'
+            name='building_material_id'
             dataArray={refs.buildingMaterials}
             labelKey='name'
             valueKey='id'
-            currentValue={property.buildingMaterialId}
+            currentValue={property.building_material_id}
           />
         }
       />

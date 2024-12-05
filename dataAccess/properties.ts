@@ -8,6 +8,7 @@ import db from 'kotilogi-app/dbconfig';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { objects } from './objects';
 import { users } from './users';
+import { insertViaFilter, updateViaFilter } from './utils/insertViaFilter';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -24,8 +25,8 @@ class Properties {
   }
 
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
-    const [{ result: types }] = await db('properties.get_property_types');
-    return typeId == types['Kiinteistö'] ? 'properties.houses' : 'properties.appartments';
+    const [{ result: types }] = await db('property.get_property_types');
+    return typeId == types['Kiinteistö'] ? 'property.houses' : 'property.appartments';
   }
 
   /**Verifies a property is owned by the user of the current session. Throws an error if not. */
@@ -36,10 +37,10 @@ class Properties {
     }
   }
 
-  /**Throws an error if the user with the provided id already has the maximum allowed number of properties. */
+  /**Throws an error if the user with the provided id already has the maximum allowed number of property. */
   async verifyUserPropertyCount(session: { user: { id: string } }) {
-    const [{ numProperties }] = await db('properties.base')
-      .join('objects.data', { 'objects.data.id': 'properties.base.id' })
+    const [{ numProperties }] = await db('property.overview')
+      .join('objects.data', { 'objects.data.id': 'property.overview.id' })
       .where({ authorId: session.user.id })
       .count('* as numProperties');
 
@@ -50,31 +51,47 @@ class Properties {
 
   async get(id: string): Promise<HouseDataType | AppartmentDataType> {
     //Get the type of the property.
-    const [type] = await db('properties.base')
-      .join('properties.propertyTypes', {
-        'properties.propertyTypes.id': 'properties.base.propertyTypeId',
+    const [type] = await db('property.overview')
+      .join('property.propertyTypes', {
+        'property.propertyTypes.id': 'property.overview.propertyTypeId',
       })
-      .where({ 'properties.base.id': id })
-      .pluck('properties.propertyTypes.name');
+      .where({ 'property.overview.id': id })
+      .pluck('property.propertyTypes.name');
 
-    const baseQuery = db('objects.data')
-      .join('properties.base', { 'properties.base.id': 'objects.data.id' })
-      .join('properties.propertyTypes', {
-        'properties.propertyTypes.id': 'properties.base.propertyTypeId',
-      });
+    const [overview] = await db('property.overview')
+      .join('objects.data', { 'objects.data.id': 'property.overview.id' })
+      .join('property.propertyTypes', {
+        'property.propertyTypes.id': 'property.overview.propertyTypeId',
+      })
+      .where({ 'property.overview.id': id })
+      .select(
+        'objects.data.*',
+        'property.overview.*',
+        'property.propertyTypes.name as propertyTypeName'
+      );
 
-    const baseColumnsToSelect = [
-      'objects.data.*',
-      'properties.base.*',
-      'properties.propertyTypes.name as propertyTypeName',
-    ];
+    const [interior] = await db('property.interior')
+      .where({ property_id: id })
+      .select('room_count', 'floor_count', 'bathroom_count', 'living_area', 'other_area');
 
-    const targetTableName = type == 'Kiinteistö' ? 'properties.houses' : 'properties.appartments';
+    const [building] = await db('buildings.data')
+      .join('buildings.types', { 'buildings.types.id': 'buildings.data.building_type_id' })
+      .join('buildings.materials', {
+        'buildings.materials.id': 'buildings.data.building_material_id',
+      })
+      .where({ property_id: overview.id })
+      .select(
+        'building_type_id',
+        'building_material_id',
+        'buildings.materials.name as building_material_label',
+        'buildings.types.name as building_type_label'
+      );
 
-    const [p] = await baseQuery
-      .join(targetTableName, { [`${targetTableName}.id`]: 'properties.base.id' })
-      .where({ [`properties.base.id`]: id })
-      .select([...baseColumnsToSelect, `${targetTableName}.*`]);
+    const targetTableName = type == 'Kiinteistö' ? 'property.houses' : 'property.appartments';
+
+    const [p] = await db(targetTableName)
+      .where({ id: overview.id })
+      .select([`${targetTableName}.*`]);
 
     if (!p) {
       console.error(
@@ -85,7 +102,13 @@ class Properties {
       `
       );
     }
-    return p;
+
+    return {
+      ...overview,
+      ...interior,
+      ...building,
+      ...p,
+    };
   }
 
   async create(
@@ -100,31 +123,44 @@ class Properties {
       const streetAddress =
         'houseNumber' in data ? `${data.streetAddress} ${data.houseNumber}` : data.streetAddress;
 
-      const data_properties = filterValidColumns(
-        data,
-        await getTableColumns('base', trx, 'properties')
+      //Property columns
+      await insertViaFilter(
+        { ...data, streetAddress, id: obj.id },
+        {
+          tablename: 'overview',
+          schema: 'property',
+        },
+        trx
       );
 
-      await trx('properties.base').insert({
-        ...data_properties,
-        streetAddress,
-        id: obj.id,
-      });
+      //Building columns
+      const [{ id: building_id }] = await trx('buildings.data')
+        .insert({
+          property_id: obj.id,
+          building_type_id: data.building_type_id,
+          building_material_id: data.building_material_id,
+          build_year: data.build_year,
+        })
+        .returning('id');
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.propertyTypeId, trx)
       ).split('.');
-      const propObj = {
-        ...filterValidColumns(data, await getTableColumns(propertyTablename, trx, propertySchema)),
-      };
 
       const property = data as any;
-      await trx([propertySchema, propertyTablename].join('.')).insert({
-        id: obj.id,
-        yardArea: property.yardArea,
-        propertyNumber: property.propertyNumber,
-        yardOwnershipTypeId: property.yardOwnershipTypeId,
-      });
+      await insertViaFilter(
+        {
+          id: obj.id,
+          yardArea: property.yardArea,
+          propertyNumber: property.propertyNumber,
+          yardOwnershipTypeId: property.yardOwnershipTypeId,
+        },
+        {
+          tablename: propertyTablename,
+          schema: propertySchema,
+        },
+        trx
+      );
 
       await trx('data_propertyOwners').insert({
         propertyId: obj.id,
@@ -147,19 +183,27 @@ class Properties {
     return objects.update(id, data, async trx => {
       const propertyUpdateObject = filterValidColumns(
         data,
-        await getTableColumns('base', trx, 'properties')
+        await getTableColumns('base', trx, 'property')
       );
 
-      await trx('properties.base')
+      //Update base property
+      await trx('property.overview')
         .where({ id })
         .update({
           ...propertyUpdateObject,
         });
 
+      //Update building
+      await trx('buildings.data')
+        .where({ id: data.building_id })
+        .update({
+          ...filterValidColumns(data, await getTableColumns('data', trx, 'buildings')),
+        });
+
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.propertyTypeId, trx)
       ).split('.');
-      console.log(propertyTablename, propertySchema);
+
       const propObj = filterValidColumns(
         data,
         await getTableColumns(propertyTablename, trx, propertySchema)
@@ -184,8 +228,8 @@ class Properties {
     const promises = ownedProperties.map(id => this.get(id));
 
     //Filter out undefined properties that may be present due to an error.
-    const properties = await Promise.all(promises);
-    return properties.filter(property => property !== undefined);
+    const property = await Promise.all(promises);
+    return property.filter(property => property !== undefined);
   }
 
   /**Updates an owner of a property. */

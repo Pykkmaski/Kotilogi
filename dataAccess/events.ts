@@ -1,12 +1,49 @@
 import { Knex } from 'knex';
 import { objects } from './objects';
-import { EventDataType } from './types';
+import {
+  ElectricityRestorationWorkType,
+  EventDataType,
+  HeatingMethodRestorationWorkType,
+  InsulationRestorationWorkType,
+  RoofDataType,
+  SewerPipeRestorationWorkType,
+  WaterPipeRestorationWorkType,
+} from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import db from 'kotilogi-app/dbconfig';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { properties } from './properties';
+
+type TypeDataType = {
+  event_type_id: number;
+  target_id: number;
+  work_type_id?: number;
+};
+
+type MainEventDataType = Partial<EventDataType> &
+  Required<Pick<EventDataType, 'property_id'>> &
+  Required<Pick<EventDataType, 'event_type_id'>> &
+  Required<Pick<EventDataType, 'target_id'>>;
+
+type ExtraEventDataType = (
+  | RoofDataType
+  | ElectricityRestorationWorkType
+  | WaterPipeRestorationWorkType
+  | SewerPipeRestorationWorkType
+  | InsulationRestorationWorkType
+  | HeatingMethodRestorationWorkType
+  | any
+)[];
+
+type RestorationWorkDataType =
+  | RoofDataType
+  | ElectricityRestorationWorkType
+  | WaterPipeRestorationWorkType
+  | SewerPipeRestorationWorkType
+  | HeatingMethodRestorationWorkType
+  | InsulationRestorationWorkType;
 
 class Events {
   /**
@@ -29,121 +66,171 @@ class Events {
       mainTypeLabel: eventData.mainTypeLabel,
       targetLabel: eventData.targetLabel,
       workTypeLabel: eventData.workTypeLabel,
-      mainTypeId: eventData.mainTypeId,
-      targetId: eventData.targetId,
+      event_type_id: eventData.event_type_id,
+      target_id: eventData.target_id,
       workTypeId: eventData.workTypeId,
       labourExpenses: eventData.labourExpenses,
       materialExpenses: eventData.materialExpenses,
     };
   }
 
-  private async createHeatingData(eventId: string, extraData: any[], trx: Knex.Transaction) {
-    const [data] = extraData;
-    const { newSystemId } = data;
-    const heatingTypes = await trx('ref_heatingTypes');
-    if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
-      //Oil heating event
-      await trx('oil_heating.vessels').insert({
-        id: eventId,
-        vesselVolume: data.vesselVolume,
-        location: data.location,
-      });
-    } else if (newSystemId == getIdByLabel(heatingTypes, 'Sähkö', 'name')) {
-      //Electrical heating event
-      await trx('data_electricHeatingEvents').insert({
-        id: eventId,
-        methodId: data.methodId,
-      });
+  private async createHeatingRestorationWorkData(
+    event_id: string,
+    restoration_work_data: HeatingMethodRestorationWorkType,
+    trx: Knex.Transaction
+  ) {
+    const { new_system_id } = restoration_work_data;
+    const [{ result: heating_types }] = await trx('heating.types').select(
+      db.raw('json_object_agg(label, id) as result')
+    );
+
+    switch (new_system_id) {
+      case heating_types['Öljy']:
+        {
+          //Save the vessel, and the heating center data.
+
+          await trx('heating.oil_vessel').insert({
+            event_id,
+            volume: data.volume,
+            location: data.vessel_location,
+          });
+        }
+        break;
+
+      case new_system_id:
+        {
+          await trx('heating.electric_heating_restoration_work').insert({
+            id: event_id,
+            restoration_method_id: data.restoration_method_id,
+          });
+        }
+        break;
+
+      default:
+        throw new Error('Invalid new system id! (' + new_system_id + ')');
     }
   }
 
-  private async createMainRenovationData(
-    eventId: string,
-    extraData: TODO[],
-    typeData: TODO,
+  private async createRestorationWorkData(
+    property_id: string,
+    event_id: string,
+    target_id: number,
+    extraData: RestorationWorkDataType[],
     trx: Knex.Transaction
   ) {
-    //Save the extra data based on the target.
-    const mainRenovationTargets = await trx('map_workTargetsToMainEventType')
-      .join('events.targets', {
-        'events.targets.id': 'map_workTargetsToMainEventType.targetId',
-      })
-      .select('events.targets.*');
+    const [{ result: event_targets }] = await trx('events.targets').select(
+      db.raw('json_object_agg(label, id) as result')
+    );
 
-    const runBaseInsert = async (tablename: string) => {
-      const [data] = extraData;
-      await trx(tablename).insert({ ...data, id: eventId });
-    };
+    const event_target_id = parseInt(target_id as any);
 
-    //Lämmitysmuoto
-    if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lämmitysmuoto')) {
-      //Save heating event data.
-      await runBaseInsert('data_baseHeatingEvents');
-      await this.createHeatingData(eventId, extraData, trx);
-    }
-    //Katto
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Katto')) {
-      //Save roof data.
-      await runBaseInsert('roofs.data');
-    }
-    //Salaojat
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Salaojat')) {
-      //Save drainage ditch data.
-      await runBaseInsert('drainage_ditches.data');
-    }
-    //Käyttövesiputket
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Käyttövesiputket')) {
-      await runBaseInsert('data_kayttoVesiPutketEvents');
-    }
-    //Viemäriputket
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Viemäriputket')) {
-      await runBaseInsert('data_viemariPutketEvents');
-    }
-    //Eristys
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Eristys')) {
-      await runBaseInsert('insulation.data');
-    }
-    //Sähköt
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Sähköt')) {
-      await runBaseInsert('data_electricityEvents');
-    }
-    //Lukitus
-    else if (typeData.targetId == getIdByLabel(mainRenovationTargets, 'Lukitus')) {
-      await runBaseInsert('locking.data');
-    } else {
-      console.log(
-        `Received an event with target id ${typeData.targetId}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
-      );
-    }
-  }
+    switch (event_target_id) {
+      case event_targets['Lämmitysmuoto']:
+        {
+          //Save heating event data.
+          const [data] = extraData as [HeatingMethodRestorationWorkType];
+          await trx('heating.restoration_work').insert({
+            event_id,
+            old_system_id: data.old_system_id,
+            new_system_id: data.new_system_id,
+          });
 
-  private async createExtraData(
-    eventId: string,
-    extraData: any[],
-    typeData: { mainTypeId: number; targetId: number; workTypeId?: number },
-    selectedSurfaceIds: number[],
-    trx: Knex.Transaction
-  ) {
-    /**The id for Peruskorjaus */
-    const [mainRenovationId] = await trx('events.types')
-      .where({ label: 'Peruskorjaus' })
-      .pluck('id');
+          //TODO: insert the peripheral data, like oil vessels, heating centers, etc.
+        }
+        break;
 
-    const [surfaceRenovationId] = await trx('events.types')
-      .where({ label: 'Pintaremontti' })
-      .pluck('id');
+      case event_targets.Katto:
+        {
+          //Does not have restoration work separately. Update the existing roof entry or add a new one.
+          const [data] = extraData as [RoofDataType];
 
-    if (typeData.mainTypeId == mainRenovationId) {
-      await this.createMainRenovationData(eventId, extraData, typeData, trx);
-    } else if (typeData.mainTypeId == surfaceRenovationId) {
-      //Save the surfaces.
-      for (const s of selectedSurfaceIds) {
-        await trx('data_surfaces').insert({
-          eventId,
-          surfaceId: s,
-        });
-      }
-      //throw new Error('Surface save-logic not implemented!');
+          await trx('roofs.overview')
+            .insert({
+              ...filterValidColumns(data, await getTableColumns('overview', trx, 'roofs')),
+              property_id,
+            })
+            .onConflict('property_id')
+            .merge();
+        }
+        break;
+
+      case event_targets.Salaojat:
+        {
+          //Has no separate restoration work data. Update the existing ditch entry, or add a new one.
+          const [data] = extraData as [TODO];
+          await trx('drainage_ditches.data')
+            .insert({
+              ...filterValidColumns(data, await getTableColumns('data', trx, 'drainage_ditches')),
+              id: event_id,
+            })
+            .onConflict('id')
+            .merge();
+        }
+        break;
+
+      case event_targets['Käyttövesiputket']:
+        {
+          const [data] = extraData as [WaterPipeRestorationWorkType];
+          await trx('water_pipe.restoration_work').insert({
+            event_id,
+            installation_method_id: data.installation_method_id,
+          });
+        }
+        break;
+
+      case event_targets['Viemäriputket']:
+        {
+          const [data] = extraData as [SewerPipeRestorationWorkType];
+          await trx('sewer_pipe.restoration_work').insert({
+            event_id,
+            restoration_method_id: data.restoration_method_id,
+          });
+        }
+        break;
+
+      case event_targets['Eristys']:
+        {
+          const [data] = extraData as [InsulationRestorationWorkType];
+          await trx('insulation.restoration_work').insert({
+            event_id,
+            insulation_material_id: data.insulation_material_id,
+            insulation_target_id: data.insulation_target_id,
+          });
+        }
+        break;
+
+      case event_targets['Sähköt']:
+        {
+          const [data] = extraData as [ElectricityRestorationWorkType];
+          await trx('electricity.restoration_work').insert({
+            event_id,
+            restoration_work_target_id: data.restoration_work_target_id,
+          });
+        }
+        break;
+
+      case event_targets.Lukitus:
+        {
+          const [data] = extraData as [TODO];
+
+          await trx('locking.data')
+            .insert({
+              id: event_id,
+              lock_type_id: data.lock_type_id,
+              model: data.model,
+              brand: data.brand,
+              quantity: data.quantity,
+            })
+            .onConflict('id')
+            //TODO: In the rare case the same uuid is generated for a new unrelated event, it would overwrite this. Figure something out.
+            .merge();
+        }
+        break;
+
+      default:
+        console.log(
+          `Received an event with target id ${target_id}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
+        );
     }
   }
 
@@ -154,9 +241,9 @@ class Events {
    */
   async updateExtraData(id: string, extraData: any, trx: Knex.Transaction) {
     const mainTypes = await trx('events.types');
-    const [typeData] = await trx('events.data')
+    const [type_data] = await trx('events.data')
       .where({ id })
-      .select('mainTypeId', 'targetId', 'workTypeId');
+      .select('event_type_id', 'target_id', 'workTypeId');
 
     const runUpdate = async (table: string) => {
       await trx(table)
@@ -166,77 +253,174 @@ class Events {
         });
     };
 
-    if (typeData.mainTypeId == getIdByLabel(mainTypes, 'Peruskorjaus')) {
+    if (type_data.event_type_id == getIdByLabel(mainTypes, 'Peruskorjaus')) {
       const targets = await trx('events.targets');
-      if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
-        await runUpdate('roofs.data');
-      } else if (typeData.targetId == getIdByLabel(targets, 'Salaojat')) {
+      if (type_data.target_id == getIdByLabel(targets, 'Katto')) {
+        await runUpdate('roofs.overview');
+      } else if (type_data.target_id == getIdByLabel(targets, 'Salaojat')) {
         await runUpdate('drainage_ditches.data');
       } else {
         throw new Error(
           'Update logic for extra event data with type ' +
-            typeData.mainTypeId +
+            type_data.event_type_id +
             ' and target ' +
-            typeData.targetId +
+            type_data.target_id +
             ' not implemented!'
         );
       }
     } else {
       throw new Error(
-        'Update logic for event with main type ' + typeData.mainTypeId + ' not implemented!'
+        'Update logic for event with main type ' + type_data.event_type_id + ' not implemented!'
       );
     }
   }
 
   /**
-   * Prepares event data for insertion into the db.
+   * Prepares the base event data for insertion into the db.
    * @param data
    * @returns
    */
   private getInsertObject(data: TODO) {
     return {
-      ...data,
-      workTypeId: (data.workTypeId as any) == -1 ? null : data.workTypeId,
-      targetId: (data.targetId as any) == -1 ? null : data.targetId,
+      id: data.id,
+      event_type_id: data.event_type_id,
+      target_id: (data.target_id as any) == -1 ? null : data.target_id,
+      date: data.date,
+      labour_expenses: data.labour_expenses,
+      material_expenses: data.material_expenses,
+      property_id: data.property_id,
     };
   }
 
+  private async createServiceWorkData(
+    event_id: string,
+    target_id: number,
+    service_work_type_id: number | null,
+    extraData: TODO,
+    trx: Knex.Transaction
+  ) {
+    const [{ result: event_targets }] = await trx('events.targets').select(
+      db.raw('json_object_agg(label, id) as result')
+    );
+
+    const insert = async (tablename: string) =>
+      await trx(tablename).insert({
+        service_work_type_id: service_work_type_id,
+        event_id,
+      });
+
+    const event_target_id = parseInt(target_id as any);
+    switch (event_target_id) {
+      case event_targets['Ilmanvaihto']:
+        {
+          await insert('ventilation.service_work');
+        }
+        break;
+
+      case event_targets['Lämmitysmuoto']:
+        {
+          await insert('heating.service_work');
+        }
+        break;
+
+      case event_targets['Salaojat']:
+        {
+          await insert('drainage_ditches.service_work');
+        }
+        break;
+
+      case event_targets['Lämmönjako']:
+        {
+          await insert('heating.distribution_service_work');
+        }
+        break;
+
+      case event_targets['Katto']:
+        {
+          await insert('roofs.service_work');
+        }
+        break;
+    }
+  }
+
+  private async createSurfaceRenovationWorkData(
+    event_id: string,
+    target_id: number,
+    extraData: TODO,
+    trx: Knex.Transaction
+  ) {
+    throw new Error('Function not implemented!');
+  }
+
   /**Creates a new event for a property.
-   * @param mainData The main event data, containing its title, description, etc.
-   * @param typeData The data containing the main type id, id of the target the event refers to, and optionally the id of the work type.
+   * @param eventData The main event data, containing its title, description, etc.
+   * @param type_data The data containing the main type id, id of the target the event refers to, and optionally the id of the work type.
    * @param extraData The additional data to include with the main data.
    * @param selectedSurfaceIds The ids of the surfaces the event refers to. Used only for surface renovation events (Pintaremontti).
    * @param callback An optional callback function to run before commiting the data.
    */
   async create(
-    mainData: Partial<EventDataType> & Required<Pick<EventDataType, 'parentId'>>,
-    typeData: {
-      mainTypeId: number;
-      targetId: number;
-      workTypeId?: number;
-    },
-    extraData: any[],
-    selectedSurfaceIds: number[],
+    eventData: MainEventDataType,
+    extraData: ExtraEventDataType[],
     callback?: (id: string, trx: Knex.Transaction) => Promise<void>
   ) {
-    await properties.verifyEventCount(mainData.parentId);
+    await properties.verifyEventCount(eventData.property_id);
 
-    await objects.create(mainData, async (obj, trx) => {
-      const eventId = obj.id;
-      const eventData = this.getInsertObject({
-        ...filterValidColumns(
-          { ...mainData, ...typeData },
-          await getTableColumns('data', trx, 'events')
-        ),
-        id: eventId,
+    await objects.create(eventData, async (obj, trx) => {
+      const event_id = obj.id;
+      const insertData = this.getInsertObject({
+        ...filterValidColumns({ ...eventData }, await getTableColumns('data', trx, 'events')),
+        id: event_id,
       });
 
       //Save the main event data.
-      await trx('events.data').insert(eventData);
+      await trx('events.data').insert(insertData);
+
+      const [{ result: event_types }] = await trx('events.types').select(
+        db.raw('json_object_agg(label, id) as result')
+      );
+      const event_type_id = parseInt(eventData.event_type_id as any);
 
       //Create the additional data entries.
-      await this.createExtraData(eventId, extraData, typeData, selectedSurfaceIds, trx);
-      callback && (await callback(eventId, trx));
+      switch (event_type_id) {
+        case event_types.Peruskorjaus:
+          {
+            const data = extraData as unknown as RestorationWorkDataType[];
+            await this.createRestorationWorkData(
+              eventData.property_id,
+              event_id,
+              eventData.target_id,
+              data,
+              trx
+            );
+          }
+          break;
+
+        case event_types['Huoltotyö']:
+          {
+            await this.createServiceWorkData(
+              event_id,
+              eventData.target_id,
+              eventData.service_work_type_id,
+              extraData,
+              trx
+            );
+          }
+          break;
+
+        case event_types['Pintaremontti']:
+          {
+            await this.createSurfaceRenovationWorkData(
+              event_id,
+              eventData.target_id,
+              extraData,
+              trx
+            );
+          }
+          break;
+      }
+
+      callback && (await callback(event_id, trx));
     });
   }
 
@@ -261,19 +445,17 @@ class Events {
 
     const events = await db('objects.data')
       .join('events.data', { 'events.data.id': 'objects.data.id' })
-      .leftJoin('events.targets', { 'events.data.targetId': 'events.targets.id' })
-      .leftJoin('public.ref_eventWorkTypes', {
-        'events.data.workTypeId': 'public.ref_eventWorkTypes.id',
-      })
+      .leftJoin('events.targets', { 'events.data.target_id': 'events.targets.id' })
+
       .leftJoin('events.types', {
-        'events.data.mainTypeId': 'events.types.id',
+        'events.data.event_type_id': 'events.types.id',
       })
 
       .select(
         'objects.data.*',
         'events.data.*',
         'events.targets.label as targetLabel',
-        'public.ref_eventWorkTypes.label as workTypeLabel',
+
         'events.types.label as mainTypeLabel'
       )
       .where(function () {
@@ -282,8 +464,7 @@ class Events {
         this.whereILike('objects.data.title', q)
           .orWhereILike('objects.data.description', q)
           .orWhereILike('events.types.label', q)
-          .orWhereILike('events.targets.label', q)
-          .orWhereILike('ref_eventWorkTypes.label', q);
+          .orWhereILike('events.targets.label', q);
       })
       .andWhere(newQuery)
       .limit(limit)
@@ -303,20 +484,20 @@ class Events {
   }
 
   private async getRoofEvent(eventId: string) {
-    return await db('roofs.data')
-      .join('roofs.types', { 'roofs.types.id': 'roofs.data.roofTypeId' })
-      .join('roofs.materials', { 'roofs.materials.id': 'roofs.data.roofMaterialId' })
-      .join('ref_mainColors', { 'ref_mainColors.id': 'roofs.data.colorId' })
+    return await db('roofs.overview')
+      .join('roofs.types', { 'roofs.types.id': 'roofs.overview.roofTypeId' })
+      .join('roofs.materials', { 'roofs.materials.id': 'roofs.overview.roofMaterialId' })
+      .join('ref_mainColors', { 'ref_mainColors.id': 'roofs.overview.colorId' })
       .join('roofs.ref_raystastyypit', {
-        'roofs.ref_raystastyypit.id': 'roofs.data.raystasTyyppiId',
+        'roofs.ref_raystastyypit.id': 'roofs.overview.raystasTyyppiId',
       })
       .join('roofs.ref_otsalautatyypit', {
-        'roofs.ref_otsalautatyypit.id': 'roofs.data.otsalautaTyyppiId',
+        'roofs.ref_otsalautatyypit.id': 'roofs.overview.otsalautaTyyppiId',
       })
       .join('roofs.ref_aluskatetyypit', {
-        'roofs.ref_aluskatetyypit.id': 'roofs.data.aluskateTyyppiId',
+        'roofs.ref_aluskatetyypit.id': 'roofs.overview.aluskateTyyppiId',
       })
-      .where({ 'roofs.data.id': eventId })
+      .where({ 'roofs.overview.id': eventId })
       .select(
         'roofs.materials.name as materialLabel',
         'roofs.types.name as typeLabel',
@@ -324,7 +505,7 @@ class Events {
         'roofs.ref_raystastyypit.label as raystasTyyppiLabel',
         'roofs.ref_otsalautatyypit.label as otsalautaTyyppiLabel',
         'roofs.ref_aluskatetyypit.label as aluskateTyyppiLabel',
-        'roofs.data.*'
+        'roofs.overview.*'
       );
   }
 
@@ -345,13 +526,13 @@ class Events {
       .where({ id: eventId })
       .pluck('newSystemId');
 
-    const heatingTypes = await db('ref_heatingTypes');
+    const heatingTypes = await db('heating.types');
 
     const query = db('data_baseHeatingEvents')
-      .join('ref_heatingTypes as oldSystem', {
+      .join('heating.types as oldSystem', {
         'oldSystem.id': 'data_baseHeatingEvents.oldSystemId',
       })
-      .join('ref_heatingTypes as newSystem', {
+      .join('heating.types as newSystem', {
         'newSystem.id': 'data_baseHeatingEvents.newSystemId',
       })
       .select(
@@ -439,33 +620,33 @@ class Events {
    * @throws An error if the event has a main type, or target id, for which no functionality is implemented yet.
    */
   async getExtraData(eventId: string) {
-    const [typeData] = await db('events.data')
+    const [type_data] = await db('events.data')
       .where({ id: eventId })
-      .select('mainTypeId', 'targetId', 'workTypeId');
+      .select('event_type_id', 'target_id', 'workTypeId');
     const mainTypes = await db('events.types');
 
-    if (typeData.mainTypeId == getIdByLabel(mainTypes, 'Peruskorjaus')) {
+    if (type_data.event_type_id == getIdByLabel(mainTypes, 'Peruskorjaus')) {
       const targets = await db('events.targets');
 
-      if (typeData.targetId == getIdByLabel(targets, 'Katto')) {
+      if (type_data.target_id == getIdByLabel(targets, 'Katto')) {
         return await this.getRoofEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Salaojat')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Salaojat')) {
         return await this.getDrainageDitchEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Lämmitysmuoto')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Lämmitysmuoto')) {
         return await this.getHeatingEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Käyttövesiputket')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Käyttövesiputket')) {
         return await this.getWaterEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Viemäriputket')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Viemäriputket')) {
         return await this.getSewegeEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Eristys')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Eristys')) {
         return await this.getInsulationEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Sähköt')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Sähköt')) {
         return await this.getElectricityEvent(eventId);
-      } else if (typeData.targetId == getIdByLabel(targets, 'Lukitus')) {
+      } else if (type_data.target_id == getIdByLabel(targets, 'Lukitus')) {
         return await this.getLockEvent(eventId);
       } else {
         console.log(
-          `Received an event with target id ${typeData.targetId}, but no read logic for that id is implemented. Make sure this is intentional.`
+          `Received an event with target id ${type_data.target_id}, but no read logic for that id is implemented. Make sure this is intentional.`
         );
       }
     }

@@ -15,8 +15,8 @@ export function BuildingTypeSelector() {
           dataArray={refs.buildingTypes}
           labelKey='name'
           valueKey='id'
-          currentValue={property.buildingTypeId}
-          name='buildingTypeId'
+          currentValue={property.building_type_id}
+          name='building_type_id'
         />
       }
     />

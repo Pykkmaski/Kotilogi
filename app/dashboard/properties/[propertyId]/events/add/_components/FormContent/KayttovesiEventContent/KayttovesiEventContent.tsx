@@ -13,8 +13,8 @@ export const KayttoVesiEventContent = () => {
       label='Asennustapa'
       labelKey='label'
       valueKey='id'
-      tablename='ref_kayttovesiPutketAsennusTavat'
-      propertyName='asennusTapaId'
+      tablename='water_pipe.installation_method'
+      propertyName='installation_method_id'
       useContextValue={extraData}
     />
   );

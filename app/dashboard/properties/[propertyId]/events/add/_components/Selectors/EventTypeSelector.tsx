@@ -3,7 +3,7 @@ import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
-export const MainEventTypeSelector = () => {
+export const EventTypeSelector = () => {
   const {
     refs: { eventTypes },
   } = useEventTypeContext() as {
@@ -11,15 +11,16 @@ export const MainEventTypeSelector = () => {
       eventTypes: { id: number; label: string }[];
     };
   };
-  const { typeData } = useEventFormContext();
+  const { eventData, updateEventData } = useEventFormContext();
 
   return (
     <ChipRadioGroup
-      currentValue={typeData.mainTypeId}
-      name='mainTypeId'
+      currentValue={eventData.event_type_id}
+      name='event_type_id'
       valueKey='id'
       labelKey='label'
       dataArray={eventTypes}
+      onChange={updateEventData}
     />
   );
 };

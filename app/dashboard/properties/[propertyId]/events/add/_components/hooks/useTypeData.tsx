@@ -6,26 +6,25 @@ import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 const dataStorageKey = 'kotidok-event-type-data';
 
 function initTypeData(eventData: TODO): {
-  mainTypeId: number | null;
-  targetId: number | null;
-  workTypeId: number | null;
-  surfaceId?: number;
+  event_type_id: number | null;
+  target_id: number | null;
+  work_type_id: number | null;
 } {
   const savedData = sessionStorage.getItem(dataStorageKey);
   if (savedData) {
     return JSON.parse(savedData);
   } else if (eventData) {
-    const { mainTypeId, targetId, workTypeId } = eventData;
+    const { event_type_id, target_id, work_type_id } = eventData;
     return {
-      mainTypeId,
-      targetId,
-      workTypeId,
+      event_type_id,
+      target_id,
+      work_type_id,
     };
   } else {
     return {
-      mainTypeId: null,
-      targetId: null,
-      workTypeId: null,
+      event_type_id: null,
+      target_id: null,
+      work_type_id: null,
     };
   }
 }
@@ -52,9 +51,9 @@ export const useTypeData = (
         case 'mainTypeId':
           {
             resetTypeData({
-              mainTypeId: e.target.value,
-              targetId: null,
-              workTypeId: null,
+              event_type_id: e.target.value,
+              target_id: null,
+              work_type_id: null,
             });
 
             resetMainData({});
@@ -65,8 +64,8 @@ export const useTypeData = (
           {
             resetTypeData({
               ...typeData,
-              targetId: e.target.value,
-              workTypeId: null,
+              target_id: e.target.value,
+              work_type_id: null,
             });
 
             resetMainData({});

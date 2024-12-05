@@ -7,11 +7,11 @@ import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 
 export const EventTargetSelector = () => {
-  const { typeData } = useEventFormContext();
+  const { eventData, updateEventData } = useEventFormContext();
 
   const { isLoading, data: targets } = useQuery({
-    queryKey: [`targets-${typeData.mainTypeId}`],
-    queryFn: async () => await getEventTargets(typeData.mainTypeId),
+    queryKey: [`targets-${eventData.target_id}`],
+    queryFn: async () => await getEventTargets(eventData.event_type_id),
   });
 
   return (
@@ -22,8 +22,9 @@ export const EventTargetSelector = () => {
       required
       control={
         <ChipRadioGroup
-          name='targetId'
-          currentValue={typeData.targetId}
+          onChange={updateEventData}
+          name='target_id'
+          currentValue={eventData.target_id}
           valueKey='id'
           labelKey='label'
           dataArray={targets}

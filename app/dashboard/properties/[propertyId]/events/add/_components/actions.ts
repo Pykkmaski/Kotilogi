@@ -11,11 +11,6 @@ import { z } from 'zod';
 export const updateEventAction = async (
   eventId: string,
   mainData: Partial<EventDataType>,
-  typeData: {
-    mainTypeId: number;
-    targetId: number;
-    workTypeId: number;
-  },
   extraData: any
 ) => {
   z.string().parse(eventId);
@@ -23,39 +18,27 @@ export const updateEventAction = async (
     eventId,
     {
       ...mainData,
-      ...typeData,
     },
     [extraData]
   );
   revalidatePath('/dashboard/properties/[propertyId]');
-  redirect(`/dashboard/properties/${mainData.parentId}/events/${eventId}`);
+  redirect(`/dashboard/properties/${mainData.property_id}/events/${eventId}`);
 };
 
 export const createEventAction = async (
   propertyId: string,
-  mainData: EventDataType,
-  typeData: {
-    mainTypeId: number;
-    targetId: number;
-    workTypeId: number;
-  },
-  extraData: any[],
-  selectedSurfaceIds: number[],
+  eventData: EventDataType,
+  extraData: TODO[],
   fileFormData?: FormData[]
 ) => {
+  console.log('property id at action: ', propertyId);
   z.string().parse(propertyId);
   let eventId;
 
-  await events.create(
-    { ...mainData, parentId: propertyId },
-    typeData,
-    extraData,
-    selectedSurfaceIds,
-    async (id, trx) => {
-      //Save the id of the event for use in the following redirections and path revalidations.
-      eventId = id;
-    }
-  );
+  await events.create({ ...eventData, property_id: propertyId }, extraData, async (id, trx) => {
+    //Save the id of the event for use in the following redirections and path revalidations.
+    eventId = id;
+  });
 
   if (fileFormData) {
     try {
@@ -86,15 +69,66 @@ export const getRooms = async () => {
 };
 
 export const getEventTargets = async (mainEventTypeId: number) => {
-  const targetIds = await db('map_workTargetsToMainEventType')
-    .where({ mainEventTypeId })
-    .pluck('targetId');
-  return await db('events.targets').whereIn('id', targetIds);
+  const [{ result: event_types }] = await db('events.types').select(
+    db.raw('json_object_agg(label, id) as result')
+  );
+
+  console.log(event_types);
+
+  const get_targets = async (tablename: string) =>
+    await db
+      .select('events.targets.*')
+      .from(`events.${tablename}`)
+      .join('events.targets', { 'events.targets.id': `events.${tablename}.target_id` });
+
+  console.log(event_types.Peruskorjaus, mainEventTypeId);
+
+  switch (parseInt(mainEventTypeId as any)) {
+    case event_types.Peruskorjaus: {
+      return await get_targets('restorable_target_type');
+    }
+
+    case event_types['Huoltotyö']: {
+      return await get_targets('serviceable_target_type');
+    }
+
+    case event_types['Pintaremontti']: {
+      return await get_targets('renovateable_target_type');
+    }
+
+    case event_types['Muu']:
+    default:
+      return db('events.targets');
+  }
 };
 
-export const getEventWorkTypes = async (targetId: number) => {
-  const workTypeIds = await db('map_workTypeToTarget').where({ targetId }).pluck('workTypeId');
-  return await db('ref_eventWorkTypes').whereIn('id', workTypeIds);
+export const getServiceWorkTypes = async (targetId: number) => {
+  const [{ result: event_targets }] = await db('events.targets').select(
+    db.raw('json_object_agg(label, id) as result')
+  );
+  console.log('malja', targetId);
+  switch (parseInt(targetId as any)) {
+    case event_targets.Katto: {
+      return await db('roofs.service_work_type');
+    }
+
+    case event_targets['Salaojat']:
+      return await db('drainage_ditch.service_work_type');
+
+    case event_targets['Käyttövesiputket']:
+      return await db('water_pipe.service_work_type');
+
+    case event_targets['Lämmitysmuoto']:
+      return await db('heating.service_work_type');
+
+    case event_targets['Ilmanvaihto']: {
+      console.log(targetId);
+      return await db('ventilation.service_work_type');
+    }
+
+    default:
+      throw new Error('Case for id ' + targetId + ' not implemented!');
+  }
 };
 
 export const getSurfaces = async () => {

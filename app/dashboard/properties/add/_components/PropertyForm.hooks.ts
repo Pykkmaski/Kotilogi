@@ -1,4 +1,9 @@
-import { AppartmentDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import {
+  AppartmentDataType,
+  BuildingDataType,
+  HouseDataType,
+  PropertyDataType,
+} from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';

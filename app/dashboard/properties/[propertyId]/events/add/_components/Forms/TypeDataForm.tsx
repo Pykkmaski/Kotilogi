@@ -2,49 +2,38 @@ import { useEventFormContext } from '../EventFormContext';
 import { Fieldset } from '@/components/UI/Fieldset';
 import { FormControl } from '@/components/UI/FormUtils';
 import { EventTargetSelector } from '../Selectors/EventTargetSelector';
-import { MainEventTypeSelector } from '../Selectors/MainEventTypeSelector';
-import { EventWorkSelector } from '../Selectors/EventWorkSelector';
+import { EventTypeSelector } from '../Selectors/EventTypeSelector';
+import { EventWorkSelector } from '../Selectors/EventServiceWorkSelector';
 import { isDefined } from '../util';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 export function TypeDataForm() {
-  const { typeData, updateTypeData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
   const { refs } = useEventTypeContext();
-
-  const showSurfaceSelector = () => {
-    return (
-      isDefined(typeData.mainTypeId) &&
-      isDefined(typeData.targetId) &&
-      typeData.mainTypeId == getIdByLabel(refs.mainEventTypes, 'Pintaremontti')
-    );
-  };
 
   const showWorkTypeSelector = () => {
     return (
-      isDefined(typeData.mainTypeId) &&
-      isDefined(typeData.targetId) &&
-      typeData.mainTypeId != getIdByLabel(refs.eventTypes, 'Peruskorjaus') &&
-      typeData.mainTypeId != getIdByLabel(refs.eventTypes, 'Pintaremontti') &&
-      typeData.mainTypeId != getIdByLabel(refs.eventTypes, 'Muu')
+      isDefined(eventData.event_type_id) &&
+      isDefined(eventData.target_id) &&
+      eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Peruskorjaus') &&
+      eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Pintaremontti') &&
+      eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Muu')
     );
   };
 
   return (
-    <form
-      className='flex flex-col gap-4'
-      id='typeForm'
-      onChange={updateTypeData}>
+    <>
       <Fieldset legend='Osastojen valinta'>
         <FormControl
           boldLabelText
           required
           label='Osasto'
-          control={<MainEventTypeSelector />}
+          control={<EventTypeSelector />}
         />
 
-        <RenderOnCondition condition={isDefined(typeData.mainTypeId)}>
+        <RenderOnCondition condition={isDefined(eventData.event_type_id)}>
           <EventTargetSelector />
         </RenderOnCondition>
 
@@ -52,6 +41,6 @@ export function TypeDataForm() {
           <EventWorkSelector />
         </RenderOnCondition>
       </Fieldset>
-    </form>
+    </>
   );
 }

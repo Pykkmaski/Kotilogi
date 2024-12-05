@@ -13,7 +13,7 @@ type ChipRadioGroupProps<T> = {
   isChecked?: <K>(v: K) => boolean;
   required?: boolean;
   disabled?: boolean;
-  onChange?: (currentValue: any) => void;
+  onChange?: (e: any) => void;
 };
 
 /**A prefab radio group that renders its options as ChipButtons. */

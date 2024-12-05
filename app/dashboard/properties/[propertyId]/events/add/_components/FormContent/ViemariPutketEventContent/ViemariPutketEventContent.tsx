@@ -9,8 +9,8 @@ export const ViemariPutketEventContent = () => {
       label='Toteutustapa'
       labelKey='label'
       valueKey='id'
-      tablename='ref_viemariPutketToteutusTapa'
-      propertyName='toteutusTapaId'
+      tablename='sewer_pipe.restoration_method_type'
+      propertyName='restoration_method_type_id'
       useContextValue={extraData}
     />
   );

@@ -9,8 +9,8 @@ export const ElectricHeatingMethodSelector = () => {
       label='Sähkölämmitystapa'
       labelKey='label'
       valueKey='id'
-      tablename='ref_electricHeatingMethodTypes'
-      propertyName='electricHeatingMethodId'
+      tablename='heating.electric_heating_method'
+      propertyName='electric_heating_method_id'
       useContextValue={extraData}
     />
   );

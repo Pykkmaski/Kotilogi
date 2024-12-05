@@ -3,13 +3,14 @@ import { useFormOnChangeFiles } from './useFormOnChangeFiles';
 import { useFormOnChangeObject } from './useFormOnChangeObject';
 
 /**A hook to store and update data from inputs as they are changed. */
-export function useFormOnChange<T extends {}>(initialData: T = {} as T, initialFiles: File[] = []) {
+export function useFormOnChange<T extends {}>(initialData: T, initialFiles: File[] = []) {
   const {
     data,
     updateData,
     resetData,
     hasChanges: dataHasChanges,
   } = useFormOnChangeObject(initialData);
+
   const {
     files,
     updateFiles,

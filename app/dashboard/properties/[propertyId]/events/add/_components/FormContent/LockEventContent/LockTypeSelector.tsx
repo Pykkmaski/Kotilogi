@@ -10,7 +10,7 @@ export const LockTypeSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='locking.types'
-      propertyName='lockTypeId'
+      propertyName='lock_type_id'
       useContextValue={extraData}
     />
   );

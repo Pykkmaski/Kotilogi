@@ -47,9 +47,12 @@ export async function PropertyOverview({
     .where({ parentId: property.id, type: 'image/jpeg' })
     .select('data_files.id as id', 'objects.data.parentId as parentId');
 
-  const [buildingType] = await db('buildings.types')
-    .where({ id: property.buildingTypeId })
-    .pluck('name');
+  const [buildingData] = await db('buildings.data')
+    .leftJoin('buildings.types', { 'buildings.types.id': 'buildings.data.building_type_id' })
+    .where({
+      'buildings.data.property_id': property.id,
+    })
+    .select('buildings.data.*', 'buildings.types.name as building_type_label');
 
   const [{ numEvents }] = await db('events.data')
     .join('objects.data', { 'objects.data.id': 'events.data.id' })
@@ -61,7 +64,14 @@ export async function PropertyOverview({
     ' ' +
     (('appartmentNumber' in property && property.appartmentNumber) || '');
 
-  console.log(images);
+  if (!buildingData) {
+    throw new Error(`
+        Failed to load property overview! Building data is missing.
+        Details: 
+        Property id: ${property.id}
+        `);
+  }
+
   return (
     <ContentBox>
       <Spacer
@@ -138,12 +148,12 @@ export async function PropertyOverview({
 
               <LabelGrid.Entry
                 label='Rakennustyyppi'
-                value={buildingType || 'Ei määritelty'}
+                value={buildingData.building_type_label || 'Ei määritelty'}
               />
 
               <LabelGrid.Entry
                 label='Rakennusvuosi'
-                value={property.buildYear || 'Ei määritelty'}
+                value={buildingData.build_year || 'Ei määritelty'}
               />
 
               <LabelGrid.Entry
@@ -190,7 +200,7 @@ export async function PropertyOverview({
 
               <LabelGrid.Entry
                 label='Rakennusvuosi'
-                value={property.buildYear || 'Ei määritelty'}
+                value={property.build_year || 'Ei määritelty'}
               />
 
               <LabelGrid.Entry

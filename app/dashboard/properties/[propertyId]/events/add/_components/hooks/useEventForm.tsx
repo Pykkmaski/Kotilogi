@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMainData } from './useMainData';
+import { useEventData } from './useEventData';
 import { useTypeData } from './useTypeData';
 import { useExtraData } from './useExtraData';
 import { useEventTypeContext } from '../EventTypeProvider';
@@ -11,34 +11,32 @@ import { isDefined } from '../util';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 
-export function useEventForm(propertyId: string, eventData: TODO, initialExtraData?: TODO) {
+export function useEventForm(propertyId: string, initialEventData?: TODO, initialExtraData?: TODO) {
   const { refs } = useEventTypeContext();
-  const { mainData, updateMainData, mainDataHasChanges, resetMainData, files, removeFile } =
-    useMainData(eventData);
+  console.log('initial event data: ', initialEventData);
+
+  const { eventData, updateEventData, eventDataHasChanges, resetEventData, files, removeFile } =
+    useEventData(
+      initialEventData || {
+        property_id: propertyId,
+      }
+    );
 
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
   const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
   const { extraData, updateExtraData, resetExtraData, ...extraDataProps } =
     useExtraData(initialExtraData);
 
-  const { typeData, updateTypeData, typeDataHasChanges } = useTypeData(
-    eventData,
-    resetMainData,
-    resetSelectedSurfaceIds,
-    resetExtraData
-  );
-
   const { method: submitMethod, status } = useStatusWithAsyncMethod(async () => {
-    if (eventData) {
-      console.log('kalja');
-      await updateEventAction(eventData.id, mainData, typeData, extraData);
+    if (initialEventData) {
+      console.log('updating event...');
+      await updateEventAction(eventData.id, eventData, extraData);
     } else {
       await createEventAction(
         propertyId,
-        mainData,
-        typeData,
+        eventData,
+
         [extraData],
-        selectedSurfaceIds,
         files.map(f => {
           const fd = new FormData();
           fd.append('file', f);
@@ -52,7 +50,7 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
   const onSubmit = usePreventDefault(submitMethod);
 
   const router = useRouter();
-  const hasChanges = mainDataHasChanges || typeDataHasChanges;
+  const hasChanges = eventDataHasChanges;
 
   const cancel = useCallback(() => {
     if (hasChanges) {
@@ -78,37 +76,39 @@ export function useEventForm(propertyId: string, eventData: TODO, initialExtraDa
   );
 
   const showMainDataForm = useCallback(() => {
-    if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
-      return isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
-      return isDefined(typeData.targetId) && isDefined(typeData.workTypeId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      return isDefined(typeData.targetId);
-    } else if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Muu')) {
-      return isDefined(typeData.targetId);
+    if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
+      return isDefined(eventData.target_id);
+    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
+      return isDefined(eventData.target_id) && isDefined(eventData.service_work_type_id);
+    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
+      return isDefined(eventData.target_id);
+    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu')) {
+      return isDefined(eventData.target_id);
     } else {
       return false;
     }
-  }, [typeData.targetId, typeData.mainTypeId, refs.eventTypes, typeData.workTypeId]);
+  }, [
+    eventData.target_id,
+    eventData.event_type_id,
+    refs.eventTypes,
+    eventData.service_work_type_id,
+  ]);
 
   const showExtraDataForm = useCallback(() => {
-    if (typeData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
+    if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       return true;
     } else {
       return false;
     }
-  }, [typeData.workTypeId, typeData.mainTypeId, refs.eventTypes]);
+  }, [eventData.service_work_type_id, eventData.event_type_id, refs.eventTypes]);
 
-  console.log(refs);
   return {
     ...extraDataProps,
     status,
     onSubmit,
-    editing: isDefined(eventData),
-    mainData,
-    updateMainData,
-    typeData,
-    updateTypeData,
+    editing: isDefined(initialEventData),
+    eventData,
+    updateEventData,
     extraData,
     updateExtraData,
     files,

@@ -9,8 +9,8 @@ export const TargetSelector = () => {
       label='Työn kohde'
       labelKey='label'
       valueKey='id'
-      tablename='ref_electricityJobTargets'
-      propertyName='jobTargetId'
+      tablename='electricity.restoration_work_target'
+      propertyName='restoration_work_target_id'
       useContextValue={extraData}
     />
   );
