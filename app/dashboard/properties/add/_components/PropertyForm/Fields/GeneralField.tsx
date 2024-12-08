@@ -1,8 +1,8 @@
 'use client';
 
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
     }
 
     const timeout = setTimeout(async () => {
-      const isValidPattern = isPropertyIdentifier((data as HouseDataType).propertyNumber);
+      const isValidPattern = isPropertyIdentifier((data as HousePayloadType).propertyNumber);
 
       if (isValidPattern) {
         fetchPropertyInfoAction((data as any).propertyNumber).then(result => {
@@ -63,7 +63,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
   console.log(data.build_year);
 
   return (
-    <Fieldset legend='Yleistiedot'>
+    <BoxFieldset legend='Yleistiedot'>
       {!hidePropertyIdentifier && isHouse && (
         <FormControl
           label='Kiinteistötunnus'
@@ -85,7 +85,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               }
               name='propertyNumber'
               placeholder='Kirjoita kiinteistötunnus...'
-              defaultValue={data && (data as HouseDataType).propertyNumber}
+              defaultValue={data && (data as HousePayloadType).propertyNumber}
             />
           }
         />
@@ -158,7 +158,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
           required
           control={
             <Input
-              defaultValue={data && (data as AppartmentDataType).houseNumber}
+              defaultValue={data && (data as AppartmentPayloadType).houseNumber}
               data-testid='appartment-number-input'
               type='number'
               name='residence_number'
@@ -209,6 +209,6 @@ export function GeneralField({ hidePropertyIdentifier }) {
           />
         }
       />
-    </Fieldset>
+    </BoxFieldset>
   );
 }

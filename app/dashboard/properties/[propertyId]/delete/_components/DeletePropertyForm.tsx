@@ -3,11 +3,11 @@
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
 import { MainHeading } from '@/components/New/Typography/Headings';
 import { FormControl, Input } from '@/components/UI/FormUtils';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 import { deletePropertyAction } from './actions';
 
 type DeletePropertyFormProps = {
-  property: HouseDataType | AppartmentDataType;
+  property: HousePayloadType | AppartmentPayloadType;
 };
 
 export function DeletePropertyForm({ property }: DeletePropertyFormProps) {

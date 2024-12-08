@@ -10,7 +10,7 @@ export default async function EditPropertyPage({ params }) {
 
   return (
     <main className='flex justify-center'>
-      <div className='xs:w-full md:w-[50%] flex flex-col gap-4'>
+      <div className='xs:w-full md:w-[70%] flex flex-col gap-4'>
         <SecondaryHeading>Muokkaa taloa</SecondaryHeading>
         <PropertyForm
           property={property}

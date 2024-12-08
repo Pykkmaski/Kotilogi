@@ -1,7 +1,7 @@
 import { Main } from '@/components/New/Main';
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
 import { Edit } from '@mui/icons-material';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import db from 'kotilogi-app/dbconfig';
@@ -12,8 +12,8 @@ import { verifySession } from 'kotilogi-app/utils/verifySession';
 export default async function PropertiesPage() {
   const session = await verifySession();
   const data = (await properties.getPropertiesOfUser(session.user.id)) as (
-    | HouseDataType
-    | AppartmentDataType
+    | HousePayloadType
+    | AppartmentPayloadType
   )[];
 
   if (data.length == 1) {

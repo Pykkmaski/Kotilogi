@@ -3,7 +3,7 @@ import { Main } from '@/components/New/Main';
 import { Card } from '@/components/UI/Card';
 import { Home } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 import { loadSession } from 'kotilogi-app/utils/loadSession';
 import { PropertyCardHeaderContent } from './_components/PropertyCardHeaderContent';
 import { properties } from 'kotilogi-app/dataAccess/properties';
@@ -14,7 +14,7 @@ export default async function newDashboardPage() {
 
   return (
     <Main>
-      <PreviewContentRow<AppartmentDataType | HouseDataType>
+      <PreviewContentRow<AppartmentPayloadType | HousePayloadType>
         icon={<Home />}
         title='Talot'
         showAllUrl='/dashboard/properties'

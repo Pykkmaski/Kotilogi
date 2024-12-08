@@ -17,13 +17,13 @@ module.exports = {
     },
 
     pool: {
-      min: 2,
-      max: 10,
+      min: 0,
+      max: 5,
 
-      idleTimeoutMillis: 1000, // Time in milliseconds before an idle connection is closed
+      idleTimeoutMillis: 500, // Time in milliseconds before an idle connection is closed
       createTimeoutMillis: 3000, // Time in milliseconds before giving up on connection creation
       acquireTimeoutMillis: 30000, // Time in milliseconds before giving up on acquiring a connection
-      reapIntervalMillis: 1000, // How often to check for idle connections (in milliseconds)
+      reapIntervalMillis: 500, // How often to check for idle connections (in milliseconds)
       createRetryIntervalMillis: 100,
     },
   },

@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 export function ContentBox({
   children,
   grow = true,
+  ...props
 }: React.PropsWithChildren & { grow?: boolean }) {
   const classes = useMemo(
     () =>
@@ -15,5 +16,11 @@ export function ContentBox({
     [grow]
   );
 
-  return <div className={classes}>{children}</div>;
+  return (
+    <div
+      {...props}
+      className={classes}>
+      {children}
+    </div>
+  );
 }

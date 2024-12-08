@@ -1,16 +1,18 @@
 'use client';
 
-import { Fieldset } from '@/components/UI/Fieldset';
-import React from 'react';
+import { BoxFieldset } from '@/components/UI/Fieldset';
+import React, { useEffect } from 'react';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import { useQuery } from '@tanstack/react-query';
+import { getContent } from '../actions';
 
 export function HeatingField() {
   const { property: data, refs } = usePropertyFormContext();
 
   return (
-    <Fieldset legend='Lämmitys'>
+    <BoxFieldset legend='Lämmitys'>
       <FormControl
         label='Ensisijainen'
         control={
@@ -38,6 +40,6 @@ export function HeatingField() {
           />
         }
       />
-    </Fieldset>
+    </BoxFieldset>
   );
 }

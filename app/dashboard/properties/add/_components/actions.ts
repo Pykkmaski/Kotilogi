@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { properties } from 'kotilogi-app/dataAccess/properties';
-import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -11,8 +11,9 @@ require('dotenv').config();
 
 export const updatePropertyAction = async (
   propertyId: string,
-  data: Partial<PropertyDataType> & Required<Pick<PropertyDataType, 'propertyTypeId'>>
+  data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'propertyTypeId'>>
 ) => {
+  console.log('Property at update: ', data);
   z.string().parse(propertyId);
   z.object({
     propertyTypeId: z.number(),
@@ -23,7 +24,7 @@ export const updatePropertyAction = async (
 };
 
 export const createPropertyAction = async (
-  data: PropertyDataType & Required<Pick<PropertyDataType, 'propertyTypeId'>>
+  data: PropertyPayloadType & Required<Pick<PropertyPayloadType, 'propertyTypeId'>>
 ) => {
   z.object({
     propertyTypeId: z.number(),

@@ -1,4 +1,4 @@
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 import { Checkbox, CheckboxLabel } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 
@@ -11,7 +11,7 @@ export function OtherInfoField() {
   } = usePropertyFormContext() as TODO;
 
   return (
-    <Fieldset legend='Muut tiedot'>
+    <BoxFieldset legend='Muut tiedot'>
       <CheckboxLabel
         label='Autotalli'
         control={
@@ -34,6 +34,6 @@ export function OtherInfoField() {
           }
         />
       </RenderOnCondition>
-    </Fieldset>
+    </BoxFieldset>
   );
 }

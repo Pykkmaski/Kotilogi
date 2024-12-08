@@ -1,6 +1,6 @@
 'use client';
 
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
@@ -9,7 +9,7 @@ export function ExteriorField() {
   const { property, refs } = usePropertyFormContext();
 
   return (
-    <Fieldset legend='Ulkopuoli'>
+    <BoxFieldset legend='Ulkopuoli'>
       <FormControl
         label='Rakennusmateriaali'
         control={
@@ -27,11 +27,11 @@ export function ExteriorField() {
         label='Julkisivun väri'
         control={
           <ChipRadioGroup
-            name='mainColorId'
+            name='color_id'
             dataArray={refs.mainColors}
             labelKey='name'
             valueKey='id'
-            currentValue={property.mainColorId}
+            currentValue={property.color_id}
           />
         }
       />
@@ -61,6 +61,6 @@ export function ExteriorField() {
           />
         }
       />
-    </Fieldset>
+    </BoxFieldset>
   );
 }

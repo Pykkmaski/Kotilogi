@@ -1,5 +1,5 @@
 import { useEventFormContext } from '../EventFormContext';
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { FormControl } from '@/components/UI/FormUtils';
 import { EventTargetSelector } from '../Selectors/EventTargetSelector';
 import { EventTypeSelector } from '../Selectors/EventTypeSelector';
@@ -25,7 +25,7 @@ export function TypeDataForm() {
 
   return (
     <>
-      <Fieldset legend='Osastojen valinta'>
+      <BoxFieldset legend='Osastojen valinta'>
         <FormControl
           boldLabelText
           required
@@ -40,7 +40,7 @@ export function TypeDataForm() {
         <RenderOnCondition condition={showWorkTypeSelector()}>
           <EventWorkSelector />
         </RenderOnCondition>
-      </Fieldset>
+      </BoxFieldset>
     </>
   );
 }

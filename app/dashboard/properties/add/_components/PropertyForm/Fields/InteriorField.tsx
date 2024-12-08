@@ -1,4 +1,4 @@
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 import { Input, FormControl } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 
@@ -9,7 +9,7 @@ export function InteriorField() {
   } = usePropertyFormContext();
 
   return (
-    <Fieldset legend='Sisätilat'>
+    <BoxFieldset legend='Sisätilat'>
       <FormControl
         label={
           <>
@@ -19,12 +19,12 @@ export function InteriorField() {
         control={
           <Input
             data-testid='living-area-input'
-            name='livingArea'
+            name='living_area'
             placeholder='Anna kohteen sisätilojen pinta-ala...'
             type='number'
             min='1'
             step={0.1}
-            defaultValue={data.livingArea}
+            defaultValue={data.living_area}
           />
         }
       />
@@ -38,11 +38,11 @@ export function InteriorField() {
         control={
           <Input
             data-testid='other-area-input'
-            name='otherArea'
+            name='other_area'
             placeholder='Anna muiden tilojen pinta-ala...'
             type='number'
             min='0'
-            defaultValue={data.otherArea}
+            defaultValue={data.other_area}
           />
         }
       />
@@ -53,11 +53,11 @@ export function InteriorField() {
           <Input
             data-testid='room-count-input'
             type='number'
-            name='roomCount'
+            name='room_count'
             placeholder='Anna huoneiden lukumäärä...'
             min='1'
             step='1'
-            defaultValue={data.roomCount}
+            defaultValue={data.room_count}
           />
         }
       />
@@ -71,10 +71,10 @@ export function InteriorField() {
         control={
           <Input
             data-testid='floor-count-input'
-            name='floorCount'
+            name='floor_count'
             step='1'
             min='1'
-            defaultValue={data.floorCount}
+            defaultValue={data.floor_count}
             type='number'
             placeholder='Anna kerrosten lukumäärä...'
           />
@@ -86,14 +86,14 @@ export function InteriorField() {
         control={
           <Input
             data-testid='wc-count-input'
-            name='wcCount'
+            name='bathroom_count'
             placeholder='Anna vessojen lukumäärä'
             type='number'
             min={0}
-            defaultValue={data.wcCount}
+            defaultValue={data.bathroom_count}
           />
         }
       />
-    </Fieldset>
+    </BoxFieldset>
   );
 }

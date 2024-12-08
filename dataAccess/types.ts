@@ -7,11 +7,12 @@ export type ObjectDataType = {
   parentId?: string;
 };
 
-export type BuildingDataType = ObjectDataType & {
-  id?: string;
+export type BuildingDataType = {
   property_id: string;
+  color_id: number;
   building_type_id: string;
   building_material_id: string;
+  build_year: number;
 };
 
 export type ResidenceDataType = ObjectDataType & {
@@ -26,41 +27,26 @@ export type ResidenceDataType = ObjectDataType & {
   has_garage: boolean;
 };
 
-type NewPropertyDataType = ObjectDataType & {
-  id?: string;
-  street_name: string;
-  zip_code: string;
-  /**Kiinteistötunnus */
-  property_identifier: string;
-};
 /**
  * @todo Remove columns that have been moved under separate tables.
  */
-export type PropertyDataType = ObjectDataType & {
-  streetAddress: string;
-  zipCode: string;
-  energyClassId: number;
-  building_type_id: number;
-  building_material_id: number;
-  roofTypeId: number;
-  roofMaterialId: number;
-  primaryHeatingSystemId: number;
-  secondaryHeatingSystemId: number;
-  build_year: number;
-  floorCount: number;
-  roomCount: number;
-  livingArea: number;
-  otherArea: number;
-  propertyTypeId: number;
-  propertyTypeName: string;
-  wcCount: number;
-  houseNumber: number;
-  mainColorId: number;
-  hasGarage: boolean;
-  building_id: number;
-};
+export type PropertyPayloadType = ObjectDataType &
+  Omit<InteriorDataType, 'property_id'> &
+  Omit<BuildingDataType, 'property_id'> &
+  Omit<RoofDataType, 'property_id'> & {
+    streetAddress: string;
+    zipCode: string;
+    energyClassId: number;
+    primaryHeatingSystemId: number;
+    secondaryHeatingSystemId: number;
+    propertyTypeId: number;
+    propertyTypeName: string;
+    houseNumber: number;
+    hasGarage: boolean;
+    heating: TODO;
+  };
 
-export type HouseDataType = PropertyDataType & {
+export type HousePayloadType = PropertyPayloadType & {
   yardOwnershipTypeId: number;
   yardArea: number;
   propertyNumber: string;
@@ -69,7 +55,7 @@ export type HouseDataType = PropertyDataType & {
 /**
  * @todo Should extend the residence type in the future.
  */
-export type AppartmentDataType = PropertyDataType & {
+export type AppartmentPayloadType = PropertyPayloadType & {
   appartmentNumber: number;
   floorNumber: number;
   hasBalcony: boolean;
@@ -139,6 +125,15 @@ export type OilVesselDataType = {
   volume: number;
   location: string;
   heating_id: string;
+};
+
+export type InteriorDataType = {
+  property_id?: number;
+  room_count: number;
+  floor_count: number;
+  living_area: number;
+  other_area: number;
+  bathroom_count: number;
 };
 
 export type RoofDataType = {

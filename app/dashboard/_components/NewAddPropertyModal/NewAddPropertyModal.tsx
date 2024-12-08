@@ -2,11 +2,11 @@
 
 import { createContext } from 'react';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 
 const AddPropertyModalContext = createContext<{
-  property: AppartmentDataType | HouseDataType;
-  updateData: (data: AppartmentDataType | HouseDataType) => void;
+  property: AppartmentPayloadType | HousePayloadType;
+  updateData: (data: AppartmentPayloadType | HousePayloadType) => void;
 } | null>(null);
 
 export const useAddPropertyModalContext = createUseContextHook(

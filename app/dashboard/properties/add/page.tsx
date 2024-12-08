@@ -3,6 +3,7 @@ import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getPropertyRefs } from '../actions';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 
 export default async function AddPropertyPage() {
   const session = await verifySession();
@@ -16,8 +17,8 @@ export default async function AddPropertyPage() {
 
   return (
     <main className='flex justify-center w-full'>
-      <div className='xs:w-full md:w-[50%] flex flex-col gap-4'>
-        <SecondaryHeading>Lisää Talo</SecondaryHeading>
+      <div className='xs:w-full md:w-[70%] flex flex-col gap-4'>
+        <SecondaryHeading>Uuden talon luonti</SecondaryHeading>
         <PropertyForm refs={refs} />
       </div>
     </main>

@@ -1,8 +1,8 @@
 import {
-  AppartmentDataType,
+  AppartmentPayloadType,
   BuildingDataType,
-  HouseDataType,
-  PropertyDataType,
+  HousePayloadType,
+  PropertyPayloadType,
 } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 
 export function usePropertyForm(
-  property: HouseDataType | AppartmentDataType | undefined,
+  property: HousePayloadType | AppartmentPayloadType | undefined,
   refs: TODO
 ) {
   const address = property && property.streetAddress.split(' ');
@@ -32,15 +32,15 @@ export function usePropertyForm(
   const { data, updateData, resetData, hasChanges } = useFormOnChangeObject(
     property ||
       ({ propertyTypeId: getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') } as
-        | HouseDataType
-        | AppartmentDataType)
+        | HousePayloadType
+        | AppartmentPayloadType)
   );
 
   const isNew = property == undefined;
 
   const [isValid, setIsValid] = useState(false);
   const { method, status } = useStatusWithAsyncMethod(async () => {
-    await createPropertyAction(data as PropertyDataType);
+    await createPropertyAction(data as PropertyPayloadType);
     toast.success('Talo luotu!');
   });
   const onSubmit = usePreventDefault(method);
@@ -69,7 +69,8 @@ export function usePropertyForm(
 
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
-      await updatePropertyAction(property.id, data as PropertyDataType)
+
+      await updatePropertyAction(property.id, data as PropertyPayloadType)
         .catch(err => toast.error(err.message))
         .finally(() => toast.dismiss(loadingToast));
     }, 900);

@@ -19,21 +19,28 @@ class Objects {
   /**Creates a new object. */
   async create<T extends ObjectDataType>(
     data: Partial<T>,
-    callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>
+    callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>,
+    trx?: Knex.Transaction
   ) {
-    const trx = await db.transaction();
     try {
+      const transaction = trx || (await db.transaction());
       const session = await verifySession();
-      const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
-      const [obj] = (await trx('objects.data').insert(
+      const dataToInsert = filterValidColumns(
+        data,
+        await getTableColumns('data', transaction, 'objects')
+      );
+      const [obj] = (await transaction('objects.data').insert(
         { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
         '*'
       )) as [ObjectDataType];
 
-      await callback(obj, trx);
-      await trx.commit();
+      await callback(obj, transaction);
+
+      if (!trx) {
+        //Commit the transaction here if none was provided from the outside.
+        await transaction.commit();
+      }
     } catch (err: any) {
-      await trx.rollback();
       throw err;
     }
   }
@@ -42,34 +49,42 @@ class Objects {
   async update<T extends ObjectDataType>(
     objectId: string,
     data: Partial<T>,
-    callback: (trx: Knex.Transaction) => Promise<void>
+    callback: (trx: Knex.Transaction) => Promise<void>,
+    trx?: Knex.Transaction
   ) {
-    const trx = await db.transaction();
     try {
-      const validColumns = await getTableColumns('data', trx, 'objects');
-      await trx('objects.data')
+      const transaction = trx || (await db.transaction());
+      const validColumns = await getTableColumns('data', transaction, 'objects');
+      await transaction('objects.data')
         .where({ id: objectId })
         .update({
           ...filterValidColumns(data, validColumns),
         });
-      await callback(trx);
-      await trx.commit();
+      await callback(transaction);
+      if (!trx) {
+        console.log('Committing object update...');
+        await transaction.commit();
+      }
     } catch (err: any) {
-      await trx.rollback();
       throw err;
     }
   }
 
   /**Deletes an object. Will cascade the deletion to all db entries that refer to the deleted object. */
-  async del(id: string, callback?: (trx: Knex.Transaction) => Promise<void>) {
-    const trx = await db.transaction();
+  async del(
+    id: string,
+    callback?: (trx: Knex.Transaction) => Promise<void>,
+    trx?: Knex.Transaction
+  ) {
     try {
-      await trx('objects.data').where({ id }).del();
-      callback && (await callback(trx));
-      await trx.commit();
+      const transaction = trx || (await db.transaction());
+      await transaction('objects.data').where({ id }).del();
+      callback && (await callback(transaction));
+      if (!trx) {
+        await transaction.commit();
+      }
     } catch (err) {
-      console.log(err.message);
-      await trx.rollback();
+      console.error(err.message);
       throw err;
     }
   }
@@ -92,8 +107,8 @@ class Objects {
 
     onError?: (err: any) => Promise<void>
   ) {
-    const trx = await db.transaction();
     try {
+      const trx = await db.transaction();
       const session = await verifySession();
       for (let i = 0; i < count; ++i) {
         const [obj] = await trx('objects.data').insert(
@@ -111,7 +126,6 @@ class Objects {
       await trx.commit();
     } catch (err) {
       console.error(err.message);
-      await trx.rollback();
       await onError(err);
       throw err;
     }

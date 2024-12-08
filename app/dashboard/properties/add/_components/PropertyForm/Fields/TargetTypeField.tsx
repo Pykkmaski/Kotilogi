@@ -1,6 +1,6 @@
 'use client';
 
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 import { FormControl } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
@@ -11,7 +11,7 @@ export function TargetTypeField() {
 
   return (
     isNew && (
-      <Fieldset legend='Kohde'>
+      <BoxFieldset legend='Kohde'>
         <FormControl
           label='Kohteen tyyppi'
           control={
@@ -25,7 +25,7 @@ export function TargetTypeField() {
             />
           }
         />
-      </Fieldset>
+      </BoxFieldset>
     )
   );
 }

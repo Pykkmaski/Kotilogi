@@ -11,6 +11,8 @@ import { events } from 'kotilogi-app/dataAccess/events';
 import { files } from 'kotilogi-app/dataAccess/files';
 import { EventDocument } from './_EventDetails/EventDocument';
 import { ReactNode } from 'react';
+import { BoxFieldset } from '@/components/UI/Fieldset';
+import { RoofData } from '@/components/UI/EventData/RoofData';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
@@ -90,32 +92,39 @@ export default async function EventPage({ params }) {
     }
     return null;
   };
+  const [{ result: eventTargets }] = await db('events.targets').select(
+    db.raw('json_object_agg(label, id) as result')
+  );
 
+  const [{ result: eventTypes }] = await db('events.types').select(
+    db.raw('json_object_agg(id, label) as result')
+  );
+
+  //const [mainImageId] = await db('data_mainImages').where({objectId: eventData.id}).pluck('imageId');
   return (
     <Main>
-      <SecondaryHeading>Tapahtuma</SecondaryHeading>
-      <EventDocument
-        title={eventData.title}
-        description={eventData.description || 'Ei kuvausta.'}
-        date={eventData.date}>
-        <div className='flex lg:flex-row xs:flex-col w-full h-full'>
-          <div className='flex flex-col gap-4 w-full'>{getDataContent()}</div>
-          {fileData.length ? (
-            <div className='grid grid-cols-4 w-full gap-2'>
-              {fileData.map(f => (
-                <FileCard
-                  file={f}
-                  isMain={f.id == mainImageId}
-                />
-              ))}
+      <BoxFieldset legend='Tapahtuman tiedot'>
+        <div className='flex gap-4 w-full'>
+          <div className='w-full flex flex-col gap-10'>
+            <div className='flex flex-col w-full'>
+              <h1 className='md:text-xl xs:text-lg font-semibold'>{eventData.title}</h1>
+              <p>{eventData.description || 'Ei kuvausta.'}</p>
             </div>
-          ) : (
-            <div className='flex w-full h-full items-center justify-center'>
-              <span>Ei tiedostoja</span>
-            </div>
-          )}
+
+            <div className='flex flex-col gap-2 w-full'></div>
+          </div>
+
+          <div
+            className='w-full flex items-center justify-center'
+            id='overview-box-image-container'>
+            <img
+              src={mainImageId ? `/api/protected/files/${mainImageId}` : '/img/kitchen.jpg'}
+              loading='lazy'
+              className='rounded-full aspect-square object-cover md:w-[50%] xs:w-full'
+            />
+          </div>
         </div>
-      </EventDocument>
+      </BoxFieldset>
     </Main>
   );
 }

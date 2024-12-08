@@ -1,6 +1,6 @@
 'use client';
 
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
@@ -44,7 +44,7 @@ const ExpensesField = () => {
   }, [eventData.material_expenses, eventData.labour_expenses]);
 
   return (
-    <Fieldset legend='Kulut'>
+    <BoxFieldset legend='Kulut'>
       <FormControl
         boldLabelText
         label='Materiaalien osuus (€)'
@@ -65,7 +65,7 @@ const ExpensesField = () => {
           <span className='font-semibold'>{total}€</span>
         </Spacer>
       </div>
-    </Fieldset>
+    </BoxFieldset>
   );
 };
 
@@ -93,7 +93,7 @@ const OtherField = () => {
   const { eventData } = useEventFormContext();
 
   return (
-    <Fieldset legend='Yleistiedot'>
+    <BoxFieldset legend='Yleistiedot'>
       <RenderOnCondition condition={eventData.service_work_type_id == -1}>
         <FormControl
           boldLabelText
@@ -125,7 +125,7 @@ const OtherField = () => {
           />
         }
       />
-    </Fieldset>
+    </BoxFieldset>
   );
 };
 

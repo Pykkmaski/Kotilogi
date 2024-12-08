@@ -1,5 +1,5 @@
 import { Main } from '@/components/New/Main';
-import { Edit } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { UtilityPreview } from './_components/UtilityPreview';
 import { EventPreview } from './_components/EventPreview';
@@ -11,10 +11,23 @@ import { UtilityProvider } from './utility/UtilityContext';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import { utilities } from 'kotilogi-app/dataAccess/utilities';
 import { files } from 'kotilogi-app/dataAccess/files';
+import { BoxFieldset } from '@/components/UI/Fieldset';
+import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
+import { IconButton } from '@mui/material';
+import Link from 'next/link';
+import { events } from 'kotilogi-app/dataAccess/events';
+import { Card } from '@/components/UI/Card';
+import { UtilityLineChart } from './utility/UtilityLineChart';
+import { UtilityPieChart } from './utility/UtilityPieChart';
+import Image from 'next/image';
+import { DataDisplay } from '@/components/UI/DataDisplay';
+import { DialogPrefab } from '@/components/UI/VPDialog';
+import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
   const data = await properties.get(id);
+  const eventData = await events.get({ parentId: id }, null, 10);
 
   //Fetch additional data back-to-back to conserve db connection pool.
   const owners = await db('data_propertyOwners')
@@ -23,48 +36,169 @@ export default async function PropertyPage({ params }) {
     .pluck('email');
 
   const utilityData = await utilities.get(data.id);
-  const fileData = await files.get({ parentId: id }, 4);
+  const fileData = await files.get({ parentId: id }, 10);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
 
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
-      <PropertyOverview
-        owners={owners}
-        property={data}
-        editContentText='Muokkaa tietoja'
-        editIcon={<Edit />}
-        editUrl={`/dashboard/properties/${data.id}/edit`}
-      />
+      <BoxFieldset legend='Yleiskatsaus'>
+        <div
+          className='flex md:flex-row xs:flex-col-reverse md:gap-4 xs:gap-8 w-full'
+          id='overview-box-body'>
+          <div
+            className='flex flex-col gap-10 w-full h-full'
+            id='overview-box-information-container'>
+            <div className='flex flex-col'>
+              <div className='flex gap-4'>
+                <h1 className='md:text-xl xs:text-lg font-semibold'>{data.streetAddress}</h1>
+                <div className='flex'>
+                  <Link href={`/dashboard/properties/${data.id}/edit`}>
+                    <IconButton
+                      size='small'
+                      title='Muokkaa'>
+                      <Edit />
+                    </IconButton>
+                  </Link>
 
-      <div className='flex w-full md:gap-4 xs:gap-2 xs:flex-col md:flex-row'>
-        <div className='xs:w-full lg:max-w-[50%]'>
-          <EventPreview propertyId={data.id} />
+                  <Link href={`/dashboard/properties/${data.id}/delete`}>
+                    <IconButton
+                      size='small'
+                      title='Poista'>
+                      <Delete />
+                    </IconButton>
+                  </Link>
+                </div>
+              </div>
+
+              <p>{data.description || 'Ei kuvausta.'}</p>
+            </div>
+
+            <div className='flex flex-col gap-2'>
+              <h1 className='font-semibold text-slate-500 mb-2'>Tiedot</h1>
+              <DataDisplay
+                title='Kiinteistötyyppi'
+                value={data.propertyTypeName}
+              />
+
+              <DataDisplay
+                title='Huoneiden lukumäärä'
+                value={data.room_count || 'Ei määritelty'}
+              />
+
+              <DataDisplay
+                title={data.propertyTypeName == 'Huoneisto' ? 'Kerros' : 'Kerrosten lukumäärä'}
+                value={data.floor_count || 'Ei määritelty'}
+              />
+
+              <DataDisplay
+                title={
+                  <>
+                    Asuintilojen pinta-ala <sup>m2</sup>
+                  </>
+                }
+                value={
+                  (data.living_area != undefined && (data as any).living_area) || 'Ei määritelty'
+                }
+              />
+
+              <DataDisplay
+                title={
+                  <>
+                    {' '}
+                    Muu pinta-ala <sup>m2</sup>
+                  </>
+                }
+                value={
+                  ((data as any).other_area != undefined && (data as any).other_area) ||
+                  'Ei määritelty'
+                }
+              />
+
+              <DataDisplay
+                title='Lämmitysmuoto'
+                value={data.heating.heating_type_label || 'Ei määritelty'}
+              />
+              <DataDisplay
+                title='Omistajat'
+                value={owners.length}
+              />
+            </div>
+          </div>
+
+          <div
+            className='w-full flex items-center justify-center'
+            id='overview-box-image-container'>
+            <DialogPrefab
+              trigger={
+                <img
+                  src={`/api/protected/files/${mainImageId}`}
+                  loading='lazy'
+                  title='Valitse pääkuva'
+                  className='rounded-full aspect-square object-center md:w-[50%] xs:w-full cursor-pointer'
+                />
+              }
+              target={<SelectImageDialog images={fileData.filter(f => f.type == 'image/jpeg')} />}
+            />
+          </div>
+        </div>
+      </BoxFieldset>
+
+      <div className='gap-4 xs:flex-col md:flex-row flex'>
+        <div className='flex md:w-[50%] xs:w-full'>
+          <BoxFieldset legend={'Tapahtumat'}>
+            <div className='flex gap-2 overflow-x-scroll snap-mandatory snap-x'>
+              {eventData.length
+                ? eventData.map(async ed => {
+                    const [image_id] = await db('data_mainImages')
+                      .where({ objectId: ed.id })
+                      .pluck('id');
+                    return (
+                      <Card
+                        title={ed.title}
+                        description={ed.description || 'Ei kuvausta'}
+                        href={`/dashboard/properties/${id}/events/${ed.id}`}
+                        imageSrc={
+                          image_id ? `/api/protected/files/${image_id}` : '/img/kitchen.jpg'
+                        }
+                      />
+                    );
+                  })
+                : 'Ei tapahtumia.'}
+            </div>
+          </BoxFieldset>
         </div>
 
-        <div className='xs:w-full lg:max-w-[50%] h-full flex-1'>
-          <UtilityProvider
-            data={utilityData}
-            year={null}
-            selectedTypes={[]}>
-            <UtilityPreview propertyId={data.id} />
-          </UtilityProvider>
+        <div className='flex md:w-[50%] xs:w-full'>
+          <BoxFieldset legend='Kulutustiedot'>
+            <div className='flex w-full'>
+              <UtilityProvider
+                data={utilityData}
+                year={null}
+                selectedTypes={[]}>
+                <div className='w-full'>
+                  <UtilityLineChart />
+                </div>
+              </UtilityProvider>
+            </div>
+          </BoxFieldset>
         </div>
       </div>
 
-      <FileOverview
-        files={fileData}
-        addNewUrl={`/dashboard/files/add?parentId=${data.id}`}
-        showAllUrl={`/dashboard/files?parentId=${data.id}&returnUrl=/dashboard/properties/${data.id}`}
-        PreviewComponent={({ item }) => {
-          return (
-            <FileCard
-              file={item}
-              isMain={item.id == mainImageId}
-            />
-          );
-        }}
-      />
+      <BoxFieldset legend='Tiedostot ja kuvat'>
+        <div className='flex gap-2 wrap w-full'>
+          {fileData.length
+            ? fileData.map(file => {
+                return (
+                  <FileCard
+                    file={file}
+                    isMain={file.id == mainImageId}
+                  />
+                );
+              })
+            : 'Ei tiedostoja.'}
+        </div>
+      </BoxFieldset>
     </Main>
   );
 }

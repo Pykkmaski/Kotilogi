@@ -17,7 +17,7 @@ import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_
 import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/TargetTypeField';
 import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/YardField';
 
-import { PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import { usePropertyForm } from './PropertyForm.hooks';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
@@ -25,13 +25,18 @@ import { VPDialog } from '@/components/UI/VPDialog';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { useMemo } from 'react';
+import { DropDown } from '@/components/UI/DropDown';
+import { ContentBox } from '@/components/New/Boxes/ContentBox';
 
-type PropertyFormProps<T extends PropertyDataType> = React.PropsWithChildren & {
+type PropertyFormProps<T extends PropertyPayloadType> = React.PropsWithChildren & {
   property?: T;
   refs: TODO;
 };
 
-export function PropertyForm<T extends PropertyDataType>({ property, refs }: PropertyFormProps<T>) {
+export function PropertyForm<T extends PropertyPayloadType>({
+  property,
+  refs,
+}: PropertyFormProps<T>) {
   const {
     status,
     data,
@@ -68,6 +73,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
     (data as TODO).zipCode,
   ]);
 
+  const Content = ({ isToggled = false }) => (isToggled ? <ContentBox>Malja</ContentBox> : null);
   return (
     <form
       id={formId}
@@ -84,6 +90,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
           refs,
         }}>
         <GeneralField hidePropertyIdentifier={!isNew} />
+
         <ExteriorField />
         <YardField />
         <InteriorField />
@@ -119,7 +126,7 @@ export function PropertyForm<T extends PropertyDataType>({ property, refs }: Pro
                 <DialogContent>
                   <DialogContentText>
                     Olet lisäämässä taloa osoitteessa{' '}
-                    {`${(data as PropertyDataType).streetAddress} ${
+                    {`${(data as PropertyPayloadType).streetAddress} ${
                       (data as TODO).houseNumber || ''
                     }`}
                     . Oletko varma?

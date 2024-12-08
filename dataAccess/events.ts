@@ -15,6 +15,7 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import db from 'kotilogi-app/dbconfig';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { properties } from './properties';
+import { heating } from './heating';
 
 type TypeDataType = {
   event_type_id: number;
@@ -79,33 +80,19 @@ class Events {
     restoration_work_data: HeatingMethodRestorationWorkType,
     trx: Knex.Transaction
   ) {
+    await trx('heating.restoration_work').insert({
+      event_id,
+      old_system_id: restoration_work_data.old_system_id,
+      new_system_id: restoration_work_data.new_system_id,
+    });
+
     const { new_system_id } = restoration_work_data;
-    const [{ result: heating_types }] = await trx('heating.types').select(
+    const [{ result: heatingTypes }] = await trx('heating.types').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
     switch (new_system_id) {
-      case heating_types['Öljy']:
-        {
-          //Save the vessel, and the heating center data.
-
-          await trx('heating.oil_vessel').insert({
-            event_id,
-            volume: data.volume,
-            location: data.vessel_location,
-          });
-        }
-        break;
-
-      case new_system_id:
-        {
-          await trx('heating.electric_heating_restoration_work').insert({
-            id: event_id,
-            restoration_method_id: data.restoration_method_id,
-          });
-        }
-        break;
-
+      case heatingTypes['']:
       default:
         throw new Error('Invalid new system id! (' + new_system_id + ')');
     }
@@ -129,13 +116,9 @@ class Events {
         {
           //Save heating event data.
           const [data] = extraData as [HeatingMethodRestorationWorkType];
-          await trx('heating.restoration_work').insert({
-            event_id,
-            old_system_id: data.old_system_id,
-            new_system_id: data.new_system_id,
-          });
-
+          await this.createHeatingRestorationWorkData(event_id, data, trx);
           //TODO: insert the peripheral data, like oil vessels, heating centers, etc.
+          await heating.create(data as any, trx);
         }
         break;
 
@@ -497,7 +480,7 @@ class Events {
       .join('roofs.ref_aluskatetyypit', {
         'roofs.ref_aluskatetyypit.id': 'roofs.overview.aluskateTyyppiId',
       })
-      .where({ 'roofs.overview.id': eventId })
+      .where({ 'roofs.overview.property_id': eventId })
       .select(
         'roofs.materials.name as materialLabel',
         'roofs.types.name as typeLabel',

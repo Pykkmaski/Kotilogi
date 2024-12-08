@@ -1,4 +1,4 @@
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { HeatingRenovationContent } from '../FormContent/HeatingRenovationContent/HeatingRenovationContent';
@@ -47,7 +47,7 @@ export function ExtraDataForm({ editing }) {
       );
     }
 
-    return (content && <Fieldset legend='Tiedot'>{content}</Fieldset>) || null;
+    return (content && <BoxFieldset legend='Tiedot'>{content}</BoxFieldset>) || null;
   };
 
   const displaySubmitButton = () => {

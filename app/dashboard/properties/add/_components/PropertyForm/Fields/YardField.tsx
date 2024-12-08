@@ -1,6 +1,6 @@
 'use client';
 
-import { Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 import { FormControl, Group, Input, Label } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
@@ -9,7 +9,7 @@ export function YardField() {
   const { property: data, refs } = usePropertyFormContext() as TODO;
 
   return data.propertyTypeId == refs.propertyTypes.find(type => type.name === 'Kiinteistö').id ? (
-    <Fieldset legend='Tontti'>
+    <BoxFieldset legend='Tontti'>
       <FormControl
         label='Omistus'
         control={
@@ -41,6 +41,6 @@ export function YardField() {
           />
         </Group>
       ) : null}
-    </Fieldset>
+    </BoxFieldset>
   ) : null;
 }

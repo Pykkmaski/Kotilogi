@@ -11,18 +11,18 @@ type OptionsType = {
 export async function insertViaFilter<T>(
   data: T,
   { tablename, schema = 'public' }: OptionsType,
-  trx: Knex.Transaction
+  ctx: Knex.Transaction | Knex
 ) {
-  const d = filterValidColumns(data, await getTableColumns(tablename, trx, schema));
-  return trx([schema, tablename].join('.')).insert(d);
+  const d = filterValidColumns(data, await getTableColumns(tablename, ctx, schema));
+  return ctx([schema, tablename].join('.')).insert(d);
 }
 
 export async function updateViaFilter<T>(
   id: string,
   data: T,
   { tablename, schema = 'public' }: OptionsType,
-  trx: Knex.Transaction
+  ctx: Knex.Transaction | Knex
 ) {
-  const d = filterValidColumns(data, await getTableColumns(tablename, trx, schema));
-  return trx([schema, tablename].join('.')).where({ id }).update(d);
+  const d = filterValidColumns(data, await getTableColumns(tablename, ctx, schema));
+  return ctx([schema, tablename].join('.')).where({ id }).update(d);
 }

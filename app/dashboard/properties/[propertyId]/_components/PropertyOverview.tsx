@@ -1,7 +1,7 @@
 import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import db from 'kotilogi-app/dbconfig';
-import { AppartmentDataType, HouseDataType } from 'kotilogi-app/dataAccess/types';
+import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 import { LabelGrid } from '@/components/New/LabelGrid';
 import { Spacer } from '@/components/UI/Spacer';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
@@ -17,7 +17,7 @@ import { TransferDialogTrigger } from './TransferDialogTrigger';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
 
 type PropertyOverviewProps = {
-  property: AppartmentDataType | HouseDataType;
+  property: AppartmentPayloadType | HousePayloadType;
   owners?: string[];
   editIcon: React.ReactNode;
   editUrl: string;

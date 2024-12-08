@@ -2,13 +2,17 @@
 
 import { Logo } from '@/components/App/Logo';
 import { Page, PDFViewer, Document, View, Text, Image } from '@react-pdf/renderer';
-import { EventDataType, HouseDataType, PropertyDataType } from 'kotilogi-app/dataAccess/types';
+import {
+  EventDataType,
+  HousePayloadType,
+  PropertyPayloadType,
+} from 'kotilogi-app/dataAccess/types';
 import { createContextWithHook } from 'kotilogi-app/utils/createContextWithHook';
 import React from 'react';
 
 type ReportProviderProps = {
   content: {
-    property: PropertyDataType;
+    property: PropertyPayloadType;
     ownerCount: number;
     events: EventDataType[];
     heatingSystem: string;
@@ -115,7 +119,7 @@ export function Report() {
                   <Text style={{ fontSize: '16px' }}>
                     {(content.propertyType === 'Huoneisto' &&
                       content.property.streetAddress + pr.appartmentNumber) ||
-                      (content.property as HouseDataType).propertyNumber}
+                      (content.property as HousePayloadType).propertyNumber}
                   </Text>
                   <Text>{content.property.zipCode}</Text>
                 </View>
