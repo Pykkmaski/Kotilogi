@@ -14,6 +14,8 @@ import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useBatchForm } from '@/hooks/useBatchForm';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 
 export function usePropertyForm(
   property: HousePayloadType | AppartmentPayloadType | undefined,
@@ -35,7 +37,8 @@ export function usePropertyForm(
     property ||
       ({ propertyTypeId: getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') } as
         | HousePayloadType
-        | AppartmentPayloadType)
+        | AppartmentPayloadType),
+    'kotidok-property-data'
   );
 
   const {
@@ -45,7 +48,7 @@ export function usePropertyForm(
     addEntry: addHeating,
     updateEntry: updateHeatingEntry,
     removeEntry: removeHeating,
-  } = useBatchForm<TODO>(property.heating);
+  } = useBatchForm<TODO>(property?.heating);
 
   const isNew = property == undefined;
 
@@ -96,6 +99,8 @@ export function usePropertyForm(
 
     return () => clearTimeout(timeout);
   }, [data]);
+
+  useSaveToSessionStorage('kotidok-property-data', property);
 
   return {
     data,

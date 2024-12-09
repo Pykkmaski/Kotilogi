@@ -174,3 +174,13 @@ CarouselProvider.Slots = function ({ renderFn }) {
     </>
   );
 };
+
+CarouselProvider.SlotNumbers = function () {
+  const { slots, currentSlot } = useCarouselProviderContext();
+  const indexOfCurrentSlot = slots.findIndex(slot => slot == currentSlot);
+  return (
+    <>
+      {indexOfCurrentSlot + 1}/{slots.length}
+    </>
+  );
+};

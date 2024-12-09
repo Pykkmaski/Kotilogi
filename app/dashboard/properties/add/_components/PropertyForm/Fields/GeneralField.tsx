@@ -1,7 +1,7 @@
 'use client';
 
 import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
-import { FormControl, Input } from '@/components/UI/FormUtils';
+import { FormControl, Input, SubLabel } from '@/components/UI/FormUtils';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from '../../PropertyFormContext';
@@ -94,6 +94,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
         <FormControl
           label='Osoite'
+          helper={<SubLabel>Osoite täytetään kiinteistötunnuksen perusteella</SubLabel>}
           required
           control={
             <Input
@@ -110,6 +111,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
         <FormControl
           label='Postinumero'
           required
+          helper={<SubLabel>Postinumero täytetään kiinteistötunnuksen perusteella</SubLabel>}
           control={
             <Input
               disabled={isHouse}

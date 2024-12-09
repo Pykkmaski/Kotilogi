@@ -6,7 +6,7 @@ export function Checkbox({
   ...props
 }: React.ComponentProps<'input'> & { label: string }) {
   return (
-    <div className='flex flex-row gap-4 items-center w-full'>
+    <div className='flex flex-row gap-4 items-center'>
       <input
         name={name}
         value={value}

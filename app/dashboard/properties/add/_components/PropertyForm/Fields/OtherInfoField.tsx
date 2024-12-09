@@ -19,7 +19,7 @@ export function OtherInfoField() {
             <Checkbox
               data-testid='garage-checkbox'
               name='hasGarage'
-              defaultChecked={data.has_garage}
+              defaultChecked={data.hasGarage}
             />
           }
         />

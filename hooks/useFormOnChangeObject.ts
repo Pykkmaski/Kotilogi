@@ -1,11 +1,30 @@
 import { useCallback, useState } from 'react';
 import { useHasChanges } from './useHasChanges';
+import { useSaveToSessionStorage } from './useSaveToSessionStorage';
+
+function initData(initialData?: TODO, dataKey?: string) {
+  if (dataKey) {
+    const savedData = sessionStorage.getItem(dataKey);
+    console.log('property data gotten from session storage: ', savedData, typeof savedData);
+    if (savedData && savedData != 'undefined') {
+      return JSON.parse(savedData);
+    }
+  }
+
+  return initialData || {};
+}
 
 /**Provides a data-object, and an update function to be used as the onChange-method of forms.
  * @param initialData The object to initialize the data with.
+ * @param dataKey An optional key that if defined, saves the data into the session storage.
  */
-export function useFormOnChangeObject<T extends {}>(initialData?: T) {
-  const [data, setData] = useState(initialData);
+export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: string) {
+  const [data, setData] = useState(initData(initialData, dataKey));
+
+  useSaveToSessionStorage(dataKey, data, {
+    enabled: true,
+  });
+
   const { hasChanges, markAsChanged } = useHasChanges();
 
   const updateData = useCallback(

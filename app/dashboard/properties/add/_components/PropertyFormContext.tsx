@@ -20,6 +20,7 @@ export const PropertyFormContext = createContext<{
   heatingBatch: TODO;
   resetData: (data?: any) => void;
   addHeating: <T>(item: T) => void;
+  removeHeating: TODO;
   updateHeatingData: (e: any) => void;
   updateHeatingEntry: TODO;
 

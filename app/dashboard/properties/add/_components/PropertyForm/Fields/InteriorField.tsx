@@ -14,7 +14,7 @@ export function InteriorField() {
         <FormControl
           label={
             <>
-              Pinta-ala <sup className='text-super'>m2</sup>
+              Asuintilojen pinta-ala <sup className='text-super'>m2</sup>
             </>
           }
           control={
