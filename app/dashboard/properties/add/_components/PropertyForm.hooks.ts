@@ -1,6 +1,7 @@
 import {
   AppartmentPayloadType,
   BuildingDataType,
+  HeatingPayloadType,
   HousePayloadType,
   PropertyPayloadType,
 } from 'kotilogi-app/dataAccess/types';
@@ -12,6 +13,7 @@ import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
+import { useBatchForm } from '@/hooks/useBatchForm';
 
 export function usePropertyForm(
   property: HousePayloadType | AppartmentPayloadType | undefined,
@@ -36,12 +38,29 @@ export function usePropertyForm(
         | AppartmentPayloadType)
   );
 
+  const {
+    entries: heatingBatch,
+    data: currentHeating,
+    updateData: updateHeatingData,
+    addEntry: addHeating,
+    updateEntry: updateHeatingEntry,
+    removeEntry: removeHeating,
+  } = useBatchForm<TODO>(property.heating);
+
   const isNew = property == undefined;
 
   const [isValid, setIsValid] = useState(false);
   const { method, status } = useStatusWithAsyncMethod(async () => {
-    await createPropertyAction(data as PropertyPayloadType);
-    toast.success('Talo luotu!');
+    try {
+      await createPropertyAction({
+        ...data,
+        heating: heatingBatch.map(hb => hb.value),
+      } as PropertyPayloadType);
+      toast.success('Talo luotu!');
+    } catch (err) {
+      toast.error(err.message);
+      throw err;
+    }
   });
   const onSubmit = usePreventDefault(method);
 
@@ -80,6 +99,12 @@ export function usePropertyForm(
 
   return {
     data,
+    heatingBatch,
+    currentHeating,
+    addHeating,
+    removeHeating,
+    updateHeatingData,
+    updateHeatingEntry,
     status,
     isValid,
     isNew,

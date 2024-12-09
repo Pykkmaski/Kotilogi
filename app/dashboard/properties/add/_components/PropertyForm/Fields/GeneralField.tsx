@@ -64,151 +64,153 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
   return (
     <BoxFieldset legend='Yleistiedot'>
-      {!hidePropertyIdentifier && isHouse && (
-        <FormControl
-          label='Kiinteistötunnus'
-          required
-          control={
-            <Input
-              data-testid='property-number-input'
-              icon={
-                <RenderOnCondition
-                  condition={
-                    (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
-                  }>
+      <div className='flex flex-col gap-4 w-full'>
+        {!hidePropertyIdentifier && isHouse && (
+          <FormControl
+            label='Kiinteistötunnus'
+            required
+            control={
+              <Input
+                data-testid='property-number-input'
+                icon={
                   <RenderOnCondition
-                    condition={isValid}
-                    fallback={<Clear sx={{ color: 'red' }} />}>
-                    <Check sx={{ color: 'lime' }} />
+                    condition={
+                      (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
+                    }>
+                    <RenderOnCondition
+                      condition={isValid}
+                      fallback={<Clear sx={{ color: 'red' }} />}>
+                      <Check sx={{ color: 'lime' }} />
+                    </RenderOnCondition>
                   </RenderOnCondition>
-                </RenderOnCondition>
-              }
-              name='propertyNumber'
-              placeholder='Kirjoita kiinteistötunnus...'
-              defaultValue={data && (data as HousePayloadType).propertyNumber}
-            />
-          }
-        />
-      )}
-
-      <FormControl
-        label='Osoite'
-        required
-        control={
-          <Input
-            data-testid='street-address-input'
-            name='streetAddress'
-            disabled={isHouse}
-            placeholder={getAddressDescription()}
-            defaultValue={data && data.streetAddress}
-            value={data && data.streetAddress}
+                }
+                name='propertyNumber'
+                placeholder='Kirjoita kiinteistötunnus...'
+                defaultValue={data && (data as HousePayloadType).propertyNumber}
+              />
+            }
           />
-        }
-      />
+        )}
 
-      <FormControl
-        label='Postinumero'
-        required
-        control={
-          <Input
-            disabled={isHouse}
-            defaultValue={(data && data.zipCode) || null}
-            value={data.zipCode}
-            name='zipCode'
-            placeholder={getZipCodeDescription()}
-            maxLength={5}></Input>
-        }
-      />
-
-      <RenderOnCondition condition={isHouse}>
         <FormControl
-          label='Talon numero'
+          label='Osoite'
           required
           control={
             <Input
-              data-testid='house-number-input'
-              name='houseNumber'
-              value={data && data.houseNumber}
-              defaultValue={data && data.houseNumber}
-              placeholder='Kirjoita talon numero...'
-              type='number'
-              step='1'
-              min='1'
+              data-testid='street-address-input'
+              name='streetAddress'
+              disabled={isHouse}
+              placeholder={getAddressDescription()}
+              defaultValue={data && data.streetAddress}
+              value={data && data.streetAddress}
             />
           }
         />
-      </RenderOnCondition>
 
-      <FormControl
-        label='Rakennusvuosi'
-        control={
-          <Input
-            name='build_year'
-            type='number'
-            defaultValue={data && data.build_year}
-            placeholder='Anna rakennusvuosi...'
-            data-testid='build-year-input'
-          />
-        }
-      />
-
-      <RenderOnCondition condition={!isHouse}>
         <FormControl
-          label='Huoneiston numero'
+          label='Postinumero'
           required
           control={
             <Input
-              defaultValue={data && (data as AppartmentPayloadType).houseNumber}
-              data-testid='appartment-number-input'
+              disabled={isHouse}
+              defaultValue={(data && data.zipCode) || null}
+              value={data.zipCode}
+              name='zipCode'
+              placeholder={getZipCodeDescription()}
+              maxLength={5}></Input>
+          }
+        />
+
+        <RenderOnCondition condition={isHouse}>
+          <FormControl
+            label='Talon numero'
+            required
+            control={
+              <Input
+                data-testid='house-number-input'
+                name='houseNumber'
+                value={data && data.houseNumber}
+                defaultValue={data && data.houseNumber}
+                placeholder='Kirjoita talon numero...'
+                type='number'
+                step='1'
+                min='1'
+              />
+            }
+          />
+        </RenderOnCondition>
+
+        <FormControl
+          label='Rakennusvuosi'
+          control={
+            <Input
+              name='build_year'
               type='number'
-              name='residence_number'
-              min='0'
-              step='1'
-              placeholder='Anna huoneiston numero...'
+              defaultValue={data && data.build_year}
+              placeholder='Anna rakennusvuosi...'
+              data-testid='build-year-input'
             />
           }
         />
-      </RenderOnCondition>
 
-      <FormControl
-        label='Kuvaus'
-        control={
-          <Input
-            data-testid='description-input'
-            variant='textarea'
-            spellCheck={false}
-            name='description'
-            placeholder='Anna vaihtoehtoinen kuvaus...'
-            defaultValue={data && data.description}
+        <RenderOnCondition condition={!isHouse}>
+          <FormControl
+            label='Huoneiston numero'
+            required
+            control={
+              <Input
+                defaultValue={data && (data as AppartmentPayloadType).houseNumber}
+                data-testid='appartment-number-input'
+                type='number'
+                name='residence_number'
+                min='0'
+                step='1'
+                placeholder='Anna huoneiston numero...'
+              />
+            }
           />
-        }
-      />
+        </RenderOnCondition>
 
-      <FormControl
-        label='Rakennuksen tyyppi'
-        control={
-          <ChipRadioGroup
-            name='building_type_id'
-            dataArray={refs.buildingTypes}
-            labelKey='name'
-            valueKey='id'
-            currentValue={data.building_type_id}
-          />
-        }
-      />
+        <FormControl
+          label='Kuvaus'
+          control={
+            <Input
+              data-testid='description-input'
+              variant='textarea'
+              spellCheck={false}
+              name='description'
+              placeholder='Anna vaihtoehtoinen kuvaus...'
+              defaultValue={data && data.description}
+            />
+          }
+        />
 
-      <FormControl
-        label='Energialuokka'
-        control={
-          <ChipRadioGroup
-            name='energyClassId'
-            dataArray={refs.energyClasses}
-            labelKey='name'
-            valueKey='id'
-            currentValue={data.energyClassId}
-          />
-        }
-      />
+        <FormControl
+          label='Rakennuksen tyyppi'
+          control={
+            <ChipRadioGroup
+              name='building_type_id'
+              dataArray={refs.buildingTypes}
+              labelKey='name'
+              valueKey='id'
+              currentValue={data.building_type_id}
+            />
+          }
+        />
+
+        <FormControl
+          label='Energialuokka'
+          control={
+            <ChipRadioGroup
+              name='energyClassId'
+              dataArray={refs.energyClasses}
+              labelKey='name'
+              valueKey='id'
+              currentValue={data.energyClassId}
+            />
+          }
+        />
+      </div>
     </BoxFieldset>
   );
 }

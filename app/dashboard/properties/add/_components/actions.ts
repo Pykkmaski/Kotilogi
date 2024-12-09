@@ -30,7 +30,6 @@ export const createPropertyAction = async (
     propertyTypeId: z.number(),
   }).parse(data);
 
-  console.log(data);
   let pid;
   await properties.create(data, async (id, trx) => {
     pid = id;

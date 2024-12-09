@@ -12,28 +12,30 @@ export function OtherInfoField() {
 
   return (
     <BoxFieldset legend='Muut tiedot'>
-      <CheckboxLabel
-        label='Autotalli'
-        control={
-          <Checkbox
-            data-testid='garage-checkbox'
-            name='hasGarage'
-            defaultChecked={data.has_garage}
-          />
-        }
-      />
-      <RenderOnCondition condition={data.propertyTypeId == propertyTypes['Huoneisto']}>
+      <div className='flex flex-col gap-4 w-full'>
         <CheckboxLabel
-          label='Parveke'
+          label='Autotalli'
           control={
             <Checkbox
-              data-testid='balcony-checkbox'
-              name='hasBalcony'
-              defaultChecked={data.hasBalcony}
+              data-testid='garage-checkbox'
+              name='hasGarage'
+              defaultChecked={data.has_garage}
             />
           }
         />
-      </RenderOnCondition>
+        <RenderOnCondition condition={data.propertyTypeId == propertyTypes['Huoneisto']}>
+          <CheckboxLabel
+            label='Parveke'
+            control={
+              <Checkbox
+                data-testid='balcony-checkbox'
+                name='hasBalcony'
+                defaultChecked={data.hasBalcony}
+              />
+            }
+          />
+        </RenderOnCondition>
+      </div>
     </BoxFieldset>
   );
 }

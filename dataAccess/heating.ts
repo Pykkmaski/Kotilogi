@@ -2,12 +2,25 @@ import 'server-only';
 import { Knex } from 'knex';
 import db from 'kotilogi-app/dbconfig';
 import { insertViaFilter } from './utils/insertViaFilter';
+import { HeatingPayloadType } from './types';
 
 class Heating {
   private async getHeatingCenter(heating_id: string, ctx: Knex.Transaction | Knex) {
     return ctx('heating.heating_center')
       .where({ heating_id })
       .select('model as heating_center_model', 'brand as heating_center_brand');
+  }
+
+  /**Returns the primary heating system of a property. */
+  async getPrimary(property_id: string, ctx: Knex.Transaction | Knex) {
+    const [heating_type_label] = await ctx('heating.primary_heating')
+      .join(db.raw('heating.data ON heating.data.id = heating.primary_heating.heating_id'))
+      .join(db.raw('heating.types ON heating.types.id = heating.data.heating_type_id'))
+      .select('heating.types.name as heating_type_label')
+      .where({ 'heating.primary_heating.property_id': property_id })
+      .pluck('heating.types.name');
+
+    return heating_type_label;
   }
 
   async getTypes(ctx: Knex.Transaction | Knex) {
@@ -17,67 +30,77 @@ class Heating {
     return result;
   }
 
-  async get(property_id: string, ctx: Knex.Transaction | Knex) {
-    const [heatingData] = await ctx('heating.data')
+  /**Returns an array containing all heating systems of a property. */
+  async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<HeatingPayloadType[]> {
+    const heatingData = await ctx('heating.data')
       .join(db.raw('heating.types ON heating.types.id = heating.data.heating_type_id'))
       .where({ property_id })
       .select('heating.data.*', 'heating.types.name as heating_type_label');
 
-    if (!heatingData) {
-      return null;
+    if (heatingData.length == 0) {
+      return [];
     }
 
     const heatingTypes = await this.getTypes(ctx);
-    const heating_type_id = parseInt(heatingData.heating_type_id);
+    const payloads: HeatingPayloadType[] = [];
 
-    switch (heating_type_id) {
-      case heatingTypes['Öljy']: {
-        const centerPromise = this.getHeatingCenter(heatingData.id, ctx);
-        const vesselPromise = ctx('heating.oil_vessel')
-          .where({ heating_id: heatingData.id })
-          .select('volume as vessel_volume', 'location as vessel_location');
+    for (const hd of heatingData) {
+      const heating_type_id = parseInt(hd.heating_type_id);
+      let payload = null;
 
-        const [[center], [vessel]] = await Promise.all([centerPromise, vesselPromise]);
+      switch (heating_type_id) {
+        case heatingTypes['Öljy']: {
+          const centerPromise = this.getHeatingCenter(hd.id, ctx);
+          const vesselPromise = ctx('heating.oil_vessel')
+            .where({ heating_id: hd.id })
+            .select('volume as vessel_volume', 'location as vessel_location');
 
-        return {
-          ...heatingData,
-          ...vessel,
-          ...center,
-        };
+          const [[center], [vessel]] = await Promise.all([centerPromise, vesselPromise]);
+
+          payload = {
+            ...hd,
+            ...vessel,
+            ...center,
+          };
+        }
+
+        case heatingTypes['Kaukolämpö']: {
+          const [center] = await this.getHeatingCenter(hd.id, ctx);
+          payload = {
+            ...hd,
+            ...center,
+          };
+        }
+
+        case heatingTypes['Sähkö']: {
+          const centerPromise = this.getHeatingCenter(hd.id, ctx);
+          const reservoirPromise = ctx('heating.warm_water_reservoir')
+            .where({ heating_id: hd.id })
+            .select('volume as warm_water_reservoir_volume');
+
+          const [[center], [warm_water_reservoir]] = await Promise.all([
+            centerPromise,
+            reservoirPromise,
+          ]);
+
+          payload = {
+            ...hd,
+            ...center,
+            ...warm_water_reservoir,
+          };
+        }
+
+        default:
+          payload = hd;
       }
 
-      case heatingTypes['Kaukolämpö']: {
-        const [center] = await this.getHeatingCenter(heatingData.id, ctx);
-        return {
-          ...heatingData,
-          ...center,
-        };
-      }
-
-      case heatingTypes['Sähkö']: {
-        const centerPromise = this.getHeatingCenter(heatingData.id, ctx);
-        const reservoirPromise = ctx('heating.warm_water_reservoir')
-          .where({ heating_id: heatingData.id })
-          .select('volume as warm_water_reservoir_volume');
-
-        const [[center], [warm_water_reservoir]] = await Promise.all([
-          centerPromise,
-          reservoirPromise,
-        ]);
-
-        return {
-          ...heatingData,
-          ...center,
-          ...warm_water_reservoir,
-        };
-      }
-
-      default:
-        return heatingData;
+      payloads.push(payload);
     }
+
+    return payloads;
   }
 
-  async create(data: TODO, ctx: Knex.Transaction | Knex) {
+  async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction | Knex) {
     //Save the main heating data.
     const [{ id: heating_id }] = await ctx('heating.data').insert(
       {
@@ -86,6 +109,16 @@ class Heating {
       },
       ['id']
     );
+
+    if (data.is_primary) {
+      await ctx('heating.primary_heating')
+        .insert({
+          property_id: data.property_id,
+          heating_id,
+        })
+        .onConflict(['heating_id', 'property_id'])
+        .merge();
+    }
 
     //Save the peripherals.
     const saveHeatingCenter = async () => {
@@ -104,10 +137,7 @@ class Heating {
       );
     };
 
-    const [{ result: heatingTypes }] = await ctx('heating.types').select(
-      db.raw('json_object_agg(label, id) as result')
-    );
-
+    const heatingTypes = await this.getTypes(ctx);
     const heatingTypeId = parseInt(data.heating_type_id as any);
 
     switch (heatingTypeId) {

@@ -1,5 +1,5 @@
 import { Main } from '@/components/New/Main';
-import { Delete, Edit } from '@mui/icons-material';
+import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { UtilityPreview } from './_components/UtilityPreview';
 import { EventPreview } from './_components/EventPreview';
@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { DialogPrefab } from '@/components/UI/VPDialog';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
+import { heating } from 'kotilogi-app/dataAccess/heating';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -38,6 +39,7 @@ export default async function PropertyPage({ params }) {
   const utilityData = await utilities.get(data.id);
   const fileData = await files.get({ parentId: id }, 10);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
+  const primaryHeating = await heating.getPrimary(id, db);
 
   return (
     <Main>
@@ -109,15 +111,22 @@ export default async function PropertyPage({ params }) {
                     Muu pinta-ala <sup>m2</sup>
                   </>
                 }
-                value={
-                  ((data as any).other_area != undefined && (data as any).other_area) ||
-                  'Ei määritelty'
+                value={(data.other_area != undefined && data.other_area) || 'Ei määritelty'}
+              />
+
+              <DataDisplay
+                title={
+                  <>
+                    {' '}
+                    Kokonaispinta-ala <sup>m2</sup>
+                  </>
                 }
+                value={data.other_area + data.living_area || 'Ei määritelty'}
               />
 
               <DataDisplay
                 title='Lämmitysmuoto'
-                value={data.heating.heating_type_label || 'Ei määritelty'}
+                value={primaryHeating || 'Ei määritelty'}
               />
               <DataDisplay
                 title='Omistajat'
@@ -132,7 +141,11 @@ export default async function PropertyPage({ params }) {
             <DialogPrefab
               trigger={
                 <img
-                  src={`/api/protected/files/${mainImageId}`}
+                  src={
+                    mainImageId
+                      ? `/api/protected/files/${mainImageId}`
+                      : '/img/Properties/default-bg.jpg'
+                  }
                   loading='lazy'
                   title='Valitse pääkuva'
                   className='rounded-full aspect-square object-center md:w-[50%] xs:w-full cursor-pointer'
@@ -146,7 +159,30 @@ export default async function PropertyPage({ params }) {
 
       <div className='gap-4 xs:flex-col md:flex-row flex'>
         <div className='flex md:w-[50%] xs:w-full'>
-          <BoxFieldset legend={'Tapahtumat'}>
+          <BoxFieldset
+            legend={
+              <div className='flex w-full gap-4 items-center'>
+                <span>Tapahtumat</span>
+
+                <div className='flex items-center'>
+                  <Link
+                    href={`/dashboard/properties/${id}/events`}
+                    title='Näytä kaikki tapahtumat'>
+                    <IconButton size='small'>
+                      <Visibility />
+                    </IconButton>
+                  </Link>
+
+                  <Link
+                    href={`/dashboard/properties/${id}/events/add`}
+                    title='Lisää uusi tapahtuma'>
+                    <IconButton size='small'>
+                      <Add />
+                    </IconButton>
+                  </Link>
+                </div>
+              </div>
+            }>
             <div className='flex gap-2 overflow-x-scroll snap-mandatory snap-x'>
               {eventData.length
                 ? eventData.map(async ed => {
@@ -170,7 +206,27 @@ export default async function PropertyPage({ params }) {
         </div>
 
         <div className='flex md:w-[50%] xs:w-full'>
-          <BoxFieldset legend='Kulutustiedot'>
+          <BoxFieldset
+            legend={
+              <div className='w-full flex items-center gap-4'>
+                <span>Kulutustiedot</span>
+                <div className='flex items-center'>
+                  <Link href={`/dashboard/properties/${id}/utility`}>
+                    <IconButton size='small'>
+                      <Visibility />
+                    </IconButton>
+                  </Link>
+
+                  <Link
+                    href={`/dashboard/properties/${id}/utility/add`}
+                    title='Lisää uusi kulutustieto'>
+                    <IconButton size='small'>
+                      <Add />
+                    </IconButton>
+                  </Link>
+                </div>
+              </div>
+            }>
             <div className='flex w-full'>
               <UtilityProvider
                 data={utilityData}
@@ -185,7 +241,28 @@ export default async function PropertyPage({ params }) {
         </div>
       </div>
 
-      <BoxFieldset legend='Tiedostot ja kuvat'>
+      <BoxFieldset
+        legend={
+          <div className='w-full flex items-center gap-4'>
+            <span>Tiedostot ja kuvat</span>
+
+            <div className='flex items-center'>
+              <Link href={`/dashboard/files?parentId=${id}&returnUrl=/dashboard/properties/${id}`}>
+                <IconButton size='small'>
+                  <Visibility />
+                </IconButton>
+              </Link>
+
+              <Link
+                href={`/dashboard/files/add?parentId=${id}`}
+                title='Lisää uusi tiedosto'>
+                <IconButton size='small'>
+                  <Add />
+                </IconButton>
+              </Link>
+            </div>
+          </div>
+        }>
         <div className='flex gap-2 wrap w-full'>
           {fileData.length
             ? fileData.map(file => {

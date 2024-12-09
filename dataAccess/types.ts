@@ -43,7 +43,7 @@ export type PropertyPayloadType = ObjectDataType &
     propertyTypeName: string;
     houseNumber: number;
     hasGarage: boolean;
-    heating: TODO;
+    heating: HeatingPayloadType[];
   };
 
 export type HousePayloadType = PropertyPayloadType & {
@@ -121,10 +121,28 @@ export type HeatingDataType = {
   heating_type_id: number;
 };
 
+export type HeatingPayloadType = HeatingDataType &
+  Omit<Partial<HeatingCenterDataType>, 'heating_id'> &
+  Omit<Partial<OilVesselDataType>, 'heating_id'> &
+  Omit<Partial<WarmWaterReservoirDataType>, 'heating_id'> & {
+    is_primary?: boolean;
+  };
+
+export type HeatingCenterDataType = {
+  heating_id: string;
+  model: string;
+  brand: string;
+};
+
 export type OilVesselDataType = {
   volume: number;
   location: string;
   heating_id: string;
+};
+
+export type WarmWaterReservoirDataType = {
+  heating_id: string;
+  volume: number;
 };
 
 export type InteriorDataType = {

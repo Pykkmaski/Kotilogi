@@ -20,5 +20,5 @@ export function PassProps({ children, ...props }) {
     });
   }, [children, props]);
 
-  return enhancedChildren;
+  return <>{enhancedChildren}</>;
 }

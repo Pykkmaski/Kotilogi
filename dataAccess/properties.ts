@@ -131,7 +131,7 @@ class Properties {
   ) {
     //Only allow one property per user.
     const session = await verifySession();
-    await this.verifyUserPropertyCount(session);
+    //await this.verifyUserPropertyCount(session);
 
     return await objects.create(data, async (obj, trx) => {
       const streetAddress =
@@ -147,9 +147,23 @@ class Properties {
         trx
       );
 
-      await heating.create(data, trx);
+      const heatingPromises: Promise<void>[] = [];
+      data.heating?.forEach(async (item: TODO) => {
+        heatingPromises.push(
+          heating.create(
+            {
+              ...item,
+              property_id: obj.id,
+            },
+            trx
+          )
+        );
+      });
+
+      await Promise.all(heatingPromises);
       await buildings.create(obj.id, data, trx);
       await interiors.create(obj.id, data, trx);
+      //TODO: save roof data.
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.propertyTypeId, trx)
@@ -201,8 +215,8 @@ class Properties {
           ...propertyUpdateObject,
         });
 
-      await buildings.update(payload.id, payload, trx);
-      await interiors.update(payload.id, payload, trx);
+      await buildings.update(id, payload, trx);
+      await interiors.update(id, payload, trx);
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(payload.propertyTypeId, trx)

@@ -9,37 +9,64 @@ import { useQuery } from '@tanstack/react-query';
 import { getContent } from '../actions';
 
 export function HeatingField() {
-  const { property: data, refs } = usePropertyFormContext();
+  const {
+    currentHeating,
+    heatingBatch,
+    updateHeatingData,
+    updateHeatingEntry,
+    addHeating,
+    refs: { heatingTypes },
+  } = usePropertyFormContext();
+
+  useEffect(() => console.log('Heating batch changed to: ', heatingBatch), [heatingBatch]);
+
+  const setPrimary = (entry_id: string) => {
+    heatingBatch.forEach(e => (e.value.is_primary = false));
+    updateHeatingEntry(
+      entry => entry.id == entry_id,
+      entry => {
+        entry.value.is_primary = true;
+      }
+    );
+  };
 
   return (
     <BoxFieldset legend='Lämmitys'>
-      <FormControl
-        label='Ensisijainen'
-        control={
-          <ChipRadioGroup
-            name='primaryHeatingSystemId'
-            dataArray={refs.heatingTypes}
-            labelKey='name'
-            valueKey='id'
-            currentValue={data.primaryHeatingSystemId}
-          />
-        }
-      />
+      <div className='flex flex-col gap-4 w-full'>
+        <FormControl
+          label='Lämmitysjärjestelmän tyyppi'
+          control={
+            <ChipRadioGroup
+              name='heating_type_id'
+              dataArray={heatingTypes}
+              labelKey='name'
+              valueKey='id'
+              currentValue={currentHeating.heating_type_id}
+              onChange={updateHeatingData}
+            />
+          }
+        />
+        {heatingBatch.map(hb => (
+          <div className='flex gap-4'>
+            <span>
+              Heating id: {hb.value.heating_type_id}{' '}
+              {hb.value.is_primary && <span className='text-green-500'>Primary</span>}
+            </span>
+            <button
+              type='button'
+              onClick={() => setPrimary(hb.id)}>
+              Set primary
+            </button>
+          </div>
+        ))}
 
-      <FormControl
-        label='Toissijainen'
-        control={
-          <ChipRadioGroup
-            name='secondaryHeatingSystemId'
-            dataArray={refs.heatingTypes.filter(
-              type => type.name !== 'Ei Mitään' && type.name !== 'Kaukolämpö'
-            )}
-            labelKey='name'
-            valueKey='id'
-            currentValue={data.secondaryHeatingSystemId}
-          />
-        }
-      />
+        <button
+          type='button'
+          onClick={() => addHeating(currentHeating)}
+          disabled={Object.entries(currentHeating).length == 0}>
+          Lisää toinen lämmitysmuoto
+        </button>
+      </div>
     </BoxFieldset>
   );
 }

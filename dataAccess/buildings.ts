@@ -15,22 +15,20 @@ export class Buildings {
     payload: Partial<BuildingDataType>,
     ctx: Knex.Transaction | Knex
   ) {
-    return ctx('buildings.data').insert(
-      {
-        ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
-        property_id,
-      },
-      ['id']
-    );
+    /**TODO: Each property logically can have multiple buildings. Modify the building data table to have its own id, and return that here once created. */
+    return ctx('buildings.data').insert({
+      ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
+      property_id,
+    });
   }
 
   async update(
-    building_id: string,
+    property_id: string,
     payload: Partial<BuildingDataType>,
     ctx: Knex.Transaction | Knex
   ) {
     return ctx('buildings.data')
-      .where({ id: building_id })
+      .where({ property_id })
       .update({
         ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
       });

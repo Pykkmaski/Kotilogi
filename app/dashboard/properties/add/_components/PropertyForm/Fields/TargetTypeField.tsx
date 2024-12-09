@@ -12,19 +12,21 @@ export function TargetTypeField() {
   return (
     isNew && (
       <BoxFieldset legend='Kohde'>
-        <FormControl
-          label='Kohteen tyyppi'
-          control={
-            <ChipRadioGroup
-              name='propertyTypeId'
-              currentValue={data.propertyTypeId}
-              labelKey='name'
-              valueKey='id'
-              required
-              dataArray={refs.propertyTypes}
-            />
-          }
-        />
+        <div className='flex flex-col gap-4 w-full'>
+          <FormControl
+            label='Kohteen tyyppi'
+            control={
+              <ChipRadioGroup
+                name='propertyTypeId'
+                currentValue={data.propertyTypeId}
+                labelKey='name'
+                valueKey='id'
+                required
+                dataArray={refs.propertyTypes}
+              />
+            }
+          />
+        </div>
       </BoxFieldset>
     )
   );

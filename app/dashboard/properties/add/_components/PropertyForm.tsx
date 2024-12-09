@@ -27,6 +27,8 @@ import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { useMemo } from 'react';
 import { DropDown } from '@/components/UI/DropDown';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
+import { CarouselProvider } from '@/components/Util/CarouselProvider';
+import { TabButton } from '@/components/UI/TabButton';
 
 type PropertyFormProps<T extends PropertyPayloadType> = React.PropsWithChildren & {
   property?: T;
@@ -37,18 +39,9 @@ export function PropertyForm<T extends PropertyPayloadType>({
   property,
   refs,
 }: PropertyFormProps<T>) {
-  const {
-    status,
-    data,
-    router,
-    updateData,
+  const propertyFormProps = usePropertyForm(property as TODO, refs);
 
-    resetData,
-    updatePropertyInfo,
-    onSubmit,
-    isValid,
-    isNew,
-  } = usePropertyForm(property as TODO, refs);
+  const { status, data, onSubmit, updateData, isNew, router } = propertyFormProps;
 
   const formId = 'submit-property-form';
   const loading = status === 'loading';
@@ -73,7 +66,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
     (data as TODO).zipCode,
   ]);
 
-  const Content = ({ isToggled = false }) => (isToggled ? <ContentBox>Malja</ContentBox> : null);
   return (
     <form
       id={formId}
@@ -82,20 +74,76 @@ export function PropertyForm<T extends PropertyPayloadType>({
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
         value={{
-          resetData,
-          isValid,
-          isNew,
-          updatePropertyInfo,
+          ...propertyFormProps,
           property: data,
           refs,
         }}>
-        <GeneralField hidePropertyIdentifier={!isNew} />
+        <CarouselProvider defaultSlot='general'>
+          <div className='flex justify-between'>
+            <div className='flex items-center gap-4'>
+              <CarouselProvider.SelectSlotTrigger slotToSelect='general'>
+                <TabButton>Yleistiedot</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
 
-        <ExteriorField />
-        <YardField />
-        <InteriorField />
-        <HeatingField />
-        <OtherInfoField />
+              <CarouselProvider.SelectSlotTrigger slotToSelect='exterior'>
+                <TabButton>Ulkopuoli</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+
+              <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
+                <TabButton>Sisäpuoli</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+
+              <CarouselProvider.SelectSlotTrigger slotToSelect='yard'>
+                <TabButton>Tontti</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+
+              <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
+                <TabButton>Lämmitys</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+
+              <CarouselProvider.SelectSlotTrigger slotToSelect='other'>
+                <TabButton>Muut tiedot</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+            </div>
+
+            <div className='flex gap-4'>
+              <CarouselProvider.PreviousTrigger>
+                <Button color='secondary'>Edellinen</Button>
+              </CarouselProvider.PreviousTrigger>
+              <CarouselProvider.NextTrigger>
+                <Button
+                  variant='contained'
+                  color='secondary'>
+                  Seuraava
+                </Button>
+              </CarouselProvider.NextTrigger>
+            </div>
+          </div>
+
+          <CarouselProvider.Slot slotName='general'>
+            <GeneralField hidePropertyIdentifier={!isNew} />
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='exterior'>
+            <ExteriorField />
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='interior'>
+            <InteriorField />
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='yard'>
+            <YardField />
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='heating'>
+            <HeatingField />
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='other'>
+            <OtherInfoField />
+          </CarouselProvider.Slot>
+        </CarouselProvider>
       </PropertyFormContext.Provider>
       <RenderOnCondition condition={!property}>
         <div className='flex flex-row w-full items-center justify-end gap-4'>
@@ -114,7 +162,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
                 color='secondary'
                 type='button'
                 variant='contained'
-                disabled={submitDisabled}
+                disabled={false}
                 startIcon={<Check />}>
                 {property ? 'Päivitä' : 'Vahvista'}
               </Button>
