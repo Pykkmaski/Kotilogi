@@ -34,13 +34,13 @@ export type PropertyPayloadType = ObjectDataType &
   Omit<InteriorDataType, 'property_id'> &
   Omit<BuildingDataType, 'property_id'> &
   Omit<RoofDataType, 'property_id'> & {
-    streetAddress: string;
-    zipCode: string;
-    energyClassId: number;
-    propertyTypeId: number;
+    street_name: string;
+    zip_code: string;
+    energy_class_id: number;
+    property_type_id: number;
     propertyTypeName: string;
-    houseNumber: number;
-    hasGarage: boolean;
+    street_number: number;
+    has_garage: boolean;
     heating: HeatingPayloadType[];
     yardArea: number;
     yardOwnershipTypeId: number;

@@ -12,12 +12,12 @@ require('dotenv').config();
 
 export const updatePropertyAction = async (
   propertyId: string,
-  data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'propertyTypeId'>>
+  data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'property_type_id'>>
 ) => {
   console.log('Property at update: ', data);
   z.string().parse(propertyId);
   z.object({
-    propertyTypeId: z.number(),
+    property_type_id: z.number(),
   }).parse(data);
 
   await properties.update(propertyId, data);
@@ -25,10 +25,10 @@ export const updatePropertyAction = async (
 };
 
 export const createPropertyAction = async (
-  data: PropertyPayloadType & Required<Pick<PropertyPayloadType, 'propertyTypeId'>>
+  data: PropertyPayloadType & Required<Pick<PropertyPayloadType, 'property_type_id'>>
 ) => {
   z.object({
-    propertyTypeId: z.number(),
+    property_type_id: z.number(),
   }).parse(data);
 
   let pid;
@@ -43,8 +43,8 @@ export const createPropertyAction = async (
 type InfoType = {
   identifier: string;
   identifierDisplayFormat: string;
-  streetAddress: string;
-  zipCode: string;
+  street_name: string;
+  zip_code: string;
 };
 
 /**
@@ -87,7 +87,7 @@ export const fetchPropertyInfoAction = async (
       return null;
     }
 
-    const { road: streetAddress, postcode: zipCode } = reverseGeoCodeResponse.data.address;
+    const { road: street_name, postcode: zip_code } = reverseGeoCodeResponse.data.address;
     const {
       kiinteistotunnus: identifier,
       kiinteistotunnuksenEsitysmuoto: identifierDisplayFormat,
@@ -96,8 +96,8 @@ export const fetchPropertyInfoAction = async (
     return {
       identifier,
       identifierDisplayFormat,
-      streetAddress,
-      zipCode,
+      street_name,
+      zip_code,
     };
   } catch (err) {
     console.error(err.message);

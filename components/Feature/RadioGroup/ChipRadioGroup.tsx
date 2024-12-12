@@ -1,7 +1,7 @@
 import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
 import { ChipButton } from './ChipButton';
 import { RadioGroup } from './RadioGroup';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useId, useMemo } from 'react';
 import { useMapArray } from '@/hooks/useMapArray';
 
 type ChipRadioGroupProps<T> = {
@@ -29,7 +29,7 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
   onChange,
 }: ChipRadioGroupProps<T>) {
   const renderFn = useCallback(
-    item => {
+    (item, index) => {
       const value = item[valueKey];
       const label = item[labelKey];
 
@@ -48,7 +48,7 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
         />
       );
     },
-    [isChecked, currentValue, disabled, required, name]
+    [isChecked, onChange, currentValue, disabled, required, name]
   );
 
   const content = useMapArray(putOtherOptionLast(dataArray), renderFn);

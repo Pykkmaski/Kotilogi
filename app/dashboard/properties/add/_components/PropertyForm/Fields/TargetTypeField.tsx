@@ -17,8 +17,8 @@ export function TargetTypeField() {
             label='Kohteen tyyppi'
             control={
               <ChipRadioGroup
-                name='propertyTypeId'
-                currentValue={data.propertyTypeId}
+                name='property_type_id'
+                currentValue={data.property_type_id}
                 labelKey='name'
                 valueKey='id'
                 required

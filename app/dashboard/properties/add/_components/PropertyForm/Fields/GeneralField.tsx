@@ -1,18 +1,16 @@
 'use client';
 
-import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 import { FormControl, Input, SubLabel } from '@/components/UI/FormUtils';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from '../../PropertyFormContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchPropertyInfoAction } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 import { Check, Clear } from '@mui/icons-material';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
-import { OptionSelector } from '../../../../../../../components/Feature/OptionSelector';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
-import { Spacer } from '@/components/UI/Spacer';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function GeneralField({ hidePropertyIdentifier }) {
@@ -41,7 +39,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
         //Reset the previous streetAddress and zipCode values.
         updatePropertyInfo(
           {
-            streetAddress: '',
+            street_name: '',
             zipCode: '',
           },
           false
@@ -53,7 +51,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
   }, [(data as any).propertyNumber]);
 
   const isHouse =
-    data && data.propertyTypeId == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name');
+    data && data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name');
 
   const getAddressDescription = () => {
     return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita talon osoite...';
@@ -101,11 +99,11 @@ export function GeneralField({ hidePropertyIdentifier }) {
           control={
             <Input
               data-testid='street-address-input'
-              name='streetAddress'
+              name='street_name'
               disabled={isHouse}
               placeholder={getAddressDescription()}
-              defaultValue={data && data.streetAddress}
-              value={data && data.streetAddress}
+              defaultValue={data && data.street_name}
+              value={data && data.street_name}
               onChange={updateData}
             />
           }
@@ -119,9 +117,9 @@ export function GeneralField({ hidePropertyIdentifier }) {
             <Input
               onChange={updateData}
               disabled={isHouse}
-              defaultValue={(data && data.zipCode) || null}
-              value={data.zipCode}
-              name='zipCode'
+              defaultValue={(data && data.zip_code) || null}
+              value={data.zip_code}
+              name='zip_code'
               placeholder={getZipCodeDescription()}
               maxLength={5}></Input>
           }
@@ -135,9 +133,9 @@ export function GeneralField({ hidePropertyIdentifier }) {
               <Input
                 onChange={updateData}
                 data-testid='house-number-input'
-                name='houseNumber'
-                value={data && data.houseNumber}
-                defaultValue={data && data.houseNumber}
+                name='street_number'
+                value={data && data.street_number}
+                defaultValue={data && data.street_number}
                 placeholder='Kirjoita talon numero...'
                 type='number'
                 step='1'
@@ -168,7 +166,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             control={
               <Input
                 onChange={updateData}
-                defaultValue={data && (data as AppartmentPayloadType).houseNumber}
+                defaultValue={data && (data as AppartmentPayloadType).street_number}
                 data-testid='appartment-number-input'
                 type='number'
                 name='residence_number'
@@ -214,11 +212,11 @@ export function GeneralField({ hidePropertyIdentifier }) {
           control={
             <ChipRadioGroup
               onChange={updateData}
-              name='energyClassId'
+              name='energy_class_id'
               dataArray={refs.energyClasses}
               labelKey='name'
               valueKey='id'
-              currentValue={data.energyClassId}
+              currentValue={data.energy_class_id}
             />
           }
         />

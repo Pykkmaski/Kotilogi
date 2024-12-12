@@ -33,7 +33,7 @@ class Objects {
 
       await callback(obj, trx);
 
-      if (!ctx) {
+      if (typeof ctx == 'undefined') {
         //Commit the transaction here if none was provided from the outside.
         await trx.commit();
       }
@@ -58,8 +58,7 @@ class Objects {
           ...filterValidColumns(data, validColumns),
         });
       await callback(trx);
-      if (!ctx) {
-        console.log('Committing object update...');
+      if (typeof ctx == 'undefined') {
         await trx.commit();
       }
     } catch (err: any) {
@@ -77,7 +76,8 @@ class Objects {
       const trx = ctx || (await db.transaction());
       await trx('objects.data').where({ id }).del();
       callback && (await callback(trx));
-      if (!ctx) {
+
+      if (typeof ctx == 'undefined') {
         await trx.commit();
       }
     } catch (err) {

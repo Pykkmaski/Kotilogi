@@ -9,13 +9,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getContent } from '../actions';
 import { Checkbox } from '@/components/Feature/RadioGroup/Checkbox';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
-import { Button } from '@/components/New/Button';
 import { Add, Clear } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { removeHeatingAction } from '../../actions';
 import { BatchEntryType } from '@/hooks/useBatch';
 import { HeatingPayloadType } from 'kotilogi-app/dataAccess/types';
 import toast from 'react-hot-toast';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export function HeatingField() {
   const {
@@ -42,12 +42,15 @@ export function HeatingField() {
     });
   };
 
-  const updateHeating = (e: TODO, entry_id: number) => {
-    //Ignore updating if the property already has the selected heating type.
-    const name = e.target.name;
+  const updateHeating = async (e: TODO, entry_id: number) => {
+    const name = e.target.name.includes('type-id') ? 'heating_type_id' : e.target.name;
+
     if (name === 'heating_type_id') {
-      const typeId = parseInt(e.target.value);
-      const existingHeating = heatingBatch.find(hb => hb.value.heating_type_id == typeId);
+      //Ignore updating if the property already has the selected heating type.
+      const existingHeating = heatingBatch.find(
+        hb => hb.value.heating_type_id == parseInt(e.target.value)
+      );
+
       if (existingHeating) {
         toast.error('Kiinteistöllä on jo tämä lämmitysmuoto!');
         return;
@@ -70,11 +73,13 @@ export function HeatingField() {
   };
 
   useEffect(() => {
-    heatingBatch.forEach(hb => {
-      if (typeof hb.value.heating_type_id == 'undefined') {
-        removeHeating(hb.id);
-      }
-    });
+    return () => {
+      heatingBatch.forEach(hb => {
+        if (typeof hb.value.heating_type_id == 'undefined') {
+          removeHeating(hb.id);
+        }
+      });
+    };
   }, []);
 
   return (
@@ -85,10 +90,10 @@ export function HeatingField() {
         </div>
       }>
       <div className='flex flex-col gap-10 justify-start'>
-        {heatingBatch.map(hb => {
+        {heatingBatch.map((hb, batchIndex) => {
           const className = [
             'flex gap-4 flex-col border rounded-md p-4 animate-slideup-fast',
-            hb.value.is_primary ? 'bg-green-50 border-green-200' : 'bg-none border-slate-200',
+            hb.value.is_primary ? 'bg-blue-50 border-blue-200' : 'bg-none border-slate-200',
           ].join(' ');
 
           return (
@@ -96,14 +101,21 @@ export function HeatingField() {
               <FormControl
                 label='Lämmitysjärjestelmän tyyppi'
                 control={
-                  <ChipRadioGroup
-                    name='heating_type_id'
-                    dataArray={heatingTypes}
-                    labelKey='name'
-                    valueKey='id'
-                    currentValue={hb.value.heating_type_id}
-                    onChange={e => updateHeating(e, hb.id)}
-                  />
+                  <div className='flex gap-1'>
+                    {heatingTypes.map((ht, index) => {
+                      return (
+                        <ChipButton
+                          type='radio'
+                          label={ht.name}
+                          onChange={e => updateHeating(e, hb.id)}
+                          name={`${batchIndex}-type-id`}
+                          value={ht.id}
+                          checked={ht.id == hb.value.heating_type_id}
+                          key={`ht-${ht.id}-${index}`}
+                        />
+                      );
+                    })}
+                  </div>
                 }
               />
 

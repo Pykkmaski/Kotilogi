@@ -67,7 +67,7 @@ class Properties {
   }
 
   async getPropertyType(property_id: string, ctx: Knex.Transaction | Knex) {
-    return ctx('property.overview').where({ id: property_id }).pluck('propertyTypeId');
+    return ctx('property.overview').where({ id: property_id }).pluck('property_type_id');
   }
 
   async get(id: string): Promise<HousePayloadType | AppartmentPayloadType> {
@@ -77,7 +77,7 @@ class Properties {
     const overviewPromise = db('property.overview')
       .join('objects.data', { 'objects.data.id': 'property.overview.id' })
       .join('property.propertyTypes', {
-        'property.propertyTypes.id': 'property.overview.propertyTypeId',
+        'property.propertyTypes.id': 'property.overview.property_type_id',
       })
       .where({ 'property.overview.id': id })
       .select(
@@ -89,12 +89,14 @@ class Properties {
     const interiorPromise = interiors.get(id, db);
     const buildingPromise = buildings.get(id, db);
     const heatingPromise = heating.get(id, db);
+    const roofPromise = roofs.get(id, db);
 
-    const [[overview], [interior], [building], heatingData] = await Promise.all([
+    const [[overview], [interior], [building], heatingData, [roof]] = await Promise.all([
       overviewPromise,
       interiorPromise,
       buildingPromise,
       heatingPromise,
+      roofPromise,
     ]);
 
     const propertyTypes = await this.getTypes();
@@ -121,13 +123,14 @@ class Properties {
       ...overview,
       ...interior,
       ...building,
+      ...roof,
       ...p,
       heating: heatingData,
     };
   }
 
   async create(
-    data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'propertyTypeId'>>,
+    data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'property_type_id'>>,
     callback?: (id: string, trx: Knex.Transaction) => Promise<void>
   ) {
     //Only allow one property per user.
@@ -135,12 +138,9 @@ class Properties {
     //await this.verifyUserPropertyCount(session);
 
     return await objects.create(data, async (obj, trx) => {
-      const streetAddress =
-        'houseNumber' in data ? `${data.streetAddress} ${data.houseNumber}` : data.streetAddress;
-
       //Property columns
       await insertViaFilter(
-        { ...data, streetAddress, id: obj.id },
+        { ...data, id: obj.id },
         {
           tablename: 'overview',
           schema: 'property',
@@ -167,7 +167,7 @@ class Properties {
       await Promise.all([...heatingPromises, buildingPromise, interiorPromise, roofPromise]);
 
       const [propertySchema, propertyTablename] = (
-        await this.getTableNameByType(data.propertyTypeId, trx)
+        await this.getTableNameByType(data.property_type_id, trx)
       ).split('.');
 
       const property = data as any;
@@ -198,7 +198,7 @@ class Properties {
   /**Updates the property and the underlaying object. */
   async update(
     id: string,
-    payload: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'propertyTypeId'>>
+    payload: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'property_type_id'>>
   ) {
     const session = await verifySession();
     await this.verifyPropertyOwnership(session, id);
@@ -230,7 +230,7 @@ class Properties {
       ]);
 
       const [propertySchema, propertyTablename] = (
-        await this.getTableNameByType(payload.propertyTypeId, trx)
+        await this.getTableNameByType(payload.property_type_id, trx)
       ).split('.');
 
       const propObj = filterValidColumns(

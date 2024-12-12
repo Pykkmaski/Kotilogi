@@ -14,7 +14,7 @@ export function PassProps({ children, ...props }) {
           ...props,
         };
 
-        return React.cloneElement(child, newProps);
+        return React.cloneElement(child, { ...newProps });
       }
       return child;
     });

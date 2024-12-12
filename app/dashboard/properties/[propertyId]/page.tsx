@@ -53,7 +53,9 @@ export default async function PropertyPage({ params }) {
             id='overview-box-information-container'>
             <div className='flex flex-col gap-4'>
               <div className='flex gap-4'>
-                <h1 className='md:text-xl xs:text-lg font-semibold'>{data.streetAddress}</h1>
+                <h1 className='md:text-xl xs:text-lg font-semibold'>
+                  {data.street_name + ' ' + data.street_number}
+                </h1>
                 <div className='flex'>
                   <Link href={`/dashboard/properties/${data.id}/edit`}>
                     <IconButton

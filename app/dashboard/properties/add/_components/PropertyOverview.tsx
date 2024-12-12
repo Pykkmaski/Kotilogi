@@ -12,16 +12,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export function PropertyOverview() {
   const { property: prop, heatingBatch, refs, isValid } = usePropertyFormContext();
-  const property = prop || {};
+  const property = prop || ({} as PropertyPayloadType);
 
   return (
     <BoxFieldset legend='Yhteenveto'>
       <div className='flex flex-col gap-8 lg:w-[50%] xs:w-full'>
         <div className='flex flex-col gap-2'>
           <h1>Yleistiedot</h1>
+
           <DataDisplay
             title='Kiinteistötunnus'
             value={property.propertyNumber || 'Ei määritelty'}
@@ -29,16 +32,16 @@ export function PropertyOverview() {
 
           <DataDisplay
             title='Kiinteistötyyppi'
-            value={refs.propertyTypes.find(t => t.id == property.propertyTypeId)?.name}
+            value={refs.propertyTypes.find(t => t.id == property.property_type_id)?.name}
           />
           <DataDisplay
-            title='Katuosoite'
-            value={property.streetAddress}
+            title='Kadun nimi'
+            value={property.street_name}
           />
 
           <DataDisplay
             title='Talon numero'
-            value={property.houseNumber}
+            value={property.street_number}
           />
 
           <div className='flex gap-2 items-center text-slate-500'>
@@ -75,6 +78,7 @@ export function PropertyOverview() {
 
         <div className='flex flex-col gap-2'>
           <h1>Sisätilat</h1>
+
           <DataDisplay
             title='Huoneiden lukumäärä'
             value={property.room_count || 'Ei määritelty'}
@@ -115,6 +119,7 @@ export function PropertyOverview() {
 
         <div className='flex flex-col gap-2'>
           <h1>Tontti</h1>
+
           <DataDisplay
             title='Omistus'
             value={property.yardOwnershipTypeId || 'Ei määritelty'}
@@ -131,6 +136,7 @@ export function PropertyOverview() {
 
         <div className='flex flex-col gap-2'>
           <h1>Lämmitys</h1>
+
           {heatingBatch.map(hb => {
             const ht = refs.heatingTypes.find(t => t.id == hb.value.heating_type_id)?.name;
             return (
@@ -143,9 +149,10 @@ export function PropertyOverview() {
         </div>
         <div className='flex flex-col gap-2'>
           <h1>Muut tiedot</h1>
+
           <DataDisplay
             title='Autotalli'
-            value={(property.hasGarage as any) == 'on' ? 'Kyllä' : 'Ei'}
+            value={(property.has_garage as any) == 'on' ? 'Kyllä' : 'Ei'}
           />
         </div>
       </div>

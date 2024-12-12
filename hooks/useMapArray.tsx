@@ -19,7 +19,7 @@ export function useMapArray<T>(
         </PassProps>
       );
     });
-  }, [data, props, renderMethod]);
+  }, [data, props, renderMethod, mapId]);
 
   return elements;
 }

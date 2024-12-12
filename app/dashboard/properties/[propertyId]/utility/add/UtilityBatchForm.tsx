@@ -2,7 +2,7 @@
 
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';
-import { Add, Check, Close, Delete } from '@mui/icons-material';
+import { Add, Check, Clear, Close, Delete } from '@mui/icons-material';
 import {
   DialogActions,
   DialogContent,
@@ -30,6 +30,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { List } from '@/components/New/List';
 import { useBatchForm } from '@/hooks/useBatchForm';
+import { BoxFieldset } from '@/components/UI/Fieldset';
 
 const UtilityBatchFormContext = createContext<{
   utilityTypes: { id: number; name: string }[];
@@ -41,17 +42,9 @@ type UtilityBatchFormProps = {
 };
 
 export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormProps) {
-  const { data, updateData, entries, addEntry, removeEntry, updateEntry, resetData } = useBatchForm<
-    Partial<UtilityDataType>
-  >({
-    parentId: propertyId,
-  });
-  const entryContent = useMapArray(entries, item => (
-    <EntryComponent
-      item={item}
-      onDelete={itemToDelete => removeEntry(itemToDelete.id)}
-    />
-  ));
+  const { updateData, entries, addEntry, removeEntry, updateEntry, resetData } =
+    useBatchForm<Partial<UtilityDataType>>();
+
   const router = useRouter();
 
   const { method: submitMethod, status } = useStatusWithAsyncMethod(
@@ -70,97 +63,116 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
   const formRef = useRef<HTMLFormElement>(null);
   const formId = useId();
 
-  const commit = () => {
-    addEntry(data);
-    formRef.current?.reset();
-    resetData({});
+  const add = () => {
+    addEntry({
+      parentId: propertyId,
+    });
   };
 
+  const update = (e: TODO, entryId: number) => {
+    const name = e.target.name.split('-').at(1);
+    updateEntry(item => item.id == entryId, { [name]: e.target.value });
+  };
+
+  const del = (entryId: number) => removeEntry(entryId);
+
   const isSubmitDisabled = () => entries.length == 0 || status == 'loading' || status == 'done';
-  const isCommitDisabled = () =>
-    !data.monetaryAmount || !data.unitAmount || !data.typeId || !data.date;
+  const isCommitDisabled = () => false;
 
   return (
-    <div className='flex flex-col gap-4 lg:w-[50%] xs:w-full bg-white p-2'>
-      <UtilityBatchFormContext.Provider value={{ utilityTypes }}>
-        <form
-          id={`utility-form-${formId}`}
-          ref={formRef}
-          className='flex flex-col gap-2'
-          onChange={updateData}>
-          <SecondaryHeading>Lisää kulutustietoja</SecondaryHeading>
+    <BoxFieldset legend='Lisää kulutustietoja'>
+      <div className='flex flex-col gap-8 w-full'>
+        <UtilityBatchFormContext.Provider value={{ utilityTypes }}>
+          <form
+            id={`utility-form-${formId}`}
+            ref={formRef}
+            className='flex flex-col gap-4'>
+            {entries.map((ub, index) => {
+              return (
+                <div className='flex flex-col gap-2 p-2 border border-slate-200 rounded-md animate-slideup-fast'>
+                  <div className='flex justify-between w-full'>
+                    <h1 className='font-semibold text-lg'>Lasku {index + 1}</h1>
+                    <IconButton
+                      size='small'
+                      title='Poista'
+                      onClick={() => del(ub.id)}>
+                      <Clear />
+                    </IconButton>
+                  </div>
+                  <FormControl
+                    label='Tyyppi'
+                    required
+                    control={
+                      <ChipRadioGroup
+                        name={`${index}-typeId`}
+                        currentValue={ub.value.typeId}
+                        dataArray={utilityTypes || []}
+                        labelKey='name'
+                        valueKey='id'
+                        onChange={e => update(e, ub.id)}
+                      />
+                    }
+                  />
 
-          <FormControl
-            label='Tyyppi'
-            required
-            control={
-              <ChipRadioGroup
-                name='typeId'
-                currentValue={data.typeId}
-                dataArray={utilityTypes}
-                labelKey='name'
-                valueKey='id'
-              />
-            }
-          />
+                  <FormControl
+                    label='Hinta'
+                    required
+                    control={
+                      <Input
+                        name={`${index}-monetaryAmount`}
+                        type='number'
+                        step={0.01}
+                        placeholder='Kirjoita laskun hinta...'
+                        value={ub.value.monetaryAmount}
+                        onChange={e => update(e, ub.id)}
+                      />
+                    }
+                  />
 
-          <FormControl
-            label='Hinta'
-            required
-            control={
-              <Input
-                name='monetaryAmount'
-                type='number'
-                step={0.01}
-                placeholder='Kirjoita laskun hinta...'
-                value={data.monetaryAmount}
-              />
-            }
-          />
+                  <FormControl
+                    label='Yksikkömäärä'
+                    required
+                    helper={<SubLabel>Esim. sähkölaskussa määrä kilovattitunneissa.</SubLabel>}
+                    control={
+                      <Input
+                        name={`${index}-unitAmount`}
+                        type='number'
+                        step={0.01}
+                        placeholder='Kirjoita kulutuksen määrä yksiköissä...'
+                        value={ub.value.unitAmount}
+                        onChange={e => update(e, ub.id)}
+                      />
+                    }
+                  />
 
-          <FormControl
-            label='Yksikkömäärä'
-            required
-            helper={<SubLabel>Esim. sähkölaskussa määrä kilovattitunneissa.</SubLabel>}
-            control={
-              <Input
-                name='unitAmount'
-                type='number'
-                step={0.01}
-                placeholder='Kirjoita kulutuksen määrä yksiköissä...'
-                value={data.unitAmount}
-              />
-            }
-          />
+                  <FormControl
+                    label='Päivämäärä'
+                    required
+                    helper={<SubLabel>Laskun päivämäärä.</SubLabel>}
+                    control={
+                      <Input
+                        type='date'
+                        name={`${index}-date`}
+                        placeholder='Anna päivämäärä...'
+                        value={ub.value.date as any}
+                      />
+                    }
+                  />
+                </div>
+              );
+            })}
 
-          <FormControl
-            label='Päivämäärä'
-            required
-            helper={<SubLabel>Laskun päivämäärä.</SubLabel>}
-            control={
-              <Input
-                type='date'
-                name='date'
-                placeholder='Anna päivämäärä...'
-                value={data.date as any}
-              />
-            }
-          />
-        </form>
+            <div className='w-full flex justify-start'>
+              <Button
+                onClick={add}
+                color='secondary'
+                startIcon={<Add />}>
+                Lisää lasku
+              </Button>
+            </div>
+          </form>
 
-        <div className='flex justify-end gap-4'>
-          <Button
-            onClick={commit}
-            disabled={isCommitDisabled()}
-            variant='text'
-            color='secondary'
-            startIcon={<Add />}>
-            Lisää tieto
-          </Button>
-        </div>
-        <div className='flex flex-col gap-4 border-t border-slate-300 pt-4'>
-          <Spacer justify='between'>
-            <SecondaryHeading>Vahvistamattomat tiedot</SecondaryHeading>
+          <div className='flex gap-4 border-t border-slate-300 pt-4 justify-end w-full'>
             <Button
               onClick={onSubmit}
               form={formId}
@@ -171,96 +183,10 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
               variant='contained'>
               Vahvista kaikki
             </Button>
-          </Spacer>
-
-          <div className='w-full'>
-            <List
-              grow
-              dir='col'
-              gap='small'
-              className='w-full'>
-              {entryContent}
-            </List>
           </div>
-        </div>
-      </UtilityBatchFormContext.Provider>
-    </div>
-  );
-}
-
-function EntryComponent({
-  item,
-  onDelete,
-}: {
-  item: BatchEntryType<Partial<UtilityDataType>>;
-  onDelete: (item: BatchEntryType<Partial<UtilityDataType>>) => void;
-}) {
-  const { utilityTypes } = useUtilityBatchFormContext();
-
-  const Separator = () => <div className='bg-slate-200 w-[2px] h-[20px]' />;
-  const EntryContainer = ({ label, value }) => (
-    <div className='flex flex-col'>
-      <span className='text-sm text-slate-500'>{label}</span>
-      <span className='text-lg text-secondary font-semibold'>{value}</span>
-    </div>
-  );
-
-  return (
-    <ContentBox>
-      <div className='flex w-full items-center justify-between flex-grow-1'>
-        <div className='flex gap-8 items-center w-full'>
-          <EntryContainer
-            label='Tiedon tyyppi'
-            value={utilityTypes.find(t => t.id == item.value.typeId).name}></EntryContainer>
-          <Separator />
-          <EntryContainer
-            label='Hinta'
-            value={item.value.monetaryAmount + '€'}
-          />
-          <Separator />
-          <EntryContainer
-            label='Yksikkömäärä'
-            value={item.value.unitAmount}
-          />
-          <Separator />
-          <EntryContainer
-            label='Päiväys'
-            value={new Date(item.value.date).toLocaleDateString('fi')}
-          />
-        </div>
-        <ToggleProvider>
-          <ToggleProvider.Trigger>
-            <IconButton>
-              <Close />
-            </IconButton>
-          </ToggleProvider.Trigger>
-
-          <ToggleProvider.Target>
-            <VPDialog>
-              <DialogTitle>Poista tieto</DialogTitle>
-              <DialogContent>
-                <DialogContentText>Haluatko varmasti poistaa tiedon?</DialogContentText>
-              </DialogContent>
-
-              <DialogActions>
-                <Button
-                  variant='text'
-                  color='secondary'>
-                  Peruuta
-                </Button>
-
-                <Button
-                  onClick={() => onDelete(item)}
-                  color='warning'
-                  startIcon={<Delete />}>
-                  Poista
-                </Button>
-              </DialogActions>
-            </VPDialog>
-          </ToggleProvider.Target>
-        </ToggleProvider>
+        </UtilityBatchFormContext.Provider>
       </div>
-    </ContentBox>
+    </BoxFieldset>
   );
 }
 

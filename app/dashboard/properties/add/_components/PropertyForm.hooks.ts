@@ -21,21 +21,9 @@ export function usePropertyForm(
   property: HousePayloadType | AppartmentPayloadType | undefined,
   refs: TODO
 ) {
-  const address = property && property.streetAddress.split(' ');
-
-  let streetName;
-  let houseNumber;
-
-  if (address) {
-    houseNumber = address.at(-1);
-    //Remove the house number.
-    address.splice(-1, 1);
-    streetName = address.join(' ');
-  }
-
   const { data, updateData, resetData, hasChanges } = useFormOnChangeObject(
     property ||
-      ({ propertyTypeId: getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') } as
+      ({ property_type_id: getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') } as
         | HousePayloadType
         | AppartmentPayloadType),
     'kotidok-property-data'
@@ -54,11 +42,20 @@ export function usePropertyForm(
   const isNew = property == undefined;
 
   const [isValid, setIsValid] = useState(false);
+
+  const prepareHeatingData = () => {
+    return heatingBatch
+      .map(hb => {
+        return hb.value.heating_type_id !== 'undefined' ? hb.value : null;
+      })
+      .filter(hb => hb !== null);
+  };
+
   const { method, status } = useStatusWithAsyncMethod(async () => {
     try {
       await createPropertyAction({
         ...data,
-        heating: heatingBatch.map(hb => hb.value),
+        heating: prepareHeatingData(),
       } as PropertyPayloadType);
       toast.success('Talo luotu!');
     } catch (err) {
@@ -95,14 +92,14 @@ export function usePropertyForm(
 
       await updatePropertyAction(property.id, {
         ...data,
-        heating: heatingBatch.map(hb => hb.value),
+        heating: prepareHeatingData(),
       } as PropertyPayloadType)
         .catch(err => toast.error(err.message))
         .finally(() => toast.dismiss(loadingToast));
     }, 900);
 
     return () => clearTimeout(timeout);
-  }, [data, heatingBatch]);
+  }, [data, JSON.stringify(heatingBatch)]);
 
   //useSaveToSessionStorage('kotidok-property-data', property);
 

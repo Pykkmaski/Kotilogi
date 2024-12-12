@@ -1,2 +1,7 @@
-- Updating a batch entry when the batch contains 3 or more entries, deletes the last one.
-- When refreshing the add-property page, the very first heating entry looses its value.
++ Updating a batch entry when the batch contains 3 or more entries, deletes the last one.
+- Adding another heating type when editing a property, causes the error: 
+  Undefined binding(s) detected when compiling DEL. Undefined column(s): [id] query: delete from "heating"."data" where "id" = ?
++ A user is able to select multiple heating methods of the same type, as long as they do it by changing the type of one earlier in the queue.
+- Heating methods are not updated when editing a property.
++ When refreshing the add-property heating tab, entries loose their selected status.
++ Attempting a property deletion causes the app to hang.

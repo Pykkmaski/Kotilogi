@@ -14,7 +14,6 @@ import { HeatingField } from 'kotilogi-app/app/dashboard/properties/add/_compone
 import { InteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/InteriorField';
 import { OtherInfoField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/OtherInfoField';
 import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyFormContext';
-import { TargetTypeField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/TargetTypeField';
 import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/YardField';
 
 import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
@@ -24,9 +23,7 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { VPDialog } from '@/components/UI/VPDialog';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
-import { useMemo, useState } from 'react';
-import { DropDown } from '@/components/UI/DropDown';
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
+import { useMemo } from 'react';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
 import { PropertyOverview } from './PropertyOverview';
@@ -59,21 +56,22 @@ export function PropertyForm<T extends PropertyPayloadType>({
     return (
       loading ||
       done ||
-      (data.propertyTypeId == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') &&
+      (data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') &&
         (!(data as TODO).houseNumber || !(data as TODO).propertyNumber)) ||
-      !(data as TODO).streetAddress ||
-      !(data as TODO).zipCode
+      !(data as TODO).street_name ||
+      !(data as TODO).zip_code
     );
   }, [
     loading,
     done,
-    data.propertyTypeId,
+    data.property_type_id,
     refs.propertyTypes,
     (data as TODO).propertyNumber,
-    (data as TODO).streetAddress,
-    (data as TODO).zipCode,
+    (data as TODO).street_name,
+    (data as TODO).zip_code,
   ]);
 
+  console.log(currentSlot);
   return (
     <form
       id={formId}
@@ -189,8 +187,8 @@ export function PropertyForm<T extends PropertyPayloadType>({
                         <DialogContent>
                           <DialogContentText>
                             Olet lisäämässä taloa osoitteessa{' '}
-                            {`${(data as PropertyPayloadType).streetAddress} ${
-                              (data as TODO).houseNumber || ''
+                            {`${(data as PropertyPayloadType).street_name} ${
+                              (data as TODO).street_number || ''
                             }`}
                             . Oletko varma?
                           </DialogContentText>

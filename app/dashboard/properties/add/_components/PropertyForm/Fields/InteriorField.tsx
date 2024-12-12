@@ -69,7 +69,7 @@ export function InteriorField() {
 
         <FormControl
           label={
-            data.propertyTypeId == propertyTypes.find(type => type.name === 'Huoneisto').id
+            data.property_type_id == propertyTypes.find(type => type.name === 'Huoneisto').id
               ? 'Kerrosnumero'
               : 'Kerrosten lukumäärä'
           }

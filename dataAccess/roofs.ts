@@ -9,6 +9,10 @@ class Roofs {
     return await ctx('roofs.types').select(db.raw('json_object_agg(name, id) as result'));
   }
 
+  async get(property_id: string, ctx: Knex | Knex.Transaction) {
+    return ctx('roofs.overview').where({ property_id }).select('roofTypeId', 'roofMaterialId');
+  }
+
   async create(property_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {
     return trx('roofs.overview')
       .insert({
