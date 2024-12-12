@@ -6,7 +6,7 @@ import { usePropertyFormContext } from '../../PropertyFormContext';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function TargetTypeField() {
-  const { property: data, refs, isNew } = usePropertyFormContext();
+  const { property: data, refs, isNew, updateData } = usePropertyFormContext();
   console.log('Adding new property: ' + isNew);
 
   return (
@@ -23,6 +23,7 @@ export function TargetTypeField() {
                 valueKey='id'
                 required
                 dataArray={refs.propertyTypes}
+                onChange={updateData}
               />
             }
           />

@@ -51,7 +51,7 @@ export default async function PropertyPage({ params }) {
           <div
             className='flex flex-col gap-10 w-full h-full'
             id='overview-box-information-container'>
-            <div className='flex flex-col'>
+            <div className='flex flex-col gap-4'>
               <div className='flex gap-4'>
                 <h1 className='md:text-xl xs:text-lg font-semibold'>{data.streetAddress}</h1>
                 <div className='flex'>

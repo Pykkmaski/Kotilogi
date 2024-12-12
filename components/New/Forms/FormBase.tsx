@@ -6,13 +6,11 @@ import { ContentBox } from '../Boxes/ContentBox';
 
 export function FormBase({ children, ...props }: React.ComponentProps<'form'>) {
   return (
-    <ContentBox>
-      <form
-        {...props}
-        className='flex flex-col gap-4'>
-        {children}
-      </form>
-    </ContentBox>
+    <form
+      {...props}
+      className='flex flex-col gap-4'>
+      {children}
+    </form>
   );
 }
 

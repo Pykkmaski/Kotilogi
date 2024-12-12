@@ -37,13 +37,13 @@ export type PropertyPayloadType = ObjectDataType &
     streetAddress: string;
     zipCode: string;
     energyClassId: number;
-    primaryHeatingSystemId: number;
-    secondaryHeatingSystemId: number;
     propertyTypeId: number;
     propertyTypeName: string;
     houseNumber: number;
     hasGarage: boolean;
     heating: HeatingPayloadType[];
+    yardArea: number;
+    yardOwnershipTypeId: number;
   };
 
 export type HousePayloadType = PropertyPayloadType & {

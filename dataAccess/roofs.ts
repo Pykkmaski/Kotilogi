@@ -10,15 +10,18 @@ class Roofs {
   }
 
   async create(property_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {
-    return trx('roofs.overview').insert({
-      ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
-      property_id,
-    });
+    return trx('roofs.overview')
+      .insert({
+        ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
+        property_id,
+      })
+      .onConflict('property_id')
+      .merge();
   }
 
-  async update(roof_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {
+  async update(property_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {
     return trx('roofs.overview')
-      .where({ id: roof_id })
+      .where({ property_id })
       .update({
         ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
       });

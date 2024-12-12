@@ -6,6 +6,7 @@ export function InteriorField() {
   const {
     property: data,
     refs: { propertyTypes },
+    updateData,
   } = usePropertyFormContext();
 
   return (
@@ -19,6 +20,7 @@ export function InteriorField() {
           }
           control={
             <Input
+              onChange={updateData}
               data-testid='living-area-input'
               name='living_area'
               placeholder='Anna kohteen sisätilojen pinta-ala...'
@@ -38,6 +40,7 @@ export function InteriorField() {
           }
           control={
             <Input
+              onChange={updateData}
               data-testid='other-area-input'
               name='other_area'
               placeholder='Anna muiden tilojen pinta-ala...'
@@ -52,6 +55,7 @@ export function InteriorField() {
           label='Huoneiden lukumäärä'
           control={
             <Input
+              onChange={updateData}
               data-testid='room-count-input'
               type='number'
               name='room_count'
@@ -71,6 +75,7 @@ export function InteriorField() {
           }
           control={
             <Input
+              onChange={updateData}
               data-testid='floor-count-input'
               name='floor_count'
               step='1'
@@ -86,6 +91,7 @@ export function InteriorField() {
           label={'Vessojen lukumäärä'}
           control={
             <Input
+              onChange={updateData}
               data-testid='wc-count-input'
               name='bathroom_count'
               placeholder='Anna vessojen lukumäärä'

@@ -20,5 +20,5 @@ export function useSaveToSessionStorage<T>(
       clearTimeout(t);
       sessionStorage.removeItem(key);
     };
-  });
+  }, [data, key, timeout, enabled]);
 }

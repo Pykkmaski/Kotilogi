@@ -18,6 +18,7 @@ import { insertViaFilter, updateViaFilter } from './utils/insertViaFilter';
 import { heating } from './heating';
 import { buildings } from './buildings';
 import { interiors } from './interiors';
+import { roofs } from './roofs';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -160,10 +161,10 @@ class Properties {
         );
       });
 
-      await Promise.all(heatingPromises);
-      await buildings.create(obj.id, data, trx);
-      await interiors.create(obj.id, data, trx);
-      //TODO: save roof data.
+      const buildingPromise = buildings.create(obj.id, data, trx);
+      const interiorPromise = interiors.create(obj.id, data, trx);
+      const roofPromise = roofs.create(obj.id, data, trx);
+      await Promise.all([...heatingPromises, buildingPromise, interiorPromise, roofPromise]);
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.propertyTypeId, trx)
@@ -202,21 +203,31 @@ class Properties {
     const session = await verifySession();
     await this.verifyPropertyOwnership(session, id);
 
-    return objects.update(id, payload, async trx => {
+    await objects.update(id, payload, async trx => {
       const propertyUpdateObject = filterValidColumns(
         payload,
         await getTableColumns('overview', trx, 'property')
       );
 
       //Update base property
-      await trx('property.overview')
+      const overviewPromise = trx('property.overview')
         .where({ id })
         .update({
           ...propertyUpdateObject,
         });
 
-      await buildings.update(id, payload, trx);
-      await interiors.update(id, payload, trx);
+      const buildingPromise = buildings.update(id, payload, trx);
+      const interiorPromise = interiors.update(id, payload, trx);
+      const heatingPromises = payload.heating?.map(hd => heating.update(hd.id, hd, trx));
+
+      const roofPromise = roofs.create(id, payload, trx);
+      await Promise.all([
+        overviewPromise,
+        buildingPromise,
+        interiorPromise,
+        roofPromise,
+        ...heatingPromises,
+      ]);
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(payload.propertyTypeId, trx)

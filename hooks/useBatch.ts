@@ -1,36 +1,52 @@
 import { useCallback, useId, useRef, useState } from 'react';
+import { useSaveToSessionStorage } from './useSaveToSessionStorage';
+
+function getInitialEntries<T>(initialEntries: T[], dataKey?: string) {
+  if (dataKey) {
+    const savedEntries = sessionStorage.getItem(dataKey);
+    if (savedEntries && savedEntries != 'undefined') {
+      return JSON.parse(savedEntries);
+    }
+  }
+
+  return initialEntries || [];
+}
 
 export type BatchEntryType<T> = {
-  id: string;
+  id: number;
   value: T;
 };
 
-export function useBatch<T>(initialEntries: T[] = []) {
-  /**Unique id for the batch. */
-  const batchId = useId();
-
+export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
   const nextId = useRef(0);
 
   /**Modifies an added item into a batch entry containing an id and the item. */
   const createEntry = useCallback(
     (item: T) => {
-      const id = `${batchId} ${nextId.current++}`;
+      const id = nextId.current++;
       const newEntry = {
         id,
         value: item,
       };
       return newEntry;
     },
-    [nextId.current, batchId]
+    [nextId.current]
   );
 
   const [entries, setEntries] = useState<BatchEntryType<T>[]>(() => {
     const batch: BatchEntryType<T>[] = [];
-    for (const entry of initialEntries) {
+    const ie = getInitialEntries(initialEntries, dataKey);
+    for (const entry of ie) {
       batch.push(createEntry(entry));
     }
     return batch;
   });
+
+  useSaveToSessionStorage(
+    dataKey,
+    entries.map(e => e.value),
+    { enabled: !!dataKey }
+  );
 
   /**Appends a new entry to the batch. */
   const addEntry = useCallback(
@@ -42,7 +58,7 @@ export function useBatch<T>(initialEntries: T[] = []) {
 
   /**Removes an entry from the batch. */
   const removeEntry = useCallback(
-    (id: string) => {
+    (id: number) => {
       //Flip the result, as we need to exclude elements that match the predicate.
       setEntries(entries.filter(item => item.id !== id));
     },
@@ -54,18 +70,33 @@ export function useBatch<T>(initialEntries: T[] = []) {
     (
       /**A function by which to search for the entry to be updated. */
       predicate: (item: BatchEntryType<T>) => boolean,
-
-      /**A function to update the entry with. */
-      updateFn: (valueToUpdate: BatchEntryType<T>) => void
+      updatedValue: T
     ) => {
-      const newEntries = [...entries];
-      const entry = newEntries.find(predicate);
-      if (entry) {
-        updateFn(entry);
-        setEntries(newEntries);
-      } else {
-        throw new Error('Predicate did not find an element to update!');
-      }
+      setEntries(prev => {
+        console.log('entries before update: ', prev);
+        const newEntries = prev.map(item => {
+          if (predicate(item)) {
+            const newValue =
+              typeof updatedValue == 'object'
+                ? {
+                    ...item.value,
+                    ...updatedValue,
+                  }
+                : updatedValue;
+
+            const updatedEntry = {
+              ...item,
+              value: newValue,
+            };
+
+            return updatedEntry;
+          }
+          return item;
+        });
+
+        console.log('New batch entries before updating: ', newEntries);
+        return newEntries;
+      });
     },
     [entries, setEntries]
   );

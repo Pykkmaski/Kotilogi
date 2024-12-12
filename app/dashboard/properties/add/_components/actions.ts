@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
+import { heating } from 'kotilogi-app/dataAccess/heating';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
@@ -106,4 +107,8 @@ export const fetchPropertyInfoAction = async (
 
 export const getSelectorOptions = async (tablename: string) => {
   return await db(tablename);
+};
+
+export const removeHeatingAction = async (heating_id: string) => {
+  await heating.del(heating_id, db);
 };

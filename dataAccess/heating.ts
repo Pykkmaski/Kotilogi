@@ -41,7 +41,15 @@ class Heating {
       return [];
     }
 
-    const heatingTypes = await this.getTypes(ctx);
+    const primaryHeatingPromise = ctx('heating.primary_heating')
+      .where({ property_id })
+      .pluck('heating_id');
+
+    const heatingTypesPromise = this.getTypes(ctx);
+    const [[primaryHeatingId], heatingTypes] = await Promise.all([
+      primaryHeatingPromise,
+      heatingTypesPromise,
+    ]);
     const payloads: HeatingPayloadType[] = [];
 
     for (const hd of heatingData) {
@@ -85,6 +93,7 @@ class Heating {
 
           payload = {
             ...hd,
+
             ...center,
             ...warm_water_reservoir,
           };
@@ -94,13 +103,16 @@ class Heating {
           payload = hd;
       }
 
-      payloads.push(payload);
+      payloads.push({
+        ...payload,
+        is_primary: primaryHeatingId == hd.id,
+      });
     }
 
     return payloads;
   }
 
-  async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction | Knex) {
+  async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
     //Save the main heating data.
     const [{ id: heating_id }] = await ctx('heating.data').insert(
       {
@@ -171,7 +183,7 @@ class Heating {
     await ctx('heating.data').where({ id }).del();
   }
 
-  async update(id: string, data: any, ctx: Knex.Transaction | Knex) {
+  async update(id: string, data: any, ctx: Knex.Transaction) {
     await this.del(id, ctx);
     await this.create(data, ctx);
   }

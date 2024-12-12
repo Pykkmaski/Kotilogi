@@ -12,13 +12,15 @@ const [CarouselProviderContext, useCarouselProviderContext] = createContextWithH
   stepBackward: () => void;
   showSlot: (slotName: string) => void;
   currentSlot: string;
+  onChange?: (currentSlot: string) => void;
 }>('CarouselProviderContext');
 
 type CarouselProviderProps = React.PropsWithChildren & {
   defaultSlot?: string;
+  onChange?: (currentSlot: string) => void;
 };
 /**Provides logic for creating carousels containing slots, which can be traversed sequentially, or by jumping to specific slots by key. */
-export function CarouselProvider({ children, defaultSlot }: CarouselProviderProps) {
+export function CarouselProvider({ children, defaultSlot, onChange }: CarouselProviderProps) {
   const childArray = useMemo(
     () => React.Children.toArray(children) as React.ReactElement[],
     [children]
@@ -84,9 +86,9 @@ export function CarouselProvider({ children, defaultSlot }: CarouselProviderProp
   }, [slots, currentSlot, setCurrentSlot]);
 
   const showSlot = (slotName: string) => {
-    console.log('selecting slot', slotName);
     setCurrentSlot(slotName);
     setInitialSlot(slotName);
+    onChange(slotName);
   };
 
   return (

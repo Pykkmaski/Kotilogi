@@ -15,10 +15,13 @@ class Interiors {
     payload: Partial<InteriorDataType>,
     ctx: Knex.Transaction | Knex
   ) {
-    return ctx('property.interior').insert({
-      ...filterValidColumns(payload, await getTableColumns('interior', ctx, 'property')),
-      property_id,
-    });
+    return ctx('property.interior')
+      .insert({
+        ...filterValidColumns(payload, await getTableColumns('interior', ctx, 'property')),
+        property_id,
+      })
+      .onConflict('property_id')
+      .merge();
   }
 
   async update(

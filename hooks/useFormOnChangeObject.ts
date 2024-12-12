@@ -5,13 +5,12 @@ import { useSaveToSessionStorage } from './useSaveToSessionStorage';
 function initData(initialData?: TODO, dataKey?: string) {
   if (dataKey) {
     const savedData = sessionStorage.getItem(dataKey);
-    console.log('property data gotten from session storage: ', savedData, typeof savedData);
     if (savedData && savedData != 'undefined') {
       return JSON.parse(savedData);
     }
   }
 
-  return initialData || {};
+  return initialData || null;
 }
 
 /**Provides a data-object, and an update function to be used as the onChange-method of forms.
@@ -22,7 +21,7 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
   const [data, setData] = useState(initData(initialData, dataKey));
 
   useSaveToSessionStorage(dataKey, data, {
-    enabled: true,
+    enabled: dataKey != undefined,
   });
 
   const { hasChanges, markAsChanged } = useHasChanges();
@@ -42,6 +41,7 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
           return { [e.target.name]: value };
         }
       });
+
       markAsChanged();
     },
     [setData, markAsChanged, data]

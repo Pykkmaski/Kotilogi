@@ -20,25 +20,22 @@ class Objects {
   async create<T extends ObjectDataType>(
     data: Partial<T>,
     callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>,
-    trx?: Knex.Transaction
+    ctx?: Knex.Transaction
   ) {
     try {
-      const transaction = trx || (await db.transaction());
+      const trx = ctx || (await db.transaction());
       const session = await verifySession();
-      const dataToInsert = filterValidColumns(
-        data,
-        await getTableColumns('data', transaction, 'objects')
-      );
-      const [obj] = (await transaction('objects.data').insert(
+      const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
+      const [obj] = (await trx('objects.data').insert(
         { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
         '*'
       )) as [ObjectDataType];
 
-      await callback(obj, transaction);
+      await callback(obj, trx);
 
-      if (!trx) {
+      if (!ctx) {
         //Commit the transaction here if none was provided from the outside.
-        await transaction.commit();
+        await trx.commit();
       }
     } catch (err: any) {
       throw err;
@@ -50,20 +47,20 @@ class Objects {
     objectId: string,
     data: Partial<T>,
     callback: (trx: Knex.Transaction) => Promise<void>,
-    trx?: Knex.Transaction
+    ctx?: Knex.Transaction
   ) {
     try {
-      const transaction = trx || (await db.transaction());
-      const validColumns = await getTableColumns('data', transaction, 'objects');
-      await transaction('objects.data')
+      const trx = ctx || (await db.transaction());
+      const validColumns = await getTableColumns('data', trx, 'objects');
+      await trx('objects.data')
         .where({ id: objectId })
         .update({
           ...filterValidColumns(data, validColumns),
         });
-      await callback(transaction);
-      if (!trx) {
+      await callback(trx);
+      if (!ctx) {
         console.log('Committing object update...');
-        await transaction.commit();
+        await trx.commit();
       }
     } catch (err: any) {
       throw err;
@@ -74,14 +71,14 @@ class Objects {
   async del(
     id: string,
     callback?: (trx: Knex.Transaction) => Promise<void>,
-    trx?: Knex.Transaction
+    ctx?: Knex.Transaction
   ) {
     try {
-      const transaction = trx || (await db.transaction());
-      await transaction('objects.data').where({ id }).del();
-      callback && (await callback(transaction));
-      if (!trx) {
-        await transaction.commit();
+      const trx = ctx || (await db.transaction());
+      await trx('objects.data').where({ id }).del();
+      callback && (await callback(trx));
+      if (!ctx) {
+        await trx.commit();
       }
     } catch (err) {
       console.error(err.message);

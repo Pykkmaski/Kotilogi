@@ -16,10 +16,13 @@ export class Buildings {
     ctx: Knex.Transaction | Knex
   ) {
     /**TODO: Each property logically can have multiple buildings. Modify the building data table to have its own id, and return that here once created. */
-    return ctx('buildings.data').insert({
-      ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
-      property_id,
-    });
+    return ctx('buildings.data')
+      .insert({
+        ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
+        property_id,
+      })
+      .onConflict('property_id')
+      .merge();
   }
 
   async update(

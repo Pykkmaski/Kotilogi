@@ -21,6 +21,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
     refs,
 
     updatePropertyInfo,
+    updateData,
     isValid,
   } = usePropertyFormContext();
 
@@ -71,6 +72,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             required
             control={
               <Input
+                onChange={updateData}
                 data-testid='property-number-input'
                 icon={
                   <RenderOnCondition
@@ -104,6 +106,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
               placeholder={getAddressDescription()}
               defaultValue={data && data.streetAddress}
               value={data && data.streetAddress}
+              onChange={updateData}
             />
           }
         />
@@ -114,6 +117,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
           helper={<SubLabel>Postinumero täytetään kiinteistötunnuksen perusteella</SubLabel>}
           control={
             <Input
+              onChange={updateData}
               disabled={isHouse}
               defaultValue={(data && data.zipCode) || null}
               value={data.zipCode}
@@ -129,6 +133,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             required
             control={
               <Input
+                onChange={updateData}
                 data-testid='house-number-input'
                 name='houseNumber'
                 value={data && data.houseNumber}
@@ -146,6 +151,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
           label='Rakennusvuosi'
           control={
             <Input
+              onChange={updateData}
               name='build_year'
               type='number'
               defaultValue={data && data.build_year}
@@ -161,6 +167,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
             required
             control={
               <Input
+                onChange={updateData}
                 defaultValue={data && (data as AppartmentPayloadType).houseNumber}
                 data-testid='appartment-number-input'
                 type='number'
@@ -177,6 +184,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
           label='Kuvaus'
           control={
             <Input
+              onChange={updateData}
               data-testid='description-input'
               variant='textarea'
               spellCheck={false}
@@ -191,6 +199,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
           label='Rakennuksen tyyppi'
           control={
             <ChipRadioGroup
+              onChange={updateData}
               name='building_type_id'
               dataArray={refs.buildingTypes}
               labelKey='name'
@@ -204,6 +213,7 @@ export function GeneralField({ hidePropertyIdentifier }) {
           label='Energialuokka'
           control={
             <ChipRadioGroup
+              onChange={updateData}
               name='energyClassId'
               dataArray={refs.energyClasses}
               labelKey='name'

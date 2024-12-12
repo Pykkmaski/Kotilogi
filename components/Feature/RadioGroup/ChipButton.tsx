@@ -19,7 +19,7 @@ export function ChipButton({ label, type = 'radio', ...props }: ChipButtonProps)
 
   const baseChipStyling = {
     color: checked && 'white',
-    backgroundColor: checked && colors.secondary,
+    backgroundColor: checked ? colors.secondary : 'white',
   };
 
   return (

@@ -6,7 +6,7 @@ import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function ExteriorField() {
-  const { property, refs } = usePropertyFormContext();
+  const { property, refs, updateData } = usePropertyFormContext();
 
   return (
     <BoxFieldset legend='Ulkopuoli'>
@@ -15,6 +15,7 @@ export function ExteriorField() {
           label='Rakennusmateriaali'
           control={
             <ChipRadioGroup
+              onChange={updateData}
               name='building_material_id'
               dataArray={refs.buildingMaterials}
               labelKey='name'
@@ -28,6 +29,7 @@ export function ExteriorField() {
           label='Julkisivun väri'
           control={
             <ChipRadioGroup
+              onChange={updateData}
               name='color_id'
               dataArray={refs.mainColors}
               labelKey='name'
@@ -41,6 +43,7 @@ export function ExteriorField() {
           label='Katon tyyppi'
           control={
             <ChipRadioGroup
+              onChange={updateData}
               name='roofTypeId'
               dataArray={refs.roofTypes}
               labelKey='name'
@@ -54,6 +57,7 @@ export function ExteriorField() {
           label='Katon materiaali'
           control={
             <ChipRadioGroup
+              onChange={updateData}
               name='roofMaterialId'
               dataArray={refs.roofMaterials}
               labelKey='name'

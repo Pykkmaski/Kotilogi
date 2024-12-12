@@ -15,9 +15,11 @@ export default async function DeletePropertyPage({ params, searchParams }) {
 
   return (
     <main className='flex justify-center'>
-      {(allowed && <DeletePropertyForm property={property} />) || (
-        <span>Sinulla ei ole talon poisto-oikeutta!</span>
-      )}
+      <div className='flex lg:w-[70%] xs:w-full'>
+        {(allowed && <DeletePropertyForm property={property} />) || (
+          <span>Sinulla ei ole talon poisto-oikeutta!</span>
+        )}
+      </div>
     </main>
   );
 }

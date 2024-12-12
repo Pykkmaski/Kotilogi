@@ -6,7 +6,7 @@ import { usePropertyFormContext } from '../../PropertyFormContext';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 
 export function YardField() {
-  const { property: data, refs } = usePropertyFormContext() as TODO;
+  const { property: data, refs, updateData } = usePropertyFormContext() as TODO;
 
   return data.propertyTypeId == refs.propertyTypes.find(type => type.name === 'Kiinteistö').id ? (
     <BoxFieldset legend='Tontti'>
@@ -20,6 +20,7 @@ export function YardField() {
               labelKey='name'
               currentValue={data.yardOwnershipTypeId}
               dataArray={refs.yardOwnershipTypes}
+              onChange={updateData}
             />
           }
         />
@@ -39,6 +40,7 @@ export function YardField() {
               min={0.1}
               placeholder='Anna tontin pinta-ala...'
               defaultValue={data.yardArea}
+              onChange={updateData}
             />
           </Group>
         ) : null}

@@ -45,10 +45,11 @@ export function usePropertyForm(
     entries: heatingBatch,
     data: currentHeating,
     updateData: updateHeatingData,
-    addEntry: addHeating,
+    addEntry: addHeatingEntry,
     updateEntry: updateHeatingEntry,
     removeEntry: removeHeating,
-  } = useBatchForm<TODO>(property?.heating);
+    resetData: resetCurrentHeating,
+  } = useBatchForm<TODO>(property?.heating, 'kotidok-property-heating');
 
   const isNew = property == undefined;
 
@@ -92,24 +93,28 @@ export function usePropertyForm(
     const timeout = setTimeout(async () => {
       const loadingToast = toast.loading('Päivitetään tietoja...');
 
-      await updatePropertyAction(property.id, data as PropertyPayloadType)
+      await updatePropertyAction(property.id, {
+        ...data,
+        heating: heatingBatch.map(hb => hb.value),
+      } as PropertyPayloadType)
         .catch(err => toast.error(err.message))
         .finally(() => toast.dismiss(loadingToast));
     }, 900);
 
     return () => clearTimeout(timeout);
-  }, [data]);
+  }, [data, heatingBatch]);
 
-  useSaveToSessionStorage('kotidok-property-data', property);
+  //useSaveToSessionStorage('kotidok-property-data', property);
 
   return {
     data,
     heatingBatch,
     currentHeating,
-    addHeating,
+    addHeatingEntry,
     removeHeating,
     updateHeatingData,
     updateHeatingEntry,
+    resetCurrentHeating,
     status,
     isValid,
     isNew,

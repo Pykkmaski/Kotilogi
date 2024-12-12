@@ -8,6 +8,7 @@ export function OtherInfoField() {
   const {
     property: data,
     refs: { propertyTypes },
+    updateData,
   } = usePropertyFormContext() as TODO;
 
   return (
@@ -20,6 +21,7 @@ export function OtherInfoField() {
               data-testid='garage-checkbox'
               name='hasGarage'
               defaultChecked={data.hasGarage}
+              onChange={updateData}
             />
           }
         />
@@ -31,6 +33,7 @@ export function OtherInfoField() {
                 data-testid='balcony-checkbox'
                 name='hasBalcony'
                 defaultChecked={data.hasBalcony}
+                onChange={updateData}
               />
             }
           />

@@ -24,12 +24,13 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { VPDialog } from '@/components/UI/VPDialog';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { DropDown } from '@/components/UI/DropDown';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
 import { PropertyOverview } from './PropertyOverview';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 type PropertyFormProps<T extends PropertyPayloadType> = React.PropsWithChildren & {
   property?: T;
@@ -43,10 +44,16 @@ export function PropertyForm<T extends PropertyPayloadType>({
   const propertyFormProps = usePropertyForm(property as TODO, refs);
 
   const { status, data, onSubmit, updateData, isNew, router } = propertyFormProps;
+  const currentSlot = useSearchParams().get('t') || 'general';
+  const pathname = usePathname();
 
   const formId = 'submit-property-form';
   const loading = status === 'loading';
   const done = status === 'done';
+
+  const updateSlot = (slotName: string) => {
+    router.replace(`${pathname}?t=${slotName}`);
+  };
 
   const submitDisabled = useMemo(() => {
     return (
@@ -71,7 +78,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
     <form
       id={formId}
       onSubmit={onSubmit}
-      onChange={updateData}
       className='flex flex-col gap-4'>
       <PropertyFormContext.Provider
         value={{
@@ -79,7 +85,9 @@ export function PropertyForm<T extends PropertyPayloadType>({
           property: data,
           refs,
         }}>
-        <CarouselProvider defaultSlot='general'>
+        <CarouselProvider
+          defaultSlot={currentSlot}
+          onChange={updateSlot}>
           <div className='flex justify-between'>
             <div className='items-center gap-4 lg:flex xs:hidden'>
               <CarouselProvider.SelectSlotTrigger slotToSelect='general'>
