@@ -59,10 +59,7 @@ export async function PropertyOverview({
     .where({ parentId: property.id })
     .count('*', { as: 'numEvents' });
 
-  const title =
-    property.streetAddress +
-    ' ' +
-    (('appartmentNumber' in property && property.appartmentNumber) || '');
+  const title = property.street_name + ' ' + property.street_number;
 
   if (!buildingData) {
     throw new Error(`

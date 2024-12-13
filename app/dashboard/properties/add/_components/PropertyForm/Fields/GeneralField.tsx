@@ -5,22 +5,26 @@ import { FormControl, Input, SubLabel } from '@/components/UI/FormUtils';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 
 import { usePropertyFormContext } from '../../PropertyFormContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchPropertyInfoAction } from 'kotilogi-app/app/dashboard/properties/add/_components/actions';
 import { isPropertyIdentifier } from 'kotilogi-app/utils/isPropertyIdentifier';
 import { Check, Clear } from '@mui/icons-material';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import toast from 'react-hot-toast';
+import Spinner from '@/components/UI/Spinner';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
     property: data,
     refs,
 
-    updatePropertyInfo,
     updateData,
     isValid,
+    propertyIdentifierStatus,
+    setPropertyIdentifierStatus,
+    resetData,
   } = usePropertyFormContext();
 
   useEffect(() => {
@@ -32,18 +36,29 @@ export function GeneralField({ hidePropertyIdentifier }) {
       const isValidPattern = isPropertyIdentifier((data as HousePayloadType).propertyNumber);
 
       if (isValidPattern) {
-        fetchPropertyInfoAction((data as any).propertyNumber).then(result => {
-          updatePropertyInfo(result, result !== null);
-        });
+        setPropertyIdentifierStatus('loading');
+        fetchPropertyInfoAction((data as any).propertyNumber)
+          .then(result => {
+            if (!result) {
+              toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
+              setPropertyIdentifierStatus('invalid');
+            } else {
+              resetData({
+                ...data,
+                ...(result as TODO),
+              });
+              setPropertyIdentifierStatus('valid');
+            }
+          })
+          .finally(() => setPropertyIdentifierStatus(prev => (prev === 'loading' ? 'none' : prev)));
       } else {
-        //Reset the previous streetAddress and zipCode values.
-        updatePropertyInfo(
-          {
-            street_name: '',
-            zipCode: '',
-          },
-          false
-        );
+        //Reset the previous street_name and zip_code values on an invalid pattern.
+        resetData({
+          ...(data as AppartmentPayloadType | HousePayloadType),
+          street_name: '',
+          zip_code: '',
+        });
+        setPropertyIdentifierStatus('none');
       }
     }, 1000);
 
@@ -73,16 +88,13 @@ export function GeneralField({ hidePropertyIdentifier }) {
                 onChange={updateData}
                 data-testid='property-number-input'
                 icon={
-                  <RenderOnCondition
-                    condition={
-                      (data as any).propertyNumber && (data as TODO).propertyNumber.length > 0
-                    }>
-                    <RenderOnCondition
-                      condition={isValid}
-                      fallback={<Clear sx={{ color: 'red' }} />}>
-                      <Check sx={{ color: 'lime' }} />
-                    </RenderOnCondition>
-                  </RenderOnCondition>
+                  propertyIdentifierStatus === 'loading' ? (
+                    <Spinner />
+                  ) : propertyIdentifierStatus === 'valid' ? (
+                    <Check sx={{ color: 'green' }} />
+                  ) : propertyIdentifierStatus === 'invalid' ? (
+                    <Clear sx={{ color: 'red' }} />
+                  ) : null
                 }
                 name='propertyNumber'
                 placeholder='Kirjoita kiinteistötunnus...'

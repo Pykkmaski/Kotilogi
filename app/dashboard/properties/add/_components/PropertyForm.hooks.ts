@@ -1,7 +1,5 @@
 import {
   AppartmentPayloadType,
-  BuildingDataType,
-  HeatingPayloadType,
   HousePayloadType,
   PropertyPayloadType,
 } from 'kotilogi-app/dataAccess/types';
@@ -14,8 +12,6 @@ import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useBatchForm } from '@/hooks/useBatchForm';
-import useLocalStorage from '@/hooks/useLocalStorage';
-import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 
 export function usePropertyForm(
   property: HousePayloadType | AppartmentPayloadType | undefined,
@@ -41,7 +37,11 @@ export function usePropertyForm(
 
   const isNew = property == undefined;
 
-  const [isValid, setIsValid] = useState(false);
+  const [propertyIdentifierStatus, setPropertyIdentifierStatus] = useState<
+    'none' | 'valid' | 'invalid' | 'loading'
+  >('none');
+
+  const isValid = propertyIdentifierStatus === 'valid';
 
   const prepareHeatingData = () => {
     return heatingBatch
@@ -67,22 +67,6 @@ export function usePropertyForm(
 
   const router = useRouter();
 
-  const updatePropertyInfo = useCallback(
-    (info: TODO, valid: boolean = false) => {
-      if (!info) {
-        toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
-      } else {
-        resetData({
-          ...data,
-          ...info,
-        });
-      }
-
-      setIsValid(valid);
-    },
-    [setIsValid, data]
-  );
-
   useEffect(() => {
     //Update the server-side data automatically if editing an existing property.
     if (!property || !hasChanges) return;
@@ -99,9 +83,7 @@ export function usePropertyForm(
     }, 900);
 
     return () => clearTimeout(timeout);
-  }, [data, JSON.stringify(heatingBatch)]);
-
-  //useSaveToSessionStorage('kotidok-property-data', property);
+  }, [data, heatingBatch]);
 
   return {
     data,
@@ -112,13 +94,14 @@ export function usePropertyForm(
     updateHeatingData,
     updateHeatingEntry,
     resetCurrentHeating,
+    setPropertyIdentifierStatus,
+    propertyIdentifierStatus,
     status,
     isValid,
     isNew,
     router,
     updateData,
     resetData,
-    updatePropertyInfo,
     onSubmit,
   };
 }
