@@ -39,7 +39,7 @@ export function usePropertyForm(
 
   const [propertyIdentifierStatus, setPropertyIdentifierStatus] = useState<
     'none' | 'valid' | 'invalid' | 'loading'
-  >('none');
+  >(() => (!isNew ? 'valid' : 'none'));
 
   const isValid = propertyIdentifierStatus === 'valid';
 
@@ -63,6 +63,7 @@ export function usePropertyForm(
       throw err;
     }
   });
+
   const onSubmit = usePreventDefault(method);
 
   const router = useRouter();

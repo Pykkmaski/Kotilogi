@@ -2,7 +2,9 @@ import 'server-only';
 import { Knex } from 'knex';
 import db from 'kotilogi-app/dbconfig';
 import { insertViaFilter } from './utils/insertViaFilter';
-import { HeatingPayloadType } from './types';
+import { HeatingCenterDataType, HeatingPayloadType } from './types';
+import { getTableColumns } from './utils/getTableColumns';
+import { filterValidColumns } from './utils/filterValidColumns';
 
 class Heating {
   private async getHeatingCenter(heating_id: string, ctx: Knex.Transaction | Knex) {
@@ -132,36 +134,19 @@ class Heating {
         .merge();
     }
 
-    //Save the peripherals.
-    const saveHeatingCenter = async () => {
-      await insertViaFilter(
-        {
-          ...data,
-          model: data.model,
-          brand: data.brand,
-          heating_id,
-        },
-        {
-          tablename: 'heating_center',
-          schema: 'heating',
-        },
-        ctx
-      );
-    };
-
     const heatingTypes = await this.getTypes(ctx);
     const heatingTypeId = parseInt(data.heating_type_id as any);
 
     switch (heatingTypeId) {
       case heatingTypes['Kaukolämpö']:
         {
-          await saveHeatingCenter();
+          await this.createHeatingCenter(heating_id, data, ctx);
         }
         break;
 
       case heatingTypes['Öljy']:
         {
-          await saveHeatingCenter();
+          await this.createHeatingCenter(heating_id, data, ctx);
           await ctx('heating.oil_vessel').insert({
             volume: data.volume,
             location: data.location,
@@ -171,6 +156,7 @@ class Heating {
         break;
 
       case heatingTypes['Sähkö']: {
+        await this.createHeatingCenter(heating_id, data, ctx);
         await ctx('heating.warm_water_reservoir').insert({
           volume: data.volume,
           heating_id,
@@ -183,7 +169,138 @@ class Heating {
     await ctx('heating.data').where({ id }).del();
   }
 
-  async update(id: string, data: any, ctx: Knex.Transaction) {
+  async updateHeatingCenter(
+    heating_id: string,
+    data: Partial<HeatingCenterDataType>,
+    ctx: Knex | Knex.Transaction
+  ) {
+    return ctx('heating.heating_center')
+      .where({ heating_id })
+      .update({
+        ...filterValidColumns(data, await getTableColumns('heating_center', ctx, 'heating')),
+      });
+  }
+
+  async createHeatingCenter(
+    heating_id: string,
+    data: Partial<HeatingCenterDataType>,
+    ctx: Knex | Knex.Transaction
+  ) {
+    await insertViaFilter(
+      {
+        ...data,
+        model: data.model,
+        brand: data.brand,
+        heating_id,
+      },
+      {
+        tablename: 'heating_center',
+        schema: 'heating',
+      },
+      ctx
+    );
+  }
+
+  async update(id: string, data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
+    const [oldHeating] = await ctx('heating.data').where({ id });
+    const heatingTypes = await this.getTypes(ctx);
+
+    const oldHeatingTypeId = parseInt(oldHeating.heating_type_id);
+    const newHeatingTypeId = data.heating_type_id ? parseInt(data.heating_type_id as any) : -1;
+
+    await ctx('heating.data')
+      .where({ id })
+      .update({
+        ...filterValidColumns(data, await getTableColumns('data', ctx, 'heating')),
+      });
+
+    //The heating type is still the same:
+    if (oldHeatingTypeId == newHeatingTypeId) {
+      switch (oldHeatingTypeId) {
+        case heatingTypes['Öljy']:
+          {
+            await this.updateHeatingCenter(id, data, ctx);
+
+            await ctx('heating.oil_vessel')
+              .where({ heating_id: id })
+              .update({
+                ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
+              });
+          }
+          break;
+
+        case heatingTypes['Kaukolämpö']:
+          {
+            await this.updateHeatingCenter(id, data, ctx);
+          }
+          break;
+
+        case heatingTypes['Sähkö']:
+          {
+            await this.updateHeatingCenter(id, data, ctx);
+            await ctx('heating.warm_water_reservoir')
+              .where({ heating_id: id })
+              .update({
+                ...filterValidColumns(
+                  data,
+                  await getTableColumns('warm_water_reservoir', ctx, 'heating')
+                ),
+              });
+          }
+          break;
+      }
+    } else {
+      const newHeatingHasHeatingCenter =
+        newHeatingTypeId == heatingTypes['Öljy'] ||
+        newHeatingTypeId == heatingTypes['Kaukolämpö'] ||
+        newHeatingTypeId == heatingTypes['Sähkö'];
+
+      if (!newHeatingHasHeatingCenter) {
+        //Delete any heating center if new heating does not have one.
+        await ctx('heating.heating_center').where({ heating_id: oldHeating.id }).del();
+      } else {
+        const [existingHeatingCenterId] = await ctx('heating.heating_center')
+          .where({ heating_id: oldHeating.id })
+          .pluck('heating_id');
+
+        if (existingHeatingCenterId) {
+          //Update an existing heating center
+          await this.updateHeatingCenter(existingHeatingCenterId, data, ctx);
+        } else {
+          //Otherwise create a new one
+          await this.createHeatingCenter(oldHeating.id, data, ctx);
+        }
+      }
+
+      if (oldHeatingTypeId == heatingTypes['Öljy']) {
+        await ctx('heating.oil_vessel').where({ heating_id: oldHeating.id }).del();
+      } else if (oldHeatingTypeId == heatingTypes['Sähkö']) {
+        await ctx('heating.warm_water_reservoir').where({ heating_id: oldHeating.id });
+      }
+
+      //Insert peripherals for the new heating type.
+      switch (newHeatingTypeId) {
+        case heatingTypes['Öljy']:
+          {
+            await ctx('heating.oil_vessel').insert({
+              ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
+            });
+          }
+          break;
+
+        case heatingTypes['Sähkö']:
+          {
+            await ctx('heating.warm_water_reservoir').insert({
+              ...filterValidColumns(
+                data,
+                await getTableColumns('warm_water_reservoir', ctx, 'heating')
+              ),
+            });
+          }
+          break;
+      }
+    }
+
     await this.del(id, ctx);
     await this.create(data, ctx);
   }
