@@ -19,13 +19,13 @@ export function OtherInfoField() {
           control={
             <Checkbox
               data-testid='garage-checkbox'
-              name='hasGarage'
-              defaultChecked={data.hasGarage}
+              name='has_garage'
+              defaultChecked={data.has_garage}
               onChange={updateData}
             />
           }
         />
-        <RenderOnCondition condition={data.propertyTypeId == propertyTypes['Huoneisto']}>
+        <RenderOnCondition condition={data.property_type_id == propertyTypes['Huoneisto']}>
           <CheckboxLabel
             label='Parveke'
             control={

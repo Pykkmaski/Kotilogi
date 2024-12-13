@@ -152,7 +152,7 @@ export function PropertyOverview() {
 
           <DataDisplay
             title='Autotalli'
-            value={(property.has_garage as any) == 'on' ? 'Kyllä' : 'Ei'}
+            value={(property.has_garage as any) == 'on' || property.has_garage ? 'Kyllä' : 'Ei'}
           />
         </div>
       </div>

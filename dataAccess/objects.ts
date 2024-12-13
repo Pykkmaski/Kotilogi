@@ -22,23 +22,20 @@ class Objects {
     callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>,
     ctx?: Knex.Transaction
   ) {
-    try {
-      const trx = ctx || (await db.transaction());
-      const session = await verifySession();
-      const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
-      const [obj] = (await trx('objects.data').insert(
-        { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
-        '*'
-      )) as [ObjectDataType];
+    const trx = ctx || (await db.transaction());
+    const session = await verifySession();
+    const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
+    const [obj] = (await trx('objects.data').insert(
+      { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
+      '*'
+    )) as [ObjectDataType];
 
-      await callback(obj, trx);
+    await callback(obj, trx);
 
-      if (typeof ctx == 'undefined') {
-        //Commit the transaction here if none was provided from the outside.
-        await trx.commit();
-      }
-    } catch (err: any) {
-      throw err;
+    if (typeof ctx == 'undefined') {
+      //Commit the transaction here if none was provided from the outside.
+      console.log('Committing object creation');
+      await trx.commit();
     }
   }
 
@@ -51,14 +48,19 @@ class Objects {
   ) {
     try {
       const trx = ctx || (await db.transaction());
+
       const validColumns = await getTableColumns('data', trx, 'objects');
+
       await trx('objects.data')
         .where({ id: objectId })
         .update({
           ...filterValidColumns(data, validColumns),
         });
+
       await callback(trx);
+
       if (typeof ctx == 'undefined') {
+        console.log('Committing object update...');
         await trx.commit();
       }
     } catch (err: any) {

@@ -8,7 +8,7 @@ import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 export function YardField() {
   const { property: data, refs, updateData } = usePropertyFormContext() as TODO;
 
-  return data.propertyTypeId == refs.propertyTypes.find(type => type.name === 'Kiinteistö').id ? (
+  return data.property_type_id == refs.propertyTypes.find(type => type.name === 'Kiinteistö').id ? (
     <BoxFieldset legend='Tontti'>
       <div className='flex flex-col gap-4 w-full'>
         <FormControl

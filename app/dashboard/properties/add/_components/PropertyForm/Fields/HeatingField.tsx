@@ -82,6 +82,8 @@ export function HeatingField() {
     };
   }, []);
 
+  console.log(heatingBatch);
+
   return (
     <BoxFieldset
       legend={
@@ -103,6 +105,7 @@ export function HeatingField() {
                 control={
                   <div className='flex gap-1'>
                     {heatingTypes.map((ht, index) => {
+                      console.log(hb.value.volume);
                       return (
                         <ChipButton
                           type='radio'
@@ -121,6 +124,30 @@ export function HeatingField() {
 
               {hb.value.heating_type_id == getIdByLabel(heatingTypes, 'Öljy', 'name') ? (
                 <>
+                  <FormControl
+                    label='Öljylämmityskeskuksen merkki'
+                    control={
+                      <Input
+                        value={hb.value.brand}
+                        name='brand'
+                        onChange={e => updateHeating(e, hb.id)}
+                        placeholder='Anna öljylämmityskeskuksen merkki...'
+                      />
+                    }
+                  />
+
+                  <FormControl
+                    label='Öljylämmityskeskuksen malli'
+                    control={
+                      <Input
+                        value={hb.value.model}
+                        name='model'
+                        onChange={e => updateHeating(e, hb.id)}
+                        placeholder='Anna öljylämmityskeskuksen malli...'
+                      />
+                    }
+                  />
+
                   <FormControl
                     label='Öljysäiliön sijainti'
                     control={
@@ -141,6 +168,32 @@ export function HeatingField() {
                         onChange={e => updateHeating(e, hb.id)}
                         type='number'
                         placeholder='Anna öljysäiliön tilavuus...'
+                      />
+                    }
+                  />
+                </>
+              ) : hb.value.heating_type_id == getIdByLabel(heatingTypes, 'Kaukolämpö', 'name') ? (
+                <>
+                  <FormControl
+                    label='Lämmönjakokeskuksen merkki'
+                    control={
+                      <Input
+                        value={hb.value.brand}
+                        name='brand'
+                        onChange={e => updateHeating(e, hb.id)}
+                        placeholder='Anna lämmönjakokeskuksen merkki...'
+                      />
+                    }
+                  />
+
+                  <FormControl
+                    label='Lämmönjakokeskuksen malli'
+                    control={
+                      <Input
+                        value={hb.value.model}
+                        name='model'
+                        onChange={e => updateHeating(e, hb.id)}
+                        placeholder='Anna lämmönjakokeskuksen malli...'
                       />
                     }
                   />

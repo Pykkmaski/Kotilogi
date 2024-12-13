@@ -53,11 +53,19 @@ export function usePropertyForm(
 
   const { method, status } = useStatusWithAsyncMethod(async () => {
     try {
-      await createPropertyAction({
-        ...data,
-        heating: prepareHeatingData(),
-      } as PropertyPayloadType);
-      toast.success('Talo luotu!');
+      if (isNew) {
+        await createPropertyAction({
+          ...data,
+          heating: prepareHeatingData(),
+        } as PropertyPayloadType);
+        toast.success('Talo luotu!');
+      } else {
+        await updatePropertyAction(property.id, {
+          ...data,
+          heating: prepareHeatingData(),
+        } as PropertyPayloadType);
+        toast.success('Talo päivitetty!');
+      }
     } catch (err) {
       toast.error(err.message);
       throw err;
@@ -67,24 +75,6 @@ export function usePropertyForm(
   const onSubmit = usePreventDefault(method);
 
   const router = useRouter();
-
-  useEffect(() => {
-    //Update the server-side data automatically if editing an existing property.
-    if (!property || !hasChanges) return;
-
-    const timeout = setTimeout(async () => {
-      const loadingToast = toast.loading('Päivitetään tietoja...');
-
-      await updatePropertyAction(property.id, {
-        ...data,
-        heating: prepareHeatingData(),
-      } as PropertyPayloadType)
-        .catch(err => toast.error(err.message))
-        .finally(() => toast.dismiss(loadingToast));
-    }, 900);
-
-    return () => clearTimeout(timeout);
-  }, [data, heatingBatch]);
 
   return {
     data,

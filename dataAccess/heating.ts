@@ -8,9 +8,7 @@ import { filterValidColumns } from './utils/filterValidColumns';
 
 class Heating {
   private async getHeatingCenter(heating_id: string, ctx: Knex.Transaction | Knex) {
-    return ctx('heating.heating_center')
-      .where({ heating_id })
-      .select('model as heating_center_model', 'brand as heating_center_brand');
+    return ctx('heating.heating_center').where({ heating_id }).select('model', 'brand');
   }
 
   /**Returns the primary heating system of a property. */
@@ -59,47 +57,55 @@ class Heating {
       let payload = null;
 
       switch (heating_type_id) {
-        case heatingTypes['Öljy']: {
-          const centerPromise = this.getHeatingCenter(hd.id, ctx);
-          const vesselPromise = ctx('heating.oil_vessel')
-            .where({ heating_id: hd.id })
-            .select('volume as vessel_volume', 'location as vessel_location');
+        case heatingTypes['Öljy']:
+          {
+            const centerPromise = this.getHeatingCenter(hd.id, ctx);
+            const vesselPromise = ctx('heating.oil_vessel')
+              .where({ heating_id: hd.id })
+              .select('volume', 'location');
 
-          const [[center], [vessel]] = await Promise.all([centerPromise, vesselPromise]);
+            const [[center], [vessel]] = await Promise.all([centerPromise, vesselPromise]);
 
-          payload = {
-            ...hd,
-            ...vessel,
-            ...center,
-          };
-        }
+            console.log('Vessel: ', vessel);
+            payload = {
+              ...hd,
+              ...vessel,
+              ...center,
+            };
 
-        case heatingTypes['Kaukolämpö']: {
-          const [center] = await this.getHeatingCenter(hd.id, ctx);
-          payload = {
-            ...hd,
-            ...center,
-          };
-        }
+            console.log(payload);
+          }
+          break;
 
-        case heatingTypes['Sähkö']: {
-          const centerPromise = this.getHeatingCenter(hd.id, ctx);
-          const reservoirPromise = ctx('heating.warm_water_reservoir')
-            .where({ heating_id: hd.id })
-            .select('volume as warm_water_reservoir_volume');
+        case heatingTypes['Kaukolämpö']:
+          {
+            const [center] = await this.getHeatingCenter(hd.id, ctx);
+            payload = {
+              ...hd,
+              ...center,
+            };
+          }
+          break;
 
-          const [[center], [warm_water_reservoir]] = await Promise.all([
-            centerPromise,
-            reservoirPromise,
-          ]);
+        case heatingTypes['Sähkö']:
+          {
+            const centerPromise = this.getHeatingCenter(hd.id, ctx);
+            const reservoirPromise = ctx('heating.warm_water_reservoir')
+              .where({ heating_id: hd.id })
+              .select('volume');
 
-          payload = {
-            ...hd,
+            const [[center], [warm_water_reservoir]] = await Promise.all([
+              centerPromise,
+              reservoirPromise,
+            ]);
 
-            ...center,
-            ...warm_water_reservoir,
-          };
-        }
+            payload = {
+              ...hd,
+              ...center,
+              ...warm_water_reservoir,
+            };
+          }
+          break;
 
         default:
           payload = hd;
@@ -109,6 +115,8 @@ class Heating {
         ...payload,
         is_primary: primaryHeatingId == hd.id,
       });
+
+      console.log(payloads);
     }
 
     return payloads;
@@ -178,6 +186,8 @@ class Heating {
       .where({ heating_id })
       .update({
         ...filterValidColumns(data, await getTableColumns('heating_center', ctx, 'heating')),
+        model: data.model,
+        brand: data.brand,
       });
   }
 
@@ -202,7 +212,20 @@ class Heating {
   }
 
   async update(id: string, data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
-    const [oldHeating] = await ctx('heating.data').where({ id });
+    let oldHeating;
+    try {
+      oldHeating = await ctx('heating.data').where({ id }).first();
+    } catch (err) {
+      const msg = err.message;
+      if (msg.includes('where "id" = ?')) {
+        console.log('hehehehehe: ', data);
+        await this.create(data, ctx);
+        return;
+      } else {
+        throw err;
+      }
+    }
+
     const heatingTypes = await this.getTypes(ctx);
 
     const oldHeatingTypeId = parseInt(oldHeating.heating_type_id);
@@ -212,6 +235,7 @@ class Heating {
       .where({ id })
       .update({
         ...filterValidColumns(data, await getTableColumns('data', ctx, 'heating')),
+        heating_type_id: data.heating_type_id,
       });
 
     //The heating type is still the same:
@@ -225,6 +249,8 @@ class Heating {
               .where({ heating_id: id })
               .update({
                 ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
+                volume: data.volume,
+                location: data.location,
               });
           }
           break;
@@ -245,6 +271,7 @@ class Heating {
                   data,
                   await getTableColumns('warm_water_reservoir', ctx, 'heating')
                 ),
+                volume: data.volume,
               });
           }
           break;

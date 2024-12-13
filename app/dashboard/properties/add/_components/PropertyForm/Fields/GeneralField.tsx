@@ -105,8 +105,8 @@ export function GeneralField({ hidePropertyIdentifier }) {
         )}
 
         <FormControl
-          label='Osoite'
-          helper={<SubLabel>Osoite täytetään kiinteistötunnuksen perusteella</SubLabel>}
+          label='Kadun nimi'
+          helper={<SubLabel>Kadun nimi täytetään kiinteistötunnuksen perusteella</SubLabel>}
           required
           control={
             <Input

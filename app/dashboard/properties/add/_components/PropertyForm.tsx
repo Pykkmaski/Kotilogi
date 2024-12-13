@@ -71,7 +71,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
     (data as TODO).zip_code,
   ]);
 
-  console.log(currentSlot);
   return (
     <form
       id={formId}
@@ -100,9 +99,12 @@ export function PropertyForm<T extends PropertyPayloadType>({
                 <TabButton>Sisäpuoli</TabButton>
               </CarouselProvider.SelectSlotTrigger>
 
-              <CarouselProvider.SelectSlotTrigger slotToSelect='yard'>
-                <TabButton>Tontti</TabButton>
-              </CarouselProvider.SelectSlotTrigger>
+              {data.property_type_id ==
+                refs.propertyTypes.find(t => t.name == 'Kiinteistö')?.id && (
+                <CarouselProvider.SelectSlotTrigger slotToSelect='yard'>
+                  <TabButton>Tontti</TabButton>
+                </CarouselProvider.SelectSlotTrigger>
+              )}
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
                 <TabButton>Lämmitys</TabButton>
@@ -143,9 +145,11 @@ export function PropertyForm<T extends PropertyPayloadType>({
             <InteriorField />
           </CarouselProvider.Slot>
 
-          <CarouselProvider.Slot slotName='yard'>
-            <YardField />
-          </CarouselProvider.Slot>
+          {data.property_type_id == refs.propertyTypes.find(t => t.name == 'Kiinteistö')?.id && (
+            <CarouselProvider.Slot slotName='yard'>
+              <YardField />
+            </CarouselProvider.Slot>
+          )}
 
           <CarouselProvider.Slot slotName='heating'>
             <HeatingField />
@@ -158,66 +162,65 @@ export function PropertyForm<T extends PropertyPayloadType>({
           <CarouselProvider.Slot slotName='draft'>
             <div className='flex flex-col gap-2'>
               <PropertyOverview />
-              <RenderOnCondition condition={!property}>
-                <div className='flex flex-row w-full items-center justify-end gap-4'>
-                  <Button
-                    color='secondary'
-                    onClick={e => router.back()}
-                    type='button'
-                    variant='text'
-                    disabled={loading || done}>
-                    Peruuta
-                  </Button>
 
-                  <ToggleProvider>
-                    <ToggleProvider.Trigger setAsAnchorForMUI>
-                      <Button
-                        color='secondary'
-                        type='button'
-                        variant='contained'
-                        disabled={false}
-                        startIcon={<Check />}>
-                        {property ? 'Päivitä' : 'Vahvista'}
-                      </Button>
-                    </ToggleProvider.Trigger>
+              <div className='flex flex-row w-full items-center justify-end gap-4'>
+                <Button
+                  color='secondary'
+                  onClick={e => router.back()}
+                  type='button'
+                  variant='text'
+                  disabled={loading || done}>
+                  Peruuta
+                </Button>
 
-                    <ToggleProvider.MUITarget>
-                      <VPDialog>
-                        <DialogTitle>Vahvista talo</DialogTitle>
-                        <DialogContent>
-                          <DialogContentText>
-                            Olet lisäämässä taloa osoitteessa{' '}
-                            {`${(data as PropertyPayloadType).street_name} ${
-                              (data as TODO).street_number || ''
-                            }`}
-                            . Oletko varma?
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <ToggleProvider.Trigger>
-                            <Button
-                              color='secondary'
-                              variant='text'
-                              type='button'>
-                              Peruuta
-                            </Button>
-                          </ToggleProvider.Trigger>
+                <ToggleProvider>
+                  <ToggleProvider.Trigger setAsAnchorForMUI>
+                    <Button
+                      color='secondary'
+                      type='button'
+                      variant='contained'
+                      disabled={false}
+                      startIcon={<Check />}>
+                      {property ? 'Päivitä' : 'Vahvista'}
+                    </Button>
+                  </ToggleProvider.Trigger>
 
+                  <ToggleProvider.MUITarget>
+                    <VPDialog>
+                      <DialogTitle>Vahvista talo</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Olet lisäämässä taloa osoitteessa{' '}
+                          {`${(data as PropertyPayloadType).street_name} ${
+                            (data as TODO).street_number || ''
+                          }`}
+                          . Oletko varma?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <ToggleProvider.Trigger>
                           <Button
-                            form={formId}
-                            type='submit'
-                            variant='contained'
                             color='secondary'
-                            disabled={loading || done}
-                            startIcon={<Check />}>
-                            {property ? 'Päivitä' : 'Vahvista'}
+                            variant='text'
+                            type='button'>
+                            Peruuta
                           </Button>
-                        </DialogActions>
-                      </VPDialog>
-                    </ToggleProvider.MUITarget>
-                  </ToggleProvider>
-                </div>
-              </RenderOnCondition>
+                        </ToggleProvider.Trigger>
+
+                        <Button
+                          form={formId}
+                          type='submit'
+                          variant='contained'
+                          color='secondary'
+                          disabled={loading || done}
+                          startIcon={<Check />}>
+                          {property ? 'Päivitä' : 'Vahvista'}
+                        </Button>
+                      </DialogActions>
+                    </VPDialog>
+                  </ToggleProvider.MUITarget>
+                </ToggleProvider>
+              </div>
             </div>
           </CarouselProvider.Slot>
         </CarouselProvider>
