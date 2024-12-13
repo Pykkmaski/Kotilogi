@@ -14,6 +14,7 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import toast from 'react-hot-toast';
 import Spinner from '@/components/UI/Spinner';
+import { Notification } from '@/components/UI/Notification';
 
 export function GeneralField({ hidePropertyIdentifier }) {
   const {
@@ -40,7 +41,6 @@ export function GeneralField({ hidePropertyIdentifier }) {
         fetchPropertyInfoAction((data as any).propertyNumber)
           .then(result => {
             if (!result) {
-              toast.error('Kiinteistötunnuksella ei löytynyt kohdetta!');
               setPropertyIdentifierStatus('invalid');
             } else {
               resetData({
@@ -83,6 +83,21 @@ export function GeneralField({ hidePropertyIdentifier }) {
           <FormControl
             label='Kiinteistötunnus'
             required
+            helper={
+              propertyIdentifierStatus == 'invalid' ? (
+                <Notification
+                  variant='error'
+                  position='start'>
+                  Kiinteistötunnus on virheellinen!
+                </Notification>
+              ) : propertyIdentifierStatus == 'valid' ? (
+                <Notification
+                  variant='success'
+                  position='start'>
+                  Kiinteistötunnus vahvistettu!
+                </Notification>
+              ) : null
+            }
             control={
               <Input
                 onChange={updateData}

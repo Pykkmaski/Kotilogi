@@ -26,20 +26,22 @@ export function TypeDataForm() {
   return (
     <>
       <BoxFieldset legend='Osastojen valinta'>
-        <FormControl
-          boldLabelText
-          required
-          label='Osasto'
-          control={<EventTypeSelector />}
-        />
+        <div className='flex flex-col gap-4'>
+          <FormControl
+            boldLabelText
+            required
+            label='Osasto'
+            control={<EventTypeSelector />}
+          />
 
-        <RenderOnCondition condition={isDefined(eventData.event_type_id)}>
-          <EventTargetSelector />
-        </RenderOnCondition>
+          <RenderOnCondition condition={isDefined(eventData.event_type_id)}>
+            <EventTargetSelector />
+          </RenderOnCondition>
 
-        <RenderOnCondition condition={showWorkTypeSelector()}>
-          <EventWorkSelector />
-        </RenderOnCondition>
+          <RenderOnCondition condition={showWorkTypeSelector()}>
+            <EventWorkSelector />
+          </RenderOnCondition>
+        </div>
       </BoxFieldset>
     </>
   );

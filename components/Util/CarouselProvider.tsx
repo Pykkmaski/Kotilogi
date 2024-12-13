@@ -26,6 +26,7 @@ type CarouselProviderProps = React.PropsWithChildren & {
   defaultSlot?: string;
   onChange?: (currentSlot: string) => void;
 };
+
 /**Provides logic for creating carousels containing slots, which can be traversed sequentially, or by jumping to specific slots by key. */
 export function CarouselProvider({ children, defaultSlot, onChange }: CarouselProviderProps) {
   const childArray = useMemo(
@@ -48,6 +49,7 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
     };
 
     findSlotChildren(children);
+    console.log('slotChildren: ', slotChildren);
     return slotChildren;
   };
 
@@ -60,7 +62,7 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
     const childWithDefaultSlotName = defaultSlot
       ? slotChildren.find(child => child.props.slotName === defaultSlot)
       : null;
-    console.log('Initial slot: ', initialSlot);
+
     return initialSlot || slots.at(0);
   });
 
@@ -71,11 +73,13 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
     return slotChildren.map(child => child.props.slotName);
   });
 
+  console.log(slots, currentSlot);
   const stepForward = useCallback(() => {
     const currentSlotIndex = slots.findIndex(slot => {
-      console.log(slot, currentSlot);
       return slot == currentSlot;
     });
+
+    console.log(currentSlotIndex);
 
     if (currentSlotIndex === -1) return;
     const nextSlotName = slots.at(currentSlotIndex + 1);
@@ -93,9 +97,10 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
   }, [slots, currentSlot, setCurrentSlot]);
 
   const showSlot = (slotName: string) => {
+    console.log('Selecting slot: ', slotName);
     setCurrentSlot(slotName);
     setInitialSlot(slotName);
-    onChange(slotName);
+    onChange && onChange(slotName);
   };
 
   return (
@@ -146,23 +151,23 @@ CarouselProvider.SelectSlotTrigger = function ({
   );
 };
 
-CarouselProvider.NextTrigger = function ({ children }) {
+CarouselProvider.NextTrigger = function ({ children, disabled = undefined }) {
   const { stepForward, currentSlot, slots } = useCarouselProviderContext();
   return (
     <PassProps
       onClick={() => stepForward()}
-      disabled={currentSlot == slots.at(-1)}>
+      disabled={disabled || currentSlot == slots.at(-1)}>
       {children}
     </PassProps>
   );
 };
 
-CarouselProvider.PreviousTrigger = function ({ children }) {
+CarouselProvider.PreviousTrigger = function ({ children, disabled = undefined }) {
   const { stepBackward, currentSlot, slots } = useCarouselProviderContext();
   return (
     <PassProps
       onClick={stepBackward}
-      disabled={currentSlot == slots.at(0)}>
+      disabled={disabled || currentSlot == slots.at(0)}>
       {children}
     </PassProps>
   );

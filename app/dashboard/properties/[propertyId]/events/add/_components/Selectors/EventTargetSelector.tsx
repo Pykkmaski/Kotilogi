@@ -10,7 +10,7 @@ export const EventTargetSelector = () => {
   const { eventData, updateEventData } = useEventFormContext();
 
   const { isLoading, data: targets } = useQuery({
-    queryKey: [`targets-${eventData.target_id}`],
+    queryKey: [`targets-${eventData.event_type_id}`],
     queryFn: async () => await getEventTargets(eventData.event_type_id),
   });
 

@@ -66,14 +66,11 @@ class Heating {
 
             const [[center], [vessel]] = await Promise.all([centerPromise, vesselPromise]);
 
-            console.log('Vessel: ', vessel);
             payload = {
               ...hd,
               ...vessel,
               ...center,
             };
-
-            console.log(payload);
           }
           break;
 
@@ -115,8 +112,6 @@ class Heating {
         ...payload,
         is_primary: primaryHeatingId == hd.id,
       });
-
-      console.log(payloads);
     }
 
     return payloads;
@@ -218,7 +213,6 @@ class Heating {
     } catch (err) {
       const msg = err.message;
       if (msg.includes('where "id" = ?')) {
-        console.log('hehehehehe: ', data);
         await this.create(data, ctx);
         return;
       } else {

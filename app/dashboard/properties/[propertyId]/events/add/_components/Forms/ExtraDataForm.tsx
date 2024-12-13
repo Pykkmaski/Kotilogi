@@ -47,7 +47,7 @@ export function ExtraDataForm({ editing }) {
       );
     }
 
-    return (content && <BoxFieldset legend='Tiedot'>{content}</BoxFieldset>) || null;
+    return (content && <>{content}</>) || null;
   };
 
   const displaySubmitButton = () => {

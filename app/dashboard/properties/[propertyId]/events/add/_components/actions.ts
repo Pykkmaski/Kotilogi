@@ -98,7 +98,7 @@ export const getEventTargets = async (mainEventTypeId: number) => {
 
     case event_types['Muu']:
     default:
-      return db('events.targets');
+      return await db('events.targets');
   }
 };
 

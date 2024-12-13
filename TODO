@@ -1,1 +1,7 @@
 - Update event addition to use tabs.
++ Prevent property submission if the property is invalid.
+- There is a Knex timeout error happening on the properties page. Might be recurring or not.
++ The next an previous buttons of a CarouselProvider don't work sometimes
+- Event targets are not updating correctly when choosing an event type.
+- Selecting drainage ditch in event targets causes the error:
+  data is undefined

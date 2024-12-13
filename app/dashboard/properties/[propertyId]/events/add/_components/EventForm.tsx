@@ -12,17 +12,21 @@ import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@mui/material';
+import { EventTypeSelector } from './Selectors/EventTypeSelector';
+import { BoxFieldset } from '@/components/UI/Fieldset';
+import { EventTargetSelector } from './Selectors/EventTargetSelector';
+import { Notification } from '@/components/UI/Notification';
 
 type EventFormProps = {
   propertyId: string;
-  eventData?: EventDataType & Required<Pick<EventDataType, 'id'>>;
+  initialEventData?: EventDataType & Required<Pick<EventDataType, 'id'>>;
   initialExtraData?: any;
 };
 
-export function EventForm({ propertyId, eventData, initialExtraData }: EventFormProps) {
-  const eventFormProps = useEventForm(propertyId, eventData, initialExtraData);
-  const { editing, showMainDataForm, showExtraDataForm } = eventFormProps;
-  const tab = useSearchParams().get('t') || 'event_type';
+export function EventForm({ propertyId, initialEventData, initialExtraData }: EventFormProps) {
+  const eventFormProps = useEventForm(propertyId, initialEventData, initialExtraData);
+  const { eventData, editing, showMainDataForm, showExtraDataForm } = eventFormProps;
+  const tab = useSearchParams().get('t') || 'type';
 
   return (
     <EventFormProvider
@@ -33,8 +37,12 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
         <CarouselProvider defaultSlot={tab}>
           <div className='flex justify-between'>
             <div className='flex gap-4 items-center'>
-              <CarouselProvider.SelectSlotTrigger slotToSelect='event_type'>
+              <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
                 <TabButton>Tyyppi</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+
+              <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+                <TabButton>Kohde</TabButton>
               </CarouselProvider.SelectSlotTrigger>
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='data'>
@@ -61,18 +69,47 @@ export function EventForm({ propertyId, eventData, initialExtraData }: EventForm
             </div>
           </div>
 
-          <CarouselProvider.Slot slotName='event_type'>
-            <TypeDataForm />
+          <CarouselProvider.Slot slotName='type'>
+            <BoxFieldset legend='Valitse tapahtuman tyyppi'>
+              <EventTypeSelector />
+            </BoxFieldset>
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='target'>
+            <BoxFieldset legend='Tapahtuman kohde'>
+              {eventData.event_type_id ? (
+                <div className='flex flex-col gap-2'>
+                  <span>Valittu tapahtumatyyppi: {eventData.event_type_id}</span>
+                  <EventTargetSelector />
+                </div>
+              ) : (
+                <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
+                  <Notification variant='warning'>Valitse ensin tapahtuman tyyppi.</Notification>
+                </CarouselProvider.SelectSlotTrigger>
+              )}
+            </BoxFieldset>
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='data'>
-            <RenderOnCondition condition={showExtraDataForm()}>
-              <ExtraDataForm editing={eventData} />
-            </RenderOnCondition>
+            <BoxFieldset legend='Tiedot'>
+              <div className='flex flex-col gap-4 w-full'>
+                {eventData.target_id ? (
+                  <>
+                    <RenderOnCondition condition={showExtraDataForm()}>
+                      <ExtraDataForm editing={eventData} />
+                    </RenderOnCondition>
 
-            <RenderOnCondition condition={showMainDataForm()}>
-              <MainDataForm editing={eventData} />
-            </RenderOnCondition>
+                    <RenderOnCondition condition={showMainDataForm()}>
+                      <MainDataForm editing={eventData} />
+                    </RenderOnCondition>
+                  </>
+                ) : (
+                  <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+                    <Notification variant='warning'>Valitse ensin tapahtuman kohde.</Notification>
+                  </CarouselProvider.SelectSlotTrigger>
+                )}
+              </div>
+            </BoxFieldset>
           </CarouselProvider.Slot>
         </CarouselProvider>
       </div>

@@ -1,12 +1,13 @@
 'use client';
 
-import { Check } from '@mui/icons-material';
+import { Check, Menu } from '@mui/icons-material';
 import {
   Button,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
 } from '@mui/material';
 import { ExteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/ExteriorField';
 import { GeneralField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/GeneralField';
@@ -28,6 +29,20 @@ import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
 import { PropertyOverview } from './PropertyOverview';
 import { usePathname, useSearchParams } from 'next/navigation';
+import Spinner from '@/components/UI/Spinner';
+import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
+
+function GotoDraft({ updateSlot }) {
+  return (
+    <div
+      className='flex w-full justify-end'
+      onClick={() => updateSlot('draft')}>
+      <CarouselProvider.SelectSlotTrigger slotToSelect='draft'>
+        <Button color='secondary'>Siirry vahvistamaan</Button>
+      </CarouselProvider.SelectSlotTrigger>
+    </div>
+  );
+}
 
 type PropertyFormProps<T extends PropertyPayloadType> = React.PropsWithChildren & {
   property?: T;
@@ -40,7 +55,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
 }: PropertyFormProps<T>) {
   const propertyFormProps = usePropertyForm(property as TODO, refs);
 
-  const { status, data, onSubmit, updateData, isNew, router } = propertyFormProps;
+  const { status, data, onSubmit, updateData, isNew, router, isValid } = propertyFormProps;
   const currentSlot = useSearchParams().get('t') || 'general';
   const pathname = usePathname();
 
@@ -119,13 +134,52 @@ export function PropertyForm<T extends PropertyPayloadType>({
               </CarouselProvider.SelectSlotTrigger>
             </div>
 
-            <div className='flex gap-1'>
+            <div className='lg:flex xs:hidden gap-1'>
               <CarouselProvider.PreviousTrigger>
                 <Button color='secondary'>Edellinen</Button>
               </CarouselProvider.PreviousTrigger>
               <CarouselProvider.NextTrigger>
                 <Button color='secondary'>Seuraava</Button>
               </CarouselProvider.NextTrigger>
+            </div>
+
+            <div className='xs:block lg:hidden'>
+              <MenuPrefab
+                trigger={
+                  <IconButton>
+                    <Menu />
+                  </IconButton>
+                }
+                target={
+                  <VPMenu>
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='general'>
+                      <span>Yleistiedot</span>
+                    </CarouselProvider.SelectSlotTrigger>
+
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='exterior'>
+                      <span>Ulkopuoli</span>
+                    </CarouselProvider.SelectSlotTrigger>
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
+                      <span>Sisäpuoli</span>
+                    </CarouselProvider.SelectSlotTrigger>
+                    {data.property_type_id ==
+                      getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') && (
+                      <CarouselProvider.SelectSlotTrigger slotToSelect='yard'>
+                        <span>Tontti</span>
+                      </CarouselProvider.SelectSlotTrigger>
+                    )}
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
+                      <span>Lämmitys</span>
+                    </CarouselProvider.SelectSlotTrigger>
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='other'>
+                      <span>Muut tiedot</span>
+                    </CarouselProvider.SelectSlotTrigger>
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='draft'>
+                      <span>Yhteenveto</span>
+                    </CarouselProvider.SelectSlotTrigger>
+                  </VPMenu>
+                }
+              />
             </div>
 
             <div className='lg:hidden xs:block'>
@@ -135,28 +189,34 @@ export function PropertyForm<T extends PropertyPayloadType>({
 
           <CarouselProvider.Slot slotName='general'>
             <GeneralField hidePropertyIdentifier={!isNew} />
+            <GotoDraft updateSlot={updateSlot} />
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='exterior'>
             <ExteriorField />
+            <GotoDraft updateSlot={updateSlot} />
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='interior'>
             <InteriorField />
+            <GotoDraft updateSlot={updateSlot} />
           </CarouselProvider.Slot>
 
           {data.property_type_id == refs.propertyTypes.find(t => t.name == 'Kiinteistö')?.id && (
             <CarouselProvider.Slot slotName='yard'>
               <YardField />
+              <GotoDraft updateSlot={updateSlot} />
             </CarouselProvider.Slot>
           )}
 
           <CarouselProvider.Slot slotName='heating'>
             <HeatingField />
+            <GotoDraft updateSlot={updateSlot} />
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='other'>
             <OtherInfoField />
+            <GotoDraft updateSlot={updateSlot} />
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='draft'>
@@ -173,53 +233,14 @@ export function PropertyForm<T extends PropertyPayloadType>({
                   Peruuta
                 </Button>
 
-                <ToggleProvider>
-                  <ToggleProvider.Trigger setAsAnchorForMUI>
-                    <Button
-                      color='secondary'
-                      type='button'
-                      variant='contained'
-                      disabled={false}
-                      startIcon={<Check />}>
-                      {property ? 'Päivitä' : 'Vahvista'}
-                    </Button>
-                  </ToggleProvider.Trigger>
-
-                  <ToggleProvider.MUITarget>
-                    <VPDialog>
-                      <DialogTitle>Vahvista talo</DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          Olet lisäämässä taloa osoitteessa{' '}
-                          {`${(data as PropertyPayloadType).street_name} ${
-                            (data as TODO).street_number || ''
-                          }`}
-                          . Oletko varma?
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        <ToggleProvider.Trigger>
-                          <Button
-                            color='secondary'
-                            variant='text'
-                            type='button'>
-                            Peruuta
-                          </Button>
-                        </ToggleProvider.Trigger>
-
-                        <Button
-                          form={formId}
-                          type='submit'
-                          variant='contained'
-                          color='secondary'
-                          disabled={loading || done}
-                          startIcon={<Check />}>
-                          {property ? 'Päivitä' : 'Vahvista'}
-                        </Button>
-                      </DialogActions>
-                    </VPDialog>
-                  </ToggleProvider.MUITarget>
-                </ToggleProvider>
+                <Button
+                  color='secondary'
+                  type='submit'
+                  variant='contained'
+                  disabled={!isValid || loading || done}
+                  startIcon={loading ? <Spinner /> : <Check />}>
+                  {property ? 'Päivitä' : 'Vahvista'}
+                </Button>
               </div>
             </div>
           </CarouselProvider.Slot>

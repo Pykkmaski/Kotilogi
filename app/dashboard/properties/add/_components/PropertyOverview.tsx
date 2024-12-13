@@ -4,16 +4,8 @@ import { BoxFieldset } from '@/components/UI/Fieldset';
 import { usePropertyFormContext } from './PropertyFormContext';
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { Check, Clear } from '@mui/icons-material';
-import { ToggleProvider } from '@/components/Util/ToggleProvider';
-import { Button } from '@/components/New/Button';
-import { VPDialog } from '@/components/UI/VPDialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContentText from '@mui/material/DialogContentText';
 import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
-import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Notification } from '@/components/UI/Notification';
 
 export function PropertyOverview() {
   const { property: prop, heatingBatch, refs, isValid } = usePropertyFormContext();
@@ -44,25 +36,19 @@ export function PropertyOverview() {
             value={property.street_number}
           />
 
-          <div className='flex gap-2 items-center text-slate-500'>
-            {isValid ? (
-              <>
-                <span>Kiinteistö on vahvistettu</span>
-                <Check
-                  sx={{ fontSize: '1rem' }}
-                  className='text-green-600'
-                />
-              </>
-            ) : (
-              <>
-                <span>Kiinteistö on virheellinen!</span>
-                <Clear
-                  sx={{ fontSize: '1rem' }}
-                  className='text-red-600'
-                />
-              </>
-            )}
-          </div>
+          {isValid ? (
+            <Notification
+              variant='success'
+              position='start'>
+              Kiinteistö on vahvistettu
+            </Notification>
+          ) : (
+            <Notification
+              variant='error'
+              position='start'>
+              Kiinteistötunnus on virheellinen!
+            </Notification>
+          )}
         </div>
 
         <div className='flex flex-col gap-2'>
@@ -137,15 +123,19 @@ export function PropertyOverview() {
         <div className='flex flex-col gap-2'>
           <h1>Lämmitys</h1>
 
-          {heatingBatch.map(hb => {
-            const ht = refs.heatingTypes.find(t => t.id == hb.value.heating_type_id)?.name;
-            return (
-              <DataDisplay
-                title={ht}
-                value={hb.value.is_primary ? <span>Ensisijainen</span> : ' '}
-              />
-            );
-          })}
+          {heatingBatch.length ? (
+            heatingBatch.map(hb => {
+              const ht = refs.heatingTypes.find(t => t.id == hb.value.heating_type_id)?.name;
+              return (
+                <DataDisplay
+                  title={ht}
+                  value={hb.value.is_primary ? <span>Ensisijainen</span> : ' '}
+                />
+              );
+            })
+          ) : (
+            <span className='font-semibold'>Ei lämmitysmuotoja.</span>
+          )}
         </div>
         <div className='flex flex-col gap-2'>
           <h1>Muut tiedot</h1>

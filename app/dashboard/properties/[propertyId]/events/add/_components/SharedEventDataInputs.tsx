@@ -44,7 +44,7 @@ const ExpensesField = () => {
   }, [eventData.material_expenses, eventData.labour_expenses]);
 
   return (
-    <BoxFieldset legend='Kulut'>
+    <>
       <FormControl
         boldLabelText
         label='Materiaalien osuus (€)'
@@ -65,7 +65,7 @@ const ExpensesField = () => {
           <span className='font-semibold'>{total}€</span>
         </Spacer>
       </div>
-    </BoxFieldset>
+    </>
   );
 };
 
@@ -93,7 +93,7 @@ const OtherField = () => {
   const { eventData } = useEventFormContext();
 
   return (
-    <BoxFieldset legend='Yleistiedot'>
+    <>
       <RenderOnCondition condition={eventData.service_work_type_id == -1}>
         <FormControl
           boldLabelText
@@ -125,7 +125,7 @@ const OtherField = () => {
           />
         }
       />
-    </BoxFieldset>
+    </>
   );
 };
 

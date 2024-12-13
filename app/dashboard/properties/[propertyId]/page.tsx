@@ -163,7 +163,7 @@ export default async function PropertyPage({ params }) {
         <div className='flex md:w-[50%] xs:w-full'>
           <BoxFieldset
             legend={
-              <div className='flex w-full gap-4 items-center'>
+              <div className='flex w-full gap-4 items-center xs:justify-between lg:justify-start'>
                 <span>Tapahtumat</span>
 
                 <div className='flex items-center'>
@@ -210,7 +210,7 @@ export default async function PropertyPage({ params }) {
         <div className='flex md:w-[50%] xs:w-full'>
           <BoxFieldset
             legend={
-              <div className='w-full flex items-center gap-4'>
+              <div className='w-full flex items-center gap-4 xs:justify-between lg:justify-start'>
                 <span>Kulutustiedot</span>
                 <div className='flex items-center'>
                   <Link href={`/dashboard/properties/${id}/utility`}>
@@ -245,7 +245,7 @@ export default async function PropertyPage({ params }) {
 
       <BoxFieldset
         legend={
-          <div className='w-full flex items-center gap-4'>
+          <div className='w-full flex items-center gap-4 xs:justify-between lg:justify-start'>
             <span>Tiedostot ja kuvat</span>
 
             <div className='flex items-center'>
