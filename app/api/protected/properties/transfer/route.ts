@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
         status: 400,
       });
     }
-    const [transferCode] = await trx('properties.transferCodes').where({ code: token });
+    const [transferCode] = await trx('property.transferCodes').where({ code: token });
     if (!transferCode) {
       return new NextResponse('Siirtopyyntöä ei ole!', { status: 404 });
     }
@@ -31,9 +31,9 @@ export async function GET(req: NextRequest) {
       userId: session.user.id,
     });
 
-    const [streetAddress] = await trx('properties.base')
+    const [streetAddress] = await trx('property.overview')
       .where({ id: transferCode.propertyId })
-      .pluck('streetAddress');
+      .pluck(db.raw(`street_name || ' ' || street_number as street_address`));
 
     await trx('properties.transferCodes').where({ code: token }).del();
     await trx.commit();

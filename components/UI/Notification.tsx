@@ -1,6 +1,6 @@
 'use client';
 
-import { Clear, Warning, Check } from '@mui/icons-material';
+import { Clear, Warning, Check, Info, InfoOutlined } from '@mui/icons-material';
 import { ReactNode, useMemo } from 'react';
 
 type NotificationProps = React.ComponentProps<'div'> & {
@@ -43,7 +43,7 @@ export function Notification({
     ].join(' ');
 
     const iconProps = {
-      sx: { fontSize: '1rem' },
+      sx: { fontSize: '1.2rem' },
       className: className,
     };
 
@@ -53,7 +53,9 @@ export function Notification({
       <Warning {...iconProps} />
     ) : variant == 'error' ? (
       <Clear {...iconProps} />
-    ) : null;
+    ) : (
+      <InfoOutlined {...iconProps} />
+    );
   }, [variant]);
 
   const content = useMemo(() => {

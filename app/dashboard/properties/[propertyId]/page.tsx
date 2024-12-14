@@ -1,10 +1,6 @@
 import { Main } from '@/components/New/Main';
-import { Add, Delete, Edit, Visibility } from '@mui/icons-material';
+import { Add, Edit, MoreVert, Visibility } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { UtilityPreview } from './_components/UtilityPreview';
-import { EventPreview } from './_components/EventPreview';
-import { FileOverview } from '@/components/New/Prefabs/FileOverview';
-import { PropertyOverview } from './_components/PropertyOverview';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { UtilityProvider } from './utility/UtilityContext';
@@ -12,18 +8,17 @@ import { properties } from 'kotilogi-app/dataAccess/properties';
 import { utilities } from 'kotilogi-app/dataAccess/utilities';
 import { files } from 'kotilogi-app/dataAccess/files';
 import { BoxFieldset } from '@/components/UI/Fieldset';
-import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { IconButton } from '@mui/material';
 import Link from 'next/link';
 import { events } from 'kotilogi-app/dataAccess/events';
 import { Card } from '@/components/UI/Card';
 import { UtilityLineChart } from './utility/UtilityLineChart';
-import { UtilityPieChart } from './utility/UtilityPieChart';
-import Image from 'next/image';
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { DialogPrefab } from '@/components/UI/VPDialog';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { heating } from 'kotilogi-app/dataAccess/heating';
+import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
+import { TransferDialogTrigger } from './_components/TransferDialogTrigger';
 
 export default async function PropertyPage({ params }) {
   const id = params.propertyId;
@@ -65,13 +60,19 @@ export default async function PropertyPage({ params }) {
                     </IconButton>
                   </Link>
 
-                  <Link href={`/dashboard/properties/${data.id}/delete`}>
-                    <IconButton
-                      size='small'
-                      title='Poista'>
-                      <Delete />
-                    </IconButton>
-                  </Link>
+                  <MenuPrefab
+                    trigger={
+                      <IconButton size='small'>
+                        <MoreVert />
+                      </IconButton>
+                    }
+                    target={
+                      <VPMenu>
+                        <Link href={`/dashboard/properties/${data.id}/report`}>Luo raportti</Link>
+                        <TransferDialogTrigger propertyId={data.id} />
+                        <Link href={`/dashboard/properties/${data.id}/delete`}>Poista</Link>
+                      </VPMenu>
+                    }></MenuPrefab>
                 </div>
               </div>
 

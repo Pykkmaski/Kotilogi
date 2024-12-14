@@ -25,15 +25,18 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, initialEventData, initialExtraData }: EventFormProps) {
   const eventFormProps = useEventForm(propertyId, initialEventData, initialExtraData);
-  const { eventData, editing, showMainDataForm, showExtraDataForm } = eventFormProps;
+  const { eventData, editing, showMainDataForm, showExtraDataForm, refs } = eventFormProps;
   const tab = useSearchParams().get('t') || 'type';
 
   return (
     <EventFormProvider
       {...eventFormProps}
+      editing={editing}
       propertyId={propertyId}>
       <div className='md:w-[70%] xs:w-full flex flex-col gap-4'>
-        <SecondaryHeading>{eventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}</SecondaryHeading>
+        <SecondaryHeading>
+          {initialEventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}
+        </SecondaryHeading>
         <CarouselProvider defaultSlot={tab}>
           <div className='flex justify-between'>
             <div className='flex gap-4 items-center'>
@@ -79,7 +82,14 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
             <BoxFieldset legend='Tapahtuman kohde'>
               {eventData.event_type_id ? (
                 <div className='flex flex-col gap-2'>
-                  <span>Valittu tapahtumatyyppi: {eventData.event_type_id}</span>
+                  <Notification
+                    variant='default'
+                    position='start'>
+                    Valittu tapahtumatyyppi:{' '}
+                    <span className='font-semibold'>
+                      {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
+                    </span>
+                  </Notification>
                   <EventTargetSelector />
                 </div>
               ) : (
@@ -93,6 +103,30 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
           <CarouselProvider.Slot slotName='data'>
             <BoxFieldset legend='Tiedot'>
               <div className='flex flex-col gap-4 w-full'>
+                <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
+                  <Notification
+                    variant='default'
+                    position='start'
+                    title='Muuta tapahtumatyyppiä...'>
+                    Valittu tapahtumatyyppi:{' '}
+                    <span className='font-semibold'>
+                      {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
+                    </span>
+                  </Notification>
+                </CarouselProvider.SelectSlotTrigger>
+
+                <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+                  <Notification
+                    variant='default'
+                    position='start'
+                    title='Muuta tapahtuman kohdetta...'>
+                    Valittu kohde:{' '}
+                    <span className='font-semibold'>
+                      {refs.eventTargets.find(t => t.id == eventData.target_id)?.label}
+                    </span>
+                  </Notification>
+                </CarouselProvider.SelectSlotTrigger>
+
                 {eventData.target_id ? (
                   <>
                     <RenderOnCondition condition={showExtraDataForm()}>
@@ -105,7 +139,11 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                   </>
                 ) : (
                   <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
-                    <Notification variant='warning'>Valitse ensin tapahtuman kohde.</Notification>
+                    <Notification
+                      variant='warning'
+                      position='start'>
+                      Valitse ensin tapahtuman kohde.
+                    </Notification>
                   </CarouselProvider.SelectSlotTrigger>
                 )}
               </div>

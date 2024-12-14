@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '@/components/UI/Spinner';
 import { TextEllipsis } from '@/components/UI/TextEllipsis';
 import { ErrorText, SuccessText } from '@/components/UI/Text';
+import { Notification } from '@/components/UI/Notification';
 
 export function TokenGenerationField({ propertyId }) {
   const { data: url, isLoading } = useQuery({
@@ -41,9 +42,17 @@ export function TokenGenerationField({ propertyId }) {
         </IconButton>
       </div>
       {status === 'copied' ? (
-        <SuccessText>Varmenne kopioitu leikepöydälle!</SuccessText>
+        <Notification
+          variant='success'
+          position='start'>
+          Varmenne kopioitu leikepöydälle!
+        </Notification>
       ) : status === 'error' ? (
-        <ErrorText>Varmenteen kopiointi epäonnistui!</ErrorText>
+        <Notification
+          variant='error'
+          position='start'>
+          Varmenteen kopiointi epäonnistui!
+        </Notification>
       ) : null}
     </div>
   );

@@ -19,13 +19,19 @@ export default async function ReportPage({ params }) {
     .pluck('imageId');
 
   const [heatingSystem] = await db('property.overview')
+    .join(
+      db.raw(
+        'heating.primary_heating on heating.primary_heating.property_id = property.overview.id'
+      )
+    )
+    .join(db.raw('heating.data on heating.data.property_id = property.overview.id'))
+    .join(db.raw('heating.types on heating.types.id = heating.data.heating_type_id'))
     .where({ 'property.overview.id': propertyId })
-    .join('heating.types', { 'heating.types.id': 'property.overview.primaryHeatingSystemId' })
     .pluck('heating.types.name');
 
   const [propertyType] = await db('property.overview')
     .join('property.propertyTypes', {
-      'property.propertyTypes.id': 'property.overview.propertyTypeId',
+      'property.propertyTypes.id': 'property.overview.property_type_id',
     })
     .where({ 'property.overview.id': propertyId })
     .pluck('property.propertyTypes.name');
@@ -37,14 +43,14 @@ export default async function ReportPage({ params }) {
     .where({ 'buildings.data.property_id': propertyId })
     .pluck('buildings.materials.name');
 
-  const [roofMaterial] = await db('roofs.materials')
-    .join('property.overview', { 'property.overview.roofMaterialId': 'roofs.materials.id' })
-    .where({ 'property.overview.id': propertyId })
+  const [roofMaterial] = await db('roofs.overview')
+    .join(db.raw('roofs.materials on roofs.materials.id = roofs.overview."roofMaterialId"'))
+    .where({ 'roofs.overview.property_id': propertyId })
     .pluck('roofs.materials.name');
 
-  const [roofType] = await db('roofs.types')
-    .join('property.overview', { 'property.overview.roofTypeId': 'roofs.types.id' })
-    .where({ 'property.overview.id': propertyId })
+  const [roofType] = await db('roofs.overview')
+    .join(db.raw('roofs.types on roofs.types.id = roofs.overview."roofTypeId"'))
+    .where({ 'roofs.overview.property_id': propertyId })
     .pluck('roofs.types.name');
 
   const [{ count: ownerCount }] = await db('data_propertyOwners')

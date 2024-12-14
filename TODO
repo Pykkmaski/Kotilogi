@@ -5,3 +5,6 @@
 - Event targets are not updating correctly when choosing an event type.
 - Selecting drainage ditch in event targets causes the error:
   data is undefined
+
+- At the data section of adding an event, display the chosen event type and target before the inputs.
+- Jumping straight to the draft tab after adding a heating, but not defining it, will not remove the heating.

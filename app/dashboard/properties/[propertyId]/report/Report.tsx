@@ -68,7 +68,7 @@ export function Report() {
       width={'100%'}
       height={'100%'}>
       <Document
-        title={`${content.property.streetAddress} Raportti`}
+        title={`${content.property.street_name + ' ' + content.property.street_number} Raportti`}
         pageLayout='oneColumn'
         pageMode='fullScreen'>
         <Page
@@ -118,10 +118,10 @@ export function Report() {
                 <View style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                   <Text style={{ fontSize: '16px' }}>
                     {(content.propertyType === 'Huoneisto' &&
-                      content.property.streetAddress + pr.appartmentNumber) ||
+                      content.property.street_name + pr.appartmentNumber) ||
                       (content.property as HousePayloadType).propertyNumber}
                   </Text>
-                  <Text>{content.property.zipCode}</Text>
+                  <Text>{content.property.zip_code}</Text>
                 </View>
 
                 <View
@@ -132,7 +132,7 @@ export function Report() {
                   <AttributeGroup>
                     <AttributeField
                       label='Rakennusvuosi'
-                      value={content.property.buildYear || 'Ei määritelty'}
+                      value={content.property.build_year || 'Ei määritelty'}
                     />
 
                     <AttributeField
@@ -161,7 +161,7 @@ export function Report() {
                       label='Asuintilojen pinta-ala'
                       value={
                         <>
-                          {pr.livingArea}
+                          {pr.living_area}
                           <Text style={{ fontSize: '8px' }}>m2</Text>
                         </>
                       }
@@ -171,7 +171,7 @@ export function Report() {
                       label='Muu pinta-ala'
                       value={
                         <>
-                          {pr.otherArea}
+                          {pr.other_area}
                           <Text style={{ fontSize: '8px' }}>m2</Text>
                         </>
                       }
@@ -181,20 +181,20 @@ export function Report() {
                       label='Kokonaispinta-ala'
                       value={
                         <>
-                          {pr.otherArea + pr.livingArea}
+                          {pr.other_area + pr.living_area}
                           <Text style={{ fontSize: '8px' }}>m2</Text>
                         </>
                       }
                     />
                     <AttributeField
                       label='Huoneiden lukumäärä'
-                      value={content.property.roomCount}
+                      value={content.property.room_count}
                     />
 
                     {(content.propertyType === 'Kiinteistö' && (
                       <AttributeField
                         label='Kerrosten lukumäärä'
-                        value={content.property.floorCount}
+                        value={content.property.floor_count}
                       />
                     )) || (
                       <AttributeField
@@ -218,59 +218,63 @@ export function Report() {
           </View>
           <View style={{ borderWidth: '1px', borderBottom: 'gray', opacity: 0.1, width: '100%' }} />
           <View style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '10px' }}>
-            {content.events.map(e => {
-              console.log(e.labourExpenses);
-              return (
-                <React.Fragment key={JSON.stringify(e)}>
-                  <View
-                    style={{
-                      fontSize: '12px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}>
-                    <View style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <Text style={{ fontWeight: 700 }}>{e.title}</Text>
-                      <Text style={{ fontSize: '10px' }}>{e.date.toLocaleDateString('fi')}</Text>
-                    </View>
-
+            {content.events.length ? (
+              content.events.map(e => {
+                console.log(e.labour_expenses);
+                return (
+                  <React.Fragment key={JSON.stringify(e)}>
                     <View
                       style={{
+                        fontSize: '12px',
                         display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        fontWeight: 400,
+                        flexDirection: 'column',
+                        gap: '12px',
                       }}>
+                      <View style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <Text style={{ fontWeight: 700 }}>{e.title}</Text>
+                        <Text style={{ fontSize: '10px' }}>{e.date.toLocaleDateString('fi')}</Text>
+                      </View>
+
                       <View
                         style={{
                           display: 'flex',
-                          flexDirection: 'column',
-                          gap: '4px',
-                          fontSize: '10px',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          width: '100%',
+                          fontWeight: 400,
                         }}>
-                        <Text style={{ color: 'gray', fontSize: '10px', fontWeight: 600 }}>
-                          Lisätiedot
-                        </Text>
-                        <Text>{e.description || 'Ei kuvausta.'}</Text>
-                      </View>
+                        <View
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '4px',
+                            fontSize: '10px',
+                          }}>
+                          <Text style={{ color: 'gray', fontSize: '10px', fontWeight: 600 }}>
+                            Lisätiedot
+                          </Text>
+                          <Text>{e.description || 'Ei kuvausta.'}</Text>
+                        </View>
 
-                      <View>
-                        <Text style={{ fontSize: '12px' }}>
-                          {(e.materialExpenses + e.labourExpenses).toLocaleString('fi')}€
-                        </Text>
+                        <View>
+                          <Text style={{ fontSize: '12px' }}>
+                            {(e.material_expenses + e.labour_expenses).toLocaleString('fi')}€
+                          </Text>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                  <View
-                    style={{
-                      borderBottom: '1px dashed gray',
-                      opacity: 0.1,
-                    }}
-                  />
-                </React.Fragment>
-              );
-            })}
+                    <View
+                      style={{
+                        borderBottom: '1px dashed gray',
+                        opacity: 0.1,
+                      }}
+                    />
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <Text>Kiinteistöllä ei ole tapahtumia.</Text>
+            )}
           </View>
         </Page>
       </Document>
