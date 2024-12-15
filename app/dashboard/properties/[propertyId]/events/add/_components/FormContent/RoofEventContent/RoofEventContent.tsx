@@ -8,12 +8,19 @@ import { RoofMaterialSelector } from './RoofMaterialSelector';
 import { RoofTypeSelector } from './RoofTypeSelector';
 import { RaystasSelector } from './RaystasSelector';
 import { AluskateSelector } from './AluskateSelector';
+import { useQuery } from '@tanstack/react-query/build/legacy';
+import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
 
 export const RoofEventContent = () => {
-  const { extraData } = useEventFormContext() as { extraData: Partial<RoofDataType> };
+  const { extraData, eventData } = useEventFormContext();
+
+  const { data: existingRoof, isLoading } = useQuery({
+    queryKey: [`roof-${eventData.property_id}`],
+    queryFn: async () => await getContent('roofs.overview', { property_id: eventData.property_id }),
+  });
 
   return (
-    <>
+    <div className='flex flex-col gap-4'>
       <RoofMaterialSelector />
       <RoofTypeSelector />
       <ColorSelector />
@@ -103,6 +110,6 @@ export const RoofEventContent = () => {
         name='syoksysarja'
         checked={extraData && extraData.syoksysarja}
       />
-    </>
+    </div>
   );
 };

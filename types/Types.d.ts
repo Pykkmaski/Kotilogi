@@ -114,6 +114,12 @@ namespace Kotidok {
     | 'propertyEvents'
     | 'usage'
     | 'files';
+
+  type SelectorProps = {
+    value: string | number;
+    onChange: (e: any) => void;
+    required?: boolean;
+  };
 }
 
 declare type TODO = any;

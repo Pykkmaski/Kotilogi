@@ -1,5 +1,6 @@
 import { useEventFormContext } from '../../EventFormContext';
 import { OptionSelector } from '@/components/Feature/OptionSelector';
+import { getEristeMateriaalit } from '../actions';
 
 export const MaterialSelector = () => {
   const { extraData } = useEventFormContext();
@@ -12,6 +13,7 @@ export const MaterialSelector = () => {
       tablename='insulation.materials'
       propertyName='materiaaliId'
       useContextValue={extraData}
+      fetchFn={getEristeMateriaalit}
     />
   );
 };

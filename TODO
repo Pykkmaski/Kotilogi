@@ -10,3 +10,4 @@
 - Jumping straight to the draft tab after adding a heating, but not defining it, will not remove the heating.
 + Specific event targets should be deleted if the user changes the event target.
 - Add roof information into its own tab in the property form.
+- Fetch existing components for a target when adding an event.

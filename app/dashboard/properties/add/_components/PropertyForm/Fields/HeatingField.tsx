@@ -102,6 +102,7 @@ export function HeatingField() {
 
           return (
             <div className={className}>
+              <h1 className='font-semibold'>Lämmitysmuoto {batchIndex + 1}</h1>
               <FormControl
                 label='Lämmitysjärjestelmän tyyppi'
                 control={

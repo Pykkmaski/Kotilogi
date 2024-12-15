@@ -16,6 +16,7 @@ export const KayttoVesiEventContent = () => {
       tablename='water_pipe.installation_method'
       propertyName='installation_method_id'
       useContextValue={extraData}
+      fetchFn={getKayttovesiAsennusTavat}
     />
   );
 };

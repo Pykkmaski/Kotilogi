@@ -18,6 +18,8 @@ import { EventTargetSelector } from './Selectors/EventTargetSelector';
 import { Notification } from '@/components/UI/Notification';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { WindowBatch } from './FormContent/WindowBatch/WindowBatch';
+import { RoofEventContent } from './FormContent/RoofEventContent/RoofEventContent';
+import { ViemariPutketEventContent } from './FormContent/ViemariPutketEventContent/ViemariPutketEventContent';
 
 type EventFormProps = {
   propertyId: string;
@@ -100,6 +102,10 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
 
                     {eventData.target_id == getIdByLabel(refs.eventTargets, 'Ikkunat') ? (
                       <WindowBatch />
+                    ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Katto') ? (
+                      <RoofEventContent />
+                    ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Viemäriputket') ? (
+                      <ViemariPutketEventContent />
                     ) : null}
                   </div>
                 ) : (

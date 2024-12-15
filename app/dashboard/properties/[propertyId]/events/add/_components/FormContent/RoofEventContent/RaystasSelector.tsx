@@ -1,5 +1,6 @@
 import { useEventFormContext } from '../../EventFormContext';
 import { OptionSelector } from '@/components/Feature/OptionSelector';
+import { getRaystastyypit } from '../actions';
 
 export const RaystasSelector = () => {
   const { extraData } = useEventFormContext();
@@ -10,8 +11,9 @@ export const RaystasSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='roofs.ref_raystastyypit'
-      propertyName='raystasTyyppiId'
-      useContextValue={extraData}
+      name='raystasTyyppiId'
+      value={extraData.raystasTyyppiId}
+      fetchFn={getRaystastyypit}
     />
   );
 };

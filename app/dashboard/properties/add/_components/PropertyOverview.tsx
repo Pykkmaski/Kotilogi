@@ -83,6 +83,21 @@ export function PropertyOverview() {
               'Ei määritelty'
             }
           />
+
+          <DataDisplay
+            title='Räystästyyppi'
+            value={'Ei määritelty'}
+          />
+
+          <DataDisplay
+            title='Otsalautatyyppi'
+            value={'Ei määritelty'}
+          />
+
+          <DataDisplay
+            title='Neliömetrit'
+            value={property.neliometrit}
+          />
         </div>
 
         <div className='flex flex-col gap-2'>

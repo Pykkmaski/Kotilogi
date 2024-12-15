@@ -1,5 +1,6 @@
 import { useEventFormContext } from '../../EventFormContext';
 import { OptionSelector } from '@/components/Feature/OptionSelector';
+import { getLockTypes } from '../actions';
 
 export const LockTypeSelector = () => {
   const { extraData } = useEventFormContext();
@@ -12,6 +13,7 @@ export const LockTypeSelector = () => {
       tablename='locking.types'
       propertyName='lock_type_id'
       useContextValue={extraData}
+      fetchFn={getLockTypes}
     />
   );
 };

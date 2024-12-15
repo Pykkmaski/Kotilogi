@@ -1,5 +1,6 @@
 import { useEventFormContext } from '../../EventFormContext';
 import { OptionSelector } from '@/components/Feature/OptionSelector';
+import { getAluskatetyypit } from '../actions';
 
 export const AluskateSelector = () => {
   const { extraData } = useEventFormContext();
@@ -11,6 +12,7 @@ export const AluskateSelector = () => {
       tablename='roofs.ref_aluskatetyypit'
       propertyName='aluskateTyyppiId'
       useContextValue={extraData}
+      fetchFn={getAluskatetyypit}
     />
   );
 };

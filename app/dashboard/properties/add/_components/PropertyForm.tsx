@@ -17,7 +17,7 @@ import { OtherInfoField } from 'kotilogi-app/app/dashboard/properties/add/_compo
 import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyFormContext';
 import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/YardField';
 
-import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
+import { BuildingDataType, PropertyPayloadType, RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { usePropertyForm } from './PropertyForm.hooks';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
@@ -32,6 +32,9 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import Spinner from '@/components/UI/Spinner';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
 import { RoofField } from './PropertyForm/Fields/RoofField';
+import { RoofEditor } from '@/components/Feature/RoofEditor';
+import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BuildingEditor } from '@/components/Feature/BuildingEditor';
 
 function GotoDraft({ updateSlot }) {
   return (
@@ -200,14 +203,28 @@ export function PropertyForm<T extends PropertyPayloadType>({
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='exterior'>
-            <ExteriorField />
-            <GotoDraft updateSlot={updateSlot} />
+            <BoxFieldset legend='Rakennus'>
+              <div className='flex flex-col gap-4 w-full'>
+                <BuildingEditor
+                  buildingData={data as Partial<BuildingDataType>}
+                  onChange={updateData}
+                />
+                <GotoDraft updateSlot={updateSlot} />
+              </div>
+            </BoxFieldset>
           </CarouselProvider.Slot>
 
           {data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') ? (
             <CarouselProvider.Slot slotName='roof'>
-              <RoofField />
-              <GotoDraft updateSlot={updateSlot} />
+              <BoxFieldset legend='Katto'>
+                <div className='flex flex-col gap-4 w-full'>
+                  <RoofEditor
+                    roofData={data as Partial<RoofDataType>}
+                    onChange={updateData}
+                  />
+                  <GotoDraft updateSlot={updateSlot} />
+                </div>
+              </BoxFieldset>
             </CarouselProvider.Slot>
           ) : null}
 
