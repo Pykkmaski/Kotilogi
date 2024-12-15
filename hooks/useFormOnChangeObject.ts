@@ -2,11 +2,11 @@ import { useCallback, useState } from 'react';
 import { useHasChanges } from './useHasChanges';
 import { useSaveToSessionStorage } from './useSaveToSessionStorage';
 
-function initData(initialData?: TODO, dataKey?: string) {
+function initData<T>(initialData?: T, dataKey?: string) {
   if (dataKey) {
     const savedData = sessionStorage.getItem(dataKey);
     if (savedData && savedData != 'undefined') {
-      return JSON.parse(savedData);
+      return JSON.parse(savedData) as T;
     }
   }
 

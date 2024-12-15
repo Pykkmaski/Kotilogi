@@ -25,12 +25,12 @@ export function MainDataForm({ editing }) {
 
   const isSubmitDisabled = () => {
     var state;
-    if (eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
-      state = !isDefined(eventData.targetId);
-    } else if (eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
-      state = !isDefined(eventData.targetId) || !isDefined(eventData.workTypeId);
-    } else if (eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      state = !isDefined(eventData.targetId) || selectedSurfaceIds.length == 0;
+    if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
+      state = !isDefined(eventData.target_id);
+    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
+      state = !isDefined(eventData.target_id) || !isDefined(eventData.service_work_type_id);
+    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
+      state = !isDefined(eventData.target_id) || selectedSurfaceIds.length == 0;
     } else {
       state = true;
     }
@@ -39,11 +39,9 @@ export function MainDataForm({ editing }) {
   };
 
   return (
-    <form
-      id='mainDataForm'
-      onSubmit={onSubmit}>
+    <>
       <RenderOnCondition
-        condition={eventData.mainTypeId == getIdByLabel(refs.eventTypes, 'Pintaremontti')}>
+        condition={eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')}>
         <Fieldset legend='Pinnat'>
           <SurfaceSelector />
         </Fieldset>
@@ -117,6 +115,6 @@ export function MainDataForm({ editing }) {
           </ToggleProvider.Trigger>
         </ToggleProvider>
       </Spacer>
-    </form>
+    </>
   );
 }

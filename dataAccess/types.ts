@@ -80,15 +80,21 @@ export type HistoryDataType = {
   reason?: string;
 };
 
-export type EventDataType = ObjectDataType & {
-  property_id: string;
-  date: Date;
-  labour_expenses: number;
-  material_expenses: number;
-  event_type_id: number;
-  target_id: number;
-  service_work_type_id?: number;
-};
+export type EventPayloadType = ObjectDataType &
+  Partial<Omit<WaterPipeRestorationWorkType, 'event_id'>> &
+  Partial<Omit<SewerPipeRestorationWorkType, 'event_id'>> &
+  Partial<Omit<ElectricityRestorationWorkType, 'event_id'>> &
+  Partial<Omit<InsulationRestorationWorkType, 'event_id'>> &
+  Partial<RoofDataType> & {
+    property_id: string;
+    date: Date;
+    labour_expenses: number;
+    material_expenses: number;
+    event_type_id: number;
+    target_id: number;
+    service_work_type_id?: number;
+    windows?: TODO[];
+  };
 
 type HasEventId = { event_id: string };
 

@@ -70,7 +70,7 @@ const ExpensesField = () => {
 };
 
 const DescriptionInput = () => {
-  const { eventData } = useEventFormContext();
+  const { eventData, updateEventData } = useEventFormContext();
 
   return (
     <FormControl
@@ -83,6 +83,7 @@ const DescriptionInput = () => {
           spellCheck={false}
           required
           value={eventData.description}
+          onChange={updateEventData}
         />
       }
     />
@@ -90,7 +91,7 @@ const DescriptionInput = () => {
 };
 
 const OtherField = () => {
-  const { eventData } = useEventFormContext();
+  const { eventData, updateEventData } = useEventFormContext();
 
   return (
     <>
@@ -105,6 +106,7 @@ const OtherField = () => {
               name='title'
               required
               value={eventData.title}
+              onChange={updateEventData}
             />
           }
         />
@@ -122,6 +124,7 @@ const OtherField = () => {
             name='date'
             defaultValue={eventData.date}
             value={eventData.date}
+            onChange={updateEventData}
           />
         }
       />

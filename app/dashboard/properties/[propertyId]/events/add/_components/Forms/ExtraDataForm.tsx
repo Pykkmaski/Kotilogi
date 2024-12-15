@@ -2,7 +2,7 @@ import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { useEventFormContext } from '../EventFormContext';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { HeatingRenovationContent } from '../FormContent/HeatingRenovationContent/HeatingRenovationContent';
-import { WindowRenovationContent } from '../FormContent/WindowRenovationEvent/WindowRenovationContent';
+import { WindowRenovationContent } from '../FormContent/WindowBatch/WindowBatch';
 import { RoofEventContent } from '../FormContent/RoofEventContent/RoofEventContent';
 import { DrainageDitchEventContent } from '../FormContent/DrainageDitchEventContent/DrainageDitchEventContent';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';

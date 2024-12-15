@@ -1,10 +1,12 @@
+import { useBatchForm } from '@/hooks/useBatchForm';
 import { useFormOnChange } from '@/hooks/useFormOnChange';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
 
 const mainDataStorageKey = 'kotidok-event-main-data';
 
-function initMainData(eventData: TODO) {
+function initMainData(eventData: EventPayloadType) {
   const savedData = sessionStorage.getItem(mainDataStorageKey);
   if (savedData) {
     return JSON.parse(savedData);
@@ -12,7 +14,7 @@ function initMainData(eventData: TODO) {
   if (eventData) {
     const d = {
       ...eventData,
-      date: eventData.date && timestampToISOString(eventData.date.getTime()),
+      date: eventData.date && timestampToISOString(eventData.date.getTime().toString()),
     };
 
     delete d.event_type_id;
@@ -25,7 +27,7 @@ function initMainData(eventData: TODO) {
 }
 
 /**Handles the main data of the event form. Should be used within the main useEventForm-hook. */
-export const useEventData = (initialEventData: TODO) => {
+export const useEventData = (initialEventData: EventPayloadType) => {
   const {
     data: eventData,
     onChange: updateEventData,
@@ -33,14 +35,26 @@ export const useEventData = (initialEventData: TODO) => {
     resetData: resetEventData,
     removeFile,
     files,
-  } = useFormOnChange(initMainData(initialEventData));
+  } = useFormOnChange(initialEventData, null, 'kotidok-event-payload');
+
+  const {
+    addEntry: addWindowEntry,
+    removeEntry: removeWindowEntry,
+    updateEntry: updateWindowEntry,
+    resetBatch: resetWindowBatch,
+    entries: windows,
+  } = useBatchForm(initialEventData.windows, 'kotidok-event-data-windows');
 
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
-  console.log('event data at useEventData: ', eventData);
   return {
     eventData,
+    windows,
+    addWindowEntry,
+    removeWindowEntry,
+    updateWindowEntry,
     updateEventData,
+    resetWindowBatch,
     eventDataHasChanges,
     resetEventData,
     files,

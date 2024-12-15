@@ -33,13 +33,14 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
     [nextId.current]
   );
 
+  const createInitialBatch = (processedInitialEntries: T[]) => {
+    return processedInitialEntries.map(e => createEntry(e));
+  };
+
   const [entries, setEntries] = useState<BatchEntryType<T>[]>(() => {
     const batch: BatchEntryType<T>[] = [];
-    const ie = getInitialEntries(initialEntries, dataKey);
-    for (const entry of ie) {
-      batch.push(createEntry(entry));
-    }
-    return batch;
+    const processedInitialEntries = getInitialEntries(initialEntries, dataKey);
+    return createInitialBatch(processedInitialEntries);
   });
 
   useSaveToSessionStorage(
@@ -73,7 +74,6 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
       updatedValue: T
     ) => {
       setEntries(prev => {
-        console.log('entries before update: ', prev);
         const newEntries = prev.map(item => {
           if (predicate(item)) {
             const newValue =
@@ -94,17 +94,21 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
           return item;
         });
 
-        console.log('New batch entries before updating: ', newEntries);
         return newEntries;
       });
     },
     [entries, setEntries]
   );
 
+  const resetBatch = useCallback(() => {
+    setEntries(createInitialBatch(initialEntries));
+  }, [setEntries, initialEntries]);
+
   return {
     entries,
     addEntry,
     removeEntry,
     updateEntry,
+    resetBatch,
   };
 }

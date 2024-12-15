@@ -1,7 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEventData } from './useEventData';
-import { useTypeData } from './useTypeData';
 import { useExtraData } from './useExtraData';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { createEventAction, updateEventAction } from '../actions';
@@ -10,17 +9,23 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { isDefined } from '../util';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 
-export function useEventForm(propertyId: string, initialEventData?: TODO, initialExtraData?: TODO) {
+export function useEventForm(
+  propertyId: string,
+  initialEventData?: EventPayloadType,
+  initialExtraData?: TODO
+) {
   const { refs } = useEventTypeContext();
-  console.log('initial event data: ', initialEventData);
+  const eventDataProps = useEventData(
+    initialEventData ||
+      ({
+        property_id: propertyId,
+      } as EventPayloadType)
+  );
 
   const { eventData, updateEventData, eventDataHasChanges, resetEventData, files, removeFile } =
-    useEventData(
-      initialEventData || {
-        property_id: propertyId,
-      }
-    );
+    eventDataProps;
 
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
   const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
@@ -102,8 +107,18 @@ export function useEventForm(propertyId: string, initialEventData?: TODO, initia
     }
   }, [eventData.service_work_type_id, eventData.event_type_id, refs.eventTypes]);
 
+  const { resetWindowBatch } = eventDataProps;
+
+  useEffect(() => {
+    if (eventData.target_id != getIdByLabel(refs.eventTargets, 'Ikkunat')) {
+      console.log('Resetting window batch.');
+      resetWindowBatch();
+    }
+  }, [eventData.target_id]);
+
   return {
     ...extraDataProps,
+    ...eventDataProps,
     status,
     onSubmit,
     editing: isDefined(initialEventData),

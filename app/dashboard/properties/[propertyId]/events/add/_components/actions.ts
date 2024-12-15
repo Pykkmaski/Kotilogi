@@ -3,7 +3,7 @@
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { events } from 'kotilogi-app/dataAccess/events';
 import { files } from 'kotilogi-app/dataAccess/files';
-import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventDataType, EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -27,15 +27,14 @@ export const updateEventAction = async (
 
 export const createEventAction = async (
   propertyId: string,
-  eventData: EventDataType,
-  extraData: TODO[],
+  eventPayload: EventPayloadType,
   fileFormData?: FormData[]
 ) => {
   console.log('property id at action: ', propertyId);
   z.string().parse(propertyId);
   let eventId;
 
-  await events.create({ ...eventData, property_id: propertyId }, extraData, async (id, trx) => {
+  await events.create({ ...eventPayload, property_id: propertyId }, async (id, trx) => {
     //Save the id of the event for use in the following redirections and path revalidations.
     eventId = id;
   });

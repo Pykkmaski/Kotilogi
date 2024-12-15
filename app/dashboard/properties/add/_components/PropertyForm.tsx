@@ -31,6 +31,7 @@ import { PropertyOverview } from './PropertyOverview';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Spinner from '@/components/UI/Spinner';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
+import { RoofField } from './PropertyForm/Fields/RoofField';
 
 function GotoDraft({ updateSlot }) {
   return (
@@ -109,6 +110,12 @@ export function PropertyForm<T extends PropertyPayloadType>({
               <CarouselProvider.SelectSlotTrigger slotToSelect='exterior'>
                 <TabButton>Ulkopuoli</TabButton>
               </CarouselProvider.SelectSlotTrigger>
+
+              {data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') ? (
+                <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
+                  <TabButton>Katto</TabButton>
+                </CarouselProvider.SelectSlotTrigger>
+              ) : null}
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
                 <TabButton>Sisäpuoli</TabButton>
@@ -196,6 +203,13 @@ export function PropertyForm<T extends PropertyPayloadType>({
             <ExteriorField />
             <GotoDraft updateSlot={updateSlot} />
           </CarouselProvider.Slot>
+
+          {data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') ? (
+            <CarouselProvider.Slot slotName='roof'>
+              <RoofField />
+              <GotoDraft updateSlot={updateSlot} />
+            </CarouselProvider.Slot>
+          ) : null}
 
           <CarouselProvider.Slot slotName='interior'>
             <InteriorField />

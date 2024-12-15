@@ -36,13 +36,12 @@ export function PropertyOverview() {
             value={property.street_number}
           />
 
-          {isValid ? (
-            <Notification
-              variant='success'
-              position='start'>
-              Kiinteistö on vahvistettu
-            </Notification>
-          ) : (
+          <DataDisplay
+            title='Energialuokka'
+            value={refs.energyClasses.find(c => c.id == property.energy_class_id)?.name}
+          />
+
+          {!isValid && (
             <Notification
               variant='error'
               position='start'>
@@ -57,6 +56,30 @@ export function PropertyOverview() {
             title='Rakennusmateriaali'
             value={
               refs.buildingMaterials.find(mat => mat.id == property.building_material_id)?.name ||
+              'Ei määritelty'
+            }
+          />
+
+          <DataDisplay
+            title='Julkisivun väri'
+            value={
+              refs.mainColors.find(mat => mat.id == property.color_id)?.name || 'Ei määritelty'
+            }
+          />
+        </div>
+
+        <div className='flex flex-col gap-2'>
+          <h1>Katto</h1>
+          <DataDisplay
+            title='Tyyppi'
+            value={
+              refs.roofTypes.find(mat => mat.id == property.roofTypeId)?.name || 'Ei määritelty'
+            }
+          />
+          <DataDisplay
+            title='Materiaali'
+            value={
+              refs.roofMaterials.find(mat => mat.id == property.roofMaterialId)?.name ||
               'Ei määritelty'
             }
           />

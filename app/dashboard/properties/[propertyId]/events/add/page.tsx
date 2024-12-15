@@ -13,9 +13,11 @@ export default async function AddEventPage({ params }) {
 
   return (
     <main className='flex justify-center'>
-      <EventTypeProvider refs={refs}>
-        <EventForm propertyId={params.propertyId} />
-      </EventTypeProvider>
+      <div className='xs:w-full lg:w-[70%]'>
+        <EventTypeProvider refs={refs}>
+          <EventForm propertyId={params.propertyId} />
+        </EventTypeProvider>
+      </div>
     </main>
   );
 }
