@@ -22,11 +22,11 @@ export function Notification({
       'border p-2 flex gap-2 items-center rounded-md justify-between',
 
       variant == 'success'
-        ? 'bg-green-100 border-green-200 text-green-600'
+        ? 'bg-green-100 border-green-200 text-green-700'
         : variant == 'warning'
-        ? 'bg-orange-100 border-orange-200 text-orange-600'
+        ? 'bg-orange-100 border-orange-200 text-orange-700'
         : variant == 'error'
-        ? 'bg-red-100 border-red-200 text-red-600'
+        ? 'bg-red-100 border-red-200 text-red-700'
         : 'bg-white bg-slate-200 text-black',
     ].join(' ');
   }, [variant]);
@@ -34,11 +34,11 @@ export function Notification({
   const icon = useMemo(() => {
     const className = [
       variant == 'success'
-        ? 'text-green-600'
+        ? 'text-green-700'
         : variant == 'warning'
-        ? 'text-orange-600'
+        ? 'text-orange-700'
         : variant == 'error'
-        ? 'text-red-600'
+        ? 'text-red-700'
         : 'text-black',
     ].join(' ');
 

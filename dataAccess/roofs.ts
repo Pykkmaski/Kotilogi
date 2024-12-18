@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { BuildingDataType } from './types';
+import { BuildingDataType, RoofDataType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import db from 'kotilogi-app/dbconfig';
@@ -13,7 +13,7 @@ class Roofs {
     return ctx('roofs.overview').where({ property_id }).select('roofTypeId', 'roofMaterialId');
   }
 
-  async create(property_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {
+  async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
     return trx('roofs.overview')
       .insert({
         ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),

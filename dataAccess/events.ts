@@ -3,7 +3,9 @@ import { objects } from './objects';
 import {
   ElectricityRestorationWorkType,
   EventDataType,
+  EventPayloadType,
   HeatingMethodRestorationWorkType,
+  HeatingPayloadType,
   InsulationRestorationWorkType,
   RoofDataType,
   SewerPipeRestorationWorkType,
@@ -16,6 +18,7 @@ import db from 'kotilogi-app/dbconfig';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { properties } from './properties';
 import { heating } from './heating';
+import { roofs } from './roofs';
 
 type TypeDataType = {
   event_type_id: number;
@@ -77,16 +80,16 @@ class Events {
 
   private async createHeatingRestorationWorkData(
     event_id: string,
-    restoration_work_data: HeatingMethodRestorationWorkType,
+    heatingPayload: HeatingPayloadType,
     trx: Knex.Transaction
   ) {
     await trx('heating.restoration_work').insert({
       event_id,
-      old_system_id: restoration_work_data.old_system_id,
-      new_system_id: restoration_work_data.new_system_id,
+      old_system_id: heatingPayload.old_system_id,
+      new_system_id: heatingPayload.new_system_id,
     });
 
-    const { new_system_id } = restoration_work_data;
+    const { new_system_id } = eventPayload;
     const [{ result: heatingTypes }] = await trx('heating.types').select(
       db.raw('json_object_agg(label, id) as result')
     );
@@ -99,120 +102,135 @@ class Events {
   }
 
   private async createRestorationWorkData(
-    property_id: string,
     event_id: string,
-    target_id: number,
-    extraData: RestorationWorkDataType[],
+    eventPayload: EventPayloadType,
     trx: Knex.Transaction
   ) {
     const [{ result: event_targets }] = await trx('events.targets').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
-    const event_target_id = parseInt(target_id as any);
+    const event_target_id = parseInt(eventPayload.target_id as any);
 
     switch (event_target_id) {
       case event_targets['Lämmitysmuoto']:
         {
           //Save heating event data.
-          const [data] = extraData as [HeatingMethodRestorationWorkType];
-          await this.createHeatingRestorationWorkData(event_id, data, trx);
-          //TODO: insert the peripheral data, like oil vessels, heating centers, etc.
-          await heating.create(data as any, trx);
+          await this.createHeatingRestorationWorkData(event_id, eventPayload, trx);
+          await heating.create(eventPayload, trx);
         }
         break;
 
       case event_targets.Katto:
         {
           //Does not have restoration work separately. Update the existing roof entry or add a new one.
-          const [data] = extraData as [RoofDataType];
+          const [existingRoof] = await trx('roofs.overview').where({
+            property_id: eventPayload.property_id,
+          });
+          if (existingRoof) {
+            console.log('About to update roof...', existingRoof);
 
-          await trx('roofs.overview')
-            .insert({
-              ...filterValidColumns(data, await getTableColumns('overview', trx, 'roofs')),
-              property_id,
-            })
-            .onConflict('property_id')
-            .merge();
+            await roofs.update(existingRoof.property_id, eventPayload, trx);
+          } else {
+            await roofs.create(eventPayload.property_id, eventPayload, trx);
+          }
         }
         break;
 
       case event_targets.Salaojat:
         {
           //Has no separate restoration work data. Update the existing ditch entry, or add a new one.
-          const [data] = extraData as [TODO];
-          await trx('drainage_ditches.data')
-            .insert({
-              ...filterValidColumns(data, await getTableColumns('data', trx, 'drainage_ditches')),
+          const [existingDataId] = await trx('drainage_ditches.data')
+            .where({ property_id: eventPayload.property_id })
+            .pluck('id');
+          if (existingDataId) {
+            await trx('drainage_ditches.data')
+              .where({ id: existingDataId })
+              .update({
+                ...filterValidColumns(
+                  eventPayload,
+                  await getTableColumns('data', trx, 'drainage_ditches')
+                ),
+              });
+          } else {
+            await trx('drainage_ditches.data').insert({
+              ...filterValidColumns(
+                eventPayload,
+                await getTableColumns('data', trx, 'drainage_ditches')
+              ),
               id: event_id,
-            })
-            .onConflict('id')
-            .merge();
+            });
+          }
         }
         break;
 
       case event_targets['Käyttövesiputket']:
         {
-          const [data] = extraData as [WaterPipeRestorationWorkType];
           await trx('water_pipe.restoration_work').insert({
             event_id,
-            installation_method_id: data.installation_method_id,
+            installation_method_id: eventPayload.installation_method_id,
           });
         }
         break;
 
       case event_targets['Viemäriputket']:
         {
-          const [data] = extraData as [SewerPipeRestorationWorkType];
           await trx('sewer_pipe.restoration_work').insert({
             event_id,
-            restoration_method_id: data.restoration_method_id,
+            restoration_method_id: eventPayload.restoration_method_id,
           });
         }
         break;
 
       case event_targets['Eristys']:
         {
-          const [data] = extraData as [InsulationRestorationWorkType];
           await trx('insulation.restoration_work').insert({
             event_id,
-            insulation_material_id: data.insulation_material_id,
-            insulation_target_id: data.insulation_target_id,
+            insulation_material_id: eventPayload.insulation_material_id,
+            insulation_target_id: eventPayload.insulation_target_id,
           });
         }
         break;
 
       case event_targets['Sähköt']:
         {
-          const [data] = extraData as [ElectricityRestorationWorkType];
           await trx('electricity.restoration_work').insert({
             event_id,
-            restoration_work_target_id: data.restoration_work_target_id,
+            restoration_work_target_id: eventPayload.restoration_work_target_id,
           });
         }
         break;
 
       case event_targets.Lukitus:
         {
-          const [data] = extraData as [TODO];
+          const locks = eventPayload.locks;
+          console.log('Adding locks: ', locks);
+          const promises = locks.map(async l => {
+            return trx('locking.data').insert({
+              ...filterValidColumns(l, await getTableColumns('data', trx, 'locking')),
+              event_id,
+            });
+          });
+          await Promise.all(promises);
+        }
+        break;
 
-          await trx('locking.data')
-            .insert({
-              id: event_id,
-              lock_type_id: data.lock_type_id,
-              model: data.model,
-              brand: data.brand,
-              quantity: data.quantity,
+      case event_targets['Ikkunat']:
+        {
+          const windows = eventPayload.windows;
+          const promises = windows.map(w =>
+            trx('windows.data').insert({
+              ...w,
+              event_id,
             })
-            .onConflict('id')
-            //TODO: In the rare case the same uuid is generated for a new unrelated event, it would overwrite this. Figure something out.
-            .merge();
+          );
+          await Promise.all(promises);
         }
         break;
 
       default:
         console.log(
-          `Received an event with target id ${target_id}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
+          `Received an event with target id ${eventPayload.target_id}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
         );
     }
   }
@@ -343,68 +361,52 @@ class Events {
    * @param callback An optional callback function to run before commiting the data.
    */
   async create(
-    eventData: MainEventDataType,
-    extraData: ExtraEventDataType[],
+    eventPayload: EventPayloadType,
     callback?: (id: string, trx: Knex.Transaction) => Promise<void>
   ) {
-    await properties.verifyEventCount(eventData.property_id);
+    await properties.verifyEventCount(eventPayload.property_id);
 
-    await objects.create(eventData, async (obj, trx) => {
-      const event_id = obj.id;
-      const insertData = this.getInsertObject({
-        ...filterValidColumns({ ...eventData }, await getTableColumns('data', trx, 'events')),
-        id: event_id,
-      });
+    await objects.create(
+      { ...eventPayload, parentId: eventPayload.property_id },
+      async (obj, trx) => {
+        const event_id = obj.id;
+        const insertData = this.getInsertObject({
+          ...filterValidColumns({ ...eventPayload }, await getTableColumns('data', trx, 'events')),
+          id: event_id,
+        });
 
-      //Save the main event data.
-      await trx('events.data').insert(insertData);
+        //Save the main event data.
+        await trx('events.data').insert(insertData);
 
-      const [{ result: event_types }] = await trx('events.types').select(
-        db.raw('json_object_agg(label, id) as result')
-      );
-      const event_type_id = parseInt(eventData.event_type_id as any);
+        const [{ result: event_types }] = await trx('events.types').select(
+          db.raw('json_object_agg(label, id) as result')
+        );
+        const event_type_id = parseInt(eventPayload.event_type_id as any);
 
-      //Create the additional data entries.
-      switch (event_type_id) {
-        case event_types.Peruskorjaus:
-          {
-            const data = extraData as unknown as RestorationWorkDataType[];
-            await this.createRestorationWorkData(
-              eventData.property_id,
-              event_id,
-              eventData.target_id,
-              data,
-              trx
-            );
-          }
-          break;
+        //Create the additional data entries.
+        switch (event_type_id) {
+          case event_types.Peruskorjaus:
+            {
+              await this.createRestorationWorkData(event_id, eventPayload, trx);
+            }
+            break;
 
-        case event_types['Huoltotyö']:
-          {
-            await this.createServiceWorkData(
-              event_id,
-              eventData.target_id,
-              eventData.service_work_type_id,
-              extraData,
-              trx
-            );
-          }
-          break;
+          case event_types['Huoltotyö']:
+            {
+              await this.createServiceWorkData(event_id, eventPayload, trx);
+            }
+            break;
 
-        case event_types['Pintaremontti']:
-          {
-            await this.createSurfaceRenovationWorkData(
-              event_id,
-              eventData.target_id,
-              extraData,
-              trx
-            );
-          }
-          break;
+          case event_types['Pintaremontti']:
+            {
+              await this.createSurfaceRenovationWorkData(event_id, eventPayload, trx);
+            }
+            break;
+        }
+
+        callback && (await callback(event_id, trx));
       }
-
-      callback && (await callback(event_id, trx));
-    });
+    );
   }
 
   /**
@@ -592,7 +594,7 @@ class Events {
 
   private async getLockEvent(eventId: string) {
     return await db('locking.data')
-      .join('locking.types', { 'locking.types.id': 'locking.data.lockTypeId' })
+      .join('locking.types', { 'locking.types.id': 'locking.data.lock_type_id' })
       .where({ 'locking.data.id': eventId })
       .select('locking.data.*', 'locking.types.label as Lukon tyyppi');
   }

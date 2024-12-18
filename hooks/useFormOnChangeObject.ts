@@ -32,7 +32,12 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
         throw new Error('Cannot update form data using a file!');
       }
 
-      const value = e.target.type == 'number' ? e.target.valueAsNumber : e.target.value;
+      const value =
+        e.target.type == 'number'
+          ? e.target.valueAsNumber
+          : e.target.type == 'checkbox'
+          ? e.target.checked
+          : e.target.value;
 
       setData((prev: TODO) => {
         if (prev) {

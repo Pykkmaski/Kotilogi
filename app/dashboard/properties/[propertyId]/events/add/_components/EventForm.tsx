@@ -1,6 +1,6 @@
 'use client';
 
-import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType, RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { EventFormProvider } from './EventFormContext';
 import { useEventForm } from './hooks/useEventForm';
 import { TypeDataForm } from './Forms/TypeDataForm';
@@ -18,9 +18,56 @@ import { EventTargetSelector } from './Selectors/EventTargetSelector';
 import { Notification } from '@/components/UI/Notification';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { WindowBatch } from './FormContent/WindowBatch/WindowBatch';
-import { RoofEventContent } from './FormContent/RoofEventContent/RoofEventContent';
-import { ViemariPutketEventContent } from './FormContent/ViemariPutketEventContent/ViemariPutketEventContent';
 
+import { ViemariPutketEventContent } from './FormContent/ViemariPutketEventContent/ViemariPutketEventContent';
+import { EventRoofEditor } from './FormContent/EventRoofEditor';
+import { DrainageDitchEditor } from '@/components/Feature/DrainageDitchEditor';
+import { EventDrainageDitchEditor } from './FormContent/EventDrainageDitchEditor';
+import { Check } from '@mui/icons-material';
+import { RestorationWorkContent } from './RestorationWorkContent';
+import { ServiceWorkContent } from './ServiceWorkContent';
+import { getServiceWorkTypes, getWorkTypeLabel } from './actions';
+import { useQuery } from '@tanstack/react-query/build/legacy';
+import Spinner from '@/components/UI/Spinner';
+import { OtherWorkContent } from './OtherWorkContent';
+
+const CarouselHeader = () => {
+  return (
+    <div className='flex justify-between'>
+      <div className='flex gap-4 items-center'>
+        <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
+          <TabButton>Tyyppi</TabButton>
+        </CarouselProvider.SelectSlotTrigger>
+
+        <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+          <TabButton>Kohteen tiedot</TabButton>
+        </CarouselProvider.SelectSlotTrigger>
+
+        <CarouselProvider.SelectSlotTrigger slotToSelect='data'>
+          <TabButton>Muut tiedot</TabButton>
+        </CarouselProvider.SelectSlotTrigger>
+      </div>
+
+      <div className='flex gap-4'>
+        <CarouselProvider.PreviousTrigger>
+          <Button
+            color='secondary'
+            variant='text'>
+            Edellinen
+          </Button>
+        </CarouselProvider.PreviousTrigger>
+
+        <CarouselProvider.NextTrigger>
+          <Button
+            color='secondary'
+            variant='text'>
+            Seuraava
+          </Button>
+        </CarouselProvider.NextTrigger>
+      </div>
+    </div>
+  );
+};
 type EventFormProps = {
   propertyId: string;
   initialEventData?: EventPayloadType & Required<Pick<EventPayloadType, 'id'>>;
@@ -29,9 +76,28 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, initialEventData, initialExtraData }: EventFormProps) {
   const eventFormProps = useEventForm(propertyId, initialEventData, initialExtraData);
-  const { eventData, editing, showMainDataForm, showExtraDataForm, refs, onSubmit } =
-    eventFormProps;
+  const {
+    eventData,
+    editing,
+    showMainDataForm,
+    showExtraDataForm,
+    isSubmitDisabled,
+    refs,
+    onSubmit,
+    updateEventData,
+  } = eventFormProps;
   const tab = useSearchParams().get('t') || 'type';
+
+  const {
+    data: workTypes,
+    isLoading: workTypesIsLoading,
+    error: workTypesError,
+  } = useQuery({
+    queryKey: [`work-types-${eventData.target_id}`],
+    queryFn: async () => getServiceWorkTypes(eventData.target_id),
+    enabled:
+      eventData.target_id && eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö'),
+  });
 
   return (
     <form
@@ -46,40 +112,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
             {initialEventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}
           </SecondaryHeading>
           <CarouselProvider defaultSlot={tab}>
-            <div className='flex justify-between'>
-              <div className='flex gap-4 items-center'>
-                <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
-                  <TabButton>Tyyppi</TabButton>
-                </CarouselProvider.SelectSlotTrigger>
-
-                <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
-                  <TabButton>Kohde</TabButton>
-                </CarouselProvider.SelectSlotTrigger>
-
-                <CarouselProvider.SelectSlotTrigger slotToSelect='data'>
-                  <TabButton>Tiedot</TabButton>
-                </CarouselProvider.SelectSlotTrigger>
-              </div>
-
-              <div className='flex gap-4'>
-                <CarouselProvider.PreviousTrigger>
-                  <Button
-                    color='secondary'
-                    variant='text'>
-                    Edellinen
-                  </Button>
-                </CarouselProvider.PreviousTrigger>
-
-                <CarouselProvider.NextTrigger>
-                  <Button
-                    color='secondary'
-                    variant='text'>
-                    Seuraava
-                  </Button>
-                </CarouselProvider.NextTrigger>
-              </div>
-            </div>
-
+            <CarouselHeader />
             <CarouselProvider.Slot slotName='type'>
               <BoxFieldset legend='Valitse tapahtuman tyyppi'>
                 <EventTypeSelector />
@@ -91,26 +124,31 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                 {eventData.event_type_id ? (
                   <div className='flex flex-col gap-8'>
                     <Notification
-                      variant='default'
+                      variant='success'
                       position='start'>
                       Valittu tapahtumatyyppi:{' '}
                       <span className='font-semibold'>
                         {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
                       </span>
                     </Notification>
-                    <EventTargetSelector />
 
-                    {eventData.target_id == getIdByLabel(refs.eventTargets, 'Ikkunat') ? (
-                      <WindowBatch />
-                    ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Katto') ? (
-                      <RoofEventContent />
-                    ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Viemäriputket') ? (
-                      <ViemariPutketEventContent />
-                    ) : null}
+                    {eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') ? (
+                      <RestorationWorkContent />
+                    ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
+                      <ServiceWorkContent />
+                    ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu') ? (
+                      <OtherWorkContent />
+                    ) : (
+                      <Notification
+                        variant='error'
+                        position='start'>
+                        Valittua tapahtumatyyppiä ei vielä tueta!
+                      </Notification>
+                    )}
                   </div>
                 ) : (
                   <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
-                    <Notification variant='warning'>Valitse ensin tapahtuman tyyppi.</Notification>
+                    <Notification variant='error'>Valitse ensin tapahtuman tyyppi.</Notification>
                   </CarouselProvider.SelectSlotTrigger>
                 )}
               </BoxFieldset>
@@ -124,7 +162,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                       <div className='flex flex-col gap-4'>
                         <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
                           <Notification
-                            variant='default'
+                            variant='success'
                             position='start'
                             title='Muuta tapahtumatyyppiä...'>
                             Valittu tapahtumatyyppi:{' '}
@@ -136,7 +174,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
 
                         <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
                           <Notification
-                            variant='default'
+                            variant='success'
                             position='start'
                             title='Muuta tapahtuman kohdetta...'>
                             Valittu kohde:{' '}
@@ -145,6 +183,34 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                             </span>
                           </Notification>
                         </CarouselProvider.SelectSlotTrigger>
+                        {eventData.service_work_type_id ? (
+                          <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+                            <Notification
+                              position='start'
+                              variant='success'>
+                              Valittu työn tyyppi:{' '}
+                              {workTypesIsLoading ? (
+                                <Spinner message='Ladataan työtyyppiä...' />
+                              ) : (
+                                <span className='font-semibold'>
+                                  {
+                                    workTypes.find(t => t.id == eventData.service_work_type_id)
+                                      ?.label
+                                  }
+                                </span>
+                              )}
+                            </Notification>
+                          </CarouselProvider.SelectSlotTrigger>
+                        ) : eventData.event_type_id ==
+                          getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
+                          <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+                            <Notification
+                              position='start'
+                              variant='error'>
+                              Työn tyyppi puuttuu!
+                            </Notification>
+                          </CarouselProvider.SelectSlotTrigger>
+                        ) : null}
                       </div>
 
                       <RenderOnCondition condition={showMainDataForm()}>
@@ -154,12 +220,22 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                   ) : (
                     <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
                       <Notification
-                        variant='warning'
+                        variant='error'
                         position='start'>
                         Valitse ensin tapahtuman kohde.
                       </Notification>
                     </CarouselProvider.SelectSlotTrigger>
                   )}
+                  <div className='flex w-full gap-4 justify-end'>
+                    <Button
+                      disabled={isSubmitDisabled}
+                      variant='contained'
+                      startIcon={<Check />}
+                      color='secondary'
+                      type='submit'>
+                      Vahvista
+                    </Button>
+                  </div>
                 </div>
               </BoxFieldset>
             </CarouselProvider.Slot>

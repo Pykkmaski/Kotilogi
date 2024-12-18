@@ -46,25 +46,20 @@ class Objects {
     callback: (trx: Knex.Transaction) => Promise<void>,
     ctx?: Knex.Transaction
   ) {
-    try {
-      const trx = ctx || (await db.transaction());
+    const trx = ctx || (await db.transaction());
+    const validColumns = await getTableColumns('data', trx, 'objects');
 
-      const validColumns = await getTableColumns('data', trx, 'objects');
+    await trx('objects.data')
+      .where({ id: objectId })
+      .update({
+        ...filterValidColumns(data, validColumns),
+      });
 
-      await trx('objects.data')
-        .where({ id: objectId })
-        .update({
-          ...filterValidColumns(data, validColumns),
-        });
+    await callback(trx);
 
-      await callback(trx);
-
-      if (typeof ctx == 'undefined') {
-        console.log('Committing object update...');
-        await trx.commit();
-      }
-    } catch (err: any) {
-      throw err;
+    if (typeof ctx == 'undefined') {
+      console.log('Committing object update...');
+      await trx.commit();
     }
   }
 
@@ -74,17 +69,12 @@ class Objects {
     callback?: (trx: Knex.Transaction) => Promise<void>,
     ctx?: Knex.Transaction
   ) {
-    try {
-      const trx = ctx || (await db.transaction());
-      await trx('objects.data').where({ id }).del();
-      callback && (await callback(trx));
+    const trx = ctx || (await db.transaction());
+    await trx('objects.data').where({ id }).del();
+    callback && (await callback(trx));
 
-      if (typeof ctx == 'undefined') {
-        await trx.commit();
-      }
-    } catch (err) {
-      console.error(err.message);
-      throw err;
+    if (typeof ctx == 'undefined') {
+      await trx.commit();
     }
   }
 

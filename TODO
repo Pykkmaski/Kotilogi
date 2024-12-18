@@ -1,13 +1,26 @@
-- Update event addition to use tabs.
++ Update event addition to use tabs.
 + Prevent property submission if the property is invalid.
 - There is a Knex timeout error happening on the properties page. Might be recurring or not.
 + The next an previous buttons of a CarouselProvider don't work sometimes
 + Event targets are not updating correctly when choosing an event type.
-- Selecting drainage ditch in event targets causes the error:
++ Selecting drainage ditch in event targets causes the error:
   data is undefined
 
 + At the data section of adding an event, display the chosen event type and target before the inputs.
 - Jumping straight to the draft tab after adding a heating, but not defining it, will not remove the heating.
 + Specific event targets should be deleted if the user changes the event target.
-- Add roof information into its own tab in the property form.
++ Add roof information into its own tab in the property form.
 - Fetch existing components for a target when adding an event.
++ Roof checkboxes cannot be deselected.
++ Updating properties causes the app to hang
+- On the events page, a knex timeout error occurs. Maybe a transaction is left open after creating an event.
+- The more-button on the PropertyOverview-component doesn't do anything when clicked.
++ Event targets are not fetched when selecting 'Other' as the event type.
+- Removing the date when creating an event, does not disable the submit button.
+- Add unique names to heating brand, model and volume, as multiple heating types have peripherals with those fields.
+- Add a loading icon to the event confirm button.
++ Add file input to add-event-form.
+- Files from the file-list cannot be deleted.
+- The event date value on the input is not accepted by typescript.
+- Add locks property to the events payload type.
++ Creating a roof restoration event, does not correctly update an existing roof. (The reason was that loading a roof through roofs.get does not fetch the other data fields of it.)

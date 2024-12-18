@@ -9,6 +9,7 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import { getWindows } from './actions';
 import { Notification } from '@/components/UI/Notification';
+import { WindowDataType } from 'kotilogi-app/dataAccess/types';
 
 export const WindowBatch = () => {
   const {
@@ -21,14 +22,8 @@ export const WindowBatch = () => {
     refs,
   } = useEventFormContext();
 
-  const { data: existingWindows, isLoading } = useQuery({
-    queryKey: ['windows'],
-    queryFn: async () => getWindows(eventData.property_id),
-    enabled: false,
-  });
-
   const addWindow = () => {
-    addWindowEntry({});
+    addWindowEntry({} as WindowDataType);
   };
 
   const removeWindow = (windowBatchId: number) => {
@@ -38,12 +33,16 @@ export const WindowBatch = () => {
   };
 
   const updateWindow = (e: TODO, windowBatchId: number) => {
-    updateWindowEntry(entry => entry.id == windowBatchId, { [e.target.name]: e.target.value });
+    const rawName = e.target.name;
+    const name = rawName.split('-').at(0);
+    updateWindowEntry(entry => entry.id == windowBatchId, {
+      [name]: e.target.value,
+    } as WindowDataType);
   };
 
   return (
     <div className='flex flex-col gap-4'>
-      <h1>Ikkunat</h1>
+      <h1 className='font-semibold'>Ikkunat</h1>
       {windows.length ? (
         windows.map((w, index) => {
           return (
@@ -60,22 +59,11 @@ export const WindowBatch = () => {
               </div>
 
               <FormControl
-                label='Ikkunan nimi'
-                control={
-                  <Input
-                    name='title'
-                    placeholder='Anna ikkunalle vaihtoehtoinen nimi...'
-                    onChange={e => updateWindow(e, w.id)}
-                  />
-                }
-              />
-
-              <FormControl
                 required
                 label='U-Arvo'
                 control={
                   <Input
-                    name='u_value'
+                    name={`u_value-${index}`}
                     placeholder='Anna ikkunan u-arvo'
                     type='number'
                     min={0}
@@ -95,7 +83,7 @@ export const WindowBatch = () => {
                 }
                 control={
                   <Input
-                    name='min_db_rating'
+                    name={`min_db_rating-${index}`}
                     placeholder='Anna ikkunan vähimmäisäänieristyskyky...'
                     type='number'
                     min={0}
@@ -115,7 +103,7 @@ export const WindowBatch = () => {
                 }
                 control={
                   <Input
-                    name='max_db_rating'
+                    name={`max_db_rating-${index}`}
                     placeholder='Anna ikkunan enimmäiseristyskyky...'
                     type='number'
                     min={0}
@@ -128,15 +116,26 @@ export const WindowBatch = () => {
 
               <FormControl
                 required
-                label='Määrä'
+                label={'Määrä'}
                 control={
                   <Input
-                    name='count'
-                    placeholder='Anna ikkunoiden määrä...'
+                    name={`quantity-${index}`}
+                    placeholder='Anna ikkunan määrä...'
                     type='number'
-                    min={1}
+                    min={0}
                     step={1}
-                    value={w.value.count}
+                    value={w.value.quantity}
+                    onChange={e => updateWindow(e, w.id)}
+                  />
+                }
+              />
+
+              <FormControl
+                label='Kuvaus'
+                control={
+                  <textarea
+                    name={`description-${index}`}
+                    placeholder='Anna ikkunoille vaihtoehtoinen kuvaus...'
                     onChange={e => updateWindow(e, w.id)}
                   />
                 }

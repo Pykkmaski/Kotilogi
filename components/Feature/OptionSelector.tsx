@@ -5,6 +5,7 @@ import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { useQuery } from '@tanstack/react-query';
 import { getContent } from '../../app/dashboard/properties/add/_components/PropertyForm/actions';
 import { FormControlProps } from '@/components/UI/FormUtils';
+import { Notification } from '../UI/Notification';
 
 type OptionSelectorProps = Omit<FormControlProps, 'control'> & {
   tablename: string;
@@ -32,14 +33,14 @@ export function OptionSelector({
   onChange,
   ...props
 }: OptionSelectorProps) {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: [tablename],
     queryFn: async () => (fetchFn ? await fetchFn() : await getContent(tablename, {})),
   });
 
   const dataToDisplay = !isLoading && dataProcessingFn ? dataProcessingFn(data) : data;
 
-  return (
+  return !error ? (
     <SuspenseFormControl
       {...props}
       isLoading={isLoading}
@@ -56,5 +57,11 @@ export function OptionSelector({
         )
       }
     />
+  ) : (
+    <Notification
+      position='start'
+      variant='error'>
+      Vaihtoehtojen haku epäonnistui!
+    </Notification>
   );
 }

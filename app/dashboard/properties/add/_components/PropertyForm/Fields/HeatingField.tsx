@@ -28,8 +28,6 @@ export function HeatingField() {
     refs: { heatingTypes },
   } = usePropertyFormContext();
 
-  useEffect(() => console.log('Heating batch changed to: ', heatingBatch), [heatingBatch]);
-
   const setPrimary = (entry_id: number) => {
     heatingBatch.forEach(e => (e.value.is_primary = false));
     updateHeatingEntry(entry => entry.id == entry_id, { is_primary: true });
@@ -43,7 +41,18 @@ export function HeatingField() {
   };
 
   const updateHeating = async (e: TODO, entry_id: number) => {
-    const name = e.target.name.includes('type-id') ? 'heating_type_id' : e.target.name;
+    const rawName = e.target.name;
+    const name = rawName.includes('type-id')
+      ? 'heating_type_id'
+      : rawName.includes('brand')
+      ? 'brand'
+      : rawName.includes('model')
+      ? 'model'
+      : rawName.includes('volume')
+      ? 'volume'
+      : rawName.includes('location')
+      ? 'location'
+      : rawName;
 
     if (name === 'heating_type_id') {
       //Ignore updating if the property already has the selected heating type.
@@ -61,8 +70,12 @@ export function HeatingField() {
   };
 
   const deleteHeating = async (entry: BatchEntryType<HeatingPayloadType>) => {
-    const c = confirm('Haluatko varmasti poistaa lämmitysmuodon?');
-    if (!c) return;
+    //Only ask for confirmation if the heating has been defined.
+    if (typeof entry.value.heating_type_id != 'undefined') {
+      const c = confirm('Haluatko varmasti poistaa lämmitysmuodon?');
+      if (!c) return;
+    }
+
     //Editing an existing property
     if (!isNew) {
       const loadingToast = toast.loading('Poistetaan lämmitysmuotoa...');
@@ -96,13 +109,21 @@ export function HeatingField() {
       <div className='flex flex-col gap-10 justify-start'>
         {heatingBatch.map((hb, batchIndex) => {
           const className = [
-            'flex gap-4 flex-col border rounded-md p-4 animate-slideup-fast',
+            'flex gap-4 flex-col border rounded-md p-4',
             hb.value.is_primary ? 'bg-blue-50 border-blue-200' : 'bg-none border-slate-200',
           ].join(' ');
 
           return (
             <div className={className}>
-              <h1 className='font-semibold'>Lämmitysmuoto {batchIndex + 1}</h1>
+              <div className='flex w-full justify-between'>
+                <h1 className='font-semibold'>Lämmitysmuoto {batchIndex + 1}</h1>
+                <IconButton
+                  size='small'
+                  onClick={() => deleteHeating(hb)}>
+                  <Clear />
+                </IconButton>
+              </div>
+
               <FormControl
                 label='Lämmitysjärjestelmän tyyppi'
                 control={
@@ -132,7 +153,7 @@ export function HeatingField() {
                     control={
                       <Input
                         value={hb.value.brand}
-                        name='brand'
+                        name={`${batchIndex}-brand`}
                         onChange={e => updateHeating(e, hb.id)}
                         placeholder='Anna öljylämmityskeskuksen merkki...'
                       />
@@ -144,7 +165,7 @@ export function HeatingField() {
                     control={
                       <Input
                         value={hb.value.model}
-                        name='model'
+                        name={`${batchIndex}-model`}
                         onChange={e => updateHeating(e, hb.id)}
                         placeholder='Anna öljylämmityskeskuksen malli...'
                       />
@@ -156,7 +177,7 @@ export function HeatingField() {
                     control={
                       <Input
                         value={hb.value.location}
-                        name='location'
+                        name={`${batchIndex}-location`}
                         onChange={e => updateHeating(e, hb.id)}
                         placeholder='Anna öljysäiliön sijainti...'
                       />
@@ -166,7 +187,7 @@ export function HeatingField() {
                     label='Öljysäiliön tilavuus'
                     control={
                       <Input
-                        name='volume'
+                        name={`${batchIndex}-volume`}
                         value={hb.value.volume}
                         onChange={e => updateHeating(e, hb.id)}
                         type='number'
@@ -182,7 +203,7 @@ export function HeatingField() {
                     control={
                       <Input
                         value={hb.value.brand}
-                        name='brand'
+                        name={`${batchIndex}-brand`}
                         onChange={e => updateHeating(e, hb.id)}
                         placeholder='Anna lämmönjakokeskuksen merkki...'
                       />
@@ -194,7 +215,7 @@ export function HeatingField() {
                     control={
                       <Input
                         value={hb.value.model}
-                        name='model'
+                        name={`${batchIndex}-model`}
                         onChange={e => updateHeating(e, hb.id)}
                         placeholder='Anna lämmönjakokeskuksen malli...'
                       />
@@ -209,11 +230,6 @@ export function HeatingField() {
                   checked={hb.value.is_primary || heatingBatch.length == 0}
                   onChange={() => setPrimary(hb.id)}
                 />
-                <IconButton
-                  size='small'
-                  onClick={() => deleteHeating(hb)}>
-                  <Clear />
-                </IconButton>
               </div>
             </div>
           );

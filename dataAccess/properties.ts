@@ -218,16 +218,22 @@ class Properties {
 
       const buildingPromise = buildings.update(id, payload, trx);
       const interiorPromise = interiors.update(id, payload, trx);
-      const heatingPromises = payload.heating?.map(hd =>
-        heating.update(
-          hd.id,
-          {
-            ...hd,
-            property_id: id,
-          },
-          trx
-        )
-      );
+
+      const heatingPromises = payload.heating?.map(async hd => {
+        const { id: heatingId } = hd;
+
+        if (heatingId) {
+          await heating.update(heatingId, hd, trx);
+        } else {
+          await heating.create(
+            {
+              ...hd,
+              property_id: id,
+            },
+            trx
+          );
+        }
+      });
 
       const roofPromise = roofs.create(id, payload, trx);
       await Promise.all([

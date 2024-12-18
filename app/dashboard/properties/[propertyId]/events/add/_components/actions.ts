@@ -3,14 +3,14 @@
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { events } from 'kotilogi-app/dataAccess/events';
 import { files } from 'kotilogi-app/dataAccess/files';
-import { EventDataType, EventPayloadType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 export const updateEventAction = async (
   eventId: string,
-  mainData: Partial<EventDataType>,
+  mainData: Partial<EventPayloadType>,
   extraData: any
 ) => {
   z.string().parse(eventId);
@@ -105,7 +105,7 @@ export const getServiceWorkTypes = async (targetId: number) => {
   const [{ result: event_targets }] = await db('events.targets').select(
     db.raw('json_object_agg(label, id) as result')
   );
-  console.log('malja', targetId);
+
   switch (parseInt(targetId as any)) {
     case event_targets.Katto: {
       return await db('roofs.service_work_type');
@@ -125,8 +125,9 @@ export const getServiceWorkTypes = async (targetId: number) => {
       return await db('ventilation.service_work_type');
     }
 
-    default:
-      throw new Error('Case for id ' + targetId + ' not implemented!');
+    default: {
+      console.log('Case for id ' + targetId + ' not implemented!');
+    }
   }
 };
 
@@ -136,3 +137,21 @@ export const getSurfaces = async () => {
 };
 
 export const getEventCategories = async () => db('ref_eventCategories');
+
+export const getWorkTypeLabel = async (targetId: number, serviceWorkTypeId: number) => {
+  const [{ result: targets }] = await db('events.targets').select(
+    db.raw('json_obect_agg(label, id) as result')
+  );
+
+  switch (parseInt(targetId as any)) {
+    case targets['Ilmanvaihto']: {
+      const [label] = await db('ventilation.service_work_type')
+        .where({ id: serviceWorkTypeId })
+        .pluck('label');
+      return label;
+    }
+
+    default:
+      return 'Tuntematon';
+  }
+};

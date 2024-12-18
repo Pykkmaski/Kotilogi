@@ -6,6 +6,7 @@ import { DataDisplay } from '@/components/UI/DataDisplay';
 import { Check, Clear } from '@mui/icons-material';
 import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import { Notification } from '@/components/UI/Notification';
+import { CarouselProvider } from '@/components/Util/CarouselProvider';
 
 export function PropertyOverview() {
   const { property: prop, heatingBatch, refs, isValid } = usePropertyFormContext();
@@ -41,13 +42,25 @@ export function PropertyOverview() {
             value={refs.energyClasses.find(c => c.id == property.energy_class_id)?.name}
           />
 
-          {!isValid && (
-            <Notification
-              variant='error'
-              position='start'>
-              Kiinteistötunnus on virheellinen!
-            </Notification>
-          )}
+          {!isValid ? (
+            <CarouselProvider.SelectSlotTrigger slotToSelect='general'>
+              <Notification
+                variant='error'
+                position='start'
+                title='Siirry yleistietoihin klikkaamalla...'>
+                Kiinteistötunnus on virheellinen!
+              </Notification>
+            </CarouselProvider.SelectSlotTrigger>
+          ) : typeof property.street_number == 'undefined' ? (
+            <CarouselProvider.SelectSlotTrigger slotToSelect='general'>
+              <Notification
+                position='start'
+                variant='error'
+                title='Siirry yleistietoihin klikkaamalla...'>
+                Talon numero puuttuu!
+              </Notification>
+            </CarouselProvider.SelectSlotTrigger>
+          ) : null}
         </div>
 
         <div className='flex flex-col gap-2'>
@@ -65,38 +78,6 @@ export function PropertyOverview() {
             value={
               refs.mainColors.find(mat => mat.id == property.color_id)?.name || 'Ei määritelty'
             }
-          />
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <h1>Katto</h1>
-          <DataDisplay
-            title='Tyyppi'
-            value={
-              refs.roofTypes.find(mat => mat.id == property.roofTypeId)?.name || 'Ei määritelty'
-            }
-          />
-          <DataDisplay
-            title='Materiaali'
-            value={
-              refs.roofMaterials.find(mat => mat.id == property.roofMaterialId)?.name ||
-              'Ei määritelty'
-            }
-          />
-
-          <DataDisplay
-            title='Räystästyyppi'
-            value={'Ei määritelty'}
-          />
-
-          <DataDisplay
-            title='Otsalautatyyppi'
-            value={'Ei määritelty'}
-          />
-
-          <DataDisplay
-            title='Neliömetrit'
-            value={property.neliometrit}
           />
         </div>
 

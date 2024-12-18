@@ -114,12 +114,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
                 <TabButton>Ulkopuoli</TabButton>
               </CarouselProvider.SelectSlotTrigger>
 
-              {data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') ? (
-                <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
-                  <TabButton>Katto</TabButton>
-                </CarouselProvider.SelectSlotTrigger>
-              ) : null}
-
               <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
                 <TabButton>Sisäpuoli</TabButton>
               </CarouselProvider.SelectSlotTrigger>
@@ -214,20 +208,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
             </BoxFieldset>
           </CarouselProvider.Slot>
 
-          {data.property_type_id == getIdByLabel(refs.propertyTypes, 'Kiinteistö', 'name') ? (
-            <CarouselProvider.Slot slotName='roof'>
-              <BoxFieldset legend='Katto'>
-                <div className='flex flex-col gap-4 w-full'>
-                  <RoofEditor
-                    roofData={data as Partial<RoofDataType>}
-                    onChange={updateData}
-                  />
-                  <GotoDraft updateSlot={updateSlot} />
-                </div>
-              </BoxFieldset>
-            </CarouselProvider.Slot>
-          ) : null}
-
           <CarouselProvider.Slot slotName='interior'>
             <InteriorField />
             <GotoDraft updateSlot={updateSlot} />
@@ -268,7 +248,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
                   color='secondary'
                   type='submit'
                   variant='contained'
-                  disabled={!isValid || loading || done}
+                  disabled={!isValid || loading || done || typeof data.street_number == 'undefined'}
                   startIcon={loading ? <Spinner /> : <Check />}>
                   {property ? 'Päivitä' : 'Vahvista'}
                 </Button>

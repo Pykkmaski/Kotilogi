@@ -39,14 +39,7 @@ export function MainDataForm({ editing }) {
   };
 
   return (
-    <>
-      <RenderOnCondition
-        condition={eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')}>
-        <Fieldset legend='Pinnat'>
-          <SurfaceSelector />
-        </Fieldset>
-      </RenderOnCondition>
-
+    <div className='flex flex-col gap-2 w-full'>
       <SharedEventDataInputs isEditing={editing} />
 
       <Spacer
@@ -54,13 +47,6 @@ export function MainDataForm({ editing }) {
         gap={'medium'}
         full
         justify='end'>
-        <Button
-          color='secondary'
-          variant='text'
-          onClick={cancel}>
-          Peruuta
-        </Button>
-
         <ToggleProvider>
           <ToggleProvider.Target>
             <VPDialog>
@@ -99,22 +85,8 @@ export function MainDataForm({ editing }) {
               </DialogActions>
             </VPDialog>
           </ToggleProvider.Target>
-
-          <ToggleProvider.Trigger>
-            <Button
-              variant='contained'
-              color='secondary'
-              startIcon={<Check />}
-              disabled={isSubmitDisabled()}>
-              <RenderOnCondition
-                condition={editing}
-                fallback='Vahvista'>
-                Päivitä
-              </RenderOnCondition>
-            </Button>
-          </ToggleProvider.Trigger>
         </ToggleProvider>
       </Spacer>
-    </>
+    </div>
   );
 }

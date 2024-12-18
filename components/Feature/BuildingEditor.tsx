@@ -31,14 +31,17 @@ export function BuildingTypeSelector(props: Kotidok.SelectorProps) {
   );
 }
 
-export function ColorSelector(props: Kotidok.SelectorProps) {
+export function ColorSelector({
+  name = 'color_id',
+  ...props
+}: Kotidok.SelectorProps & { name?: string }) {
   return (
     <OptionSelector
       {...props}
       labelKey='name'
       valueKey='id'
       label='Väri'
-      name='color_id'
+      name={name}
       tablename='public.ref_mainColors'
     />
   );

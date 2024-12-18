@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEventData } from './useEventData';
 import { useExtraData } from './useExtraData';
@@ -10,6 +10,7 @@ import { isDefined } from '../util';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
+import { WindowBatch } from '../FormContent/WindowBatch/WindowBatch';
 
 export function useEventForm(
   propertyId: string,
@@ -24,8 +25,16 @@ export function useEventForm(
       } as EventPayloadType)
   );
 
-  const { eventData, updateEventData, eventDataHasChanges, resetEventData, files, removeFile } =
-    eventDataProps;
+  const {
+    eventData,
+    updateEventData,
+    eventDataHasChanges,
+    resetEventData,
+    files,
+    removeFile,
+    windows,
+    locks,
+  } = eventDataProps;
 
   const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
   const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
@@ -34,14 +43,23 @@ export function useEventForm(
 
   const { method: submitMethod, status } = useStatusWithAsyncMethod(async () => {
     if (initialEventData) {
-      console.log('updating event...');
-      await updateEventAction(eventData.id, eventData, extraData);
+      await updateEventAction(
+        eventData.id,
+        {
+          ...eventData,
+          windows: windows.map(w => w.value),
+          locks: locks.map(l => l.value),
+        },
+        extraData
+      );
     } else {
       await createEventAction(
         propertyId,
-        eventData,
-
-        [extraData],
+        {
+          ...eventData,
+          windows: windows.map(w => w.value),
+          locks: locks.map(l => l.value),
+        },
         files.map(f => {
           const fd = new FormData();
           fd.append('file', f);
@@ -109,6 +127,19 @@ export function useEventForm(
 
   const { resetWindowBatch } = eventDataProps;
 
+  const isSubmitDisabled = useMemo(() => {
+    return (
+      eventData.event_type_id == undefined ||
+      eventData.target_id == undefined ||
+      eventData.date == undefined
+    );
+  }, [
+    eventData.target_id,
+    eventData.service_work_type_id,
+    eventData.event_type_id,
+    eventData.date,
+  ]);
+
   useEffect(() => {
     if (eventData.target_id != getIdByLabel(refs.eventTargets, 'Ikkunat')) {
       console.log('Resetting window batch.');
@@ -135,5 +166,6 @@ export function useEventForm(
     resetSelectedSurfaceIds,
     showMainDataForm,
     showExtraDataForm,
+    isSubmitDisabled,
   };
 }

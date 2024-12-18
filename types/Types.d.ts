@@ -120,6 +120,11 @@ namespace Kotidok {
     onChange: (e: any) => void;
     required?: boolean;
   };
+
+  type CheckboxSelectorProps = Omit<SelectorProps, 'value'> &
+    Pick<SelectorProps, 'onChange'> & {
+      checked?: boolean;
+    };
 }
 
 declare type TODO = any;

@@ -5,18 +5,24 @@ import Spinner from '@/components/UI/Spinner';
 import { getServiceWorkTypes } from '../actions';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { Notification } from '@/components/UI/Notification';
 
-export const EventWorkSelector = () => {
-  const { eventData, updateEventData } = useEventFormContext();
+export const EventServiceWorkSelector = () => {
+  const { eventData, updateEventData, resetEventData } = useEventFormContext();
 
-  const { data: workTypes, isLoading } = useQuery({
+  const {
+    data: workTypes,
+    isLoading,
+    error,
+  } = useQuery({
     queryFn: async () => await getServiceWorkTypes(eventData.target_id),
-    queryKey: [`workTypes-${eventData.target_id}`],
+    queryKey: [`work-types-${eventData.target_id}`],
   });
 
-  return (
+  return !error ? (
     <SuspenseFormControl
       isLoading={isLoading}
+      loadingText='Ladataan työtyyppejä...'
       boldLabelText
       label='Tehty työ'
       required
@@ -31,5 +37,11 @@ export const EventWorkSelector = () => {
         />
       }
     />
+  ) : (
+    <Notification
+      variant='error'
+      position='start'>
+      Työtyyppien lataus epäonnistui!
+    </Notification>
   );
 };

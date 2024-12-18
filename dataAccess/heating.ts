@@ -207,19 +207,7 @@ class Heating {
   }
 
   async update(id: string, data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
-    let oldHeating;
-    try {
-      oldHeating = await ctx('heating.data').where({ id }).first();
-    } catch (err) {
-      const msg = err.message;
-      if (msg.includes('where "id" = ?')) {
-        await this.create(data, ctx);
-        return;
-      } else {
-        throw err;
-      }
-    }
-
+    const oldHeating = await ctx('heating.data').where({ id }).first();
     const heatingTypes = await this.getTypes(ctx);
 
     const oldHeatingTypeId = parseInt(oldHeating.heating_type_id);

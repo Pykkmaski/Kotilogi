@@ -9,9 +9,10 @@ import { Spacer } from '@/components/UI/Spacer';
 import { FileList } from '@/components/New/FileList';
 import { LabourExpensesInput } from './Inputs/LabourExpensesInput';
 import { MaterialExpensesInput } from './Inputs/MaterialExpensesInput';
+import { FileUploadForm } from '@/components/New/FileUploadFom/FileUploadForm';
 
 const FilesField = () => {
-  const { files, removeFile } = useEventFormContext();
+  const { files, removeFile, updateEventData } = useEventFormContext();
 
   return (
     <div className='flex flex-col gap-2'>
@@ -24,6 +25,7 @@ const FilesField = () => {
             name='file'
             accept='image/jpeg,application/pdf'
             multiple
+            onChange={updateEventData}
           />
         }
       />
@@ -122,7 +124,6 @@ const OtherField = () => {
           <Input
             type='date'
             name='date'
-            defaultValue={eventData.date}
             value={eventData.date}
             onChange={updateEventData}
           />
@@ -133,13 +134,12 @@ const OtherField = () => {
 };
 
 export const SharedEventDataInputs = ({ isEditing }) => {
+  const { eventData } = useEventFormContext();
   return (
     <>
       <OtherField />
       <ExpensesField />
-      <RenderOnCondition condition={!isEditing}>
-        <FilesField />
-      </RenderOnCondition>
+      <FilesField />
     </>
   );
 };

@@ -5,16 +5,21 @@ import { useQuery } from '@tanstack/react-query';
 import { getEventTargets } from '../actions';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
+import { Notification } from '@/components/UI/Notification';
 
 export const EventTargetSelector = () => {
   const { eventData, updateEventData } = useEventFormContext();
 
-  const { isLoading, data: targets } = useQuery({
+  const {
+    isLoading,
+    data: targets,
+    error,
+  } = useQuery({
     queryKey: [`targets-${eventData.event_type_id}`],
     queryFn: async () => await getEventTargets(eventData.event_type_id),
   });
 
-  return (
+  return !error ? (
     <SuspenseFormControl
       isLoading={isLoading}
       boldLabelText
@@ -31,5 +36,11 @@ export const EventTargetSelector = () => {
         />
       }
     />
+  ) : (
+    <Notification
+      variant='error'
+      position='start'>
+      Kohteiden lataus epäonnistui!
+    </Notification>
   );
 };

@@ -80,6 +80,26 @@ export type HistoryDataType = {
   reason?: string;
 };
 
+export type LockDataType = {
+  description?: string;
+  id?: string;
+  event_id: string;
+  model: string;
+  brand: string;
+  quantity: number;
+  lock_type_id: number;
+};
+
+export type WindowDataType = {
+  description?: string;
+  id?: string;
+  event_id: string;
+  u_value: number;
+  min_db_rating: number;
+  max_db_rating: number;
+  quantity: number;
+};
+
 export type EventPayloadType = ObjectDataType &
   Partial<Omit<WaterPipeRestorationWorkType, 'event_id'>> &
   Partial<Omit<SewerPipeRestorationWorkType, 'event_id'>> &
@@ -93,7 +113,8 @@ export type EventPayloadType = ObjectDataType &
     event_type_id: number;
     target_id: number;
     service_work_type_id?: number;
-    windows?: TODO[];
+    windows?: WindowDataType[];
+    locks?: LockDataType[];
   };
 
 type HasEventId = { event_id: string };

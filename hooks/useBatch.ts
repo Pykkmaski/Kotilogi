@@ -43,6 +43,8 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
     return createInitialBatch(processedInitialEntries);
   });
 
+  const [isPending, startTransition] = useTransition();
+
   useSaveToSessionStorage(
     dataKey,
     entries.map(e => e.value),
@@ -52,7 +54,7 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
   /**Appends a new entry to the batch. */
   const addEntry = useCallback(
     (item: T) => {
-      setEntries([...entries, createEntry(item)]);
+      startTransition(() => setEntries([...entries, createEntry(item)]));
     },
     [entries, setEntries, createEntry]
   );
@@ -61,7 +63,7 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
   const removeEntry = useCallback(
     (id: number) => {
       //Flip the result, as we need to exclude elements that match the predicate.
-      setEntries(entries.filter(item => item.id !== id));
+      startTransition(() => setEntries(entries.filter(item => item.id !== id)));
     },
     [entries, setEntries]
   );
@@ -71,8 +73,9 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
     (
       /**A function by which to search for the entry to be updated. */
       predicate: (item: BatchEntryType<T>) => boolean,
-      updatedValue: T
+      updatedValue: Partial<T>
     ) => {
+      //startTransition(() => {
       setEntries(prev => {
         const newEntries = prev.map(item => {
           if (predicate(item)) {
@@ -96,13 +99,21 @@ export function useBatch<T>(initialEntries: T[] = [], dataKey?: string) {
 
         return newEntries;
       });
+      //});
     },
     [entries, setEntries]
   );
 
-  const resetBatch = useCallback(() => {
-    setEntries(createInitialBatch(initialEntries));
-  }, [setEntries, initialEntries]);
+  const resetBatch = useCallback(
+    (newBatch?: T[]) => {
+      if (newBatch) {
+        startTransition(() => setEntries(createInitialBatch(newBatch)));
+      } else {
+        startTransition(() => setEntries(createInitialBatch(initialEntries)));
+      }
+    },
+    [setEntries, initialEntries]
+  );
 
   return {
     entries,
