@@ -2,9 +2,12 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+
+const schema = 'insulation';
+
 exports.up = function (knex) {
   return knex.schema
-    .withSchema('insulation')
+    .withSchema(schema)
     .createTable('service_work_type', tbl => {
       tbl.string('label', 32).unique().notNullable();
       tbl.increments('id');
@@ -23,6 +26,11 @@ exports.up = function (knex) {
         .references('id')
         .inTable('insulation.service_work_type')
         .onUpdate('CASCADE');
+    })
+    .then(async () => {
+      await knex(`${schema}.service_work_type`).insert({
+        label: 'Muu',
+      });
     });
 };
 
@@ -31,8 +39,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema
-    .withSchema('insulation')
-    .dropTable('service_work')
-    .dropTable('service_work_type');
+  return knex.schema.withSchema(schema).dropTable('service_work').dropTable('service_work_type');
 };

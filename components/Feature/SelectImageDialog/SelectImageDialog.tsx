@@ -30,34 +30,38 @@ export function SelectImageDialog({ images, ...props }: SelectImageDialogProps) 
           condition={status !== 'loading'}
           fallback={<Spinner message='Ladataan kuvia...' />}>
           <div className='flex gap-2 w-full'>
-            {images.map(img => (
-              <ImageSelector
-                onClick={async () => {
-                  if (status === 'loading' || status === 'done') return;
-                  setStatus('loading');
-                  const loadingToast = toast.loading('Vaihdetaan pääkuvaa...');
+            {images.length ? (
+              images.map(img => (
+                <ImageSelector
+                  onClick={async () => {
+                    if (status === 'loading' || status === 'done') return;
+                    setStatus('loading');
+                    const loadingToast = toast.loading('Vaihdetaan pääkuvaa...');
 
-                  await setMainImageAction(img.parentId, img.id)
-                    .then(res => {
-                      if (res.status == 200) {
+                    await setMainImageAction(img.parentId, img.id)
+                      .then(res => {
+                        if (res.status == 200) {
+                          toast.dismiss(loadingToast);
+                          toast.success(res.statusText);
+                          props.onClose && props.onClose();
+                          setStatus('idle');
+                          router.refresh();
+                        } else {
+                          toast.error(res.statusText);
+                        }
+                      })
+                      .catch(err => toast.error(err.message))
+                      .finally(() => {
+                        setStatus(prev => (prev === 'loading' ? 'idle' : prev));
                         toast.dismiss(loadingToast);
-                        toast.success(res.statusText);
-                        props.onClose && props.onClose();
-                        setStatus('idle');
-                        router.refresh();
-                      } else {
-                        toast.error(res.statusText);
-                      }
-                    })
-                    .catch(err => toast.error(err.message))
-                    .finally(() => {
-                      setStatus(prev => (prev === 'loading' ? 'idle' : prev));
-                      toast.dismiss(loadingToast);
-                    });
-                }}
-                imageId={img.id}
-              />
-            ))}
+                      });
+                  }}
+                  imageId={img.id}
+                />
+              ))
+            ) : (
+              <span>Ei kuvia.</span>
+            )}
           </div>
         </RenderOnCondition>
       </DialogContent>

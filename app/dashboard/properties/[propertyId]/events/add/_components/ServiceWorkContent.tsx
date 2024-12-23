@@ -8,9 +8,7 @@ export function ServiceWorkContent() {
   return (
     <>
       <EventTargetSelector />
-      {eventData.target_id != getIdByLabel(refs.eventTargets, 'Lämmönjako') ? (
-        <EventServiceWorkSelector />
-      ) : null}
+      <EventServiceWorkSelector />
     </>
   );
 }

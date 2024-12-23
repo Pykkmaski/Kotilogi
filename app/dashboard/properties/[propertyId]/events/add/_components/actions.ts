@@ -119,8 +119,14 @@ export const getServiceWorkTypes = async (targetId: number) => {
     case event_targets['Käyttövesiputket']:
       return await db('water_pipe.service_work_type');
 
+    case event_targets['Viemäriputket']:
+      return await db('sewer_pipe.service_work_type');
+
     case event_targets['Lämmitysmuoto']:
       return await db('heating.service_work_type');
+
+    case event_targets['Lämmönjako']:
+      return await db('heating.distribution_service_work_type');
 
     case event_targets['Ilmanvaihto']: {
       console.log(targetId);
@@ -131,9 +137,16 @@ export const getServiceWorkTypes = async (targetId: number) => {
       return await db('insulation.service_work_type');
     }
 
+    case event_targets['Sähköt']: {
+      return await db('electricity.service_work_type');
+    }
+
+    case event_targets['Rakenteet']: {
+      return await db('structures.service_work_type');
+    }
+
     default: {
       console.log('Case for id ' + targetId + ' not implemented!');
-      return await db('');
     }
   }
 };
