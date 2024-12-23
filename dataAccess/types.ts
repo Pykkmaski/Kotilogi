@@ -105,6 +105,10 @@ export type RestorationEventType = HasEventId & {
   old_entry_id?: string;
 };
 
+export type ElectricHeatingRestorationType = {
+  electric_heating_method_type_id: number;
+};
+
 export type EventPayloadType = ObjectDataType &
   Partial<Omit<WaterPipeRestorationWorkType, 'event_id'>> &
   Partial<Omit<SewerPipeRestorationWorkType, 'event_id'>> &
@@ -144,11 +148,12 @@ export type InsulationRestorationWorkType = HasEventId & {
   insulation_target_id: number;
 };
 
-export type HeatingMethodRestorationWorkType = HasEventId & {
-  old_system_id: number;
-  new_system_id: number;
-  event_id: string;
-};
+export type HeatingMethodRestorationWorkType = HasEventId &
+  ElectricHeatingRestorationType & {
+    old_system_id: number;
+    new_system_id: number;
+    event_id: string;
+  };
 
 export type HeatingDataType = {
   id?: string;

@@ -296,16 +296,12 @@ class Events {
     };
   }
 
-  private async createServiceWorkData(
-    event_id: string,
-    target_id: number,
-    service_work_type_id: number | null,
-    extraData: TODO,
-    trx: Knex.Transaction
-  ) {
+  private async createServiceWorkData(event_id: string, payload: TODO, trx: Knex.Transaction) {
     const [{ result: event_targets }] = await trx('events.targets').select(
       db.raw('json_object_agg(label, id) as result')
     );
+
+    const { service_work_type_id, target_id } = payload;
 
     const insert = async (tablename: string) =>
       await trx(tablename).insert({
@@ -314,6 +310,7 @@ class Events {
       });
 
     const event_target_id = parseInt(target_id as any);
+
     switch (event_target_id) {
       case event_targets['Ilmanvaihto']:
         {
