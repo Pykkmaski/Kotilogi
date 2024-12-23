@@ -17,9 +17,11 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  tbl.integer('wcCount');
-  tbl.float('otherArea', 8, 2);
-  tbl.float('livingArea', 8, 2);
-  tbl.integer('floorCount');
-  tbl.integer('roomCount');
+  return knex.schema.withSchema('property').alterTable('overview', tbl => {
+    tbl.integer('wcCount');
+    tbl.float('otherArea', 8, 2);
+    tbl.float('livingArea', 8, 2);
+    tbl.integer('floorCount');
+    tbl.integer('roomCount');
+  });
 };

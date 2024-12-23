@@ -6,13 +6,14 @@ import { Notification } from '@/components/UI/Notification';
 import { RoofEditor } from '@/components/Feature/RoofEditor';
 import { useEffect } from 'react';
 import { RoofDataType } from 'kotilogi-app/dataAccess/types';
+import { getRoof } from './actions';
 
 export function EventRoofEditor() {
   const { eventData, updateEventData, resetEventData } = useEventFormContext();
 
   const { data, isLoading, error } = useQuery({
     queryKey: [`event-roof-data-${eventData.property_id}`],
-    queryFn: async () => await getContent('roofs.overview', { property_id: eventData.property_id }),
+    queryFn: async () => await getRoof(eventData.property_id),
   });
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export function EventRoofEditor() {
     }
   }, [isLoading, data]);
 
+  console.log(eventData);
   return isLoading ? (
     <Spinner message='Ladataan katon tietoja...' />
   ) : error ? (

@@ -81,7 +81,7 @@ type DrainageDitchEditorProps = {
 
 export function DrainageDitchEditor({ drainageDitchData, onChange }: DrainageDitchEditorProps) {
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <h1 className='font-semibold'>Salaojan tiedot</h1>
       <DrainageDitchImplementationMethodSelector
         value={drainageDitchData.toteutusTapaId}

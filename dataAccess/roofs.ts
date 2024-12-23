@@ -13,14 +13,11 @@ class Roofs {
     return ctx('roofs.overview').where({ property_id }).select('roofTypeId', 'roofMaterialId');
   }
 
-  async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
-    return trx('roofs.overview')
-      .insert({
-        ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
-        property_id,
-      })
-      .onConflict('property_id')
-      .merge();
+  async create(event_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
+    return trx('roofs.overview').insert({
+      ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
+      event_id,
+    });
   }
 
   async update(property_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {

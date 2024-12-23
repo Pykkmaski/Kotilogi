@@ -6,7 +6,7 @@ exports.up = function (knex) {
   return knex.schema
     .withSchema('heating')
     .alterTable('oil_vessel', tbl => {
-      tbl.dropForeign('id', 'data_oilheatingevents_id_foreign');
+      tbl.dropForeign('id');
       tbl.renameColumn('id', 'heating_id');
       tbl
         .foreign('heating_id')

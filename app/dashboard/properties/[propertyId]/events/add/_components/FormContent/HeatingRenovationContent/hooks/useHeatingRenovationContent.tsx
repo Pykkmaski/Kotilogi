@@ -8,7 +8,7 @@ import { ElectricHeatingMethodSelector } from '../ElectricHeatingMethodSelector'
 import { useCallback } from 'react';
 
 export function useHeatingRenovationContent() {
-  const { extraData, editing } = useEventFormContext();
+  const { eventData, editing } = useEventFormContext();
   const { data: heatingSystems, isLoading } = useQuery({
     queryKey: ['heatingSystems'],
     queryFn: async () => await getHeatingSystems(),
@@ -18,29 +18,29 @@ export function useHeatingRenovationContent() {
     if (isLoading) return null;
     var modelLabel, brandLabel, modelPlaceholder, brandPlaceholder;
 
-    const { newSystemId } = extraData;
-    console.log(heatingSystems);
-    if (newSystemId == getIdByLabel(heatingSystems, 'Kaukolämpö', 'name')) {
+    const { new_system_id } = eventData;
+
+    if (new_system_id == getIdByLabel(heatingSystems, 'Kaukolämpö', 'name')) {
       modelLabel = 'Lämmönjakajan malli';
       brandLabel = 'Lämmönjakajan merkki';
       modelPlaceholder = 'Kirjoita lämmönjakajan malli...';
       brandPlaceholder = 'Kirjoita lämmönjakajan merkki...';
-    } else if (newSystemId == getIdByLabel(heatingSystems, 'Sähkö', 'name')) {
+    } else if (new_system_id == getIdByLabel(heatingSystems, 'Sähkö', 'name')) {
       modelLabel = 'Lämminvesivaraajan malli';
       brandLabel = 'Lämminvesivaraajan merkki';
       modelPlaceholder = 'Kirjoita lämminvesivaraajan malli...';
       brandPlaceholder = 'Kirjoita lämminvesivaraajan merkki...';
-    } else if (newSystemId == getIdByLabel(heatingSystems, 'Maalämpö', 'name')) {
+    } else if (new_system_id == getIdByLabel(heatingSystems, 'Maalämpö', 'name')) {
       modelLabel = 'Pumpun malli';
       brandLabel = 'Pumpun merkki';
       modelPlaceholder = 'Kirjoita pumpun malli...';
       brandPlaceholder = 'Kirjoita pumpun merkki...';
-    } else if (newSystemId == getIdByLabel(heatingSystems, 'Öljy', 'name')) {
+    } else if (new_system_id == getIdByLabel(heatingSystems, 'Öljy', 'name')) {
       modelLabel = 'Öljylämmityskeskuksen malli';
       brandLabel = 'Öljylämmityskeskuksen merkki';
       modelPlaceholder = 'Kirjoita öljylämmityskeskuksen malli...';
       brandPlaceholder = 'Kirjoita öljylämmityskeskuksen merkki...';
-    } else if (newSystemId == getIdByLabel(heatingSystems, 'Ilma-vesilämpöpumppu')) {
+    } else if (new_system_id == getIdByLabel(heatingSystems, 'Ilma-vesilämpöpumppu')) {
       modelLabel = 'Malli';
       brandLabel = 'Merkki';
       modelPlaceholder = 'Kirjoita malli...';
@@ -57,15 +57,15 @@ export function useHeatingRenovationContent() {
         brandPlaceholder={brandPlaceholder}
       />
     );
-  }, [heatingSystems, extraData]);
+  }, [heatingSystems, eventData]);
 
   /**Returns inputs pertaining to the new selected system. */
   const getAdditionalInputs = useCallback(() => {
     if (isLoading) return null;
 
-    const { newSystemId } = extraData;
+    const { new_system_id } = eventData;
     console.log(heatingSystems, isLoading);
-    if (newSystemId == getIdByLabel(heatingSystems, 'Öljy', 'name')) {
+    if (new_system_id == getIdByLabel(heatingSystems, 'Öljy', 'name')) {
       return (
         <>
           <FormControl
@@ -91,7 +91,7 @@ export function useHeatingRenovationContent() {
           />
         </>
       );
-    } else if (newSystemId == getIdByLabel(heatingSystems, 'Sähkö', 'name')) {
+    } else if (new_system_id == getIdByLabel(heatingSystems, 'Sähkö', 'name')) {
       return (
         <>
           <ElectricHeatingMethodSelector />
@@ -100,7 +100,7 @@ export function useHeatingRenovationContent() {
     } else {
       return null;
     }
-  }, [extraData, heatingSystems]);
+  }, [eventData, heatingSystems]);
 
   return {
     getBrandAndModelInputs,

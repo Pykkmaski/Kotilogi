@@ -1,6 +1,6 @@
 import { OptionSelector } from './OptionSelector';
 
-export function InsulationMaterialSelector(props: Kotidok.SelectorProps) {
+function InsulationMaterialSelector(props: Kotidok.SelectorProps) {
   return (
     <OptionSelector
       {...props}
@@ -13,7 +13,7 @@ export function InsulationMaterialSelector(props: Kotidok.SelectorProps) {
   );
 }
 
-export function InsulationTargetSelector(props: Kotidok.SelectorProps) {
+function InsulationTargetSelector(props: Kotidok.SelectorProps) {
   return (
     <OptionSelector
       {...props}
@@ -26,16 +26,27 @@ export function InsulationTargetSelector(props: Kotidok.SelectorProps) {
   );
 }
 
-export function InsulationEditor({ insulationData, onChange }) {
+export function Insulation({ data, index = 0, onChange }) {
   return (
-    <div className='flex flex-col gap-4'>
-      <h1 className='font-semibold'>Eristyksen tiedot</h1>
+    <div className='flex flex-col gap-2'>
       <InsulationMaterialSelector
-        value={insulationData.insulation_material_id}
+        value={data.insulation_material_id}
         onChange={onChange}
       />
       <InsulationTargetSelector
-        value={insulationData.insulation_target_id}
+        value={data.insulation_target_id}
+        onChange={onChange}
+      />
+    </div>
+  );
+}
+
+export function InsulationEditor({ insulationData, onChange }) {
+  return (
+    <div className='flex flex-col gap-2'>
+      <h1 className='font-semibold'>Eristyksen tiedot</h1>
+      <Insulation
+        data={insulationData}
         onChange={onChange}
       />
     </div>

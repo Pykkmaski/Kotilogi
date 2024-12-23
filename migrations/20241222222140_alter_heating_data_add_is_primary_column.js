@@ -3,10 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.raw(`
-      ALTER TABLE roofs.overview
-      ALTER COLUMN id SET DEFAULT gen_random_uuid();
-    `);
+  return knex.schema.withSchema('heating').alterTable('data', tbl => tbl.boolean('is_primary'));
 };
 
 /**
@@ -14,5 +11,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return Promise.resolve();
+  return knex.schema.withSchema('heating').alterTable('data', tbl => tbl.dropColumn('is_primary'));
 };

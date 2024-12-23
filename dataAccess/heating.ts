@@ -119,23 +119,17 @@ class Heating {
 
   async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
     //Save the main heating data.
+
     const [{ id: heating_id }] = await ctx('heating.data').insert(
       {
-        property_id: data.property_id,
+        //Jeesusteippipäivitys. Muutettava myöhemmin.
+        property_id: (data as any).property_id,
+
         heating_type_id: data.heating_type_id,
+        is_primary: data.is_primary,
       },
       ['id']
     );
-
-    if (data.is_primary) {
-      await ctx('heating.primary_heating')
-        .insert({
-          property_id: data.property_id,
-          heating_id,
-        })
-        .onConflict(['heating_id', 'property_id'])
-        .merge();
-    }
 
     const heatingTypes = await this.getTypes(ctx);
     const heatingTypeId = parseInt(data.heating_type_id as any);

@@ -14,8 +14,12 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.withSchema('buildings').alterTable('data', tbl => {
-    tbl.dropPrimary('property_id');
-    tbl.uuid('id').primary().defaultTo(knex.fn.uuid());
-  });
+  return knex.schema
+    .withSchema('buildings')
+    .alterTable('data', tbl => {
+      tbl.dropPrimary('data_pkey');
+    })
+    .alterTable('data', tbl => {
+      tbl.uuid('id').primary().defaultTo(knex.fn.uuid());
+    });
 };

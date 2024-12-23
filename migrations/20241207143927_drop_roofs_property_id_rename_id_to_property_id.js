@@ -5,7 +5,6 @@
 exports.up = function (knex) {
   return knex.schema.withSchema('roofs').alterTable('overview', tbl => {
     tbl.dropColumn('property_id');
-    tbl.renameColumn('id', 'property_id');
   });
 };
 
@@ -15,7 +14,6 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema.withSchema('roofs').alterTable('overview', tbl => {
-    tbl.renameColumn('property_id', 'id');
     tbl
       .uuid('property_id')
       .references('id')

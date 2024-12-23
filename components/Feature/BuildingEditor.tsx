@@ -54,7 +54,7 @@ type BuildingEditorProps = {
 
 export function BuildingEditor({ buildingData, onChange }: BuildingEditorProps) {
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <BuildingTypeSelector
         value={buildingData.building_type_id}
         onChange={onChange}

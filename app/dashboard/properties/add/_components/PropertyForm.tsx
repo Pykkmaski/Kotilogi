@@ -125,9 +125,11 @@ export function PropertyForm<T extends PropertyPayloadType>({
                 </CarouselProvider.SelectSlotTrigger>
               )}
 
-              <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
-                <TabButton>Lämmitys</TabButton>
-              </CarouselProvider.SelectSlotTrigger>
+              {isNew && (
+                <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
+                  <TabButton>Lämmitys</TabButton>
+                </CarouselProvider.SelectSlotTrigger>
+              )}
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='other'>
                 <TabButton>Muut tiedot</TabButton>
@@ -172,9 +174,13 @@ export function PropertyForm<T extends PropertyPayloadType>({
                         <span>Tontti</span>
                       </CarouselProvider.SelectSlotTrigger>
                     )}
-                    <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
-                      <span>Lämmitys</span>
-                    </CarouselProvider.SelectSlotTrigger>
+
+                    {isNew && (
+                      <CarouselProvider.SelectSlotTrigger slotToSelect='heating'>
+                        <span>Lämmitys</span>
+                      </CarouselProvider.SelectSlotTrigger>
+                    )}
+
                     <CarouselProvider.SelectSlotTrigger slotToSelect='other'>
                       <span>Muut tiedot</span>
                     </CarouselProvider.SelectSlotTrigger>

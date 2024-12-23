@@ -13,6 +13,7 @@ export const HeatingSystemSelector = ({
   helper = null,
   includeNullOption = false,
   value = undefined,
+  onChange,
 }) => {
   return (
     <FormControl
@@ -27,10 +28,11 @@ export const HeatingSystemSelector = ({
                 disabled={disabled}
                 label={t.name}
                 value={t.id}
-                key={`heatingType-${i}`}
+                key={`heating_type_id-${i}`}
                 defaultChecked={defaultCheckedValue == t.id}
                 checked={value == t.id}
                 name={name}
+                onChange={onChange}
               />
             );
           })}
@@ -42,6 +44,7 @@ export const HeatingSystemSelector = ({
               value={null}
               defaultChecked={defaultCheckedValue === null}
               name={name}
+              onChange={onChange}
             />
           </RenderOnCondition>
         </RadioGroup>

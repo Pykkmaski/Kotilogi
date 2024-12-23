@@ -29,7 +29,7 @@ export const EventTypeSelector = () => {
         <Notification
           variant='default'
           position='start'>
-          Peruskorjauksella tarkoitetaan talon osan vaihtamista tai korvaamista täysin uudella.
+          Peruskorjauksella tarkoitetaan uuden osan asentamista, tai olemassa olevan korvaamista.
         </Notification>
       ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
         <Notification position='start'>

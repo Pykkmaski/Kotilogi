@@ -80,7 +80,7 @@ class Events {
 
   private async createHeatingRestorationWorkData(
     event_id: string,
-    heatingPayload: HeatingPayloadType,
+    heatingPayload: HeatingMethodRestorationWorkType & HeatingPayloadType,
     trx: Knex.Transaction
   ) {
     await trx('heating.restoration_work').insert({
@@ -89,78 +89,82 @@ class Events {
       new_system_id: heatingPayload.new_system_id,
     });
 
-    const { new_system_id } = eventPayload;
     const [{ result: heatingTypes }] = await trx('heating.types').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
-    switch (new_system_id) {
-      case heatingTypes['']:
-      default:
-        throw new Error('Invalid new system id! (' + new_system_id + ')');
-    }
+    const { new_system_id } = heatingPayload;
+    await heating.update(heatingPayload.id, heatingPayload, trx);
   }
 
   private async createRestorationWorkData(
     event_id: string,
-    eventPayload: EventPayloadType,
+    payload: EventPayloadType,
     trx: Knex.Transaction
   ) {
     const [{ result: event_targets }] = await trx('events.targets').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
-    const event_target_id = parseInt(eventPayload.target_id as any);
+    const event_target_id = parseInt(payload.target_id as any);
 
     switch (event_target_id) {
       case event_targets['Lämmitysmuoto']:
         {
-          //Save heating event data.
-          await this.createHeatingRestorationWorkData(event_id, eventPayload, trx);
-          await heating.create(eventPayload, trx);
+          await trx('heating.heating_restoration_work').insert({
+            event_id,
+            old_system_id: payload.old_system_id,
+            new_system_id: payload.new_system_id,
+          });
+
+          const [{ result: heatingTypes }] = await trx('heating.types').select(
+            db.raw('json_object_agg(name, id) as result')
+          );
+          console.log(payload);
+          //Update HeatingPayload to contain an event_id instead of a property id.
+          await heating.create({ ...payload, heating_type_id: payload.new_system_id } as any, trx);
         }
         break;
 
       case event_targets.Katto:
         {
-          //Does not have restoration work separately. Update the existing roof entry or add a new one.
-          const [existingRoof] = await trx('roofs.overview').where({
-            property_id: eventPayload.property_id,
+          const { old_entry_id } = payload;
+          const roof_id = await roofs.create(event_id, payload, trx);
+          /*
+          await trx('roofs.restoration_event').insert({
+            event_id,
+            new_entry_id: roof_id,
+            old_entry_id,
           });
-          if (existingRoof) {
-            console.log('About to update roof...', existingRoof);
-
-            await roofs.update(existingRoof.property_id, eventPayload, trx);
-          } else {
-            await roofs.create(eventPayload.property_id, eventPayload, trx);
-          }
+          */
         }
         break;
 
       case event_targets.Salaojat:
         {
-          //Has no separate restoration work data. Update the existing ditch entry, or add a new one.
-          const [existingDataId] = await trx('drainage_ditches.data')
-            .where({ property_id: eventPayload.property_id })
-            .pluck('id');
-          if (existingDataId) {
-            await trx('drainage_ditches.data')
-              .where({ id: existingDataId })
-              .update({
-                ...filterValidColumns(
-                  eventPayload,
-                  await getTableColumns('data', trx, 'drainage_ditches')
-                ),
-              });
-          } else {
-            await trx('drainage_ditches.data').insert({
+          //Jeesusteippikorjaus
+          if ('event_id' in payload) {
+            delete payload.event_id;
+          }
+
+          console.log(payload);
+          const [{ id: ditch_id }] = await trx('drainage_ditches.data').insert(
+            {
               ...filterValidColumns(
-                eventPayload,
+                payload,
                 await getTableColumns('data', trx, 'drainage_ditches')
               ),
-              id: event_id,
-            });
-          }
+              event_id,
+            },
+            'event_id'
+          );
+
+          const { old_entry_id } = payload;
+          await trx('drainage_ditches.restoration_event').insert({
+            event_id,
+            new_entry_id: ditch_id,
+            old_entry_id,
+          });
         }
         break;
 
@@ -168,7 +172,7 @@ class Events {
         {
           await trx('water_pipe.restoration_work').insert({
             event_id,
-            installation_method_id: eventPayload.installation_method_id,
+            installation_method_id: payload.installation_method_id,
           });
         }
         break;
@@ -177,7 +181,7 @@ class Events {
         {
           await trx('sewer_pipe.restoration_work').insert({
             event_id,
-            restoration_method_id: eventPayload.restoration_method_id,
+            restoration_method_type_id: payload.restoration_method_type_id,
           });
         }
         break;
@@ -186,8 +190,8 @@ class Events {
         {
           await trx('insulation.restoration_work').insert({
             event_id,
-            insulation_material_id: eventPayload.insulation_material_id,
-            insulation_target_id: eventPayload.insulation_target_id,
+            insulation_material_id: payload.insulation_material_id,
+            insulation_target_id: payload.insulation_target_id,
           });
         }
         break;
@@ -196,15 +200,14 @@ class Events {
         {
           await trx('electricity.restoration_work').insert({
             event_id,
-            restoration_work_target_id: eventPayload.restoration_work_target_id,
+            restoration_work_target_id: payload.restoration_work_target_id,
           });
         }
         break;
 
       case event_targets.Lukitus:
         {
-          const locks = eventPayload.locks;
-          console.log('Adding locks: ', locks);
+          const locks = payload.locks;
           const promises = locks.map(async l => {
             return trx('locking.data').insert({
               ...filterValidColumns(l, await getTableColumns('data', trx, 'locking')),
@@ -217,7 +220,7 @@ class Events {
 
       case event_targets['Ikkunat']:
         {
-          const windows = eventPayload.windows;
+          const windows = payload.windows;
           const promises = windows.map(w =>
             trx('windows.data').insert({
               ...w,
@@ -482,7 +485,7 @@ class Events {
       .join('roofs.ref_aluskatetyypit', {
         'roofs.ref_aluskatetyypit.id': 'roofs.overview.aluskateTyyppiId',
       })
-      .where({ 'roofs.overview.property_id': eventId })
+      .where({ 'roofs.overview.event_id': eventId })
       .select(
         'roofs.materials.name as materialLabel',
         'roofs.types.name as typeLabel',
@@ -499,7 +502,7 @@ class Events {
       .join('drainage_ditches.implementation_methods', {
         'drainage_ditches.implementation_methods.id': 'drainage_ditches.data.toteutusTapaId',
       })
-      .where({ 'drainage_ditches.data.id': eventId })
+      .where({ 'drainage_ditches.data.event_id': eventId })
       .select(
         'drainage_ditches.data.*',
         'drainage_ditches.implementation_methods.label as toteutusTapaLabel'
@@ -549,35 +552,41 @@ class Events {
   }
 
   private async getWaterEvent(eventId: string) {
-    return await db('data_kayttoVesiPutketEvents')
-      .join('ref_kayttovesiPutketAsennusTavat', {
-        'ref_kayttovesiPutketAsennusTavat.id': 'data_kayttoVesiPutketEvents.asennusTapaId',
+    return await db('water_pipe.restoration_work')
+      .join('water_pipe.installation_method', {
+        'water_pipe.installation_method.id': 'water_pipe.restoration_work.installation_method_id',
       })
-      .where({ 'data_kayttoVesiPutketEvents.id': eventId })
+      .where({ 'water_pipe.restoration_work.event_id': eventId })
       .select(
-        'data_kayttoVesiPutketEvents.*',
-        'ref_kayttovesiPutketAsennusTavat.label as asennustapaLabel'
+        'water_pipe.restoration_work.*',
+        'water_pipe.installation_method.label as asennustapaLabel'
       );
   }
 
   private async getSewegeEvent(eventId: string) {
-    return await db('data_viemariPutketEvents')
-      .join('ref_viemariPutketToteutusTapa', {
-        'ref_viemariPutketToteutusTapa.id': 'data_viemariPutketEvents.toteutusTapaId',
+    return await db('sewer_pipe.restoration_work')
+      .join('sewer_pipe.restoration_method_type', {
+        'sewer_pipe.restoration_method_type.id':
+          'sewer_pipe.restoration_work.restoration_method_type_id',
       })
-      .where({ 'data_viemariPutketEvents.id': eventId })
-      .select('data_viemariPutketEvents.*', 'ref_viemariPutketToteutusTapa.label as Toteutustapa');
+      .where({ 'sewer_pipe.restoration_work.event_id': eventId })
+      .select(
+        'sewer_pipe.restoration_work.*',
+        'sewer_pipe.restoration_method_type.label as Toteutustapa'
+      );
   }
 
   private async getInsulationEvent(eventId: string) {
-    return await db('insulation.data')
-      .join('insulation.targets', { 'insulation.targets.id': 'insulation.data.kohdeId' })
-      .join('insulation.materials', {
-        'insulation.materials.id': 'insulation.data.materiaaliId',
+    return await db('insulation.restoration_work')
+      .join('insulation.targets', {
+        'insulation.targets.id': 'insulation.restoration_work.insulation_target_id',
       })
-      .where({ 'insulation.data.id': eventId })
+      .join('insulation.materials', {
+        'insulation.materials.id': 'insulation.restoration_work.insulation_material_id',
+      })
+      .where({ 'insulation.restoration_work.event_id': eventId })
       .select(
-        'insulation.data.*',
+        'insulation.restoration_work.*',
         'insulation.materials.label as materialLabel',
         'insulation.targets.label as targetLabel'
       );

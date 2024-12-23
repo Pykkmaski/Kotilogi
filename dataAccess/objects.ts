@@ -24,9 +24,11 @@ class Objects {
   ) {
     const trx = ctx || (await db.transaction());
     const session = await verifySession();
+
     const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
+    const { id, ...rest } = dataToInsert;
     const [obj] = (await trx('objects.data').insert(
-      { ...dataToInsert, authorId: session.user.id, timestamp: Date.now() },
+      { ...rest, authorId: session.user.id, timestamp: Date.now() },
       '*'
     )) as [ObjectDataType];
 

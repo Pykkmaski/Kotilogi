@@ -13,6 +13,9 @@ import { EventDocument } from './_EventDetails/EventDocument';
 import { ReactNode } from 'react';
 import { BoxFieldset } from '@/components/UI/Fieldset';
 import { RoofData } from '@/components/UI/EventData/RoofData';
+import IconButton from '@mui/material/IconButton';
+import Link from 'next/link';
+import { Add, Visibility } from '@mui/icons-material';
 
 export default async function EventPage({ params }) {
   const eventId = params.eventId;
@@ -123,6 +126,43 @@ export default async function EventPage({ params }) {
               className='rounded-full aspect-square object-cover md:w-[50%] xs:w-full'
             />
           </div>
+        </div>
+      </BoxFieldset>
+
+      <BoxFieldset
+        legend={
+          <div className='w-full flex items-center gap-4 xs:justify-between lg:justify-start'>
+            <span>Tiedostot ja kuvat</span>
+
+            <div className='flex items-center'>
+              <Link
+                href={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}>
+                <IconButton size='small'>
+                  <Visibility />
+                </IconButton>
+              </Link>
+
+              <Link
+                href={`/dashboard/files/add?parentId=${eventId}`}
+                title='Lisää uusi tiedosto'>
+                <IconButton size='small'>
+                  <Add />
+                </IconButton>
+              </Link>
+            </div>
+          </div>
+        }>
+        <div className='flex gap-2 wrap w-full'>
+          {fileData.length
+            ? fileData.map(file => {
+                return (
+                  <FileCard
+                    file={file}
+                    isMain={file.id == mainImageId}
+                  />
+                );
+              })
+            : 'Ei tiedostoja.'}
         </div>
       </BoxFieldset>
     </Main>

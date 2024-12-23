@@ -3,6 +3,7 @@
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { events } from 'kotilogi-app/dataAccess/events';
 import { files } from 'kotilogi-app/dataAccess/files';
+import { heating } from 'kotilogi-app/dataAccess/heating';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
 import { redirect } from 'next/navigation';
@@ -154,4 +155,8 @@ export const getWorkTypeLabel = async (targetId: number, serviceWorkTypeId: numb
     default:
       return 'Tuntematon';
   }
+};
+
+export const getHeatingData = async (propertyId: string) => {
+  return await heating.get(propertyId, db);
 };

@@ -88,15 +88,13 @@ class Properties {
 
     const interiorPromise = interiors.get(id, db);
     const buildingPromise = buildings.get(id, db);
-    const heatingPromise = heating.get(id, db);
-    const roofPromise = roofs.get(id, db);
+    //const heatingPromise = heating.get(id, db);
 
-    const [[overview], [interior], [building], heatingData, [roof]] = await Promise.all([
+    const [[overview], [interior], [building]] = await Promise.all([
       overviewPromise,
       interiorPromise,
       buildingPromise,
-      heatingPromise,
-      roofPromise,
+      //heatingPromise,
     ]);
 
     const propertyTypes = await this.getTypes();
@@ -123,9 +121,7 @@ class Properties {
       ...overview,
       ...interior,
       ...building,
-      ...roof,
       ...p,
-      heating: heatingData,
     };
   }
 
@@ -223,7 +219,11 @@ class Properties {
         const { id: heatingId } = hd;
 
         if (heatingId) {
-          await heating.update(heatingId, hd, trx);
+          if (!hd.deleted) {
+            await heating.update(heatingId, hd, trx);
+          } else {
+            await heating.del(heatingId, trx);
+          }
         } else {
           await heating.create(
             {

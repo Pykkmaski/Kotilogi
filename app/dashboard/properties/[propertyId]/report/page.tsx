@@ -5,6 +5,7 @@ import { events } from 'kotilogi-app/dataAccess/events';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import db from 'kotilogi-app/dbconfig';
 import { Report, ReportProvider } from './Report';
+import { heating } from 'kotilogi-app/dataAccess/heating';
 
 export default async function ReportPage({ params }) {
   const { propertyId } = params;
@@ -18,16 +19,7 @@ export default async function ReportPage({ params }) {
     .where({ objectId: propertyId })
     .pluck('imageId');
 
-  const [heatingSystem] = await db('property.overview')
-    .join(
-      db.raw(
-        'heating.primary_heating on heating.primary_heating.property_id = property.overview.id'
-      )
-    )
-    .join(db.raw('heating.data on heating.data.property_id = property.overview.id'))
-    .join(db.raw('heating.types on heating.types.id = heating.data.heating_type_id'))
-    .where({ 'property.overview.id': propertyId })
-    .pluck('heating.types.name');
+  const heatingSystem = await heating.getPrimary(propertyId, db);
 
   const [propertyType] = await db('property.overview')
     .join('property.propertyTypes', {

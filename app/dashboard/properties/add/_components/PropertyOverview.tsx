@@ -145,15 +145,16 @@ export function PropertyOverview() {
           {heatingBatch.length ? (
             heatingBatch.map(hb => {
               const ht = refs.heatingTypes.find(t => t.id == hb.value.heating_type_id)?.name;
+
               return (
                 <DataDisplay
-                  title={ht}
+                  title={hb.value.name || ht}
                   value={hb.value.is_primary ? <span>Ensisijainen</span> : ' '}
                 />
               );
             })
           ) : (
-            <span className='font-semibold'>Ei lämmitysmuotoja.</span>
+            <span className='font-semibold'>Ei lisättyjä lämmitysmuotoja.</span>
           )}
         </div>
         <div className='flex flex-col gap-2'>

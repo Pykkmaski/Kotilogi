@@ -4,9 +4,88 @@ import { OptionSelector } from './OptionSelector';
 import Button from '@mui/material/Button';
 import { Add, Clear } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { LockDataType } from 'kotilogi-app/dataAccess/types';
+import { BatchEntryType } from '@/hooks/useBatch';
+import { useEffect } from 'react';
 
-export function LockEditor({ lockData = null, onChange = null }) {
-  const { entries: lockBatch, addEntry, removeEntry, updateEntry } = useBatchForm<TODO>();
+function Lock({ data, index = 0, onChange }) {
+  return (
+    <div className='flex flex-col gap-2'>
+      <OptionSelector
+        label='Lukon tyyppi'
+        labelKey='label'
+        valueKey='id'
+        tablename='locking.types'
+        name={`lockTypeId-${index}`}
+        value={data.lockTypeId}
+        onChange={onChange}
+        key={`lock-type-${index}`}
+      />
+
+      <FormControl
+        label='Brand'
+        control={
+          <Input
+            name={`brand-${index}`}
+            value={data.brand}
+            placeholder='Anna lukon merkki'
+            onChange={onChange}
+          />
+        }
+      />
+
+      <FormControl
+        label='Malli'
+        control={
+          <Input
+            name={`model-${index}`}
+            value={data.model}
+            placeholder='Anna lukon malli'
+            onChange={onChange}
+          />
+        }
+      />
+      <FormControl
+        label='Määrä'
+        control={
+          <Input
+            type='number'
+            name={`quantity-${index}`}
+            value={data.quantity}
+            placeholder='Anna lukojen määrä'
+            onChange={onChange}
+          />
+        }
+      />
+
+      <FormControl
+        label='Kuvaus'
+        control={
+          <textarea
+            name={`description-${index}`}
+            value={data.description}
+            placeholder='Anna lukoille vaihtoehtoinen kuvaus...'
+            onChange={onChange}
+          />
+        }
+      />
+    </div>
+  );
+}
+
+type LockEditorProps = {
+  lockData: LockDataType[];
+  onChange: (entries: LockDataType[]) => void;
+};
+
+export function LockEditor({ lockData, onChange }: LockEditorProps) {
+  const {
+    entries: lockBatch,
+    addEntry,
+    removeEntry,
+    updateEntry,
+  } = useBatchForm<TODO>(lockData, 'kotidok-lock-data');
+
   const addLock = () => {
     addEntry({});
   };
@@ -20,8 +99,12 @@ export function LockEditor({ lockData = null, onChange = null }) {
     removeEntry(batchId);
   };
 
+  useEffect(() => {
+    onChange(lockBatch.map(l => l.value));
+  }, [lockBatch]);
+
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <h1 className='font-semibold'>Lukot</h1>
       {lockBatch.map((l, index) => {
         return (
@@ -36,65 +119,10 @@ export function LockEditor({ lockData = null, onChange = null }) {
                 <Clear />
               </IconButton>
             </div>
-
-            <OptionSelector
-              label='Lukon tyyppi'
-              labelKey='label'
-              valueKey='id'
-              tablename='locking.types'
-              name={`lockTypeId-${index}`}
-              value={l.value.lockTypeId}
+            <Lock
+              data={l.value}
+              index={index}
               onChange={e => updateLock(e, l.id)}
-              key={`lock-type-${l.id}`}
-            />
-
-            <FormControl
-              label='Brand'
-              control={
-                <Input
-                  name={`brand-${index}`}
-                  value={l.value.brand}
-                  placeholder='Anna lukon merkki'
-                  onChange={e => updateLock(e, l.id)}
-                />
-              }
-            />
-
-            <FormControl
-              label='Malli'
-              control={
-                <Input
-                  name={`model-${index}`}
-                  value={l.value.model}
-                  placeholder='Anna lukon malli'
-                  onChange={e => updateLock(e, l.id)}
-                />
-              }
-            />
-
-            <FormControl
-              label='Määrä'
-              control={
-                <Input
-                  type='number'
-                  name={`quantity-${index}`}
-                  value={l.value.quantity}
-                  placeholder='Anna lukojen määrä'
-                  onChange={e => updateLock(e, l.id)}
-                />
-              }
-            />
-
-            <FormControl
-              label='Kuvaus'
-              control={
-                <textarea
-                  name={`description-${index}`}
-                  value={l.value.description}
-                  placeholder='Anna lukoille vaihtoehtoinen kuvaus...'
-                  onChange={e => updateLock(e, l.id)}
-                />
-              }
             />
           </div>
         );

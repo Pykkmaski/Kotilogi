@@ -11,9 +11,30 @@ import { InsulationEditor } from '@/components/Feature/InsulationEditor';
 import { ElectricalEditor } from '@/components/Feature/ElectricalEditor';
 import { LockEditor } from '@/components/Feature/LockEditor';
 import { LockBatch } from './FormContent/LockBatch/LockBatch';
+import { HeatingRenovationContent } from './FormContent/HeatingRenovationContent/HeatingRenovationContent';
+import { useQuery } from '@tanstack/react-query/build/legacy';
+import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
+import { getHeatingData } from './actions';
+import { Notification } from '@/components/UI/Notification';
+import { HeatingEditor } from '@/components/Feature/HeatingEditor';
+import Spinner from '@/components/UI/Spinner';
+import { EventHeatingEditor } from './FormContent/EventHeatingEditor';
 
 export function RestorationWorkContent() {
-  const { eventData, refs, updateEventData } = useEventFormContext();
+  const { eventData, propertyId, refs, updateEventData } = useEventFormContext();
+
+  const {
+    data: heatingData,
+    isLoading: heatingDataIsLoading,
+    error: errorOnHeatingData,
+  } = useQuery({
+    queryKey: ['heating-data'],
+    queryFn: async () => await getHeatingData(propertyId),
+    enabled:
+      eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') &&
+      eventData.target_id == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto'),
+  });
+
   return (
     <>
       <EventTargetSelector />
@@ -45,6 +66,8 @@ export function RestorationWorkContent() {
         />
       ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Lukitus') ? (
         <LockBatch />
+      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto') ? (
+        <HeatingRenovationContent />
       ) : null}
     </>
   );

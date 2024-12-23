@@ -101,7 +101,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
 
   return (
     <form
-      className='flex flex-col gap-4'
+      className='flex flex-col gap-8'
       onSubmit={onSubmit}>
       <EventFormProvider
         {...eventFormProps}
@@ -122,7 +122,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
             <CarouselProvider.Slot slotName='target'>
               <BoxFieldset legend='Tapahtuman kohde'>
                 {eventData.event_type_id ? (
-                  <div className='flex flex-col gap-8'>
+                  <div className='flex flex-col gap-10'>
                     <Notification
                       variant='success'
                       position='start'>
@@ -156,10 +156,10 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
 
             <CarouselProvider.Slot slotName='data'>
               <BoxFieldset legend='Tiedot'>
-                <div className='flex flex-col gap-8 w-full'>
+                <div className='flex flex-col gap-10 w-full'>
                   {eventData.target_id ? (
                     <>
-                      <div className='flex flex-col gap-4'>
+                      <div className='flex flex-col gap-2'>
                         <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
                           <Notification
                             variant='success'

@@ -15,7 +15,7 @@ export function ElectricalTargetSelector(props: Kotidok.SelectorProps) {
 
 export function ElectricalEditor({ electricalData, onChange }) {
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <h1 className='font-semibold'>Sähkötyön tiedot</h1>
       <ElectricalTargetSelector
         value={electricalData.restoration_work_target_id}

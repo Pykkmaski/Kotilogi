@@ -8,9 +8,9 @@ export function SewerPipeEditor({ sewerPipeData, onChange }) {
         label='Toteutustapa'
         labelKey='label'
         valueKey='id'
-        tablename='ref_viemariPutketToteutusTapa'
-        name='toteutusTapaId'
-        value={sewerPipeData.toteutusTapaId}
+        tablename='sewer_pipe.restoration_method_type'
+        name='restoration_method_type_id'
+        value={sewerPipeData.restoration_method_type_id}
         onChange={onChange}
       />
     </div>

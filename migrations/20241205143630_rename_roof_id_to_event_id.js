@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
   return knex.schema.withSchema('roofs').alterTable('overview', tbl => {
-    tbl.dropForeign('id', 'data_roofevents_id_foreign');
+    tbl.renameColumn('id', 'event_id');
   });
 };
 
@@ -14,11 +14,6 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema.withSchema('roofs').alterTable('overview', tbl => {
-    tbl
-      .foreign('id')
-      .references('id')
-      .inTable('events.data')
-      .onUpdate('CASCADE')
-      .onDelete('CASCADE');
+    tbl.renameColumn('event_id', 'id');
   });
 };

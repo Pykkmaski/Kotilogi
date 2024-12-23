@@ -129,17 +129,6 @@ export const WindowBatch = () => {
                   />
                 }
               />
-
-              <FormControl
-                label='Kuvaus'
-                control={
-                  <textarea
-                    name={`description-${index}`}
-                    placeholder='Anna ikkunoille vaihtoehtoinen kuvaus...'
-                    onChange={e => updateWindow(e, w.id)}
-                  />
-                }
-              />
             </div>
           );
         })

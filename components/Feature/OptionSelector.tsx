@@ -17,6 +17,7 @@ type OptionSelectorProps = Omit<FormControlProps, 'control'> & {
 
   value?: string | number;
   loadingText?: string;
+  errorText?: string;
   fetchFn?: () => Promise<any>;
   dataProcessingFn?: (data: TODO[]) => TODO[];
   onChange?: (currentValue: any) => void;
@@ -31,6 +32,7 @@ export function OptionSelector({
   fetchFn,
   dataProcessingFn,
   onChange,
+  errorText,
   ...props
 }: OptionSelectorProps) {
   const { data, isLoading, error } = useQuery({
@@ -61,7 +63,7 @@ export function OptionSelector({
     <Notification
       position='start'
       variant='error'>
-      Vaihtoehtojen haku epäonnistui!
+      {errorText || <>Vaihtoehtojen haku epäonnistui!</>}
     </Notification>
   );
 }

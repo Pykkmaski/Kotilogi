@@ -100,11 +100,18 @@ export type WindowDataType = {
   quantity: number;
 };
 
+export type RestorationEventType = HasEventId & {
+  new_entry_id: string;
+  old_entry_id?: string;
+};
+
 export type EventPayloadType = ObjectDataType &
   Partial<Omit<WaterPipeRestorationWorkType, 'event_id'>> &
   Partial<Omit<SewerPipeRestorationWorkType, 'event_id'>> &
   Partial<Omit<ElectricityRestorationWorkType, 'event_id'>> &
   Partial<Omit<InsulationRestorationWorkType, 'event_id'>> &
+  Partial<Omit<HeatingMethodRestorationWorkType, 'event_id'>> &
+  Partial<Omit<RestorationEventType, 'event_id'>> &
   Partial<RoofDataType> & {
     property_id: string;
     date: Date;
@@ -115,6 +122,7 @@ export type EventPayloadType = ObjectDataType &
     service_work_type_id?: number;
     windows?: WindowDataType[];
     locks?: LockDataType[];
+    heating?: HeatingPayloadType[];
   };
 
 type HasEventId = { event_id: string };
@@ -124,7 +132,7 @@ export type WaterPipeRestorationWorkType = HasEventId & {
 };
 
 export type SewerPipeRestorationWorkType = HasEventId & {
-  restoration_method_id: number;
+  restoration_method_type_id: number;
 };
 
 export type ElectricityRestorationWorkType = HasEventId & {
@@ -139,7 +147,7 @@ export type InsulationRestorationWorkType = HasEventId & {
 export type HeatingMethodRestorationWorkType = HasEventId & {
   old_system_id: number;
   new_system_id: number;
-  heating_id: string;
+  event_id: string;
 };
 
 export type HeatingDataType = {
@@ -153,6 +161,7 @@ export type HeatingPayloadType = HeatingDataType &
   Omit<Partial<OilVesselDataType>, 'heating_id'> &
   Omit<Partial<WarmWaterReservoirDataType>, 'heating_id'> & {
     is_primary?: boolean;
+    deleted?: boolean;
   };
 
 export type HeatingCenterDataType = {

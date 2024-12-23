@@ -52,13 +52,19 @@ export function HeatingField() {
       ? 'volume'
       : rawName.includes('location')
       ? 'location'
+      : rawName.includes('name')
+      ? 'name'
       : rawName;
 
-    if (name === 'heating_type_id') {
+    const value = e.target.value;
+
+    if (
+      name === 'heating_type_id' &&
+      (value == getIdByLabel(heatingTypes, 'Kaukolämpö', 'name') ||
+        value == getIdByLabel(heatingTypes, 'Öljylämmitys', 'name'))
+    ) {
       //Ignore updating if the property already has the selected heating type.
-      const existingHeating = heatingBatch.find(
-        hb => hb.value.heating_type_id == parseInt(e.target.value)
-      );
+      const existingHeating = heatingBatch.find(hb => hb.value.heating_type_id == parseInt(value));
 
       if (existingHeating) {
         toast.error('Kiinteistöllä on jo tämä lämmitysmuoto!');
@@ -66,7 +72,8 @@ export function HeatingField() {
       }
     }
 
-    updateHeatingEntry(item => item.id == entry_id, { [name]: e.target.value });
+    console.log(name, value);
+    updateHeatingEntry(item => item.id == entry_id, { [name]: value });
   };
 
   const deleteHeating = async (entry: BatchEntryType<HeatingPayloadType>) => {
@@ -106,11 +113,13 @@ export function HeatingField() {
           <h1>Lämmitys</h1>
         </div>
       }>
-      <div className='flex flex-col gap-10 justify-start'>
+      <div className='flex flex-col gap-10 justify-start w-full'>
         {heatingBatch.map((hb, batchIndex) => {
           const className = [
-            'flex gap-4 flex-col border rounded-md p-4',
-            hb.value.is_primary ? 'bg-blue-50 border-blue-200' : 'bg-none border-slate-200',
+            'flex gap-4 flex-col border rounded-md p-4 shadow-md',
+            hb.value.is_primary
+              ? 'bg-blue-50 border-blue-200 shadow-blue-200'
+              : 'bg-none border-slate-200',
           ].join(' ');
 
           return (
@@ -218,6 +227,25 @@ export function HeatingField() {
                         name={`${batchIndex}-model`}
                         onChange={e => updateHeating(e, hb.id)}
                         placeholder='Anna lämmönjakokeskuksen malli...'
+                      />
+                    }
+                  />
+                </>
+              ) : hb.value.heating_type_id ==
+                  getIdByLabel(heatingTypes, 'Ilmalämpöpumppu', 'name') ||
+                getIdByLabel(heatingTypes, 'Sähkö', 'name') ||
+                getIdByLabel(heatingTypes, 'Vesi-Ilmalämpöpumppu', 'name') ? (
+                <>
+                  <FormControl
+                    label='Lämmitysmuodon nimi'
+                    required
+                    helper='Nimi voi olla vapaamuotoinen ja sitä käytetään myöhemmin lämmitysmuodon tunnistamiseen.'
+                    control={
+                      <Input
+                        name={`${batchIndex}-name`}
+                        placeholder='Anna lämmitysmuodon nimi...'
+                        value={hb.value.name}
+                        onChange={e => updateHeating(e, hb.id)}
                       />
                     }
                   />

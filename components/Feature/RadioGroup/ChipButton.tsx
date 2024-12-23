@@ -30,6 +30,7 @@ export function ChipButton({ label, type = 'radio', ...props }: ChipButtonProps)
         ref={inputRef}
         hidden
         onChange={e => {
+          console.log('Chip button state: ', e.target.checked, e.target.value);
           props.onChange && props.onChange(e);
         }}
       />

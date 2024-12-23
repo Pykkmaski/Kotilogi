@@ -37,7 +37,7 @@ exports.down = function (knex) {
     RENAME COLUMN street_number TO "houseNumber";
 
     ALTER TABLE property.overview
-    RENAME COLUMN zip_code TO "zipCode;
+    RENAME COLUMN zip_code TO "zipCode";
 
     ALTER TABLE property.overview
     RENAME COLUMN property_type_id TO "propertyTypeId";
