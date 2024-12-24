@@ -52,7 +52,7 @@ class Utilities {
 
     const data = await dbQuery;
     const returnResult = data.map(d => this.getDTO(d));
-    console.log('Return result at utilities.get: ', returnResult);
+
     return returnResult;
   }
 

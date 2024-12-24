@@ -5,11 +5,11 @@ import { Spacer } from '@/components/UI/Spacer';
 
 import { useMapArray } from '@/hooks/useMapArray';
 import { Add } from '@mui/icons-material';
-import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
 
 type EventCardGridProps = {
-  events: EventDataType[];
+  events: EventPayloadType[];
   propertyId: string;
 };
 

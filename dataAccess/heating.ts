@@ -13,14 +13,30 @@ class Heating {
 
   /**Returns the primary heating system of a property. */
   async getPrimary(property_id: string, ctx: Knex.Transaction | Knex) {
+    /*
+    The ideal way, as soon as a figure out how to handle events with heating in this form.
     const [heating_type_label] = await ctx('heating.primary_heating')
       .join(db.raw('heating.data ON heating.data.id = heating.primary_heating.heating_id'))
       .join(db.raw('heating.types ON heating.types.id = heating.data.heating_type_id'))
       .select('heating.types.name as heating_type_label')
       .where({ 'heating.primary_heating.property_id': property_id })
+      .pluck('heating.types.name');*/
+
+    /**Use this as a temporary solution */
+    const [primaryHeating] = await ctx('heating.heating_restoration_work')
+      .join(db.raw('events.data on events.data.id = heating.heating_restoration_work.event_id'))
+      .join(db.raw('objects.data on objects.data.id = events.data.id'))
+      .join(
+        db.raw('heating.types on heating.types.id = heating.heating_restoration_work.new_system_id')
+      )
+      .where({
+        'objects.data.parentId': property_id,
+      })
+      .orderBy('events.data.date', 'desc')
+      .limit(1)
       .pluck('heating.types.name');
 
-    return heating_type_label;
+    return primaryHeating;
   }
 
   async getTypes(ctx: Knex.Transaction | Knex) {

@@ -131,13 +131,16 @@ export function useEventForm(
     return (
       eventData.event_type_id == undefined ||
       eventData.target_id == undefined ||
-      eventData.date == undefined
+      eventData.date == undefined ||
+      status == 'loading' ||
+      status == 'done'
     );
   }, [
     eventData.target_id,
     eventData.service_work_type_id,
     eventData.event_type_id,
     eventData.date,
+    status,
   ]);
 
   useEffect(() => {

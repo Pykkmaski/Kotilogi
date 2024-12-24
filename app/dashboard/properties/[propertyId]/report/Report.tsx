@@ -3,7 +3,7 @@
 import { Logo } from '@/components/App/Logo';
 import { Page, PDFViewer, Document, View, Text, Image } from '@react-pdf/renderer';
 import {
-  EventDataType,
+  EventPayloadType,
   HousePayloadType,
   PropertyPayloadType,
 } from 'kotilogi-app/dataAccess/types';
@@ -14,7 +14,7 @@ type ReportProviderProps = {
   content: {
     property: PropertyPayloadType;
     ownerCount: number;
-    events: EventDataType[];
+    events: EventPayloadType[];
     heatingSystem: string;
     propertyType: string;
     mainImageId: string;
@@ -60,7 +60,7 @@ const AttributeGroup = ({ children }) => {
 
 export function Report() {
   const { content } = useReportContext();
-  console.log(content.events);
+  console.log('App Events: ', content.events);
   const pr = content.property as any;
 
   return (

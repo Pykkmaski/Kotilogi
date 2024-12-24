@@ -1,6 +1,6 @@
 'use client';
 
-import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext, useMemo } from 'react';
 import { RoofContent } from './RoofContent';
@@ -14,10 +14,12 @@ import { EristeContent } from './EristeContent';
 import { DrainageDitchContent } from './DrainageDitchContent';
 import { FalseInput } from '@/components/UI/FalseInput';
 
-const EventDetailsContext = createContext<{ mainData: EventDataType; extraData: any } | null>(null);
+const EventDetailsContext = createContext<{ mainData: EventPayloadType; extraData: any } | null>(
+  null
+);
 
 type EventDetailsProps = {
-  eventData: EventDataType;
+  eventData: EventPayloadType;
   extraData: any;
 };
 

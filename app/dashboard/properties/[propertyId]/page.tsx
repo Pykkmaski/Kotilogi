@@ -34,6 +34,7 @@ export default async function PropertyPage({ params }) {
   const utilityData = await utilities.get(data.id);
   const fileData = await files.get({ parentId: id }, 10);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
+  //const primaryHeating = await heating.getPrimary(id, db);
   const primaryHeating = await heating.getPrimary(id, db);
 
   return (
@@ -191,7 +192,7 @@ export default async function PropertyPage({ params }) {
                 ? eventData.map(async ed => {
                     const [image_id] = await db('data_mainImages')
                       .where({ objectId: ed.id })
-                      .pluck('id');
+                      .pluck('imageId');
                     return (
                       <Card
                         title={ed.title}

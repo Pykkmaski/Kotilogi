@@ -3,7 +3,7 @@ import { LabelGrid } from '@/components/New/LabelGrid';
 import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Delete } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
-import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import {
   Chip,
   DialogActions,
@@ -21,11 +21,11 @@ import Link from 'next/link';
 import { EventDeleteButton } from './EventDeleteButton';
 import { EventDeleteCancelButton } from './EventDeleteCancelButton';
 
-type EventOverviewProps<T extends EventDataType> = {
+type EventOverviewProps<T extends EventPayloadType> = {
   event: T;
 };
 
-export async function EventOverview<T extends EventDataType>({ event }: EventOverviewProps<T>) {
+export async function EventOverview<T extends EventPayloadType>({ event }: EventOverviewProps<T>) {
   const images = await db('data_files')
     .join('objects.data', { 'objects.data.id': 'data_files.id' })
     .where({ parentId: event.id, type: 'image/jpeg' })

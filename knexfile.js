@@ -20,11 +20,11 @@ module.exports = {
       min: 0,
       max: 5,
 
-      idleTimeoutMillis: 500, // Time in milliseconds before an idle connection is closed
+      idleTimeoutMillis: 3000, // Time in milliseconds before an idle connection is closed
       createTimeoutMillis: 3000, // Time in milliseconds before giving up on connection creation
       acquireTimeoutMillis: 30000, // Time in milliseconds before giving up on acquiring a connection
-      reapIntervalMillis: 500, // How often to check for idle connections (in milliseconds)
-      createRetryIntervalMillis: 100,
+      reapIntervalMillis: 3000, // How often to check for idle connections (in milliseconds)
+      createRetryIntervalMillis: 2000,
     },
   },
 

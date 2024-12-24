@@ -1,6 +1,6 @@
 import { PreviewContentRow } from '@/components/New/Boxes/PreviewContent';
 import { Card } from '@/components/UI/Card';
-import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import Link from 'next/link';
 import { History, MoreVert } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
@@ -12,7 +12,7 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
   const eventData = await events.get({ parentId: propertyId }, null, 4);
 
   return (
-    <PreviewContentRow<EventDataType>
+    <PreviewContentRow<EventPayloadType>
       icon={<History />}
       title='Viimeisimmät tapahtumat'
       itemsToDisplay={3}

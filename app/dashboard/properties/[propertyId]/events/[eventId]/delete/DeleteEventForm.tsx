@@ -1,11 +1,11 @@
 'use client';
 
 import { ObjectDeletionForm } from '@/components/New/Forms/ObjectDeletionForm';
-import { EventDataType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { deleteEventAction } from './actions';
 
 type DeleteEventFormProps = {
-  event: EventDataType;
+  event: EventPayloadType;
 };
 
 export function DeleteEventForm({ event }: DeleteEventFormProps) {

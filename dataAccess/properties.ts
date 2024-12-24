@@ -159,8 +159,8 @@ class Properties {
 
       const buildingPromise = buildings.create(obj.id, data, trx);
       const interiorPromise = interiors.create(obj.id, data, trx);
-      const roofPromise = roofs.create(obj.id, data, trx);
-      await Promise.all([...heatingPromises, buildingPromise, interiorPromise, roofPromise]);
+      //const roofPromise = roofs.create(obj.id, data, trx);
+      await Promise.all([...heatingPromises, buildingPromise, interiorPromise]);
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.property_type_id, trx)
@@ -235,12 +235,12 @@ class Properties {
         }
       });
 
-      const roofPromise = roofs.create(id, payload, trx);
+      //const roofPromise = roofs.create(id, payload, trx);
       await Promise.all([
         overviewPromise,
         buildingPromise,
         interiorPromise,
-        roofPromise,
+        //roofPromise,
         ...heatingPromises,
       ]);
 

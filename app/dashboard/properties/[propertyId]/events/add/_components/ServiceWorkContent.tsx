@@ -4,7 +4,6 @@ import { EventServiceWorkSelector } from './Selectors/EventServiceWorkSelector';
 import { EventTargetSelector } from './Selectors/EventTargetSelector';
 
 export function ServiceWorkContent() {
-  const { eventData, refs } = useEventFormContext();
   return (
     <>
       <EventTargetSelector />

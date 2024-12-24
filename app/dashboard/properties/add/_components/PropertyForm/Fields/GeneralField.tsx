@@ -74,7 +74,6 @@ export function GeneralField({ hidePropertyIdentifier }) {
   const getZipCodeDescription = () => {
     return isHouse ? 'Täytetään automaattisesti...' : 'Kirjoita postinumero...';
   };
-  console.log(data.build_year);
 
   return (
     <BoxFieldset legend='Yleistiedot'>
@@ -216,34 +215,6 @@ export function GeneralField({ hidePropertyIdentifier }) {
               name='description'
               placeholder='Anna vaihtoehtoinen kuvaus...'
               defaultValue={data && data.description}
-            />
-          }
-        />
-
-        <FormControl
-          label='Rakennuksen tyyppi'
-          control={
-            <ChipRadioGroup
-              onChange={updateData}
-              name='building_type_id'
-              dataArray={refs.buildingTypes}
-              labelKey='name'
-              valueKey='id'
-              currentValue={data.building_type_id}
-            />
-          }
-        />
-
-        <FormControl
-          label='Energialuokka'
-          control={
-            <ChipRadioGroup
-              onChange={updateData}
-              name='energy_class_id'
-              dataArray={refs.energyClasses}
-              labelKey='name'
-              valueKey='id'
-              currentValue={data.energy_class_id}
             />
           }
         />

@@ -36,13 +36,21 @@ export default async function ReportPage({ params }) {
     .pluck('buildings.materials.name');
 
   const [roofMaterial] = await db('roofs.overview')
+    .join(db.raw('objects.data on objects.data.id = roofs.overview.event_id'))
+    .join(db.raw('events.data on events.data.id = objects.data.id'))
     .join(db.raw('roofs.materials on roofs.materials.id = roofs.overview."roofMaterialId"'))
-    .where({ 'roofs.overview.property_id': propertyId })
+    .where({ 'objects.data.parentId': propertyId })
+    .orderBy('events.data.date', 'desc')
+    .limit(1)
     .pluck('roofs.materials.name');
 
   const [roofType] = await db('roofs.overview')
+    .join(db.raw('objects.data on objects.data.id = roofs.overview.event_id'))
+    .join(db.raw('events.data on events.data.id = objects.data.id'))
     .join(db.raw('roofs.types on roofs.types.id = roofs.overview."roofTypeId"'))
-    .where({ 'roofs.overview.property_id': propertyId })
+    .where({ 'objects.data.parentId': propertyId })
+    .orderBy('events.data.date', 'desc')
+    .limit(1)
     .pluck('roofs.types.name');
 
   const [{ count: ownerCount }] = await db('data_propertyOwners')

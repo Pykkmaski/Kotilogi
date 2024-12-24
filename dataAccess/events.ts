@@ -1,16 +1,6 @@
 import { Knex } from 'knex';
 import { objects } from './objects';
-import {
-  ElectricityRestorationWorkType,
-  EventDataType,
-  EventPayloadType,
-  HeatingMethodRestorationWorkType,
-  HeatingPayloadType,
-  InsulationRestorationWorkType,
-  RoofDataType,
-  SewerPipeRestorationWorkType,
-  WaterPipeRestorationWorkType,
-} from './types';
+import { EventPayloadType, HeatingMethodRestorationWorkType, HeatingPayloadType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
@@ -19,35 +9,6 @@ import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds'
 import { properties } from './properties';
 import { heating } from './heating';
 import { roofs } from './roofs';
-
-type TypeDataType = {
-  event_type_id: number;
-  target_id: number;
-  work_type_id?: number;
-};
-
-type MainEventDataType = Partial<EventDataType> &
-  Required<Pick<EventDataType, 'property_id'>> &
-  Required<Pick<EventDataType, 'event_type_id'>> &
-  Required<Pick<EventDataType, 'target_id'>>;
-
-type ExtraEventDataType = (
-  | RoofDataType
-  | ElectricityRestorationWorkType
-  | WaterPipeRestorationWorkType
-  | SewerPipeRestorationWorkType
-  | InsulationRestorationWorkType
-  | HeatingMethodRestorationWorkType
-  | any
-)[];
-
-type RestorationWorkDataType =
-  | RoofDataType
-  | ElectricityRestorationWorkType
-  | WaterPipeRestorationWorkType
-  | SewerPipeRestorationWorkType
-  | HeatingMethodRestorationWorkType
-  | InsulationRestorationWorkType;
 
 class Events {
   /**
@@ -233,7 +194,7 @@ class Events {
 
       default:
         console.log(
-          `Received an event with target id ${eventPayload.target_id}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
+          `Received an event with target id ${payload.target_id}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
         );
     }
   }
@@ -346,11 +307,10 @@ class Events {
 
   private async createSurfaceRenovationWorkData(
     event_id: string,
-    target_id: number,
-    extraData: TODO,
+    payload: Partial<EventPayloadType>,
     trx: Knex.Transaction
   ) {
-    throw new Error('Function not implemented!');
+    throw new Error('Surface renovation event handler not implemented!');
   }
 
   /**Creates a new event for a property.
@@ -402,6 +362,9 @@ class Events {
               await this.createSurfaceRenovationWorkData(event_id, eventPayload, trx);
             }
             break;
+
+          default:
+            throw new Error('Handler for event type not implemented!');
         }
 
         callback && (await callback(event_id, trx));
@@ -649,7 +612,7 @@ class Events {
    * @param data The main event data to update with.
    * @param extraData An array containing the additional data associated with the event.
    */
-  async update(id: string, data: Partial<EventDataType>, extraData: any[]) {
+  async update(id: string, data: Partial<EventPayloadType>, extraData: any[]) {
     //Only allow the author of an event to update it.
     await objects.verifySessionUserIsAuthor(id);
 

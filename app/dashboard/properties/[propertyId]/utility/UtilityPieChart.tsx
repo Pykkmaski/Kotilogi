@@ -28,7 +28,7 @@ export function UtilityPieChart() {
 
   useEffect(() => {
     //Only works when the page is loaded.
-    setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '30%'));
+    setChartWidth(() => (window.innerWidth <= 1280 ? '100%' : '100%'));
   }, [window.innerWidth]);
 
   return (

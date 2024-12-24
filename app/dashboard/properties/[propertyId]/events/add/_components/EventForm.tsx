@@ -10,7 +10,7 @@ import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@mui/material';
 import { EventTypeSelector } from './Selectors/EventTypeSelector';
 import { BoxFieldset } from '@/components/UI/Fieldset';
@@ -76,9 +76,13 @@ type EventFormProps = {
 
 export function EventForm({ propertyId, initialEventData, initialExtraData }: EventFormProps) {
   const eventFormProps = useEventForm(propertyId, initialEventData, initialExtraData);
+  const router = useRouter();
+  const pathname = usePathname();
+
   const {
     eventData,
     editing,
+    status,
     showMainDataForm,
     showExtraDataForm,
     isSubmitDisabled,
@@ -99,6 +103,10 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
       eventData.target_id && eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö'),
   });
 
+  const updateSlot = (slotName: string) => {
+    router.replace(`${pathname}?t=${slotName}`);
+  };
+
   return (
     <form
       className='flex flex-col gap-8'
@@ -111,7 +119,9 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
           <SecondaryHeading>
             {initialEventData ? 'Muokkaa Tapahtumaa' : 'Lisää Tapahtuma'}
           </SecondaryHeading>
-          <CarouselProvider defaultSlot={tab}>
+          <CarouselProvider
+            defaultSlot={tab}
+            onChange={updateSlot}>
             <CarouselHeader />
             <CarouselProvider.Slot slotName='type'>
               <BoxFieldset legend='Valitse tapahtuman tyyppi'>
@@ -230,7 +240,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                     <Button
                       disabled={isSubmitDisabled}
                       variant='contained'
-                      startIcon={<Check />}
+                      startIcon={status == 'loading' ? <Spinner /> : <Check />}
                       color='secondary'
                       type='submit'>
                       Vahvista
