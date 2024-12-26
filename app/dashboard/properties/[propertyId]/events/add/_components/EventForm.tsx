@@ -30,6 +30,7 @@ import { getServiceWorkTypes, getWorkTypeLabel } from './actions';
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import Spinner from '@/components/UI/Spinner';
 import { OtherWorkContent } from './OtherWorkContent';
+import { SurfaceWorkContent } from './SurfaceWorkContent';
 
 const CarouselHeader = () => {
   return (
@@ -132,7 +133,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
             <CarouselProvider.Slot slotName='target'>
               <BoxFieldset legend='Tapahtuman kohde'>
                 {eventData.event_type_id ? (
-                  <div className='flex flex-col gap-10'>
+                  <div className='flex flex-col gap-10 w-full'>
                     <Notification
                       variant='success'
                       position='start'>
@@ -148,6 +149,9 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                       <ServiceWorkContent />
                     ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu') ? (
                       <OtherWorkContent />
+                    ) : eventData.event_type_id ==
+                      getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
+                      <SurfaceWorkContent />
                     ) : (
                       <Notification
                         variant='error'
@@ -223,11 +227,11 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                         ) : null}
                       </div>
 
-                      <RenderOnCondition condition={showMainDataForm()}>
+                      <RenderOnCondition condition={showMainDataForm}>
                         <MainDataForm editing={eventData} />
                       </RenderOnCondition>
                     </>
-                  ) : (
+                  ) : eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
                     <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
                       <Notification
                         variant='error'
@@ -235,7 +239,7 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                         Valitse ensin tapahtuman kohde.
                       </Notification>
                     </CarouselProvider.SelectSlotTrigger>
-                  )}
+                  ) : null}
                   <div className='flex w-full gap-4 justify-end'>
                     <Button
                       disabled={isSubmitDisabled}

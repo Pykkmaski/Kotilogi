@@ -1,0 +1,31 @@
+import {
+  AcUnit,
+  Air,
+  Bolt,
+  CrisisAlert,
+  DeviceThermostat,
+  Layers,
+  LocalFireDepartment,
+  Lock,
+  MoreHoriz,
+  Plumbing,
+  Roofing,
+  WaterDrop,
+  Window,
+} from '@mui/icons-material';
+
+export const icons = {
+  Ikkunat: Window,
+  Lämmitysmuoto: LocalFireDepartment,
+  Salaojat: Layers,
+  Muu: MoreHoriz,
+  Eristys: AcUnit,
+  Sähköt: Bolt,
+  Käyttövesiputket: WaterDrop,
+  Viemäriputket: Plumbing,
+  Lukitus: Lock,
+  Ilmanvaihto: Air,
+  Katto: Roofing,
+  Lämmönjako: DeviceThermostat,
+  Palovaroittimet: CrisisAlert,
+};

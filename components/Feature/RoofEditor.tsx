@@ -4,6 +4,7 @@ import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { ColorSelector } from './BuildingEditor';
 import { useEffect } from 'react';
+import { EditorContainer } from './EditorContainer';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
@@ -221,9 +222,10 @@ type RoofEditorProps = {
 };
 
 export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
-  useEffect(() => console.log(roofData), [roofData]);
+  console.log('Roof data at roof editor: ', roofData);
+
   return (
-    <div className='flex flex-col gap-2'>
+    <EditorContainer>
       <h1 className='font-semibold'>Katon tiedot</h1>
       <RoofTypeSelector
         value={roofData.roofTypeId}
@@ -315,6 +317,6 @@ export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
         checked={roofData.turvatikas}
         onChange={onChange}
       />
-    </div>
+    </EditorContainer>
   );
 }

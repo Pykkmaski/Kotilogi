@@ -28,13 +28,15 @@ export function RadioGroup({ children, name, required, ...props }: RadioGroupPro
     });
   }, [children, props, name, required]);
 
-  return (
-    <List
+  return <div className='grid lg:grid-cols-3 xs:grid-cols-2 gap-2'>{content}</div>;
+}
+
+/**
+ * <List
       direction='row'
       gap={'small'}
       alignItems='center'
       wrap>
       {content}
     </List>
-  );
-}
+ */

@@ -49,6 +49,7 @@ export function useEventForm(
           ...eventData,
           windows: windows.map(w => w.value),
           locks: locks.map(l => l.value),
+          surfaces: selectedSurfaceIds.map(s => s),
         },
         extraData
       );
@@ -59,6 +60,7 @@ export function useEventForm(
           ...eventData,
           windows: windows.map(w => w.value),
           locks: locks.map(l => l.value),
+          surfaces: selectedSurfaceIds.map(s => s),
         },
         files.map(f => {
           const fd = new FormData();
@@ -98,13 +100,14 @@ export function useEventForm(
     [selectedSurfaceIds, setSelectedSurfaceIds]
   );
 
-  const showMainDataForm = useCallback(() => {
+  const showMainDataForm = useMemo(() => {
     if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       return isDefined(eventData.target_id);
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
       return isDefined(eventData.target_id) && isDefined(eventData.service_work_type_id);
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      return isDefined(eventData.target_id);
+      console.log('Pintaremontti');
+      return true;
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu')) {
       return isDefined(eventData.target_id);
     } else {

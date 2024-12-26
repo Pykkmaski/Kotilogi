@@ -38,15 +38,20 @@ import { BuildingEditor } from '@/components/Feature/BuildingEditor';
 
 function GotoDraft({ updateSlot }) {
   return (
-    <div
-      className='flex w-full justify-end'
-      onClick={() => updateSlot('draft')}>
-      <CarouselProvider.SelectSlotTrigger slotToSelect='draft'>
-        <Button color='secondary'>Siirry vahvistamaan</Button>
-      </CarouselProvider.SelectSlotTrigger>
+    <div className='flex w-full justify-end gap-4'>
+      <CarouselProvider.PreviousTrigger>
+        <Button color='secondary'>Edellinen</Button>
+      </CarouselProvider.PreviousTrigger>
+      <CarouselProvider.NextTrigger>
+        <Button color='secondary'>Seuraava</Button>
+      </CarouselProvider.NextTrigger>
     </div>
   );
 }
+
+const FieldsetContainer = ({ children }) => (
+  <div className='flex flex-col gap-4 w-full'>{children}</div>
+);
 
 type PropertyFormProps<T extends PropertyPayloadType> = React.PropsWithChildren & {
   property?: T;
@@ -90,6 +95,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
     (data as TODO).zip_code,
   ]);
 
+  console.log(data);
   return (
     <form
       id={formId}
@@ -112,6 +118,10 @@ export function PropertyForm<T extends PropertyPayloadType>({
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='exterior'>
                 <TabButton>Ulkopuoli</TabButton>
+              </CarouselProvider.SelectSlotTrigger>
+
+              <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
+                <TabButton>Katto</TabButton>
               </CarouselProvider.SelectSlotTrigger>
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
@@ -140,15 +150,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
               </CarouselProvider.SelectSlotTrigger>
             </div>
 
-            <div className='lg:flex xs:hidden gap-1'>
-              <CarouselProvider.PreviousTrigger>
-                <Button color='secondary'>Edellinen</Button>
-              </CarouselProvider.PreviousTrigger>
-              <CarouselProvider.NextTrigger>
-                <Button color='secondary'>Seuraava</Button>
-              </CarouselProvider.NextTrigger>
-            </div>
-
             <div className='xs:block lg:hidden'>
               <MenuPrefab
                 trigger={
@@ -165,6 +166,11 @@ export function PropertyForm<T extends PropertyPayloadType>({
                     <CarouselProvider.SelectSlotTrigger slotToSelect='exterior'>
                       <span>Ulkopuoli</span>
                     </CarouselProvider.SelectSlotTrigger>
+
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
+                      <span>Katto</span>
+                    </CarouselProvider.SelectSlotTrigger>
+
                     <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
                       <span>Sisäpuoli</span>
                     </CarouselProvider.SelectSlotTrigger>
@@ -198,42 +204,74 @@ export function PropertyForm<T extends PropertyPayloadType>({
           </div>
 
           <CarouselProvider.Slot slotName='general'>
-            <GeneralField hidePropertyIdentifier={!isNew} />
-            <GotoDraft updateSlot={updateSlot} />
+            <BoxFieldset legend='Yleistiedot'>
+              <FieldsetContainer>
+                <GeneralField hidePropertyIdentifier={!isNew} />
+                <GotoDraft updateSlot={updateSlot} />
+              </FieldsetContainer>
+            </BoxFieldset>
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='exterior'>
             <BoxFieldset legend='Rakennus'>
-              <div className='flex flex-col gap-4 w-full'>
+              <FieldsetContainer>
                 <BuildingEditor
                   buildingData={data as Partial<BuildingDataType>}
                   onChange={updateData}
                 />
                 <GotoDraft updateSlot={updateSlot} />
-              </div>
+              </FieldsetContainer>
+            </BoxFieldset>
+          </CarouselProvider.Slot>
+
+          <CarouselProvider.Slot slotName='roof'>
+            <BoxFieldset legend='Katon tiedot'>
+              <FieldsetContainer>
+                <RoofEditor
+                  roofData={data}
+                  onChange={updateData}
+                />
+                <GotoDraft updateSlot={updateSlot} />
+              </FieldsetContainer>
             </BoxFieldset>
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='interior'>
-            <InteriorField />
-            <GotoDraft updateSlot={updateSlot} />
+            <BoxFieldset legend='Sisätilat'>
+              <FieldsetContainer>
+                <InteriorField />
+                <GotoDraft updateSlot={updateSlot} />
+              </FieldsetContainer>
+            </BoxFieldset>
           </CarouselProvider.Slot>
 
           {data.property_type_id == refs.propertyTypes.find(t => t.name == 'Kiinteistö')?.id && (
             <CarouselProvider.Slot slotName='yard'>
-              <YardField />
-              <GotoDraft updateSlot={updateSlot} />
+              <BoxFieldset legend='Tontti'>
+                <FieldsetContainer>
+                  <YardField />
+                  <GotoDraft updateSlot={updateSlot} />
+                </FieldsetContainer>
+              </BoxFieldset>
             </CarouselProvider.Slot>
           )}
 
           <CarouselProvider.Slot slotName='heating'>
-            <HeatingField />
-            <GotoDraft updateSlot={updateSlot} />
+            <BoxFieldset legend='Lämmitys'>
+              <FieldsetContainer>
+                <HeatingField />
+                <GotoDraft updateSlot={updateSlot} />
+              </FieldsetContainer>
+            </BoxFieldset>
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='other'>
-            <OtherInfoField />
-            <GotoDraft updateSlot={updateSlot} />
+            <BoxFieldset legend='Muut tiedot'>
+              <FieldsetContainer>
+                <OtherInfoField />
+                <GotoDraft updateSlot={updateSlot} />
+              </FieldsetContainer>
+            </BoxFieldset>
           </CarouselProvider.Slot>
 
           <CarouselProvider.Slot slotName='draft'>

@@ -9,36 +9,34 @@ export function ExteriorField() {
   const { property, refs, updateData } = usePropertyFormContext();
 
   return (
-    <BoxFieldset legend='Ulkopuoli'>
-      <div className='flex flex-col gap-4 w-full'>
-        <FormControl
-          label='Rakennusmateriaali'
-          control={
-            <ChipRadioGroup
-              onChange={updateData}
-              name='building_material_id'
-              dataArray={refs.buildingMaterials}
-              labelKey='name'
-              valueKey='id'
-              currentValue={property.building_material_id}
-            />
-          }
-        />
+    <div className='flex flex-col gap-4 w-full'>
+      <FormControl
+        label='Rakennusmateriaali'
+        control={
+          <ChipRadioGroup
+            onChange={updateData}
+            name='building_material_id'
+            dataArray={refs.buildingMaterials}
+            labelKey='name'
+            valueKey='id'
+            currentValue={property.building_material_id}
+          />
+        }
+      />
 
-        <FormControl
-          label='Julkisivun väri'
-          control={
-            <ChipRadioGroup
-              onChange={updateData}
-              name='color_id'
-              dataArray={refs.mainColors}
-              labelKey='name'
-              valueKey='id'
-              currentValue={property.color_id}
-            />
-          }
-        />
-      </div>
-    </BoxFieldset>
+      <FormControl
+        label='Julkisivun väri'
+        control={
+          <ChipRadioGroup
+            onChange={updateData}
+            name='color_id'
+            dataArray={refs.mainColors}
+            labelKey='name'
+            valueKey='id'
+            currentValue={property.color_id}
+          />
+        }
+      />
+    </div>
   );
 }

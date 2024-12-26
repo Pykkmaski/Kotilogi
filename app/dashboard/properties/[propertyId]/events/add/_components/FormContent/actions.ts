@@ -17,9 +17,12 @@ export const getEristeMateriaalit = async () => db('insulation.materials');
 export const getEristeKohteet = async () => db('insulation.targets');
 
 export const getRoof = async (property_id: string) => {
-  return await db('objects.data')
-    .join(db.raw('events.data on events.data.id = objects.data.id'))
-    .join(db.raw('roofs.overview on roofs.overview.event_id = events.data.id'))
-    .where({ 'objects.data.parentId': property_id })
-    .select('roofs.overview.*');
+  return await db('roofs.overview').where({ property_id });
+};
+
+export const getCurrentHeatingSystems = async (property_id: string) => {
+  return await db('heating.data')
+    .join(db.raw('heating.types on heating.types.id = heating.data.heating_type_id'))
+    .where({ 'heating.data.property_id': property_id })
+    .select('heating.data.*', 'heating.types.name as heating_type_label');
 };

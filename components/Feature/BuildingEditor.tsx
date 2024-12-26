@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query/build/legacy';
 import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
 import { BuildingDataType } from 'kotilogi-app/dataAccess/types';
 import { OptionSelector } from './OptionSelector';
+import { EditorContainer } from './EditorContainer';
 
 export function BuildingMaterialSelector(props: Kotidok.SelectorProps) {
   return (
@@ -54,7 +55,7 @@ type BuildingEditorProps = {
 
 export function BuildingEditor({ buildingData, onChange }: BuildingEditorProps) {
   return (
-    <div className='flex flex-col gap-2'>
+    <EditorContainer>
       <BuildingTypeSelector
         value={buildingData.building_type_id}
         onChange={onChange}
@@ -69,6 +70,6 @@ export function BuildingEditor({ buildingData, onChange }: BuildingEditorProps) 
         value={buildingData.color_id}
         onChange={onChange}
       />
-    </div>
+    </EditorContainer>
   );
 }

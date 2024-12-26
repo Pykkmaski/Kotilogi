@@ -1,5 +1,5 @@
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
-import { getHeatingSystems } from '../../actions';
+import { getCurrentHeatingSystems, getHeatingSystems } from '../../actions';
 import { useQuery } from '@tanstack/react-query';
 import { useEventFormContext } from '../../../EventFormContext';
 import { BrandAndModelInputs } from '../BrandModelInputs';
@@ -12,6 +12,15 @@ export function useHeatingRenovationContent() {
   const { data: heatingSystems, isLoading } = useQuery({
     queryKey: ['heatingSystems'],
     queryFn: async () => await getHeatingSystems(),
+  });
+
+  const {
+    data: currentHeatingSystems,
+    isLoading: currentIsLoading,
+    error: currentError,
+  } = useQuery({
+    queryKey: ['current-heating-systems'],
+    queryFn: async () => getCurrentHeatingSystems(eventData.property_id),
   });
 
   const getBrandAndModelInputs = useCallback(() => {
@@ -107,5 +116,8 @@ export function useHeatingRenovationContent() {
     getAdditionalInputs,
     isLoading,
     heatingSystems,
+    currentHeatingSystems,
+    currentError,
+    currentIsLoading,
   };
 }

@@ -1,8 +1,9 @@
+import { EditorContainer } from './EditorContainer';
 import { OptionSelector } from './OptionSelector';
 
 export function WaterPipeEditor({ waterPipeData, onChange }) {
   return (
-    <div className='flex flex-col gap-2'>
+    <EditorContainer>
       <h1 className='font-semibold'>Käyttövesiputkien tiedot</h1>
       <OptionSelector
         label='Asennustapa'
@@ -13,6 +14,6 @@ export function WaterPipeEditor({ waterPipeData, onChange }) {
         value={waterPipeData.installation_method_id}
         onChange={onChange}
       />
-    </div>
+    </EditorContainer>
   );
 }

@@ -2,9 +2,10 @@ import 'server-only';
 import { Knex } from 'knex';
 import db from 'kotilogi-app/dbconfig';
 import { insertViaFilter } from './utils/insertViaFilter';
-import { HeatingCenterDataType, HeatingPayloadType } from './types';
+import { EventPayloadType, HeatingCenterDataType, HeatingPayloadType } from './types';
 import { getTableColumns } from './utils/getTableColumns';
 import { filterValidColumns } from './utils/filterValidColumns';
+import { objects } from './objects';
 
 class Heating {
   private async getHeatingCenter(heating_id: string, ctx: Knex.Transaction | Knex) {
@@ -13,30 +14,14 @@ class Heating {
 
   /**Returns the primary heating system of a property. */
   async getPrimary(property_id: string, ctx: Knex.Transaction | Knex) {
-    /*
-    The ideal way, as soon as a figure out how to handle events with heating in this form.
-    const [heating_type_label] = await ctx('heating.primary_heating')
+    const [primaryHeatingLabel] = await ctx('heating.primary_heating')
       .join(db.raw('heating.data ON heating.data.id = heating.primary_heating.heating_id'))
       .join(db.raw('heating.types ON heating.types.id = heating.data.heating_type_id'))
       .select('heating.types.name as heating_type_label')
       .where({ 'heating.primary_heating.property_id': property_id })
-      .pluck('heating.types.name');*/
-
-    /**Use this as a temporary solution */
-    const [primaryHeating] = await ctx('heating.heating_restoration_work')
-      .join(db.raw('events.data on events.data.id = heating.heating_restoration_work.event_id'))
-      .join(db.raw('objects.data on objects.data.id = events.data.id'))
-      .join(
-        db.raw('heating.types on heating.types.id = heating.heating_restoration_work.new_system_id')
-      )
-      .where({
-        'objects.data.parentId': property_id,
-      })
-      .orderBy('events.data.date', 'desc')
-      .limit(1)
       .pluck('heating.types.name');
 
-    return primaryHeating;
+    return primaryHeatingLabel;
   }
 
   async getTypes(ctx: Knex.Transaction | Knex) {
@@ -138,14 +123,23 @@ class Heating {
 
     const [{ id: heating_id }] = await ctx('heating.data').insert(
       {
-        //Jeesusteippipäivitys. Muutettava myöhemmin.
         property_id: (data as any).property_id,
-
         heating_type_id: data.heating_type_id,
-        is_primary: data.is_primary,
       },
       ['id']
     );
+
+    //Insert a record of the primary heating, if applicable.
+    const [currentPrimaryHeating] = await ctx('heating.primary_heating').where({
+      property_id: data.property_id,
+    });
+
+    if (!currentPrimaryHeating && data.is_primary) {
+      await ctx('heating.primary_heating').insert({
+        property_id: data.property_id,
+        heating_id: heating_id,
+      });
+    }
 
     const heatingTypes = await this.getTypes(ctx);
     const heatingTypeId = parseInt(data.heating_type_id as any);
@@ -168,13 +162,15 @@ class Heating {
         }
         break;
 
-      case heatingTypes['Sähkö']: {
-        await this.createHeatingCenter(heating_id, data, ctx);
-        await ctx('heating.warm_water_reservoir').insert({
-          volume: data.volume,
-          heating_id,
-        });
-      }
+      case heatingTypes['Sähkö']:
+        {
+          await this.createHeatingCenter(heating_id, data, ctx);
+          await ctx('heating.warm_water_reservoir').insert({
+            volume: data.volume,
+            heating_id,
+          });
+        }
+        break;
     }
   }
 
@@ -223,6 +219,7 @@ class Heating {
     const oldHeatingTypeId = parseInt(oldHeating.heating_type_id);
     const newHeatingTypeId = data.heating_type_id ? parseInt(data.heating_type_id as any) : -1;
 
+    //Update the base heating data.
     await ctx('heating.data')
       .where({ id })
       .update({

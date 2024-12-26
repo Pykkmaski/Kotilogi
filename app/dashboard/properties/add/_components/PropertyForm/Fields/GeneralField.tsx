@@ -76,149 +76,147 @@ export function GeneralField({ hidePropertyIdentifier }) {
   };
 
   return (
-    <BoxFieldset legend='Yleistiedot'>
-      <div className='flex flex-col gap-4 w-full'>
-        {!hidePropertyIdentifier && isHouse && (
-          <FormControl
-            label='Kiinteistötunnus'
-            required
-            helper={
-              propertyIdentifierStatus == 'invalid' ? (
-                <Notification
-                  variant='error'
-                  position='start'>
-                  Kiinteistötunnus on virheellinen!
-                </Notification>
-              ) : propertyIdentifierStatus == 'valid' ? (
-                <Notification
-                  variant='success'
-                  position='start'>
-                  Kiinteistötunnus vahvistettu!
-                </Notification>
-              ) : null
-            }
-            control={
-              <Input
-                onChange={updateData}
-                data-testid='property-number-input'
-                icon={
-                  propertyIdentifierStatus === 'loading' ? (
-                    <Spinner />
-                  ) : propertyIdentifierStatus === 'valid' ? (
-                    <Check sx={{ color: 'green' }} />
-                  ) : propertyIdentifierStatus === 'invalid' ? (
-                    <Clear sx={{ color: 'red' }} />
-                  ) : null
-                }
-                name='propertyNumber'
-                placeholder='Kirjoita kiinteistötunnus...'
-                defaultValue={data && (data as HousePayloadType).propertyNumber}
-              />
-            }
-          />
-        )}
-
+    <div className='flex flex-col gap-4 w-full'>
+      {!hidePropertyIdentifier && isHouse && (
         <FormControl
-          label='Kadun nimi'
-          helper={<SubLabel>Kadun nimi täytetään kiinteistötunnuksen perusteella</SubLabel>}
+          label='Kiinteistötunnus'
           required
+          helper={
+            propertyIdentifierStatus == 'invalid' ? (
+              <Notification
+                variant='error'
+                position='start'>
+                Kiinteistötunnus on virheellinen!
+              </Notification>
+            ) : propertyIdentifierStatus == 'valid' ? (
+              <Notification
+                variant='success'
+                position='start'>
+                Kiinteistötunnus vahvistettu!
+              </Notification>
+            ) : null
+          }
           control={
             <Input
-              data-testid='street-address-input'
-              name='street_name'
-              disabled={isHouse}
-              placeholder={getAddressDescription()}
-              defaultValue={data && data.street_name}
-              value={data && data.street_name}
               onChange={updateData}
+              data-testid='property-number-input'
+              icon={
+                propertyIdentifierStatus === 'loading' ? (
+                  <Spinner />
+                ) : propertyIdentifierStatus === 'valid' ? (
+                  <Check sx={{ color: 'green' }} />
+                ) : propertyIdentifierStatus === 'invalid' ? (
+                  <Clear sx={{ color: 'red' }} />
+                ) : null
+              }
+              name='propertyNumber'
+              placeholder='Kirjoita kiinteistötunnus...'
+              defaultValue={data && (data as HousePayloadType).propertyNumber}
             />
           }
         />
+      )}
 
-        <FormControl
-          label='Postinumero'
-          required
-          helper={<SubLabel>Postinumero täytetään kiinteistötunnuksen perusteella</SubLabel>}
-          control={
-            <Input
-              onChange={updateData}
-              disabled={isHouse}
-              defaultValue={(data && data.zip_code) || null}
-              value={data.zip_code}
-              name='zip_code'
-              placeholder={getZipCodeDescription()}
-              maxLength={5}></Input>
-          }
-        />
-
-        <RenderOnCondition condition={isHouse}>
-          <FormControl
-            label='Talon numero'
-            required
-            control={
-              <Input
-                onChange={updateData}
-                data-testid='house-number-input'
-                name='street_number'
-                value={data && data.street_number}
-                defaultValue={data && data.street_number}
-                placeholder='Kirjoita talon numero...'
-                type='number'
-                step='1'
-                min='1'
-              />
-            }
+      <FormControl
+        label='Kadun nimi'
+        helper={<SubLabel>Kadun nimi täytetään kiinteistötunnuksen perusteella</SubLabel>}
+        required
+        control={
+          <Input
+            data-testid='street-address-input'
+            name='street_name'
+            disabled={isHouse}
+            placeholder={getAddressDescription()}
+            defaultValue={data && data.street_name}
+            value={data && data.street_name}
+            onChange={updateData}
           />
-        </RenderOnCondition>
+        }
+      />
 
+      <FormControl
+        label='Postinumero'
+        required
+        helper={<SubLabel>Postinumero täytetään kiinteistötunnuksen perusteella</SubLabel>}
+        control={
+          <Input
+            onChange={updateData}
+            disabled={isHouse}
+            defaultValue={(data && data.zip_code) || null}
+            value={data.zip_code}
+            name='zip_code'
+            placeholder={getZipCodeDescription()}
+            maxLength={5}></Input>
+        }
+      />
+
+      <RenderOnCondition condition={isHouse}>
         <FormControl
-          label='Rakennusvuosi'
+          label='Talon numero'
+          required
           control={
             <Input
               onChange={updateData}
-              name='build_year'
+              data-testid='house-number-input'
+              name='street_number'
+              value={data && data.street_number}
+              defaultValue={data && data.street_number}
+              placeholder='Kirjoita talon numero...'
               type='number'
-              defaultValue={data && data.build_year}
-              placeholder='Anna rakennusvuosi...'
-              data-testid='build-year-input'
+              step='1'
+              min='1'
             />
           }
         />
+      </RenderOnCondition>
 
-        <RenderOnCondition condition={!isHouse}>
-          <FormControl
-            label='Huoneiston numero'
-            required
-            control={
-              <Input
-                onChange={updateData}
-                defaultValue={data && (data as AppartmentPayloadType).street_number}
-                data-testid='appartment-number-input'
-                type='number'
-                name='residence_number'
-                min='0'
-                step='1'
-                placeholder='Anna huoneiston numero...'
-              />
-            }
+      <FormControl
+        label='Rakennusvuosi'
+        control={
+          <Input
+            onChange={updateData}
+            name='build_year'
+            type='number'
+            defaultValue={data && data.build_year}
+            placeholder='Anna rakennusvuosi...'
+            data-testid='build-year-input'
           />
-        </RenderOnCondition>
+        }
+      />
 
+      <RenderOnCondition condition={!isHouse}>
         <FormControl
-          label='Kuvaus'
+          label='Huoneiston numero'
+          required
           control={
             <Input
               onChange={updateData}
-              data-testid='description-input'
-              variant='textarea'
-              spellCheck={false}
-              name='description'
-              placeholder='Anna vaihtoehtoinen kuvaus...'
-              defaultValue={data && data.description}
+              defaultValue={data && (data as AppartmentPayloadType).street_number}
+              data-testid='appartment-number-input'
+              type='number'
+              name='residence_number'
+              min='0'
+              step='1'
+              placeholder='Anna huoneiston numero...'
             />
           }
         />
-      </div>
-    </BoxFieldset>
+      </RenderOnCondition>
+
+      <FormControl
+        label='Kuvaus'
+        control={
+          <Input
+            onChange={updateData}
+            data-testid='description-input'
+            variant='textarea'
+            spellCheck={false}
+            name='description'
+            placeholder='Anna vaihtoehtoinen kuvaus...'
+            defaultValue={data && data.description}
+          />
+        }
+      />
+    </div>
   );
 }

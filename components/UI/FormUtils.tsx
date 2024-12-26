@@ -7,8 +7,8 @@ type LabelProps = React.ComponentProps<'label'> & {
   required?: boolean;
   boldText?: boolean;
 };
-export const Label = ({ children, required, boldText }: LabelProps) => {
-  const classes = [boldText ? 'font-medium' : 'font-normal'];
+export const Label = ({ children, required, boldText = true }: LabelProps) => {
+  const classes = [boldText ? 'font-semibold' : 'font-normal'];
   return (
     <label className={classes.join(' ')}>
       {children}
@@ -107,18 +107,20 @@ export const FormControl = ({
   ...props
 }: FormControlProps) => {
   return (
-    <div
-      className={[props.className ? props.className.split(' ') : '' + 'flex flex-col gap-2'].join(
-        ' '
-      )}>
-      <Label
-        boldText={boldLabelText}
-        required={required}>
-        {label}
-      </Label>
-      <PassProps required={required}>{control}</PassProps>
+    <div className='rounded-md bg-slate-50 p-2'>
+      <div
+        className={[props.className ? props.className.split(' ') : '' + 'flex flex-col gap-2'].join(
+          ' '
+        )}>
+        <Label
+          boldText={true}
+          required={required}>
+          {label}
+        </Label>
+        <PassProps required={required}>{control}</PassProps>
 
-      <SubLabel>{helper}</SubLabel>
+        <SubLabel>{helper}</SubLabel>
+      </div>
     </div>
   );
 };

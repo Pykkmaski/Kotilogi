@@ -1,49 +1,41 @@
 import Chip from '@mui/material/Chip';
-import { blue } from '@mui/material/colors';
 import colors from 'kotilogi-app/colors';
-import { useEffect, useRef, useState } from 'react';
+import { RadioButtonProvider } from './RadioButtonProvider';
+import { Check } from '@mui/icons-material';
 
-type ChipButtonProps = React.ComponentProps<'input'> & {
+export type ChipButtonProps = React.ComponentProps<'input'> & {
   label: string;
   type?: 'radio' | 'checkbox';
 };
 
 /**Renders a chip that functions as a radio-button or a checkbox. */
-export function ChipButton({ label, type = 'radio', ...props }: ChipButtonProps) {
-  const [checked, setChecked] = useState(props.checked || false);
-  const inputRef = useRef<HTMLInputElement>(null);
+export function ChipButton({ label, type = 'radio', checked, ...props }: ChipButtonProps) {
+  const borderColor = 'border-slate-300';
+  const iconSize = '1.2rem';
 
-  useEffect(() => {
-    setChecked(inputRef.current?.checked);
-  }, [inputRef.current?.checked, props.checked]);
+  const containerClassName = [
+    'flex gap-2 p-2 rounded-md border items-center cursor-pointer relative',
+    checked ? 'bg-secondary text-white border-secondary' : `bg-white text-black ${borderColor}`,
+  ].join(' ');
 
-  const baseChipStyling = {
-    color: checked && 'white',
-    backgroundColor: checked ? colors.secondary : 'white',
-  };
+  const checkmarkContainerClassName = [
+    `w-[1.2rem] h-[1.2rem] border flex items-center justify-center rounded-full`,
+    borderColor,
+    checked ? 'bg-white' : 'bg-white',
+  ].join(' ');
 
   return (
-    <>
-      <input
-        {...props}
-        type={type}
-        ref={inputRef}
-        hidden
-        onChange={e => {
-          console.log('Chip button state: ', e.target.checked, e.target.value);
-          props.onChange && props.onChange(e);
-        }}
-      />
-      <Chip
-        variant={checked ? 'filled' : 'outlined'}
-        sx={baseChipStyling}
-        label={label}
-        onClick={() => {
-          if (inputRef.current) {
-            inputRef.current.click();
-          }
-        }}
-      />
-    </>
+    <RadioButtonProvider
+      {...props}
+      type={type}>
+      <div className={containerClassName}>
+        {checked ? (
+          <Check sx={{ fontSize: '1.2rem', fontStyle: 'bold' }} />
+        ) : (
+          <div className={checkmarkContainerClassName} />
+        )}
+        <span>{label}</span>
+      </div>
+    </RadioButtonProvider>
   );
 }

@@ -3,44 +3,60 @@ import { HeatingSystemSelector } from './HeatingSystemSelector';
 import { useHeatingRenovationContent } from './hooks/useHeatingRenovationContent';
 import { useEventFormContext } from '../../EventFormContext';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { useQuery } from '@tanstack/react-query/build/legacy';
+import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 
 export const HeatingRenovationContent = () => {
   const { eventData, updateEventData, editing } = useEventFormContext();
-  const { heatingSystems, isLoading, getAdditionalInputs, getBrandAndModelInputs } =
-    useHeatingRenovationContent();
+  const {
+    heatingSystems,
+    isLoading,
+    getAdditionalInputs,
+    getBrandAndModelInputs,
+    currentHeatingSystems,
+    currentError,
+    currentIsLoading,
+  } = useHeatingRenovationContent();
 
   return (
-    <RenderOnCondition
-      condition={isLoading == false}
-      fallback={<Spinner message='Ladataan...' />}>
-      <div className='flex flex-col gap-2 w-full'>
-        <HeatingSystemSelector
-          helper='Jos olemassa oleva järjestelmä vaihdettiin, valitse vanhan järjestelmän tyyppi.'
-          required={false}
-          name='old_system_id'
-          label='Vanha järjestelmä'
-          heatingSystems={heatingSystems}
-          defaultCheckedValue={null}
-          value={eventData.old_system_id}
-          includeNullOption
-          onChange={updateEventData}
-        />
+    <div className='flex flex-col gap-2 w-full'>
+      {currentIsLoading ? (
+        <Spinner message='Ladataan nykyisiä järjestelmiä...' />
+      ) : (
+        <div className='flex flex-row gap-2'>
+          {currentHeatingSystems.map(ch => {
+            return (
+              <ChipButton
+                name='old_system_id'
+                value={ch.id}
+                label={ch.heating_type_label}
+                checked={eventData.old_system_id == ch.id}
+                onChange={updateEventData}
+              />
+            );
+          })}
+        </div>
+      )}
 
-        <HeatingSystemSelector
-          required
-          name='new_system_id'
-          label='Uusi järjestelmä'
-          disabled={editing}
-          heatingSystems={heatingSystems}
-          value={eventData.new_system_id}
-          onChange={updateEventData}
-        />
-      </div>
-
-      <div className='flex flex-col gap-2 w-full'>
-        {getAdditionalInputs()}
-        {getBrandAndModelInputs()}
-      </div>
-    </RenderOnCondition>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <HeatingSystemSelector
+            required
+            name='new_system_id'
+            label='Uusi järjestelmä'
+            disabled={editing}
+            heatingSystems={heatingSystems}
+            value={eventData.new_system_id}
+            onChange={updateEventData}
+          />
+          <div className='flex flex-col gap-2 w-full'>
+            {getAdditionalInputs()}
+            {getBrandAndModelInputs()}
+          </div>
+        </>
+      )}
+    </div>
   );
 };

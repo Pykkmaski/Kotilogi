@@ -12,7 +12,9 @@ import db from 'kotilogi-app/dbconfig';
 
 /**The header displayed when using the app-portion of the site. */
 export async function AppHeader() {
+  //One of these seems to be causing a knex timeout error.
   const session = await loadSession().catch(err => console.log(err.message));
+
   const [{ propertyCount }] = await db('data_propertyOwners')
     .where({ userId: session.user.id })
     .count('*', { as: 'propertyCount' });

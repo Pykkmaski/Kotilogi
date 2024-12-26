@@ -6,11 +6,11 @@ import { getSurfaces } from '../actions';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 
 export const SurfaceSelector = () => {
-  const { typeData, selectedSurfaceIds, toggleSurfaceId } = useEventFormContext();
+  const { eventData, selectedSurfaceIds, toggleSurfaceId } = useEventFormContext();
 
   const { data: surfaces, isLoading } = useQuery({
     queryFn: async () => await getSurfaces(),
-    queryKey: [`workTypes-${typeData.mainTypeId}-${typeData.targetId}`],
+    queryKey: [`workTypes-${eventData.event_type_id}-${eventData.target_id}`],
   });
 
   const getSurfaceButtons = () => {

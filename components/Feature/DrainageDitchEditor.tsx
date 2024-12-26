@@ -1,4 +1,5 @@
 import { FormControl, Input } from '../UI/FormUtils';
+import { EditorContainer } from './EditorContainer';
 import { OptionSelector } from './OptionSelector';
 import { Checkbox } from './RadioGroup/Checkbox';
 
@@ -81,7 +82,7 @@ type DrainageDitchEditorProps = {
 
 export function DrainageDitchEditor({ drainageDitchData, onChange }: DrainageDitchEditorProps) {
   return (
-    <div className='flex flex-col gap-2'>
+    <EditorContainer>
       <h1 className='font-semibold'>Salaojan tiedot</h1>
       <DrainageDitchImplementationMethodSelector
         value={drainageDitchData.toteutusTapaId}
@@ -109,7 +110,6 @@ export function DrainageDitchEditor({ drainageDitchData, onChange }: DrainageDit
         checked={drainageDitchData.pumppuKaivo}
         onChange={onChange}
       />
-
       <Checkbox
         label='Sadevesiputket + suppilot'
         name='sadevesiPutket'
@@ -130,13 +130,12 @@ export function DrainageDitchEditor({ drainageDitchData, onChange }: DrainageDit
         checked={drainageDitchData.tarkastusKaivot}
         onChange={onChange}
       />
-
       <Checkbox
         label='Kalliotyö'
         name='kallioTyo'
         checked={drainageDitchData.kallioTyo}
         onChange={onChange}
       />
-    </div>
+    </EditorContainer>
   );
 }

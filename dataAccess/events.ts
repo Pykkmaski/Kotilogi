@@ -39,6 +39,36 @@ class Events {
     };
   }
 
+  public async createGenesisEvent(
+    targetLabel: string,
+    payload: Partial<EventPayloadType> & Required<Pick<EventPayloadType, 'property_id'>>,
+
+    ctx: Knex.Transaction
+  ) {
+    let id: string;
+    await objects.create(
+      payload,
+      async (obj, trx) => {
+        [id] = await trx('events.data').insert(
+          db.raw(
+            `
+              (id, event_type_id, target_id, date) VALUES (
+                ?,
+                (SELECT id FROM events.types WHERE label = 'genesis' limit 1),
+                (SELECT id FROM events.types WHERE label = ? limit 1),
+                CURRENT_DATE
+              )
+            `,
+            [obj.id, targetLabel]
+          ),
+          'id'
+        );
+      },
+      ctx
+    );
+    return id;
+  }
+
   private async createHeatingRestorationWorkData(
     event_id: string,
     heatingPayload: HeatingMethodRestorationWorkType & HeatingPayloadType,
@@ -72,60 +102,66 @@ class Events {
     switch (event_target_id) {
       case event_targets['Lämmitysmuoto']:
         {
+          const { new_system_id, old_system_id } = payload;
+          let oldSystemType: number;
+
+          if (old_system_id) {
+            [oldSystemType] = await trx('heating.data')
+              .where({ id: old_system_id })
+              .pluck('heating_type_id');
+            //Delete the old heating system.
+            await heating.del(old_system_id as any, trx);
+          }
+
           await trx('heating.heating_restoration_work').insert({
             event_id,
-            old_system_id: payload.old_system_id,
-            new_system_id: payload.new_system_id,
+            old_system_id: oldSystemType,
+            new_system_id,
           });
 
-          const [{ result: heatingTypes }] = await trx('heating.types').select(
-            db.raw('json_object_agg(name, id) as result')
-          );
-          console.log(payload);
-          //Update HeatingPayload to contain an event_id instead of a property id.
-          await heating.create({ ...payload, heating_type_id: payload.new_system_id } as any, trx);
+          //Create the replacement heating.
+          await heating.create({ ...payload, heating_type_id: new_system_id } as any, trx);
         }
         break;
 
       case event_targets.Katto:
         {
-          const { old_entry_id } = payload;
-          const roof_id = await roofs.create(event_id, payload, trx);
-          /*
-          await trx('roofs.restoration_event').insert({
-            event_id,
-            new_entry_id: roof_id,
-            old_entry_id,
-          });
-          */
+          const [roofId] = await trx('roofs.overview')
+            .where({ property_id: payload.property_id })
+            .pluck('property_id');
+          if (roofId) {
+            await roofs.update(roofId, payload, trx);
+          } else {
+            await roofs.create(event_id, payload, trx);
+          }
         }
         break;
 
       case event_targets.Salaojat:
         {
-          //Jeesusteippikorjaus
-          if ('event_id' in payload) {
-            delete payload.event_id;
-          }
+          const [ditchId] = await trx('drainage_ditches.data')
+            .where({ property_id: payload.property_id })
+            .pluck('property_id');
 
-          console.log(payload);
-          const [{ id: ditch_id }] = await trx('drainage_ditches.data').insert(
-            {
+          if (ditchId) {
+            await trx('drainage_ditches.data')
+              .where({ property_id: ditchId })
+              .update({
+                ...filterValidColumns(
+                  payload,
+                  await getTableColumns('data', trx, 'drainage_ditches')
+                ),
+                property_id: payload.property_id,
+              });
+          } else {
+            await trx('drainage_ditches.data').insert({
               ...filterValidColumns(
                 payload,
                 await getTableColumns('data', trx, 'drainage_ditches')
               ),
-              event_id,
-            },
-            'event_id'
-          );
-
-          const { old_entry_id } = payload;
-          await trx('drainage_ditches.restoration_event').insert({
-            event_id,
-            new_entry_id: ditch_id,
-            old_entry_id,
-          });
+              property_id: payload.property_id,
+            });
+          }
         }
         break;
 
@@ -168,7 +204,7 @@ class Events {
 
       case event_targets.Lukitus:
         {
-          const locks = payload.locks;
+          const { locks } = payload;
           const promises = locks.map(async l => {
             return trx('locking.data').insert({
               ...filterValidColumns(l, await getTableColumns('data', trx, 'locking')),
@@ -181,7 +217,7 @@ class Events {
 
       case event_targets['Ikkunat']:
         {
-          const windows = payload.windows;
+          const { windows } = payload;
           const promises = windows.map(w =>
             trx('windows.data').insert({
               ...w,
@@ -193,50 +229,9 @@ class Events {
         break;
 
       default:
-        console.log(
-          `Received an event with target id ${payload.target_id}, but no logic for inserting extra data for that id exists. Make sure this is intentional.`
+        console.warn(
+          `Received an event with target id ${payload.target_id}, but no logic for inserting specific event data exists. Make sure this is intentional.`
         );
-    }
-  }
-
-  /**Updates the additional data associated with an event.
-   * @param id The id of the event.
-   * @param extraData The additional data to update with.
-   * @param trx The knex transaction currently being used.
-   */
-  async updateExtraData(id: string, extraData: any, trx: Knex.Transaction) {
-    const mainTypes = await trx('events.types');
-    const [type_data] = await trx('events.data')
-      .where({ id })
-      .select('event_type_id', 'target_id', 'workTypeId');
-
-    const runUpdate = async (table: string) => {
-      await trx(table)
-        .where({ id })
-        .update({
-          ...extraData,
-        });
-    };
-
-    if (type_data.event_type_id == getIdByLabel(mainTypes, 'Peruskorjaus')) {
-      const targets = await trx('events.targets');
-      if (type_data.target_id == getIdByLabel(targets, 'Katto')) {
-        await runUpdate('roofs.overview');
-      } else if (type_data.target_id == getIdByLabel(targets, 'Salaojat')) {
-        await runUpdate('drainage_ditches.data');
-      } else {
-        throw new Error(
-          'Update logic for extra event data with type ' +
-            type_data.event_type_id +
-            ' and target ' +
-            type_data.target_id +
-            ' not implemented!'
-        );
-      }
-    } else {
-      throw new Error(
-        'Update logic for event with main type ' + type_data.event_type_id + ' not implemented!'
-      );
     }
   }
 
@@ -310,7 +305,11 @@ class Events {
     payload: Partial<EventPayloadType>,
     trx: Knex.Transaction
   ) {
-    throw new Error('Surface renovation event handler not implemented!');
+    const promises = payload.surfaces?.map(s => {
+      return trx('data_surfaces').insert({ event_id, surfaceId: s });
+    });
+
+    await Promise.all(promises);
   }
 
   /**Creates a new event for a property.
@@ -612,18 +611,11 @@ class Events {
    * @param data The main event data to update with.
    * @param extraData An array containing the additional data associated with the event.
    */
-  async update(id: string, data: Partial<EventPayloadType>, extraData: any[]) {
+  async update(id: string, data: Partial<EventPayloadType>) {
     //Only allow the author of an event to update it.
     await objects.verifySessionUserIsAuthor(id);
 
-    await objects.update(id, data, async trx => {
-      const insertObj = this.getInsertObject(
-        filterValidColumns(data, await getTableColumns('data', trx, 'events'))
-      );
-      await trx('events.data').where({ id: data.id }).update(insertObj);
-      const extraDataPromises = extraData.map(d => this.updateExtraData(id, d, trx));
-      await Promise.all(extraDataPromises);
-    });
+    throw new Error('Method not implemented!');
   }
 
   /**Deletes an event. Throws an error if the logged in user is not the author of the event, or if the event is locked.

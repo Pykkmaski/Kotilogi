@@ -19,6 +19,7 @@ import { heating } from './heating';
 import { buildings } from './buildings';
 import { interiors } from './interiors';
 import { roofs } from './roofs';
+import { events } from './events';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -88,13 +89,15 @@ class Properties {
 
     const interiorPromise = interiors.get(id, db);
     const buildingPromise = buildings.get(id, db);
-    //const heatingPromise = heating.get(id, db);
+    const heatingPromise = heating.get(id, db);
+    const roofPromise = roofs.get(id, db);
 
-    const [[overview], [interior], [building]] = await Promise.all([
+    const [[overview], [interior], [building], heatingMethods, [roof]] = await Promise.all([
       overviewPromise,
       interiorPromise,
       buildingPromise,
-      //heatingPromise,
+      heatingPromise,
+      roofPromise,
     ]);
 
     const propertyTypes = await this.getTypes();
@@ -121,6 +124,8 @@ class Properties {
       ...overview,
       ...interior,
       ...building,
+      ...roof,
+      heating: heatingMethods,
       ...p,
     };
   }
@@ -159,8 +164,8 @@ class Properties {
 
       const buildingPromise = buildings.create(obj.id, data, trx);
       const interiorPromise = interiors.create(obj.id, data, trx);
-      //const roofPromise = roofs.create(obj.id, data, trx);
-      await Promise.all([...heatingPromises, buildingPromise, interiorPromise]);
+      const roofPromise = roofs.create(obj.id, data, trx);
+      await Promise.all([buildingPromise, interiorPromise, roofPromise]);
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.property_type_id, trx)
@@ -215,6 +220,7 @@ class Properties {
       const buildingPromise = buildings.update(id, payload, trx);
       const interiorPromise = interiors.update(id, payload, trx);
 
+      //Update heating.
       const heatingPromises = payload.heating?.map(async hd => {
         const { id: heatingId } = hd;
 
@@ -235,12 +241,12 @@ class Properties {
         }
       });
 
-      //const roofPromise = roofs.create(id, payload, trx);
+      const roofPromise = roofs.update(id, payload, trx);
       await Promise.all([
         overviewPromise,
         buildingPromise,
         interiorPromise,
-        //roofPromise,
+        roofPromise,
         ...heatingPromises,
       ]);
 

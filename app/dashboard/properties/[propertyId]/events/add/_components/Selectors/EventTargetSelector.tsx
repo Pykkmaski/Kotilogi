@@ -3,12 +3,44 @@
 import { useEventFormContext } from '../EventFormContext';
 import { useQuery } from '@tanstack/react-query';
 import { getEventTargets } from '../actions';
-import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { Notification } from '@/components/UI/Notification';
+import { ChipBox } from '@/components/UI/ChipBox';
+
+import { icons } from 'kotilogi-app/icons';
+import { MoreHoriz } from '@mui/icons-material';
+
+function EventTargetGroup({ options }) {
+  const { eventData, updateEventData } = useEventFormContext();
+
+  return (
+    <div className='grid lg:grid-cols-4 xs:grid-cols-2 gap-2 w-full'>
+      {options.map((opt, key) => {
+        const selected = opt.id == eventData.target_id;
+        const iconStyle = {
+          color: selected ? 'white' : 'gray',
+        };
+
+        const Icon = icons[opt.label] || MoreHoriz;
+
+        return (
+          <ChipBox
+            key={`event-target-${key}`}
+            icon={<Icon sx={iconStyle} />}
+            value={opt.id}
+            label={opt.label}
+            name='target_id'
+            onChange={updateEventData}
+            checked={selected}
+          />
+        );
+      })}
+    </div>
+  );
+}
 
 export const EventTargetSelector = () => {
-  const { eventData, updateEventData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   const {
     isLoading,
@@ -21,20 +53,10 @@ export const EventTargetSelector = () => {
 
   return !error ? (
     <SuspenseFormControl
-      isLoading={isLoading}
-      boldLabelText
       label='Kohde'
       required
-      control={
-        <ChipRadioGroup
-          onChange={updateEventData}
-          name='target_id'
-          currentValue={eventData.target_id}
-          valueKey='id'
-          labelKey='label'
-          dataArray={targets}
-        />
-      }
+      isLoading={isLoading}
+      control={<div className='w-full'>{!isLoading && <EventTargetGroup options={targets} />}</div>}
     />
   ) : (
     <Notification

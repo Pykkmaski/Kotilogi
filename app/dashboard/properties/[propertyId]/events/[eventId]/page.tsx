@@ -23,7 +23,7 @@ export default async function EventPage({ params }) {
   //Fetch data back-to-back to conserve db connection pool.
   const [eventData] = await events.get({ id: eventId });
   if (!eventData) redirect(`/dashboard/properties/${params.propertyId}/events`);
-  const [extraData] = await events.getExtraData(eventId);
+  const extraData = {} as any;
 
   const fileData = (await files.get({ parentId: eventId }, 4)) as FileDataType[];
   const [mainImageId] = (await db('data_mainImages')

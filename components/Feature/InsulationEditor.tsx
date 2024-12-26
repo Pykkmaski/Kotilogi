@@ -1,3 +1,4 @@
+import { EditorContainer } from './EditorContainer';
 import { OptionSelector } from './OptionSelector';
 
 function InsulationMaterialSelector(props: Kotidok.SelectorProps) {
@@ -43,12 +44,12 @@ export function Insulation({ data, index = 0, onChange }) {
 
 export function InsulationEditor({ insulationData, onChange }) {
   return (
-    <div className='flex flex-col gap-2'>
+    <EditorContainer>
       <h1 className='font-semibold'>Eristyksen tiedot</h1>
       <Insulation
         data={insulationData}
         onChange={onChange}
       />
-    </div>
+    </EditorContainer>
   );
 }

@@ -2,8 +2,13 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+
+const label = 'Genesis';
+
 exports.up = function (knex) {
-  return knex.schema.withSchema('heating').alterTable('data', tbl => tbl.boolean('is_primary'));
+  return knex('events.types').insert({
+    label,
+  });
 };
 
 /**
@@ -11,5 +16,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.withSchema('heating').alterTable('data', tbl => tbl.dropColumn('is_primary'));
+  return knex('events.types').where({ label }).del();
 };

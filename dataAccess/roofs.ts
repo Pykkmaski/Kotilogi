@@ -10,13 +10,33 @@ class Roofs {
   }
 
   async get(property_id: string, ctx: Knex | Knex.Transaction) {
-    return ctx('roofs.overview').where({ property_id }).select('roofTypeId', 'roofMaterialId');
+    return ctx('roofs.overview')
+      .where({ property_id })
+      .select(
+        'roofTypeId',
+        'roofMaterialId',
+        'raystasTyyppiId',
+        'colorId',
+        'kaltevuus',
+        'neliometrit',
+        'otsalautaTyyppiId',
+        'aluskateTyyppiId',
+        'harjatuuletusAluskatteella',
+        'suojakasiteltyPuutavara',
+        'piipunpellitys',
+        'lapetikas',
+        'lumieste',
+        'kattosilta',
+        'turvatikas',
+        'kourut',
+        'syoksysarja'
+      );
   }
 
-  async create(event_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
+  async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
     return trx('roofs.overview').insert({
       ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
-      event_id,
+      property_id,
     });
   }
 

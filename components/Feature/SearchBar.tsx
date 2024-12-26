@@ -3,6 +3,7 @@
 import { useQuery } from 'kotilogi-app/hooks/useQuery';
 import Spinner from '../UI/Spinner';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
+import { Search } from '@mui/icons-material';
 
 type SearchBarProps = React.ComponentProps<'input'> & {
   queryName?: string;
@@ -20,13 +21,13 @@ export function SearchBar({ queryName = 'q', ...props }: SearchBarProps) {
         name={queryName}
         placeholder='Etsi...'
         onInput={updateQuery}
-        className='flex-1 pl-7 shadow-md text-gray-500'
+        className='flex-1 pl-8 shadow-md text-gray-500'
       />
       <div className='ml-2 absolute text-slate-500'>
         <RenderOnCondition
           condition={!loading}
           fallback={<Spinner />}>
-          <i className='fa fa-search' />
+          <Search />
         </RenderOnCondition>
       </div>
     </div>

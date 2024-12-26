@@ -1,8 +1,9 @@
+import { EditorContainer } from './EditorContainer';
 import { OptionSelector } from './OptionSelector';
 
 export function SewerPipeEditor({ sewerPipeData, onChange }) {
   return (
-    <div className='flex flex-col gap-2'>
+    <EditorContainer>
       <h1 className='font-semibold'>Viemäriputkien tiedot</h1>
       <OptionSelector
         label='Toteutustapa'
@@ -13,6 +14,6 @@ export function SewerPipeEditor({ sewerPipeData, onChange }) {
         value={sewerPipeData.restoration_method_type_id}
         onChange={onChange}
       />
-    </div>
+    </EditorContainer>
   );
 }

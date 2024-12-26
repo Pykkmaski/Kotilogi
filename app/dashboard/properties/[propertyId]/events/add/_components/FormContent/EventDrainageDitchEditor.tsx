@@ -18,6 +18,7 @@ export const EventDrainageDitchEditor = () => {
     queryKey: [`drainage-ditch-data-${eventData.property_id}`],
     queryFn: async () => await getContent('drainage_ditches.data'),
   });
+
   useEffect(() => {
     const drainageDitchData = data?.at(0);
     if (drainageDitchData) {
