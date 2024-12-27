@@ -5,6 +5,7 @@ import { useEventFormContext } from '../../EventFormContext';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
+import { FormControl } from '@/components/UI/FormUtils';
 
 export const HeatingRenovationContent = () => {
   const { eventData, updateEventData, editing } = useEventFormContext();
@@ -23,19 +24,24 @@ export const HeatingRenovationContent = () => {
       {currentIsLoading ? (
         <Spinner message='Ladataan nykyisiä järjestelmiä...' />
       ) : (
-        <div className='flex flex-row gap-2'>
-          {currentHeatingSystems.map(ch => {
-            return (
-              <ChipButton
-                name='old_system_id'
-                value={ch.id}
-                label={ch.heating_type_label}
-                checked={eventData.old_system_id == ch.id}
-                onChange={updateEventData}
-              />
-            );
-          })}
-        </div>
+        <FormControl
+          label='Vanha järjestelmä'
+          control={
+            <div className='flex flex-row gap-2'>
+              {currentHeatingSystems.map(ch => {
+                return (
+                  <ChipButton
+                    name='old_system_id'
+                    value={ch.id}
+                    label={ch.heating_type_label}
+                    checked={eventData.old_system_id == ch.id}
+                    onChange={updateEventData}
+                  />
+                );
+              })}
+            </div>
+          }
+        />
       )}
 
       {isLoading ? (

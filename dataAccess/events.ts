@@ -54,8 +54,8 @@ class Events {
             `
               (id, event_type_id, target_id, date) VALUES (
                 ?,
-                (SELECT id FROM events.types WHERE label = 'genesis' limit 1),
-                (SELECT id FROM events.types WHERE label = ? limit 1),
+                (SELECT id FROM types.event_type WHERE label = 'genesis' limit 1),
+                (SELECT id FROM types.event_type WHERE label = ? limit 1),
                 CURRENT_DATE
               )
             `,
@@ -80,7 +80,7 @@ class Events {
       new_system_id: heatingPayload.new_system_id,
     });
 
-    const [{ result: heatingTypes }] = await trx('heating.types').select(
+    const [{ result: heatingTypes }] = await trx('types.heating_type').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
@@ -104,11 +104,21 @@ class Events {
         {
           const { new_system_id, old_system_id } = payload;
           let oldSystemType: number;
+          let oldSystemIsPrimary = false;
 
           if (old_system_id) {
             [oldSystemType] = await trx('heating.data')
               .where({ id: old_system_id })
               .pluck('heating_type_id');
+
+            const [primaryHeatingId] = await trx('heating.primary_heating')
+              .where({ heating_id: old_system_id })
+              .pluck('heating_id');
+
+            if (primaryHeatingId) {
+              oldSystemIsPrimary = true;
+            }
+
             //Delete the old heating system.
             await heating.del(old_system_id as any, trx);
           }
@@ -120,13 +130,16 @@ class Events {
           });
 
           //Create the replacement heating.
-          await heating.create({ ...payload, heating_type_id: new_system_id } as any, trx);
+          await heating.create(
+            { ...payload, is_primary: oldSystemIsPrimary, heating_type_id: new_system_id } as any,
+            trx
+          );
         }
         break;
 
       case event_targets.Katto:
         {
-          const [roofId] = await trx('roofs.overview')
+          const [roofId] = await trx('roofs.data')
             .where({ property_id: payload.property_id })
             .pluck('property_id');
           if (roofId) {
@@ -337,7 +350,7 @@ class Events {
         //Save the main event data.
         await trx('events.data').insert(insertData);
 
-        const [{ result: event_types }] = await trx('events.types').select(
+        const [{ result: event_types }] = await trx('types.event_type').select(
           db.raw('json_object_agg(label, id) as result')
         );
         const event_type_id = parseInt(eventPayload.event_type_id as any);
@@ -394,8 +407,8 @@ class Events {
       .join('events.data', { 'events.data.id': 'objects.data.id' })
       .leftJoin('events.targets', { 'events.data.target_id': 'events.targets.id' })
 
-      .leftJoin('events.types', {
-        'events.data.event_type_id': 'events.types.id',
+      .leftJoin('types.event_type', {
+        'events.data.event_type_id': 'types.event_type.id',
       })
 
       .select(
@@ -403,14 +416,14 @@ class Events {
         'events.data.*',
         'events.targets.label as targetLabel',
 
-        'events.types.label as mainTypeLabel'
+        'types.event_type.label as mainTypeLabel'
       )
       .where(function () {
         if (!search) return;
         const q = `%${search}%`;
         this.whereILike('objects.data.title', q)
           .orWhereILike('objects.data.description', q)
-          .orWhereILike('events.types.label', q)
+          .orWhereILike('types.event_type.label', q)
           .orWhereILike('events.targets.label', q);
       })
       .andWhere(newQuery)
@@ -431,28 +444,28 @@ class Events {
   }
 
   private async getRoofEvent(eventId: string) {
-    return await db('roofs.overview')
-      .join('roofs.types', { 'roofs.types.id': 'roofs.overview.roofTypeId' })
-      .join('roofs.materials', { 'roofs.materials.id': 'roofs.overview.roofMaterialId' })
-      .join('ref_mainColors', { 'ref_mainColors.id': 'roofs.overview.colorId' })
+    return await db('roofs.data')
+      .join('types.roof_type', { 'types.roof_type.id': 'roofs.data.roofTypeId' })
+      .join('roofs.materials', { 'roofs.materials.id': 'roofs.data.roofMaterialId' })
+      .join('ref_mainColors', { 'ref_mainColors.id': 'roofs.data.colorId' })
       .join('roofs.ref_raystastyypit', {
-        'roofs.ref_raystastyypit.id': 'roofs.overview.raystasTyyppiId',
+        'roofs.ref_raystastyypit.id': 'roofs.data.raystasTyyppiId',
       })
       .join('roofs.ref_otsalautatyypit', {
-        'roofs.ref_otsalautatyypit.id': 'roofs.overview.otsalautaTyyppiId',
+        'roofs.ref_otsalautatyypit.id': 'roofs.data.otsalautaTyyppiId',
       })
       .join('roofs.ref_aluskatetyypit', {
-        'roofs.ref_aluskatetyypit.id': 'roofs.overview.aluskateTyyppiId',
+        'roofs.ref_aluskatetyypit.id': 'roofs.data.aluskateTyyppiId',
       })
-      .where({ 'roofs.overview.event_id': eventId })
+      .where({ 'roofs.data.event_id': eventId })
       .select(
         'roofs.materials.name as materialLabel',
-        'roofs.types.name as typeLabel',
+        'types.roof_type.name as typeLabel',
         'ref_mainColors.name as colorLabel',
         'roofs.ref_raystastyypit.label as raystasTyyppiLabel',
         'roofs.ref_otsalautatyypit.label as otsalautaTyyppiLabel',
         'roofs.ref_aluskatetyypit.label as aluskateTyyppiLabel',
-        'roofs.overview.*'
+        'roofs.data.*'
       );
   }
 
@@ -473,13 +486,13 @@ class Events {
       .where({ id: eventId })
       .pluck('newSystemId');
 
-    const heatingTypes = await db('heating.types');
+    const heatingTypes = await db('types.heating_type');
 
     const query = db('data_baseHeatingEvents')
-      .join('heating.types as oldSystem', {
+      .join('types.heating_type as oldSystem', {
         'oldSystem.id': 'data_baseHeatingEvents.oldSystemId',
       })
-      .join('heating.types as newSystem', {
+      .join('types.heating_type as newSystem', {
         'newSystem.id': 'data_baseHeatingEvents.newSystemId',
       })
       .select(
@@ -512,26 +525,27 @@ class Events {
 
   private async getWaterEvent(eventId: string) {
     return await db('water_pipe.restoration_work')
-      .join('water_pipe.installation_method', {
-        'water_pipe.installation_method.id': 'water_pipe.restoration_work.installation_method_id',
+      .join('types.water_pipe_installation_method', {
+        'types.water_pipe_installation_method.id':
+          'water_pipe.restoration_work.installation_method_id',
       })
       .where({ 'water_pipe.restoration_work.event_id': eventId })
       .select(
         'water_pipe.restoration_work.*',
-        'water_pipe.installation_method.label as asennustapaLabel'
+        'types.water_pipe_installation_method.label as asennustapaLabel'
       );
   }
 
   private async getSewegeEvent(eventId: string) {
     return await db('sewer_pipe.restoration_work')
-      .join('sewer_pipe.restoration_method_type', {
-        'sewer_pipe.restoration_method_type.id':
+      .join('types.sewer_pipe_restoration_method', {
+        'types.sewer_pipe_restoration_method.id':
           'sewer_pipe.restoration_work.restoration_method_type_id',
       })
       .where({ 'sewer_pipe.restoration_work.event_id': eventId })
       .select(
         'sewer_pipe.restoration_work.*',
-        'sewer_pipe.restoration_method_type.label as Toteutustapa'
+        'types.sewer_pipe_restoration_method.label as Toteutustapa'
       );
   }
 
@@ -562,9 +576,9 @@ class Events {
 
   private async getLockEvent(eventId: string) {
     return await db('locking.data')
-      .join('locking.types', { 'locking.types.id': 'locking.data.lock_type_id' })
+      .join('types.lock_type', { 'types.lock_type.id': 'locking.data.lock_type_id' })
       .where({ 'locking.data.id': eventId })
-      .select('locking.data.*', 'locking.types.label as Lukon tyyppi');
+      .select('locking.data.*', 'types.lock_type.label as Lukon tyyppi');
   }
 
   /**Fetches the additional data associated with an event
@@ -576,7 +590,7 @@ class Events {
     const [type_data] = await db('events.data')
       .where({ id: eventId })
       .select('event_type_id', 'target_id', 'workTypeId');
-    const mainTypes = await db('events.types');
+    const mainTypes = await db('types.event_type');
 
     if (type_data.event_type_id == getIdByLabel(mainTypes, 'Peruskorjaus')) {
       const targets = await db('events.targets');

@@ -34,7 +34,7 @@ export default async function EditEventPage({ params }) {
       {(allowed && (
         <EventTypeProvider refs={refs}>
           <EventForm
-            eventData={event}
+            initialEventData={event}
             initialExtraData={extraData}
             propertyId={event.parentId}
           />

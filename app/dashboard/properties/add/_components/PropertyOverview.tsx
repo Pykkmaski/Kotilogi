@@ -20,7 +20,7 @@ export function PropertyOverview() {
 
           <DataDisplay
             title='Kiinteistötunnus'
-            value={property.propertyNumber || 'Ei määritelty'}
+            value={(property as TODO).propertyNumber || 'Ei määritelty'}
           />
 
           <DataDisplay

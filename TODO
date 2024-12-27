@@ -19,17 +19,20 @@
 + Event targets are not fetched when selecting 'Other' as the event type.
 - Removing the date when creating an event, does not disable the submit button.
 + Add unique names to heating brand, model and volume, as multiple heating types have peripherals with those fields.
-- Add a loading icon to the event confirm button.
++ Add a loading icon to the event confirm button.
 + Add file input to add-event-form.
+- Make sure files are uploaded with events.
+- Property update does not load roof data.
 + Files from the file-list cannot be deleted.
-- The event date value on the input is not accepted by typescript.
++ The event date value on the input is not accepted by typescript.
 + Add locks property to the events payload type.
 + The card-image on events does not show up.
 - Disable checking for the property-id again if it is already valid.
-- Update event addition appearance.
++ Update event addition appearance.
 - Move roof, heating, insulation, drainage ditch, sewer pipe and water pipe restoration events under events.restoration.
 - Make sure each property target has an event_id, and an additional id, in the case of targets that can be in a group in the same event.
 - Rename insulation restoration_work table to data.
 - Fix the invalid input syntax undefined-error when opening the property report, or the property-page.
+- There is a bug where event data is not saved into session storage while editing.
 - It possibly makes sense to add multiple insulation data entries in a single event, with their own target and specs. Look into it.
 + Creating a roof restoration event, does not correctly update an existing roof. (The reason was that loading a roof through roofs.get does not fetch the other data fields of it.)

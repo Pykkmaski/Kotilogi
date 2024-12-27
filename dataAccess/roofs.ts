@@ -6,14 +6,11 @@ import db from 'kotilogi-app/dbconfig';
 
 class Roofs {
   async getTypes(ctx: Knex | Knex.Transaction) {
-    return await ctx('roofs.types').select(db.raw('json_object_agg(name, id) as result'));
+    return await ctx('types.roof_type').select(db.raw('json_object_agg(name, id) as result'));
   }
 
   async get(property_id: string, ctx: Knex | Knex.Transaction) {
-    return ctx('roofs.overview')
-      .where({ property_id })
-      .select(
-        'roofTypeId',
+    /**'roofTypeId',
         'roofMaterialId',
         'raystasTyyppiId',
         'colorId',
@@ -29,22 +26,23 @@ class Roofs {
         'kattosilta',
         'turvatikas',
         'kourut',
-        'syoksysarja'
-      );
+        'syoksysarja' */
+    console.log('Property id at roof get: ', property_id);
+    return ctx('roofs.data').where({ property_id }).select('*');
   }
 
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
-    return trx('roofs.overview').insert({
-      ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
+    return trx('roofs.data').insert({
+      ...filterValidColumns(payload, await getTableColumns('data', trx, 'roofs')),
       property_id,
     });
   }
 
   async update(property_id: string, payload: Partial<BuildingDataType>, trx: Knex.Transaction) {
-    return trx('roofs.overview')
+    return trx('roofs.data')
       .where({ property_id })
       .update({
-        ...filterValidColumns(payload, await getTableColumns('overview', trx, 'roofs')),
+        ...filterValidColumns(payload, await getTableColumns('data', trx, 'roofs')),
       });
   }
 }

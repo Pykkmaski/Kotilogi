@@ -48,11 +48,13 @@ export async function PropertyOverview({
     .select('data_files.id as id', 'objects.data.parentId as parentId');
 
   const [buildingData] = await db('buildings.data')
-    .leftJoin('buildings.types', { 'buildings.types.id': 'buildings.data.building_type_id' })
+    .leftJoin('types.building_type', {
+      'types.building_type.id': 'buildings.data.building_type_id',
+    })
     .where({
       'buildings.data.property_id': property.id,
     })
-    .select('buildings.data.*', 'buildings.types.name as building_type_label');
+    .select('buildings.data.*', 'types.building_type.name as building_type_label');
 
   const [{ numEvents }] = await db('events.data')
     .join('objects.data', { 'objects.data.id': 'events.data.id' })

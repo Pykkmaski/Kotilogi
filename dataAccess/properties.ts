@@ -61,7 +61,7 @@ class Properties {
   }
 
   async getTypes() {
-    const [{ result }] = await db('property.propertyTypes').select(
+    const [{ result }] = await db('types.property_type').select(
       db.raw('json_object_agg(name, id) as result')
     );
     return result;
@@ -73,18 +73,17 @@ class Properties {
 
   async get(id: string): Promise<HousePayloadType | AppartmentPayloadType> {
     //Get the type of the property.
-    const [type_id] = await this.getPropertyType(id, db);
 
     const overviewPromise = db('property.overview')
       .join('objects.data', { 'objects.data.id': 'property.overview.id' })
-      .join('property.propertyTypes', {
-        'property.propertyTypes.id': 'property.overview.property_type_id',
+      .join('types.property_type', {
+        'types.property_type.id': 'property.overview.property_type_id',
       })
       .where({ 'property.overview.id': id })
       .select(
         'objects.data.*',
         'property.overview.*',
-        'property.propertyTypes.name as propertyTypeName'
+        'types.property_type.name as propertyTypeName'
       );
 
     const interiorPromise = interiors.get(id, db);
@@ -100,6 +99,7 @@ class Properties {
       roofPromise,
     ]);
 
+    const [type_id] = await this.getPropertyType(id, db);
     const propertyTypes = await this.getTypes();
 
     /**Properties can be either houses or appartments. Determine the table from which to fetch the rest of the data. */
@@ -120,6 +120,7 @@ class Properties {
       );
     }
 
+    console.log('Roof at get: ', roof);
     return {
       ...overview,
       ...interior,
@@ -240,8 +241,16 @@ class Properties {
           );
         }
       });
+      const [existingRoof] = await trx('roofs.data')
+        .where({ property_id: id })
+        .pluck('property_id');
+      let roofPromise: Promise<number | number[]>;
+      if (existingRoof) {
+        roofPromise = roofs.update(id, payload, trx);
+      } else {
+        roofPromise = roofs.create(id, payload, trx);
+      }
 
-      const roofPromise = roofs.update(id, payload, trx);
       await Promise.all([
         overviewPromise,
         buildingPromise,

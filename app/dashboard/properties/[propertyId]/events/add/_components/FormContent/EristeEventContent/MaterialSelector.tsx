@@ -3,7 +3,7 @@ import { OptionSelector } from '@/components/Feature/OptionSelector';
 import { getEristeMateriaalit } from '../actions';
 
 export const MaterialSelector = () => {
-  const { extraData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <OptionSelector
@@ -11,8 +11,8 @@ export const MaterialSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='insulation.materials'
-      propertyName='materiaaliId'
-      useContextValue={extraData}
+      name='insulation_material_id'
+      value={eventData.insulation_material_id}
       fetchFn={getEristeMateriaalit}
     />
   );

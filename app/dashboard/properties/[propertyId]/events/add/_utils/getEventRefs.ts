@@ -5,7 +5,7 @@ export const getEventRefs = async () => {
   const roofTypes = await db('roofs.get_types');
   const roofMaterials = await db('roofs.get_materials');
   const heatingTypes = await db('property.get_heating_types');
-  const eventTypes = await db('events.types');
+  const eventTypes = await db('types.event_type');
   const eventTargets = await db('events.targets');
   const refs = await getRefs('ref_eventWorkTypes');
 

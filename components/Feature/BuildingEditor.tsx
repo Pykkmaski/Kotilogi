@@ -27,7 +27,7 @@ export function BuildingTypeSelector(props: Kotidok.SelectorProps) {
       valueKey='id'
       label='Rakennuksen tyyppi'
       name='building_type_id'
-      tablename='buildings.types'
+      tablename='types.building_type'
     />
   );
 }

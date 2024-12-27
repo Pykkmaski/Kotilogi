@@ -3,7 +3,7 @@ import { OptionSelector } from '@/components/Feature/OptionSelector';
 import { getEristeKohteet } from '../actions';
 
 export const TargetSelector = () => {
-  const { extraData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <OptionSelector
@@ -11,8 +11,8 @@ export const TargetSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='insulation.targets'
-      propertyName='kohdeId'
-      useContextValue={extraData}
+      name='insulation_target_id'
+      value={eventData.insulation_target_id}
       fetchFn={getEristeKohteet}
     />
   );

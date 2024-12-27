@@ -22,11 +22,11 @@ export default async function ReportPage({ params }) {
   const heatingSystem = await heating.getPrimary(propertyId, db);
 
   const [propertyType] = await db('property.overview')
-    .join('property.propertyTypes', {
-      'property.propertyTypes.id': 'property.overview.property_type_id',
+    .join('types.property_type', {
+      'types.property_type.id': 'property.overview.property_type_id',
     })
     .where({ 'property.overview.id': propertyId })
-    .pluck('property.propertyTypes.name');
+    .pluck('types.property_type.name');
 
   const [buildingMaterial] = await db('buildings.data')
     .join('buildings.materials', {
@@ -35,21 +35,21 @@ export default async function ReportPage({ params }) {
     .where({ 'buildings.data.property_id': propertyId })
     .pluck('buildings.materials.name');
 
-  const [roofMaterial] = await db('roofs.overview')
-    .join(db.raw('roofs.materials on roofs.materials.id = roofs.overview."roofMaterialId"'))
-    .where({ 'roofs.overview.property_id': propertyId })
-
+  const [roofMaterial] = await db('roofs.data')
+    .join(db.raw('roofs.materials on roofs.materials.id = roofs.data."roofMaterialId"'))
+    .where({ 'roofs.data.property_id': propertyId })
     .pluck('roofs.materials.name');
 
-  const [roofType] = await db('roofs.overview')
-    .join(db.raw('roofs.types on roofs.types.id = roofs.overview."roofTypeId"'))
-    .where({ 'roofs.overview.property_id': propertyId })
-    .pluck('roofs.types.name');
+  const [roofType] = await db('roofs.data')
+    .join(db.raw('types.roof_type on types.roof_type.id = roofs.data."roofTypeId"'))
+    .where({ 'roofs.data.property_id': propertyId })
+    .pluck('types.roof_type.name');
 
   const [{ count: ownerCount }] = await db('data_propertyOwners')
     .where({ propertyId })
     .count('*', { as: 'count' });
 
+  console.log(roofMaterial, roofType);
   return (
     <main className='w-full h-full'>
       <ReportProvider

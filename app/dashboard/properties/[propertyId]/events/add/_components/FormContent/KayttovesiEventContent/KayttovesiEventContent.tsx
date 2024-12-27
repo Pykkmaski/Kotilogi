@@ -6,16 +6,16 @@ import { useEventFormContext } from '../../EventFormContext';
 import { OptionSelector } from '@/components/Feature/OptionSelector';
 
 export const KayttoVesiEventContent = () => {
-  const { extraData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <OptionSelector
       label='Asennustapa'
       labelKey='label'
       valueKey='id'
-      tablename='water_pipe.installation_method'
-      propertyName='installation_method_id'
-      useContextValue={extraData}
+      tablename='types.water_pipe_installation_method'
+      name='installation_method_id'
+      value={eventData.installation_method_id}
       fetchFn={getKayttovesiAsennusTavat}
     />
   );

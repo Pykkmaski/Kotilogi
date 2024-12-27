@@ -1,5 +1,7 @@
 import { useBatchForm } from '@/hooks/useBatchForm';
 import { useFormOnChange } from '@/hooks/useFormOnChange';
+import { useFormOnChangeFiles } from '@/hooks/useFormOnChangeFiles';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
@@ -7,15 +9,16 @@ import { useEffect } from 'react';
 
 const mainDataStorageKey = 'kotidok-event-main-data';
 
-function initMainData(eventData: EventPayloadType) {
+function initMainData(initialEventData: EventPayloadType) {
   const savedData = sessionStorage.getItem(mainDataStorageKey);
   if (savedData) {
     return JSON.parse(savedData);
   }
-  if (eventData) {
+  if (initialEventData) {
     const d = {
-      ...eventData,
-      date: eventData.date && timestampToISOString(eventData.date.getTime().toString()),
+      ...initialEventData,
+      date:
+        initialEventData.date && timestampToISOString(initialEventData.date.getTime().toString()),
     };
 
     delete d.event_type_id;
@@ -31,12 +34,12 @@ function initMainData(eventData: EventPayloadType) {
 export const useEventData = (initialEventData: EventPayloadType) => {
   const {
     data: eventData,
-    onChange: updateEventData,
+    updateData: updateEventData,
     hasChanges: eventDataHasChanges,
     resetData: resetEventData,
-    removeFile,
-    files,
-  } = useFormOnChange(initialEventData, null, 'kotidok-event-payload');
+  } = useFormOnChangeObject(initialEventData, 'kotidok-event-payload');
+
+  const { files, removeFile, updateFiles } = useFormOnChangeFiles();
 
   const {
     addEntry: addWindowEntry,
@@ -74,6 +77,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     eventData,
     windows,
     locks,
+    updateFiles,
     addWindowEntry,
     addLockEntry,
     removeWindowEntry,

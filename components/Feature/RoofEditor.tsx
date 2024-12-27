@@ -14,7 +14,7 @@ export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.Selector
       labelKey='name'
       valueKey='id'
       label='Katon tyyppi'
-      tablename='roofs.types'
+      tablename='types.roof_type'
       value={value}
       name='roofTypeId'
       onChange={onChange}

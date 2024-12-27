@@ -22,7 +22,7 @@ export function HeatingTypeSelector({ name, ...props }: Kotidok.SelectorProps & 
     <OptionSelector
       {...props}
       name={name}
-      tablename='heating.types'
+      tablename='types.heating_type'
       label='Lämmitystyyppi'
       labelKey='name'
       valueKey='id'
@@ -91,8 +91,8 @@ export function Heating({ data, index = 0, onChange, onDelete }) {
     isLoading: heatingTypesLoading,
     error,
   } = useQuery({
-    queryKey: ['heating.types'],
-    queryFn: async () => await getContent('heating.types'),
+    queryKey: ['types.heating_type'],
+    queryFn: async () => await getContent('types.heating_type'),
   });
 
   const className = useMemo(
@@ -257,7 +257,7 @@ export function HeatingEditor({ heatingData, onChange }: HeatingEditorProps) {
     error,
   } = useQuery({
     queryKey: [`heating-types`],
-    queryFn: async () => await getContent('heating.types'),
+    queryFn: async () => await getContent('types.heating_type'),
   });
 
   const setPrimary = (entry_id: number) => {

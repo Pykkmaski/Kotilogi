@@ -17,14 +17,8 @@ module.exports = {
     },
 
     pool: {
-      min: 0,
+      min: 2,
       max: 5,
-
-      idleTimeoutMillis: 3000, // Time in milliseconds before an idle connection is closed
-      createTimeoutMillis: 3000, // Time in milliseconds before giving up on connection creation
-      acquireTimeoutMillis: 30000, // Time in milliseconds before giving up on acquiring a connection
-      reapIntervalMillis: 3000, // How often to check for idle connections (in milliseconds)
-      createRetryIntervalMillis: 2000,
     },
   },
 
@@ -49,10 +43,7 @@ module.exports = {
     connection: process.env.DB_URL,
     pool: {
       min: 2,
-      max: 5,
-
-      idleTimeoutMillis: 12000,
-      reapIntervalMillis: 1000,
+      max: 10,
     },
     migrations: {
       tableName: 'knex_migrations',

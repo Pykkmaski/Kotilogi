@@ -9,7 +9,7 @@ export default async function EventsPage({ params, searchParams }) {
   const search = searchParams?.q;
 
   const eventData = (await events.get({ parentId: propertyId }, search, 10)) as EventPayloadType[];
-  console.log('Events: ', eventData);
+
   return (
     <main className='flex justify-center w-full'>
       <div

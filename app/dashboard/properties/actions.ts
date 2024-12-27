@@ -2,14 +2,14 @@ import { getRefs } from 'kotilogi-app/dataAccess/ref';
 import db from 'kotilogi-app/dbconfig';
 
 export const getPropertyRefs = async () => {
-  const buildingTypes = await db('buildings.types');
+  const buildingTypes = await db('types.building_type');
   const buildingMaterials = await db('buildings.materials');
-  const propertyTypes = await db('property.propertyTypes');
-  const roofTypes = await db('roofs.types');
+  const propertyTypes = await db('types.property_type');
+  const roofTypes = await db('types.roof_type');
   const roofMaterials = await db('roofs.materials');
-  const yardOwnershipTypes = await db('property.yardOwnershipTypes');
-  const heatingTypes = await db('heating.types');
-  const energyClasses = await db('property.energyClasses');
+  const yardOwnershipTypes = await db('types.yard_ownership_type');
+  const heatingTypes = await db('types.heating_type');
+  const energyClasses = await db('types.energy_class_type');
   const refs = await getRefs('ref_mainColors');
 
   return {

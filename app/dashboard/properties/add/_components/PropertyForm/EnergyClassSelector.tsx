@@ -6,7 +6,7 @@ import { FormControl } from '@/components/UI/FormUtils';
 
 export function BuildingTypeSelector() {
   const { property, refs } = usePropertyFormContext();
-  console.log(property.energyClassId);
+
   return (
     <FormControl
       label='Energialuokka'
@@ -15,8 +15,8 @@ export function BuildingTypeSelector() {
           dataArray={refs.energyClasses}
           labelKey='name'
           valueKey='id'
-          currentValue={property.energyClassId}
-          name='energyClassId'
+          currentValue={property.energy_class_id}
+          name='energy_class_id'
         />
       }
     />

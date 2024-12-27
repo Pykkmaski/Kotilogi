@@ -3,7 +3,7 @@ import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { FormControl } from '@/components/UI/FormUtils';
 import { EventTargetSelector } from '../Selectors/EventTargetSelector';
 import { EventTypeSelector } from '../Selectors/EventTypeSelector';
-import { EventWorkSelector } from '../Selectors/EventServiceWorkSelector';
+import { EventServiceWorkSelector } from '../Selectors/EventServiceWorkSelector';
 import { isDefined } from '../util';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
@@ -39,7 +39,7 @@ export function TypeDataForm() {
           </RenderOnCondition>
 
           <RenderOnCondition condition={showWorkTypeSelector()}>
-            <EventWorkSelector />
+            <EventServiceWorkSelector />
           </RenderOnCondition>
         </div>
       </BoxFieldset>

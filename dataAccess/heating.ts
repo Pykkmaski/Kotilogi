@@ -16,16 +16,16 @@ class Heating {
   async getPrimary(property_id: string, ctx: Knex.Transaction | Knex) {
     const [primaryHeatingLabel] = await ctx('heating.primary_heating')
       .join(db.raw('heating.data ON heating.data.id = heating.primary_heating.heating_id'))
-      .join(db.raw('heating.types ON heating.types.id = heating.data.heating_type_id'))
-      .select('heating.types.name as heating_type_label')
+      .join(db.raw('types.heating_type ON types.heating_type.id = heating.data.heating_type_id'))
+      .select('types.heating_type.name as heating_type_label')
       .where({ 'heating.primary_heating.property_id': property_id })
-      .pluck('heating.types.name');
+      .pluck('types.heating_type.name');
 
     return primaryHeatingLabel;
   }
 
   async getTypes(ctx: Knex.Transaction | Knex) {
-    const [{ result }] = await ctx('heating.types').select(
+    const [{ result }] = await ctx('types.heating_type').select(
       db.raw('json_object_agg(name, id) as result')
     );
     return result;
@@ -34,9 +34,9 @@ class Heating {
   /**Returns an array containing all heating systems of a property. */
   async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<HeatingPayloadType[]> {
     const heatingData = await ctx('heating.data')
-      .join(db.raw('heating.types ON heating.types.id = heating.data.heating_type_id'))
+      .join(db.raw('types.heating_type ON types.heating_type.id = heating.data.heating_type_id'))
       .where({ property_id })
-      .select('heating.data.*', 'heating.types.name as heating_type_label');
+      .select('heating.data.*', 'types.heating_type.name as heating_type_label');
 
     if (heatingData.length == 0) {
       return [];

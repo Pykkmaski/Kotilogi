@@ -1,11 +1,9 @@
 'use client';
 
-import { EventPayloadType, RoofDataType } from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { EventFormProvider } from './EventFormContext';
 import { useEventForm } from './hooks/useEventForm';
-import { TypeDataForm } from './Forms/TypeDataForm';
 import { MainDataForm } from './Forms/MainDataForm';
-import { ExtraDataForm } from './Forms/ExtraDataForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
@@ -14,19 +12,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@mui/material';
 import { EventTypeSelector } from './Selectors/EventTypeSelector';
 import { BoxFieldset } from '@/components/UI/Fieldset';
-import { EventTargetSelector } from './Selectors/EventTargetSelector';
 import { Notification } from '@/components/UI/Notification';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
-import { WindowBatch } from './FormContent/WindowBatch/WindowBatch';
 
-import { ViemariPutketEventContent } from './FormContent/ViemariPutketEventContent/ViemariPutketEventContent';
-import { EventRoofEditor } from './FormContent/EventRoofEditor';
-import { DrainageDitchEditor } from '@/components/Feature/DrainageDitchEditor';
-import { EventDrainageDitchEditor } from './FormContent/EventDrainageDitchEditor';
 import { Check } from '@mui/icons-material';
 import { RestorationWorkContent } from './RestorationWorkContent';
 import { ServiceWorkContent } from './ServiceWorkContent';
-import { getServiceWorkTypes, getWorkTypeLabel } from './actions';
+import { getServiceWorkTypes } from './actions';
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import Spinner from '@/components/UI/Spinner';
 import { OtherWorkContent } from './OtherWorkContent';

@@ -4,13 +4,7 @@
  */
 exports.up = function (knex) {
   return knex.schema.withSchema('buildings').createTable('data', tbl => {
-    tbl
-      .uuid('id')
-      .primary()
-      .defaultTo(knex.fn.uuid())
-      .references('id')
-      .inTable('objects.data')
-      .onDelete('CASCADE');
+    tbl.uuid('id').defaultTo(knex.fn.uuid());
 
     tbl
       .uuid('property_id')

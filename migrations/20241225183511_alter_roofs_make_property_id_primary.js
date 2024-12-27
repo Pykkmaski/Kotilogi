@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.withSchema('roofs').alterTable('overview', tbl => {
+  return knex.schema.withSchema('roofs').alterTable('data', tbl => {
     tbl.dropColumn('id');
     tbl.primary('property_id');
   });

@@ -6,7 +6,7 @@
 const label = 'Genesis';
 
 exports.up = function (knex) {
-  return knex('events.types').insert({
+  return knex('types.event_type').insert({
     label,
   });
 };
@@ -16,5 +16,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex('events.types').where({ label }).del();
+  return knex('types.event_type').where({ label }).del();
 };

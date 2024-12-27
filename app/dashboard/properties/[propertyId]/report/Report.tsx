@@ -60,7 +60,6 @@ const AttributeGroup = ({ children }) => {
 
 export function Report() {
   const { content } = useReportContext();
-  console.log('App Events: ', content.events);
   const pr = content.property as any;
 
   return (
@@ -220,7 +219,9 @@ export function Report() {
           <View style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '10px' }}>
             {content.events.length ? (
               content.events.map(e => {
-                console.log(e.labour_expenses);
+                const materialExpenses = e.material_expenses != undefined ? e.material_expenses : 0;
+                const labourExpenses = e.labour_expenses != undefined ? e.labour_expenses : 0;
+
                 return (
                   <React.Fragment key={JSON.stringify(e)}>
                     <View
@@ -258,7 +259,7 @@ export function Report() {
 
                         <View>
                           <Text style={{ fontSize: '12px' }}>
-                            {(e.material_expenses + e.labour_expenses).toLocaleString('fi')}€
+                            {(materialExpenses + labourExpenses).toLocaleString('fi')}€
                           </Text>
                         </View>
                       </View>

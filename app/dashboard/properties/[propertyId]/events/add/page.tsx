@@ -12,7 +12,7 @@ export default async function AddEventPage({ params }) {
   const refs = await getEventRefs();
 
   return (
-    <main className='flex justify-center'>
+    <main className='flex justify-center min-h-[calc(2 * 100vh)]'>
       <div className='xs:w-full lg:w-[70%]'>
         <EventTypeProvider refs={refs}>
           <EventForm propertyId={params.propertyId} />

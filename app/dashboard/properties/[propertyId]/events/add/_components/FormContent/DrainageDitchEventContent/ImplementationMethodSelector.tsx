@@ -3,7 +3,7 @@ import { OptionSelector } from '@/components/Feature/OptionSelector';
 import { getDrainageDitchMethods } from '../actions';
 
 export const ImplementationMethodSelector = () => {
-  const { extraData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <OptionSelector
@@ -11,8 +11,8 @@ export const ImplementationMethodSelector = () => {
       labelKey='label'
       valueKey='id'
       tablename='drainage_ditches.implementation_methods'
-      propertyName='toteutusTapaId'
-      useContextValue={extraData}
+      name='toteutusTapaId'
+      value={eventData.toteutusTapaId}
       fetchFn={getDrainageDitchMethods}
     />
   );

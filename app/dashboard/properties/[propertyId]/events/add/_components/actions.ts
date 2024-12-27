@@ -15,13 +15,9 @@ export const updateEventAction = async (
   extraData: any
 ) => {
   z.string().parse(eventId);
-  await events.update(
-    eventId,
-    {
-      ...mainData,
-    },
-    [extraData]
-  );
+  await events.update(eventId, {
+    ...mainData,
+  });
   revalidatePath('/dashboard/properties/[propertyId]');
   redirect(`/dashboard/properties/${mainData.property_id}/events/${eventId}`);
 };
@@ -69,7 +65,7 @@ export const getRooms = async () => {
 };
 
 export const getEventTargets = async (mainEventTypeId: number) => {
-  const [{ result: event_types }] = await db('events.types').select(
+  const [{ result: event_types }] = await db('types.event_type').select(
     db.raw('json_object_agg(label, id) as result')
   );
 
@@ -109,44 +105,46 @@ export const getServiceWorkTypes = async (targetId: number) => {
 
   switch (parseInt(targetId as any)) {
     case event_targets.Katto: {
-      return await db('roofs.service_work_type');
+      return await db('service_types.roof_service_type');
     }
 
     case event_targets['Salaojat']:
-      console.log('malja');
-      return await db('drainage_ditches.service_work_type');
+      return await db('service_types.drainage_ditch_service_type');
 
     case event_targets['Käyttövesiputket']:
-      return await db('water_pipe.service_work_type');
+      return await db('service_types.water_pipe_service_type');
 
     case event_targets['Viemäriputket']:
-      return await db('sewer_pipe.service_work_type');
+      return await db('service_types.sewer_pipe_service_type');
 
     case event_targets['Lämmitysmuoto']:
-      return await db('heating.service_work_type');
+      return await db('service_types.heating_service_type');
 
     case event_targets['Lämmönjako']:
-      return await db('heating.distribution_service_work_type');
+      return await db('types.heating_distribution_service_type');
 
     case event_targets['Ilmanvaihto']: {
-      console.log(targetId);
-      return await db('ventilation.service_work_type');
+      return await db('service_types.ventilation_service_type');
     }
 
     case event_targets['Eristys']: {
-      return await db('insulation.service_work_type');
+      return await db('service_types.insulation_service_type');
     }
 
     case event_targets['Sähköt']: {
-      return await db('electricity.service_work_type');
+      return await db('service_types.electricity_service_type');
     }
 
     case event_targets['Rakenteet']: {
-      return await db('structures.service_work_type');
+      return await db('service_types.structure_service_type');
+    }
+
+    case event_targets['Palovaroittimet']: {
+      return await db('service_types.firealarm_service_type');
     }
 
     default: {
-      console.log('Case for id ' + targetId + ' not implemented!');
+      console.error('Case for id ' + targetId + ' not implemented!');
     }
   }
 };

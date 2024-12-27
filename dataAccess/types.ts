@@ -109,6 +109,10 @@ export type ElectricHeatingRestorationType = {
   electric_heating_method_type_id: number;
 };
 
+export type DrainageDitchDataType = {
+  toteutusTapaId: number;
+};
+
 export type EventPayloadType = ObjectDataType &
   Partial<Omit<WaterPipeRestorationWorkType, 'event_id'>> &
   Partial<Omit<SewerPipeRestorationWorkType, 'event_id'>> &
@@ -116,6 +120,7 @@ export type EventPayloadType = ObjectDataType &
   Partial<Omit<InsulationRestorationWorkType, 'event_id'>> &
   Partial<Omit<HeatingMethodRestorationWorkType, 'event_id'>> &
   Partial<Omit<RestorationEventType, 'event_id'>> &
+  Partial<Omit<DrainageDitchDataType, 'property_id'>> &
   Partial<RoofDataType> & {
     property_id: string;
     date: Date;

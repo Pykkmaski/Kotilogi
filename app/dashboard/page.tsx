@@ -29,7 +29,7 @@ export default async function newDashboardPage() {
           return (
             <Card
               href={`dashboard/properties/${item.id}`}
-              title={`${item.streetAddress} ${
+              title={`${item.street_name} ${
                 'appartmentNumber' in item ? item.appartmentNumber : ''
               }`}
               description={item.description || 'Ei Kuvausta.'}

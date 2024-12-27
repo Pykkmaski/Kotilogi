@@ -24,8 +24,7 @@ export function DeletePropertyForm({ property }: DeletePropertyFormProps) {
           <p className='text-lg mb-4'>
             Olet poistamassa taloa{' '}
             <strong className='font-semibold'>
-              {property.streetAddress}{' '}
-              {'appartmentNumber' in property ? property.appartmentNumber : ''}.
+              {property.street_name} {property.street_number}.
             </strong>
             <br />
             Sinun on annettava nykyinen salasanasi, että talo voidaan poistaa.

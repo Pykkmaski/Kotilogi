@@ -12,7 +12,7 @@ import { MaterialExpensesInput } from './Inputs/MaterialExpensesInput';
 import { FileUploadForm } from '@/components/New/FileUploadFom/FileUploadForm';
 
 const FilesField = () => {
-  const { files, removeFile, updateEventData } = useEventFormContext();
+  const { files, removeFile, updateFiles } = useEventFormContext();
 
   return (
     <div className='flex flex-col gap-2'>
@@ -25,7 +25,7 @@ const FilesField = () => {
             name='file'
             accept='image/jpeg,application/pdf'
             multiple
-            onChange={updateEventData}
+            onChange={(e: any) => updateFiles(e)}
           />
         }
       />
@@ -124,7 +124,7 @@ const OtherField = () => {
           <Input
             type='date'
             name='date'
-            value={eventData.date}
+            value={(eventData as any).date}
             onChange={updateEventData}
           />
         }
