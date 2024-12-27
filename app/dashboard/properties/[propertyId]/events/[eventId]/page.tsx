@@ -25,7 +25,7 @@ export default async function EventPage({ params }) {
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>
-        <div className='flex justify-between w-full'>
+        <div className='flex lg:flex-row xs:flex-col-reverse xs:gap-4 lg:gap-0 justify-between w-full'>
           <div className='flex flex-col gap-2 w-full'>
             <h1 className='md:text-xl xs:text-lg font-semibold'>{event.title || 'Ei Otsikkoa'}</h1>
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
