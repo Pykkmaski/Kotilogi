@@ -121,7 +121,7 @@ export const getServiceWorkTypes = async (targetId: number) => {
       return await db('service_types.heating_service_type');
 
     case event_targets['Lämmönjako']:
-      return await db('types.heating_distribution_service_type');
+      return await db('service_types.heating_distribution_service_type');
 
     case event_targets['Ilmanvaihto']: {
       return await db('service_types.ventilation_service_type');

@@ -23,6 +23,7 @@ import { useQuery } from '@tanstack/react-query/build/legacy';
 import Spinner from '@/components/UI/Spinner';
 import { OtherWorkContent } from './OtherWorkContent';
 import { SurfaceWorkContent } from './SurfaceWorkContent';
+import { FieldsetContainer } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm';
 
 const CarouselHeader = () => {
   return (
@@ -40,27 +41,31 @@ const CarouselHeader = () => {
           <TabButton>Muut tiedot</TabButton>
         </CarouselProvider.SelectSlotTrigger>
       </div>
-
-      <div className='flex gap-4'>
-        <CarouselProvider.PreviousTrigger>
-          <Button
-            color='secondary'
-            variant='text'>
-            Edellinen
-          </Button>
-        </CarouselProvider.PreviousTrigger>
-
-        <CarouselProvider.NextTrigger>
-          <Button
-            color='secondary'
-            variant='text'>
-            Seuraava
-          </Button>
-        </CarouselProvider.NextTrigger>
-      </div>
     </div>
   );
 };
+
+const FormNav = () => {
+  return (
+    <div className='flex gap-2 w-full justify-end'>
+      <CarouselProvider.PreviousTrigger>
+        <Button
+          color='secondary'
+          variant='text'>
+          Edellinen
+        </Button>
+      </CarouselProvider.PreviousTrigger>
+      <CarouselProvider.NextTrigger>
+        <Button
+          color='secondary'
+          variant='text'>
+          Seuraava
+        </Button>
+      </CarouselProvider.NextTrigger>
+    </div>
+  );
+};
+
 type EventFormProps = {
   propertyId: string;
   initialEventData?: EventPayloadType & Required<Pick<EventPayloadType, 'id'>>;
@@ -118,45 +123,51 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
             <CarouselHeader />
             <CarouselProvider.Slot slotName='type'>
               <BoxFieldset legend='Valitse tapahtuman tyyppi'>
-                <EventTypeSelector />
+                <FieldsetContainer>
+                  <EventTypeSelector />
+                  <FormNav />
+                </FieldsetContainer>
               </BoxFieldset>
             </CarouselProvider.Slot>
 
             <CarouselProvider.Slot slotName='target'>
               <BoxFieldset legend='Tapahtuman kohde'>
-                {eventData.event_type_id ? (
-                  <div className='flex flex-col gap-10 w-full'>
-                    <Notification
-                      variant='success'
-                      position='start'>
-                      Valittu tapahtumatyyppi:{' '}
-                      <span className='font-semibold'>
-                        {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
-                      </span>
-                    </Notification>
-
-                    {eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') ? (
-                      <RestorationWorkContent />
-                    ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
-                      <ServiceWorkContent />
-                    ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu') ? (
-                      <OtherWorkContent />
-                    ) : eventData.event_type_id ==
-                      getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
-                      <SurfaceWorkContent />
-                    ) : (
+                <FieldsetContainer>
+                  {eventData.event_type_id ? (
+                    <div className='flex flex-col gap-10 w-full'>
                       <Notification
-                        variant='error'
+                        variant='success'
                         position='start'>
-                        Valittua tapahtumatyyppiä ei vielä tueta!
+                        Valittu tapahtumatyyppi:{' '}
+                        <span className='font-semibold'>
+                          {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
+                        </span>
                       </Notification>
-                    )}
-                  </div>
-                ) : (
-                  <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
-                    <Notification variant='error'>Valitse ensin tapahtuman tyyppi.</Notification>
-                  </CarouselProvider.SelectSlotTrigger>
-                )}
+
+                      {eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') ? (
+                        <RestorationWorkContent />
+                      ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
+                        <ServiceWorkContent />
+                      ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu') ? (
+                        <OtherWorkContent />
+                      ) : eventData.event_type_id ==
+                        getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
+                        <SurfaceWorkContent />
+                      ) : (
+                        <Notification
+                          variant='error'
+                          position='start'>
+                          Valittua tapahtumatyyppiä ei vielä tueta!
+                        </Notification>
+                      )}
+                    </div>
+                  ) : (
+                    <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
+                      <Notification variant='error'>Valitse ensin tapahtuman tyyppi.</Notification>
+                    </CarouselProvider.SelectSlotTrigger>
+                  )}
+                  <FormNav />
+                </FieldsetContainer>
               </BoxFieldset>
             </CarouselProvider.Slot>
 
@@ -233,6 +244,14 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
                     </CarouselProvider.SelectSlotTrigger>
                   ) : null}
                   <div className='flex w-full gap-4 justify-end'>
+                    <CarouselProvider.PreviousTrigger>
+                      <Button
+                        color='secondary'
+                        variant='text'>
+                        Edellinen
+                      </Button>
+                    </CarouselProvider.PreviousTrigger>
+
                     <Button
                       disabled={isSubmitDisabled}
                       variant='contained'

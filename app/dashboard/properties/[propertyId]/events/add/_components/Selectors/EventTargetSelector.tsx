@@ -9,34 +9,35 @@ import { ChipBox } from '@/components/UI/ChipBox';
 
 import { icons } from 'kotilogi-app/icons';
 import { MoreHoriz } from '@mui/icons-material';
+import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
+import { useMemo } from 'react';
 
 function EventTargetGroup({ options }) {
   const { eventData, updateEventData } = useEventFormContext();
+  const opts = useMemo(() => {
+    return putOtherOptionLast(options).map((opt, key) => {
+      const selected = opt.id == eventData.target_id;
+      const iconStyle = {
+        color: selected ? 'white' : 'gray',
+      };
 
-  return (
-    <div className='grid lg:grid-cols-4 xs:grid-cols-2 gap-2 w-full'>
-      {options.map((opt, key) => {
-        const selected = opt.id == eventData.target_id;
-        const iconStyle = {
-          color: selected ? 'white' : 'gray',
-        };
+      const Icon = icons[opt.label] || MoreHoriz;
 
-        const Icon = icons[opt.label] || MoreHoriz;
+      return (
+        <ChipBox
+          key={`event-target-${key}`}
+          icon={<Icon sx={iconStyle} />}
+          value={opt.id}
+          label={opt.label}
+          name='target_id'
+          onChange={updateEventData}
+          checked={selected}
+        />
+      );
+    });
+  }, [options, eventData, updateEventData, icons]);
 
-        return (
-          <ChipBox
-            key={`event-target-${key}`}
-            icon={<Icon sx={iconStyle} />}
-            value={opt.id}
-            label={opt.label}
-            name='target_id'
-            onChange={updateEventData}
-            checked={selected}
-          />
-        );
-      })}
-    </div>
-  );
+  return <div className='grid lg:grid-cols-4 xs:grid-cols-2 gap-2 w-full'>{opts}</div>;
 }
 
 export const EventTargetSelector = () => {
