@@ -27,8 +27,28 @@ class Roofs {
         'turvatikas',
         'kourut',
         'syoksysarja' */
-    console.log('Property id at roof get: ', property_id);
-    return ctx('roofs.data').where({ property_id }).select('*');
+
+    return ctx('roofs.data')
+      .where({ property_id })
+      .select(
+        'roofTypeId',
+        'roofMaterialId',
+        'raystasTyyppiId',
+        'colorId',
+        'kaltevuus',
+        'neliometrit',
+        'otsalautaTyyppiId',
+        'aluskateTyyppiId',
+        'harjatuuletusAluskatteella',
+        'suojakasiteltyPuutavara',
+        'piipunpellitys',
+        'lapetikas',
+        'lumieste',
+        'kattosilta',
+        'turvatikas',
+        'kourut',
+        'syoksysarja'
+      );
   }
 
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {

@@ -120,7 +120,6 @@ class Properties {
       );
     }
 
-    console.log('Roof at get: ', roof);
     return {
       ...overview,
       ...interior,
