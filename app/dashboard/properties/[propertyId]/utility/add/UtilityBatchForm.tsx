@@ -174,6 +174,12 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
 
           <div className='flex gap-4 border-t border-slate-300 pt-4 justify-end w-full'>
             <Button
+              variant='text'
+              color='secondary'
+              onClick={() => router.back()}>
+              Peruuta
+            </Button>
+            <Button
               onClick={onSubmit}
               form={formId}
               disabled={isSubmitDisabled()}
