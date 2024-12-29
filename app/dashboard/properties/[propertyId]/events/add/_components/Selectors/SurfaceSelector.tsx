@@ -10,7 +10,7 @@ export const SurfaceSelector = () => {
 
   const { data: surfaces, isLoading } = useQuery({
     queryFn: async () => await getSurfaces(),
-    queryKey: [`workTypes-${eventData.event_type_id}-${eventData.target_id}`],
+    queryKey: [`surfaces-${eventData.event_type_id}`],
   });
 
   const getSurfaceButtons = () => {

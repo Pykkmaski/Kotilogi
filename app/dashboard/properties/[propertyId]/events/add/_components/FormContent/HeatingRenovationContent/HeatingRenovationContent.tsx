@@ -39,6 +39,13 @@ export const HeatingRenovationContent = () => {
                   />
                 );
               })}
+              <ChipButton
+                name='old_system_id'
+                value={-1}
+                label='Ei mitään'
+                checked={eventData.old_system_id == -1 || eventData.old_system_id == undefined}
+                onChange={updateEventData}
+              />
             </div>
           }
         />

@@ -31,6 +31,13 @@ class Heating {
     return result;
   }
 
+  async setAsPrimary(heating_id: string, property_id: string, ctx: Knex | Knex.Transaction) {
+    await ctx('heating.primary_heating').insert({
+      property_id,
+      heating_id,
+    });
+  }
+
   /**Returns an array containing all heating systems of a property. */
   async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<HeatingPayloadType[]> {
     const heatingData = await ctx('heating.data')
@@ -129,12 +136,17 @@ class Heating {
       ['id']
     );
 
-    //Insert a record of the primary heating, if applicable.
-    const [currentPrimaryHeating] = await ctx('heating.primary_heating').where({
+    const [previousPrimary] = await ctx('heating.primary_heating').where({
       property_id: data.property_id,
     });
 
-    if (!currentPrimaryHeating && data.is_primary) {
+    if (previousPrimary) {
+      if (data.is_primary) {
+        await ctx('heating.primary_heating').where({ property_id: data.property_id }).update({
+          heating_id,
+        });
+      }
+    } else {
       await ctx('heating.primary_heating').insert({
         property_id: data.property_id,
         heating_id: heating_id,

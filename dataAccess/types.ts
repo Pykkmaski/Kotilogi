@@ -133,6 +133,7 @@ export type EventPayloadType = ObjectDataType &
     locks?: LockDataType[];
     heating?: HeatingPayloadType[];
     surfaces?: number[];
+    insulation?: TODO[];
   };
 
 type HasEventId = { event_id: string };

@@ -74,11 +74,19 @@ function EventTypeButton({ eventType }) {
   );
 }
 
-export const EventTypeSelector = () => {
+/**Renders the options for event types, like Peruskorjaus, Huoltotyö, etc. */
+export const EventTypeSelector = ({
+  onClick,
+}: {
+  /**Pass an onClick, so the CarouselProvider.NextTrigger this is rendered within, can do its job. */
+  onClick?: (e: any) => void;
+}) => {
   const { refs } = useEventFormContext();
 
   return (
-    <div className='flex w-full justify-center'>
+    <div
+      onClick={onClick}
+      className='flex w-full justify-center'>
       <div className='lg:grid lg:grid-cols-2 xs:flex xs:flex-col w-full gap-4'>
         {refs.eventTypes.map(t => {
           return <EventTypeButton eventType={t} />;

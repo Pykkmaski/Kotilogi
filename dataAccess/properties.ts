@@ -35,8 +35,9 @@ class Properties {
     }
   }
 
+  /**Returns the name of the database-table that contains the specific data related to a property, depending on its type. */
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
-    const [{ result: types }] = await db('property.get_property_types');
+    const [{ result: types }] = await trx('property.get_property_types');
     return typeId == types['Kiinteistö'] ? 'property.houses' : 'property.appartments';
   }
 
@@ -71,9 +72,9 @@ class Properties {
     return ctx('property.overview').where({ id: property_id }).pluck('property_type_id');
   }
 
+  /**Fetches a property from the database, by joining it's building, roof, interior, yard and heating data. */
   async get(id: string): Promise<HousePayloadType | AppartmentPayloadType> {
-    //Get the type of the property.
-
+    //The base property data.
     const overviewPromise = db('property.overview')
       .join('objects.data', { 'objects.data.id': 'property.overview.id' })
       .join('types.property_type', {
@@ -130,9 +131,15 @@ class Properties {
     };
   }
 
+  /**Creates a new property.
+   * Also creates an object into the objects data table, which the property referes to,
+   * and creates an owner-entry into the owners table, setting the user id to the logged in user's id.
+   */
   async create(
     data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'property_type_id'>>,
-    callback?: (id: string, trx: Knex.Transaction) => Promise<void>
+    /**An optional callback for inserting aditional data after the property, using the same transaction.
+     */
+    callback?: (property_id: string, trx: Knex.Transaction) => Promise<void>
   ) {
     //Only allow one property per user.
     const session = await verifySession();
@@ -150,22 +157,20 @@ class Properties {
       );
 
       const heatingPromises: Promise<void>[] = [];
-      data.heating?.forEach(async (item: TODO) => {
-        heatingPromises.push(
-          heating.create(
-            {
-              ...item,
-              property_id: obj.id,
-            },
-            trx
-          )
-        );
-      });
+      data.heating?.map(async (item: TODO) =>
+        heating.create(
+          {
+            ...item,
+            property_id: obj.id,
+          },
+          trx
+        )
+      );
 
       const buildingPromise = buildings.create(obj.id, data, trx);
       const interiorPromise = interiors.create(obj.id, data, trx);
       const roofPromise = roofs.create(obj.id, data, trx);
-      await Promise.all([buildingPromise, interiorPromise, roofPromise]);
+      await Promise.all([buildingPromise, interiorPromise, roofPromise, heatingPromises]);
 
       const [propertySchema, propertyTablename] = (
         await this.getTableNameByType(data.property_type_id, trx)
@@ -196,7 +201,7 @@ class Properties {
     });
   }
 
-  /**Updates the property and the underlaying object. */
+  /**Updates the property and the underlaying object, it's roof, building, interior and yard data.*/
   async update(
     id: string,
     payload: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'property_type_id'>>
@@ -270,6 +275,7 @@ class Properties {
     });
   }
 
+  /**Deletes a property. */
   async del(id: string, password: string) {
     const session = await verifySession();
     await this.verifyPropertyOwnership(session, id);
@@ -277,10 +283,12 @@ class Properties {
     await objects.del(id);
   }
 
+  /**Gets all owners of a property. */
   async getOwners(propertyId: string) {
     return await db('data_propertyOwners').where({ propertyId }).pluck('userId');
   }
 
+  /**Gets all properties a user is the owner of. */
   async getPropertiesOfUser(userId: string): Promise<(HousePayloadType | AppartmentPayloadType)[]> {
     const ownedProperties = await db('data_propertyOwners').where({ userId }).pluck('propertyId');
     const promises = ownedProperties.map(id => this.get(id));

@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 
-const table = 'ref_surfaces';
+const table = 'targets.cosmetic_renovation_event_target';
 const surfaces = ['Katto', 'Seinät', 'Lattia'];
 
 exports.seed = async function (knex) {

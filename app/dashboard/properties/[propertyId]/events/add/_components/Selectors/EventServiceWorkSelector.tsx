@@ -17,6 +17,7 @@ export const EventServiceWorkSelector = () => {
   } = useQuery({
     queryFn: async () => await getServiceWorkTypes(eventData.target_id),
     queryKey: [`work-types-${eventData.target_id}`],
+    enabled: eventData.target_id != undefined,
   });
 
   return !error ? (
@@ -27,21 +28,26 @@ export const EventServiceWorkSelector = () => {
       label='Tehty työ'
       required
       control={
-        <ChipRadioGroup
-          dataArray={workTypes}
-          name='service_work_type_id'
-          currentValue={eventData.service_work_type_id}
-          valueKey='id'
-          labelKey='label'
-          onChange={updateEventData}
-        />
+        !isLoading &&
+        workTypes && (
+          <ChipRadioGroup
+            dataArray={workTypes}
+            name='service_work_type_id'
+            currentValue={eventData.service_work_type_id}
+            valueKey='id'
+            labelKey='label'
+            onChange={updateEventData}
+          />
+        )
       }
     />
-  ) : (
+  ) : eventData.target_id != undefined ? (
     <Notification
       variant='error'
       position='start'>
       Työtyyppien lataus epäonnistui!
     </Notification>
+  ) : (
+    <Notification position='start'>Aloita valitsemalla kohde.</Notification>
   );
 };

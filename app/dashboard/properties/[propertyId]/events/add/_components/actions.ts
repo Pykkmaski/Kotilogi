@@ -77,8 +77,6 @@ export const getEventTargets = async (mainEventTypeId: number) => {
       .from(`events.${tablename}`)
       .join('events.targets', { 'events.targets.id': `events.${tablename}.target_id` });
 
-  console.log(event_types.Peruskorjaus, mainEventTypeId);
-
   switch (parseInt(mainEventTypeId as any)) {
     case event_types.Peruskorjaus: {
       return await get_targets('restorable_target_type');
@@ -89,12 +87,13 @@ export const getEventTargets = async (mainEventTypeId: number) => {
     }
 
     case event_types['Pintaremontti']: {
-      return await get_targets('renovateable_target_type');
+      return await get_targets('cosmetic_renovation_target_type');
     }
 
     case event_types['Muu']:
-    default:
+    default: {
       return await db('events.targets');
+    }
   }
 };
 
@@ -150,10 +149,11 @@ export const getServiceWorkTypes = async (targetId: number) => {
 };
 
 export const getSurfaces = async () => {
-  const surfaces = await db('ref_surfaces');
+  const surfaces = await db('types.surface_type');
   return surfaces;
 };
 
+/**@deprecated */
 export const getEventCategories = async () => db('ref_eventCategories');
 
 export const getWorkTypeLabel = async (targetId: number, serviceWorkTypeId: number) => {

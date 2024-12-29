@@ -97,11 +97,13 @@ export function HeatingField() {
 
   useEffect(() => {
     return () => {
+      const entriesToRemove = [];
       heatingBatch.forEach(hb => {
         if (typeof hb.value.heating_type_id == 'undefined') {
-          removeHeating(hb.id);
+          entriesToRemove.push(hb.id);
         }
       });
+      entriesToRemove.forEach(id => removeHeating(id));
     };
   }, []);
 

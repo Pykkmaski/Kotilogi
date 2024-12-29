@@ -30,7 +30,7 @@ export function TokenGenerationField({ propertyId }) {
 
   return (
     <div className='flex flex-col'>
-      <FalseInputLabel>Varmenne</FalseInputLabel>
+      <label className='font-semibold'>Siirtolinkki</label>
       <div className='flex gap-2 w-full items-center'>
         <FalseInputFieldBody>
           {isLoading ? <Spinner /> : <TextEllipsis>{url}</TextEllipsis>}

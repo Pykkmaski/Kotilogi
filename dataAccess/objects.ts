@@ -36,7 +36,6 @@ class Objects {
 
     if (typeof ctx == 'undefined') {
       //Commit the transaction here if none was provided from the outside.
-      console.log('Committing object creation');
       await trx.commit();
     }
   }

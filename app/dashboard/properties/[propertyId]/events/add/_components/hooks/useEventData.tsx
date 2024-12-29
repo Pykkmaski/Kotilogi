@@ -57,6 +57,11 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     entries: locks,
   } = useBatchForm(initialEventData.locks, 'kotidok-event-data-locks');
 
+  const { entries: insulation, resetBatch: resetInsulation } = useBatchForm(
+    initialEventData.insulation,
+    'kotidok-event-data-insulation'
+  );
+
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
   useEffect(() => {
@@ -77,6 +82,8 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     eventData,
     windows,
     locks,
+    insulation,
+    resetInsulation,
     updateFiles,
     addWindowEntry,
     addLockEntry,

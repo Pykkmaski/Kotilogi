@@ -19,24 +19,7 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
 
 export function MainDataForm({ editing }) {
-  const { updateEventData, eventData, cancel, onSubmit, status, selectedSurfaceIds } =
-    useEventFormContext();
-  const { refs } = useEventTypeContext();
-
-  const isSubmitDisabled = () => {
-    var state;
-    if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
-      state = !isDefined(eventData.target_id);
-    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
-      state = !isDefined(eventData.target_id) || !isDefined(eventData.service_work_type_id);
-    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      state = !isDefined(eventData.target_id) || selectedSurfaceIds.length == 0;
-    } else {
-      state = true;
-    }
-
-    return state && status != 'idle';
-  };
+  const { status } = useEventFormContext();
 
   return (
     <div className='flex flex-col gap-2 w-full'>

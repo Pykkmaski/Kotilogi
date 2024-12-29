@@ -17,7 +17,7 @@ export default async function PropertiesPage() {
   )[];
 
   if (data.length == 1) {
-    //redirect(`properties/${data.at(0).id}`);
+    redirect(`properties/${data.at(0).id}`);
   }
 
   return (

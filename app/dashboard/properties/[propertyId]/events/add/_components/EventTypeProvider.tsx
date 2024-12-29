@@ -10,6 +10,7 @@ type EventProviderProps = {
 
 const EventTypeContext = React.createContext<EventProviderProps | null>(null);
 
+/**@deprecated Not in use. */
 export function EventTypeProvider({
   children,
   refs,

@@ -104,9 +104,11 @@ export function useEventForm(
     if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       return isDefined(eventData.target_id);
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
-      return isDefined(eventData.target_id) && isDefined(eventData.service_work_type_id);
+      return eventData.target_id != getIdByLabel(refs.eventTargets, 'Muu')
+        ? isDefined(eventData.target_id) && isDefined(eventData.service_work_type_id)
+        : isDefined(eventData.target_id);
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      console.log('Pintaremontti');
+      console.log('Pintaremontti selected');
       return true;
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu')) {
       return isDefined(eventData.target_id);

@@ -39,6 +39,14 @@ class Events {
     };
   }
 
+  /**
+   *
+   * @param targetLabel
+   * @param payload
+   * @param ctx
+   * @deprecated Not in use.
+   * @returns
+   */
   public async createGenesisEvent(
     targetLabel: string,
     payload: Partial<EventPayloadType> & Required<Pick<EventPayloadType, 'property_id'>>,
@@ -88,6 +96,7 @@ class Events {
     await heating.update(heatingPayload.id, heatingPayload, trx);
   }
 
+  /**Inserts data related to a restoration event. */
   private async createRestorationWorkData(
     event_id: string,
     payload: EventPayloadType,
@@ -106,7 +115,7 @@ class Events {
           let oldSystemType: number;
           let oldSystemIsPrimary = false;
 
-          if (old_system_id) {
+          if (old_system_id && old_system_id != -1) {
             [oldSystemType] = await trx('heating.data')
               .where({ id: old_system_id })
               .pluck('heating_type_id');
@@ -198,10 +207,13 @@ class Events {
 
       case event_targets['Eristys']:
         {
-          await trx('insulation.restoration_work').insert({
-            event_id,
-            insulation_material_id: payload.insulation_material_id,
-            insulation_target_id: payload.insulation_target_id,
+          const promises = payload.insulation.map(async i => {
+            await trx('insulation.restoration_work').insert({
+              event_id,
+              insulation_material_id: i.insulation_material_id,
+              insulation_target_id: i.insulation_target_id,
+            });
+            await Promise.all(promises);
           });
         }
         break;
@@ -313,13 +325,16 @@ class Events {
     }
   }
 
-  private async createSurfaceRenovationWorkData(
+  private async createCosmeticRenovationData(
     event_id: string,
     payload: Partial<EventPayloadType>,
     trx: Knex.Transaction
   ) {
     const promises = payload.surfaces?.map(s => {
-      return trx('data_surfaces').insert({ event_id, surfaceId: s });
+      return trx('cosmetic_renovation_events.surfaces').insert({
+        eventId: event_id,
+        surfaceId: s,
+      });
     });
 
     await Promise.all(promises);
@@ -371,7 +386,7 @@ class Events {
 
           case event_types['Pintaremontti']:
             {
-              await this.createSurfaceRenovationWorkData(event_id, eventPayload, trx);
+              await this.createCosmeticRenovationData(event_id, eventPayload, trx);
             }
             break;
 
@@ -585,6 +600,7 @@ class Events {
    * @param eventId The id of the event to fetch additional data for.
    * @returns An array containing the extra data.
    * @throws An error if the event has a main type, or target id, for which no functionality is implemented yet.
+   * @deprecated
    */
   async getExtraData(eventId: string) {
     const [type_data] = await db('events.data')
@@ -622,10 +638,9 @@ class Events {
 
   /**Updates the main event data.
    * @param id The id of the event to update.
-   * @param data The main event data to update with.
-   * @param extraData An array containing the additional data associated with the event.
+   * @param payload The main event data to update with.
    */
-  async update(id: string, data: Partial<EventPayloadType>) {
+  async update(id: string, payload: Partial<EventPayloadType>) {
     //Only allow the author of an event to update it.
     await objects.verifySessionUserIsAuthor(id);
 
