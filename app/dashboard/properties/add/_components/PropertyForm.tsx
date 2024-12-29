@@ -255,15 +255,16 @@ export function PropertyForm<T extends PropertyPayloadType>({
               </BoxFieldset>
             </CarouselProvider.Slot>
           )}
-
-          <CarouselProvider.Slot slotName='heating'>
-            <BoxFieldset legend='Lämmitys'>
-              <FieldsetContainer>
-                <HeatingField />
-                <GotoDraft updateSlot={updateSlot} />
-              </FieldsetContainer>
-            </BoxFieldset>
-          </CarouselProvider.Slot>
+          {isNew && (
+            <CarouselProvider.Slot slotName='heating'>
+              <BoxFieldset legend='Lämmitys'>
+                <FieldsetContainer>
+                  <HeatingField />
+                  <GotoDraft updateSlot={updateSlot} />
+                </FieldsetContainer>
+              </BoxFieldset>
+            </CarouselProvider.Slot>
+          )}
 
           <CarouselProvider.Slot slotName='other'>
             <BoxFieldset legend='Muut tiedot'>

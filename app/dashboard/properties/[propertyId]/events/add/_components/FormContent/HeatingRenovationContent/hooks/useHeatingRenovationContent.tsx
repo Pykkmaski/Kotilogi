@@ -73,7 +73,6 @@ export function useHeatingRenovationContent() {
     if (isLoading) return null;
 
     const { new_system_id } = eventData;
-    console.log(heatingSystems, isLoading);
     if (new_system_id == getIdByLabel(heatingSystems, 'Öljy', 'name')) {
       return (
         <>

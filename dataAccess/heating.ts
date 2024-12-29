@@ -132,6 +132,7 @@ class Heating {
       {
         property_id: (data as any).property_id,
         heating_type_id: data.heating_type_id,
+        name: data.name,
       },
       ['id']
     );
@@ -141,6 +142,7 @@ class Heating {
     });
 
     if (previousPrimary) {
+      console.log(previousPrimary);
       if (data.is_primary) {
         await ctx('heating.primary_heating').where({ property_id: data.property_id }).update({
           heating_id,

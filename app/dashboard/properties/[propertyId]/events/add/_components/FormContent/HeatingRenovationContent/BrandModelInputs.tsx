@@ -1,4 +1,5 @@
 import { FormControl, Input } from '@/components/UI/FormUtils';
+import { useEventFormContext } from '../../EventFormContext';
 
 export const BrandAndModelInputs = ({
   brandLabel,
@@ -6,13 +7,28 @@ export const BrandAndModelInputs = ({
   brandPlaceholder,
   modelPlaceholder,
 }) => {
+  const { eventData, updateEventData } = useEventFormContext();
+
   return (
     <>
+      <FormControl
+        label='Nimi'
+        control={
+          <Input
+            name='name'
+            placeholder='Anna lämmitykselle nimi...'
+            onChange={updateEventData}
+            value={(eventData as any).name}
+          />
+        }
+      />
       <FormControl
         label={brandLabel}
         control={
           <Input
             name='brand'
+            onChange={updateEventData}
+            value={(eventData as any).brand}
             placeholder={brandPlaceholder}
           />
         }
@@ -25,6 +41,8 @@ export const BrandAndModelInputs = ({
           <Input
             name='model'
             placeholder={modelPlaceholder}
+            onChange={updateEventData}
+            value={(eventData as any).model}
           />
         }
       />

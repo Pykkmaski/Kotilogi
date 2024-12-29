@@ -33,7 +33,7 @@ export const HeatingRenovationContent = () => {
                   <ChipButton
                     name='old_system_id'
                     value={ch.id}
-                    label={ch.heating_type_label}
+                    label={ch.name || ch.heating_type_label}
                     checked={eventData.old_system_id == ch.id}
                     onChange={updateEventData}
                   />

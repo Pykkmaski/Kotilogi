@@ -174,6 +174,7 @@ export type HeatingPayloadType = HeatingDataType &
   Omit<Partial<WarmWaterReservoirDataType>, 'heating_id'> & {
     is_primary?: boolean;
     deleted?: boolean;
+    name?: string;
   };
 
 export type HeatingCenterDataType = {

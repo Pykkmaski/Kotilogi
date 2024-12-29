@@ -137,8 +137,7 @@ export function useEventForm(
       eventData.event_type_id == undefined ||
       eventData.target_id == undefined ||
       eventData.date == undefined ||
-      status == 'loading' ||
-      status == 'done'
+      status == 'loading'
     );
   }, [
     eventData.target_id,
