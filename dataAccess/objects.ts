@@ -10,7 +10,7 @@ class Objects {
   async verifySessionUserIsAuthor(objectId: string) {
     const session = await verifySession();
 
-    const [authorId] = await db('objects.data').where({ id: objectId }).pluck('authorId');
+    const [authorId] = await db('object').where({ id: objectId }).pluck('authorId');
     if (session.user.id !== authorId) {
       throw new Error('Vain tiedon laatija voi muokata- tai poistaa sen!');
     }
@@ -27,7 +27,7 @@ class Objects {
 
     const dataToInsert = filterValidColumns(data, await getTableColumns('data', trx, 'objects'));
     const { id, ...rest } = dataToInsert;
-    const [obj] = (await trx('objects.data').insert(
+    const [obj] = (await trx('object').insert(
       { ...rest, authorId: session.user.id, timestamp: Date.now() },
       '*'
     )) as [ObjectDataType];
@@ -50,7 +50,7 @@ class Objects {
     const trx = ctx || (await db.transaction());
     const validColumns = await getTableColumns('data', trx, 'objects');
 
-    await trx('objects.data')
+    await trx('object')
       .where({ id: objectId })
       .update({
         ...filterValidColumns(data, validColumns),
@@ -71,7 +71,7 @@ class Objects {
     ctx?: Knex.Transaction
   ) {
     const trx = ctx || (await db.transaction());
-    await trx('objects.data').where({ id }).del();
+    await trx('object').where({ id }).del();
     callback && (await callback(trx));
 
     if (typeof ctx == 'undefined') {
@@ -101,7 +101,7 @@ class Objects {
       const trx = await db.transaction();
       const session = await verifySession();
       for (let i = 0; i < count; ++i) {
-        const [obj] = await trx('objects.data').insert(
+        const [obj] = await trx('object').insert(
           {
             parentId,
             timestamp: Date.now(),
@@ -133,10 +133,10 @@ class Objects {
           new Promise<void>(async (resolve, reject) => {
             try {
               const current = data[i];
-              await trx('objects.data')
+              await trx('object')
                 .where({ id: current.id })
                 .update({
-                  ...filterValidColumns(data, await getTableColumns('objects.data', trx)),
+                  ...filterValidColumns(data, await getTableColumns('object', trx)),
                 });
 
               await callback(i, trx);

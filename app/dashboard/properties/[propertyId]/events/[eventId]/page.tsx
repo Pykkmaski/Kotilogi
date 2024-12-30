@@ -17,8 +17,8 @@ export default async function EventPage({ params }) {
   });
 
   const files = await db('data_files')
-    .join(db.raw('objects.data on objects.data.id = data_files.id'))
-    .where({ 'objects.data.parentId': eventId });
+    .join(db.raw('object on object.id = data_files.id'))
+    .where({ 'object.parentId': eventId });
 
   const [mainImageId] = await db('data_mainImages').where({ objectId: eventId }).pluck('imageId');
 

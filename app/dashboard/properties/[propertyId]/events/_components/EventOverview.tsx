@@ -27,9 +27,9 @@ type EventOverviewProps<T extends EventPayloadType> = {
 
 export async function EventOverview<T extends EventPayloadType>({ event }: EventOverviewProps<T>) {
   const images = await db('data_files')
-    .join('objects.data', { 'objects.data.id': 'data_files.id' })
+    .join('object', { 'object.id': 'data_files.id' })
     .where({ parentId: event.id, type: 'image/jpeg' })
-    .select('data_files.id as id', 'objects.data.parentId as parentId');
+    .select('data_files.id as id', 'object.parentId as parentId');
 
   const [mainImageId] = await db('data_mainImages').where({ objectId: event.id }).pluck('imageId');
 

@@ -52,7 +52,9 @@ export const createEventAction = async (
 };
 
 export const getPreviousHeatingSystem = async (propertyId: string) => {
-  const [heatingTargetId] = await db('events.targets').where({ label: 'Lämmitys' }).pluck('id');
+  const [heatingTargetId] = await db('types.event_target_type')
+    .where({ label: 'Lämmitys' })
+    .pluck('id');
 
   return await db('data_heatingEvents')
     .join('data_objects', { 'data_objects.id': 'data_heatingEvents.id' })
@@ -69,77 +71,87 @@ export const getEventTargets = async (mainEventTypeId: number) => {
     db.raw('json_object_agg(label, id) as result')
   );
 
-  console.log(event_types);
-
-  const get_targets = async (tablename: string) =>
-    await db
-      .select('events.targets.*')
-      .from(`events.${tablename}`)
-      .join('events.targets', { 'events.targets.id': `events.${tablename}.target_id` });
-
   switch (parseInt(mainEventTypeId as any)) {
     case event_types.Peruskorjaus: {
-      return await get_targets('restorable_target_type');
+      return await db('restoration_events.restorable_target_type')
+        .join(
+          db.raw(
+            'types.event_target_type on types.event_target_type.id = restoration_events.restorable_target_type.target_id'
+          )
+        )
+        .select('types.event_target_type.*');
     }
 
     case event_types['Huoltotyö']: {
-      return await get_targets('serviceable_target_type');
+      return await db('service_events.serviceable_target_type')
+        .join(
+          db.raw(
+            'types.event_target_type on types.event_target_type.id = service_events.serviceable_target_type.target_id'
+          )
+        )
+        .select('types.event_target_type.*');
     }
 
     case event_types['Pintaremontti']: {
-      return await get_targets('cosmetic_renovation_target_type');
+      return await db('cosmetic_renovation_events.cosmetic_renovation_target_type')
+        .join(
+          db.raw(
+            'types.event_target_type on types.event_target_type.id = cosmetic_renovation_events.cosmetic_renovation_target_type.target_id'
+          )
+        )
+        .select('types.event_target_type.*');
     }
 
     case event_types['Muu']:
     default: {
-      return await db('events.targets');
+      return await db('types.event_target_type');
     }
   }
 };
 
 export const getServiceWorkTypes = async (targetId: number) => {
-  const [{ result: event_targets }] = await db('events.targets').select(
+  const [{ result: event_targets }] = await db('types.event_target_type').select(
     db.raw('json_object_agg(label, id) as result')
   );
 
   switch (parseInt(targetId as any)) {
     case event_targets.Katto: {
-      return await db('service_types.roof_service_type');
+      return await db('service_events.roof_service_type');
     }
 
     case event_targets['Salaojat']:
-      return await db('service_types.drainage_ditch_service_type');
+      return await db('service_events.drainage_ditch_service_type');
 
     case event_targets['Käyttövesiputket']:
-      return await db('service_types.water_pipe_service_type');
+      return await db('service_events.water_pipe_service_type');
 
     case event_targets['Viemäriputket']:
-      return await db('service_types.sewer_pipe_service_type');
+      return await db('service_events.sewer_pipe_service_type');
 
     case event_targets['Lämmitysmuoto']:
-      return await db('service_types.heating_service_type');
+      return await db('service_events.heating_service_type');
 
     case event_targets['Lämmönjako']:
-      return await db('service_types.heating_distribution_service_type');
+      return await db('service_events.heating_distribution_service_type');
 
     case event_targets['Ilmanvaihto']: {
-      return await db('service_types.ventilation_service_type');
+      return await db('service_events.ventilation_service_type');
     }
 
     case event_targets['Eristys']: {
-      return await db('service_types.insulation_service_type');
+      return await db('service_events.insulation_service_type');
     }
 
     case event_targets['Sähköt']: {
-      return await db('service_types.electricity_service_type');
+      return await db('service_events.electricity_service_type');
     }
 
     case event_targets['Rakenteet']: {
-      return await db('service_types.structure_service_type');
+      return await db('service_events.structure_service_type');
     }
 
     case event_targets['Palovaroittimet']: {
-      return await db('service_types.firealarm_service_type');
+      return await db('service_events.firealarm_service_type');
     }
 
     default: {
@@ -157,7 +169,7 @@ export const getSurfaces = async () => {
 export const getEventCategories = async () => db('ref_eventCategories');
 
 export const getWorkTypeLabel = async (targetId: number, serviceWorkTypeId: number) => {
-  const [{ result: targets }] = await db('events.targets').select(
+  const [{ result: targets }] = await db('types.event_target_type').select(
     db.raw('json_obect_agg(label, id) as result')
   );
 

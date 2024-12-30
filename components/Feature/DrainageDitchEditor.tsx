@@ -12,7 +12,7 @@ export function DrainageDitchImplementationMethodSelector(props: Kotidok.Selecto
       labelKey='label'
       valueKey='id'
       label='Toteutustapa'
-      tablename='drainage_ditches.implementation_methods'
+      tablename='restoration_events.drainage_ditch_implementation_method_type'
       name='toteutusTapaId'
     />
   );

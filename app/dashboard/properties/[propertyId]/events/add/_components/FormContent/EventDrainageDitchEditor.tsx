@@ -16,7 +16,7 @@ export const EventDrainageDitchEditor = () => {
   const { eventData, resetEventData, updateEventData } = useEventFormContext();
   const { data, isLoading, error } = useQuery({
     queryKey: [`drainage-ditch-data-${eventData.property_id}`],
-    queryFn: async () => await getContent('drainage_ditches.data'),
+    queryFn: async () => await getContent('drainage_ditch'),
   });
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { getTableColumns } from './utils/getTableColumns';
 
 class Interiors {
   async get(property_id: string, ctx: Knex.Transaction | Knex) {
-    return ctx('property.interior')
+    return ctx('interior')
       .where({ property_id })
       .select('room_count', 'floor_count', 'bathroom_count', 'living_area', 'other_area');
   }
@@ -15,7 +15,7 @@ class Interiors {
     payload: Partial<InteriorDataType>,
     ctx: Knex.Transaction | Knex
   ) {
-    return ctx('property.interior')
+    return ctx('interior')
       .insert({
         ...filterValidColumns(payload, await getTableColumns('interior', ctx, 'property')),
         property_id,
@@ -29,7 +29,7 @@ class Interiors {
     payload: Partial<InteriorDataType>,
     ctx: Knex.Transaction | Knex
   ) {
-    return ctx('property.interior')
+    return ctx('interior')
       .where({ property_id })
       .update({
         ...filterValidColumns(payload, await getTableColumns('interior', ctx, 'property')),

@@ -5,7 +5,7 @@ import { getTableColumns } from './utils/getTableColumns';
 
 export class Buildings {
   async get(property_id: string, ctx: Knex.Transaction | Knex) {
-    return ctx('buildings.data')
+    return ctx('building')
       .where({ property_id })
       .select('building_material_id', 'building_type_id', 'build_year', 'color_id');
   }
@@ -16,7 +16,7 @@ export class Buildings {
     ctx: Knex.Transaction | Knex
   ) {
     /**TODO: Each property logically can have multiple buildings. Modify the building data table to have its own id, and return that here once created. */
-    return ctx('buildings.data')
+    return ctx('building')
       .insert({
         ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
         property_id,
@@ -30,7 +30,7 @@ export class Buildings {
     payload: Partial<BuildingDataType>,
     ctx: Knex.Transaction | Knex
   ) {
-    return ctx('buildings.data')
+    return ctx('building')
       .where({ property_id })
       .update({
         ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),

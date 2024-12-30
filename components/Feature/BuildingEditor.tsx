@@ -14,7 +14,7 @@ export function BuildingMaterialSelector(props: Kotidok.SelectorProps) {
       valueKey='id'
       label='Rakennusmateriaali'
       name='building_material_id'
-      tablename='buildings.materials'
+      tablename='types.building_material_type'
     />
   );
 }

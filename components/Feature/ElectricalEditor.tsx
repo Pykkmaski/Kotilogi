@@ -5,7 +5,7 @@ export function ElectricalTargetSelector(props: Kotidok.SelectorProps) {
   return (
     <OptionSelector
       {...props}
-      tablename='electricity.restoration_work_target'
+      tablename='restoration_events.electricity_restoration_target_type'
       label='Työn kohde'
       name='restoration_work_target_id'
       labelKey='label'

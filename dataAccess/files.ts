@@ -33,8 +33,8 @@ class Files {
 
     const session = await verifySession();
 
-    const [{ totalFileSizeUploaded }] = await db('objects.data')
-      .join('data_files', { 'data_files.id': 'objects.data.id' })
+    const [{ totalFileSizeUploaded }] = await db('object')
+      .join('data_files', { 'data_files.id': 'object.id' })
       .where({ authorId: session.user.id })
       .sum('data_files.size', { as: 'totalFileSizeUploaded' });
 
@@ -94,7 +94,7 @@ class Files {
         .select('name')) || [{}];
       filename = fileName;
 
-      await trx('objects.data').where({ id: fileId }).del();
+      await trx('object').where({ id: fileId }).del();
       fileBackup = await readFile(uploadPath + filename);
 
       await unlink(uploadPath + filename);
@@ -116,9 +116,9 @@ class Files {
     if (currentMainImage) return;
 
     const [image] = await db('data_files')
-      .join('objects.data', { 'objects.data.id': 'data_files.id' })
+      .join('object', { 'object.id': 'data_files.id' })
       .where({ parentId: objectId, type: 'image/jpeg' })
-      .orderBy('objects.data.timestamp', 'asc')
+      .orderBy('object.timestamp', 'asc')
       .pluck('data_files.id');
 
     if (image) {
@@ -128,10 +128,10 @@ class Files {
   }
 
   async get(query: TODO, limit?: number) {
-    return db('objects.data')
-      .join('data_files', { 'data_files.id': 'objects.data.id' })
+    return db('object')
+      .join('data_files', { 'data_files.id': 'object.id' })
       .where(query)
-      .select('objects.data.*', 'data_files.name', 'data_files.size', 'data_files.type')
+      .select('object.*', 'data_files.name', 'data_files.size', 'data_files.type')
       .limit(limit);
   }
 }

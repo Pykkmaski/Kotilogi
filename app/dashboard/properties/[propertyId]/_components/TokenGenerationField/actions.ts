@@ -5,7 +5,7 @@ import { createHash, Hmac } from 'crypto';
 
 export async function generateTokenAction(propertyId: string) {
   //Verify the property exists.
-  const [property] = await db('property.overview').where({ id: propertyId });
+  const [property] = await db('property').where({ id: propertyId });
   if (!property) {
     return null;
   }
@@ -19,7 +19,7 @@ export async function generateTokenAction(propertyId: string) {
   const expires = new Date();
   expires.setDate(expires.getDate() + 1);
 
-  await db('property.transferCodes')
+  await db('property_transfer_code')
     .insert({
       expires,
       code,

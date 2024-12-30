@@ -3,10 +3,10 @@ import db from 'kotilogi-app/dbconfig';
 
 export const getPropertyRefs = async () => {
   const buildingTypes = await db('types.building_type');
-  const buildingMaterials = await db('buildings.materials');
+  const buildingMaterials = await db('types.building_material_type');
   const propertyTypes = await db('types.property_type');
   const roofTypes = await db('types.roof_type');
-  const roofMaterials = await db('roofs.materials');
+  const roofMaterials = await db('types.roof_material_type');
   const yardOwnershipTypes = await db('types.yard_ownership_type');
   const heatingTypes = await db('types.heating_type');
   const energyClasses = await db('types.energy_class_type');

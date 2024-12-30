@@ -35,7 +35,7 @@ export async function PropertyOverview({
   owners,
 }: PropertyOverviewProps) {
   const [{ imageCount }] = await db('data_files')
-    .join('objects.data', { 'objects.data.id': 'data_files.id' })
+    .join('object', { 'object.id': 'data_files.id' })
     .where({ parentId: property.id })
     .count('*', { as: 'imageCount' });
 
@@ -43,21 +43,21 @@ export async function PropertyOverview({
     (await db('data_mainImages').where({ objectId: property.id }).pluck('imageId')) || [];
 
   const images = await db('data_files')
-    .join('objects.data', { 'objects.data.id': 'data_files.id' })
+    .join('object', { 'object.id': 'data_files.id' })
     .where({ parentId: property.id, type: 'image/jpeg' })
-    .select('data_files.id as id', 'objects.data.parentId as parentId');
+    .select('data_files.id as id', 'object.parentId as parentId');
 
-  const [buildingData] = await db('buildings.data')
+  const [buildingData] = await db('building')
     .leftJoin('types.building_type', {
-      'types.building_type.id': 'buildings.data.building_type_id',
+      'types.building_type.id': 'building.building_type_id',
     })
     .where({
-      'buildings.data.property_id': property.id,
+      'building.property_id': property.id,
     })
-    .select('buildings.data.*', 'types.building_type.name as building_type_label');
+    .select('building.*', 'types.building_type.name as building_type_label');
 
-  const [{ numEvents }] = await db('events.data')
-    .join('objects.data', { 'objects.data.id': 'events.data.id' })
+  const [{ numEvents }] = await db('event')
+    .join('object', { 'object.id': 'event.id' })
     .where({ parentId: property.id })
     .count('*', { as: 'numEvents' });
 

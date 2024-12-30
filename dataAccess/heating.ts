@@ -9,16 +9,16 @@ import { objects } from './objects';
 
 class Heating {
   private async getHeatingCenter(heating_id: string, ctx: Knex.Transaction | Knex) {
-    return ctx('heating.heating_center').where({ heating_id }).select('model', 'brand');
+    return ctx('heating_center').where({ heating_id }).select('model', 'brand');
   }
 
   /**Returns the primary heating system of a property. */
   async getPrimary(property_id: string, ctx: Knex.Transaction | Knex) {
-    const [primaryHeatingLabel] = await ctx('heating.primary_heating')
-      .join(db.raw('heating.data ON heating.data.id = heating.primary_heating.heating_id'))
-      .join(db.raw('types.heating_type ON types.heating_type.id = heating.data.heating_type_id'))
+    const [primaryHeatingLabel] = await ctx('primary_heating')
+      .join(db.raw('heating ON heating.id = primary_heating.heating_id'))
+      .join(db.raw('types.heating_type ON types.heating_type.id = heating.heating_type_id'))
       .select('types.heating_type.name as heating_type_label')
-      .where({ 'heating.primary_heating.property_id': property_id })
+      .where({ 'primary_heating.property_id': property_id })
       .pluck('types.heating_type.name');
 
     return primaryHeatingLabel;
@@ -32,7 +32,7 @@ class Heating {
   }
 
   async setAsPrimary(heating_id: string, property_id: string, ctx: Knex | Knex.Transaction) {
-    await ctx('heating.primary_heating').insert({
+    await ctx('primary_heating').insert({
       property_id,
       heating_id,
     });
@@ -40,18 +40,16 @@ class Heating {
 
   /**Returns an array containing all heating systems of a property. */
   async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<HeatingPayloadType[]> {
-    const heatingData = await ctx('heating.data')
-      .join(db.raw('types.heating_type ON types.heating_type.id = heating.data.heating_type_id'))
+    const heatingData = await ctx('heating')
+      .join(db.raw('types.heating_type ON types.heating_type.id = heating.heating_type_id'))
       .where({ property_id })
-      .select('heating.data.*', 'types.heating_type.name as heating_type_label');
+      .select('heating.*', 'types.heating_type.name as heating_type_label');
 
     if (heatingData.length == 0) {
       return [];
     }
 
-    const primaryHeatingPromise = ctx('heating.primary_heating')
-      .where({ property_id })
-      .pluck('heating_id');
+    const primaryHeatingPromise = ctx('primary_heating').where({ property_id }).pluck('heating_id');
 
     const heatingTypesPromise = this.getTypes(ctx);
     const [[primaryHeatingId], heatingTypes] = await Promise.all([
@@ -68,7 +66,7 @@ class Heating {
         case heatingTypes['Öljy']:
           {
             const centerPromise = this.getHeatingCenter(hd.id, ctx);
-            const vesselPromise = ctx('heating.oil_vessel')
+            const vesselPromise = ctx('oil_vessel')
               .where({ heating_id: hd.id })
               .select('volume', 'location');
 
@@ -95,7 +93,7 @@ class Heating {
         case heatingTypes['Sähkö']:
           {
             const centerPromise = this.getHeatingCenter(hd.id, ctx);
-            const reservoirPromise = ctx('heating.warm_water_reservoir')
+            const reservoirPromise = ctx('warm_water_reservoir')
               .where({ heating_id: hd.id })
               .select('volume');
 
@@ -128,7 +126,7 @@ class Heating {
   async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
     //Save the main heating data.
 
-    const [{ id: heating_id }] = await ctx('heating.data').insert(
+    const [{ id: heating_id }] = await ctx('heating').insert(
       {
         property_id: (data as any).property_id,
         heating_type_id: data.heating_type_id,
@@ -137,19 +135,19 @@ class Heating {
       ['id']
     );
 
-    const [previousPrimary] = await ctx('heating.primary_heating').where({
+    const [previousPrimary] = await ctx('primary_heating').where({
       property_id: data.property_id,
     });
 
     if (previousPrimary) {
       console.log(previousPrimary);
       if (data.is_primary) {
-        await ctx('heating.primary_heating').where({ property_id: data.property_id }).update({
+        await ctx('primary_heating').where({ property_id: data.property_id }).update({
           heating_id,
         });
       }
     } else {
-      await ctx('heating.primary_heating').insert({
+      await ctx('primary_heating').insert({
         property_id: data.property_id,
         heating_id: heating_id,
       });
@@ -168,7 +166,7 @@ class Heating {
       case heatingTypes['Öljy']:
         {
           await this.createHeatingCenter(heating_id, data, ctx);
-          await ctx('heating.oil_vessel').insert({
+          await ctx('oil_vessel').insert({
             volume: data.volume,
             location: data.location,
             heating_id,
@@ -179,7 +177,7 @@ class Heating {
       case heatingTypes['Sähkö']:
         {
           await this.createHeatingCenter(heating_id, data, ctx);
-          await ctx('heating.warm_water_reservoir').insert({
+          await ctx('warm_water_reservoir').insert({
             volume: data.volume,
             heating_id,
           });
@@ -189,7 +187,7 @@ class Heating {
   }
 
   async del(id: string, ctx: Knex.Transaction | Knex) {
-    await ctx('heating.data').where({ id }).del();
+    await ctx('heating').where({ id }).del();
   }
 
   async updateHeatingCenter(
@@ -197,7 +195,7 @@ class Heating {
     data: Partial<HeatingCenterDataType>,
     ctx: Knex | Knex.Transaction
   ) {
-    return ctx('heating.heating_center')
+    return ctx('heating_center')
       .where({ heating_id })
       .update({
         ...filterValidColumns(data, await getTableColumns('heating_center', ctx, 'heating')),
@@ -227,14 +225,14 @@ class Heating {
   }
 
   async update(id: string, data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {
-    const oldHeating = await ctx('heating.data').where({ id }).first();
+    const oldHeating = await ctx('heating').where({ id }).first();
     const heatingTypes = await this.getTypes(ctx);
 
     const oldHeatingTypeId = parseInt(oldHeating.heating_type_id);
     const newHeatingTypeId = data.heating_type_id ? parseInt(data.heating_type_id as any) : -1;
 
     //Update the base heating data.
-    await ctx('heating.data')
+    await ctx('heating')
       .where({ id })
       .update({
         ...filterValidColumns(data, await getTableColumns('data', ctx, 'heating')),
@@ -248,7 +246,7 @@ class Heating {
           {
             await this.updateHeatingCenter(id, data, ctx);
 
-            await ctx('heating.oil_vessel')
+            await ctx('oil_vessel')
               .where({ heating_id: id })
               .update({
                 ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
@@ -267,7 +265,7 @@ class Heating {
         case heatingTypes['Sähkö']:
           {
             await this.updateHeatingCenter(id, data, ctx);
-            await ctx('heating.warm_water_reservoir')
+            await ctx('warm_water_reservoir')
               .where({ heating_id: id })
               .update({
                 ...filterValidColumns(
@@ -287,9 +285,9 @@ class Heating {
 
       if (!newHeatingHasHeatingCenter) {
         //Delete any heating center if new heating does not have one.
-        await ctx('heating.heating_center').where({ heating_id: oldHeating.id }).del();
+        await ctx('heating_center').where({ heating_id: oldHeating.id }).del();
       } else {
-        const [existingHeatingCenterId] = await ctx('heating.heating_center')
+        const [existingHeatingCenterId] = await ctx('heating_center')
           .where({ heating_id: oldHeating.id })
           .pluck('heating_id');
 
@@ -303,16 +301,16 @@ class Heating {
       }
 
       if (oldHeatingTypeId == heatingTypes['Öljy']) {
-        await ctx('heating.oil_vessel').where({ heating_id: oldHeating.id }).del();
+        await ctx('oil_vessel').where({ heating_id: oldHeating.id }).del();
       } else if (oldHeatingTypeId == heatingTypes['Sähkö']) {
-        await ctx('heating.warm_water_reservoir').where({ heating_id: oldHeating.id });
+        await ctx('warm_water_reservoir').where({ heating_id: oldHeating.id });
       }
 
       //Insert peripherals for the new heating type.
       switch (newHeatingTypeId) {
         case heatingTypes['Öljy']:
           {
-            await ctx('heating.oil_vessel').insert({
+            await ctx('oil_vessel').insert({
               ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
             });
           }
@@ -320,7 +318,7 @@ class Heating {
 
         case heatingTypes['Sähkö']:
           {
-            await ctx('heating.warm_water_reservoir').insert({
+            await ctx('warm_water_reservoir').insert({
               ...filterValidColumns(
                 data,
                 await getTableColumns('warm_water_reservoir', ctx, 'heating')

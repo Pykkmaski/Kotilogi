@@ -30,7 +30,7 @@ export function RoofMaterialSelector({ value, onChange, ...props }: Kotidok.Sele
       labelKey='name'
       valueKey='id'
       label='Katon materiaali'
-      tablename='roofs.materials'
+      tablename='types.roof_material_type'
       value={value}
       name='roofMaterialId'
       onChange={onChange}
@@ -46,7 +46,7 @@ export function RoofEavesTypeSelector({ value, onChange, ...props }: Kotidok.Sel
       labelKey='label'
       valueKey='id'
       label='Räystästyyppi'
-      tablename='roofs.ref_raystastyypit'
+      tablename='types.roof_eaves_type'
       value={value}
       name='raystasTyyppiId'
       onChange={onChange}
@@ -62,7 +62,7 @@ export function RoofUnderlaymentTypeSelector({ value, onChange, ...props }: Koti
       labelKey='label'
       valueKey='id'
       label='Aluskatetyyppi'
-      tablename='roofs.ref_aluskatetyypit'
+      tablename='types.roof_underlacing_type'
       value={value}
       name='aluskateTyyppiId'
       onChange={onChange}
@@ -78,7 +78,7 @@ export function RoofFasciaBoardTypeSelector({ value, onChange, ...props }: Kotid
       labelKey='label'
       valueKey='id'
       label='Otsalautatyyppi'
-      tablename='roofs.ref_otsalautatyypit'
+      tablename='types.roof_fascia_board_type'
       value={value}
       name='otsalautaTyyppiId'
       onChange={onChange}

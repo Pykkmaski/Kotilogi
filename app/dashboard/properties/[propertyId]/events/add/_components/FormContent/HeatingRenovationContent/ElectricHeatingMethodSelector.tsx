@@ -9,7 +9,7 @@ export const ElectricHeatingMethodSelector = () => {
       label='Sähkölämmitystapa'
       labelKey='label'
       valueKey='id'
-      tablename='heating.electric_heating_method_type'
+      tablename='types.electric_heating_type'
       name='electric_heating_method_type_id'
       value={eventData.electric_heating_method_type_id}
       onChange={updateEventData}

@@ -3,8 +3,8 @@ import db from 'kotilogi-app/dbconfig';
 
 export default async function FilesPage({ searchParams }) {
   const { parentId, returnUrl } = searchParams;
-  const files = await db('objects.data')
-    .join('data_files', { 'data_files.id': 'objects.data.id' })
+  const files = await db('object')
+    .join('data_files', { 'data_files.id': 'object.id' })
     .where({ parentId });
 
   return (

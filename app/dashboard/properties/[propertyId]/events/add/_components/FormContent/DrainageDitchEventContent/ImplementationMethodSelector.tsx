@@ -10,7 +10,7 @@ export const ImplementationMethodSelector = () => {
       label='Toeutustapa'
       labelKey='label'
       valueKey='id'
-      tablename='drainage_ditches.implementation_methods'
+      tablename='restoration_events.drainage_ditch_implementation_method_type'
       name='toteutusTapaId'
       value={eventData.toteutusTapaId}
       fetchFn={getDrainageDitchMethods}

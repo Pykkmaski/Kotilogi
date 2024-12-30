@@ -25,9 +25,9 @@ import { events } from './events';
 class Properties {
   /**Throws an error if the user already has the maximum number of allowed events for a property. */
   async verifyEventCount(propertyId: string) {
-    const [{ numEvents }] = await db('events.data')
-      .join('objects.data', { 'objects.data.id': 'events.data.id' })
-      .where({ 'objects.data.parentId': propertyId })
+    const [{ numEvents }] = await db('event')
+      .join('object', { 'object.id': 'event.id' })
+      .where({ 'object.parentId': propertyId })
       .count('* as numEvents');
 
     if (numEvents >= 100) {
@@ -38,7 +38,7 @@ class Properties {
   /**Returns the name of the database-table that contains the specific data related to a property, depending on its type. */
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
     const [{ result: types }] = await trx('property.get_property_types');
-    return typeId == types['Kiinteistö'] ? 'property.houses' : 'property.appartments';
+    return typeId == types['Kiinteistö'] ? 'house' : 'appartment';
   }
 
   /**Verifies a property is owned by the user of the current session. Throws an error if not. */
@@ -51,8 +51,8 @@ class Properties {
 
   /**Throws an error if the user with the provided id already has the maximum allowed number of property. */
   async verifyUserPropertyCount(session: { user: { id: string } }) {
-    const [{ numProperties }] = await db('property.overview')
-      .join('objects.data', { 'objects.data.id': 'property.overview.id' })
+    const [{ numProperties }] = await db('property')
+      .join('object', { 'object.id': 'property.id' })
       .where({ authorId: session.user.id })
       .count('* as numProperties');
 
@@ -69,23 +69,19 @@ class Properties {
   }
 
   async getPropertyType(property_id: string, ctx: Knex.Transaction | Knex) {
-    return ctx('property.overview').where({ id: property_id }).pluck('property_type_id');
+    return ctx('property').where({ id: property_id }).pluck('property_type_id');
   }
 
   /**Fetches a property from the database, by joining it's building, roof, interior, yard and heating data. */
   async get(id: string): Promise<HousePayloadType | AppartmentPayloadType> {
     //The base property data.
-    const overviewPromise = db('property.overview')
-      .join('objects.data', { 'objects.data.id': 'property.overview.id' })
+    const overviewPromise = db('property')
+      .join('object', { 'object.id': 'property.id' })
       .join('types.property_type', {
-        'types.property_type.id': 'property.overview.property_type_id',
+        'types.property_type.id': 'property.property_type_id',
       })
-      .where({ 'property.overview.id': id })
-      .select(
-        'objects.data.*',
-        'property.overview.*',
-        'types.property_type.name as propertyTypeName'
-      );
+      .where({ 'property.id': id })
+      .select('object.*', 'property.*', 'types.property_type.name as propertyTypeName');
 
     const interiorPromise = interiors.get(id, db);
     const buildingPromise = buildings.get(id, db);
@@ -104,8 +100,7 @@ class Properties {
     const propertyTypes = await this.getTypes();
 
     /**Properties can be either houses or appartments. Determine the table from which to fetch the rest of the data. */
-    const targetTableName =
-      type_id == propertyTypes['Kiinteistö'] ? 'property.houses' : 'property.appartments';
+    const targetTableName = type_id == propertyTypes['Kiinteistö'] ? 'house' : 'appartment';
 
     const [p] = await db(targetTableName)
       .where({ id: overview.id })
@@ -216,7 +211,7 @@ class Properties {
       );
 
       //Update base property
-      const overviewPromise = trx('property.overview')
+      const overviewPromise = trx('property')
         .where({ id })
         .update({
           ...propertyUpdateObject,
@@ -245,9 +240,7 @@ class Properties {
           );
         }
       });
-      const [existingRoof] = await trx('roofs.data')
-        .where({ property_id: id })
-        .pluck('property_id');
+      const [existingRoof] = await trx('roof').where({ property_id: id }).pluck('property_id');
       let roofPromise: Promise<number | number[]>;
       if (existingRoof) {
         roofPromise = roofs.update(id, payload, trx);

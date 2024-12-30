@@ -57,7 +57,7 @@ class Events {
     await objects.create(
       payload,
       async (obj, trx) => {
-        [id] = await trx('events.data').insert(
+        [id] = await trx('event').insert(
           db.raw(
             `
               (id, event_type_id, target_id, date) VALUES (
@@ -77,12 +77,13 @@ class Events {
     return id;
   }
 
+  /**@deprecated */
   private async createHeatingRestorationWorkData(
     event_id: string,
     heatingPayload: HeatingMethodRestorationWorkType & HeatingPayloadType,
     trx: Knex.Transaction
   ) {
-    await trx('heating.restoration_work').insert({
+    await trx('restoration_events.heating_restoration_event').insert({
       event_id,
       old_system_id: heatingPayload.old_system_id,
       new_system_id: heatingPayload.new_system_id,
@@ -102,7 +103,7 @@ class Events {
     payload: EventPayloadType,
     trx: Knex.Transaction
   ) {
-    const [{ result: event_targets }] = await trx('events.targets').select(
+    const [{ result: event_targets }] = await trx('types.event_target_type').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
@@ -116,11 +117,11 @@ class Events {
           let oldSystemIsPrimary = false;
 
           if (old_system_id && old_system_id != -1) {
-            [oldSystemType] = await trx('heating.data')
+            [oldSystemType] = await trx('heating')
               .where({ id: old_system_id })
               .pluck('heating_type_id');
 
-            const [primaryHeatingId] = await trx('heating.primary_heating')
+            const [primaryHeatingId] = await trx('primary_heating')
               .where({ heating_id: old_system_id })
               .pluck('heating_id');
 
@@ -132,7 +133,7 @@ class Events {
             await heating.del(old_system_id as any, trx);
           }
 
-          await trx('heating.heating_restoration_work').insert({
+          await trx('restoration_events.heating_restoration_event').insert({
             event_id,
             old_system_id: oldSystemType,
             new_system_id,
@@ -148,7 +149,7 @@ class Events {
 
       case event_targets.Katto:
         {
-          const [roofId] = await trx('roofs.data')
+          const [roofId] = await trx('roof')
             .where({ property_id: payload.property_id })
             .pluck('property_id');
           if (roofId) {
@@ -161,26 +162,20 @@ class Events {
 
       case event_targets.Salaojat:
         {
-          const [ditchId] = await trx('drainage_ditches.data')
+          const [ditchId] = await trx('drainage_ditch')
             .where({ property_id: payload.property_id })
             .pluck('property_id');
 
           if (ditchId) {
-            await trx('drainage_ditches.data')
+            await trx('drainage_ditch')
               .where({ property_id: ditchId })
               .update({
-                ...filterValidColumns(
-                  payload,
-                  await getTableColumns('data', trx, 'drainage_ditches')
-                ),
+                ...filterValidColumns(payload, await getTableColumns('drainage_ditch', trx)),
                 property_id: payload.property_id,
               });
           } else {
-            await trx('drainage_ditches.data').insert({
-              ...filterValidColumns(
-                payload,
-                await getTableColumns('data', trx, 'drainage_ditches')
-              ),
+            await trx('drainage_ditch').insert({
+              ...filterValidColumns(payload, await getTableColumns('drainage_ditch', trx)),
               property_id: payload.property_id,
             });
           }
@@ -189,7 +184,7 @@ class Events {
 
       case event_targets['Käyttövesiputket']:
         {
-          await trx('water_pipe.restoration_work').insert({
+          await trx('restoration_events.water_pipe_restoration_event').insert({
             event_id,
             installation_method_id: payload.installation_method_id,
           });
@@ -198,7 +193,7 @@ class Events {
 
       case event_targets['Viemäriputket']:
         {
-          await trx('sewer_pipe.restoration_work').insert({
+          await trx('restoration_events.sewer_pipe_restoration_event').insert({
             event_id,
             restoration_method_type_id: payload.restoration_method_type_id,
           });
@@ -208,7 +203,7 @@ class Events {
       case event_targets['Eristys']:
         {
           const promises = payload.insulation.map(async i => {
-            await trx('insulation.restoration_work').insert({
+            await trx('restoration_events.insulation_restoration_event').insert({
               event_id,
               insulation_material_id: i.insulation_material_id,
               insulation_target_id: i.insulation_target_id,
@@ -220,7 +215,7 @@ class Events {
 
       case event_targets['Sähköt']:
         {
-          await trx('electricity.restoration_work').insert({
+          await trx('restoration_events.electricity_restoration_event').insert({
             event_id,
             restoration_work_target_id: payload.restoration_work_target_id,
           });
@@ -231,8 +226,8 @@ class Events {
         {
           const { locks } = payload;
           const promises = locks.map(async l => {
-            return trx('locking.data').insert({
-              ...filterValidColumns(l, await getTableColumns('data', trx, 'locking')),
+            return trx('lock').insert({
+              ...filterValidColumns(l, await getTableColumns('lock', trx)),
               event_id,
             });
           });
@@ -244,7 +239,7 @@ class Events {
         {
           const { windows } = payload;
           const promises = windows.map(w =>
-            trx('windows.data').insert({
+            trx('window').insert({
               ...w,
               event_id,
             })
@@ -278,7 +273,7 @@ class Events {
   }
 
   private async createServiceWorkData(event_id: string, payload: TODO, trx: Knex.Transaction) {
-    const [{ result: event_targets }] = await trx('events.targets').select(
+    const [{ result: event_targets }] = await trx('types.event_target_type').select(
       db.raw('json_object_agg(label, id) as result')
     );
 
@@ -301,7 +296,7 @@ class Events {
 
       case event_targets['Lämmitysmuoto']:
         {
-          await insert('heating.service_work');
+          await insert('service_events.heating_service_event');
         }
         break;
 
@@ -363,7 +358,7 @@ class Events {
         });
 
         //Save the main event data.
-        await trx('events.data').insert(insertData);
+        await trx('event').insert(insertData);
 
         const [{ result: event_types }] = await trx('types.event_type').select(
           db.raw('json_object_agg(label, id) as result')
@@ -413,38 +408,38 @@ class Events {
     };
 
     if (query.id) {
-      newQuery['objects.data.id'] = query.id;
+      newQuery['object.id'] = query.id;
     }
 
     delete newQuery.id;
 
-    const events = await db('objects.data')
-      .join('events.data', { 'events.data.id': 'objects.data.id' })
-      .leftJoin('events.targets', { 'events.data.target_id': 'events.targets.id' })
+    const events = await db('object')
+      .join('event', { 'event.id': 'object.id' })
+      .leftJoin('types.event_target_type', { 'event.target_id': 'types.event_target_type.id' })
 
       .leftJoin('types.event_type', {
-        'events.data.event_type_id': 'types.event_type.id',
+        'event.event_type_id': 'types.event_type.id',
       })
 
       .select(
-        'objects.data.*',
-        'events.data.*',
-        'events.targets.label as targetLabel',
+        'object.*',
+        'event.*',
+        'types.event_target_type.label as targetLabel',
 
         'types.event_type.label as mainTypeLabel'
       )
       .where(function () {
         if (!search) return;
         const q = `%${search}%`;
-        this.whereILike('objects.data.title', q)
-          .orWhereILike('objects.data.description', q)
+        this.whereILike('object.title', q)
+          .orWhereILike('object.description', q)
           .orWhereILike('types.event_type.label', q)
-          .orWhereILike('events.targets.label', q);
+          .orWhereILike('types.event_target_type.label', q);
       })
       .andWhere(newQuery)
       .limit(limit)
       .offset(page * limit)
-      .orderBy('events.data.date', 'desc');
+      .orderBy('event.date', 'desc');
 
     return events
       .filter(e => {
@@ -459,40 +454,41 @@ class Events {
   }
 
   private async getRoofEvent(eventId: string) {
-    return await db('roofs.data')
-      .join('types.roof_type', { 'types.roof_type.id': 'roofs.data.roofTypeId' })
-      .join('roofs.materials', { 'roofs.materials.id': 'roofs.data.roofMaterialId' })
-      .join('ref_mainColors', { 'ref_mainColors.id': 'roofs.data.colorId' })
-      .join('roofs.ref_raystastyypit', {
-        'roofs.ref_raystastyypit.id': 'roofs.data.raystasTyyppiId',
+    return await db('roof')
+      .join('types.roof_type', { 'types.roof_type.id': 'roof.roofTypeId' })
+      .join('types.roof_material_type', { 'types.roof_material_type.id': 'roof.roofMaterialId' })
+      .join('ref_mainColors', { 'ref_mainColors.id': 'roof.colorId' })
+      .join('types.roof_eaves_type', {
+        'types.roof_eaves_type.id': 'roof.raystasTyyppiId',
       })
-      .join('roofs.ref_otsalautatyypit', {
-        'roofs.ref_otsalautatyypit.id': 'roofs.data.otsalautaTyyppiId',
+      .join('types.roof_fascia_board_type', {
+        'types.roof_fascia_board_type.id': 'roof.otsalautaTyyppiId',
       })
-      .join('roofs.ref_aluskatetyypit', {
-        'roofs.ref_aluskatetyypit.id': 'roofs.data.aluskateTyyppiId',
+      .join('types.roof_underlacing_type', {
+        'types.roof_underlacing_type.id': 'roof.aluskateTyyppiId',
       })
-      .where({ 'roofs.data.event_id': eventId })
+      .where({ 'roof.event_id': eventId })
       .select(
-        'roofs.materials.name as materialLabel',
+        'types.roof_material_type.name as materialLabel',
         'types.roof_type.name as typeLabel',
         'ref_mainColors.name as colorLabel',
-        'roofs.ref_raystastyypit.label as raystasTyyppiLabel',
-        'roofs.ref_otsalautatyypit.label as otsalautaTyyppiLabel',
-        'roofs.ref_aluskatetyypit.label as aluskateTyyppiLabel',
-        'roofs.data.*'
+        'types.roof_eaves_type.label as raystasTyyppiLabel',
+        'types.roof_fascia_board_type.label as otsalautaTyyppiLabel',
+        'types.roof_underlacing_type.label as aluskateTyyppiLabel',
+        'roof.*'
       );
   }
 
   private async getDrainageDitchEvent(eventId: string) {
-    return await db('drainage_ditches.data')
-      .join('drainage_ditches.implementation_methods', {
-        'drainage_ditches.implementation_methods.id': 'drainage_ditches.data.toteutusTapaId',
+    return await db('drainage_ditch')
+      .join('restoration_events.drainage_ditch_implementation_method_type', {
+        'restoration_events.drainage_ditch_implementation_method_type.id':
+          'drainage_ditch.toteutusTapaId',
       })
-      .where({ 'drainage_ditches.data.event_id': eventId })
+      .where({ 'drainage_ditch.event_id': eventId })
       .select(
-        'drainage_ditches.data.*',
-        'drainage_ditches.implementation_methods.label as toteutusTapaLabel'
+        'drainage_ditch.*',
+        'restoration_events.drainage_ditch_implementation_method_type.label as toteutusTapaLabel'
       );
   }
 
@@ -539,42 +535,44 @@ class Events {
   }
 
   private async getWaterEvent(eventId: string) {
-    return await db('water_pipe.restoration_work')
+    return await db('restoration_events.sewer_pipe_restoration_event')
       .join('types.water_pipe_installation_method', {
         'types.water_pipe_installation_method.id':
-          'water_pipe.restoration_work.installation_method_id',
+          'restoration_events.sewer_pipe_restoration_event.installation_method_id',
       })
-      .where({ 'water_pipe.restoration_work.event_id': eventId })
+      .where({ 'restoration_events.sewer_pipe_restoration_event.event_id': eventId })
       .select(
-        'water_pipe.restoration_work.*',
+        'restoration_events.sewer_pipe_restoration_event.*',
         'types.water_pipe_installation_method.label as asennustapaLabel'
       );
   }
 
   private async getSewegeEvent(eventId: string) {
-    return await db('sewer_pipe.restoration_work')
+    return await db('restoration_events.sewer_pipe_restoration_event')
       .join('types.sewer_pipe_restoration_method', {
         'types.sewer_pipe_restoration_method.id':
-          'sewer_pipe.restoration_work.restoration_method_type_id',
+          'restoration_events.sewer_pipe_restoration_event.restoration_method_type_id',
       })
-      .where({ 'sewer_pipe.restoration_work.event_id': eventId })
+      .where({ 'restoration_events.sewer_pipe_restoration_event.event_id': eventId })
       .select(
-        'sewer_pipe.restoration_work.*',
+        'restoration_events.sewer_pipe_restoration_event.*',
         'types.sewer_pipe_restoration_method.label as Toteutustapa'
       );
   }
 
   private async getInsulationEvent(eventId: string) {
-    return await db('insulation.restoration_work')
+    return await db('restoration_events.insulation_restoration_event')
       .join('insulation.targets', {
-        'insulation.targets.id': 'insulation.restoration_work.insulation_target_id',
+        'insulation.targets.id':
+          'restoration_events.insulation_restoration_event.insulation_target_id',
       })
       .join('insulation.materials', {
-        'insulation.materials.id': 'insulation.restoration_work.insulation_material_id',
+        'insulation.materials.id':
+          'restoration_events.insulation_restoration_event.insulation_material_id',
       })
-      .where({ 'insulation.restoration_work.event_id': eventId })
+      .where({ 'restoration_events.insulation_restoration_event.event_id': eventId })
       .select(
-        'insulation.restoration_work.*',
+        'restoration_events.insulation_restoration_event.*',
         'insulation.materials.label as materialLabel',
         'insulation.targets.label as targetLabel'
       );
@@ -590,10 +588,10 @@ class Events {
   }
 
   private async getLockEvent(eventId: string) {
-    return await db('locking.data')
-      .join('types.lock_type', { 'types.lock_type.id': 'locking.data.lock_type_id' })
-      .where({ 'locking.data.id': eventId })
-      .select('locking.data.*', 'types.lock_type.label as Lukon tyyppi');
+    return await db('lock')
+      .join('types.lock_type', { 'types.lock_type.id': 'lock.lock_type_id' })
+      .where({ 'lock.id': eventId })
+      .select('lock.*', 'types.lock_type.label as Lukon tyyppi');
   }
 
   /**Fetches the additional data associated with an event
@@ -603,13 +601,13 @@ class Events {
    * @deprecated
    */
   async getExtraData(eventId: string) {
-    const [type_data] = await db('events.data')
+    const [type_data] = await db('event')
       .where({ id: eventId })
       .select('event_type_id', 'target_id', 'workTypeId');
     const mainTypes = await db('types.event_type');
 
     if (type_data.event_type_id == getIdByLabel(mainTypes, 'Peruskorjaus')) {
-      const targets = await db('events.targets');
+      const targets = await db('types.event_target_type');
 
       if (type_data.target_id == getIdByLabel(targets, 'Katto')) {
         return await this.getRoofEvent(eventId);
@@ -659,10 +657,10 @@ class Events {
 
   /**Throws an error if the event is at least 30 days old. */
   async verifyNotLocked(eventId: string) {
-    const [timestamp] = await db('events.data')
-      .join('objects.data', { 'objects.data.id': 'events.data.id' })
-      .where({ 'events.data.id': eventId })
-      .select('objects.data.timestamp');
+    const [timestamp] = await db('event')
+      .join('object', { 'object.id': 'event.id' })
+      .where({ 'event.id': eventId })
+      .select('object.timestamp');
 
     const now = Date.now();
     const maxEventAge = getDaysInMilliseconds(30);
