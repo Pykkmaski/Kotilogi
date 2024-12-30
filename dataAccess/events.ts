@@ -281,7 +281,7 @@ class Events {
 
     const insert = async (tablename: string) =>
       await trx(tablename).insert({
-        service_work_type_id: service_work_type_id,
+        service_work_type_id,
         event_id,
       });
 
@@ -290,7 +290,7 @@ class Events {
     switch (event_target_id) {
       case event_targets['Ilmanvaihto']:
         {
-          await insert('ventilation.service_work');
+          await insert('service_events.ventilation_service_event');
         }
         break;
 
@@ -302,19 +302,25 @@ class Events {
 
       case event_targets['Salaojat']:
         {
-          await insert('drainage_ditches.service_work');
+          await insert('service_events.drainage_ditch_service_event');
         }
         break;
 
       case event_targets['Lämmönjako']:
         {
-          await insert('heating.distribution_service_work');
+          await insert('service_events.heating_distribution_service_event');
         }
         break;
 
       case event_targets['Katto']:
         {
-          await insert('roofs.service_work');
+          await insert('service_events.roof_service_event');
+        }
+        break;
+
+      case event_targets['Ikkunat']:
+        {
+          await insert('service_events.window_service_event');
         }
         break;
     }
@@ -353,7 +359,7 @@ class Events {
       async (obj, trx) => {
         const event_id = obj.id;
         const insertData = this.getInsertObject({
-          ...filterValidColumns({ ...eventPayload }, await getTableColumns('data', trx, 'events')),
+          ...filterValidColumns({ ...eventPayload }, await getTableColumns('event', trx)),
           id: event_id,
         });
 

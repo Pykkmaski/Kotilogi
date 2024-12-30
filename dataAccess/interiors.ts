@@ -17,7 +17,7 @@ class Interiors {
   ) {
     return ctx('interior')
       .insert({
-        ...filterValidColumns(payload, await getTableColumns('interior', ctx, 'property')),
+        ...filterValidColumns(payload, await getTableColumns('interior', ctx)),
         property_id,
       })
       .onConflict('property_id')
@@ -32,7 +32,7 @@ class Interiors {
     return ctx('interior')
       .where({ property_id })
       .update({
-        ...filterValidColumns(payload, await getTableColumns('interior', ctx, 'property')),
+        ...filterValidColumns(payload, await getTableColumns('interior', ctx)),
       });
   }
 }

@@ -207,7 +207,7 @@ class Properties {
     await objects.update(id, payload, async trx => {
       const propertyUpdateObject = filterValidColumns(
         payload,
-        await getTableColumns('overview', trx, 'property')
+        await getTableColumns('property', trx)
       );
 
       //Update base property
@@ -260,10 +260,7 @@ class Properties {
         await this.getTableNameByType(payload.property_type_id, trx)
       ).split('.');
 
-      const propObj = filterValidColumns(
-        payload,
-        await getTableColumns(propertyTablename, trx, propertySchema)
-      );
+      const propObj = filterValidColumns(payload, await getTableColumns(propertyTablename, trx));
       await trx([propertySchema, propertyTablename].join('.')).where({ id }).update(propObj);
     });
   }

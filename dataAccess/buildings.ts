@@ -18,7 +18,7 @@ export class Buildings {
     /**TODO: Each property logically can have multiple buildings. Modify the building data table to have its own id, and return that here once created. */
     return ctx('building')
       .insert({
-        ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
+        ...filterValidColumns(payload, await getTableColumns('building', ctx)),
         property_id,
       })
       .onConflict('property_id')
@@ -33,7 +33,7 @@ export class Buildings {
     return ctx('building')
       .where({ property_id })
       .update({
-        ...filterValidColumns(payload, await getTableColumns('data', ctx, 'buildings')),
+        ...filterValidColumns(payload, await getTableColumns('building', ctx)),
       });
   }
 }

@@ -53,7 +53,7 @@ class Roofs {
 
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
     return trx('roof').insert({
-      ...filterValidColumns(payload, await getTableColumns('data', trx, 'roofs')),
+      ...filterValidColumns(payload, await getTableColumns('roof', trx)),
       property_id,
     });
   }
@@ -62,7 +62,7 @@ class Roofs {
     return trx('roof')
       .where({ property_id })
       .update({
-        ...filterValidColumns(payload, await getTableColumns('data', trx, 'roofs')),
+        ...filterValidColumns(payload, await getTableColumns('roof', trx)),
       });
   }
 }

@@ -4,7 +4,7 @@ import { getTableColumns } from './getTableColumns';
 
 type OptionsType = {
   tablename: string;
-  schema: string;
+  schema?: string;
 };
 
 /**Filters out from data the columns that do not exist in the table defined by filterOptions, then inserts the valid data into the table using the provided transaction object. */

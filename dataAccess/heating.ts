@@ -198,7 +198,7 @@ class Heating {
     return ctx('heating_center')
       .where({ heating_id })
       .update({
-        ...filterValidColumns(data, await getTableColumns('heating_center', ctx, 'heating')),
+        ...filterValidColumns(data, await getTableColumns('heating_center', ctx)),
         model: data.model,
         brand: data.brand,
       });
@@ -218,7 +218,6 @@ class Heating {
       },
       {
         tablename: 'heating_center',
-        schema: 'heating',
       },
       ctx
     );
@@ -235,7 +234,7 @@ class Heating {
     await ctx('heating')
       .where({ id })
       .update({
-        ...filterValidColumns(data, await getTableColumns('data', ctx, 'heating')),
+        ...filterValidColumns(data, await getTableColumns('heating', ctx)),
         heating_type_id: data.heating_type_id,
       });
 
@@ -249,7 +248,7 @@ class Heating {
             await ctx('oil_vessel')
               .where({ heating_id: id })
               .update({
-                ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
+                ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx)),
                 volume: data.volume,
                 location: data.location,
               });
@@ -268,10 +267,7 @@ class Heating {
             await ctx('warm_water_reservoir')
               .where({ heating_id: id })
               .update({
-                ...filterValidColumns(
-                  data,
-                  await getTableColumns('warm_water_reservoir', ctx, 'heating')
-                ),
+                ...filterValidColumns(data, await getTableColumns('warm_water_reservoir', ctx)),
                 volume: data.volume,
               });
           }
@@ -311,7 +307,7 @@ class Heating {
         case heatingTypes['Öljy']:
           {
             await ctx('oil_vessel').insert({
-              ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx, 'heating')),
+              ...filterValidColumns(data, await getTableColumns('oil_vessel', ctx)),
             });
           }
           break;
@@ -319,10 +315,7 @@ class Heating {
         case heatingTypes['Sähkö']:
           {
             await ctx('warm_water_reservoir').insert({
-              ...filterValidColumns(
-                data,
-                await getTableColumns('warm_water_reservoir', ctx, 'heating')
-              ),
+              ...filterValidColumns(data, await getTableColumns('warm_water_reservoir', ctx)),
             });
           }
           break;
