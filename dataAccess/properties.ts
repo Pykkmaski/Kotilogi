@@ -148,8 +148,7 @@ class Properties {
       await insertViaFilter(
         { ...data, id: obj.id },
         {
-          tablename: 'overview',
-          schema: 'property',
+          tablename: 'property',
         },
         trx
       );
@@ -170,9 +169,7 @@ class Properties {
       const roofPromise = roofs.create(obj.id, data, trx);
       await Promise.all([buildingPromise, interiorPromise, roofPromise, heatingPromises]);
 
-      const [propertySchema, propertyTablename] = (
-        await this.getTableNameByType(data.property_type_id, trx)
-      ).split('.');
+      const propertyTableName = await this.getTableNameByType(data.property_type_id, trx);
 
       const property = data as any;
       await insertViaFilter(
@@ -183,8 +180,7 @@ class Properties {
           yardOwnershipTypeId: property.yardOwnershipTypeId,
         },
         {
-          tablename: propertyTablename,
-          schema: propertySchema,
+          tablename: propertyTableName,
         },
         trx
       );
