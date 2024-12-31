@@ -13,7 +13,7 @@ export const KayttoVesiEventContent = () => {
       label='Asennustapa'
       labelKey='label'
       valueKey='id'
-      tablename='types.water_pipe_installation_method'
+      tablename='restoration_events.water_pipe_installation_method_type'
       name='installation_method_id'
       value={eventData.installation_method_id}
       fetchFn={getKayttovesiAsennusTavat}

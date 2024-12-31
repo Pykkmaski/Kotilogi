@@ -44,10 +44,9 @@ class Objects {
   async update<T extends ObjectDataType>(
     objectId: string,
     data: Partial<T>,
-    callback: (trx: Knex.Transaction) => Promise<void>,
-    ctx?: Knex.Transaction
+    callback: (trx: Knex.Transaction) => Promise<void>
   ) {
-    const trx = ctx || (await db.transaction());
+    const trx = await db.transaction();
     const validColumns = await getTableColumns('object', trx);
 
     await trx('object')
@@ -57,11 +56,8 @@ class Objects {
       });
 
     await callback(trx);
-
-    if (typeof ctx == 'undefined') {
-      console.log('Committing object update...');
-      await trx.commit();
-    }
+    console.log('About to commit object trx');
+    await trx.commit();
   }
 
   /**Deletes an object. Will cascade the deletion to all db entries that refer to the deleted object. */

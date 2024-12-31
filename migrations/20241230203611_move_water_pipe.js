@@ -8,6 +8,8 @@ exports.up = function (knex) {
     .raw(
       'ALTER TABLE water_pipe.water_pipe_service_event RENAME CONSTRAINT service_work_pkey TO water_pipe_service_event_pkey'
     )
+    .raw('ALTER TABLE water_pipe.installation_method RENAME TO water_pipe_installation_method_type')
+    .raw('ALTER TABLE water_pipe.water_pipe_installation_method_type SET SCHEMA restoration_events')
     .raw('ALTER TABLE water_pipe.water_pipe_service_event SET SCHEMA service_events')
     .raw('DROP SCHEMA water_pipe');
 };

@@ -140,11 +140,14 @@ class Heating {
     });
 
     if (previousPrimary) {
-      console.log(previousPrimary);
       if (data.is_primary) {
-        await ctx('primary_heating').where({ property_id: data.property_id }).update({
-          heating_id,
-        });
+        await ctx('primary_heating')
+          .insert({
+            heating_id,
+            property_id: data.property_id,
+          })
+          .onConflict(['property_id', 'heating_id'])
+          .merge();
       }
     } else {
       await ctx('primary_heating').insert({

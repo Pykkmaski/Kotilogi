@@ -5,6 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.raw(`
       ALTER TABLE heating.data RENAME TO heating;
+      ALTER TABLE heating.heating RENAME CONSTRAINT data_pkey TO heating_pkey;
       ALTER TABLE heating.heating SET SCHEMA public;
     `).raw(`
         ALTER TABLE heating.oil_vessel SET SCHEMA public;

@@ -5,6 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.raw(`
       ALTER TABLE drainage_ditches.data RENAME TO drainage_ditch;
+      ALTER TABLE drainage_ditches.drainage_ditch RENAME CONSTRAINT data_pkey TO drainage_ditch_pkey;
       ALTER TABLE drainage_ditches.drainage_ditch SET SCHEMA public;
     `);
 };

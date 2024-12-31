@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema
     .raw('ALTER TABLE property.overview RENAME TO property')
-    .raw('ALTER TABLE property.property RENAME CONSTRAINT "propertyData_pkey" TO property_pkey')
+    .raw('ALTER TABLE property.property RENAME CONSTRAINT "PK_PROPERTIES" TO property_pkey')
     .raw('ALTER TABLE property.property SET SCHEMA public');
 };
 

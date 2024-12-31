@@ -12,8 +12,10 @@ export const getHeatingSystems = async () => db('types.heating_type');
 export const getElectricHeatingMethods = async () => db('ref_electricHeatingMethodTypes');
 export const getLockTypes = async () => db('types.lock_type');
 export const getElectricityJobTargets = async () => db('ref_electricityJobTargets');
-export const getKayttovesiAsennusTavat = async () => db('types.water_pipe_installation_method');
-export const getViemariPutketAsennusTavat = async () => db('types.sewer_pipe_restoration_method');
+export const getKayttovesiAsennusTavat = async () =>
+  db('restoration_events.water_pipe_installation_method_type');
+export const getViemariPutketAsennusTavat = async () =>
+  db('restoration_events.sewer_pipe_restoration_method_type');
 export const getEristeMateriaalit = async () => db('insulation.materials');
 export const getEristeKohteet = async () => db('insulation.targets');
 

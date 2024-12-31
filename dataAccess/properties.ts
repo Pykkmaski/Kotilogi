@@ -37,7 +37,10 @@ class Properties {
 
   /**Returns the name of the database-table that contains the specific data related to a property, depending on its type. */
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
-    const [{ result: types }] = await trx('property.get_property_types');
+    const [{ result: types }] = await trx('types.property_type').select(
+      db.raw('json_object_agg(name, id) as result')
+    );
+
     return typeId == types['Kiinteistö'] ? 'house' : 'appartment';
   }
 
@@ -205,6 +208,7 @@ class Properties {
     await this.verifyPropertyOwnership(session, id);
 
     await objects.update(id, payload, async trx => {
+      console.log('Running property update');
       const propertyUpdateObject = filterValidColumns(
         payload,
         await getTableColumns('property', trx)
@@ -248,6 +252,7 @@ class Properties {
         roofPromise = roofs.create(id, payload, trx);
       }
 
+      console.log('Running update batch');
       await Promise.all([
         overviewPromise,
         buildingPromise,
@@ -256,12 +261,11 @@ class Properties {
         ...heatingPromises,
       ]);
 
-      const [propertySchema, propertyTablename] = (
-        await this.getTableNameByType(payload.property_type_id, trx)
-      ).split('.');
+      const propertyTablename = await this.getTableNameByType(payload.property_type_id, trx);
 
       const propObj = filterValidColumns(payload, await getTableColumns(propertyTablename, trx));
-      await trx([propertySchema, propertyTablename].join('.')).where({ id }).update(propObj);
+      console.log('Updating specific data...');
+      await trx(propertyTablename).where({ id }).update(propObj);
     });
   }
 

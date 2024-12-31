@@ -10,7 +10,7 @@ export const ViemariPutketEventContent = () => {
       label='Toteutustapa'
       labelKey='label'
       valueKey='id'
-      tablename='types.sewer_pipe_restoration_method'
+      tablename='restoration_events.sewer_pipe_restoration_method_type'
       name='restoration_method_type_id'
       value={eventData.restoration_method_type_id}
       onChange={updateEventData}

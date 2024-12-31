@@ -542,27 +542,27 @@ class Events {
 
   private async getWaterEvent(eventId: string) {
     return await db('restoration_events.sewer_pipe_restoration_event')
-      .join('types.water_pipe_installation_method', {
-        'types.water_pipe_installation_method.id':
+      .join('restoration_events.water_pipe_installation_method_type', {
+        'restoration_events.water_pipe_installation_method_type.id':
           'restoration_events.sewer_pipe_restoration_event.installation_method_id',
       })
       .where({ 'restoration_events.sewer_pipe_restoration_event.event_id': eventId })
       .select(
         'restoration_events.sewer_pipe_restoration_event.*',
-        'types.water_pipe_installation_method.label as asennustapaLabel'
+        'restoration_events.water_pipe_installation_method_type.label as asennustapaLabel'
       );
   }
 
   private async getSewegeEvent(eventId: string) {
     return await db('restoration_events.sewer_pipe_restoration_event')
-      .join('types.sewer_pipe_restoration_method', {
-        'types.sewer_pipe_restoration_method.id':
+      .join('restoration_events.sewer_pipe_restoration_method_type', {
+        'restoration_events.sewer_pipe_restoration_method_type.id':
           'restoration_events.sewer_pipe_restoration_event.restoration_method_type_id',
       })
       .where({ 'restoration_events.sewer_pipe_restoration_event.event_id': eventId })
       .select(
         'restoration_events.sewer_pipe_restoration_event.*',
-        'types.sewer_pipe_restoration_method.label as Toteutustapa'
+        'restoration_events.sewer_pipe_restoration_method_type.label as Toteutustapa'
       );
   }
 
