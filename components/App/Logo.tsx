@@ -27,7 +27,6 @@ export const Logo = ({ backgroundVariant = 'index', labelColorVariant = 'main' }
       href='/'
       className={appNameClassName}>
       KOTIDOK
-      <small className={labelClassName}>BETA</small>
     </Link>
   );
 };
