@@ -12,6 +12,7 @@ export function PassProps({ children, ...props }) {
         const newProps = {
           ...child.props,
           ...props,
+          className: [...child.props.className.split(' '), ...props.className.split(' ')].join(' '),
         };
 
         return React.cloneElement(child, { ...newProps });
