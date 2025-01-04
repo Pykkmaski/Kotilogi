@@ -10,4 +10,9 @@ module.exports = {
   heat: '#A63D40',
   electric: '#E9B872',
   water: '#679EA7',
+
+  'wf-background': '#101211',
+  'wf-primary': '#ffc44d',
+  'wf-secondary': '#171918', //tailwindColors.red('600'),
+  'wf-header-text': '#dbdbdb',
 };

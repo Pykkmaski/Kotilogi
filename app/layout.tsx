@@ -17,12 +17,12 @@ import { ReactQueryProvider } from './ReactQueryProvider';
 import { VPCookieNotice } from '@/components/App/CookieNotice/VPCookieNotice';
 
 export const metadata = {
-  title: 'Kotidok',
-  description: 'Talosi huoltokirja',
+  title: 'Kotidok: Talosi digitaalinen huoltokirja ',
+  description: 'Verkkopalvelu, johon talon huoltotiedot tallentuvat helposti samaan paikkaan.',
 };
 
 export default async function RootLayout({ children }: React.PropsWithChildren) {
-  const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-100 to-gray-200'];
+  const bodyClassName = ['flex flex-col min-h-screen bg-wf-background'];
   const analyticsCookie = cookies().get('kotidok-analytics-accepted');
   const getAnalyticsScript = () =>
     analyticsCookie?.value == 'all' && (
@@ -66,7 +66,7 @@ gtag('config', 'G-YQC6Y54WHT');
             <body className={bodyClassName.join(' ')}>
               <ThemeProvider theme={theme}>
                 <AppProvider>{children}</AppProvider>
-                <VPCookieNotice />
+                {/*<VPCookieNotice />*/}
               </ThemeProvider>
 
               <Toaster

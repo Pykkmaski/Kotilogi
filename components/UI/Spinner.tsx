@@ -15,9 +15,9 @@ export default function Spinner({ message, color = 'secondary', size = '1rem' }:
   const spinnerClassName = useMemo(() => {
     const className = [styles.spinner, 'border-white'];
     if (color === 'primary') {
-      className.push('border-t-primary');
+      className.push('border-t-wf-primary');
     } else {
-      className.push('border-t-secondary');
+      className.push('border-t-wf-primary');
     }
     return className.join(' ');
   }, [color]);

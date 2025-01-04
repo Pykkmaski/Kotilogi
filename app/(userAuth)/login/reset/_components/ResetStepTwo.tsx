@@ -8,6 +8,12 @@ import { FormButtonContainer } from 'kotilogi-app/app/(userAuth)/_components/For
 import { InputContainer } from 'kotilogi-app/app/(userAuth)/_components/InputContainer';
 import { FormHeading } from 'kotilogi-app/app/(userAuth)/_components/FormHeading';
 import { AltActionLink } from 'kotilogi-app/app/(userAuth)/_components/AltActionLink';
+import { WFAuthForm } from 'kotilogi-app/app/(userAuth)/_components/WFAuthForm';
+import { WFAuthFormHeading } from 'kotilogi-app/app/(userAuth)/_components/WFAuthFormHeading';
+import { WFAuthInputGroupWrapper } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInputGroupWrapper';
+import { WFAuthInput } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInput';
+import { WFAuthInputGroup } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInputGroup';
+import { WFAuthSubmitButton } from 'kotilogi-app/app/(userAuth)/_components/WFAuthSubmitButton';
 
 export function StepTwo() {
   const { data, status, resetStepTwoHandler, updateData } = useResetStepTwo();
@@ -15,23 +21,28 @@ export function StepTwo() {
   const loading = status === 'loading';
 
   return (
-    <Form
+    <WFAuthForm
       onSubmit={resetStepTwoHandler}
       onChange={updateData}>
-      <FormHeading>Nollaa salasana</FormHeading>
+      <WFAuthFormHeading>Nollaa salasana</WFAuthFormHeading>
+      <WFAuthInputGroupWrapper>
+        <WFAuthInputGroup>
+          <WFAuthInputGroup.Label>Salasana</WFAuthInputGroup.Label>
+          <WFAuthInput
+            data-testid='password-input1'
+            autoComplete='new-password'
+            type='password'
+            name='password1'
+            placeholder='Kirjoita uusi salsana...'
+            required
+            minLength={8}
+          />
+        </WFAuthInputGroup>
+      </WFAuthInputGroupWrapper>
 
-      <Input
-        data-testid='password-input1'
-        autoComplete='new-password'
-        type='password'
-        name='password1'
-        placeholder='Kirjoita uusi salsana...'
-        required
-        minLength={8}
-      />
-
-      <InputContainer>
-        <Input
+      <WFAuthInputGroup>
+        <WFAuthInputGroup.Label>Salasana uudelleen</WFAuthInputGroup.Label>
+        <WFAuthInput
           data-testid='password-input2'
           placeholder='Kirjoita salasana uudelleen...'
           type='password'
@@ -44,18 +55,13 @@ export function StepTwo() {
             <ErrorText data-testid='password-error-text'>Salasanat eivät täsmää!</ErrorText>
           </div>
         ) : null}
-      </InputContainer>
-
-      <FormButtonContainer>
-        <SubmitButton
-          data-testid='submit-btn'
-          type='submit'
-          disabled={loading || !data.password1 || !data.password2}
-          loading={loading}>
-          LÄHETÄ
-        </SubmitButton>
-        <AltActionLink href='/login'>Tai kirjaudu sisään</AltActionLink>
-      </FormButtonContainer>
-    </Form>
+      </WFAuthInputGroup>
+      <WFAuthSubmitButton
+        data-testid='submit-btn'
+        type='submit'
+        disabled={loading || !data.password1 || !data.password2}>
+        LÄHETÄ
+      </WFAuthSubmitButton>
+    </WFAuthForm>
   );
 }

@@ -1,24 +1,15 @@
 import { SiteHeader } from '@/components/App/SiteHeader';
 import styles from './styles.module.css';
+import { Header } from '@/components/WFIndex/Header';
 
 export default function UserAuthLayout({ children }) {
   return (
     <>
-      <SiteHeader
-        variant='auth'
-        labelColorVariant='gray'
-        showNavigation={false}
-      />
-      <div
-        id='user-auth-layout-body'
-        className={`w-full flex-1 flex flex-col gap-4 relative xs:px-4 lg:px-32 ${styles.layout}`}>
+      <Header />
+      <div className='flex w-full h-screen items-center justify-center relative'>
+        <div className='bg-cta absolute top-0 left-0 w-full h-full z-0 grayscale bg-cover' />
+        <div className='absolute top-0 left-0 w-full h-full z-10 bg-[#000a]' />
         {children}
-
-        <img
-          className='absolute top-0 right-0 z-0 lg:block xs:hidden h-screen aspect-auto'
-          id='bg-design'
-          src='/auth/Background Shape.png'
-        />
       </div>
     </>
   );

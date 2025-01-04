@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Page from '../page';
+import Page from '../page.old';
 import { useRouter } from 'next/navigation';
 import userEvent from '@testing-library/user-event';
 import { signIn } from 'next-auth/react';

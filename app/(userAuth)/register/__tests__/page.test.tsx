@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Page from '../page';
+import Page from '../page.old';
 
 import axios from 'axios';
 import { useRouter } from 'next/navigation';

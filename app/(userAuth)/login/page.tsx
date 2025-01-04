@@ -1,114 +1,85 @@
 'use client';
 
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ErrorText } from '@/components/UI/Text';
+import { WFAuthInput } from '../_components/WFAuthInput';
+import { WFAuthInputGroup } from '../_components/WFAuthInputGroup';
 import { useLogin } from './useLogin';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
-import { Input } from '../_components/Input';
-import { SubmitButton } from '../_components/Button';
-import { InputBadge } from '../_components/InputBadge';
-import { Clear } from '@mui/icons-material';
-import { Main } from '../_components/Main';
-import { Form } from '../_components/Form';
-import { InputContainer } from '../_components/InputContainer';
-import { FormButtonContainer } from '../_components/FormButtonContainer';
-import { AltActionLink } from '../_components/AltActionLink';
-import { InputErrorTextContainer } from '../_components/InputErrorTextContainer';
-import { loadSession } from 'kotilogi-app/utils/loadSession';
+import { WFAuthFormContainer } from '../_components/WFAuthFormContainer';
+import { WFAuthMain } from '../_components/WFAuthMain';
+import { WFAuthSubmitButton } from '../_components/WFAuthSubmitButton';
+import { WFAuthInputGroupWrapper } from '../_components/WFAuthInputGroupWrapper';
+import { WFAuthFormHeading } from '../_components/WFAuthFormHeading';
+import { WFAuthForm } from '../_components/WFAuthForm';
+import { SubLabel } from '@/components/UI/FormUtils';
 
 export default function LoginPage() {
-  const router = useRouter();
-  //const {updateData} = useInputData({});
   const { loginHandler, updateData, status, data } = useLogin();
-  const loginCode = parseInt(useSearchParams().get('code'));
 
-  const cancelHandler = () => {
-    router.push('/');
-  };
-
-  useEffect(() => {
-    if (loginCode == 1) {
-      console.log(loginCode);
-      toast.success('Käyttäjätili aktivoitu onnistuneesti!');
-    }
-  }, [loginCode]);
-
-  const loading = status === 'loading';
-  const done = status === 'success';
-  const invalidUser = status === 'invalid_user';
-  const invalidPassword = status == 'password_mismatch';
-  const submitDisabled = loading || done;
   return (
-    <Main id='login-page-main'>
-      <Form
-        onSubmit={loginHandler}
-        onChange={updateData}>
-        <h1 className='text-primary font-semibold lg:text-6xl xs:text-3xl lg:text-start xs:text-center'>
-          Kirjaudu Sisään
-        </h1>
+    <WFAuthMain>
+      <WFAuthFormContainer>
+        <WFAuthForm onSubmit={loginHandler}>
+          <WFAuthFormHeading>Kirjaudu Sisään</WFAuthFormHeading>
+          <WFAuthInputGroupWrapper>
+            <WFAuthInputGroup>
+              <WFAuthInputGroup.Label>Sähköposti</WFAuthInputGroup.Label>
+              <WFAuthInput
+                required
+                value={data.email}
+                name='email'
+                type='email'
+                placeholder='Sähköpostiosoite'
+                onChange={updateData}
+              />
+              {status == 'invalid_user' || status == 'password_mismatch' ? (
+                <SubLabel>
+                  <span className='text-red-400'>Sähköposti tai salasana on virheellinen!</span>
+                </SubLabel>
+              ) : status == 'success' ? (
+                <SubLabel>
+                  <span className='text-green-400'>
+                    Tunnistautuminen onnistui! Sinut uudelleenohjataan pian...
+                  </span>
+                </SubLabel>
+              ) : null}
+            </WFAuthInputGroup>
 
-        <InputContainer>
-          <Input
-            name='email'
-            type='email'
-            badge={
-              invalidUser && (
-                <InputBadge
-                  icon={<Clear sx={{ color: 'white' }} />}
-                  variant='error'
-                />
-              )
-            }
-            data-testid='login-email-input'
-            placeholder='Sähköpostiosoite...'
-            required
-          />
-          {invalidUser && (
-            <InputErrorTextContainer>
-              <ErrorText data-testid='invalid-email-text'>
-                Tiliä annetulla sähköpostiosoitteella ei ole!
-              </ErrorText>
-            </InputErrorTextContainer>
-          )}
-        </InputContainer>
-
-        <InputContainer>
-          <Input
-            name='password'
-            type='password'
-            data-testid='login-password-input'
-            placeholder='Salasana...'
-            required
-          />
-          {invalidPassword && (
-            <InputErrorTextContainer>
-              <ErrorText data-testid='invalid-password-text'>Salasana on virheellinen!</ErrorText>
-            </InputErrorTextContainer>
-          )}
-        </InputContainer>
-
-        <div className='flex lg:justify-end xs:justify-center w-full'>
-          <Link
-            data-testid='password-reset-link'
-            href='/login/reset'
-            className='text-[#757575] text-[18px]'>
-            Unohditko salasanasi?
-          </Link>
-        </div>
-
-        <FormButtonContainer>
-          <SubmitButton
-            loading={loading}
-            disabled={submitDisabled}
-            data-testid='login-submit-btn'
-            type='submit'>
-            KIRJAUDU
-          </SubmitButton>
-          <AltActionLink href='/register'>Eikö sinulla ole tiliä?</AltActionLink>
-        </FormButtonContainer>
-      </Form>
-    </Main>
+            <WFAuthInputGroup>
+              <WFAuthInputGroup.Label>Salasana</WFAuthInputGroup.Label>
+              <WFAuthInput
+                required
+                name='password'
+                type='password'
+                placeholder='Salasana'
+                value={data.password}
+                onChange={updateData}
+              />
+              <div className='flex w-full justify-start'>
+                <Link
+                  href='login/reset'
+                  className='text-wf-primary'>
+                  Unohditko salasanasi?
+                </Link>
+              </div>
+            </WFAuthInputGroup>
+          </WFAuthInputGroupWrapper>
+          <WFAuthInputGroup>
+            <WFAuthSubmitButton
+              type='submit'
+              disabled={status === 'loading' || status === 'success'}
+              loading={status === 'loading'}>
+              Kirjaudu Sisään
+            </WFAuthSubmitButton>
+            <div className='flex justify-center w-full'>
+              <Link
+                href='/register'
+                className='text-white'>
+                Eikö sinulla ole tiliä? Rekisteröidy.
+              </Link>
+            </div>
+          </WFAuthInputGroup>
+        </WFAuthForm>
+      </WFAuthFormContainer>
+    </WFAuthMain>
   );
 }

@@ -1,3 +1,5 @@
+const tailwindColors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -21,6 +23,7 @@ module.exports = {
         'about-house': "url('/img/about_page/house.jpg')",
         'hero-logo': "url('/img/hero_logo.png')",
         balloons: "url('/img/balloons.jpg')",
+        cta: "url('/images/cta.avif')",
       },
 
       keyframes: {
@@ -65,5 +68,39 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities, theme }) {
+      addUtilities({
+        '.px-wf-index': {
+          paddingRight: '15rem',
+          paddingLeft: '15rem',
+        },
+
+        '.py-wf-index': {
+          paddingTop: '8rem',
+          paddingBottom: '8rem',
+        },
+
+        //Responsive padding for mobile screens
+        [`@media (max-width: ${theme('screens.lg')})`]: {
+          '.px-wf-index': {
+            paddingRight: '0.5rem', // Smaller padding for mobile
+            paddingLeft: '0.5rem', // Smaller padding for mobile
+          },
+
+          '.py-wf-index': {
+            paddingTop: '4rem',
+            paddingBottom: '4rem',
+          },
+        },
+
+        [`@media (min-width: ${theme('screens.lg')}) and (max-width: ${theme('screens.2xl')})`]: {
+          '.px-default': {
+            paddingRight: '4rem',
+            paddingLeft: '4rem',
+          },
+        },
+      });
+    },
+  ],
 };

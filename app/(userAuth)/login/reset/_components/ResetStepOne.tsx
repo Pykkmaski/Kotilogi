@@ -9,6 +9,13 @@ import { FormHeading } from 'kotilogi-app/app/(userAuth)/_components/FormHeading
 import { InputContainer } from 'kotilogi-app/app/(userAuth)/_components/InputContainer';
 import { FormButtonContainer } from 'kotilogi-app/app/(userAuth)/_components/FormButtonContainer';
 import { AltActionLink } from 'kotilogi-app/app/(userAuth)/_components/AltActionLink';
+import { WFAuthForm } from 'kotilogi-app/app/(userAuth)/_components/WFAuthForm';
+import { WFAuthFormHeading } from 'kotilogi-app/app/(userAuth)/_components/WFAuthFormHeading';
+import { WFAuthInputGroupWrapper } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInputGroupWrapper';
+import { WFAuthInputGroup } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInputGroup';
+import { WFAuthInput } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInput';
+import { WFAuthSubmitButton } from 'kotilogi-app/app/(userAuth)/_components/WFAuthSubmitButton';
+import { SubLabel } from '@/components/UI/FormUtils';
 
 export function StepOne() {
   const router = useRouter();
@@ -17,43 +24,41 @@ export function StepOne() {
   const isDisabled = () => status === 'loading' || status === 'success';
 
   return (
-    <Form
+    <WFAuthForm
       onSubmit={resetStepOneHandler}
       onChange={updateData}>
-      <FormHeading>Nollaa salasana</FormHeading>
-      <p className='lg:text-[24px] xs:text-base text-[#757575]'>
+      <WFAuthFormHeading>Nollaa salasana</WFAuthFormHeading>
+      <p className='text-base text-white'>
         Anna ensin sähköpostiosoitteesi. Lähetämme sinulle salasanasi nollauslinkin.
       </p>
-      <InputContainer>
-        <Input
-          data-testid='reset-pass-email-input'
-          type='email'
-          name='email'
-          placeholder='Kirjoita sähköpostiosoitteesi...'
-          required
-        />
+      <WFAuthInputGroupWrapper>
+        <WFAuthInputGroup>
+          <WFAuthInputGroup.Label>Sähköposti</WFAuthInputGroup.Label>
+          <WFAuthInput
+            data-testid='reset-pass-email-input'
+            type='email'
+            name='email'
+            placeholder='Kirjoita sähköpostiosoitteesi...'
+            required
+          />
 
-        {status === 'invalid_email' ? (
-          <div className='flex w-full text-sm sm:justify-start md:justify-end'>
-            <ErrorText data-testid='invalid-email-text'>
-              Antamallesi sähköpostiosoitteelle ei löytynyt rekisteröityä käyttäjää!
-            </ErrorText>
-          </div>
-        ) : null}
-      </InputContainer>
-
-      <FormButtonContainer>
-        <SubmitButton
-          loading={status === 'loading'}
-          data-testid='submit-btn'
-          color='primary'
-          type='submit'
-          disabled={!data.email || isDisabled()}>
-          LÄHETÄ
-        </SubmitButton>
-
-        <AltActionLink href='/login'>Tai kirjaudu sisään</AltActionLink>
-      </FormButtonContainer>
-    </Form>
+          {status === 'invalid_email' ? (
+            <SubLabel data-testid='invalid-email-text'>
+              <span className='text-red-400'>
+                Antamallesi sähköpostiosoitteelle ei löytynyt rekisteröityä käyttäjää!
+              </span>
+            </SubLabel>
+          ) : null}
+        </WFAuthInputGroup>
+      </WFAuthInputGroupWrapper>
+      <WFAuthSubmitButton
+        data-testid='submit-btn'
+        color='primary'
+        type='submit'
+        disabled={!data.email || isDisabled()}
+        loading={status === 'loading'}>
+        Lähetä
+      </WFAuthSubmitButton>
+    </WFAuthForm>
   );
 }

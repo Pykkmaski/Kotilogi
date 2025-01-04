@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { StepOne } from './ResetStepOne';
 import { StepTwo } from './ResetStepTwo';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
+import { WFAuthFormContainer } from 'kotilogi-app/app/(userAuth)/_components/WFAuthFormContainer';
 
 export default function ResetForm() {
   const params = useSearchParams();
@@ -21,14 +22,16 @@ export default function ResetForm() {
     </ResetFormProvider>
     */
 
-    <CarouselProvider defaultSlot={token ? 'reset-step' : 'email-step'}>
-      <CarouselProvider.Slot slotName='email-step'>
-        <StepOne />
-      </CarouselProvider.Slot>
+    <WFAuthFormContainer>
+      <CarouselProvider defaultSlot={token ? 'reset-step' : 'email-step'}>
+        <CarouselProvider.Slot slotName='email-step'>
+          <StepOne />
+        </CarouselProvider.Slot>
 
-      <CarouselProvider.Slot slotName='reset-step'>
-        <StepTwo />
-      </CarouselProvider.Slot>
-    </CarouselProvider>
+        <CarouselProvider.Slot slotName='reset-step'>
+          <StepTwo />
+        </CarouselProvider.Slot>
+      </CarouselProvider>
+    </WFAuthFormContainer>
   );
 }
