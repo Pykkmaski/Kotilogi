@@ -9,9 +9,7 @@ const nextConfig = {
       },
     ];
   },
-  experimental: {
-    serverComponentsExternalPackages: ['knex'],
-  },
+  serverExternalPackages: ['knex'],
 };
 
 module.exports = nextConfig;
