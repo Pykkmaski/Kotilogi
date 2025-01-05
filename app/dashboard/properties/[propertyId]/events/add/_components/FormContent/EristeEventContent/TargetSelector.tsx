@@ -10,7 +10,7 @@ export const TargetSelector = () => {
       label='Eristyskohde'
       labelKey='label'
       valueKey='id'
-      tablename='insulation.targets'
+      tablename='types.insulation_target_type'
       name='insulation_target_id'
       value={eventData.insulation_target_id}
       fetchFn={getEristeKohteet}

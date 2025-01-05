@@ -107,7 +107,7 @@ export const FormControl = ({
   ...props
 }: FormControlProps) => {
   return (
-    <div className='rounded-md bg-slate-50 p-2'>
+    <div className='rounded-md py-2 border-b'>
       <div
         className={[props.className ? props.className.split(' ') : '' + 'flex flex-col gap-2'].join(
           ' '

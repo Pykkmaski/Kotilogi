@@ -73,7 +73,6 @@ export function HeatingField() {
       }
     }
 
-    console.log(name, value);
     updateHeatingEntry(item => item.id == entry_id, { [name]: value });
   };
 
@@ -107,8 +106,6 @@ export function HeatingField() {
     };
   }, []);
 
-  console.log(heatingBatch);
-
   return (
     <div className='flex flex-col gap-10 justify-start w-full'>
       {heatingBatch.map((hb, batchIndex) => {
@@ -135,7 +132,6 @@ export function HeatingField() {
               control={
                 <div className='grid lg:grid-cols-3 xs:grid-cols-2 gap-2'>
                   {putOtherOptionLast(heatingTypes).map((ht, index) => {
-                    console.log(hb.value.volume);
                     return (
                       <ChipButton
                         type='radio'

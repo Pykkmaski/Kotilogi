@@ -204,7 +204,6 @@ class Properties {
     await this.verifyPropertyOwnership(session, id);
 
     await objects.update(id, payload, async trx => {
-      console.log('Running property update');
       const propertyUpdateObject = filterValidColumns(
         payload,
         await getTableColumns('property', trx)
@@ -248,7 +247,6 @@ class Properties {
         roofPromise = roofs.create(id, payload, trx);
       }
 
-      console.log('Running update batch');
       await Promise.all([
         overviewPromise,
         buildingPromise,
@@ -260,7 +258,7 @@ class Properties {
       const propertyTablename = await this.getTableNameByType(payload.property_type_id, trx);
 
       const propObj = filterValidColumns(payload, await getTableColumns(propertyTablename, trx));
-      console.log('Updating specific data...');
+
       await trx(propertyTablename).where({ id }).update(propObj);
     });
   }

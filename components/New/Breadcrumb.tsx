@@ -87,12 +87,14 @@ export function Breadcrumb() {
         <Link
           href={href}
           className={[
-            'text-secondary xs:text-sm sm:text-base text-nowrap',
+            'text-gray-500 xs:text-sm sm:text-base text-nowrap',
             i == links.length - 1 ? 'font-semibold' : 'font-normal',
           ].join(' ')}>
           {tranlsatePathname(href)}
         </Link>
-        <RenderOnCondition condition={i < links.length}>/</RenderOnCondition>
+        <RenderOnCondition condition={i < links.length}>
+          <span className='text-black'>/</span>
+        </RenderOnCondition>
       </>
     );
   });

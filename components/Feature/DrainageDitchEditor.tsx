@@ -28,7 +28,7 @@ export function DrianageDitchGravelInput(props: Kotidok.SelectorProps) {
           {...props}
           name='salaojaSepeli'
           type='number'
-          step='0.01'
+          step='1'
           min='0'
           placeholder='Anna salaojasepelin raekoko...'
         />
@@ -47,7 +47,7 @@ export function DrainageDitchPermafrostInsulationInput(props: Kotidok.SelectorPr
           {...props}
           name='routaEristys'
           type='number'
-          step='0.01'
+          step='1'
           min='0'
           placeholder='Anna routaeristyksen vahvuus...'
         />
@@ -66,7 +66,7 @@ export function DrainageDitchCrushingEdgeInput(props: Kotidok.SelectorProps) {
           {...props}
           name='murskeReunus'
           type='number'
-          step='0.01'
+          step='1'
           min='0'
           placeholder='Anna murskereunuksen leveys...'
         />

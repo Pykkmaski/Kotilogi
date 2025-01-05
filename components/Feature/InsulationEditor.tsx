@@ -17,7 +17,7 @@ function InsulationMaterialSelector({
       {...props}
       name={name}
       label='Eristemateriaali'
-      tablename='insulation.materials'
+      tablename='types.insulation_material_type'
       labelKey='label'
       valueKey='id'
       key={`insulation-material-${index}`}
@@ -33,7 +33,7 @@ function InsulationTargetSelector({ index, ...props }: Kotidok.SelectorProps & {
       {...props}
       name={name}
       label='Eristyskohde'
-      tablename='insulation.targets'
+      tablename='types.insulation_target_type'
       labelKey='label'
       valueKey='id'
       key={`insulation-target-${index}`}

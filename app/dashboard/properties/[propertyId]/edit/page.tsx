@@ -4,10 +4,10 @@ import { getPropertyRefs } from '../../actions';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 
 export default async function EditPropertyPage({ params }) {
-  const id = params.propertyId;
+  const { propertyId: id } = await params;
   const property = await properties.get(id);
   const refs = await getPropertyRefs();
-  console.log('Property at page: ', property);
+
   return (
     <main className='flex justify-center'>
       <div className='xs:w-full md:w-[70%] flex flex-col gap-4'>

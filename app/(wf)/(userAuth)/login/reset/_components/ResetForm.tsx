@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { StepOne } from './ResetStepOne';
 import { StepTwo } from './ResetStepTwo';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
-import { WFAuthFormContainer } from 'kotilogi-app/app/(userAuth)/_components/WFAuthFormContainer';
+import { WFAuthFormContainer } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthFormContainer';
 
 export default function ResetForm() {
   const params = useSearchParams();

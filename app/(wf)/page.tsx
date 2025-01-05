@@ -15,8 +15,8 @@ import {
 import tailwindconfig from 'tailwind.config';
 import * as colors from '@/colors';
 import { Hero } from '@/components/WFIndex/Hero';
-import { Header } from '@/components/WFIndex/Header';
-import { IndexPageProvider } from './IndexPageProvider';
+import { IndexHeader } from '../IndexHeader';
+import { IndexPageProvider } from '../IndexPageProvider';
 import { ServicesSection } from '@/components/WFIndex/ServicesSection';
 import { Footer } from '@/components/WFIndex/Footer';
 
@@ -72,7 +72,7 @@ export default async function IndexPage() {
   return (
     <main className='bg-wf-background h-full flex flex-col w-full'>
       <IndexPageProvider>
-        <Header />
+        <IndexHeader />
         <Hero />
         <ServicesSection />
         <StorySection />

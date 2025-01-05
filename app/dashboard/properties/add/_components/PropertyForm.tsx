@@ -95,7 +95,6 @@ export function PropertyForm<T extends PropertyPayloadType>({
     (data as TODO).zip_code,
   ]);
 
-  console.log(data);
   return (
     <form
       id={formId}

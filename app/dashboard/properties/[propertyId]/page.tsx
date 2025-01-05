@@ -21,7 +21,7 @@ import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
 import { TransferDialogTrigger } from './_components/TransferDialogTrigger';
 
 export default async function PropertyPage({ params }) {
-  const id = params.propertyId;
+  const id = (await params).propertyId;
   const data = await properties.get(id);
   const eventData = await events.get({ parentId: id }, null, 10);
 
@@ -232,14 +232,18 @@ export default async function PropertyPage({ params }) {
               </div>
             }>
             <div className='flex w-full'>
-              <UtilityProvider
-                data={utilityData}
-                year={null}
-                selectedTypes={[]}>
-                <div className='w-full'>
-                  <UtilityLineChart />
-                </div>
-              </UtilityProvider>
+              {utilityData.length ? (
+                <UtilityProvider
+                  data={utilityData}
+                  year={null}
+                  selectedTypes={[]}>
+                  <div className='w-full'>
+                    <UtilityLineChart />
+                  </div>
+                </UtilityProvider>
+              ) : (
+                <span>Ei kulutustietoja.</span>
+              )}
             </div>
           </BoxFieldset>
         </div>

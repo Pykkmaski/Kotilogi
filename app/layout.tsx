@@ -22,8 +22,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: React.PropsWithChildren) {
-  const bodyClassName = ['flex flex-col min-h-screen bg-wf-background'];
-  const analyticsCookie = cookies().get('kotidok-analytics-accepted');
+  const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-100 to-gray-200'];
+  const analyticsCookie = (await cookies()).get('kotidok-analytics-accepted');
   const getAnalyticsScript = () =>
     analyticsCookie?.value == 'all' && (
       <>

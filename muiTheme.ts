@@ -16,11 +16,11 @@ declare module '@mui/material' {
 export const theme: Theme = createTheme({
   palette: {
     primary: {
-      main: colors.primary,
+      main: colors['wf-primary'],
     },
 
     secondary: {
-      main: colors.secondary,
+      main: colors['secondary'],
     },
   },
 });

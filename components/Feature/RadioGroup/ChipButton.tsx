@@ -10,18 +10,11 @@ export type ChipButtonProps = React.ComponentProps<'input'> & {
 
 /**Renders a chip that functions as a radio-button or a checkbox. */
 export function ChipButton({ label, type = 'radio', checked, ...props }: ChipButtonProps) {
-  const borderColor = 'border-slate-300';
   const iconSize = '1.2rem';
 
   const containerClassName = [
-    'flex gap-2 p-2 rounded-md border items-center cursor-pointer relative',
-    checked ? 'bg-secondary text-white border-secondary' : `bg-white text-black ${borderColor}`,
-  ].join(' ');
-
-  const checkmarkContainerClassName = [
-    `w-[1.2rem] h-[1.2rem] border flex items-center justify-center rounded-full`,
-    borderColor,
-    checked ? 'bg-white' : 'bg-white',
+    'flex gap-2 p-2 rounded-md items-center cursor-pointer relative border border-gray-200',
+    checked ? 'bg-gray-500 text-white' : `bg-white text-black`,
   ].join(' ');
 
   return (
@@ -29,10 +22,11 @@ export function ChipButton({ label, type = 'radio', checked, ...props }: ChipBut
       {...props}
       type={type}>
       <div className={containerClassName}>
-        {checked ? (
-          <Check sx={{ fontSize: '1.2rem', fontStyle: 'bold' }} />
-        ) : (
-          <div className={checkmarkContainerClassName} />
+        {checked && (
+          <Check
+            sx={{ fontSize: '1.2rem', fontStyle: 'bold' }}
+            className='transition-transform duration-100'
+          />
         )}
         <span>{label}</span>
       </div>

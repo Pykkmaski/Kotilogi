@@ -2,19 +2,19 @@ import { useRouter } from 'next/navigation';
 import { ErrorText } from '@/components/UI/Text';
 import { useResetStepOne } from './hooks/useResetStepOne';
 
-import { Form } from 'kotilogi-app/app/(userAuth)/_components/Form';
-import { Input } from 'kotilogi-app/app/(userAuth)/_components/Input';
-import { SubmitButton } from 'kotilogi-app/app/(userAuth)/_components/Button';
-import { FormHeading } from 'kotilogi-app/app/(userAuth)/_components/FormHeading';
-import { InputContainer } from 'kotilogi-app/app/(userAuth)/_components/InputContainer';
-import { FormButtonContainer } from 'kotilogi-app/app/(userAuth)/_components/FormButtonContainer';
-import { AltActionLink } from 'kotilogi-app/app/(userAuth)/_components/AltActionLink';
-import { WFAuthForm } from 'kotilogi-app/app/(userAuth)/_components/WFAuthForm';
-import { WFAuthFormHeading } from 'kotilogi-app/app/(userAuth)/_components/WFAuthFormHeading';
-import { WFAuthInputGroupWrapper } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInputGroupWrapper';
-import { WFAuthInputGroup } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInputGroup';
-import { WFAuthInput } from 'kotilogi-app/app/(userAuth)/_components/WFAuthInput';
-import { WFAuthSubmitButton } from 'kotilogi-app/app/(userAuth)/_components/WFAuthSubmitButton';
+import { Form } from 'kotilogi-app/app/(wf)/(userAuth)/_components/Form';
+import { Input } from 'kotilogi-app/app/(wf)/(userAuth)/_components/Input';
+import { SubmitButton } from 'kotilogi-app/app/(wf)/(userAuth)/_components/Button';
+import { FormHeading } from 'kotilogi-app/app/(wf)/(userAuth)/_components/FormHeading';
+import { InputContainer } from 'kotilogi-app/app/(wf)/(userAuth)/_components/InputContainer';
+import { FormButtonContainer } from 'kotilogi-app/app/(wf)/(userAuth)/_components/FormButtonContainer';
+import { AltActionLink } from 'kotilogi-app/app/(wf)/(userAuth)/_components/AltActionLink';
+import { WFAuthForm } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthForm';
+import { WFAuthFormHeading } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthFormHeading';
+import { WFAuthInputGroupWrapper } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthInputGroupWrapper';
+import { WFAuthInputGroup } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthInputGroup';
+import { WFAuthInput } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthInput';
+import { WFAuthSubmitButton } from 'kotilogi-app/app/(wf)/(userAuth)/_components/WFAuthSubmitButton';
 import { SubLabel } from '@/components/UI/FormUtils';
 
 export function StepOne() {

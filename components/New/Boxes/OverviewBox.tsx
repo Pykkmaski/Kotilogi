@@ -163,7 +163,7 @@ export const OverviewImage = ({
 }: OverviewImageProps) => {
   const classes = useMemo(
     () => [
-      'cursor-pointer relative aspect-square flex-shrink-0 rounded-full overflow-hidden border border-slate-200 xs:w-[75px] xs:h-[75px] md:w-[200px] md:h-[200px]',
+      'cursor-pointer relative aspect-square flex-shrink-0 rounded-full overflow-hidden xs:w-[75px] xs:h-[75px] md:w-[200px] md:h-[200px]',
       `md:w-[${mediumScreenWidth}px] md:h-[${mediumScreenWidth}px] xs:w-[${smallScreenWidth}px] xs:h-[${smallScreenWidth}px]`,
     ],
     [mediumScreenWidth, smallScreenWidth]

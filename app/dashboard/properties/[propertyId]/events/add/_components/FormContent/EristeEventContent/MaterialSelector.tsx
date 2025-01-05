@@ -10,7 +10,7 @@ export const MaterialSelector = () => {
       label='Eristemateriaali'
       labelKey='label'
       valueKey='id'
-      tablename='insulation.materials'
+      tablename='types.insulation_material_type'
       name='insulation_material_id'
       value={eventData.insulation_material_id}
       fetchFn={getEristeMateriaalit}

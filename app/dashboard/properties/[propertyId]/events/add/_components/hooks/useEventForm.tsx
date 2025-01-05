@@ -33,6 +33,7 @@ export function useEventForm(
     files,
     removeFile,
     windows,
+    insulation,
     locks,
   } = eventDataProps;
 
@@ -61,6 +62,8 @@ export function useEventForm(
           windows: windows.map(w => w.value),
           locks: locks.map(l => l.value),
           surfaces: selectedSurfaceIds.map(s => s),
+          //Fix this later: The batches seem to be stacked on top of each other for some reason.
+          insulation: insulation.map(i => i.value.value),
         },
         files.map(f => {
           const fd = new FormData();

@@ -203,7 +203,7 @@ class Events {
       case event_targets['Eristys']:
         {
           const promises = payload.insulation.map(async i => {
-            await trx('restoration_events.insulation_restoration_event').insert({
+            await trx('insulation').insert({
               event_id,
               insulation_material_id: i.insulation_material_id,
               insulation_target_id: i.insulation_target_id,
@@ -375,6 +375,7 @@ class Events {
         switch (event_type_id) {
           case event_types.Peruskorjaus:
             {
+              console.log('Adding restoration data..', eventPayload.insulation);
               await this.createRestorationWorkData(event_id, eventPayload, trx);
             }
             break;
@@ -389,6 +390,9 @@ class Events {
             {
               await this.createCosmeticRenovationData(event_id, eventPayload, trx);
             }
+            break;
+
+          case event_types['Muu']:
             break;
 
           default:

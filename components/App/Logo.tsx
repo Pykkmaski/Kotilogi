@@ -1,6 +1,7 @@
 import { SiteHeaderProps } from '@/components/App/SiteHeader';
 import Link from 'next/link';
 import { useMemo } from 'react';
+import { Header } from '../WFIndex/Header';
 
 export type LogoProps = {
   backgroundVariant?: SiteHeaderProps['variant'];
@@ -22,11 +23,5 @@ export const Logo = ({ backgroundVariant = 'index', labelColorVariant = 'main' }
     return [appNameClassName, labelClassName];
   }, [backgroundVariant, labelColorVariant]);
 
-  return (
-    <Link
-      href='/'
-      className={appNameClassName}>
-      KOTIDOK
-    </Link>
-  );
+  return <Header.LogoContainer logoColor='black' />;
 };

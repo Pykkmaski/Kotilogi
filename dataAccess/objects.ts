@@ -56,7 +56,7 @@ class Objects {
       });
 
     await callback(trx);
-    console.log('About to commit object trx');
+
     await trx.commit();
   }
 

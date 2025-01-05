@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 export function TabButton({ children, isSelected = null, ...props }) {
   const className = useMemo(() => {
-    return [isSelected && 'border-b-[2px] border-secondary', 'p-1 box-border'].join(' ');
+    return [isSelected && 'border-b-[2px] border-gray-500', 'p-1 box-border text-black'].join(' ');
   }, [isSelected]);
 
   return (

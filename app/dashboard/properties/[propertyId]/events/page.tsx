@@ -5,7 +5,7 @@ import { events } from 'kotilogi-app/dataAccess/events';
 import { ListHeader } from '@/components/New/Prefabs/OverviewBoxList';
 
 export default async function EventsPage({ params, searchParams }) {
-  const propertyId = params.propertyId;
+  const propertyId = await params.propertyId;
   const search = searchParams?.q;
 
   const eventData = (await events.get({ parentId: propertyId }, search, 10)) as EventPayloadType[];

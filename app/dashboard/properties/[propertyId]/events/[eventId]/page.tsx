@@ -11,7 +11,7 @@ import { DialogPrefab } from '@/components/UI/VPDialog';
 import db from 'kotilogi-app/dbconfig';
 
 export default async function EventPage({ params }) {
-  const eventId = params.eventId;
+  const { eventId } = await params;
   const [event] = await events.get({
     id: eventId,
   });
