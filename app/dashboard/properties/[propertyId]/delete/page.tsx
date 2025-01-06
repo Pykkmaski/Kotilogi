@@ -5,7 +5,8 @@ import { properties } from 'kotilogi-app/dataAccess/properties';
 
 export default async function DeletePropertyPage({ params, searchParams }) {
   const session = await verifySession();
-  const property = await properties.get(params.propertyId);
+  const { propertyId } = await params;
+  const property = await properties.get(propertyId);
 
   const [owner] = await db('data_propertyOwners').where({
     userId: session.user.id,

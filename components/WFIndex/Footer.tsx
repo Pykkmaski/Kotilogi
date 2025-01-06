@@ -1,6 +1,6 @@
 'use client';
 
-import { useIndexPageContext } from 'kotilogi-app/app/IndexPageProvider';
+import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
 import Link from 'next/link';
 
 type FooterSpacerProps = Omit<React.ComponentProps<'div'>, 'className'> & {

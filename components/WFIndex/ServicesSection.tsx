@@ -1,7 +1,7 @@
 'use client';
 
 import { Bolt, Check, Handshake, Settings } from '@mui/icons-material';
-import { useIndexPageContext } from 'kotilogi-app/app/IndexPageProvider';
+import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
 import colors from 'kotilogi-app/colors';
 import { ReactNode } from 'react';
 
@@ -12,7 +12,7 @@ type ServiceCardProps = {
   rowSpan?: number;
 };
 
-function ServiceCard({ title, description, icon: Icon, rowSpan = 3 }: ServiceCardProps) {
+export function ServiceCard({ title, description, icon: Icon, rowSpan = 3 }: ServiceCardProps) {
   const className = [
     'rounded-lg bg-wf-secondary p-10 flex flex-col justify-between items-start gap-8 box-border',
     rowSpan == 4 ? 'row-span-3' : 'row-span-2',

@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ToggleProvider } from '../components/Util/ToggleProvider';
+import { ToggleProvider } from '../../../components/Util/ToggleProvider';
 import { useMemo } from 'react';
-import { MenuPrefab, VPMenu } from '../components/UI/VPMenu';
-import { VPMobileMenu } from '../components/App/VPMobileMenu';
-import { useIndexPageContext } from 'kotilogi-app/app/IndexPageProvider';
-import { Header } from '../components/WFIndex/Header';
+import { MenuPrefab, VPMenu } from '../../../components/UI/VPMenu';
+import { VPMobileMenu } from '../../../components/App/VPMobileMenu';
+import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
+import { Header } from '../../../components/WFIndex/Header';
 import { PrimaryButton, SecondaryButton } from '@/components/WFIndex/Button';
 
 function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
@@ -30,7 +30,7 @@ function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
 
 /**Renders the page header. */
 export function IndexHeader() {
-  const { footerRef } = useIndexPageContext();
+  const { contactRef } = useIndexPageContext();
 
   return (
     <Header>
@@ -39,7 +39,7 @@ export function IndexHeader() {
           <Link href='/business'>Yrityksille</Link>
           <Link href='/blog'>Jutut</Link>
           <button
-            onClick={() => footerRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
             className='hover:underline'>
             Ota Yhteyttä
           </button>
@@ -66,7 +66,7 @@ export function IndexHeader() {
               <Link href='/register'>Rekisteröidy</Link>
               <button
                 onClick={() =>
-                  footerRef.current?.scrollIntoView({
+                  contactRef.current?.scrollIntoView({
                     behavior: 'smooth',
                   })
                 }>

@@ -27,13 +27,19 @@ select {
   padding: 0.5rem;
   border-color: #ddd;
   border-width: 1px;
-  background: none;
 }
 
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+/*
 input,
 textarea {
   background: white;
 }
+  */
 
 select option {
   background: none;
