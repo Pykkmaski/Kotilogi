@@ -4,6 +4,7 @@ import { Header } from '@/components/WFIndex/Header';
 import { ServiceCard } from '@/components/WFIndex/ServicesSection';
 import { Handshake, Settings, Timer } from '@mui/icons-material';
 import Link from 'next/link';
+import { IndexHeader } from '../IndexHeader';
 
 function HeroSection() {
   return (
@@ -12,11 +13,11 @@ function HeroSection() {
       className='flex flex-col py-wf-index px-wf-index items-start gap-12'>
       <h1
         id='business-hero-heading'
-        className='text-6xl text-white'>
+        className='text-7xl text-white'>
         Rakennusalan
         <div
           id='busines-hero-heading-gradient'
-          className='bg-gradient-to-r form-white via-white to-wf-primary-light bg-clip-text text-transparent'>
+          className='bg-gradient-to-r from-white via-white to-wf-primary-light bg-clip-text text-transparent'>
           ammattilaisille{' '}
         </div>
       </h1>
@@ -47,9 +48,7 @@ function HeroSection() {
 export default async function BusinessPage() {
   return (
     <main className='bg-wf-background h-full flex flex-col w-full'>
-      <Header>
-        <Header.LogoContainer logoColor='white'></Header.LogoContainer>
-      </Header>
+      <IndexHeader />
       <HeroSection />
       <BaseCTASection>
         <CTAHeading>

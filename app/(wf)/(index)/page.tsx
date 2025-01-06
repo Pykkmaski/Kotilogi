@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { createInlineStyleObjectFromString } from 'kotilogi-app/utils/createInlineStyleObjectFromString';
 import { Logo } from '@/components/App/Logo';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Add,
   Bolt,
@@ -24,6 +24,12 @@ import { Footer } from '@/components/WFIndex/Footer';
 import { CTAHeading, CTAParagraph } from '@/components/WFIndex/BaseCTASection';
 import { WFAuthInput, WFAuthTextArea } from '../(userAuth)/_components/WFAuthInput';
 import { PrimaryButton } from '@/components/WFIndex/Button';
+import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
+import axios from 'axios';
+import { usePreventDefault } from '@/hooks/usePreventDefault';
+import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
+import { SubLabel } from '@/components/UI/FormUtils';
+import { WFAuthSubmitButton } from '../(userAuth)/_components/WFAuthSubmitButton';
 
 function StorySection() {
   return (
@@ -73,13 +79,32 @@ function CallToActionSection() {
 
 function ContactSection() {
   const { contactRef } = useIndexPageContext();
+  const { data: messagePayload, updateData: updateMessagePayload } = useFormOnChangeObject(
+    {} as any
+  );
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle');
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    setStatus('loading');
+    try {
+      const res = await axios.post('/api/public/contact', messagePayload);
+      if (res && res.status == 200) {
+        setStatus('success');
+      }
+    } catch (err) {
+      setStatus('error');
+    } finally {
+      setStatus(prev => (prev == 'loading' ? 'idle' : prev));
+    }
+  };
 
   return (
     <section
       ref={contactRef}
       id='contact-section'
       className='px-wf-index py-wf-index w-full'>
-      <div className='grid grid-cols-2 grid-rows-1 gap-4'>
+      <div className='xl:grid xl:grid-cols-2 xl:grid-rows-1 xs:flex xs:flex-col gap-4'>
         <div className='flex flex-col gap-4'>
           <h1 className='text-7xl text-white font-semibold'>
             Ota Yhteyttä
@@ -91,28 +116,53 @@ function ContactSection() {
           <p className='text-2xl opacity-75 text-white'>
             Heräsikö kysyttävää? Ota meihin yhteyttä kirjoittamalla viestisi vierellä olevaan
             laatikkoon tai lähetä meille sähköpostia osoitteeseen{' '}
-            <Link href='mailto:kotidok.service@gmail.com'>kotidok.service@gmail.com.</Link>
+            <Link
+              href='mailto:kotidok.service@gmail.com'
+              className='text-wf-primary'>
+              kotidok.service@gmail.com.
+            </Link>
           </p>
         </div>
         <div
           id='contact-form-container'
           className='flex w-full'>
-          <form className='flex flex-col gap-4 w-full'>
+          <form
+            className='flex flex-col gap-4 w-full'
+            onSubmit={onSubmit}>
             <WFAuthInput
               name='name'
               placeholder='Nimi'
+              onChange={updateMessagePayload}
             />
             <WFAuthInput
               name='email'
               placeholder='Sähköpostiosoite'
               required
+              onChange={updateMessagePayload}
             />
             <WFAuthTextArea
               name='message'
               placeholder='Viesti'
+              required
+              onChange={updateMessagePayload}
             />
 
-            <button className='px-4 py-5 bg-wf-primary rounded-md text-center'>Lähetä</button>
+            <WFAuthSubmitButton
+              type='submit'
+              loading={status == 'loading'}
+              disabled={status == 'loading' || status == 'success'}>
+              Lähetä
+            </WFAuthSubmitButton>
+
+            {status == 'success' ? (
+              <SubLabel>
+                <span className='text-green-400'>Viestin lähetys onnistui!</span>
+              </SubLabel>
+            ) : status == 'error' ? (
+              <SubLabel>
+                <span className='text-red-400'>Tapahtui virhe!</span>
+              </SubLabel>
+            ) : null}
           </form>
         </div>
       </div>

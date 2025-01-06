@@ -8,6 +8,8 @@ import { VPMobileMenu } from '../../../components/App/VPMobileMenu';
 import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
 import { Header } from '../../../components/WFIndex/Header';
 import { PrimaryButton, SecondaryButton } from '@/components/WFIndex/Button';
+import { usePathname } from 'next/navigation';
+import { TabButton } from '@/components/UI/TabButton';
 
 function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
   const Line = () => <div className='w-full h-[2px] bg-white' />;
@@ -31,18 +33,32 @@ function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
 /**Renders the page header. */
 export function IndexHeader() {
   const { contactRef } = useIndexPageContext();
+  const pathname = usePathname();
 
+  const getLinkClassName = (href: string) => (pathname == href ? 'text-wf-primary' : 'text-white');
   return (
     <Header>
       <Header.LogoContainer>
         <Header.MainNav>
-          <Link href='/business'>Yrityksille</Link>
-          <Link href='/blog'>Jutut</Link>
-          <button
-            onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
-            className='hover:underline'>
-            Ota Yhteyttä
-          </button>
+          <Link
+            href='/business'
+            className={getLinkClassName('/business')}>
+            Yrityksille
+          </Link>
+          <Link
+            href='/blog'
+            className={getLinkClassName('/blog')}>
+            Jutut
+          </Link>
+          {pathname == '/' ? (
+            <button
+              onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
+              className='hover:underline'>
+              Ota Yhteyttä
+            </button>
+          ) : (
+            <Link href='/#contact-section'>Ota Yhteyttä</Link>
+          )}
         </Header.MainNav>
       </Header.LogoContainer>
 

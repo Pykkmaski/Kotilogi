@@ -1,6 +1,7 @@
 import { SiteHeader } from '@/components/App/SiteHeader';
 import styles from './styles.module.css';
 import { AuthHeader } from './_components/AuthHeader';
+import { IndexHeader } from '../(index)/IndexHeader';
 
 export default function UserAuthLayout({ children }) {
   return (

@@ -9,6 +9,7 @@ export function AuthHeader() {
         <Header.MainNav>
           <Link href='/business'>Yrityksille</Link>
           <Link href='/blog'>Jutut</Link>
+          <Link href='/#contact-section'>Ota Yhteyttä</Link>
         </Header.MainNav>
       </Header.LogoContainer>
       <nav className='flex items-center gap-3'>
