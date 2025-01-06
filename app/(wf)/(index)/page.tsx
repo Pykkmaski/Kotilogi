@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { createInlineStyleObjectFromString } from 'kotilogi-app/utils/createInlineStyleObjectFromString';
 import { Logo } from '@/components/App/Logo';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import {
   Add,
   Bolt,
@@ -79,6 +79,8 @@ function CallToActionSection() {
 
 function ContactSection() {
   const { contactRef } = useIndexPageContext();
+  const formRef = useRef<HTMLFormElement>(null);
+
   const { data: messagePayload, updateData: updateMessagePayload } = useFormOnChangeObject(
     {} as any
   );
@@ -91,6 +93,7 @@ function ContactSection() {
       const res = await axios.post('/api/public/contact', messagePayload);
       if (res && res.status == 200) {
         setStatus('success');
+        formRef.current?.reset();
       }
     } catch (err) {
       setStatus('error');
@@ -106,14 +109,14 @@ function ContactSection() {
       className='px-wf-index py-wf-index w-full'>
       <div className='xl:grid xl:grid-cols-2 xl:grid-rows-1 xs:flex xs:flex-col gap-4'>
         <div className='flex flex-col gap-4'>
-          <h1 className='text-7xl text-white font-semibold'>
+          <h1 className='xl:text-7xl xs:text-5xl text-white font-semibold'>
             Ota Yhteyttä
             <br />
             <div className='bg-gradient-to-r from white via-white to-wf-primary-light bg-clip-text text-transparent'>
               Kotidok tiimiin
             </div>
           </h1>
-          <p className='text-2xl opacity-75 text-white'>
+          <p className='xs:text-xl xl:text-2xl opacity-75 text-white'>
             Heräsikö kysyttävää? Ota meihin yhteyttä kirjoittamalla viestisi vierellä olevaan
             laatikkoon tai lähetä meille sähköpostia osoitteeseen{' '}
             <Link
@@ -127,6 +130,7 @@ function ContactSection() {
           id='contact-form-container'
           className='flex w-full'>
           <form
+            ref={formRef}
             className='flex flex-col gap-4 w-full'
             onSubmit={onSubmit}>
             <WFAuthInput

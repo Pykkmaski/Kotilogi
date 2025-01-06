@@ -95,7 +95,7 @@ module.exports = {
         },
 
         [`@media (min-width: ${theme('screens.lg')}) and (max-width: ${theme('screens.2xl')})`]: {
-          '.px-default': {
+          '.px-wf-index': {
             paddingRight: '4rem',
             paddingLeft: '4rem',
           },

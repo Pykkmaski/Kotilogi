@@ -13,7 +13,7 @@ function HeroSection() {
       className='flex flex-col py-wf-index px-wf-index items-start gap-12'>
       <h1
         id='business-hero-heading'
-        className='text-7xl text-white'>
+        className='lg:text-7xl xs:text-5xl text-white'>
         Rakennusalan
         <div
           id='busines-hero-heading-gradient'
@@ -22,7 +22,7 @@ function HeroSection() {
         </div>
       </h1>
 
-      <div className='grid grid-cols-3 grid-rows-1 gap-4 w-full'>
+      <div className='grid lg:grid-cols-3 lg:grid-rows-1 xs:grid-cols-1 xs:grid-rows-3 gap-4 w-full'>
         <ServiceCard
           title='Huoltoraportti'
           description='Lisäämällä korjaustoimenpiteet yritystililtä asiakkaiden huoltokirjaan jää siitä luetettavampi jälki historiaan.'

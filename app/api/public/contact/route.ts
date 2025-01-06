@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
       email: z.string().email(),
     }).parse(data);
 
+    console.log(data);
     await sendContactMessage(data);
     return response('success', null, 'Viesti lähetetty onnistuneesti!');
   } catch (err) {

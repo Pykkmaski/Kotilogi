@@ -76,8 +76,8 @@ export function IndexHeader() {
           trigger={<MenuButton />}
           target={
             <VPMenu>
-              <Link href='Yrityksille'>Yrityksille</Link>
-              <Link href='Yrityksille'>Jutut</Link>
+              <Link href='/business'>Yrityksille</Link>
+              <Link href='/blog'>Jutut</Link>
               <Link href='/login'>Kirjaudu Sisään</Link>
               <Link href='/register'>Rekisteröidy</Link>
               <button
