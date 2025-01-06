@@ -108,7 +108,7 @@ export function OverviewBox({
                           </ToggleProvider.Trigger>
 
                           <VPCloseOnActionButton
-                            action={async () => await deleteAction()}
+                            executeAction={async () => await deleteAction()}
                             startIcon={<Delete />}
                             color='warning'>
                             Poista

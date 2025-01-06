@@ -7,11 +7,15 @@ import { useState } from 'react';
 import { useToggleProviderContext } from '../Util/ToggleProvider';
 
 type VPCloseButtonProps = ButtonProps & {
-  action: () => Promise<void>;
+  executeAction: TODO;
 };
 
 /**A button that closes a VisibilityProvider target when an action finishes. Displays a spinner on the button automatically.*/
-export const VPCloseOnActionButton = ({ children, action, ...props }: VPCloseButtonProps) => {
+export const VPCloseOnActionButton = ({
+  children,
+  executeAction,
+  ...props
+}: VPCloseButtonProps) => {
   const { toggleState: toggleVPTargetVisibility } = useToggleProviderContext();
   const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
   const loading = status == 'loading';
@@ -23,8 +27,8 @@ export const VPCloseOnActionButton = ({ children, action, ...props }: VPCloseBut
       disabled={loading || status == 'done'}
       onClick={async () => {
         setStatus('loading');
-        action &&
-          action()
+        executeAction &&
+          executeAction()
             .then(() => {
               setStatus('done');
               toggleVPTargetVisibility(false);

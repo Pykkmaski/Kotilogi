@@ -6,9 +6,11 @@ import { deleteEventAction } from '../[eventId]/delete/actions';
 
 export const EventDeleteButton = ({ id }) => (
   <VPCloseOnActionButton
-    action={async () => {
-      await deleteEventAction(id);
-    }}
+    executeAction={
+      (async () => {
+        await deleteEventAction(id);
+      }) as any
+    }
     startIcon={<Delete />}
     color='warning'>
     Poista
