@@ -19,7 +19,12 @@ export async function AppHeader() {
     .where({ userId: session.user.id })
     .count('*', { as: 'propertyCount' });
 
-  const addPropertyDisabled = propertyCount >= 1;
+  const compareCount = (count: number) => count >= 1;
+
+  const addPropertyDisabled =
+    typeof propertyCount == 'number'
+      ? compareCount(propertyCount)
+      : compareCount(parseInt(propertyCount));
 
   return (
     <header className='w-full flex items-center justify-between py-2 lg:mb-8 xs:mb-4 border-b border-slate-200'>

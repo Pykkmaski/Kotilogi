@@ -17,7 +17,7 @@ export async function EventPreview({ propertyId }: { propertyId: string }) {
       title='Viimeisimmät tapahtumat'
       itemsToDisplay={3}
       showAllUrl={`/dashboard/properties/${propertyId}/events`}
-      data={eventData}
+      data={eventData as TODO}
       addNewUrl={`/dashboard/properties/${propertyId}/events/add`}
       PreviewComponent={async ({ item }) => {
         const [mainImageId] = await db('data_mainImages')

@@ -10,7 +10,7 @@ export function PassProps({ children, ...props }) {
     return React.Children.map(children, (child: React.ReactElement) => {
       if (React.isValidElement(child as React.ReactElement)) {
         const newProps = {
-          ...child.props,
+          ...(child.props as TODO),
           ...props,
         };
 

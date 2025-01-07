@@ -30,7 +30,7 @@ HighlightingNavbarProvider.Link = function ({ children }) {
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {
-    const hrefPath = child.props.href.split('/').at(-1).split('?')[0];
+    const hrefPath = (child.props as TODO).href.split('/').at(-1).split('?')[0];
     console.log(hrefPath, currentPath);
     if (hrefPath === currentPath) {
       setSelected(true);

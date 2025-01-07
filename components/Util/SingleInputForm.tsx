@@ -12,7 +12,11 @@ type SingleInputFormProps = React.ComponentProps<'form'> & {
  * Wraps a form that takes a single input, passed within a SingleInputFormProvider.Input.
  * It provides built-in functionality to submit the data through a dedicated button, passed within The SingleInputFormProvider.SubmitButton.
  * */
-export function SingleInputForm({ children, editingEnabled = true, ...props }: SingleInputFormProps) {
+export function SingleInputForm({
+  children,
+  editingEnabled = true,
+  ...props
+}: SingleInputFormProps) {
   const [value, setValue] = useState(undefined);
   const formId = useId();
 
@@ -22,7 +26,9 @@ export function SingleInputForm({ children, editingEnabled = true, ...props }: S
 
   return (
     <SingleInputFormContext.Provider value={{ value, formId, updateValue, editingEnabled }}>
-      <form {...props} id={formId}>
+      <form
+        {...props}
+        id={formId}>
         {children}
       </form>
     </SingleInputFormContext.Provider>
@@ -45,10 +51,10 @@ SingleInputForm.Input = function ({ children }) {
     }
 
     return React.cloneElement(child, {
-      ...child.props,
+      ...(child.props as TODO),
       onInput: e => {
-        if (child.props.onInput) {
-          child.props.onInput(e);
+        if ((child.props as TODO).onInput) {
+          (child.props as TODO).onInput(e);
         }
 
         updateValue(e.target.value);
@@ -62,7 +68,7 @@ SingleInputForm.SubmitButton = function ({ children }) {
   const { formId } = useSingleInputFormContext();
   return React.Children.map(children as React.ReactElement, child => {
     return React.cloneElement(child, {
-      ...child.props,
+      ...(child.props as TODO),
       form: formId,
       type: 'submit',
     });
@@ -71,6 +77,9 @@ SingleInputForm.SubmitButton = function ({ children }) {
 
 function useSingleInputFormContext() {
   const ctx = useContext(SingleInputFormContext);
-  if (!ctx) throw new Error('useSingleInputFormProviderContext can only be used within the scope of a SingleInputFormProviderContext!');
+  if (!ctx)
+    throw new Error(
+      'useSingleInputFormProviderContext can only be used within the scope of a SingleInputFormProviderContext!'
+    );
   return ctx;
 }

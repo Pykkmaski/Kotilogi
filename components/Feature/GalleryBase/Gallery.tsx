@@ -50,7 +50,7 @@ type BodyProps = {
   contentType?: 'image' | 'other';
   displayStyle?: 'vertical' | 'horizontal';
   itemComponent: React.FC<any>;
-  errorElement: JSX.Element;
+  errorElement: React.ReactElement;
 };
 
 function Body({

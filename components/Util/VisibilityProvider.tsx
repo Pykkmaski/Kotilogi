@@ -97,10 +97,10 @@ VisibilityProvider.Trigger = function ({ children, setAsAnchorForMUI = false }: 
 
   return (
     <PassProps
-      {...trigger.props}
+      {...(trigger.props as TODO)}
       onClick={e => {
         console.log('clicking');
-        trigger.props.onClick && trigger.props.onClick(e);
+        (trigger.props as TODO).onClick && (trigger.props as TODO).onClick(e);
         if (setAsAnchorForMUI) {
           updateAnchorEl(e);
           anchorCreated.current = true;

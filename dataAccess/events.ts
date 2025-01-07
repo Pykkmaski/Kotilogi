@@ -36,7 +36,7 @@ class Events {
       workTypeId: eventData.workTypeId,
       labourExpenses: eventData.labourExpenses,
       materialExpenses: eventData.materialExpenses,
-    };
+    } as unknown as EventPayloadType;
   }
 
   /**
@@ -89,9 +89,9 @@ class Events {
       new_system_id: heatingPayload.new_system_id,
     });
 
-    const [{ result: heatingTypes }] = await trx('types.heating_type').select(
+    const [{ result: heatingTypes }] = (await trx('types.heating_type').select(
       db.raw('json_object_agg(label, id) as result')
-    );
+    )) as TODO;
 
     const { new_system_id } = heatingPayload;
     await heating.update(heatingPayload.id, heatingPayload, trx);
@@ -103,9 +103,9 @@ class Events {
     payload: EventPayloadType,
     trx: Knex.Transaction
   ) {
-    const [{ result: event_targets }] = await trx('types.event_target_type').select(
+    const [{ result: event_targets }] = (await trx('types.event_target_type').select(
       db.raw('json_object_agg(label, id) as result')
-    );
+    )) as TODO;
 
     const event_target_id = parseInt(payload.target_id as any);
 
@@ -273,9 +273,9 @@ class Events {
   }
 
   private async createServiceWorkData(event_id: string, payload: TODO, trx: Knex.Transaction) {
-    const [{ result: event_targets }] = await trx('types.event_target_type').select(
+    const [{ result: event_targets }] = (await trx('types.event_target_type').select(
       db.raw('json_object_agg(label, id) as result')
-    );
+    )) as TODO;
 
     const { service_work_type_id, target_id } = payload;
 
@@ -366,9 +366,9 @@ class Events {
         //Save the main event data.
         await trx('event').insert(insertData);
 
-        const [{ result: event_types }] = await trx('types.event_type').select(
+        const [{ result: event_types }] = (await trx('types.event_type').select(
           db.raw('json_object_agg(label, id) as result')
-        );
+        )) as TODO;
         const event_type_id = parseInt(eventPayload.event_type_id as any);
 
         //Create the additional data entries.

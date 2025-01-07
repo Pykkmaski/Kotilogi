@@ -25,9 +25,9 @@ class Heating {
   }
 
   async getTypes(ctx: Knex.Transaction | Knex) {
-    const [{ result }] = await ctx('types.heating_type').select(
+    const [{ result }] = (await ctx('types.heating_type').select(
       db.raw('json_object_agg(name, id) as result')
-    );
+    )) as TODO;
     return result;
   }
 

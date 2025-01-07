@@ -30,16 +30,16 @@ class Properties {
       .where({ 'object.parentId': propertyId })
       .count('* as numEvents');
 
-    if (numEvents >= 100) {
+    if ((numEvents as TODO) >= 100) {
       throw new Error('Et voi lisätä talolle enempää tapahtumia!');
     }
   }
 
   /**Returns the name of the database-table that contains the specific data related to a property, depending on its type. */
   private async getTableNameByType(typeId: number, trx: Knex.Transaction) {
-    const [{ result: types }] = await trx('types.property_type').select(
+    const [{ result: types }] = (await trx('types.property_type').select(
       db.raw('json_object_agg(name, id) as result')
-    );
+    )) as TODO;
 
     return typeId == types['Kiinteistö'] ? 'house' : 'appartment';
   }
@@ -54,10 +54,10 @@ class Properties {
 
   /**Throws an error if the user with the provided id already has the maximum allowed number of property. */
   async verifyUserPropertyCount(session: { user: { id: string } }) {
-    const [{ numProperties }] = await db('property')
+    const [{ numProperties }] = (await db('property')
       .join('object', { 'object.id': 'property.id' })
       .where({ authorId: session.user.id })
-      .count('* as numProperties');
+      .count('* as numProperties')) as [{ numProperties: number }];
 
     if (numProperties >= 2) {
       throw new Error('Et voi lisätä enempää taloja!');
@@ -65,9 +65,9 @@ class Properties {
   }
 
   async getTypes() {
-    const [{ result }] = await db('types.property_type').select(
+    const [{ result }] = (await db('types.property_type').select(
       db.raw('json_object_agg(name, id) as result')
-    );
+    )) as TODO;
     return result;
   }
 

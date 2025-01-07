@@ -40,10 +40,12 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
 
     const findSlotChildren = (children: React.ReactElement[]) => {
       for (const child of children) {
-        if (child.props?.slotName) {
+        if ((child.props as TODO)?.slotName) {
           slotChildren.push(child);
-        } else if (child.props?.children) {
-          findSlotChildren(React.Children.toArray(child.props.children) as React.ReactElement[]);
+        } else if ((child.props as TODO)?.children) {
+          findSlotChildren(
+            React.Children.toArray((child.props as TODO).children) as React.ReactElement[]
+          );
         }
       }
     };
@@ -68,9 +70,9 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
 
   const [slots] = useState<string[]>(() => {
     const slotChildren = childArray.filter(
-      (child: React.ReactElement) => child.props?.slotName
+      (child: React.ReactElement) => (child.props as TODO)?.slotName
     ) as React.ReactElement[];
-    return slotChildren.map(child => child.props.slotName);
+    return slotChildren.map(child => (child.props as TODO).slotName);
   });
 
   console.log(slots, currentSlot);

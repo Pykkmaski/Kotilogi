@@ -52,7 +52,7 @@ SelectablesProvider.ActionTrigger = function ({ children, action, ...props }: Ac
     <PassProps
       {...props}
       onClick={async e => {
-        trigger.props.onClick && trigger.props.onClick(e);
+        (trigger.props as TODO).onClick && (trigger.props as TODO).onClick(e);
         await action(selectedItems);
         resetSelected();
       }}>
@@ -72,8 +72,8 @@ SelectablesProvider.SelectTrigger = function ({ children, item, ...props }) {
       {...props}
       checked={selectedItems.includes(item)}
       onChange={() => {
-        if (trigger.props.onClick) {
-          trigger.props.onClick();
+        if ((trigger.props as TODO).onClick) {
+          (trigger.props as TODO).onClick();
         }
         toggleSelection(item);
       }}>
@@ -133,8 +133,8 @@ SelectablesProvider.ResetSelectedTrigger = function ({ children, ...props }) {
     <PassProps
       {...props}
       onClick={e => {
-        if (trigger.props.onClick) {
-          trigger.props.onClick();
+        if ((trigger.props as TODO).onClick) {
+          (trigger.props as TODO).onClick();
         }
         resetSelected();
       }}>

@@ -127,7 +127,7 @@ export const FormControl = ({
 
 type CheckboxLabelProps = {
   label: string;
-  control: JSX.Element;
+  control: React.ReactElement;
 };
 
 export const CheckboxLabel = ({ label, control }: CheckboxLabelProps) => {

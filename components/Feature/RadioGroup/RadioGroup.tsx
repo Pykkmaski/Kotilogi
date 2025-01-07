@@ -16,7 +16,7 @@ export function RadioGroup({ children, name, required, ...props }: RadioGroupPro
     return childArray.map((child: React.ReactElement) => {
       if (React.isValidElement(child as any)) {
         const newProps = {
-          ...child.props,
+          ...(child.props as TODO),
           name,
           required,
         };

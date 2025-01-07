@@ -67,9 +67,9 @@ export const getRooms = async () => {
 };
 
 export const getEventTargets = async (mainEventTypeId: number) => {
-  const [{ result: event_types }] = await db('types.event_type').select(
+  const [{ result: event_types }] = (await db('types.event_type').select(
     db.raw('json_object_agg(label, id) as result')
-  );
+  )) as TODO;
 
   switch (parseInt(mainEventTypeId as any)) {
     case event_types.Peruskorjaus: {
@@ -110,9 +110,9 @@ export const getEventTargets = async (mainEventTypeId: number) => {
 };
 
 export const getServiceWorkTypes = async (targetId: number) => {
-  const [{ result: event_targets }] = await db('types.event_target_type').select(
+  const [{ result: event_targets }] = (await db('types.event_target_type').select(
     db.raw('json_object_agg(label, id) as result')
-  );
+  )) as TODO;
 
   switch (parseInt(targetId as any)) {
     case event_targets.Katto: {
@@ -170,7 +170,7 @@ export const getEventCategories = async () => db('ref_eventCategories');
 
 export const getWorkTypeLabel = async (targetId: number, serviceWorkTypeId: number) => {
   const [{ result: targets }] = await db('types.event_target_type').select(
-    db.raw('json_obect_agg(label, id) as result')
+    await db.raw('json_obect_agg(label, id) as result')
   );
 
   switch (parseInt(targetId as any)) {

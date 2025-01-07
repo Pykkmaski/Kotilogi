@@ -5,8 +5,9 @@ import { Spacer, SpacerProps } from '../UI/Spacer';
 export function List({ children, ...props }: SpacerProps) {
   const content = useMemo(() => {
     return React.Children.toArray(children).map((child: React.ReactElement) => {
-      if (child.props.children) {
-        return React.Children.map(child.props.children, c => <li>{c}</li>);
+      const children = (child.props as TODO).children;
+      if (children) {
+        return React.Children.map(children, c => <li>{c}</li>);
       } else {
         return <li>{child}</li>;
       }

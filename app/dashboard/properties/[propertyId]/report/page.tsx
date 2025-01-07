@@ -57,7 +57,7 @@ export default async function ReportPage({ params }) {
           property,
           events: data,
           propertyType,
-          ownerCount,
+          ownerCount: ownerCount as TODO,
           heatingSystem,
           mainImageId,
           buildingMaterial,
