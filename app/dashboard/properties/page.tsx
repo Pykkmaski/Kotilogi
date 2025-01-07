@@ -22,7 +22,7 @@ export default async function PropertiesPage() {
 
   return (
     <main className='flex justify-center'>
-      <div className='md:w-[75%] xs:w-full'>
+      <div className='xs:w-full'>
         <OverviewBoxList
           items={data}
           listTitle='Talot'

@@ -8,7 +8,7 @@ import { BoxFieldset } from '@/components/UI/Fieldset';
 export default async function SettingsPage() {
   return (
     <main className='flex flex-col w-full items-center'>
-      <div className='md:w-[50%] xs:w-full'>
+      <div className='xl:w-[90%] xs:w-full'>
         <BoxFieldset legend='Asetukset'>
           <div className='flex flex-col gap-10 w-full'>
             <EmailSettingsForm />
