@@ -31,11 +31,16 @@ export async function GET(req: NextRequest) {
       userId: session.user.id,
     });
 
-    const [streetAddress] = await trx('property')
+    const [street_name] = await trx('property')
       .where({ id: transferCode.propertyId })
-      .pluck(db.raw(`street_name || ' ' || street_number as street_address`));
+      .pluck('street_name');
 
-    await trx('properties.transferCodes').where({ code: token }).del();
+    const [street_number] = await trx('property')
+      .where({ id: transferCode.propertyId })
+      .pluck('street_number');
+    const streetAddress = `${street_name} ${street_number}`;
+
+    await trx('property_transfer_code').where({ code: token }).del();
     await trx.commit();
 
     //The user's dashboard is not updated afterwards. Consider moving this into a server action.

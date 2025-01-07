@@ -7,7 +7,9 @@ export async function DELETE(req: NextRequest, { params }) {
   const trx = await db.transaction();
   try {
     const fileId = params.file_id;
-    const { fileName } = (await trx('data_files').where({ id: fileId }).select('fileName')) || {};
+    const [fileName] = (await trx('data_files').where({ id: fileId }).pluck('fileName')) as [
+      string | undefined
+    ];
     await db('data_objects').where({ id: fileId }).del();
 
     await unlink(uploadPath + fileName);
