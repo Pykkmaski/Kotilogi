@@ -2,6 +2,7 @@
 
 import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
 import Link from 'next/link';
+import { version } from '@/package.json';
 
 type FooterSpacerProps = Omit<React.ComponentProps<'div'>, 'className'> & {
   align?: 'start' | 'middle' | 'end';
@@ -84,8 +85,16 @@ export function Footer() {
             id='footer-social-info'
             align='end'>
             <FooterSpacer.Heading>Some</FooterSpacer.Heading>
-            <Link href='/'>Instagram</Link>
-            <Link href='/'>Facebook</Link>
+            <Link
+              href='https://www.instagram.com/kotidok.fi/'
+              target='_blank'>
+              Instagram
+            </Link>
+            <Link
+              href='https://www.facebook.com/profile.php?id=61559435630869'
+              target='_blank'>
+              Facebook
+            </Link>
           </FooterSpacer>
         </div>
         <div className='w-full border border-b-white opacity-20' />
@@ -97,7 +106,7 @@ export function Footer() {
             className='aspect-auto h-[40px]'
           />
           <div className='text-white opacity-60 flex flex-row gap-8'>
-            <span>v1.1.0</span>
+            <span>v{version}</span>
             <span>&copy; Kotidok OY 2025</span>
           </div>
         </div>

@@ -36,6 +36,17 @@ export function IndexHeader() {
   const pathname = usePathname();
 
   const getLinkClassName = (href: string) => (pathname == href ? 'text-wf-primary' : 'text-white');
+  const contactLink =
+    pathname == '/' ? (
+      <button
+        onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
+        className='hover:underline'>
+        Ota Yhteyttä
+      </button>
+    ) : (
+      <Link href='/#contact-section'>Ota Yhteyttä</Link>
+    );
+
   return (
     <Header>
       <Header.LogoContainer>
@@ -50,15 +61,7 @@ export function IndexHeader() {
             className={getLinkClassName('/blog')}>
             Jutut
           </Link>
-          {pathname == '/' ? (
-            <button
-              onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
-              className='hover:underline'>
-              Ota Yhteyttä
-            </button>
-          ) : (
-            <Link href='/#contact-section'>Ota Yhteyttä</Link>
-          )}
+          {contactLink}
         </Header.MainNav>
       </Header.LogoContainer>
 
@@ -80,14 +83,7 @@ export function IndexHeader() {
               <Link href='/blog'>Jutut</Link>
               <Link href='/login'>Kirjaudu Sisään</Link>
               <Link href='/register'>Rekisteröidy</Link>
-              <button
-                onClick={() =>
-                  contactRef.current?.scrollIntoView({
-                    behavior: 'smooth',
-                  })
-                }>
-                Ota Yhteyttä
-              </button>
+              {contactLink}
             </VPMenu>
           }
         />
