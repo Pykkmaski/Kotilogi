@@ -323,6 +323,12 @@ class Events {
           await insert('service_events.window_service_event');
         }
         break;
+
+      case event_targets['Palovaroittimet']:
+        {
+          await insert('service_events.firealarm_service_event');
+        }
+        break;
     }
   }
 

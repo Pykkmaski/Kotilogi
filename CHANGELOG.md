@@ -1,3 +1,9 @@
+## [1.2.0] - 07.01.2025
+
+### Added
+
+- Added handling for firealarm service events.
+
 ## [1.1.1] - 07.01.2025
 
 ### Fixed
