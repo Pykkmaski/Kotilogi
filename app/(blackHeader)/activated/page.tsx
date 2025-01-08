@@ -70,9 +70,8 @@ export default function ActivatedPage({ searchParams }) {
       } else {
         redirect();
       }
-
-      return () => clearTimeout(t);
     }, 3000);
+    return () => clearTimeout(t);
   }, [status]);
 
   return (
@@ -81,7 +80,7 @@ export default function ActivatedPage({ searchParams }) {
         {titleContent}
         {paragraphContent}
       </TitleWithParagraphLayout>
-      <p>Sinut uudelleenohjataan kohta...</p>
+      <p>Sinut uudelleenohjataan pian...</p>
     </MainAllCentered>
   );
 }

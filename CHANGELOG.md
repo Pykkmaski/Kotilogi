@@ -1,3 +1,19 @@
+## [1.2.3] - 08-01-2025
+
+### Fixed
+
+- The z-index of the register/success page to make it visible.
+- No redirection to the dashboard happening on the /activated page.
+
+### Changed
+
+- The success toast text on successful registration.
+- The file extension of the app/api/public/users/register/route from .tsx to .ts.
+
+- Changed the text color of the register success-page content to white.
+- Changed the text color of the link to resending the account activation link to the primary-wf-color.
+- Changed the text displayed on the /activated page.
+
 ## [1.2.2] - 08-01-2025
 
 ### Changed
