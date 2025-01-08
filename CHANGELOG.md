@@ -1,3 +1,9 @@
+## [1.2.2] - 08-01-2025
+
+### Changed
+
+- Updated the app favicon.
+
 ## [1.2.1] - 07-01-2025
 
 ### Changed
