@@ -1,6 +1,6 @@
 import { useBatchForm } from '@/hooks/useBatchForm';
 import { EditorContainer } from './EditorContainer';
-import { OptionSelector } from './OptionSelector';
+import { RadioSelector } from './OptionSelector';
 import { Add, Clear } from '@mui/icons-material';
 import { Button } from '../New/Button';
 import { IconButton } from '@mui/material';
@@ -13,7 +13,7 @@ function InsulationMaterialSelector({
 }: Kotidok.SelectorProps & { index: number }) {
   const name = `insulation_material_id-${index}`;
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       name={name}
       label='Eristemateriaali'
@@ -29,7 +29,7 @@ function InsulationTargetSelector({ index, ...props }: Kotidok.SelectorProps & {
   const name = `insulation_target_id-${index}`;
 
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       name={name}
       label='Eristyskohde'

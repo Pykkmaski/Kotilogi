@@ -3,12 +3,12 @@
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
 import { BuildingDataType } from 'kotilogi-app/dataAccess/types';
-import { OptionSelector } from './OptionSelector';
+import { RadioSelector } from './OptionSelector';
 import { EditorContainer } from './EditorContainer';
 
 export function BuildingMaterialSelector(props: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       labelKey='name'
       valueKey='id'
@@ -21,7 +21,7 @@ export function BuildingMaterialSelector(props: Kotidok.SelectorProps) {
 
 export function BuildingTypeSelector(props: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       labelKey='name'
       valueKey='id'
@@ -37,7 +37,7 @@ export function ColorSelector({
   ...props
 }: Kotidok.SelectorProps & { name?: string }) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       labelKey='name'
       valueKey='id'

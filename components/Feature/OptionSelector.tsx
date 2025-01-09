@@ -126,12 +126,13 @@ type PropKeyProps = {
   valueKey: string;
 };
 
-type RadioSelectorProps = Omit<BaseSelectorProps, 'renderFn'> &
-  PropKeyProps & {
-    name: string;
-    onChange?: React.ComponentProps<'input'>['onChange'];
-    value?: TODO;
-  };
+type DerivedSelectorProps = Omit<BaseSelectorProps, 'renderFn'> & PropKeyProps;
+
+type RadioSelectorProps = DerivedSelectorProps & {
+  name: string;
+  onChange?: React.ComponentProps<'input'>['onChange'];
+  value?: TODO;
+};
 
 export function RadioSelector({
   name,
@@ -163,11 +164,10 @@ export function RadioSelector({
   );
 }
 
-type CheckboxSelectorProps<T> = Omit<BaseSelectorProps, 'renderFn'> &
-  PropKeyProps & {
-    onChange: (target: T) => void;
-    values?: T[];
-  };
+type CheckboxSelectorProps<T> = DerivedSelectorProps & {
+  onChange: (target: T) => void;
+  values?: T[];
+};
 
 export function CheckboxSelector<T>({
   onChange,

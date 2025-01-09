@@ -1,12 +1,12 @@
 import { FormControl, Input } from '../UI/FormUtils';
 import { EditorContainer } from './EditorContainer';
-import { OptionSelector } from './OptionSelector';
+import { RadioSelector } from './OptionSelector';
 import { Checkbox } from './RadioGroup/Checkbox';
 
 /**Toetutustapa */
 export function DrainageDitchImplementationMethodSelector(props: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       loadingText='Ladataan toteutustapoja...'
       labelKey='label'

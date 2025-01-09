@@ -49,9 +49,19 @@ export function VPMobileMenu({ session, ...props }: MobileMenuProps) {
     );
 
     if (session) {
-      return loggedInLinks.map(link => <TriggerWithLink link={link} />);
+      return loggedInLinks.map((link, i) => (
+        <TriggerWithLink
+          key={`vp-mobile-menu-li-link-${i}`}
+          link={link}
+        />
+      ));
     } else {
-      return loggedOutLinks.map(link => <TriggerWithLink link={link} />);
+      return loggedOutLinks.map((link, i) => (
+        <TriggerWithLink
+          key={`vp-mobile-menu-lo-link-${i}`}
+          link={link}
+        />
+      ));
     }
   }, [session]);
 

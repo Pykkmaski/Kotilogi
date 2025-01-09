@@ -4,7 +4,7 @@ import { useEventFormContext } from '../../EventFormContext';
 import { LockEditor } from '@/components/Feature/LockEditor';
 import { LockDataType } from 'kotilogi-app/dataAccess/types';
 import IconButton from '@mui/material/IconButton';
-import { OptionSelector } from '@/components/Feature/OptionSelector';
+import { OptionSelector, RadioSelector } from '@/components/Feature/OptionSelector';
 import { Add, Clear } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import { Notification } from '@/components/UI/Notification';
@@ -44,7 +44,7 @@ export const LockBatch = () => {
                 </IconButton>
               </div>
 
-              <OptionSelector
+              <RadioSelector
                 label='Lukon tyyppi'
                 labelKey='label'
                 valueKey='id'
@@ -56,7 +56,7 @@ export const LockBatch = () => {
               />
 
               <FormControl
-                label='Brand'
+                label='Merkki'
                 control={
                   <Input
                     name={`brand-${index}`}

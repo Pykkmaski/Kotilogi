@@ -1,5 +1,5 @@
 import { RoofDataType } from 'kotilogi-app/dataAccess/types';
-import { OptionSelector } from './OptionSelector';
+import { RadioSelector } from './OptionSelector';
 import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { ColorSelector } from './BuildingEditor';
@@ -8,7 +8,7 @@ import { EditorContainer } from './EditorContainer';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       loadingText='Ladataan tyyppejä...'
       labelKey='name'
@@ -24,7 +24,7 @@ export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.Selector
 
 export function RoofMaterialSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       loadingText='Ladataan materiaaleja...'
       labelKey='name'
@@ -40,7 +40,7 @@ export function RoofMaterialSelector({ value, onChange, ...props }: Kotidok.Sele
 
 export function RoofEavesTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       loadingText='Ladataan räystästyyppejä...'
       labelKey='label'
@@ -56,7 +56,7 @@ export function RoofEavesTypeSelector({ value, onChange, ...props }: Kotidok.Sel
 
 export function RoofUnderlaymentTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       loadingText='Ladataan aluskatetyyppejä...'
       labelKey='label'
@@ -72,7 +72,7 @@ export function RoofUnderlaymentTypeSelector({ value, onChange, ...props }: Koti
 
 export function RoofFasciaBoardTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <OptionSelector
+    <RadioSelector
       {...props}
       loadingText='Ladataan otsalautatyyppejä...'
       labelKey='label'

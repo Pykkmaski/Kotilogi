@@ -11,7 +11,7 @@ import { DialogPrefab } from '@/components/UI/VPDialog';
 import db from 'kotilogi-app/dbconfig';
 
 export default async function EventPage({ params }) {
-  const { eventId } = await params;
+  const { eventId, propertyId } = await params;
   const [event] = await events.get({
     id: eventId,
   });
@@ -69,7 +69,7 @@ export default async function EventPage({ params }) {
 
             <div className='flex items-center'>
               <Link
-                href={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${params.propertyId}/events/${eventId}`}>
+                href={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${propertyId}/events/${eventId}`}>
                 <IconButton size='small'>
                   <Visibility />
                 </IconButton>

@@ -1,11 +1,11 @@
 import { EditorContainer } from './EditorContainer';
-import { OptionSelector } from './OptionSelector';
+import { RadioSelector } from './OptionSelector';
 
 export function WaterPipeEditor({ waterPipeData, onChange }) {
   return (
     <EditorContainer>
       <h1 className='font-semibold'>Käyttövesiputkien tiedot</h1>
-      <OptionSelector
+      <RadioSelector
         label='Asennustapa'
         labelKey='label'
         valueKey='id'

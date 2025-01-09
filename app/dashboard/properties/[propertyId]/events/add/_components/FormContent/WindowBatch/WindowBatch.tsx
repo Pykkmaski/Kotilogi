@@ -59,7 +59,6 @@ export const WindowBatch = () => {
               </div>
 
               <FormControl
-                required
                 label='U-Arvo'
                 control={
                   <Input
@@ -75,7 +74,6 @@ export const WindowBatch = () => {
                 }
               />
               <FormControl
-                required
                 label={
                   <>
                     Vähimmäisäänieristyskyky <sup>dB</sup>
@@ -95,7 +93,6 @@ export const WindowBatch = () => {
               />
 
               <FormControl
-                required
                 label={
                   <>
                     Enimmäisäänieristyskyky <sup>dB</sup>
@@ -115,7 +112,6 @@ export const WindowBatch = () => {
               />
 
               <FormControl
-                required
                 label={'Määrä'}
                 control={
                   <Input

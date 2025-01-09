@@ -1,6 +1,6 @@
 import { useBatchForm } from '@/hooks/useBatchForm';
 import { FormControl, Input } from '../UI/FormUtils';
-import { OptionSelector } from './OptionSelector';
+import { OptionSelector, RadioSelector } from './OptionSelector';
 import Button from '@mui/material/Button';
 import { Add, Clear } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 function Lock({ data, index = 0, onChange }) {
   return (
     <div className='flex flex-col gap-2'>
-      <OptionSelector
+      <RadioSelector
         label='Lukon tyyppi'
         labelKey='label'
         valueKey='id'
@@ -23,7 +23,7 @@ function Lock({ data, index = 0, onChange }) {
       />
 
       <FormControl
-        label='Brand'
+        label='Merkki'
         control={
           <Input
             name={`brand-${index}`}

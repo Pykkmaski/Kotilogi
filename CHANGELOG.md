@@ -1,8 +1,36 @@
+## [1.4.0] - 09-01-2025
+
+### Fixed
+
+- Brand-label in the lock editor being in english. Changed it to finnish.
+
+### Added
+
+- Type for the searchParams on the files-page.
+- A key to both the logged in- and logged out links in the VPMobileMenu.
+
+### Changed
+
+- Created DerivedSelectorProps for the derived selectors of BaseSelector.
+- Replaced the lock type selector with the new RadioSelector component.
+- Replaced all OptionSelectors with RadioSelector in RoofEditor.
+- Replaced all OptionSelectors with RadioSelector in DrainageDitchEditor.
+- Replaced all OptionSelectors with RadioSelector in BuildingEditor.
+- Replaced all OptionSelectors with RadioSelector in SewerPipeEditor.
+- Replaced all OptionSelectors with RadioSelector in WaterPipeEditor.
+- Replaced all OptionSelectors with RadioSelector in InsulationEditor.
+- Made the WindowBatch fields non-required.
+- Destructured the property id from the params on the [eventId]-page.
+
+### Removed
+
+- Tests from HighlightingNavBar.test that referred to the deleted component "FooterNav".
+- Removed the React.use wrapping of the searchParams on the AddFiles-page.
+
 ## [1.3.0] - 08-01-2025
 
 ### Fixed
 
-- Removed the async from the logout-page definition, as it is not supported in client-components.
 - Surfaces not getting de-selected when changing event types.
 - Suppressed the NEXT_REDIRECT error-toast when creating events.
 
@@ -37,6 +65,7 @@
 ### Removed
 
 - Unused elecrtric event content.
+- Removed the async from the logout-page definition, as it is not supported in client-components.
 
 ## [1.2.3] - 08-01-2025
 
