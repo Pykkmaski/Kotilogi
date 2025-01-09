@@ -34,6 +34,10 @@
 - A new BaseSelector, and the derived components: CheckboxSelector and RadioSelector, to replace the old OptionSelector.
 - A key to each button inside a radio group.
 
+### Removed
+
+- Unused elecrtric event content.
+
 ## [1.2.3] - 08-01-2025
 
 ### Fixed
