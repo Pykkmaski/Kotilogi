@@ -134,6 +134,7 @@ export type EventPayloadType = ObjectDataType &
     heating?: HeatingPayloadType[];
     surfaces?: number[];
     insulation?: TODO[];
+    electricalTargets?: number[];
   };
 
 type HasEventId = { event_id: string };

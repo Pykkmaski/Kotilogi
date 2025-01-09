@@ -10,6 +10,9 @@ import { Header } from '../../../components/WFIndex/Header';
 import { PrimaryButton, SecondaryButton } from '@/components/WFIndex/Button';
 import { usePathname } from 'next/navigation';
 import { TabButton } from '@/components/UI/TabButton';
+import { useSession } from 'next-auth/react';
+import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
+import Spinner from '@/components/UI/Spinner';
 
 function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
   const Line = () => <div className='w-full h-[2px] bg-white' />;
@@ -32,9 +35,9 @@ function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
 
 /**Renders the page header. */
 export function IndexHeader() {
+  const { data: session, status } = useSession();
   const { contactRef } = useIndexPageContext();
   const pathname = usePathname();
-
   const getLinkClassName = (href: string) => (pathname == href ? 'text-wf-primary' : 'text-white');
   const contactLink =
     pathname == '/' ? (
@@ -66,24 +69,49 @@ export function IndexHeader() {
       </Header.LogoContainer>
 
       <div className='lg:flex xs:hidden gap-3 items-center'>
-        <Link href='/login'>
-          <SecondaryButton>Kirjaudu</SecondaryButton>
-        </Link>
+        {status == 'loading' ? (
+          <Spinner />
+        ) : session ? (
+          <>
+            <Link href='/dashboard'>Hallintapaneeli</Link>
+            <Link href='/logout'>
+              <SecondaryButton>Kirjaudu ulos</SecondaryButton>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href='/login'>
+              <SecondaryButton>Kirjaudu</SecondaryButton>
+            </Link>
 
-        <Link href='/register'>
-          <PrimaryButton>Rekisteröidy</PrimaryButton>
-        </Link>
+            <Link href='/register'>
+              <PrimaryButton>Rekisteröidy</PrimaryButton>
+            </Link>
+          </>
+        )}
       </div>
       <div className='xs:block lg:hidden'>
         <MenuPrefab
           trigger={<MenuButton />}
           target={
             <VPMenu>
-              <Link href='/business'>Yrityksille</Link>
-              <Link href='/blog'>Jutut</Link>
-              <Link href='/login'>Kirjaudu Sisään</Link>
-              <Link href='/register'>Rekisteröidy</Link>
-              {contactLink}
+              {status == 'loading' ? (
+                <Spinner />
+              ) : session ? (
+                <>
+                  <Link href='/dashboard'>Hallintapaneeli</Link>
+                  <Link href='/logout'>Kirjaudu ulos</Link>
+                  {contactLink}
+                </>
+              ) : (
+                <>
+                  <Link href='/business'>Yrityksille</Link>
+                  <Link href='/blog'>Jutut</Link>
+                  <Link href='/login'>Kirjaudu Sisään</Link>
+                  <Link href='/register'>Rekisteröidy</Link>
+                  {contactLink}
+                </>
+              )}
             </VPMenu>
           }
         />

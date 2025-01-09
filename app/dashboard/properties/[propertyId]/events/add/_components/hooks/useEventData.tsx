@@ -3,9 +3,10 @@ import { useFormOnChange } from '@/hooks/useFormOnChange';
 import { useFormOnChangeFiles } from '@/hooks/useFormOnChangeFiles';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
+import { useToggleableEntries } from '@/hooks/useToggleableEntries';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const mainDataStorageKey = 'kotidok-event-main-data';
 
@@ -62,6 +63,24 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     'kotidok-event-data-insulation'
   );
 
+  const {
+    /**Currently selected cosmetic renovation target ids. */
+    entries: selectedSurfaceIds,
+    /**Toggles a cosmetic renovation target id. */
+    toggle: toggleSurfaceId,
+    /**De-selects all cosmetic renovation target ids. */
+    reset: resetSelectedSurfaceIds,
+  } = useToggleableEntries();
+
+  const {
+    /**Currently selected electrical restoration target ids. */
+    entries: selectedERTargetIds,
+    /**Toggles an electrical restoration target id. */
+    toggle: toggleERTargetId,
+    /**De-selects all electrical restoration target ids. */
+    reset: resetSelectedERTargetIds,
+  } = useToggleableEntries();
+
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
   useEffect(() => {
@@ -76,6 +95,9 @@ export const useEventData = (initialEventData: EventPayloadType) => {
       ...eventData,
       target_id: undefined,
     });
+
+    resetSelectedSurfaceIds();
+    resetSelectedERTargetIds();
   }, [eventData.event_type_id]);
 
   return {
@@ -83,7 +105,14 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     windows,
     locks,
     insulation,
+    selectedSurfaceIds,
+    selectedERTargetIds,
+    resetSelectedSurfaceIds,
+    resetSelectedERTargetIds,
+    toggleSurfaceId,
+    toggleERTargetId,
     resetInsulation,
+
     updateFiles,
     addWindowEntry,
     addLockEntry,

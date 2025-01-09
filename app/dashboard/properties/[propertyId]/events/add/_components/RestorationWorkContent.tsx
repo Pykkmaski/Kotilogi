@@ -21,8 +21,16 @@ import Spinner from '@/components/UI/Spinner';
 import { EventHeatingEditor } from './FormContent/EventHeatingEditor';
 
 export function RestorationWorkContent() {
-  const { eventData, propertyId, refs, insulation, updateEventData, resetInsulation } =
-    useEventFormContext();
+  const {
+    eventData,
+    propertyId,
+    refs,
+    insulation,
+    updateEventData,
+    resetInsulation,
+    selectedERTargetIds,
+    toggleERTargetId,
+  } = useEventFormContext();
 
   const {
     data: heatingData,
@@ -62,8 +70,10 @@ export function RestorationWorkContent() {
         />
       ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Sähköt') ? (
         <ElectricalEditor
-          electricalData={eventData}
-          onChange={updateEventData}
+          selectedTargets={selectedERTargetIds}
+          onChange={id => {
+            toggleERTargetId(id);
+          }}
         />
       ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Lukitus') ? (
         <LockBatch />

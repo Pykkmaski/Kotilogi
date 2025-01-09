@@ -2,6 +2,10 @@ import React, { useMemo } from 'react';
 import { List } from '../../New/List';
 import { PassProps } from '@/components/Util/PassProps';
 
+export function RadioGroupBody({ children }: React.PropsWithChildren) {
+  return <div className='grid lg:grid-cols-3 xs:grid-cols-2 gap-2'>{children}</div>;
+}
+
 type RadioGroupProps = React.PropsWithChildren & {
   name: string;
   required?: boolean;
@@ -28,7 +32,7 @@ export function RadioGroup({ children, name, required, ...props }: RadioGroupPro
     });
   }, [children, props, name, required]);
 
-  return <div className='grid lg:grid-cols-3 xs:grid-cols-2 gap-2'>{content}</div>;
+  return <RadioGroupBody>{content}</RadioGroupBody>;
 }
 
 /**

@@ -79,6 +79,15 @@ export function EventDataContent() {
                     Työn tyyppi puuttuu!
                   </Notification>
                 </CarouselProvider.SelectSlotTrigger>
+              ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti') &&
+                selectedSurfaceIds.length == 0 ? (
+                <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+                  <Notification
+                    position='start'
+                    variant='error'>
+                    Pinnat puuttuvat!
+                  </Notification>
+                </CarouselProvider.SelectSlotTrigger>
               ) : null}
             </div>
 

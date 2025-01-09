@@ -91,7 +91,6 @@ export function FileCard({ file, isMain }: FileCardProps) {
           className='absolute top-0 left-0'
         />
       </RenderOnCondition>
-
       <RenderOnCondition condition={file.type == 'application/pdf'}>
         <iframe
           src={`${src}#toolbar=0`}

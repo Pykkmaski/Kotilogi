@@ -35,10 +35,11 @@ export function useEventForm(
     windows,
     insulation,
     locks,
+    selectedSurfaceIds,
+    resetSelectedSurfaceIds,
+    selectedERTargetIds,
   } = eventDataProps;
 
-  const [selectedSurfaceIds, setSelectedSurfaceIds] = useState([]);
-  const resetSelectedSurfaceIds = () => setSelectedSurfaceIds([]);
   const { extraData, updateExtraData, resetExtraData, ...extraDataProps } =
     useExtraData(initialExtraData);
 
@@ -61,16 +62,21 @@ export function useEventForm(
           ...eventData,
           windows: windows.map(w => w.value),
           locks: locks.map(l => l.value),
-          surfaces: selectedSurfaceIds.map(s => s),
+          surfaces: selectedSurfaceIds,
           //Fix this later: The batches seem to be stacked on top of each other for some reason.
           insulation: insulation.map(i => i.value.value),
+          electricalTargets: selectedERTargetIds,
         },
         files.map(f => {
           const fd = new FormData();
           fd.append('file', f);
           return fd;
         })
-      ).catch(err => toast.error(err.message));
+      ).catch(err => {
+        if (!err.message.includes('NEXT_REDIRECT')) {
+          toast.error(err.message);
+        }
+      });
     }
     localStorage.removeItem('kotidok-event-extra-data');
   });
@@ -89,20 +95,6 @@ export function useEventForm(
     router.back();
   }, [hasChanges, router]);
 
-  const toggleSurfaceId = useCallback(
-    id => {
-      const alreadySelected = selectedSurfaceIds.find(selectedId => selectedId == id);
-      if (alreadySelected) {
-        //Deselect the id by removing it from the array.
-        const newSelectedIds = selectedSurfaceIds.filter(selectedId => selectedId != id);
-        setSelectedSurfaceIds(newSelectedIds);
-      } else {
-        setSelectedSurfaceIds([...selectedSurfaceIds, id]);
-      }
-    },
-    [selectedSurfaceIds, setSelectedSurfaceIds]
-  );
-
   const showMainDataForm = useMemo(() => {
     if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
       return isDefined(eventData.target_id);
@@ -111,8 +103,7 @@ export function useEventForm(
         ? isDefined(eventData.target_id) && isDefined(eventData.service_work_type_id)
         : isDefined(eventData.target_id);
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
-      console.log('Pintaremontti selected');
-      return true;
+      return selectedSurfaceIds.length > 0;
     } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu')) {
       return isDefined(eventData.target_id);
     } else {
@@ -160,6 +151,7 @@ export function useEventForm(
   return {
     ...extraDataProps,
     ...eventDataProps,
+
     status,
     onSubmit,
     editing: isDefined(initialEventData),
@@ -170,7 +162,7 @@ export function useEventForm(
     files,
     cancel,
     selectedSurfaceIds,
-    toggleSurfaceId,
+
     refs,
     removeFile,
     resetSelectedSurfaceIds,

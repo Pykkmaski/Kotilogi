@@ -154,6 +154,14 @@ export const getServiceWorkTypes = async (targetId: number) => {
       return await db('service_events.firealarm_service_type');
     }
 
+    case event_targets['Ikkunat']: {
+      return await db('service_events.window_service_type');
+    }
+
+    case event_targets['Muu']: {
+      return await db('service_events.other_service_type');
+    }
+
     default: {
       console.error('Case for id ' + targetId + ' not implemented!');
     }

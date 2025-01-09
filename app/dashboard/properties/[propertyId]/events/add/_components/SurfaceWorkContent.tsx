@@ -3,11 +3,11 @@ import { EventTargetSelector } from './Selectors/EventTargetSelector';
 import { SurfaceSelector } from './Selectors/SurfaceSelector';
 
 export function SurfaceWorkContent() {
-  const { eventData, updateEventData } = useEventFormContext();
+  const { eventData } = useEventFormContext();
   return (
     <>
       <EventTargetSelector />
-      <SurfaceSelector />
+      {eventData.target_id && <SurfaceSelector />}
     </>
   );
 }

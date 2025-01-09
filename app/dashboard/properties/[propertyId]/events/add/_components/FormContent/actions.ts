@@ -18,6 +18,8 @@ export const getViemariPutketAsennusTavat = async () =>
   db('restoration_events.sewer_pipe_restoration_method_type');
 export const getEristeMateriaalit = async () => db('types.insulation_material_type');
 export const getEristeKohteet = async () => db('types.insulation_target_type');
+export const getCosmeticRenovationSurfaces = async () =>
+  db('cosmetic_renovation_events.cosmetic_renovation_target_type');
 
 export const getRoof = async (property_id: string) => {
   return await db('roof').where({ property_id });

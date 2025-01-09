@@ -7,7 +7,8 @@ import { properties } from 'kotilogi-app/dataAccess/properties';
 
 export default async function AddEventPage({ params }) {
   await verifySession();
-  await properties.verifyEventCount(params.propertyId);
+  const { propertyId } = await params;
+  await properties.verifyEventCount(propertyId);
 
   const refs = await getEventRefs();
 
@@ -15,7 +16,7 @@ export default async function AddEventPage({ params }) {
     <main className='flex justify-center min-h-[calc(2 * 100vh)]'>
       <div className='xs:w-full xl:w-[90%]'>
         <EventTypeProvider refs={refs}>
-          <EventForm propertyId={params.propertyId} />
+          <EventForm propertyId={propertyId} />
         </EventTypeProvider>
       </div>
     </main>

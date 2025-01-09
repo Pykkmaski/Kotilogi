@@ -20,9 +20,10 @@ export function DeleteUserForm() {
 
   return (
     <form
-      className='flex flex-col'
+      className='flex flex-col gap-4'
       onChange={updateData}
       onSubmit={onSubmit}>
+      <h1 className='text-xl'>Poista käyttäjä</h1>
       <FormControl
         label='Salasana'
         required

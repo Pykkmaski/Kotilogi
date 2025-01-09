@@ -37,6 +37,7 @@ export function ChipRadioGroup<T extends Record<string, string | number>>({
 
       return (
         <ChipButton
+          key={`${name}-${index}`}
           onChange={onChange}
           type='radio'
           disabled={disabled}

@@ -1,26 +1,24 @@
+import { useCallback, useEffect, useState } from 'react';
 import { EditorContainer } from './EditorContainer';
-import { OptionSelector } from './OptionSelector';
+import { CheckboxSelector, OptionSelector } from './OptionSelector';
+import { useQuery } from '@tanstack/react-query/build/legacy';
+import { getElectricityJobTargets } from 'kotilogi-app/app/dashboard/properties/[propertyId]/events/add/_components/FormContent/actions';
 
-export function ElectricalTargetSelector(props: Kotidok.SelectorProps) {
-  return (
-    <OptionSelector
-      {...props}
-      tablename='restoration_events.electricity_restoration_target_type'
-      label='Työn kohde'
-      name='restoration_work_target_id'
-      labelKey='label'
-      valueKey='id'
-    />
-  );
-}
-
-export function ElectricalEditor({ electricalData, onChange }) {
+type ElectricalEditorProps = {
+  selectedTargets: number[];
+  onChange: (id: number) => void;
+};
+export function ElectricalEditor({ selectedTargets, onChange }: ElectricalEditorProps) {
   return (
     <EditorContainer>
       <h1 className='font-semibold'>Sähkötyön tiedot</h1>
-      <ElectricalTargetSelector
-        value={electricalData.restoration_work_target_id}
-        onChange={onChange}
+      <CheckboxSelector
+        tablename='restoration_events.electricity_restoration_target_type'
+        label='Sähkötyön kohteet'
+        labelKey='label'
+        valueKey='id'
+        values={selectedTargets}
+        onChange={onChange as TODO}
       />
     </EditorContainer>
   );

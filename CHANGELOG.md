@@ -1,3 +1,39 @@
+## [1.3.0] - 08-01-2025
+
+### Fixed
+
+- Removed the async from the logout-page definition, as it is not supported in client-components.
+- Surfaces not getting de-selected when changing event types.
+- Suppressed the NEXT_REDIRECT error-toast when creating events.
+
+### Changed
+
+- Added a heading above the area under dashboard/settings where the account is deleted, to make it clearer what it does.
+- Removed the hard-coded text-color class from the title of TitleWithParagraphLayout, to make the color controlable from the outside.
+- Wrapped the searchParams under /activated and /dashboard/files/add inside React.use, as recommended by Next.js/React.
+- Made cosmetic renovation targets only show up when a target is selected.
+- Awaiting the params on the add event-page.
+- Moved selectedSurfaceIds and related functions into the useEventData-hook.
+- Deprecated OptionSelector.
+- Updated ElectricalEditor to use the new CheckboxSelector, so multiple targets can be selected at once.
+- Updated SurfaceSelector to use the new CheckboxSelector.
+
+### Added
+
+- Conditional links in the index header, changing to the dashboard and logout links, if logged in.
+- Body size limit in next.config, to allow uploading of files larger than 1mb.
+- Cases for window- and other service event targets.
+- Case for adding other-typed service events.
+- Case for adding inserting structure-service events.
+- Case for adding water pipe service events.
+- Case for adding sewer pipe service events.
+- Case for adding insulation service events.
+- Case for adding electricity service events.
+- 'Other' as a target for cosmetic renovation events.
+- useToggleableEntries-hook, for creating arrays where each entry can be toggled on or off.
+- A new BaseSelector, and the derived components: CheckboxSelector and RadioSelector, to replace the old OptionSelector.
+- A key to each button inside a radio group.
+
 ## [1.2.3] - 08-01-2025
 
 ### Fixed

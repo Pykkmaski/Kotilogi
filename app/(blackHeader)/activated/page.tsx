@@ -4,6 +4,7 @@ import { MainAllCentered } from '@/components/UI/Main';
 import { TitleWithParagraphLayout } from '@/components/UI/TitleWithParagraphLayout';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
@@ -13,7 +14,9 @@ import toast from 'react-hot-toast';
  */
 export default function ActivatedPage({ searchParams }) {
   const router = useRouter();
-  const action = searchParams.action as 'user_activated' | 'email_updated' | 'property_transfer';
+  const { action } = React.use(searchParams) as {
+    action: 'user_activated' | 'email_updated' | 'property_transfer';
+  };
   const { update: updateSession, status } = useSession();
 
   const titleContent = useMemo(() => {
@@ -76,11 +79,13 @@ export default function ActivatedPage({ searchParams }) {
 
   return (
     <MainAllCentered>
-      <TitleWithParagraphLayout>
-        {titleContent}
-        {paragraphContent}
-      </TitleWithParagraphLayout>
-      <p>Sinut uudelleenohjataan pian...</p>
+      <div className='text-black'>
+        <TitleWithParagraphLayout>
+          {titleContent}
+          {paragraphContent}
+        </TitleWithParagraphLayout>
+        <p>Sinut uudelleenohjataan pian...</p>
+      </div>
     </MainAllCentered>
   );
 }

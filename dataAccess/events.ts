@@ -215,10 +215,14 @@ class Events {
 
       case event_targets['Sähköt']:
         {
-          await trx('restoration_events.electricity_restoration_event').insert({
-            event_id,
-            restoration_work_target_id: payload.restoration_work_target_id,
+          const promises = payload.electricalTargets.map(async t => {
+            await trx('restoration_events.electricity_restoration_event').insert({
+              event_id,
+              restoration_work_target_id: t,
+            });
           });
+
+          await Promise.all(promises);
         }
         break;
 
@@ -329,6 +333,42 @@ class Events {
           await insert('service_events.firealarm_service_event');
         }
         break;
+
+      case event_targets['Muu']:
+        {
+          await insert('service_events.other_service_event');
+        }
+        break;
+
+      case event_targets['Viemäriputket']:
+        {
+          await insert('service_events.sewer_pipe_service_event');
+        }
+        break;
+
+      case event_targets['Käyttövesiputket']:
+        {
+          await insert('service_events.water_pipe_service_event');
+        }
+        break;
+
+      case event_targets['Rakenteet']:
+        {
+          await insert('service_events.structure_service_event');
+        }
+        break;
+
+      case event_targets['Eristys']:
+        {
+          await insert('service_events.insulation_service_event');
+        }
+        break;
+
+      case event_targets['Sähköt']:
+        {
+          await insert('service_events.electricity_service_event');
+        }
+        break;
     }
   }
 
@@ -381,7 +421,6 @@ class Events {
         switch (event_type_id) {
           case event_types.Peruskorjaus:
             {
-              console.log('Adding restoration data..', eventPayload.insulation);
               await this.createRestorationWorkData(event_id, eventPayload, trx);
             }
             break;

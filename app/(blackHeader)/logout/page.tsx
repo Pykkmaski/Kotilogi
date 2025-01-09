@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default async function LogoutPage() {
+export default function LogoutPage() {
   const router = useRouter();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default async function LogoutPage() {
   }, []);
 
   return (
-    <MainAllCentered id='logout-page'>
+    <MainAllCentered id='logout-page text-black'>
       <TitleWithParagraphLayout>
         <>Kirjaudutaan Ulos...</>
         <>Ole hyvä ja odota.</>
