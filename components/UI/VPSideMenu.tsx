@@ -9,10 +9,10 @@ import { useVisibilityProviderContext } from '../Util/VisibilityProvider';
 type SideMenuProps = React.PropsWithChildren & {
   title: string;
   isToggled?: boolean;
-  onClose?: () => void;
+  onToggle?: (state: boolean) => void;
 };
 /**A side-menu to be used as a VisibilityProvider target, that slides in from the right, when triggered. */
-export function VPSideMenu({ children, title, isToggled, onClose }: SideMenuProps) {
+export function VPSideMenu({ children, title, isToggled, onToggle }: SideMenuProps) {
   const menuClasses = [
     'xs:flex flex-col gap-2 md:hidden fixed top-0 right-0 w-[80%] shadow-lg bg-white border-l border-l-slate-200 h-full z-40 transition-transform',
     isToggled ? 'translate-x-0' : 'translate-x-[100%]',
@@ -28,7 +28,7 @@ export function VPSideMenu({ children, title, isToggled, onClose }: SideMenuProp
           className='flex items-center border-b border-slate-200 mb-2'>
           <IconButton
             id='utility-menu-close-btn'
-            onClick={onClose}>
+            onClick={() => onToggle(false)}>
             <Clear sx={{ color: 'black' }} />
           </IconButton>
 

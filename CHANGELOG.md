@@ -1,3 +1,17 @@
+## [1.5.0] - 10-01-2025
+
+### Added
+
+- The contact-link as part of the VPMobileMenu.
+
+### Fixed
+
+- ToggleProvider.Trigger not registering the onClick-event of its child.
+
+### Changed
+
+- Altered the VPMobileMenu to work within the IndexPageContext, and replaced the index header mobile menu button with it.
+
 ## [1.4.0] - 09-01-2025
 
 ### Fixed

@@ -13,6 +13,7 @@ import { TabButton } from '@/components/UI/TabButton';
 import { useSession } from 'next-auth/react';
 import { options } from 'kotilogi-app/app/api/auth/[...nextauth]/options';
 import Spinner from '@/components/UI/Spinner';
+import { VPSideMenu } from '@/components/UI/VPSideMenu';
 
 function MenuButton({ children, ...props }: React.ComponentProps<'button'>) {
   const Line = () => <div className='w-full h-[2px] bg-white' />;
@@ -93,27 +94,7 @@ export function IndexHeader() {
       <div className='xs:block lg:hidden'>
         <MenuPrefab
           trigger={<MenuButton />}
-          target={
-            <VPMenu>
-              {status == 'loading' ? (
-                <Spinner />
-              ) : session ? (
-                <>
-                  <Link href='/dashboard'>Hallintapaneeli</Link>
-                  <Link href='/logout'>Kirjaudu ulos</Link>
-                  {contactLink}
-                </>
-              ) : (
-                <>
-                  <Link href='/business'>Yrityksille</Link>
-                  <Link href='/blog'>Jutut</Link>
-                  <Link href='/login'>Kirjaudu Sisään</Link>
-                  <Link href='/register'>Rekisteröidy</Link>
-                  {contactLink}
-                </>
-              )}
-            </VPMenu>
-          }
+          target={<VPMobileMenu session={session} />}
         />
       </div>
     </Header>

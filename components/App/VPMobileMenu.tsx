@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ToggleProvider } from '../Util/ToggleProvider';
 import React, { useMemo } from 'react';
 import { VPMenu } from '../UI/VPMenu';
+import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
+import { usePathname } from 'next/navigation';
 
 type MobileMenuProps = {
   session?: TODO;
@@ -11,6 +13,7 @@ type MobileMenuProps = {
 };
 
 export function VPMobileMenu({ session, ...props }: MobileMenuProps) {
+  const pathname = usePathname();
   const content = useMemo(() => {
     const loggedInLinks = [
       {
@@ -29,8 +32,12 @@ export function VPMobileMenu({ session, ...props }: MobileMenuProps) {
         content: 'Etusivulle',
       },
       {
-        href: '/about',
-        content: 'Tietoja Meistä',
+        href: '/business',
+        content: 'Yrityksille',
+      },
+      {
+        href: '/blog',
+        content: 'Jutut',
       },
       {
         href: '/register',
@@ -65,5 +72,28 @@ export function VPMobileMenu({ session, ...props }: MobileMenuProps) {
     }
   }, [session]);
 
-  return <VPMenu {...props}>{content}</VPMenu>;
+  const ContactLink = () => {
+    const { contactRef } = useIndexPageContext();
+
+    return pathname == '/' ? (
+      <button
+        onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
+        className='hover:underline'>
+        Ota Yhteyttä
+      </button>
+    ) : (
+      <Link href='/#contact-section'>Ota Yhteyttä</Link>
+    );
+  };
+
+  return (
+    <VPMenu {...props}>
+      {content}
+      {!pathname.includes('/dashboard') && (
+        <ToggleProvider.Trigger>
+          <ContactLink />
+        </ToggleProvider.Trigger>
+      )}
+    </VPMenu>
+  );
 }
