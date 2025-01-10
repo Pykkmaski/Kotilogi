@@ -7,6 +7,7 @@ import { Check, Cookie } from '@mui/icons-material';
 import { acceptCookiesAction } from './acceptCookiesAction';
 import { RenderOnCondition } from '../../Util/RenderOnCondition';
 import { ToggleProvider } from '../../Util/ToggleProvider';
+import colors from 'kotilogi-app/colors';
 
 const showCookieNoticeKey = 'kotidok-show-cookie-notice';
 
@@ -21,7 +22,7 @@ function CookieNoticeTrigger({ onClick = null }) {
       onClick={onClick}>
       <span className='uppercase text-secondary text-sm xs:hidden lg:block'>Evästeasetukset</span>
       <button className='sm:p-2 xs:p-1 rounded-full border-secondary border'>
-        <Cookie color='secondary' />
+        <Cookie sx={{ color: colors['wf-primary'] }} />
       </button>
     </div>
   );
@@ -73,7 +74,7 @@ function CookieNoticeTarget({ isToggled: isVisible = null, onClose = null }) {
             <div className='flex gap-4 justify-end mt-4 border-t border-slate-200 pt-4 w-full'>
               <Button
                 variant='text'
-                color='secondary'
+                sx={{ color: colors['wf-primary'] }}
                 onClick={async e => {
                   setCookie('cookiesAccepted', 'only-necessary');
                   await acceptCookies();
@@ -83,7 +84,7 @@ function CookieNoticeTarget({ isToggled: isVisible = null, onClose = null }) {
 
               <Button
                 variant='contained'
-                color='secondary'
+                sx={{ backgroundColor: colors['wf-primary'], color: 'black' }}
                 startIcon={<Check />}
                 onClick={async e => {
                   setCookie('cookiesAccepted', 'all');

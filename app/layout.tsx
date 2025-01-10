@@ -68,7 +68,7 @@ gtag('config', 'G-YQC6Y54WHT');
                 <AppProvider>{children}</AppProvider>
                 {/*<VPCookieNotice />*/}
               </ThemeProvider>
-
+              <VPCookieNotice />
               <Toaster
                 position='bottom-right'
                 toastOptions={{

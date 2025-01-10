@@ -1,3 +1,13 @@
+## [1.5.1] - 10-01-2025
+
+### Changed
+
+- The cookie notice button colors to the primary color.
+
+### Added
+
+- Missing cookie settings-button.
+
 ## [1.5.0] - 10-01-2025
 
 ### Added
