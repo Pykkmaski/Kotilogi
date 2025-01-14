@@ -94,10 +94,17 @@ module.exports = {
           },
         },
 
-        [`@media (min-width: ${theme('screens.lg')}) and (max-width: ${theme('screens.2xl')})`]: {
+        [`@media (min-width: ${theme('screens.lg')}) and (max-width: ${theme('screens.xl')})`]: {
           '.px-wf-index': {
             paddingRight: '4rem',
             paddingLeft: '4rem',
+          },
+        },
+
+        [`@media (min-width: ${theme('screens.xl')}) and (max-width: ${theme('screens.2xl')})`]: {
+          '.px-wf-index': {
+            paddingRight: '8rem',
+            paddingLeft: '8rem',
           },
         },
       });

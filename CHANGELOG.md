@@ -1,3 +1,9 @@
+## [1.5.2] - 14-01-2025
+
+### Changed
+
+- The padding for screen sizes on the index page.
+
 ## [1.5.1] - 10-01-2025
 
 ### Changed
