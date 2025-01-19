@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
       })
       .returning('email');
 
-    const url = `${process.env.SERVICE_DOMAIN}/activated?action=user_activated?email=${email}`;
+    const url = `${process.env.SERVICE_DOMAIN}/activated?action=user_activated&email=${email}`;
     return NextResponse.redirect(url);
   } catch (err) {
     return handleServerError(req, err);

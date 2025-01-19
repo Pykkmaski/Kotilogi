@@ -14,11 +14,9 @@ import toast from 'react-hot-toast';
  */
 export default function ActivatedPage({ searchParams }) {
   const router = useRouter();
-  const { action } = React.use(searchParams) as {
-    action: 'user_activated' | 'email_updated' | 'property_transfer';
-  };
+  const { action, ...params } = React.use(searchParams) as TODO;
   const { update: updateSession, status } = useSession();
-
+  console.log(action);
   const titleContent = useMemo(() => {
     if (action === 'user_activated') {
       return <>Tilin aktivointi onnistui!</>;
@@ -31,16 +29,16 @@ export default function ActivatedPage({ searchParams }) {
 
   const paragraphContent = useMemo(() => {
     if (action === 'user_activated') {
-      return <>Käyttäjätilisi {searchParams.email} on nyt käytössä.</>;
+      return <>Käyttäjätilisi {params.email} on nyt käytössä.</>;
     } else if (action === 'email_updated') {
       return <>Sähköpostiosoitteesi on nyt vaihdettu!</>;
     } else if (action === 'property_transfer') {
-      const streetAddress = searchParams.streetAddress;
-      return <>Talon {streetAddress} omistajuus siirrety onnistuneesti!</>;
+      return <>Talon {params.streetAddress} omistajuus siirrety onnistuneesti!</>;
     }
   }, [action]);
 
   const redirect = useCallback(() => {
+    console.log('Calling redirect...');
     if (status === 'authenticated') {
       router.push('/dashboard');
     } else {
@@ -49,33 +47,37 @@ export default function ActivatedPage({ searchParams }) {
   }, [status, router]);
 
   useEffect(() => {
-    if (status === 'loading' || status === 'unauthenticated') {
+    if (status === 'loading') {
       return;
     }
 
     const t = setTimeout(() => {
       if (action === 'user_activated') {
-        updateSession({
-          status: 1,
-        })
-          .then(() => {
-            redirect();
-          })
-          .catch(err => toast.error(err.message));
+        if (status === 'authenticated') {
+          updateSession({ status: 1 })
+            .then(() => redirect())
+            .catch(err => toast.error(err.message));
+        } else {
+          redirect();
+        }
       } else if (action === 'email_updated') {
         const { new_email: newEmail } = searchParams;
         if (!newEmail) {
           throw new Error('Pyynnöstä puuttuu käyttäjän uusi sähköpostiosoite!');
         }
-        updateSession({ email: searchParams.new_email }).then(() => {
+        if (status === 'authenticated') {
+          updateSession({ email: searchParams.new_email }).then(() => {
+            redirect();
+          });
+        } else {
           redirect();
-        });
+        }
       } else {
         redirect();
       }
     }, 3000);
     return () => clearTimeout(t);
-  }, [status]);
+  }, [status, action]);
 
   return (
     <MainAllCentered>
@@ -84,7 +86,7 @@ export default function ActivatedPage({ searchParams }) {
           {titleContent}
           {paragraphContent}
         </TitleWithParagraphLayout>
-        <p>Sinut uudelleenohjataan pian...</p>
+        <p className='flex flex-col'>Sinut uudelleenohjataan pian...</p>
       </div>
     </MainAllCentered>
   );

@@ -1,3 +1,13 @@
+## [1.6.2] - 19.01.2025
+
+### Fixed
+
+- The redirection on the activated page not working, if not logged in.
+
+### Added
+
+- The action-variable as a dependency to the useEffect on the activated-page.
+
 ## [1.6.1] - 19.01.2025
 
 ### Fixed
