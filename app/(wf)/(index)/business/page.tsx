@@ -52,12 +52,9 @@ export default async function BusinessPage() {
       <HeroSection />
       <BaseCTASection>
         <CTAHeading>
-          Yrityspuoli on vielä <br /> työn alla
+          Ole meihin yhteydessä mikäli olet kiinostunut yritystilin luomisesta.
         </CTAHeading>
-        <CTAParagraph>
-          Ole meihin yhteydessä mikäli haluat tiedon kun yritystilin
-          <br /> voi luoda.
-        </CTAParagraph>
+
         <Link href='/#contact-section'>
           <button className='bg-wf-primary rounded-md px-4 py-5 font-semibold'>Ota yhteyttä</button>
         </Link>

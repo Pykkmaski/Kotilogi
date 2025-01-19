@@ -1,3 +1,10 @@
+## [1.6.0] - 19-01-2025
+
+### Changed
+
+- Added contact link to the business-page.
+- Added the front page story as a story in the blog page.
+
 ## [1.5.2] - 14-01-2025
 
 ### Changed

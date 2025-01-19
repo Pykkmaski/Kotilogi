@@ -17,9 +17,30 @@ export default async function BlogPage() {
               artikkelit
             </div>
           </h1>
-          <p className='text-xl opacity-75 text-white'>
-            Sivusto on vielä työn alla. Tulemme tulevaisuudessa julkaisemaan tälle
-            <br /> sivulle aiheeseen liittyviä uutisia sekä artikkeleita.
+        </div>
+      </section>
+
+      <section
+        id='blog-entries-section'
+        className='flex flex-col gap-8 px-wf-index py-wf-index'>
+        <div className='flex flex-col gap-8'>
+          <div className='flex flex-col'>
+            <h1 className='text-white text-5xl font-semibold'>Idea omasta tarpeesta</h1>
+            <span className='text-wf-primary'>19.01.2025</span>
+          </div>
+
+          <p className='text-white opacity-75'>
+            Omaa kotia etsiessä kiinnittyi huomio siihen kuinka monissa varteen otettavissa
+            vaihtoehdoissa oli historia vähän hämärän peitossa. Tehtyjä korjauksia oli selkeästi
+            tehty mutta tositteita ei ollut enää tallella. Lopulta ostetussa kohteessa oli se hyvä
+            puoli että suurin osa tositteista löytyi isossa mapissa säilytettynä. Taloa tuli
+            remontoitua heti oston jälkeen nopeasti oman maun mukaisesti. Myös suurempia
+            peruskorjauksia tuli tehtyä, salaojat ja lämmitysmuodon vaihdos öljystä kaukolämpöön.
+            Laskut tuli pyydettyä aina sähköpostilla että ne sai säilytettyä tietokoneelle.
+            Tositteille oli käyttöä kotitalousvähennystä hakiessa sekä ely-keskukselta haettavaan
+            tukeen lämmitysmuodon vaihdosta varten. Syntyi idea että kyllä taloillakin täytyisi olla
+            sähköinen huoltokirja missä nämä tositteet säilyisi varmasti myös seuraavalle
+            omistajalle vuosien päästä.
           </p>
         </div>
       </section>
