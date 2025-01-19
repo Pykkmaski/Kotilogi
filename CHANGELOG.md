@@ -1,3 +1,9 @@
+## [1.6.1] - 19.01.2025
+
+### Fixed
+
+- Typo on the business page (The word kiinnostunut was missing an n).
+
 ## [1.6.0] - 19-01-2025
 
 ### Changed

@@ -52,7 +52,7 @@ export default async function BusinessPage() {
       <HeroSection />
       <BaseCTASection>
         <CTAHeading>
-          Ole meihin yhteydessä mikäli olet kiinostunut yritystilin luomisesta.
+          Ole meihin yhteydessä mikäli olet kiinnostunut yritystilin luomisesta.
         </CTAHeading>
 
         <Link href='/#contact-section'>
