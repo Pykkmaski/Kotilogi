@@ -15,13 +15,14 @@ type SelectImageDialogProps = {
   [x: string]: any;
 };
 
+/**Renders a dialog displaying images, that when clicked, are chosen as the main image of a target (Property or event). */
 export function SelectImageDialog({ images, ...props }: SelectImageDialogProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'loading_images'>(
     'loading_images'
   );
 
   const router = useRouter();
-  console.log(images);
+
   return (
     <VPDialog {...props}>
       <DialogTitle>Valitse Pääkuva</DialogTitle>
@@ -29,10 +30,11 @@ export function SelectImageDialog({ images, ...props }: SelectImageDialogProps) 
         <RenderOnCondition
           condition={status !== 'loading'}
           fallback={<Spinner message='Ladataan kuvia...' />}>
-          <div className='flex gap-2 w-full'>
+          <div className='grid gap-2 lg:grid-cols-3 xs:grid-cols-2 w-full'>
             {images.length ? (
-              images.map(img => (
+              images.map((img, i) => (
                 <ImageSelector
+                  key={`image-selector-${i}`}
                   onClick={async () => {
                     if (status === 'loading' || status === 'done') return;
                     setStatus('loading');

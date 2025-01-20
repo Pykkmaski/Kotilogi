@@ -1,3 +1,20 @@
+## [1.8.0] - 20.01.2025
+
+### Removed
+
+- The unused DashboardProvider-component.
+
+### Added
+
+- Pagination to the events page.
+- A key to each ImageSelector of the SelectImageDialog.
+- A key to each element in the utility type selector.
+
+### Changed
+
+- The way events.get retrieves events. The events displayed on the page are now either 10, or whatever is left to display on the last page.
+- Downgraded ag-grid to make it work again.
+
 ## [1.7.0] - 20-01-2025
 
 ### Fixed

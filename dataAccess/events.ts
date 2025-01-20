@@ -468,6 +468,16 @@ class Events {
 
     delete newQuery.id;
 
+    let totalEvents, eventsOnCurrentPage;
+    if (query.parentId) {
+      [{ result: totalEvents }] = (await db('event')
+        .join(db.raw('object on object.id = event.id'))
+        .where({ 'object.parentId': query.parentId })
+        .count('* as result')) as [{ result: number }];
+
+      eventsOnCurrentPage = page * limit <= totalEvents ? limit : totalEvents % limit;
+    }
+
     const events = await db('object')
       .join('event', { 'event.id': 'object.id' })
       .leftJoin('types.event_target_type', { 'event.target_id': 'types.event_target_type.id' })
@@ -492,7 +502,7 @@ class Events {
           .orWhereILike('types.event_target_type.label', q);
       })
       .andWhere(newQuery)
-      .limit(limit)
+      .limit(eventsOnCurrentPage)
       .offset(page * limit)
       .orderBy('event.date', 'desc');
 

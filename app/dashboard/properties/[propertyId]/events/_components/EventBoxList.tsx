@@ -2,11 +2,15 @@ import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
 import { EventOverview } from './EventOverview';
 
-export function EventBoxList({ events, propertyId, search }) {
+export function EventBoxList({ events, propertyId, search, currentPage, maxPages }) {
   return (
     <OverviewBoxList
       searchBar
-      listTitle='Tapahtumat'
+      listTitle={
+        <>
+          Tapahtumat ({currentPage + 1}/{maxPages})
+        </>
+      }
       onEmptyElement={
         search ? (
           <GalleryError

@@ -3,7 +3,7 @@ import { SecondaryHeading } from '../Typography/Headings';
 import Link from 'next/link';
 import { IconButton } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { SearchBar } from '@/components/Feature/SearchBar';
 import colors from 'kotilogi-app/colors';
 import { Button } from '../Button';
@@ -11,7 +11,7 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
 type ListHeaderProps = {
   searchBar?: boolean;
-  title: string;
+  title: ReactNode;
   addButtonUrl: string;
 };
 
@@ -52,7 +52,7 @@ export function ListHeader({ searchBar, title, addButtonUrl }: ListHeaderProps) 
 
 type OverviewBoxListProps<T extends ObjectDataType> = {
   items: T[];
-  listTitle: string;
+  listTitle: ReactNode;
   itemsSelectable?: boolean;
   searchBar?: boolean;
   addButtonUrl?: string;

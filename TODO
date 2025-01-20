@@ -1,2 +1,3 @@
 -- 1.7.1
 - Fix the surfaces-table not cascading when deleting an event it reffers to.
+- Add pagination to the event browser.

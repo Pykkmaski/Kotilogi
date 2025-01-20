@@ -88,8 +88,13 @@ export const EventTypeSelector = ({
       onClick={onClick}
       className='flex w-full justify-center'>
       <div className='lg:grid lg:grid-cols-2 xs:flex xs:flex-col w-full gap-4'>
-        {refs.eventTypes.map(t => {
-          return <EventTypeButton eventType={t} />;
+        {refs.eventTypes.map((t, i) => {
+          return (
+            <EventTypeButton
+              eventType={t}
+              key={`event-type-btn-${i}`}
+            />
+          );
         })}
       </div>
     </div>

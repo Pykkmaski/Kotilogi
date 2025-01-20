@@ -13,8 +13,10 @@ export function TypeSelector({ types = [], initialQuery }: TypeSelectorProps) {
 
   return (
     <div className='md:ml-8 xs:ml-0 flex flex-row gap-4 items-center'>
-      {types.map(type => (
-        <div className='flex flex-row items-center gap-1'>
+      {types.map((type, i) => (
+        <div
+          className='flex flex-row items-center gap-1'
+          key={`utility-type-selector-${i}`}>
           <label
             className={
               type == 'Lämmitys'

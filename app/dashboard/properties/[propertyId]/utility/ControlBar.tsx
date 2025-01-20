@@ -24,8 +24,12 @@ export function ControlBar() {
   const getTimeframeSelector = () => (
     <TimeframeSelector>
       <option value='null'>Kaikki</option>
-      {years.map(year => (
-        <option value={year}>{year}</option>
+      {years.map((year, i) => (
+        <option
+          key={`timeframe-selector-option-${i}`}
+          value={year}>
+          {year}
+        </option>
       ))}
     </TimeframeSelector>
   );
