@@ -16,7 +16,7 @@ export default function ActivatedPage({ searchParams }) {
   const router = useRouter();
   const { action, ...params } = React.use(searchParams) as TODO;
   const { update: updateSession, status } = useSession();
-  console.log(action);
+
   const titleContent = useMemo(() => {
     if (action === 'user_activated') {
       return <>Tilin aktivointi onnistui!</>;
@@ -38,7 +38,6 @@ export default function ActivatedPage({ searchParams }) {
   }, [action]);
 
   const redirect = useCallback(() => {
-    console.log('Calling redirect...');
     if (status === 'authenticated') {
       router.push('/dashboard');
     } else {

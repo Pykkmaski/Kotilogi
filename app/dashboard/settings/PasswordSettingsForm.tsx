@@ -6,7 +6,7 @@ import { ErrorText, SuccessText } from '@/components/UI/Text';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { Check } from '@mui/icons-material';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { updatePasswordAction } from './actions';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 
@@ -14,18 +14,23 @@ export function PasswordSettingsForm() {
   const { data, updateData } = useFormOnChangeObject(
     {} as { password1: string; password2: string }
   );
+  const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'loading'>('idle');
 
   const passwordsMatch = useMemo(() => {
     return data.password1 === data.password2;
   }, [data.password1, data.password2]);
 
   const submitDisabled = useMemo(() => {
-    return !data.password1 || !data.password2 || !passwordsMatch;
-  }, [data.password1, data.password2, passwordsMatch]);
+    return !data.password1 || !data.password2 || !passwordsMatch || status === 'success';
+  }, [data.password1, data.password2, passwordsMatch, status]);
 
-  const { method, status } = useStatusWithAsyncMethod(
-    async () => await updatePasswordAction({ password: data.password1 })
-  );
+  const { method } = useStatusWithAsyncMethod(async () => {
+    setStatus('loading');
+    await updatePasswordAction({ password: data.password1 })
+      .then(() => setStatus('success'))
+      .catch(err => setStatus('error'))
+      .finally(() => setStatus(prev => (prev === 'loading' ? 'idle' : prev)));
+  });
   const onSubmit = usePreventDefault(method);
 
   return (
@@ -41,7 +46,7 @@ export function PasswordSettingsForm() {
             name='password1'
             type='password'
             minLength={8}
-            autoComplete='off'
+            autoComplete='new-password'
             placeholder='Kirjoita uusi salasana....'
             value={data.password1}
           />
@@ -55,13 +60,21 @@ export function PasswordSettingsForm() {
           <Input
             name='password2'
             type='password'
-            autoComplete='none'
+            autoComplete='off'
             minLength={8}
             placeholder='Kirjoita salasana uudelleen....'
             value={data.password2}
           />
         }
-        helper={!passwordsMatch && <ErrorText>Salasanat eivät täsmää!</ErrorText>}
+        helper={
+          !passwordsMatch ? (
+            <ErrorText>Salasanat eivät täsmää!</ErrorText>
+          ) : status === 'error' ? (
+            <ErrorText>Tapahtui odottamaton virhe!</ErrorText>
+          ) : status === 'success' ? (
+            <SuccessText>Salasanan vaihto onnistui!</SuccessText>
+          ) : null
+        }
       />
 
       <div className='flex justify-start w-full'>

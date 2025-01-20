@@ -14,7 +14,11 @@ export function DeleteUserForm() {
   const { data, updateData } = useFormOnChangeObject({} as { password: string });
   const { method, status } = useStatusWithAsyncMethod(
     async () => await deleteUserAction(data.password),
-    err => toast.error(err.message)
+    err => {
+      if (!err.message.includes('NEXT_REDIRECT')) {
+        toast.error(err.message);
+      }
+    }
   );
   const onSubmit = usePreventDefault(method);
 

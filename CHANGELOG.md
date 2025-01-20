@@ -1,3 +1,25 @@
+## [1.7.0] - 20-01-2025
+
+### Fixed
+
+- New passwords in the PasswordSettingsForm being auto-filled, when they should not be.
+
+### Removed
+
+- Console log statements on the activated-page.
+- Error toast on the DeleteUserForm, if it contains the string "NEXT_REDIRECT".
+
+### Changed
+
+- Moved the status-variable into its separate state in the PasswordSettingsForm.
+- Disabled the submit the PasswordSettingsForm when the password has been successfully changed.
+
+### Added
+
+- The statuses "success" and "error" on the PasswordSettingsForm.
+- Feedback that the password change succeeded on the PasswordSettingsForm.
+- Feedback for unexpected errors on the PasswordSettingsForm.
+
 ## [1.6.2] - 19.01.2025
 
 ### Fixed

@@ -30,7 +30,7 @@ class Properties {
       .where({ 'object.parentId': propertyId })
       .count('* as numEvents');
 
-    if ((numEvents as TODO) >= 100) {
+    if ((numEvents as TODO) >= 75) {
       throw new Error('Et voi lisätä talolle enempää tapahtumia!');
     }
   }
