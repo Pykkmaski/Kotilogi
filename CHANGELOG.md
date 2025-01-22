@@ -1,19 +1,33 @@
+## [2.0.1] - 22.01.2025
+
+### Added
+
+- A short description of the web-service in the readme.
+
+### Changed
+
+- Heading levels of the 2.0.0 update in this changelog.
+
+### Removed
+
+- The next.js-related stuff from the readme.
+
 ## [2.0.0] - 22.01.2025
 
-## Added
+### Added
 
 - Display of restoration- or service-data when viewing an event.
 - The classes Insulation, Locks, Electricity, Heating, SewerPipes and WaterPipes.
 - Methods to get the service-data for service events.
 - Ability to open and close a BoxFieldset if the closeable-prop is set.
 
-## Changed
+### Changed
 
 - Moved methods fetching restoration- and service-data under their own classes.
 - events.get now includes the data associated with each event.
 - Moved BoxFieldset into its own file.
 
-## Removed
+### Removed
 
 - Unused (transparentHeader)-folder.
 - Unused EventCardGrid-component.
