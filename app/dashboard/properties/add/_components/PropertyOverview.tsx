@@ -1,6 +1,6 @@
 'use client';
 
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { usePropertyFormContext } from './PropertyFormContext';
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { Check, Clear } from '@mui/icons-material';

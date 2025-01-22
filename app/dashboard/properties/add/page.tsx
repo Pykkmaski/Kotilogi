@@ -3,7 +3,7 @@ import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getPropertyRefs } from '../actions';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 
 export default async function AddPropertyPage() {
   const session = await verifySession();

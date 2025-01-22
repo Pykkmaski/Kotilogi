@@ -1,6 +1,5 @@
 'use client';
 
-import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';

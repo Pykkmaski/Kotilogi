@@ -1,4 +1,4 @@
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { useEventFormContext } from './EventFormContext';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { Notification } from '@/components/UI/Notification';

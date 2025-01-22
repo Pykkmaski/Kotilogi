@@ -10,24 +10,6 @@ class Roofs {
   }
 
   async get(property_id: string, ctx: Knex | Knex.Transaction) {
-    /**'roofTypeId',
-        'roofMaterialId',
-        'raystasTyyppiId',
-        'colorId',
-        'kaltevuus',
-        'neliometrit',
-        'otsalautaTyyppiId',
-        'aluskateTyyppiId',
-        'harjatuuletusAluskatteella',
-        'suojakasiteltyPuutavara',
-        'piipunpellitys',
-        'lapetikas',
-        'lumieste',
-        'kattosilta',
-        'turvatikas',
-        'kourut',
-        'syoksysarja' */
-
     return ctx('roof')
       .where({ property_id })
       .select(
@@ -64,6 +46,15 @@ class Roofs {
       .update({
         ...filterValidColumns(payload, await getTableColumns('roof', trx)),
       });
+  }
+
+  /**Returns the data associated with roof service events. */
+  async getServiceData(eventId: string) {
+    const [data] = await db('service_events.roof_service_event as ese')
+      .join(db.raw('service_events.roof_service_type as est on est.id = ese.service_work_type_id'))
+      .where({ 'ese.event_id': eventId })
+      .select('est.label as service_work_type_label');
+    return data;
   }
 }
 

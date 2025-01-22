@@ -1,8 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
 import { EditorContainer } from './EditorContainer';
-import { CheckboxSelector, OptionSelector } from './OptionSelector';
-import { useQuery } from '@tanstack/react-query/build/legacy';
-import { getElectricityJobTargets } from 'kotilogi-app/app/dashboard/properties/[propertyId]/events/add/_components/FormContent/actions';
+import { CheckboxSelector } from './OptionSelector';
 
 type ElectricalEditorProps = {
   selectedTargets: number[];

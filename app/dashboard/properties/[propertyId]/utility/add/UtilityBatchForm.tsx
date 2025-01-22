@@ -30,7 +30,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { List } from '@/components/New/List';
 import { useBatchForm } from '@/hooks/useBatchForm';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 
 const UtilityBatchFormContext = createContext<{
   utilityTypes: { id: number; name: string }[];

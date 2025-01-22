@@ -3,7 +3,7 @@ import { EmailSettingsForm } from './EmailSettingsForm';
 import { PasswordSettingsForm } from './PasswordSettingsForm';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { DeleteUserForm } from './DeleteUserForm';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 
 export default async function SettingsPage() {
   return (

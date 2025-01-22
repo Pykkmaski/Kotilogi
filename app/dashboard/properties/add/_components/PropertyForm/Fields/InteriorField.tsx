@@ -1,4 +1,4 @@
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { Input, FormControl } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 

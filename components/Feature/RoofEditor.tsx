@@ -3,7 +3,6 @@ import { RadioSelector } from './OptionSelector';
 import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { ColorSelector } from './BuildingEditor';
-import { useEffect } from 'react';
 import { EditorContainer } from './EditorContainer';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {

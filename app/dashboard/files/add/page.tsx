@@ -1,6 +1,5 @@
 import { FileUploadForm } from '@/components/New/FileUploadFom/FileUploadForm';
-import { Main } from '@/components/New/Main';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import React from 'react';
 
 export default async function AddFilesPage({ searchParams }) {

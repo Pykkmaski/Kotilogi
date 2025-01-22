@@ -7,7 +7,7 @@ import { UtilityProvider } from './utility/UtilityContext';
 import { properties } from 'kotilogi-app/dataAccess/properties';
 import { utilities } from 'kotilogi-app/dataAccess/utilities';
 import { files } from 'kotilogi-app/dataAccess/files';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { IconButton } from '@mui/material';
 import Link from 'next/link';
 import { events } from 'kotilogi-app/dataAccess/events';

@@ -3,26 +3,13 @@
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { EventFormProvider } from './EventFormContext';
 import { useEventForm } from './hooks/useEventForm';
-import { MainDataForm } from './Forms/MainDataForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Button } from '@mui/material';
 import { EventTypeSelector } from './Selectors/EventTypeSelector';
-import { BoxFieldset } from '@/components/UI/Fieldset';
-import { Notification } from '@/components/UI/Notification';
-import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 
-import { Check } from '@mui/icons-material';
-import { RestorationWorkContent } from './RestorationWorkContent';
-import { ServiceWorkContent } from './ServiceWorkContent';
-import { getServiceWorkTypes } from './actions';
-import { useQuery } from '@tanstack/react-query/build/legacy';
-import Spinner from '@/components/UI/Spinner';
-import { OtherWorkContent } from './OtherWorkContent';
-import { SurfaceWorkContent } from './SurfaceWorkContent';
 import { FieldsetContainer } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm';
 import { EventDataContent } from './EventDataContent';
 import { FormNav } from './FormNav';

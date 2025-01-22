@@ -1,6 +1,6 @@
 import { useToggle } from '@/hooks/useToggle';
 import { createUseContextHook } from '@/utils/createUseContextHook';
-import { createContext, ReactElement } from 'react';
+import { createContext, ReactElement, useEffect } from 'react';
 import { PassProps } from './PassProps';
 import { useChildCount } from '@/hooks/useChildCount';
 import { useFirstChild } from '@/hooks/useFirstChild';
@@ -12,12 +12,23 @@ const ToggleProviderContext = createContext<{
 
 type ToggleProviderProps = React.PropsWithChildren & {
   initialState?: boolean | (() => boolean);
+  state?: boolean;
+  onChange?: (currentState: boolean) => void;
 };
 
-export function ToggleProvider({ children, initialState = false }: ToggleProviderProps) {
+export function ToggleProvider({
+  children,
+  initialState = false,
+  state,
+  onChange,
+}: ToggleProviderProps) {
   const { state: isToggled, toggleState } = useToggle(
-    typeof initialState === 'boolean' ? initialState : initialState()
+    initialState ? (typeof initialState === 'boolean' ? initialState : initialState()) : state
   );
+
+  useEffect(() => {
+    onChange && onChange(isToggled);
+  }, [isToggled]);
 
   return (
     <ToggleProviderContext.Provider value={{ isToggled, toggleState }}>

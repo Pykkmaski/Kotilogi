@@ -33,7 +33,7 @@ import Spinner from '@/components/UI/Spinner';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
 import { RoofField } from './PropertyForm/Fields/RoofField';
 import { RoofEditor } from '@/components/Feature/RoofEditor';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { BuildingEditor } from '@/components/Feature/BuildingEditor';
 
 function GotoDraft({ updateSlot }) {

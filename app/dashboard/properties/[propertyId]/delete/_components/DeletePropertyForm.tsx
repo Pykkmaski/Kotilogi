@@ -5,7 +5,7 @@ import { MainHeading } from '@/components/New/Typography/Headings';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 import { deletePropertyAction } from './actions';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 
 type DeletePropertyFormProps = {
   property: HousePayloadType | AppartmentPayloadType;

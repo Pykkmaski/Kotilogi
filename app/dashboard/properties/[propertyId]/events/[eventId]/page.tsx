@@ -1,6 +1,6 @@
 import { Main } from '@/components/New/Main';
 import { FileCard } from '@/components/New/FileCard';
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import IconButton from '@mui/material/IconButton';
 import Link from 'next/link';
 import { Add, Visibility } from '@mui/icons-material';
@@ -10,18 +10,35 @@ import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/Select
 import { DialogPrefab } from '@/components/UI/VPDialog';
 import db from 'kotilogi-app/dbconfig';
 
+const DataPointGrid = ({ children }) => (
+  <div className='w-full grid lg:grid-cols-2 xs:grid-cols-1 gap-4'>{children}</div>
+);
+const DataPointContainer = ({ children, title }) => (
+  <div className='flex flex-col gap-2 w-full bg-gray-100 p-1'>
+    <h1 className='font-semibold mb-4'>{title}</h1>
+    {children}
+  </div>
+);
+
 export default async function EventPage({ params }) {
   const { eventId, propertyId } = await params;
-  const [event] = await events.get({
+  const [event] = (await events.get({
     id: eventId,
-  });
+  })) as [TODO];
 
   const files = await db('data_files')
     .join(db.raw('object on object.id = data_files.id'))
     .where({ 'object.parentId': eventId });
 
   const [mainImageId] = await db('data_mainImages').where({ objectId: eventId }).pluck('imageId');
+  const [{ result: eventTypes }] = (await db('types.event_type').select(
+    db.raw('json_object_agg(label, id) as result')
+  )) as TODO;
+  const [{ result: eventTargets }] = (await db('types.event_target_type').select(
+    db.raw('json_object_agg(label, id) as result')
+  )) as TODO;
 
+  console.log('locks: ', event.locks);
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>
@@ -30,13 +47,53 @@ export default async function EventPage({ params }) {
             <h1 className='md:text-xl xs:text-lg font-semibold'>{event.title || 'Ei Otsikkoa'}</h1>
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
             <h1 className='font-semibold text-slate-500'>Tiedot</h1>
+            {event.event_type_id == eventTypes['Peruskorjaus'] ? (
+              event.target_id == eventTargets['Lämmitysmuoto'] ? (
+                <>
+                  <DataDisplay
+                    title='Vanha järjestelmä'
+                    value={event.old_system_label}
+                  />
+
+                  <DataDisplay
+                    title='Uusi järjestelmä'
+                    value={event.new_system_label}
+                  />
+                </>
+              ) : event.target_id == eventTargets['Käyttövesiputket'] ? (
+                <DataDisplay
+                  title='Asennustapa'
+                  value={event.installation_method_label}
+                />
+              ) : event.target_id == eventTargets['Viemäriputket'] ? (
+                <DataDisplay
+                  title='Korjaustapa'
+                  value={event.restoration_method_label}
+                />
+              ) : event.target_id == eventTargets['Sähköt'] ? (
+                <DataDisplay
+                  title='Kohde'
+                  value={event.restoration_target_label}
+                />
+              ) : null
+            ) : event.event_type_id == eventTypes['Huoltotyö'] ? (
+              <DataDisplay
+                title='Tehty huoltotyö'
+                value={event.service_work_type_label}
+              />
+            ) : null}
             <DataDisplay
               title='Työkulut'
-              value={event.labour_expenses}
+              value={event.labour_expenses + '€'}
             />
             <DataDisplay
               title='Materiaalikulut'
-              value={event.material_expenses}
+              value={event.material_expenses + '€'}
+            />
+
+            <DataDisplay
+              title='Kulut yhteensä'
+              value={parseFloat(event.labour_expenses) + parseFloat(event.material_expenses) + '€'}
             />
 
             <DataDisplay
@@ -61,6 +118,91 @@ export default async function EventPage({ params }) {
           </div>
         </div>
       </BoxFieldset>
+
+      {event.event_type_id == eventTypes['Peruskorjaus'] &&
+      event.target_id == eventTargets['Ikkunat'] ? (
+        <BoxFieldset
+          legend='Asennetut ikkunat'
+          closeable>
+          <DataPointGrid>
+            {event.windows.map((w, i) => {
+              return (
+                <DataPointContainer
+                  key={`window-${i}`}
+                  title={<>Ikkuna {i + 1}</>}>
+                  <DataDisplay
+                    title='U-Arvo'
+                    value={w.u_value}
+                  />
+                  <DataDisplay
+                    title='Vähim. äänieristyskyky'
+                    value={w.min_db_rating}
+                  />
+                  <DataDisplay
+                    title='Vähim. äänieristyskyky'
+                    value={w.max_db_rating}
+                  />
+                  <DataDisplay
+                    title='Määrä'
+                    value={w.quantity}
+                  />
+                </DataPointContainer>
+              );
+            })}
+          </DataPointGrid>
+        </BoxFieldset>
+      ) : event.target_id == eventTargets['Lukitus'] ? (
+        <BoxFieldset
+          legend='Asennetut lukot'
+          closeable>
+          <DataPointGrid>
+            {event.locks.map((l, i) => {
+              return (
+                <DataPointContainer
+                  key={`lock-${i}`}
+                  title={<>Lukko {i + 1}</>}>
+                  <h1 className='font-semibold mb-4'></h1>
+                  <DataDisplay
+                    title='Lukon tyyppi'
+                    value={l.lock_type_label}
+                  />
+                  <DataDisplay
+                    title='Merkki'
+                    value={l.brand}
+                  />
+                  <DataDisplay
+                    title='Malli'
+                    value={l.model}
+                  />
+                </DataPointContainer>
+              );
+            })}
+          </DataPointGrid>
+        </BoxFieldset>
+      ) : event.target_id == eventTargets['Eristys'] ? (
+        <BoxFieldset
+          legend='Eristykset'
+          closeable>
+          <DataPointGrid>
+            {event.insulation.map((d, i) => {
+              return (
+                <DataPointContainer
+                  title={<>Eristys {i + 1}</>}
+                  key={`insulation-${i}`}>
+                  <DataDisplay
+                    title='Kohde'
+                    value={d.insulation_target_label}
+                  />
+                  <DataDisplay
+                    title='Materiaali'
+                    value={d.insulation_material_label}
+                  />
+                </DataPointContainer>
+              );
+            })}
+          </DataPointGrid>
+        </BoxFieldset>
+      ) : null}
 
       <BoxFieldset
         legend={

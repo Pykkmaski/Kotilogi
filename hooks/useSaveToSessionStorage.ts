@@ -1,4 +1,5 @@
-import { truncateSync } from 'fs';
+'use client';
+
 import { useEffect } from 'react';
 
 export function useSaveToSessionStorage<T>(

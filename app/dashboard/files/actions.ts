@@ -4,6 +4,7 @@ import { ServerActionResponse } from '@/actions/lib/ServerActionResponse';
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
 import { files } from 'kotilogi-app/dataAccess/files';
 
+/**Deletes a file. */
 export const deleteFileAction = async (fileId: string): Promise<ServerActionResponse> => {
   try {
     await files.del(fileId);
@@ -20,6 +21,7 @@ export const deleteFileAction = async (fileId: string): Promise<ServerActionResp
   }
 };
 
+/**Creates a new file. */
 export const createFileAction = async (fdata: FormData) => {
   try {
     const fd = fdata.get('file') as unknown as File;

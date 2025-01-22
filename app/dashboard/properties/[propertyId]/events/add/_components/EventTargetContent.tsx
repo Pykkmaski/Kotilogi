@@ -1,4 +1,4 @@
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { FieldsetContainer } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm';
 import { useEventFormContext } from './EventFormContext';
 import { Notification } from '@/components/UI/Notification';

@@ -4,7 +4,7 @@ import {
   PropertyPayloadType,
 } from 'kotilogi-app/dataAccess/types';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { createPropertyAction, updatePropertyAction } from './actions';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';

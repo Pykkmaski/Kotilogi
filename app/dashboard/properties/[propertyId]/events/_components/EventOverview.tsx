@@ -1,11 +1,8 @@
 import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
-import { LabelGrid } from '@/components/New/LabelGrid';
-import { Paragraph } from '@/components/New/Typography/Paragraph';
 import { Delete } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import {
-  Chip,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -16,7 +13,6 @@ import { Spacer } from '@/components/UI/Spacer';
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { DialogPrefab, VPDialog } from '@/components/UI/VPDialog';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
-import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import Link from 'next/link';
 import { EventDeleteButton } from './EventDeleteButton';
 import { EventDeleteCancelButton } from './EventDeleteCancelButton';
@@ -52,12 +48,14 @@ export async function EventOverview<T extends EventPayloadType>({ event }: Event
             }
           />
         ) : (
-          <OverviewImage
-            src={
-              (mainImageId && `/api/protected/files/${mainImageId}`) ||
-              '/img/Properties/default-bg.jpg'
-            }
-          />
+          <Link href={`/dashboard/properties/${event.parentId}/events/${event.id}`}>
+            <OverviewImage
+              src={
+                (mainImageId && `/api/protected/files/${mainImageId}`) ||
+                '/img/Properties/default-bg.jpg'
+              }
+            />
+          </Link>
         )}
 
         <div className='flex flex-col w-full gap-2'>

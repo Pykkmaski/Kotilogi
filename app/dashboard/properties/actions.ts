@@ -1,6 +1,7 @@
 import { getRefs } from 'kotilogi-app/dataAccess/ref';
 import db from 'kotilogi-app/dbconfig';
 
+/**Returns the various types, with their id and label, related to properties, like building, heating types, etc. */
 export const getPropertyRefs = async () => {
   const buildingTypes = await db('types.building_type');
   const buildingMaterials = await db('types.building_material_type');

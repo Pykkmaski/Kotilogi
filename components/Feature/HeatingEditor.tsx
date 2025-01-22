@@ -1,20 +1,18 @@
-import { BatchEntryType, useBatch } from '@/hooks/useBatch';
+import { BatchEntryType } from '@/hooks/useBatch';
 import { HeatingPayloadType } from 'kotilogi-app/dataAccess/types';
 import { useEffect, useMemo } from 'react';
 import { OptionSelector } from './OptionSelector';
 import { IconButton } from '@mui/material';
 import { Add, Clear } from '@mui/icons-material';
 import { Checkbox } from './RadioGroup/Checkbox';
-import { useQueries, useQuery } from '@tanstack/react-query/build/legacy';
+import { useQuery } from '@tanstack/react-query/build/legacy';
 import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
 import { Notification } from '../UI/Notification';
 import Spinner from '../UI/Spinner';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { FormControl, Input } from '../UI/FormUtils';
-import { BoxFieldset } from '../UI/Fieldset';
 import { useBatchForm } from '@/hooks/useBatchForm';
 import toast from 'react-hot-toast';
-import { ChipButton } from './RadioGroup/ChipButton';
 import { Button } from '../New/Button';
 
 export function HeatingTypeSelector({ name, ...props }: Kotidok.SelectorProps & { name: string }) {

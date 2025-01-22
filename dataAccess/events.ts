@@ -1,14 +1,25 @@
 import { Knex } from 'knex';
 import { objects } from './objects';
-import { EventPayloadType, HeatingMethodRestorationWorkType, HeatingPayloadType } from './types';
+import { EventPayloadType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
-import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import db from 'kotilogi-app/dbconfig';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { properties } from './properties';
 import { heating } from './heating';
 import { roofs } from './roofs';
+
+import { waterPipes } from './waterPipes';
+import { insulation } from './insulation';
+
+import { locks } from './locks';
+import { sewerPipes } from './sewerPipes';
+import { electricity } from './electricity';
+import { ventilation } from './ventilation';
+import { firealarms } from './firealarms';
+import { drainageDitches } from './drainageDitches';
+import { structures } from './structures';
+import { windows } from './windows';
 
 class Events {
   /**
@@ -23,6 +34,7 @@ class Events {
     const description = eventData.description || eventData.workTypeLabel;
 
     return {
+      ...eventData,
       id: eventData.id,
       parentId: eventData.parentId,
       title,
@@ -39,65 +51,7 @@ class Events {
     } as unknown as EventPayloadType;
   }
 
-  /**
-   *
-   * @param targetLabel
-   * @param payload
-   * @param ctx
-   * @deprecated Not in use.
-   * @returns
-   */
-  public async createGenesisEvent(
-    targetLabel: string,
-    payload: Partial<EventPayloadType> & Required<Pick<EventPayloadType, 'property_id'>>,
-
-    ctx: Knex.Transaction
-  ) {
-    let id: string;
-    await objects.create(
-      payload,
-      async (obj, trx) => {
-        [id] = await trx('event').insert(
-          db.raw(
-            `
-              (id, event_type_id, target_id, date) VALUES (
-                ?,
-                (SELECT id FROM types.event_type WHERE label = 'genesis' limit 1),
-                (SELECT id FROM types.event_type WHERE label = ? limit 1),
-                CURRENT_DATE
-              )
-            `,
-            [obj.id, targetLabel]
-          ),
-          'id'
-        );
-      },
-      ctx
-    );
-    return id;
-  }
-
-  /**@deprecated */
-  private async createHeatingRestorationWorkData(
-    event_id: string,
-    heatingPayload: HeatingMethodRestorationWorkType & HeatingPayloadType,
-    trx: Knex.Transaction
-  ) {
-    await trx('restoration_events.heating_restoration_event').insert({
-      event_id,
-      old_system_id: heatingPayload.old_system_id,
-      new_system_id: heatingPayload.new_system_id,
-    });
-
-    const [{ result: heatingTypes }] = (await trx('types.heating_type').select(
-      db.raw('json_object_agg(label, id) as result')
-    )) as TODO;
-
-    const { new_system_id } = heatingPayload;
-    await heating.update(heatingPayload.id, heatingPayload, trx);
-  }
-
-  /**Inserts data related to a restoration event. */
+  /**Inserts restoration event data, under the restoration_events-schema. */
   private async createRestorationWorkData(
     event_id: string,
     payload: EventPayloadType,
@@ -228,27 +182,15 @@ class Events {
 
       case event_targets.Lukitus:
         {
-          const { locks } = payload;
-          const promises = locks.map(async l => {
-            return trx('lock').insert({
-              ...filterValidColumns(l, await getTableColumns('lock', trx)),
-              event_id,
-            });
-          });
-          await Promise.all(promises);
+          const { locks: lockData } = payload;
+          await locks.create(event_id, lockData, trx);
         }
         break;
 
       case event_targets['Ikkunat']:
         {
-          const { windows } = payload;
-          const promises = windows.map(w =>
-            trx('window').insert({
-              ...w,
-              event_id,
-            })
-          );
-          await Promise.all(promises);
+          const { windows: windowData } = payload;
+          await windows.create(event_id, windowData, trx);
         }
         break;
 
@@ -417,7 +359,7 @@ class Events {
         )) as TODO;
         const event_type_id = parseInt(eventPayload.event_type_id as any);
 
-        //Create the additional data entries.
+        //Create the additional related data entries.
         switch (event_type_id) {
           case event_types.Peruskorjaus:
             {
@@ -490,7 +432,6 @@ class Events {
         'object.*',
         'event.*',
         'types.event_target_type.label as targetLabel',
-
         'types.event_type.label as mainTypeLabel'
       )
       .where(function () {
@@ -506,197 +447,146 @@ class Events {
       .offset(page * limit)
       .orderBy('event.date', 'desc');
 
-    return events
-      .filter(e => {
-        return (
-          e.workTypeLabel?.includes(search) ||
-          e.mainTypeLabel?.includes(search) ||
-          e.targetLabel?.includes(search) ||
-          true
-        );
-      })
-      .map(e => this.getDTO(e));
-  }
-
-  private async getRoofEvent(eventId: string) {
-    return await db('roof')
-      .join('types.roof_type', { 'types.roof_type.id': 'roof.roofTypeId' })
-      .join('types.roof_material_type', { 'types.roof_material_type.id': 'roof.roofMaterialId' })
-      .join('ref_mainColors', { 'ref_mainColors.id': 'roof.colorId' })
-      .join('types.roof_eaves_type', {
-        'types.roof_eaves_type.id': 'roof.raystasTyyppiId',
-      })
-      .join('types.roof_fascia_board_type', {
-        'types.roof_fascia_board_type.id': 'roof.otsalautaTyyppiId',
-      })
-      .join('types.roof_underlacing_type', {
-        'types.roof_underlacing_type.id': 'roof.aluskateTyyppiId',
-      })
-      .where({ 'roof.event_id': eventId })
-      .select(
-        'types.roof_material_type.name as materialLabel',
-        'types.roof_type.name as typeLabel',
-        'ref_mainColors.name as colorLabel',
-        'types.roof_eaves_type.label as raystasTyyppiLabel',
-        'types.roof_fascia_board_type.label as otsalautaTyyppiLabel',
-        'types.roof_underlacing_type.label as aluskateTyyppiLabel',
-        'roof.*'
-      );
-  }
-
-  private async getDrainageDitchEvent(eventId: string) {
-    return await db('drainage_ditch')
-      .join('restoration_events.drainage_ditch_implementation_method_type', {
-        'restoration_events.drainage_ditch_implementation_method_type.id':
-          'drainage_ditch.toteutusTapaId',
-      })
-      .where({ 'drainage_ditch.event_id': eventId })
-      .select(
-        'drainage_ditch.*',
-        'restoration_events.drainage_ditch_implementation_method_type.label as toteutusTapaLabel'
-      );
-  }
-
-  private async getHeatingEvent(eventId: string) {
-    const [newSystemId] = await db('data_baseHeatingEvents')
-      .where({ id: eventId })
-      .pluck('newSystemId');
-
-    const heatingTypes = await db('types.heating_type');
-
-    const query = db('data_baseHeatingEvents')
-      .join('types.heating_type as oldSystem', {
-        'oldSystem.id': 'data_baseHeatingEvents.oldSystemId',
-      })
-      .join('types.heating_type as newSystem', {
-        'newSystem.id': 'data_baseHeatingEvents.newSystemId',
-      })
-      .select(
-        'data_baseHeatingEvents.brand as newSystemBrandLabel',
-        'data_baseHeatingEvents.model as newSystemModelLabel',
-        'oldSystem.name as oldSystemLabel',
-        'newSystem.name as newSystemLabel'
-      );
-
-    if (newSystemId == getIdByLabel(heatingTypes, 'Öljy', 'name')) {
-      query.join('oil_heating.vessels', {
-        'oil_heating.vessels.id': 'data_baseHeatingEvents.id',
-      });
-    } else if (newSystemId == getIdByLabel(heatingTypes, 'Sähkö', 'name')) {
-      query
-        .join('data_electricHeatingEvents', {
-          'data_electricHeatingEvents.id': 'data_baseHeatingEvents.id',
+    return await Promise.all(
+      events
+        .filter(e => {
+          return (
+            e.workTypeLabel?.includes(search) ||
+            e.mainTypeLabel?.includes(search) ||
+            e.targetLabel?.includes(search) ||
+            true
+          );
         })
-        .join('ref_electricHeatingMethodTypes', {
-          'ref_electricHeatingMethodTypes.id': 'data_electricHeatingEvents.methodId',
+        .map(async e => {
+          //Get the event types.
+          const [{ result: eventTypes }] = (await db('types.event_type').select(
+            db.raw('json_object_agg(label, id) as result')
+          )) as TODO;
+
+          //Get the event targets.
+          const [{ result: targets }] = (await db('types.event_target_type').select(
+            db.raw('json_object_agg(label, id) as result')
+          )) as TODO;
+
+          const { event_type_id, target_id } = e;
+          let modifiedEvent = e;
+
+          //Modify the event returned to include any additional data.
+          //Restoration data
+          if (event_type_id == eventTypes['Peruskorjaus']) {
+            if (target_id == targets['Lämmitysmuoto']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await heating.getRestorationData(modifiedEvent.id)),
+              };
+            } else if (target_id == targets['Eristys']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                insulation: await insulation.get(modifiedEvent.id),
+              };
+            } else if (target_id == targets['Käyttövesiputket']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await waterPipes.getRestorationData(modifiedEvent.id)),
+              };
+            } else if (target_id == targets['Viemäriputket']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await sewerPipes.getRestorationData(modifiedEvent.id)),
+              };
+            } else if (target_id == targets['Sähköt']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await electricity.getRestorationData(modifiedEvent.id)),
+              };
+            } else if (target_id == targets['Lukitus']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                locks: await locks.get(modifiedEvent.id),
+              };
+            } else if (target_id == targets['Ikkunat']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                windows: await windows.get(modifiedEvent.id),
+              };
+            }
+          }
+          //Service data
+          else if (event_type_id == eventTypes['Huoltotyö']) {
+            //Heating
+            if (target_id == targets['Lämmitysmuoto']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await heating.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Insulation
+            else if (target_id == targets['Eristys']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await insulation.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Water pipes
+            else if (target_id == targets['Käyttövesiputket']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await waterPipes.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Sewer pipes
+            else if (target_id == targets['Viemäriputket']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await sewerPipes.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Ventilation
+            else if (target_id == targets['Ilmanvaihto']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await ventilation.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Firealarms
+            else if (target_id == targets['Palovaroittimet']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await firealarms.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Drainage ditches
+            else if (target_id == targets['Salaojat']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await drainageDitches.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Roof
+            else if (target_id == targets['Katto']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await roofs.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Structures
+            else if (target_id == targets['Rakenteet']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await structures.getServiceData(modifiedEvent.id)),
+              };
+            }
+            //Windows
+            else if (target_id == targets['Ikkunat']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await windows.getServiceData(modifiedEvent.id)),
+              };
+            }
+          }
+          return this.getDTO(modifiedEvent);
         })
-        .select(
-          'data_electricHeatingEvents.*',
-          'ref_electricHeatingMethodTypes.label as methodLabel'
-        );
-    }
-
-    return await query.where({ 'data_baseHeatingEvents.id': eventId });
-  }
-
-  private async getWaterEvent(eventId: string) {
-    return await db('restoration_events.sewer_pipe_restoration_event')
-      .join('restoration_events.water_pipe_installation_method_type', {
-        'restoration_events.water_pipe_installation_method_type.id':
-          'restoration_events.sewer_pipe_restoration_event.installation_method_id',
-      })
-      .where({ 'restoration_events.sewer_pipe_restoration_event.event_id': eventId })
-      .select(
-        'restoration_events.sewer_pipe_restoration_event.*',
-        'restoration_events.water_pipe_installation_method_type.label as asennustapaLabel'
-      );
-  }
-
-  private async getSewegeEvent(eventId: string) {
-    return await db('restoration_events.sewer_pipe_restoration_event')
-      .join('restoration_events.sewer_pipe_restoration_method_type', {
-        'restoration_events.sewer_pipe_restoration_method_type.id':
-          'restoration_events.sewer_pipe_restoration_event.restoration_method_type_id',
-      })
-      .where({ 'restoration_events.sewer_pipe_restoration_event.event_id': eventId })
-      .select(
-        'restoration_events.sewer_pipe_restoration_event.*',
-        'restoration_events.sewer_pipe_restoration_method_type.label as Toteutustapa'
-      );
-  }
-
-  private async getInsulationEvent(eventId: string) {
-    return await db('restoration_events.insulation_restoration_event')
-      .join('insulation.targets', {
-        'insulation.targets.id':
-          'restoration_events.insulation_restoration_event.insulation_target_id',
-      })
-      .join('insulation.materials', {
-        'insulation.materials.id':
-          'restoration_events.insulation_restoration_event.insulation_material_id',
-      })
-      .where({ 'restoration_events.insulation_restoration_event.event_id': eventId })
-      .select(
-        'restoration_events.insulation_restoration_event.*',
-        'insulation.materials.label as materialLabel',
-        'insulation.targets.label as targetLabel'
-      );
-  }
-
-  private async getElectricityEvent(eventId: string) {
-    return await db('data_electricityEvents')
-      .join('ref_electricityJobTargets', {
-        'ref_electricityJobTargets.id': 'data_electricityEvents.jobTargetId',
-      })
-      .where({ 'data_electricityEvents.id': eventId })
-      .select('data_electricityEvents.*', 'ref_electricityJobTargets.label as Työn kohde');
-  }
-
-  private async getLockEvent(eventId: string) {
-    return await db('lock')
-      .join('types.lock_type', { 'types.lock_type.id': 'lock.lock_type_id' })
-      .where({ 'lock.id': eventId })
-      .select('lock.*', 'types.lock_type.label as Lukon tyyppi');
-  }
-
-  /**Fetches the additional data associated with an event
-   * @param eventId The id of the event to fetch additional data for.
-   * @returns An array containing the extra data.
-   * @throws An error if the event has a main type, or target id, for which no functionality is implemented yet.
-   * @deprecated
-   */
-  async getExtraData(eventId: string) {
-    const [type_data] = await db('event')
-      .where({ id: eventId })
-      .select('event_type_id', 'target_id', 'workTypeId');
-    const mainTypes = await db('types.event_type');
-
-    if (type_data.event_type_id == getIdByLabel(mainTypes, 'Peruskorjaus')) {
-      const targets = await db('types.event_target_type');
-
-      if (type_data.target_id == getIdByLabel(targets, 'Katto')) {
-        return await this.getRoofEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Salaojat')) {
-        return await this.getDrainageDitchEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Lämmitysmuoto')) {
-        return await this.getHeatingEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Käyttövesiputket')) {
-        return await this.getWaterEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Viemäriputket')) {
-        return await this.getSewegeEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Eristys')) {
-        return await this.getInsulationEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Sähköt')) {
-        return await this.getElectricityEvent(eventId);
-      } else if (type_data.target_id == getIdByLabel(targets, 'Lukitus')) {
-        return await this.getLockEvent(eventId);
-      } else {
-        console.log(
-          `Received an event with target id ${type_data.target_id}, but no read logic for that id is implemented. Make sure this is intentional.`
-        );
-      }
-    }
-    return [];
+    );
   }
 
   /**Updates the main event data.

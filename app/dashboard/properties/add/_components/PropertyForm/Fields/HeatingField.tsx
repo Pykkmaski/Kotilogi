@@ -1,6 +1,6 @@
 'use client';
 
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import React, { useEffect, useMemo } from 'react';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';

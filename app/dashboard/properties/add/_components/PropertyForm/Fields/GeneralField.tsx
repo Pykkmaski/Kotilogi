@@ -1,6 +1,6 @@
 'use client';
 
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { FormControl, Input, SubLabel } from '@/components/UI/FormUtils';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
 

@@ -6,9 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getContent } from '../../app/dashboard/properties/add/_components/PropertyForm/actions';
 import { FormControlProps } from '@/components/UI/FormUtils';
 import { Notification } from '../UI/Notification';
-import { ChipButton, ChipButtonProps } from './RadioGroup/ChipButton';
+import { ChipButton } from './RadioGroup/ChipButton';
 import { RadioGroupBody } from './RadioGroup/RadioGroup';
-import { ReactNode, useCallback, useEffect, useMemo } from 'react';
+import { ReactNode, useEffect } from 'react';
 import Spinner from '../UI/Spinner';
 
 type OptionSelectorProps = Omit<FormControlProps, 'control'> & {

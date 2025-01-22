@@ -1,4 +1,4 @@
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 import { FormControl } from '@/components/UI/FormUtils';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';

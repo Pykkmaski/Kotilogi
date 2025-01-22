@@ -328,6 +328,36 @@ class Heating {
     await this.del(id, ctx);
     await this.create(data, ctx);
   }
+
+  /**Returns the data associated with a heating method restoration event.*/
+  async getRestorationData(eventId: string) {
+    const [data] = await db('restoration_events.heating_restoration_event')
+      .join(
+        db.raw(
+          'types.heating_type as old_system on old_system.id = restoration_events.heating_restoration_event.old_system_id'
+        )
+      )
+      .join(
+        db.raw(
+          'types.heating_type as new_system on new_system.id = restoration_events.heating_restoration_event.new_system_id'
+        )
+      )
+      .where({ 'restoration_events.heating_restoration_event.event_id': eventId })
+      .select('old_system.name as old_system_label', 'new_system.name as new_system_label');
+
+    return data;
+  }
+
+  /**Returns the data associated with heating service events. */
+  async getServiceData(eventId: string) {
+    const [data] = await db('service_events.heating_service_event as ese')
+      .join(
+        db.raw('service_events.heating_service_type as est on est.id = ese.service_work_type_id')
+      )
+      .where({ 'ese.event_id': eventId })
+      .select('est.label as service_work_type_label');
+    return data;
+  }
 }
 
 export const heating = new Heating();

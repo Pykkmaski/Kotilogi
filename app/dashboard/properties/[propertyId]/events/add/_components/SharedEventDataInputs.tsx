@@ -1,6 +1,6 @@
 'use client';
 
-import { BoxFieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';

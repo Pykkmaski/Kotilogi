@@ -90,12 +90,14 @@ export async function PropertyOverview({
             }
           />
         ) : (
-          <OverviewImage
-            src={
-              (mainImageId && `/api/protected/files/${mainImageId}`) ||
-              '/img/Properties/default-bg.jpg'
-            }
-          />
+          <Link href={`/dashboard/properties/${property.id}`}>
+            <OverviewImage
+              src={
+                (mainImageId && `/api/protected/files/${mainImageId}`) ||
+                '/img/Properties/default-bg.jpg'
+              }
+            />
+          </Link>
         )}
 
         <div className='flex flex-col w-full gap-4'>

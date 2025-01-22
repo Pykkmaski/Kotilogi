@@ -1,5 +1,5 @@
 import { useEventFormContext } from '../EventFormContext';
-import { BoxFieldset, Fieldset } from '@/components/UI/Fieldset';
+import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { FormControl } from '@/components/UI/FormUtils';
 import { EventTargetSelector } from '../Selectors/EventTargetSelector';
 import { EventTypeSelector } from '../Selectors/EventTypeSelector';

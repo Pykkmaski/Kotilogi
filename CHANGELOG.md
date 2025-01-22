@@ -1,3 +1,32 @@
+## [2.0.0] - 22.01.2025
+
+## Added
+
+- Display of restoration- or service-data when viewing an event.
+- The classes Insulation, Locks, Electricity, Heating, SewerPipes and WaterPipes.
+- Methods to get the service-data for service events.
+- Ability to open and close a BoxFieldset if the closeable-prop is set.
+
+## Changed
+
+- Moved methods fetching restoration- and service-data under their own classes.
+- events.get now includes the data associated with each event.
+- Moved BoxFieldset into its own file.
+
+## Removed
+
+- Unused (transparentHeader)-folder.
+- Unused EventCardGrid-component.
+- The NewAddPropertyModal-folder.
+- DeletePropertyDialogControl
+- /dashboard/\_components-folder.
+- Various unused imports.
+- Documentation on file-server actions.
+- The edit event-page.
+- The deprecated events.getExtraData-method.
+- The deprecated events.createHeatingRestorationWorkData-method.
+- The unused events.createGenesisEvent-method.
+
 ## [1.8.0] - 20.01.2025
 
 ### Removed

@@ -1,4 +1,3 @@
-import { Main } from '@/components/New/Main';
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
 import { Edit } from '@mui/icons-material';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
