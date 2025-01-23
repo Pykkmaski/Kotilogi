@@ -276,11 +276,12 @@ class Events {
         }
         break;
 
+      /*
       case event_targets['Muu']:
         {
           await insert('service_events.other_service_event');
         }
-        break;
+        break;*/
 
       case event_targets['Viemäriputket']:
         {

@@ -152,7 +152,7 @@ export default async function PropertyPage({ params }) {
                   }
                   loading='lazy'
                   title='Valitse pääkuva'
-                  className='rounded-full aspect-square object-center md:w-[50%] xs:w-full cursor-pointer'
+                  className='rounded-full aspect-square object-cover md:w-[50%] xs:w-full cursor-pointer'
                 />
               }
               target={<SelectImageDialog images={fileData.filter(f => f.type == 'image/jpeg')} />}

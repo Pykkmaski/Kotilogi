@@ -14,7 +14,7 @@ const DataPointGrid = ({ children }) => (
   <div className='w-full grid lg:grid-cols-2 xs:grid-cols-1 gap-4'>{children}</div>
 );
 const DataPointContainer = ({ children, title }) => (
-  <div className='flex flex-col gap-2 w-full bg-gray-100 p-1'>
+  <div className='flex flex-col gap-2 w-full bg-gray-50 p-2'>
     <h1 className='font-semibold mb-4'>{title}</h1>
     {children}
   </div>
@@ -38,7 +38,6 @@ export default async function EventPage({ params }) {
     db.raw('json_object_agg(label, id) as result')
   )) as TODO;
 
-  console.log('locks: ', event.locks);
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>
@@ -76,7 +75,8 @@ export default async function EventPage({ params }) {
                   value={event.restoration_target_label}
                 />
               ) : null
-            ) : event.event_type_id == eventTypes['Huoltotyö'] ? (
+            ) : event.event_type_id == eventTypes['Huoltotyö'] &&
+              event.target_id !== eventTargets['Muu'] ? (
               <DataDisplay
                 title='Tehty huoltotyö'
                 value={event.service_work_type_label}
@@ -110,10 +110,10 @@ export default async function EventPage({ params }) {
                   src={mainImageId ? `/api/protected/files/${mainImageId}` : '/img/kitchen.jpg'}
                   loading='lazy'
                   title='Valitse pääkuva'
-                  className='rounded-full aspect-square object-center md:w-[50%] xs:w-full cursor-pointer'
+                  className='rounded-full aspect-square object-cover md:w-[50%] xs:w-full cursor-pointer'
                 />
               }
-              target={<SelectImageDialog images={[]} />}
+              target={<SelectImageDialog images={files.filter(f => f.type == 'image/jpeg')} />}
             />
           </div>
         </div>

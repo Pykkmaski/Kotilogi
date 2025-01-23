@@ -161,19 +161,12 @@ export const OverviewImage = ({
   smallScreenWidth = 100,
   ...props
 }: OverviewImageProps) => {
-  const classes = useMemo(
-    () => [
-      'cursor-pointer relative aspect-square flex-shrink-0 rounded-full overflow-hidden xs:w-[75px] xs:h-[75px] md:w-[200px] md:h-[200px]',
-      `md:w-[${mediumScreenWidth}px] md:h-[${mediumScreenWidth}px] xs:w-[${smallScreenWidth}px] xs:h-[${smallScreenWidth}px]`,
-    ],
-    [mediumScreenWidth, smallScreenWidth]
-  );
-
   return (
     <div
       {...props}
-      className={classes[0]}
-      style={noScrollBar}
+      className={
+        'cursor-pointer aspect-square flex-shrink-0 relative rounded-full overflow-hidden xs:w-[75px] xs:h-[75px] md:w-[200px] md:h-[200px]'
+      }
       title='Valitse pääkuva'>
       <Image
         src={src}

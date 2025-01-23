@@ -1,3 +1,25 @@
+## [2.1.0] - 22.01.2025
+
+### Added
+
+- blog_posts database-table.
+
+### Removed
+
+- The work type selector when creating an event with target "Other".
+
+### Changed
+
+- The blog entries on the blog page from hard-coded to be fetched from the db.
+- Increased the padding on the DataPointContainer.
+- Made the DataPointContainer background lighter.
+
+## Fixed
+
+- Images not appearing in the event image selector dialog.
+- The images on a SelectImageDialog being off-center on the grid.
+- Main images on the property- and event-pages looking squished.
+
 ## [2.0.1] - 22.01.2025
 
 ### Added

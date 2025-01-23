@@ -13,7 +13,7 @@ import { Check } from '@mui/icons-material';
 
 /**Renders the content of the event form data-tab */
 export function EventDataContent() {
-  const { eventData, refs, showMainDataForm, isSubmitDisabled, selectedSurfaceIds } =
+  const { eventData, refs, showMainDataForm, isSubmitDisabled, selectedSurfaceIds, status } =
     useEventFormContext();
   const {
     data: workTypes,

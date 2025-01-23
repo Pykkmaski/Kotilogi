@@ -30,7 +30,7 @@ export function SelectImageDialog({ images, ...props }: SelectImageDialogProps) 
         <RenderOnCondition
           condition={status !== 'loading'}
           fallback={<Spinner message='Ladataan kuvia...' />}>
-          <div className='grid gap-2 lg:grid-cols-3 xs:grid-cols-2 w-full'>
+          <div className='grid gap-4 lg:grid-cols-3 xs:grid-cols-2 w-full'>
             {images.length ? (
               images.map((img, i) => (
                 <ImageSelector
@@ -75,7 +75,7 @@ function ImageSelector({ onClick, imageId }) {
   const imageSrc = `/api/protected/files/${imageId}`;
 
   return (
-    <div className='w-[200px] aspect-square object-cover'>
+    <div className='aspect-square object-cover'>
       <Image
         onClick={onClick}
         className='rounded-md overflow-hidden cursor-pointer'
