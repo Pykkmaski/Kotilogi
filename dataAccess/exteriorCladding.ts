@@ -57,7 +57,7 @@ class ExteriorCladding {
       .where({ 'exterior_cladding.event_id': eventId })
       .select(
         'exterior_cladding.*',
-        'ecwpp.*',
+        'ecwpp.thickness as wind_protection_plate_thickness',
         'ecai.*',
         'ecmt.label as exterior_cladding_material_type_label'
       );

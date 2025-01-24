@@ -6,7 +6,7 @@
 
 ### Added
 
-- Ulkoverhous event-target.
+- Exterior cladding-event target
 
 ## [2.1.0] - 23.01.2025
 

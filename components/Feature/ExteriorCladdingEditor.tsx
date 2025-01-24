@@ -1,5 +1,6 @@
 import { FormControl, Input } from '../UI/FormUtils';
 import { ToggleProvider } from '../Util/ToggleProvider';
+import { InsulationMaterialSelector } from './InsulationEditor';
 import { RadioSelector } from './OptionSelector';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { ChipRadioGroup } from './RadioGroup/ChipRadioGroup';
@@ -39,6 +40,33 @@ export function ExteriorCladdingEditor({ value, onChange }: ExteriorCladdingEdit
         onChange={onChange}
         value={value.has_rodent_net}
       />
+
+      <div className='flex flex-col gap-2 border-b border-slate-200 pb-2'>
+        <InsulationMaterialSelector
+          value={value.insulation_material_id}
+          onChange={onChange}
+        />
+        <FormControl
+          label={<>Eristyksen paksuus (mm)</>}
+          control={
+            <Input
+              name='insulation_thickness'
+              value={value.insulation_thickness}
+              onChange={onChange}
+              type='number'
+              placeholder='Anna eristyksen paksuus millimetreissä...'
+              min={1}
+              step={1}
+            />
+          }
+        />
+        <Checkbox
+          label='Höyrysulku'
+          value={value.has_vapour_barrier}
+          checked={value.has_vapour_barrier}
+          onChange={onChange}
+        />
+      </div>
 
       <Checkbox
         label='Lisäeristys'
@@ -87,17 +115,6 @@ export function ExteriorCladdingEditor({ value, onChange }: ExteriorCladdingEdit
           </div>
         </>
       ) : null}
-
-      <RadioSelector
-        tablename='types.insulation_material_type'
-        loadingText='Ladataan eristemateriaaleja...'
-        name='insulation_material_id'
-        value={value.insulation_material_id}
-        onChange={onChange}
-        label='Eristemateriaali'
-        labelKey='label'
-        valueKey='id'
-      />
     </div>
   );
 }

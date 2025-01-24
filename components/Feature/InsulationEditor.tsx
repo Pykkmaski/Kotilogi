@@ -7,11 +7,11 @@ import { IconButton } from '@mui/material';
 import { useEffect } from 'react';
 import { Notification } from '../UI/Notification';
 
-function InsulationMaterialSelector({
+export function InsulationMaterialSelector({
   index,
   ...props
-}: Kotidok.SelectorProps & { index: number }) {
-  const name = `insulation_material_id-${index}`;
+}: Kotidok.SelectorProps & { index?: number }) {
+  const name = index ? `insulation_material_id-${index}` : 'insulation_material_id';
   return (
     <RadioSelector
       {...props}
@@ -20,7 +20,7 @@ function InsulationMaterialSelector({
       tablename='types.insulation_material_type'
       labelKey='label'
       valueKey='id'
-      key={`insulation-material-${index}`}
+      key={index ? `insulation-material-${index}` : null}
     />
   );
 }

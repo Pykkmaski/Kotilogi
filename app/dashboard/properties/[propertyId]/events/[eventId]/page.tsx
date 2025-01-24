@@ -63,7 +63,7 @@ export default async function EventPage({ params }) {
                     value={event.has_wind_protection ? 'Kyllä' : 'Ei'}
                   />
                   <DataDisplay
-                    title='Tuulensuojalevyn paksuus'
+                    title={<>Tuulensuojalevyn paksuus (mm)</>}
                     value={event.wind_protection_plate_thickness || 'Ei tuulensuojalevyä'}
                   />
                 </>
