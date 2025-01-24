@@ -1,4 +1,18 @@
-## [2.1.0] - 22.01.2025
+## [2.2.0] - 24-01-2025
+
+### Unreleased
+
+- See log for 2.1.0
+
+### Added
+
+- Ulkoverhous event-target.
+
+## [2.1.0] - 23.01.2025
+
+### Unreleased
+
+- Changed the blog entries on the blog page to be fetched from the db, instead of being hard-coded.
 
 ### Added
 
@@ -10,7 +24,6 @@
 
 ### Changed
 
-- The blog entries on the blog page from hard-coded to be fetched from the db.
 - Increased the padding on the DataPointContainer.
 - Made the DataPointContainer background lighter.
 

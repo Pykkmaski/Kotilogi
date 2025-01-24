@@ -15,6 +15,7 @@ import {
   Fireplace,
   Foundation,
   Grain,
+  HolidayVillage,
   HouseSiding,
   Layers,
   LineWeight,
@@ -61,4 +62,5 @@ export const icons = {
   Sadevesikourut: Grain,
   Kodinhoitohuone: CleaningServices,
   Savupiippu: Fireplace,
+  Ulkoverhous: HolidayVillage,
 };

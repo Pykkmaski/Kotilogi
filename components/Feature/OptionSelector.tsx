@@ -110,7 +110,7 @@ function BaseSelector({
         <RadioGroupBody>
           {isLoading ? (
             <Spinner message={loadingText} />
-          ) : error ? (
+          ) : error || !options ? (
             <Notification>{errorText}</Notification>
           ) : (
             renderFn(options)

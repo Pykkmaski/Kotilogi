@@ -19,6 +19,7 @@ import { Notification } from '@/components/UI/Notification';
 import { HeatingEditor } from '@/components/Feature/HeatingEditor';
 import Spinner from '@/components/UI/Spinner';
 import { EventHeatingEditor } from './FormContent/EventHeatingEditor';
+import { ExteriorCladdingEditor } from '@/components/Feature/ExteriorCladdingEditor';
 
 export function RestorationWorkContent() {
   const {
@@ -79,6 +80,11 @@ export function RestorationWorkContent() {
         <LockBatch />
       ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto') ? (
         <HeatingRenovationContent />
+      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Ulkoverhous') ? (
+        <ExteriorCladdingEditor
+          value={eventData}
+          onChange={updateEventData}
+        />
       ) : null}
     </>
   );

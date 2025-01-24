@@ -47,7 +47,27 @@ export default async function EventPage({ params }) {
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
             <h1 className='font-semibold text-slate-500'>Tiedot</h1>
             {event.event_type_id == eventTypes['Peruskorjaus'] ? (
-              event.target_id == eventTargets['Lämmitysmuoto'] ? (
+              event.target_id == eventTargets['Ulkoverhous'] ? (
+                <>
+                  <DataDisplay
+                    title='Materiaali'
+                    value={event.exterior_cladding_material_type_label}
+                  />
+                  <DataDisplay
+                    title='Jyrsijäverkko'
+                    value={event.has_rodent_net ? 'Kyllä' : 'Ei'}
+                  />
+
+                  <DataDisplay
+                    title='Tuulensuojaeriste'
+                    value={event.has_wind_protection ? 'Kyllä' : 'Ei'}
+                  />
+                  <DataDisplay
+                    title='Tuulensuojalevyn paksuus'
+                    value={event.wind_protection_plate_thickness || 'Ei tuulensuojalevyä'}
+                  />
+                </>
+              ) : event.target_id == eventTargets['Lämmitysmuoto'] ? (
                 <>
                   <DataDisplay
                     title='Vanha järjestelmä'

@@ -20,6 +20,7 @@ import { firealarms } from './firealarms';
 import { drainageDitches } from './drainageDitches';
 import { structures } from './structures';
 import { windows } from './windows';
+import { exteriorCladding } from './exteriorCladding';
 
 class Events {
   /**
@@ -64,6 +65,12 @@ class Events {
     const event_target_id = parseInt(payload.target_id as any);
 
     switch (event_target_id) {
+      case event_targets['Ulkoverhous']:
+        {
+          await exteriorCladding.create(event_id, payload, trx);
+        }
+        break;
+
       case event_targets['Lämmitysmuoto']:
         {
           const { new_system_id, old_system_id } = payload;
@@ -475,7 +482,12 @@ class Events {
           //Modify the event returned to include any additional data.
           //Restoration data
           if (event_type_id == eventTypes['Peruskorjaus']) {
-            if (target_id == targets['Lämmitysmuoto']) {
+            if (target_id == targets['Ulkoverhous']) {
+              modifiedEvent = {
+                ...modifiedEvent,
+                ...(await exteriorCladding.get(modifiedEvent.id, db)),
+              };
+            } else if (target_id == targets['Lämmitysmuoto']) {
               modifiedEvent = {
                 ...modifiedEvent,
                 ...(await heating.getRestorationData(modifiedEvent.id)),
