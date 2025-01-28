@@ -17,7 +17,8 @@
 
 ### Removed
 
--The business-link from the header.
+- The business-link from the header.
+- The business-route.
 
 ## [2.1.0] - 23.01.2025
 
