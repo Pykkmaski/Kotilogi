@@ -4,16 +4,6 @@ import Link from 'next/link';
 import { createInlineStyleObjectFromString } from 'kotilogi-app/utils/createInlineStyleObjectFromString';
 import { Logo } from '@/components/App/Logo';
 import { ReactNode, useRef, useState } from 'react';
-import {
-  Add,
-  Bolt,
-  BoltOutlined,
-  Check,
-  Handshake,
-  HandshakeOutlined,
-  Settings,
-  SettingsOutlined,
-} from '@mui/icons-material';
 import tailwindconfig from 'tailwind.config';
 import * as colors from '@/colors';
 import { Hero } from '@/components/WFIndex/Hero';
