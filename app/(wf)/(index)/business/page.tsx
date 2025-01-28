@@ -6,26 +6,21 @@ import { Handshake, Settings, Timer } from '@mui/icons-material';
 import Link from 'next/link';
 import { IndexHeader } from '../IndexHeader';
 
-function HeroSection() {
+export function HeroSection() {
   return (
     <section
       id='business-hero-section'
-      className='flex flex-col py-wf-index px-wf-index items-start gap-12'>
+      className='flex flex-col py-wf-index px-wf-index items-start gap-8'>
       <h1
         id='business-hero-heading'
-        className='lg:text-7xl xs:text-5xl text-white'>
-        Rakennusalan
-        <div
-          id='busines-hero-heading-gradient'
-          className='bg-gradient-to-r from-white via-white to-wf-primary-light bg-clip-text text-transparent'>
-          ammattilaisille{' '}
-        </div>
+        className='lg:text-5xl xs:text-5xl bg-gradient-to-r from-white via-white to-wf-primary-light bg-clip-text text-transparent'>
+        Rakennusalan ammattilaisille
       </h1>
 
       <div className='grid lg:grid-cols-3 lg:grid-rows-1 xs:grid-cols-1 xs:grid-rows-3 gap-4 w-full'>
         <ServiceCard
           title='Huoltoraportti'
-          description='Lisäämällä korjaustoimenpiteet yritystililtä asiakkaiden huoltokirjaan jää siitä luetettavampi jälki historiaan.'
+          description='Lisäämällä korjaustoimenpiteet yritystililtä asiakkaiden huoltokirjaan, jää siitä luetettavampi jälki historiaan.'
           icon={Settings}
         />
 
@@ -37,7 +32,7 @@ function HeroSection() {
 
         <ServiceCard
           title='Lisäarvoa'
-          description='Kun yritykselläsi on käytössä Koidok sähköinen huoltokirja asiakkaat todennäköisesti valitsevat sinun yrityksesi. '
+          description='Kun yritykselläsi on käytössä Kotidok sähköinen huoltokirja, asiakkaat todennäköisesti valitsevat sinun yrityksesi. '
           icon={Handshake}
         />
       </div>

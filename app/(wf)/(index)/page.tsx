@@ -30,6 +30,7 @@ import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { SubLabel } from '@/components/UI/FormUtils';
 import { WFAuthSubmitButton } from '../(userAuth)/_components/WFAuthSubmitButton';
+import { HeroSection as BusinessHeroSection } from './business/page';
 
 function StorySection() {
   return (
@@ -57,16 +58,24 @@ function StorySection() {
 }
 
 function CallToActionSection() {
+  const { contactRef } = useIndexPageContext();
+
   return (
     <section className='px-wf-index bg-wf-cta flex flex-col justify-center items-center py-wf-index relative'>
       <div className='absolute top-0 left-0 w-full h-full z-10 bg-[#000a]' />
       <div className='bg-cta grayscale bg-cover w-full h-full z-0 absolute top-0 left-0 xl:bg-[center_top_900px]' />
       <div className='flex flex-col gap-8 items-center z-20'>
-        <CTAHeading>
-          Aloita sinäkin
-          <br /> Kotidokin käyttö
-        </CTAHeading>
-        <CTAParagraph>Kotidokin käyttö yksityishenkilöille on ilmaista.</CTAParagraph>
+        <CTAHeading>Aloita Kotidokin käyttö</CTAHeading>
+        <CTAParagraph>
+          Kotidokin käyttö yksityishenkilöille on ilmaista.
+          <br /> Jos olet kiinnostunut yritystilin luomisesta,{' '}
+          <button
+            className='text-wf-primary'
+            type='button'
+            onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}>
+            Ota yhteyttä
+          </button>
+        </CTAParagraph>
         <div className='flex justify-center'>
           <Link href='/register'>
             <button className='p-4 bg-wf-primary text-black rounded-lg'>Rekisteröidy</button>
@@ -174,13 +183,13 @@ function ContactSection() {
   );
 }
 
-export default async function IndexPage() {
+export default function IndexPage() {
   return (
     <main className='bg-wf-background h-full flex flex-col w-full'>
       <IndexHeader />
       <Hero />
       <ServicesSection />
-      <StorySection />
+      <BusinessHeroSection />
       <CallToActionSection />
       <ContactSection />
       <Footer />

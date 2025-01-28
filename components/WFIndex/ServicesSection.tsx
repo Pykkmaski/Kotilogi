@@ -14,7 +14,7 @@ type ServiceCardProps = {
 
 export function ServiceCard({ title, description, icon: Icon, rowSpan = 3 }: ServiceCardProps) {
   const className = [
-    'rounded-lg bg-wf-secondary p-10 flex flex-col justify-between items-start gap-8 box-border',
+    'wf-container flex flex-col justify-between items-start gap-8 box-border',
     rowSpan == 4 ? 'row-span-3' : 'row-span-2',
   ].join(' ');
 

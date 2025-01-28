@@ -56,14 +56,9 @@ export function IndexHeader() {
       <Header.LogoContainer>
         <Header.MainNav>
           <Link
-            href='/business'
-            className={getLinkClassName('/business')}>
-            Yrityksille
-          </Link>
-          <Link
             href='/blog'
             className={getLinkClassName('/blog')}>
-            Jutut
+            Blogi
           </Link>
           {contactLink}
         </Header.MainNav>

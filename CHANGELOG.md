@@ -6,7 +6,18 @@
 
 ### Added
 
-- Exterior cladding-event target
+- Exterior cladding-event target.
+- wf-container tailwind utility-class.
+
+### Changed
+
+- Moved the business-section on the index-page.
+- The call to action-section to include text about inquires about a business account.
+- The name of the blog-section from "Jutut" to "Blogi".
+
+### Removed
+
+-The business-link from the header.
 
 ## [2.1.0] - 23.01.2025
 

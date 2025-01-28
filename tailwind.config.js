@@ -1,4 +1,5 @@
 const tailwindColors = require('tailwindcss/colors');
+const colors = require('./colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -79,6 +80,12 @@ module.exports = {
         '.py-wf-index': {
           paddingTop: '8rem',
           paddingBottom: '8rem',
+        },
+
+        '.wf-container': {
+          backgroundColor: colors['wf-secondary'],
+          borderRadius: '0.5rem',
+          padding: '2.5rem',
         },
 
         //Responsive padding for mobile screens
