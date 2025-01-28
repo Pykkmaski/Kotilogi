@@ -1,26 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { createInlineStyleObjectFromString } from 'kotilogi-app/utils/createInlineStyleObjectFromString';
-import { Logo } from '@/components/App/Logo';
-import { ReactNode, useRef, useState } from 'react';
-import tailwindconfig from 'tailwind.config';
-import * as colors from '@/colors';
+import { useRef, useState } from 'react';
 import { Hero } from '@/components/WFIndex/Hero';
 import { IndexHeader } from './IndexHeader';
-import { IndexPageProvider, useIndexPageContext } from './IndexPageProvider';
+import { useIndexPageContext } from './IndexPageProvider';
 import { ServicesSection } from '@/components/WFIndex/ServicesSection';
 import { Footer } from '@/components/WFIndex/Footer';
 import { CTAHeading, CTAParagraph } from '@/components/WFIndex/BaseCTASection';
 import { WFAuthInput, WFAuthTextArea } from '../(userAuth)/_components/WFAuthInput';
-import { PrimaryButton } from '@/components/WFIndex/Button';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import axios from 'axios';
-import { usePreventDefault } from '@/hooks/usePreventDefault';
-import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { SubLabel } from '@/components/UI/FormUtils';
 import { WFAuthSubmitButton } from '../(userAuth)/_components/WFAuthSubmitButton';
-import { HeroSection as BusinessHeroSection } from './business/page';
+import { BusinessHeroSection } from '@/components/WFIndex/BusinessHeroSection';
 
 function StorySection() {
   return (

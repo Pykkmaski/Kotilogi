@@ -19,6 +19,7 @@
 
 - The business-link from the header.
 - The business-route.
+- Some unused imports.
 
 ## [2.1.0] - 23.01.2025
 
