@@ -32,12 +32,8 @@ export function VPMobileMenu({ session, ...props }: MobileMenuProps) {
         content: 'Etusivulle',
       },
       {
-        href: '/business',
-        content: 'Yrityksille',
-      },
-      {
         href: '/blog',
-        content: 'Jutut',
+        content: 'Blogi',
       },
       {
         href: '/register',

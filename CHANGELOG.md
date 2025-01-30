@@ -1,3 +1,13 @@
+## [2.2.1] - 30-01-2025
+
+### Unreleased
+
+- See log for 2.1.0
+
+### Fixed
+
+- Incorrect links in the index-menu when on a mobile device.
+
 ## [2.2.0] - 24-01-2025
 
 ### Unreleased
