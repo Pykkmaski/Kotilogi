@@ -1,8 +1,43 @@
 import { Footer } from '@/components/WFIndex/Footer';
 import { Header } from '@/components/WFIndex/Header';
 import { IndexHeader } from '../IndexHeader';
+import db from 'kotilogi-app/dbconfig';
+import Link from 'next/link';
+import Image from 'next/image';
+
+async function BlogPostCard({ post }: { post: TODO }) {
+  return (
+    <div
+      className='rounded-lg bg-wf-secondary overflow-hidden'
+      title='Lue lisää...'>
+      <div className='w-full h-[200px] relative overflow-hidden object-center'>
+        <Image
+          src={post.image_url}
+          loading='lazy'
+          alt='post image'
+          objectFit='cover'
+          fill={true}
+        />
+      </div>
+      <div className='p-4 gap-4 flex flex-col text-white'>
+        <span>
+          <h1 className='text-white font-semibold'>{post.title}</h1>
+          <span>{post.date.toLocaleDateString('fi')}</span>
+        </span>
+
+        <p className='bg-gradient-to-b from-white to-transparent bg-clip-text text-transparent'>
+          {post.short_content}
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default async function BlogPage() {
+  const posts = await db('blog_posts')
+    .select('id', 'title', 'image_url', 'date', 'short_content')
+    .orderBy('date', 'desc');
+
   return (
     <main className='bg-wf-background h-full flex flex-col w-full'>
       <IndexHeader />
@@ -10,39 +45,27 @@ export default async function BlogPage() {
         id='blog-hero'
         className='flex flex-col gap-12 px-wf-index py-wf-index'>
         <div className='flex flex-col gap-12 items-start'>
-          <h1 className='text-white text-7xl'>
-            Kotidok uutiset ja
-            <br />
-            <div className='bg-gradient-to-r from-white to-wf-primary-light text-transparent bg-clip-text'>
-              artikkelit
-            </div>
+          <h1 className='text-7xl bg-gradient-to-r from-white via-white to-wf-primary-light text-transparent bg-clip-text'>
+            Kotidok uutiset ja artikkelit
           </h1>
         </div>
       </section>
 
+      {/**Render the blog-entry cards here in a grid. */}
       <section
         id='blog-entries-section'
-        className='flex flex-col gap-8 px-wf-index py-wf-index'>
-        <div className='flex flex-col gap-8'>
-          <div className='flex flex-col'>
-            <h1 className='text-white text-5xl font-semibold'>Idea omasta tarpeesta</h1>
-            <span className='text-wf-primary'>19.01.2025</span>
-          </div>
-
-          <p className='text-white opacity-75'>
-            Omaa kotia etsiessä kiinnittyi huomio siihen kuinka monissa varteen otettavissa
-            vaihtoehdoissa oli historia vähän hämärän peitossa. Tehtyjä korjauksia oli selkeästi
-            tehty mutta tositteita ei ollut enää tallella. Lopulta ostetussa kohteessa oli se hyvä
-            puoli että suurin osa tositteista löytyi isossa mapissa säilytettynä. Taloa tuli
-            remontoitua heti oston jälkeen nopeasti oman maun mukaisesti. Myös suurempia
-            peruskorjauksia tuli tehtyä, salaojat ja lämmitysmuodon vaihdos öljystä kaukolämpöön.
-            Laskut tuli pyydettyä aina sähköpostilla että ne sai säilytettyä tietokoneelle.
-            Tositteille oli käyttöä kotitalousvähennystä hakiessa sekä ely-keskukselta haettavaan
-            tukeen lämmitysmuodon vaihdosta varten. Syntyi idea että kyllä taloillakin täytyisi olla
-            sähköinen huoltokirja missä nämä tositteet säilyisi varmasti myös seuraavalle
-            omistajalle vuosien päästä.
-          </p>
-        </div>
+        className='grid grid-cols-3 gap-4 px-wf-index'>
+        {posts.length ? (
+          posts.map((post, i) => (
+            <Link
+              href={`blog/${post.id}`}
+              key={`post-card-${i}`}>
+              <BlogPostCard post={post} />
+            </Link>
+          ))
+        ) : (
+          <span>Artikkeleiden lataus epäonnistui!</span>
+        )}
       </section>
       <Footer />
     </main>

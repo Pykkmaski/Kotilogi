@@ -1,3 +1,10 @@
+## [2.3.0] - 31-01-2025
+
+### Added
+
+- Blog pages.
+- Next config images domain.
+
 ## [2.2.1] - 30-01-2025
 
 ### Unreleased
