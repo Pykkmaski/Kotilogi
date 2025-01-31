@@ -1,3 +1,10 @@
+## [2.3.1] - 31-01-2025
+
+### Fixed
+
+- The grid on the blog posts page.
+- Text overflowing on on the blog post-page, on mobile devices.
+
 ## [2.3.0] - 31-01-2025
 
 ### Added

@@ -13,9 +13,9 @@ export default async function PostPage({ params }) {
       {post ? (
         <section
           id='blog-post-section'
-          className='2xl:px-96 xl:px-72 lg:px-32 md:px-24 xs:px-2 py-wf-index text-white'>
+          className='2xl:px-96 xl:px-72 lg:px-32 md:px-24 xs:px-2 py-wf-index text-white break-words hyphens-auto'>
           <div className='flex flex-col mb-4'>
-            <h1 className='font-semibold text-4xl'>{post.title}</h1>
+            <h1 className='font-semibold text-4xl break-words hyphens-auto'>{post.title}</h1>
             <span className='text-lg'>{post.date.toLocaleDateString('fi')}</span>
           </div>
           <img

@@ -54,7 +54,7 @@ export default async function BlogPage() {
       {/**Render the blog-entry cards here in a grid. */}
       <section
         id='blog-entries-section'
-        className='grid grid-cols-3 gap-4 px-wf-index'>
+        className='grid 2xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1 gap-4 px-wf-index'>
         {posts.length ? (
           posts.map((post, i) => (
             <Link

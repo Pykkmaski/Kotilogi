@@ -1,3 +1,7 @@
+.content-container {
+  max-width: 100%;
+}
+
 .content-container h2 {
   display: flex;
   flex-flow: column;
@@ -5,6 +9,8 @@
   font-weight: 600;
   opacity: 1;
   color: white;
+  width: 100%;
+  text-wrap: wrap;
 }
 
 .content-container p {
