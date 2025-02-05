@@ -155,6 +155,7 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
                         name={`${index}-date`}
                         placeholder='Anna päivämäärä...'
                         value={ub.value.date as any}
+                        onChange={e => update(e, ub.id)}
                       />
                     }
                   />

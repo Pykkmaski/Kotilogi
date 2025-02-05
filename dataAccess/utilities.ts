@@ -15,6 +15,7 @@ class Utilities {
 
   /**Creates utility data. */
   async create(data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'parentId'>>) {
+    console.log(data.date)
     return objects.create(data, async (obj, trx) => {
       await trx('data_utilities').insert({
         id: obj.id,

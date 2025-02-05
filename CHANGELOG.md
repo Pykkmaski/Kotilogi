@@ -1,3 +1,13 @@
+## [2.3.2] - 05-02-2025
+
+### Changed
+
+- The unit-input to optional when adding utility bills.
+
+### Fixed
+
+- Utility-data dates not being properly saved.
+
 ## [2.3.1] - 31-01-2025
 
 ### Fixed
