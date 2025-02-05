@@ -131,7 +131,6 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
 
                   <FormControl
                     label='Yksikkömäärä'
-                    required
                     helper={<SubLabel>Esim. sähkölaskussa määrä kilovattitunneissa.</SubLabel>}
                     control={
                       <Input
