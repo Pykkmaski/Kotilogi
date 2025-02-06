@@ -7,8 +7,7 @@ export function AuthHeader() {
     <Header>
       <Header.LogoContainer>
         <Header.MainNav>
-          <Link href='/business'>Yrityksille</Link>
-          <Link href='/blog'>Jutut</Link>
+          <Link href='/blog'>Blogi</Link>
           <Link href='/#contact-section'>Ota Yhteyttä</Link>
         </Header.MainNav>
       </Header.LogoContainer>

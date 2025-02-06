@@ -1,3 +1,18 @@
+## [2.3.3] - 06-02-2025
+
+### Unreleased
+
+- Code related to a future migration to MongoDB.
+
+### Removed
+
+- The outdated mobile under construction notice.
+- The business-link from auth-pages.
+
+### Changed
+
+- The Jutut-link to "Blogi" in the auth pages.
+
 ## [2.3.2] - 05-02-2025
 
 ### Changed
