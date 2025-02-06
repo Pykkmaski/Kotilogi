@@ -32,8 +32,7 @@ export default function TOS() {
       <BigHeading>1. Sopimuksen muuttaminen</BigHeading>
       <p>
         Palveluntarjoajalla on oikeus muuttaa sopimusehtoja ilmoittamalla siitä asiakkaalle
-        kirjallisesti vähintään yhtä kuukautta ennen muutoksen voimaantuloa. Palvelun hintaa
-        koskevat muutokset astuvat voimaan aikaisintaan asiakkaan seuraavan laskutusjakson alussa.
+        kirjallisesti vähintään yhtä kuukautta ennen muutoksen voimaantuloa.
       </p>
 
       <BigHeading>2. Palvelun toimittaminen</BigHeading>
@@ -49,9 +48,9 @@ export default function TOS() {
 
       <BigHeading>3. Oikeudet ja velvollisuudet</BigHeading>
       <p>
-        Asiakas sitoutuu antamaan rekisteröinnin yhteydessä oikeat ja riittävät rekisteröinti- ja
-        maksutiedot. Rekisteröinnin toteuttava henkilö vakuuttaa olevansa oikeutettu edustamaan
-        asiakasta palvelun käyttöönotossa. Jos asiakkaan rekisteröinnin yhteydessä antamat tiedot
+        Asiakas sitoutuu antamaan rekisteröinnin yhteydessä oikeat ja riittävät rekisteröintitiedot.
+        Rekisteröinnin toteuttava henkilö vakuuttaa olevansa oikeutettu edustamaan asiakasta
+        palvelun käyttöönotossa. Jos asiakkaan rekisteröinnin yhteydessä antamat tiedot
         osoittautuvat virheellisiksi tai muulla tavoin puutteellisiksi, palveluntarjoajalla on
         oikeus olla toimittamatta palvelua. Asiakas ei saa luovuttaa tilin hallintaa kolmansille
         osapuolille. Jos tili tai sen hallinnan mahdollistavat tiedot joutuvat vääriin käsiin,
