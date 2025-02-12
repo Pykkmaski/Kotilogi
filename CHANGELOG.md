@@ -1,17 +1,18 @@
-## [2.3.3] - 06-02-2025
-
-### Unreleased
-
-- Code related to a future migration to MongoDB.
+## [2.3.3] - 12-02-2025
 
 ### Removed
 
 - The outdated mobile under construction notice.
 - The business-link from auth-pages.
 
+### Added
+
+- The privacy policy.
+
 ### Changed
 
 - The Jutut-link to "Blogi" in the auth pages.
+- Included a link to the privacy-policy document on he register-form.
 
 ## [2.3.2] - 05-02-2025
 

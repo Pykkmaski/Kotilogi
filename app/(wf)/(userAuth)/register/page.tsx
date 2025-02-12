@@ -69,20 +69,29 @@ export default function RegisterPage() {
               ) : null}
             </WFAuthInputGroup>
           </WFAuthInputGroupWrapper>
-          <div className='flex w-full justify-between'>
-            <WFAuthInputGroup.Label>
-              Olen lukenut, ja hyväksyn{' '}
-              <Link
-                href='/tos'
-                className='text-wf-primary'>
-                käyttöehdot
-              </Link>
-            </WFAuthInputGroup.Label>
-            <input
-              type='checkbox'
-              required
-            />
-          </div>
+          <WFAuthInputGroupWrapper>
+            <div className='flex w-full justify-between'>
+              <WFAuthInputGroup.Label>
+                Olen lukenut, ja hyväksyn{' '}
+                <Link
+                  href='/tos'
+                  className='text-wf-primary'>
+                  käyttöehdot
+                </Link>
+              </WFAuthInputGroup.Label>
+              <input
+                type='checkbox'
+                required
+              />
+            </div>
+            <Link
+              className='text-white'
+              href='/doc/privacy.pdf'
+              target='_blank'>
+              Tietosuojaseloste
+            </Link>
+          </WFAuthInputGroupWrapper>
+
           <WFAuthInputGroup>
             <WFAuthSubmitButton
               type='submit'
