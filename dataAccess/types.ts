@@ -126,15 +126,19 @@ export type EventPayloadType = ObjectDataType &
     date: Date;
     labour_expenses: number;
     material_expenses: number;
-    event_type_id: number;
-    target_id: number;
-    service_work_type_id?: number;
-    windows?: WindowDataType[];
-    locks?: LockDataType[];
-    heating?: HeatingPayloadType[];
-    surfaces?: number[];
-    insulation?: TODO[];
-    electricalTargets?: number[];
+    event_type: string;
+    target_type: string;
+
+    data: {
+      [x: string]: any;
+      maintenance_type?: string;
+      windows?: WindowDataType[];
+      locks?: LockDataType[];
+      heating?: HeatingPayloadType[];
+      surfaces?: number[];
+      insulation?: TODO[];
+      electricalTargets?: number[];
+    };
   };
 
 type HasEventId = { event_id: string };
@@ -205,24 +209,24 @@ export type InteriorDataType = {
 };
 
 export type RoofDataType = {
-  roofMaterialId: number;
-  roofTypeId: number;
-  neliometrit: number;
-  kaltevuus: string;
-  raystasTyyppiId: number;
-  otsalautaTyyppiId: number;
-  aluskateTyyppiId: number;
-  colorId: number;
-  harjatuuletusAluskatteella: boolean;
-  suojakasiteltyPuutavara: boolean;
-  piipunpellitys: boolean;
-  seinatikas: boolean;
+  roof_material: string;
+  roof_type: string;
+  area: number;
+  incline: string;
+  eaves_type: string;
+  fascia_board_type: string;
+  underlacing_type: string;
+  color: number;
+  has_underlacing_ventilation: boolean;
+  has_treated_wood: boolean;
+  has_chimney_plating: boolean;
+  has_ladder: boolean;
   lapetikas: boolean;
-  lumieste: boolean;
-  kattosilta: boolean;
-  turvatikas: boolean;
-  kourut: boolean;
-  syoksysarja: boolean;
+  has_snow_barrier: boolean;
+  has_roof_bridge: boolean;
+  has_security_ladder: boolean;
+  has_gutters: boolean;
+  has_downspout_system: boolean;
 };
 
 export type FileDataType = ObjectDataType & {

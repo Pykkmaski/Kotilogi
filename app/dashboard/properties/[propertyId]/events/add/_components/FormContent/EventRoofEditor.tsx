@@ -9,7 +9,8 @@ import { RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { getRoof } from './actions';
 
 export function EventRoofEditor() {
-  const { eventData, updateEventData, resetEventData } = useEventFormContext();
+  const { eventData, updateEventData, resetEventData, payload, updatePayload, resetPayload } =
+    useEventFormContext();
 
   const { data, isLoading, error } = useQuery({
     queryKey: [`event-roof-data-${eventData.property_id}`],
@@ -17,13 +18,12 @@ export function EventRoofEditor() {
   });
 
   useEffect(() => {
-    const roofData = data?.at(0);
+    const roofData = data;
     if (roofData) {
-      resetEventData({ ...eventData, ...roofData });
+      resetPayload({ ...roofData });
     }
   }, [isLoading, data]);
 
-  console.log(eventData);
   return isLoading ? (
     <Spinner message='Ladataan katon tietoja...' />
   ) : error ? (
@@ -33,8 +33,8 @@ export function EventRoofEditor() {
     />
   ) : (
     <RoofEditor
-      roofData={eventData as Partial<RoofDataType>}
-      onChange={updateEventData}
+      roofData={payload as Partial<RoofDataType>}
+      onChange={updatePayload}
     />
   );
 }

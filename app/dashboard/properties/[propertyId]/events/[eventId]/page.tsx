@@ -46,8 +46,8 @@ export default async function EventPage({ params }) {
             <h1 className='md:text-xl xs:text-lg font-semibold'>{event.title || 'Ei Otsikkoa'}</h1>
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
             <h1 className='font-semibold text-slate-500'>Tiedot</h1>
-            {event.event_type_id == eventTypes['Peruskorjaus'] ? (
-              event.target_id == eventTargets['Ulkoverhous'] ? (
+            {event.event_type == eventTypes['Peruskorjaus'] ? (
+              event.target_type == eventTargets['Ulkoverhous'] ? (
                 <>
                   <DataDisplay
                     title='Materiaali'
@@ -67,7 +67,7 @@ export default async function EventPage({ params }) {
                     value={event.wind_protection_plate_thickness || 'Ei tuulensuojalevyä'}
                   />
                 </>
-              ) : event.target_id == eventTargets['Lämmitysmuoto'] ? (
+              ) : event.target_type == eventTargets['Lämmitysmuoto'] ? (
                 <>
                   <DataDisplay
                     title='Vanha järjestelmä'
@@ -79,24 +79,24 @@ export default async function EventPage({ params }) {
                     value={event.new_system_label}
                   />
                 </>
-              ) : event.target_id == eventTargets['Käyttövesiputket'] ? (
+              ) : event.target_type == eventTargets['Käyttövesiputket'] ? (
                 <DataDisplay
                   title='Asennustapa'
                   value={event.installation_method_label}
                 />
-              ) : event.target_id == eventTargets['Viemäriputket'] ? (
+              ) : event.target_type == eventTargets['Viemäriputket'] ? (
                 <DataDisplay
                   title='Korjaustapa'
                   value={event.restoration_method_label}
                 />
-              ) : event.target_id == eventTargets['Sähköt'] ? (
+              ) : event.target_type == eventTargets['Sähköt'] ? (
                 <DataDisplay
                   title='Kohde'
                   value={event.restoration_target_label}
                 />
               ) : null
-            ) : event.event_type_id == eventTypes['Huoltotyö'] &&
-              event.target_id !== eventTargets['Muu'] ? (
+            ) : event.event_type == eventTypes['Huoltotyö'] &&
+              event.target_type !== eventTargets['Muu'] ? (
               <DataDisplay
                 title='Tehty huoltotyö'
                 value={event.service_work_type_label}
@@ -139,8 +139,8 @@ export default async function EventPage({ params }) {
         </div>
       </BoxFieldset>
 
-      {event.event_type_id == eventTypes['Peruskorjaus'] &&
-      event.target_id == eventTargets['Ikkunat'] ? (
+      {event.event_type == eventTypes['Peruskorjaus'] &&
+      event.target_type == eventTargets['Ikkunat'] ? (
         <BoxFieldset
           legend='Asennetut ikkunat'
           closeable>
@@ -171,7 +171,7 @@ export default async function EventPage({ params }) {
             })}
           </DataPointGrid>
         </BoxFieldset>
-      ) : event.target_id == eventTargets['Lukitus'] ? (
+      ) : event.target_type == eventTargets['Lukitus'] ? (
         <BoxFieldset
           legend='Asennetut lukot'
           closeable>
@@ -199,7 +199,7 @@ export default async function EventPage({ params }) {
             })}
           </DataPointGrid>
         </BoxFieldset>
-      ) : event.target_id == eventTargets['Eristys'] ? (
+      ) : event.target_type == eventTargets['Eristys'] ? (
         <BoxFieldset
           legend='Eristykset'
           closeable>

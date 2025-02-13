@@ -4,7 +4,7 @@ import { useEventFormContext } from '../EventFormContext';
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@/components/UI/Spinner';
-import { getDrainageDitchMethods } from './actions';
+import { getDrainageDitch, getDrainageDitchMethods } from './actions';
 import { Checkbox } from '@/components/Feature/RadioGroup/Checkbox';
 import { ImplementationMethodSelector } from './DrainageDitchEventContent/ImplementationMethodSelector';
 import { DrainageDitchEditor } from '@/components/Feature/DrainageDitchEditor';
@@ -13,19 +13,17 @@ import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_component
 import { Notification } from '@/components/UI/Notification';
 
 export const EventDrainageDitchEditor = () => {
-  const { eventData, resetEventData, updateEventData } = useEventFormContext();
+  const { eventData, resetEventData, updateEventData, payload, updatePayload, resetPayload } =
+    useEventFormContext();
   const { data, isLoading, error } = useQuery({
     queryKey: [`drainage-ditch-data-${eventData.property_id}`],
-    queryFn: async () => await getContent('drainage_ditch'),
+    queryFn: async () => await getDrainageDitch(eventData.property_id),
   });
 
   useEffect(() => {
-    const drainageDitchData = data?.at(0);
-    if (drainageDitchData) {
-      resetEventData({
-        ...eventData,
-        ...drainageDitchData,
-      });
+    if (data) {
+      console.log(data);
+      resetPayload(data);
     }
   }, [isLoading]);
 
@@ -39,8 +37,8 @@ export const EventDrainageDitchEditor = () => {
     </Notification>
   ) : (
     <DrainageDitchEditor
-      drainageDitchData={eventData}
-      onChange={updateEventData}
+      drainageDitchData={payload}
+      onChange={updatePayload}
     />
   );
 };

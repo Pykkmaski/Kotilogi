@@ -7,7 +7,7 @@ export function SurfaceWorkContent() {
   return (
     <>
       <EventTargetSelector />
-      {eventData.target_id && <SurfaceSelector />}
+      {eventData.target_type && <SurfaceSelector />}
     </>
   );
 }

@@ -12,17 +12,6 @@ export const BrandAndModelInputs = ({
   return (
     <>
       <FormControl
-        label='Nimi'
-        control={
-          <Input
-            name='name'
-            placeholder='Anna lämmitykselle nimi...'
-            onChange={updateEventData}
-            value={(eventData as any).name}
-          />
-        }
-      />
-      <FormControl
         label={brandLabel}
         control={
           <Input

@@ -20,6 +20,8 @@ import { HeatingEditor } from '@/components/Feature/HeatingEditor';
 import Spinner from '@/components/UI/Spinner';
 import { EventHeatingEditor } from './FormContent/EventHeatingEditor';
 import { ExteriorCladdingEditor } from '@/components/Feature/ExteriorCladdingEditor';
+import { EventType } from 'kotilogi-app/types/EventType';
+import { TargetType } from 'kotilogi-app/types/TargetType';
 
 export function RestorationWorkContent() {
   const {
@@ -29,6 +31,8 @@ export function RestorationWorkContent() {
     insulation,
     updateEventData,
     resetInsulation,
+    updatePayload,
+    payload,
     selectedERTargetIds,
     toggleERTargetId,
   } = useEventFormContext();
@@ -41,49 +45,49 @@ export function RestorationWorkContent() {
     queryKey: ['heating-data'],
     queryFn: async () => await getHeatingData(propertyId),
     enabled:
-      eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') &&
-      eventData.target_id == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto'),
+      eventData.event_type == EventType.PERUSKORJAUS &&
+      eventData.target_type == TargetType.LÄMMITYSMUOTO,
   });
 
   return (
     <>
       <EventTargetSelector />
-      {eventData.target_id == getIdByLabel(refs.eventTargets, 'Ikkunat') ? (
+      {eventData.target_type == TargetType.IKKUNAT ? (
         <WindowBatch />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Katto') ? (
+      ) : eventData.target_type == TargetType.KATTO ? (
         <EventRoofEditor />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Viemäriputket') ? (
+      ) : eventData.target_type == TargetType.VIEMÄRIPUTKET ? (
         <SewerPipeEditor
           sewerPipeData={eventData}
-          onChange={updateEventData}
+          onChange={updatePayload}
         />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Salaojat') ? (
+      ) : eventData.target_type == TargetType.SALAOJAT ? (
         <EventDrainageDitchEditor />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Käyttövesiputket') ? (
+      ) : eventData.target_type == TargetType.KÄYTTÖVESIPUTKET ? (
         <WaterPipeEditor
-          waterPipeData={eventData}
-          onChange={updateEventData}
+          waterPipeData={payload}
+          onChange={updatePayload}
         />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Eristys') ? (
+      ) : eventData.target_type == TargetType.ERISTYS ? (
         <InsulationEditor
           initialData={insulation}
           onChange={entries => resetInsulation(entries)}
         />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Sähköt') ? (
+      ) : eventData.target_type == TargetType.SÄHKÖT ? (
         <ElectricalEditor
           selectedTargets={selectedERTargetIds}
           onChange={id => {
             toggleERTargetId(id);
           }}
         />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Lukitus') ? (
+      ) : eventData.target_type == TargetType.LUKITUS ? (
         <LockBatch />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Lämmitysmuoto') ? (
+      ) : eventData.target_type == TargetType.LÄMMITYSMUOTO ? (
         <HeatingRenovationContent />
-      ) : eventData.target_id == getIdByLabel(refs.eventTargets, 'Ulkoverhous') ? (
+      ) : eventData.target_type == TargetType.ULKOVERHOUS ? (
         <ExteriorCladdingEditor
-          value={eventData}
-          onChange={updateEventData}
+          value={payload}
+          onChange={updatePayload}
         />
       ) : null}
     </>

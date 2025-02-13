@@ -8,7 +8,7 @@ export function SewerPipeEditor({ sewerPipeData, onChange }) {
       <RadioSelector
         label='Toteutustapa'
         labelKey='label'
-        valueKey='id'
+        valueKey='label'
         tablename='restoration_events.sewer_pipe_restoration_method_type'
         name='restoration_method_type_id'
         value={sewerPipeData.restoration_method_type_id}

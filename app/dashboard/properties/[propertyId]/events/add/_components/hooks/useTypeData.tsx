@@ -6,7 +6,7 @@ import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 const dataStorageKey = 'kotidok-event-type-data';
 
 function initTypeData(eventData: TODO): {
-  event_type_id: number | null;
+  event_type_id: string | null;
   target_id: number | null;
   work_type_id: number | null;
 } {

@@ -9,6 +9,7 @@ import { SurfaceWorkContent } from './SurfaceWorkContent';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { FormNav } from './FormNav';
+import { EventType } from 'kotilogi-app/types/EventType';
 
 /**Renders the content of the event form target-tab */
 export function EventTargetContent() {
@@ -17,24 +18,21 @@ export function EventTargetContent() {
   return (
     <BoxFieldset legend='Tapahtuman kohde'>
       <FieldsetContainer>
-        {eventData.event_type_id ? (
+        {eventData.event_type ? (
           <div className='flex flex-col gap-10 w-full'>
             <Notification
               variant='success'
               position='start'>
-              Valittu tapahtumatyyppi:{' '}
-              <span className='font-semibold'>
-                {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
-              </span>
+              Valittu tapahtumatyyppi: <span className='font-semibold'>{eventData.event_type}</span>
             </Notification>
 
-            {eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') ? (
+            {eventData.event_type == EventType.PERUSKORJAUS ? (
               <RestorationWorkContent />
-            ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
+            ) : eventData.event_type == EventType.HUOLTOTYÖ ? (
               <ServiceWorkContent />
-            ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu') ? (
+            ) : eventData.event_type == EventType.MUU ? (
               <OtherWorkContent />
-            ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
+            ) : eventData.event_type == EventType.PINTAREMONTTI ? (
               <SurfaceWorkContent />
             ) : (
               <Notification

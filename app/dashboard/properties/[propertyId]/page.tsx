@@ -34,9 +34,8 @@ export default async function PropertyPage({ params }) {
   const utilityData = await utilities.get(data.id);
   const fileData = await files.get({ parentId: id }, 10);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
-  //const primaryHeating = await heating.getPrimary(id, db);
-  const primaryHeating = await heating.getPrimary(id, db);
-
+  const heatingData = await heating.get(data.id, db);
+  console.log('heating data:', heatingData);
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
@@ -130,7 +129,7 @@ export default async function PropertyPage({ params }) {
 
               <DataDisplay
                 title='Lämmitysmuoto'
-                value={primaryHeating || 'Ei määritelty'}
+                value={heatingData?.join(', ') || 'Ei määritelty'}
               />
               <DataDisplay
                 title='Omistajat'

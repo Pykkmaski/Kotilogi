@@ -11,6 +11,8 @@ import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { WindowBatch } from '../FormContent/WindowBatch/WindowBatch';
+import { EventType } from 'kotilogi-app/types/EventType';
+import { TargetType } from 'kotilogi-app/types/TargetType';
 
 export function useEventForm(
   propertyId: string,
@@ -38,20 +40,32 @@ export function useEventForm(
     selectedSurfaceIds,
     resetSelectedSurfaceIds,
     selectedERTargetIds,
+    payload,
   } = eventDataProps;
 
   const { extraData, updateExtraData, resetExtraData, ...extraDataProps } =
     useExtraData(initialExtraData);
 
   const { method: submitMethod, status } = useStatusWithAsyncMethod(async () => {
+    let data = payload;
+    if (windows.length) {
+      data.windows = windows.map(w => w.value);
+    } else if (locks.length) {
+      data.locks = locks.map(l => l.value);
+    } else if (insulation.length) {
+      data.insulation = insulation.map(i => i.value.value);
+    } else if (selectedSurfaceIds.length) {
+      data.surfaces = selectedSurfaceIds;
+    } else if (selectedERTargetIds.length) {
+      data.electrical_targets = selectedERTargetIds;
+    }
+
     if (initialEventData) {
       await updateEventAction(
         eventData.id,
         {
           ...eventData,
-          windows: windows.map(w => w.value),
-          locks: locks.map(l => l.value),
-          surfaces: selectedSurfaceIds.map(s => s),
+          data,
         },
         extraData
       );
@@ -60,12 +74,7 @@ export function useEventForm(
         propertyId,
         {
           ...eventData,
-          windows: windows.map(w => w.value),
-          locks: locks.map(l => l.value),
-          surfaces: selectedSurfaceIds,
-          //Fix this later: The batches seem to be stacked on top of each other for some reason.
-          insulation: insulation.map(i => i.value.value),
-          electricalTargets: selectedERTargetIds,
+          data,
         },
         files.map(f => {
           const fd = new FormData();
@@ -96,57 +105,52 @@ export function useEventForm(
   }, [hasChanges, router]);
 
   const showMainDataForm = useMemo(() => {
-    if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
-      return isDefined(eventData.target_id);
-    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö')) {
-      return eventData.target_id != getIdByLabel(refs.eventTargets, 'Muu')
-        ? isDefined(eventData.target_id) && isDefined(eventData.service_work_type_id)
-        : isDefined(eventData.target_id);
-    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti')) {
+    if (eventData.event_type == EventType.PERUSKORJAUS) {
+      return isDefined(eventData.target_type);
+    } else if (eventData.event_type == EventType.HUOLTOTYÖ) {
+      return eventData.target_type != TargetType.MUU
+        ? isDefined(eventData.target_type) && isDefined(payload?.maintenance_type)
+        : isDefined(eventData.target_type);
+    } else if (eventData.event_type == EventType.PINTAREMONTTI) {
       return selectedSurfaceIds.length > 0;
-    } else if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Muu')) {
-      return isDefined(eventData.target_id);
+    } else if (eventData.event_type == EventType.MUU) {
+      return isDefined(eventData.target_type);
     } else {
       return false;
     }
-  }, [
-    eventData.target_id,
-    eventData.event_type_id,
-    refs.eventTypes,
-    eventData.service_work_type_id,
-  ]);
+  }, [eventData.target_type, eventData.event_type, refs.eventTypes, payload?.maintenance_type]);
 
   const showExtraDataForm = useCallback(() => {
-    if (eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Peruskorjaus')) {
+    if (eventData.event_type == EventType.PERUSKORJAUS) {
       return true;
     } else {
       return false;
     }
-  }, [eventData.service_work_type_id, eventData.event_type_id, refs.eventTypes]);
+  }, [payload?.maintenance_type, eventData.event_type, refs.eventTypes]);
 
   const { resetWindowBatch } = eventDataProps;
 
   const isSubmitDisabled = useMemo(() => {
     return (
-      eventData.event_type_id == undefined ||
-      eventData.target_id == undefined ||
+      eventData.event_type == undefined ||
+      eventData.target_type == undefined ||
       eventData.date == undefined ||
       status == 'loading'
     );
   }, [
-    eventData.target_id,
-    eventData.service_work_type_id,
-    eventData.event_type_id,
+    eventData.target_type,
+    payload?.maintenance_type,
+    eventData.event_type,
     eventData.date,
     status,
   ]);
 
   useEffect(() => {
-    if (eventData.target_id != getIdByLabel(refs.eventTargets, 'Ikkunat')) {
+    if (eventData.target_type != TargetType.IKKUNAT) {
       console.log('Resetting window batch.');
       resetWindowBatch();
     }
-  }, [eventData.target_id]);
+  }, [eventData.target_type]);
 
   return {
     ...extraDataProps,

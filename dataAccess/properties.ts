@@ -153,21 +153,28 @@ class Properties {
         trx
       );
 
-      const heatingPromises: Promise<void>[] = [];
-      data.heating?.map(async (item: TODO) =>
-        heating.create(
-          {
-            ...item,
-            property_id: obj.id,
-          },
-          trx
-        )
-      );
+      //Should create a heating method genesis event.
+      if (data.heating) {
+        const heatingLabels = await trx('types.heating_type')
+          .whereIn('id', data.heating)
+          .pluck('name');
+
+        await trx('new_events').insert({
+          title: 'Lämmitystietojen lisäys',
+          author_id: session.user.id,
+          property_id: obj.id,
+          event_type: 'Genesis',
+          target_type: 'Lämmitysmuoto',
+          date: null,
+          data: { heating_types: heatingLabels },
+        });
+      }
 
       const buildingPromise = buildings.create(obj.id, data, trx);
       const interiorPromise = interiors.create(obj.id, data, trx);
+      //SHould create a roof genesis event
       const roofPromise = roofs.create(obj.id, data, trx);
-      await Promise.all([buildingPromise, interiorPromise, roofPromise, heatingPromises]);
+      await Promise.all([buildingPromise, interiorPromise, roofPromise]);
 
       const propertyTableName = await this.getTableNameByType(data.property_type_id, trx);
 

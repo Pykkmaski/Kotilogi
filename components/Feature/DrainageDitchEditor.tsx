@@ -10,10 +10,10 @@ export function DrainageDitchImplementationMethodSelector(props: Kotidok.Selecto
       {...props}
       loadingText='Ladataan toteutustapoja...'
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       label='Toteutustapa'
       tablename='restoration_events.drainage_ditch_implementation_method_type'
-      name='toteutusTapaId'
+      name='implementation_method'
     />
   );
 }
@@ -26,7 +26,7 @@ export function DrianageDitchGravelInput(props: Kotidok.SelectorProps) {
       control={
         <Input
           {...props}
-          name='salaojaSepeli'
+          name='gravel_thickness'
           type='number'
           step='1'
           min='0'
@@ -45,7 +45,7 @@ export function DrainageDitchPermafrostInsulationInput(props: Kotidok.SelectorPr
       control={
         <Input
           {...props}
-          name='routaEristys'
+          name='permafrost_insulation_thickness'
           type='number'
           step='1'
           min='0'
@@ -64,7 +64,7 @@ export function DrainageDitchCrushingEdgeInput(props: Kotidok.SelectorProps) {
       control={
         <Input
           {...props}
-          name='murskeReunus'
+          name='gravel_lining'
           type='number'
           step='1'
           min='0'
@@ -85,55 +85,55 @@ export function DrainageDitchEditor({ drainageDitchData, onChange }: DrainageDit
     <EditorContainer>
       <h1 className='font-semibold'>Salaojan tiedot</h1>
       <DrainageDitchImplementationMethodSelector
-        value={drainageDitchData.toteutusTapaId}
+        value={drainageDitchData.implementation_method}
         onChange={onChange}
       />
 
       <DrianageDitchGravelInput
-        value={drainageDitchData.salaojaSepeli}
+        value={drainageDitchData.gravel_thickness}
         onChange={onChange}
       />
 
       <DrainageDitchPermafrostInsulationInput
-        value={drainageDitchData.routaEristys}
+        value={drainageDitchData.permafrost_insulation_thickness}
         onChange={onChange}
       />
 
       <DrainageDitchCrushingEdgeInput
-        value={drainageDitchData.murskeReunus}
+        value={drainageDitchData.gravel_lining}
         onChange={onChange}
       />
 
       <Checkbox
         label='Pumppukaivo'
-        name='pumppuKaivo'
-        checked={drainageDitchData.pumppuKaivo}
+        name='has_pump_well'
+        checked={drainageDitchData.has_pump_well}
         onChange={onChange}
       />
       <Checkbox
         label='Sadevesiputket + suppilot'
-        name='sadevesiPutket'
-        checked={drainageDitchData.sadevesiPutket}
+        name='has_rainwater_pipes'
+        checked={drainageDitchData.has_rainwater_pipes}
         onChange={onChange}
       />
 
       <Checkbox
         label='Suodatinkangas'
-        name='suodatinKangas'
-        checked={drainageDitchData.suodatinKangas}
+        name='has_filtration_cloth'
+        checked={drainageDitchData.has_filtration_cloth}
         onChange={onChange}
       />
 
       <Checkbox
         label='Tarkastuskaivot'
-        name='tarkastusKaivot'
-        checked={drainageDitchData.tarkastusKaivot}
+        name='has_inspection_wells'
+        checked={drainageDitchData.has_inspection_wells}
         onChange={onChange}
       />
       <Checkbox
         label='Kalliotyö'
-        name='kallioTyo'
-        checked={drainageDitchData.kallioTyo}
+        name='included_rock_construction'
+        checked={drainageDitchData.included_rock_construction}
         onChange={onChange}
       />
     </EditorContainer>

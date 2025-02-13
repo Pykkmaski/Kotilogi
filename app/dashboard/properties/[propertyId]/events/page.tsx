@@ -21,18 +21,15 @@ export default async function EventsPage({ params, searchParams }) {
 
   const [{ result: totalEvents }] = (await db('event')
     .join(db.raw('object on object.id = event.id'))
-    .join(db.raw('types.event_type on types.event_type.id = event.event_type_id'))
-    .join(db.raw('types.event_target_type on types.event_target_type.id = event.target_id'))
     .where(function () {
       if (!q) {
         return;
       }
-
       const qstr = `%${q}%`;
       this.whereILike('object.title', qstr)
         .orWhereILike('object.description', qstr)
-        .orWhereILike('types.event_type.label', qstr)
-        .orWhereILike('types.event_target_type.label', qstr);
+        .orWhereILike('event.event_type', qstr)
+        .orWhereILike('event.target_type', qstr);
     })
     .andWhere({ 'object.parentId': propertyId })
     .count('* as result')) as [{ result: number }];

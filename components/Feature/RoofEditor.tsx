@@ -2,7 +2,6 @@ import { RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { RadioSelector } from './OptionSelector';
 import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
-import { ColorSelector } from './BuildingEditor';
 import { EditorContainer } from './EditorContainer';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
@@ -11,11 +10,11 @@ export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.Selector
       {...props}
       loadingText='Ladataan tyyppejä...'
       labelKey='name'
-      valueKey='id'
+      valueKey='name'
       label='Katon tyyppi'
       tablename='types.roof_type'
       value={value}
-      name='roofTypeId'
+      name='roof_type'
       onChange={onChange}
     />
   );
@@ -27,11 +26,11 @@ export function RoofMaterialSelector({ value, onChange, ...props }: Kotidok.Sele
       {...props}
       loadingText='Ladataan materiaaleja...'
       labelKey='name'
-      valueKey='id'
+      valueKey='name'
       label='Katon materiaali'
       tablename='types.roof_material_type'
       value={value}
-      name='roofMaterialId'
+      name='roof_material'
       onChange={onChange}
     />
   );
@@ -43,11 +42,11 @@ export function RoofEavesTypeSelector({ value, onChange, ...props }: Kotidok.Sel
       {...props}
       loadingText='Ladataan räystästyyppejä...'
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       label='Räystästyyppi'
       tablename='types.roof_eaves_type'
       value={value}
-      name='raystasTyyppiId'
+      name='eaves_type'
       onChange={onChange}
     />
   );
@@ -59,11 +58,11 @@ export function RoofUnderlaymentTypeSelector({ value, onChange, ...props }: Koti
       {...props}
       loadingText='Ladataan aluskatetyyppejä...'
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       label='Aluskatetyyppi'
       tablename='types.roof_underlacing_type'
       value={value}
-      name='aluskateTyyppiId'
+      name='underlacing_type'
       onChange={onChange}
     />
   );
@@ -75,11 +74,11 @@ export function RoofFasciaBoardTypeSelector({ value, onChange, ...props }: Kotid
       {...props}
       loadingText='Ladataan otsalautatyyppejä...'
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       label='Otsalautatyyppi'
       tablename='types.roof_fascia_board_type'
       value={value}
-      name='otsalautaTyyppiId'
+      name='fascia_board_type'
       onChange={onChange}
     />
   );
@@ -92,7 +91,7 @@ export function RoofInclineInput(props: Kotidok.SelectorProps) {
       control={
         <Input
           {...props}
-          name='kaltevuus'
+          name='incline'
           placeholder='Anna katon kaltevuus...'
         />
       }
@@ -107,7 +106,7 @@ export function RoofAreaInput(props: Kotidok.SelectorProps) {
       control={
         <Input
           {...props}
-          name='neliometrit'
+          name='area'
           placeholder='Anna katon neliömetrit...'
         />
       }
@@ -120,7 +119,7 @@ export function RoofHasRoofBridgeCheckbox(props: Kotidok.CheckboxSelectorProps) 
     <Checkbox
       {...props}
       label='Kattosilta'
-      name='kattosilta'
+      name='has_roof_bridge'
     />
   );
 }
@@ -129,7 +128,7 @@ export function RoofHasChimneyCladdingCheckbox(props: Kotidok.CheckboxSelectorPr
   return (
     <Checkbox
       {...props}
-      name='piipunpellitys'
+      name='has_chimney_plating'
       label='Hormin pellitys'
     />
   );
@@ -139,7 +138,7 @@ export function RoofHasWallLadderCheckbox(props: Kotidok.CheckboxSelectorProps) 
   return (
     <Checkbox
       {...props}
-      name='seinatikas'
+      name='has_ladder'
       label='Seinätikas'
     />
   );
@@ -159,7 +158,7 @@ export function RoofHasUnderlayVentilationCheckbox(props: Kotidok.CheckboxSelect
   return (
     <Checkbox
       {...props}
-      name='harjatuuletusAluskatteella'
+      name='has_underlacing_ventilation'
       label='Harjatuuletus aluskatteella'
     />
   );
@@ -169,7 +168,7 @@ export function RoofHasTreatedWoodCheckbox(props: Kotidok.CheckboxSelectorProps)
   return (
     <Checkbox
       {...props}
-      name='suojakasiteltyPuutavara'
+      name='has_treated_wood'
       label='Suojakäsitelty puutavara'
     />
   );
@@ -179,7 +178,7 @@ export function RoofHasSnowBarrierCheckbox(props: Kotidok.CheckboxSelectorProps)
   return (
     <Checkbox
       {...props}
-      name='lumieste'
+      name='has_snow_barrier'
       label='Lumieste'
     />
   );
@@ -189,7 +188,7 @@ export function RoofHasGuttersCheckbox(props: Kotidok.CheckboxSelectorProps) {
   return (
     <Checkbox
       {...props}
-      name='kourut'
+      name='has_gutters'
       label='Kourut'
     />
   );
@@ -199,7 +198,7 @@ export function RoofHasDownspoutSystemCheckbox(props: Kotidok.CheckboxSelectorPr
   return (
     <Checkbox
       {...props}
-      name='syoksysarja'
+      name='has_downspout_system'
       label='Syöksysarja'
     />
   );
@@ -209,12 +208,24 @@ export function RoofHasSecurityLadderCheckbox(props: Kotidok.CheckboxSelectorPro
   return (
     <Checkbox
       {...props}
-      name='turvatikas'
+      name='has_security_ladder'
       label='Turvatikas'
     />
   );
 }
 
+function ColorSelector(props: any) {
+  return (
+    <RadioSelector
+      {...props}
+      labelKey='name'
+      valueKey='name'
+      label='Väri'
+      name={props.name}
+      tablename='public.ref_mainColors'
+    />
+  );
+}
 type RoofEditorProps = {
   roofData: Partial<RoofDataType>;
   onChange: (e: any) => void;
@@ -227,58 +238,58 @@ export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
     <EditorContainer>
       <h1 className='font-semibold'>Katon tiedot</h1>
       <RoofTypeSelector
-        value={roofData.roofTypeId}
+        value={roofData.roof_type}
         onChange={onChange}
       />
 
       <RoofMaterialSelector
-        value={roofData.roofMaterialId}
+        value={roofData.roof_material}
         onChange={onChange}
       />
 
       <ColorSelector
-        value={roofData.colorId}
+        value={roofData.color}
         onChange={onChange}
-        name='colorId'
+        name='color'
       />
 
       <RoofEavesTypeSelector
-        value={roofData.raystasTyyppiId}
+        value={roofData.eaves_type}
         onChange={onChange}
       />
 
       <RoofUnderlaymentTypeSelector
-        value={roofData.aluskateTyyppiId}
+        value={roofData.underlacing_type}
         onChange={onChange}
       />
 
       <RoofFasciaBoardTypeSelector
-        value={roofData.otsalautaTyyppiId}
+        value={roofData.fascia_board_type}
         onChange={onChange}
       />
 
       <RoofInclineInput
-        value={roofData.kaltevuus}
+        value={roofData.incline}
         onChange={onChange}
       />
 
       <RoofAreaInput
-        value={roofData.neliometrit}
+        value={roofData.area}
         onChange={onChange}
       />
 
       <RoofHasRoofBridgeCheckbox
-        checked={roofData.kattosilta}
+        checked={roofData.has_roof_bridge}
         onChange={onChange}
       />
 
       <RoofHasChimneyCladdingCheckbox
-        checked={roofData.piipunpellitys}
+        checked={roofData.has_chimney_plating}
         onChange={onChange}
       />
 
       <RoofHasWallLadderCheckbox
-        checked={roofData.seinatikas}
+        checked={roofData.has_ladder}
         onChange={onChange}
       />
 
@@ -288,32 +299,32 @@ export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
       />
 
       <RoofHasUnderlayVentilationCheckbox
-        checked={roofData.harjatuuletusAluskatteella}
+        checked={roofData.has_underlacing_ventilation}
         onChange={onChange}
       />
 
       <RoofHasTreatedWoodCheckbox
-        checked={roofData.suojakasiteltyPuutavara}
+        checked={roofData.has_treated_wood}
         onChange={onChange}
       />
 
       <RoofHasSnowBarrierCheckbox
-        checked={roofData.lumieste}
+        checked={roofData.has_snow_barrier}
         onChange={onChange}
       />
 
       <RoofHasGuttersCheckbox
-        checked={roofData.kourut}
+        checked={roofData.has_gutters}
         onChange={onChange}
       />
 
       <RoofHasDownspoutSystemCheckbox
-        checked={roofData.syoksysarja}
+        checked={roofData.has_downspout_system}
         onChange={onChange}
       />
 
       <RoofHasSecurityLadderCheckbox
-        checked={roofData.turvatikas}
+        checked={roofData.has_security_ladder}
         onChange={onChange}
       />
     </EditorContainer>

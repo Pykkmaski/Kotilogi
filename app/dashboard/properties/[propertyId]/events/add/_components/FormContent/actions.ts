@@ -21,13 +21,36 @@ export const getEristeKohteet = async () => db('types.insulation_target_type');
 export const getCosmeticRenovationSurfaces = async () =>
   db('cosmetic_renovation_events.cosmetic_renovation_target_type');
 
-export const getRoof = async (property_id: string) => {
-  return await db('roof').where({ property_id });
-};
+export async function getRoof(property_id: string) {
+  const roof = await db('new_events')
+    .where(db.raw("event_type = 'Genesis' OR event_type = 'Peruskorjaus'"))
+    .andWhere({ property_id })
+    .select('data')
+    .orderBy('date', 'desc', 'last')
+    .first();
+  return roof.data;
+}
+
+export async function getDrainageDitch(property_id: string) {
+  const data = await db('new_events')
+    .where(db.raw("event_type = 'Genesis' OR event_type = 'Peruskorjaus'"))
+    .andWhere({ property_id, target_type: 'Salaojat' })
+    .select('data')
+    .orderBy('date', 'desc', 'last')
+    .first();
+
+  return data?.data;
+}
 
 export const getCurrentHeatingSystems = async (property_id: string) => {
-  return await db('heating')
-    .join(db.raw('types.heating_type on types.heating_type.id = heating.heating_type_id'))
-    .where({ 'heating.property_id': property_id })
-    .select('heating.*', 'types.heating_type.name as heating_type_label');
+  const heatingTypes = await db('new_events')
+    .where({ event_type: 'Peruskorjaus' })
+    .orWhere({ event_type: 'Genesis' })
+    .andWhere({ property_id, target_type: 'Lämmitysmuoto' })
+    .select('data')
+    .orderBy('date', 'desc', 'last')
+    .first();
+  console.log(heatingTypes);
+
+  return heatingTypes?.data?.heating_types;
 };

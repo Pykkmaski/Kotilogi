@@ -10,27 +10,6 @@ import { useEffect, useState } from 'react';
 
 const mainDataStorageKey = 'kotidok-event-main-data';
 
-function initMainData(initialEventData: EventPayloadType) {
-  const savedData = sessionStorage.getItem(mainDataStorageKey);
-  if (savedData) {
-    return JSON.parse(savedData);
-  }
-  if (initialEventData) {
-    const d = {
-      ...initialEventData,
-      date:
-        initialEventData.date && timestampToISOString(initialEventData.date.getTime().toString()),
-    };
-
-    delete d.event_type_id;
-    delete d.target_id;
-    delete d.service_work_type_id;
-    return d;
-  } else {
-    return {};
-  }
-}
-
 /**Handles the main data of the event form. Should be used within the main useEventForm-hook. */
 export const useEventData = (initialEventData: EventPayloadType) => {
   const {
@@ -40,6 +19,12 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     resetData: resetEventData,
   } = useFormOnChangeObject(initialEventData, 'kotidok-event-payload');
 
+  const {
+    data: payload,
+    updateData: updatePayload,
+    resetData: resetPayload,
+  } = useFormOnChangeObject(initialEventData?.data);
+
   const { files, removeFile, updateFiles } = useFormOnChangeFiles();
 
   const {
@@ -48,7 +33,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateEntry: updateWindowEntry,
     resetBatch: resetWindowBatch,
     entries: windows,
-  } = useBatchForm(initialEventData.windows, 'kotidok-event-data-windows');
+  } = useBatchForm(initialEventData?.data?.windows, 'kotidok-event-data-windows');
 
   const {
     addEntry: addLockEntry,
@@ -56,10 +41,10 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateEntry: updateLockEntry,
     resetBatch: resetLocks,
     entries: locks,
-  } = useBatchForm(initialEventData.locks, 'kotidok-event-data-locks');
+  } = useBatchForm(initialEventData?.data?.locks, 'kotidok-event-data-locks');
 
   const { entries: insulation, resetBatch: resetInsulation } = useBatchForm(
-    initialEventData.insulation,
+    initialEventData?.data?.insulation,
     'kotidok-event-data-insulation'
   );
 
@@ -84,24 +69,28 @@ export const useEventData = (initialEventData: EventPayloadType) => {
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
   useEffect(() => {
-    resetEventData({
-      ...eventData,
-      service_work_type_id: undefined,
-    });
-  }, [eventData.target_id]);
+    resetPayload({});
+  }, [eventData.target_type]);
 
   useEffect(() => {
     resetEventData({
       ...eventData,
-      target_id: undefined,
+      target_type: undefined,
     });
+
+    resetPayload({});
 
     resetSelectedSurfaceIds();
     resetSelectedERTargetIds();
-  }, [eventData.event_type_id]);
+  }, [eventData.event_type]);
 
   return {
+    /**The main event data, excluding the data payload-object.*/
     eventData,
+    /**The payload for containing all detailed data about the event, like the specs of roofs, drainage ditches, maintenance_type done, etc. */
+    payload,
+    updatePayload,
+    resetPayload,
     windows,
     locks,
     insulation,

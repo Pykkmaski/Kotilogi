@@ -11,12 +11,20 @@ import { icons } from 'kotilogi-app/icons';
 import { MoreHoriz } from '@mui/icons-material';
 import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
 import { useMemo } from 'react';
+import { EventType } from 'kotilogi-app/types/EventType';
+import {
+  getCosmeticTargetTypes,
+  getRestorableTargetTypes,
+  getServiceableTargetTypes,
+  TargetType,
+} from 'kotilogi-app/types/TargetType';
+import { FormControl } from '@/components/UI/FormUtils';
 
 function EventTargetGroup({ options }) {
   const { eventData, updateEventData } = useEventFormContext();
   const opts = useMemo(() => {
     return putOtherOptionLast(options).map((opt, key) => {
-      const selected = opt.id == eventData.target_id;
+      const selected = opt.id == eventData.target_type;
       const iconStyle = {
         color: selected ? 'white' : 'gray',
       };
@@ -29,7 +37,7 @@ function EventTargetGroup({ options }) {
           icon={<Icon sx={iconStyle} />}
           value={opt.id}
           label={opt.label}
-          name='target_id'
+          name='target_type'
           onChange={updateEventData}
           checked={selected}
         />
@@ -42,28 +50,24 @@ function EventTargetGroup({ options }) {
 
 export const EventTargetSelector = () => {
   const { eventData } = useEventFormContext();
+  const targets =
+    eventData.event_type == EventType.PERUSKORJAUS
+      ? getRestorableTargetTypes()
+      : eventData.event_type == EventType.HUOLTOTYÖ
+      ? getServiceableTargetTypes()
+      : eventData.event_type == EventType.PINTAREMONTTI
+      ? getCosmeticTargetTypes()
+      : Object.values(TargetType);
 
-  const {
-    isLoading,
-    data: targets,
-    error,
-  } = useQuery({
-    queryKey: [`targets-${eventData.event_type_id}`],
-    queryFn: async () => await getEventTargets(eventData.event_type_id),
-  });
-
-  return !error ? (
-    <SuspenseFormControl
+  return (
+    <FormControl
       label='Kohde'
       required
-      isLoading={isLoading}
-      control={<div className='w-full'>{!isLoading && <EventTargetGroup options={targets} />}</div>}
+      control={
+        <div className='w-full'>
+          <EventTargetGroup options={targets.map(t => ({ id: t, label: t }))} />
+        </div>
+      }
     />
-  ) : (
-    <Notification
-      variant='error'
-      position='start'>
-      Kohteiden lataus epäonnistui!
-    </Notification>
   );
 };

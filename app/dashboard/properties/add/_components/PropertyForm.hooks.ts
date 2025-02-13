@@ -24,7 +24,7 @@ export function usePropertyForm(
         | AppartmentPayloadType),
     'kotidok-property-data'
   );
-
+  const [selectedHeating, setSelectedHeating] = useState([]);
   const {
     entries: heatingBatch,
     data: currentHeating,
@@ -56,13 +56,12 @@ export function usePropertyForm(
       if (isNew) {
         await createPropertyAction({
           ...data,
-          heating: prepareHeatingData(),
+          heating: selectedHeating,
         } as PropertyPayloadType);
         toast.success('Talo luotu!');
       } else {
         await updatePropertyAction(property.id, {
           ...data,
-          heating: prepareHeatingData(),
         } as PropertyPayloadType);
         toast.success('Talo päivitetty!');
       }
@@ -86,6 +85,8 @@ export function usePropertyForm(
     updateHeatingEntry,
     resetCurrentHeating,
     setPropertyIdentifierStatus,
+    selectedHeating,
+    setSelectedHeating,
     propertyIdentifierStatus,
     status,
     isValid,

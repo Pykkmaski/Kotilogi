@@ -10,26 +10,34 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { MainDataForm } from './Forms/MainDataForm';
 import { Button } from '@/components/New/Button';
 import { Check } from '@mui/icons-material';
+import { EventType } from 'kotilogi-app/types/EventType';
+import { TargetType } from 'kotilogi-app/types/TargetType';
 
 /**Renders the content of the event form data-tab */
 export function EventDataContent() {
-  const { eventData, refs, showMainDataForm, isSubmitDisabled, selectedSurfaceIds, status } =
-    useEventFormContext();
+  const {
+    eventData,
+    refs,
+    showMainDataForm,
+    isSubmitDisabled,
+    selectedSurfaceIds,
+    status,
+    payload,
+  } = useEventFormContext();
   const {
     data: workTypes,
     isLoading: workTypesIsLoading,
     error: workTypesError,
   } = useQuery({
-    queryKey: [`work-types-${eventData.target_id}`],
-    queryFn: async () => getServiceWorkTypes(eventData.target_id),
-    enabled:
-      eventData.target_id && eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö'),
+    queryKey: [`work-types-${eventData.target_type}`],
+    queryFn: async () => getServiceWorkTypes(eventData.target_type),
+    enabled: eventData.target_type && eventData.event_type == EventType.HUOLTOTYÖ,
   });
 
   return (
     <BoxFieldset legend='Tiedot'>
       <div className='flex flex-col gap-10 w-full'>
-        {eventData.target_id || selectedSurfaceIds.length > 0 ? (
+        {eventData.target_type || selectedSurfaceIds.length > 0 ? (
           <>
             <div className='flex flex-col gap-2'>
               <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
@@ -38,9 +46,7 @@ export function EventDataContent() {
                   position='start'
                   title='Muuta tapahtumatyyppiä...'>
                   Valittu tapahtumatyyppi:{' '}
-                  <span className='font-semibold'>
-                    {refs.eventTypes.find(t => t.id == eventData.event_type_id)?.label}
-                  </span>
+                  <span className='font-semibold'>{eventData.event_type}</span>
                 </Notification>
               </CarouselProvider.SelectSlotTrigger>
 
@@ -49,13 +55,10 @@ export function EventDataContent() {
                   variant='success'
                   position='start'
                   title='Muuta tapahtuman kohdetta...'>
-                  Valittu kohde:{' '}
-                  <span className='font-semibold'>
-                    {refs.eventTargets.find(t => t.id == eventData.target_id)?.label}
-                  </span>
+                  Valittu kohde: <span className='font-semibold'>{eventData.target_type}</span>
                 </Notification>
               </CarouselProvider.SelectSlotTrigger>
-              {eventData.service_work_type_id ? (
+              {payload?.maintenance_type ? (
                 <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
                   <Notification
                     position='start'
@@ -64,14 +67,12 @@ export function EventDataContent() {
                     {workTypesIsLoading ? (
                       <Spinner message='Ladataan työtyyppiä...' />
                     ) : (
-                      <span className='font-semibold'>
-                        {workTypes.find(t => t.id == eventData.service_work_type_id)?.label}
-                      </span>
+                      <span className='font-semibold'>{payload?.maintenance_type}</span>
                     )}
                   </Notification>
                 </CarouselProvider.SelectSlotTrigger>
-              ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Huoltotyö') &&
-                eventData.target_id != getIdByLabel(refs.eventTargets, 'Muu') ? (
+              ) : eventData.event_type == EventType.HUOLTOTYÖ &&
+                eventData.target_type != TargetType.MUU ? (
                 <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
                   <Notification
                     position='start'
@@ -79,7 +80,7 @@ export function EventDataContent() {
                     Työn tyyppi puuttuu!
                   </Notification>
                 </CarouselProvider.SelectSlotTrigger>
-              ) : eventData.event_type_id == getIdByLabel(refs.eventTypes, 'Pintaremontti') &&
+              ) : eventData.event_type == EventType.PINTAREMONTTI &&
                 selectedSurfaceIds.length == 0 ? (
                 <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
                   <Notification
@@ -93,7 +94,7 @@ export function EventDataContent() {
 
             {showMainDataForm && <MainDataForm editing={eventData} />}
           </>
-        ) : eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
+        ) : eventData.event_type != EventType.PINTAREMONTTI ? (
           <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
             <Notification
               variant='error'

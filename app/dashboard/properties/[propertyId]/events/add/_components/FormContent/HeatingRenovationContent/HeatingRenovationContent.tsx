@@ -8,7 +8,7 @@ import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { FormControl } from '@/components/UI/FormUtils';
 
 export const HeatingRenovationContent = () => {
-  const { eventData, updateEventData, editing } = useEventFormContext();
+  const { eventData, updateEventData, editing, payload, updatePayload } = useEventFormContext();
   const {
     heatingSystems,
     isLoading,
@@ -31,11 +31,11 @@ export const HeatingRenovationContent = () => {
               {currentHeatingSystems.map(ch => {
                 return (
                   <ChipButton
-                    name='old_system_id'
-                    value={ch.id}
-                    label={ch.name || ch.heating_type_label}
-                    checked={eventData.old_system_id == ch.id}
-                    onChange={updateEventData}
+                    name='old_heating_type'
+                    value={ch}
+                    label={ch}
+                    checked={payload?.old_heating_type}
+                    onChange={updatePayload}
                   />
                 );
               })}

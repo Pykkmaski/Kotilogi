@@ -7,10 +7,11 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { Build, FormatPaint, House, MoreHoriz } from '@mui/icons-material';
 import { RadioButtonProvider } from '@/components/Feature/RadioGroup/RadioButtonProvider';
 import { BigButton } from '@/components/Feature/RadioGroup/BigButton';
+import { EventType } from 'kotilogi-app/types/EventType';
 
 function EventTypeButton({ eventType }) {
   const { refs, eventData, updateEventData } = useEventFormContext();
-  const selected = eventData.event_type_id == eventType.id;
+  const selected = eventData.event_type == eventType.label;
 
   const iconStyle = {
     fontSize: '4rem',
@@ -30,7 +31,7 @@ function EventTypeButton({ eventType }) {
   };
 
   const content =
-    eventType.id == getIdByLabel(refs.eventTypes, 'Peruskorjaus') ? (
+    eventType.label == EventType.PERUSKORJAUS ? (
       <>
         <House sx={iconStyle} />
         <Title>Peruskorjaus</Title>
@@ -40,7 +41,7 @@ function EventTypeButton({ eventType }) {
           samantasoiseksi kuin se oli uutena.
         </Description>
       </>
-    ) : eventType.id == getIdByLabel(refs.eventTypes, 'Huoltotyö') ? (
+    ) : eventType.label == EventType.HUOLTOTYÖ ? (
       <>
         <Build sx={iconStyle} />
         <Title>Huoltotyö</Title>
@@ -49,13 +50,13 @@ function EventTypeButton({ eventType }) {
           huoltotyöksi.
         </Description>
       </>
-    ) : eventType.id == getIdByLabel(refs.eventTypes, 'Pintaremontti') ? (
+    ) : eventType.label == EventType.PINTAREMONTTI ? (
       <>
         <FormatPaint sx={iconStyle} />
         <Title>Pintaremontti</Title>
         <Description>Tähän kuuluvat tapetoinnit, maalaukset tai lattian vaihdot.</Description>
       </>
-    ) : eventType.id == getIdByLabel(refs.eventTypes, 'Muu') ? (
+    ) : eventType.label == EventType.MUU ? (
       <>
         <MoreHoriz sx={iconStyle} />
         <Title>Muu</Title>
@@ -66,9 +67,9 @@ function EventTypeButton({ eventType }) {
   return (
     <BigButton
       onChange={updateEventData}
-      value={eventType.id}
-      name='event_type_id'
-      checked={eventData.event_type_id == eventType.id}>
+      value={eventType.label}
+      name='event_type'
+      checked={eventData.event_type == eventType.label}>
       {content}
     </BigButton>
   );
@@ -88,14 +89,16 @@ export const EventTypeSelector = ({
       onClick={onClick}
       className='flex w-full justify-center'>
       <div className='lg:grid lg:grid-cols-2 xs:flex xs:flex-col w-full gap-4'>
-        {refs.eventTypes.map((t, i) => {
-          return (
-            <EventTypeButton
-              eventType={t}
-              key={`event-type-btn-${i}`}
-            />
-          );
-        })}
+        {refs.eventTypes
+          .filter(et => et.label !== 'Genesis')
+          .map((t, i) => {
+            return (
+              <EventTypeButton
+                eventType={t}
+                key={`event-type-btn-${i}`}
+              />
+            );
+          })}
       </div>
     </div>
   );

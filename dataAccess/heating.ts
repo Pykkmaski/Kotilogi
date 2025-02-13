@@ -39,16 +39,22 @@ class Heating {
   }
 
   /**Returns an array containing all heating systems of a property. */
-  async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<HeatingPayloadType[]> {
-    const heatingData = await ctx('heating')
-      .join(db.raw('types.heating_type ON types.heating_type.id = heating.heating_type_id'))
-      .where({ property_id })
-      .select('heating.*', 'types.heating_type.name as heating_type_label');
+  async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<string[]> {
+    const heatingData = await ctx('new_events')
+      .where(function () {
+        this.where({ event_type: 'Genesis' }).orWhere({ event_type: 'Peruskorjaus' });
+      })
+      .andWhere({
+        target_type: 'Lämmitysmuoto',
+        property_id,
+      })
+      .select('data')
+      .orderBy('date', 'desc', 'last')
+      .first();
 
-    if (heatingData.length == 0) {
-      return [];
-    }
+    return heatingData?.data?.heating_types as TODO;
 
+    /*
     const primaryHeatingPromise = ctx('primary_heating').where({ property_id }).pluck('heating_id');
 
     const heatingTypesPromise = this.getTypes(ctx);
@@ -56,6 +62,7 @@ class Heating {
       primaryHeatingPromise,
       heatingTypesPromise,
     ]);
+  
     const payloads: HeatingPayloadType[] = [];
 
     for (const hd of heatingData) {
@@ -119,8 +126,8 @@ class Heating {
         is_primary: primaryHeatingId == hd.id,
       });
     }
-
-    return payloads;
+      return payloads;
+      */
   }
 
   async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {

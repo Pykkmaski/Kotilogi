@@ -19,7 +19,7 @@ export function InsulationMaterialSelector({
       label='Eristemateriaali'
       tablename='types.insulation_material_type'
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       key={index ? `insulation-material-${index}` : null}
     />
   );
@@ -35,7 +35,7 @@ function InsulationTargetSelector({ index, ...props }: Kotidok.SelectorProps & {
       label='Eristyskohde'
       tablename='types.insulation_target_type'
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       key={`insulation-target-${index}`}
     />
   );

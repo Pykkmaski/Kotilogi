@@ -8,6 +8,7 @@ import { isDefined } from '../util';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { EventType } from 'kotilogi-app/types/EventType';
 
 export function TypeDataForm() {
   const { eventData } = useEventFormContext();
@@ -15,11 +16,11 @@ export function TypeDataForm() {
 
   const showWorkTypeSelector = () => {
     return (
-      isDefined(eventData.event_type_id) &&
-      isDefined(eventData.target_id) &&
-      eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Peruskorjaus') &&
-      eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Pintaremontti') &&
-      eventData.event_type_id != getIdByLabel(refs.eventTypes, 'Muu')
+      isDefined(eventData.event_type) &&
+      isDefined(eventData.target_type) &&
+      eventData.event_type != EventType.PERUSKORJAUS &&
+      eventData.event_type != EventType.PINTAREMONTTI &&
+      eventData.event_type != EventType.MUU
     );
   };
 
@@ -34,7 +35,7 @@ export function TypeDataForm() {
             control={<EventTypeSelector />}
           />
 
-          <RenderOnCondition condition={isDefined(eventData.event_type_id)}>
+          <RenderOnCondition condition={isDefined(eventData.event_type)}>
             <EventTargetSelector />
           </RenderOnCondition>
 

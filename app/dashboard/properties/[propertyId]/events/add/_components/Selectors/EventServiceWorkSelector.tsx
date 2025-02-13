@@ -8,16 +8,17 @@ import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { Notification } from '@/components/UI/Notification';
 
 export const EventServiceWorkSelector = () => {
-  const { eventData, updateEventData, resetEventData } = useEventFormContext();
+  const { eventData, updateEventData, resetEventData, payload, updatePayload, resetPayload } =
+    useEventFormContext();
 
   const {
     data: workTypes,
     isLoading,
     error,
   } = useQuery({
-    queryFn: async () => await getServiceWorkTypes(eventData.target_id),
-    queryKey: [`work-types-${eventData.target_id}`],
-    enabled: eventData.target_id != undefined,
+    queryFn: async () => await getServiceWorkTypes(eventData.target_type),
+    queryKey: [`work-types-${eventData.target_type}`],
+    enabled: eventData.target_type != undefined,
   });
 
   return !error ? (
@@ -32,16 +33,22 @@ export const EventServiceWorkSelector = () => {
         workTypes && (
           <ChipRadioGroup
             dataArray={workTypes}
-            name='service_work_type_id'
-            currentValue={eventData.service_work_type_id}
-            valueKey='id'
+            name='maintenance_type'
+            currentValue={payload?.maintenance_type}
+            valueKey='label'
             labelKey='label'
-            onChange={updateEventData}
+            onChange={e => {
+              const value = e.target.value;
+              resetPayload({
+                ...payload,
+                maintenance_type: value,
+              });
+            }}
           />
         )
       }
     />
-  ) : eventData.target_id != undefined ? (
+  ) : eventData.target_type != undefined ? (
     <Notification
       variant='error'
       position='start'>

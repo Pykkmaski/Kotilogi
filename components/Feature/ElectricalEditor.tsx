@@ -13,7 +13,7 @@ export function ElectricalEditor({ selectedTargets, onChange }: ElectricalEditor
         tablename='restoration_events.electricity_restoration_target_type'
         label='Sähkötyön kohteet'
         labelKey='label'
-        valueKey='id'
+        valueKey='label'
         values={selectedTargets}
         onChange={onChange as TODO}
       />

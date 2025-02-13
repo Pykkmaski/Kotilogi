@@ -15,7 +15,7 @@ function ExteriorCladdingMaterialSelector({ value, onChange }: React.ComponentPr
       onChange={e => onChange(e)}
       value={value}
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
     />
   );
 }

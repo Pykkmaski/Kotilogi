@@ -21,6 +21,9 @@ import { drainageDitches } from './drainageDitches';
 import { structures } from './structures';
 import { windows } from './windows';
 import { exteriorCladding } from './exteriorCladding';
+import { EventType } from 'kotilogi-app/types/EventType';
+import { TargetType } from 'kotilogi-app/types/TargetType';
+import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 class Events {
   /**
@@ -29,7 +32,7 @@ class Events {
    * @returns
    */
   private getDTO(eventData: TODO) {
-    const labels = [eventData.mainTypeLabel, eventData.targetLabel].filter(t => t != null);
+    const labels = [eventData.event_type, eventData.target_type].filter(t => t != null);
 
     const title = labels.length ? labels.join(' > ') : eventData.title || 'Ei Otsikkoa.';
     const description = eventData.description || eventData.workTypeLabel;
@@ -41,18 +44,19 @@ class Events {
       title,
       description,
       date: eventData.date,
-      mainTypeLabel: eventData.mainTypeLabel,
-      targetLabel: eventData.targetLabel,
+      /**@deprecated */
+      mainTypeLabel: eventData.event_type,
+      targetLabel: eventData.target_type,
       workTypeLabel: eventData.workTypeLabel,
-      event_type_id: eventData.event_type_id,
-      target_id: eventData.target_id,
       workTypeId: eventData.workTypeId,
       labourExpenses: eventData.labourExpenses,
       materialExpenses: eventData.materialExpenses,
     } as unknown as EventPayloadType;
   }
 
-  /**Inserts restoration event data, under the restoration_events-schema. */
+  /**Inserts restoration event data, under the restoration_events-schema.
+   * @deprecated
+   */
   private async createRestorationWorkData(
     event_id: string,
     payload: EventPayloadType,
@@ -62,7 +66,7 @@ class Events {
       db.raw('json_object_agg(label, id) as result')
     )) as TODO;
 
-    const event_target_id = parseInt(payload.target_id as any);
+    const event_target_id = parseInt(payload.target_type as any);
 
     switch (event_target_id) {
       case event_targets['Ulkoverhous']:
@@ -203,7 +207,7 @@ class Events {
 
       default:
         console.warn(
-          `Received an event with target id ${payload.target_id}, but no logic for inserting specific event data exists. Make sure this is intentional.`
+          `Received an event with target id ${payload.target_type}, but no logic for inserting specific event data exists. Make sure this is intentional.`
         );
     }
   }
@@ -216,8 +220,8 @@ class Events {
   private getInsertObject(data: TODO) {
     return {
       id: data.id,
-      event_type_id: data.event_type_id,
-      target_id: (data.target_id as any) == -1 ? null : data.target_id,
+      event_type_id: data.event_type,
+      target_id: (data.target_type as any) == -1 ? null : data.target_type,
       date: data.date,
       labour_expenses: data.labour_expenses,
       material_expenses: data.material_expenses,
@@ -322,6 +326,7 @@ class Events {
     }
   }
 
+  /**@deprecated */
   private async createCosmeticRenovationData(
     event_id: string,
     payload: Partial<EventPayloadType>,
@@ -349,54 +354,19 @@ class Events {
     callback?: (id: string, trx: Knex.Transaction) => Promise<void>
   ) {
     await properties.verifyEventCount(eventPayload.property_id);
-
-    await objects.create(
-      { ...eventPayload, parentId: eventPayload.property_id },
-      async (obj, trx) => {
-        const event_id = obj.id;
-        const insertData = this.getInsertObject({
-          ...filterValidColumns({ ...eventPayload }, await getTableColumns('event', trx)),
-          id: event_id,
-        });
-
-        //Save the main event data.
-        await trx('event').insert(insertData);
-
-        const [{ result: event_types }] = (await trx('types.event_type').select(
-          db.raw('json_object_agg(label, id) as result')
-        )) as TODO;
-        const event_type_id = parseInt(eventPayload.event_type_id as any);
-
-        //Create the additional related data entries.
-        switch (event_type_id) {
-          case event_types.Peruskorjaus:
-            {
-              await this.createRestorationWorkData(event_id, eventPayload, trx);
-            }
-            break;
-
-          case event_types['Huoltotyö']:
-            {
-              await this.createServiceWorkData(event_id, eventPayload, trx);
-            }
-            break;
-
-          case event_types['Pintaremontti']:
-            {
-              await this.createCosmeticRenovationData(event_id, eventPayload, trx);
-            }
-            break;
-
-          case event_types['Muu']:
-            break;
-
-          default:
-            throw new Error('Handler for event type not implemented!');
-        }
-
-        callback && (await callback(event_id, trx));
-      }
-    );
+    const session = await verifySession();
+    //Save the main event data.
+    await db('new_events').insert({
+      event_type: eventPayload.event_type,
+      target_type: eventPayload.target_type,
+      title: eventPayload.title,
+      description: eventPayload.description,
+      date: eventPayload.date,
+      labour_expenses: eventPayload.labour_expenses,
+      author_id: session.user.id,
+      property_id: eventPayload.property_id,
+      data: eventPayload.data,
+    });
   }
 
   /**
@@ -410,196 +380,36 @@ class Events {
   async get(query: TODO, search?: string, limit: number = 10, page: number = 0) {
     const newQuery = {
       ...query,
+      property_id: query.parentId,
     };
-
-    if (query.id) {
-      newQuery['object.id'] = query.id;
-    }
-
-    delete newQuery.id;
 
     let totalEvents, eventsOnCurrentPage;
     if (query.parentId) {
-      [{ result: totalEvents }] = (await db('event')
-        .join(db.raw('object on object.id = event.id'))
-        .where({ 'object.parentId': query.parentId })
+      [{ result: totalEvents }] = (await db('new_events')
+        .where({ property_id: query.parentId })
+        .andWhereNot({ event_type: 'Genesis' })
         .count('* as result')) as [{ result: number }];
 
       eventsOnCurrentPage = page * limit <= totalEvents ? limit : totalEvents % limit;
     }
 
-    const events = await db('object')
-      .join('event', { 'event.id': 'object.id' })
-      .leftJoin('types.event_target_type', { 'event.target_id': 'types.event_target_type.id' })
-
-      .leftJoin('types.event_type', {
-        'event.event_type_id': 'types.event_type.id',
-      })
-
-      .select(
-        'object.*',
-        'event.*',
-        'types.event_target_type.label as targetLabel',
-        'types.event_type.label as mainTypeLabel'
-      )
+    //Do this more elegantly later. There is no parentId in the new_events-table.
+    delete newQuery.parentId;
+    const events = await db('new_events')
       .where(function () {
         if (!search) return;
         const q = `%${search}%`;
-        this.whereILike('object.title', q)
-          .orWhereILike('object.description', q)
-          .orWhereILike('types.event_type.label', q)
-          .orWhereILike('types.event_target_type.label', q);
+        this.whereILike('title', q)
+          .orWhereILike('description', q)
+          .orWhereILike('event_type', q)
+          .orWhereILike('target_type', q);
       })
       .andWhere(newQuery)
+      .andWhereNot({ event_type: 'Genesis' })
       .limit(eventsOnCurrentPage)
       .offset(page * limit)
-      .orderBy('event.date', 'desc');
-
-    return await Promise.all(
-      events
-        .filter(e => {
-          return (
-            e.workTypeLabel?.includes(search) ||
-            e.mainTypeLabel?.includes(search) ||
-            e.targetLabel?.includes(search) ||
-            true
-          );
-        })
-        .map(async e => {
-          //Get the event types.
-          const [{ result: eventTypes }] = (await db('types.event_type').select(
-            db.raw('json_object_agg(label, id) as result')
-          )) as TODO;
-
-          //Get the event targets.
-          const [{ result: targets }] = (await db('types.event_target_type').select(
-            db.raw('json_object_agg(label, id) as result')
-          )) as TODO;
-
-          const { event_type_id, target_id } = e;
-          let modifiedEvent = e;
-
-          //Modify the event returned to include any additional data.
-          //Restoration data
-          if (event_type_id == eventTypes['Peruskorjaus']) {
-            if (target_id == targets['Ulkoverhous']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await exteriorCladding.get(modifiedEvent.id, db)),
-              };
-            } else if (target_id == targets['Lämmitysmuoto']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await heating.getRestorationData(modifiedEvent.id)),
-              };
-            } else if (target_id == targets['Eristys']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                insulation: await insulation.get(modifiedEvent.id),
-              };
-            } else if (target_id == targets['Käyttövesiputket']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await waterPipes.getRestorationData(modifiedEvent.id)),
-              };
-            } else if (target_id == targets['Viemäriputket']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await sewerPipes.getRestorationData(modifiedEvent.id)),
-              };
-            } else if (target_id == targets['Sähköt']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await electricity.getRestorationData(modifiedEvent.id)),
-              };
-            } else if (target_id == targets['Lukitus']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                locks: await locks.get(modifiedEvent.id),
-              };
-            } else if (target_id == targets['Ikkunat']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                windows: await windows.get(modifiedEvent.id),
-              };
-            }
-          }
-          //Service data
-          else if (event_type_id == eventTypes['Huoltotyö']) {
-            //Heating
-            if (target_id == targets['Lämmitysmuoto']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await heating.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Insulation
-            else if (target_id == targets['Eristys']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await insulation.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Water pipes
-            else if (target_id == targets['Käyttövesiputket']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await waterPipes.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Sewer pipes
-            else if (target_id == targets['Viemäriputket']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await sewerPipes.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Ventilation
-            else if (target_id == targets['Ilmanvaihto']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await ventilation.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Firealarms
-            else if (target_id == targets['Palovaroittimet']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await firealarms.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Drainage ditches
-            else if (target_id == targets['Salaojat']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await drainageDitches.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Roof
-            else if (target_id == targets['Katto']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await roofs.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Structures
-            else if (target_id == targets['Rakenteet']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await structures.getServiceData(modifiedEvent.id)),
-              };
-            }
-            //Windows
-            else if (target_id == targets['Ikkunat']) {
-              modifiedEvent = {
-                ...modifiedEvent,
-                ...(await windows.getServiceData(modifiedEvent.id)),
-              };
-            }
-          }
-          return this.getDTO(modifiedEvent);
-        })
-    );
+      .orderBy('date', 'desc', 'last');
+    return events.map(e => this.getDTO(e));
   }
 
   /**Updates the main event data.

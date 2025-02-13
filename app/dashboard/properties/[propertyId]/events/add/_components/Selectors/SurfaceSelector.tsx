@@ -14,9 +14,9 @@ export const SurfaceSelector = () => {
       label='Pinnat'
       tablename='cosmetic_renovation_events.cosmetic_renovation_target_type'
       fetchFn={getSurfaces}
-      onChange={id => toggleSurfaceId(id)}
+      onChange={label => toggleSurfaceId(label)}
       labelKey='label'
-      valueKey='id'
+      valueKey='label'
       values={selectedSurfaceIds}
     />
   );

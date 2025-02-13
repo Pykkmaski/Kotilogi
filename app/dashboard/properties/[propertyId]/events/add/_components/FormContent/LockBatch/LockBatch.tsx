@@ -47,7 +47,7 @@ export const LockBatch = () => {
               <RadioSelector
                 label='Lukon tyyppi'
                 labelKey='label'
-                valueKey='id'
+                valueKey='label'
                 tablename='types.lock_type'
                 name={`lock_type_id-${index}`}
                 value={l.value.lock_type_id}

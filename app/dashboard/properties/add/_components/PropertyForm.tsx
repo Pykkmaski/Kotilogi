@@ -35,6 +35,7 @@ import { RoofField } from './PropertyForm/Fields/RoofField';
 import { RoofEditor } from '@/components/Feature/RoofEditor';
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { BuildingEditor } from '@/components/Feature/BuildingEditor';
+import { CheckboxSelector } from '@/components/Feature/OptionSelector';
 
 function GotoDraft({ updateSlot }) {
   return (
@@ -64,7 +65,17 @@ export function PropertyForm<T extends PropertyPayloadType>({
 }: PropertyFormProps<T>) {
   const propertyFormProps = usePropertyForm(property as TODO, refs);
 
-  const { status, data, onSubmit, updateData, isNew, router, isValid } = propertyFormProps;
+  const {
+    status,
+    data,
+    onSubmit,
+    updateData,
+    isNew,
+    router,
+    isValid,
+    setSelectedHeating,
+    selectedHeating,
+  } = propertyFormProps;
   const currentSlot = useSearchParams().get('t') || 'general';
   const pathname = usePathname();
 
@@ -258,7 +269,22 @@ export function PropertyForm<T extends PropertyPayloadType>({
             <CarouselProvider.Slot slotName='heating'>
               <BoxFieldset legend='Lämmitys'>
                 <FieldsetContainer>
-                  <HeatingField />
+                  <CheckboxSelector
+                    labelKey={'name'}
+                    valueKey={'id'}
+                    label='Lämmitystyypit'
+                    tablename='types.heating_type'
+                    values={selectedHeating}
+                    onChange={val =>
+                      setSelectedHeating(prev => {
+                        if (prev.includes(val)) {
+                          return prev.filter(v => v != val);
+                        } else {
+                          return [...prev, val];
+                        }
+                      })
+                    }
+                  />
                   <GotoDraft updateSlot={updateSlot} />
                 </FieldsetContainer>
               </BoxFieldset>
@@ -292,7 +318,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
                   color='secondary'
                   type='submit'
                   variant='contained'
-                  disabled={!isValid || loading || done || typeof data.street_number == 'undefined'}
+                  //disabled={!isValid || loading || done || typeof data.street_number == 'undefined'}
                   startIcon={loading ? <Spinner /> : <Check />}>
                   {property ? 'Päivitä' : 'Vahvista'}
                 </Button>

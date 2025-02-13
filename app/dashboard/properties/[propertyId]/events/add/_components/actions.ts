@@ -6,6 +6,7 @@ import { files } from 'kotilogi-app/dataAccess/files';
 import { heating } from 'kotilogi-app/dataAccess/heating';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import db from 'kotilogi-app/dbconfig';
+import { TargetType } from 'kotilogi-app/types/TargetType';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
@@ -66,99 +67,95 @@ export const getRooms = async () => {
   return await db('ref_rooms');
 };
 
-export const getEventTargets = async (mainEventTypeId: number) => {
-  const [{ result: event_types }] = (await db('types.event_type').select(
-    db.raw('json_object_agg(label, id) as result')
-  )) as TODO;
-
-  switch (parseInt(mainEventTypeId as any)) {
-    case event_types.Peruskorjaus: {
+export const getEventTargets = async (mainEventTypeId: string) => {
+  switch (mainEventTypeId) {
+    case 'Peruskorjaus': {
       return await db('restoration_events.restorable_target_type')
         .join(
           db.raw(
-            'types.event_target_type on types.event_target_type.id = restoration_events.restorable_target_type.target_id'
+            'types.event_target_type on types.event_target_type.id = restoration_events.restorable_target_type.target_type'
           )
         )
         .select('types.event_target_type.*');
     }
 
-    case event_types['Huoltotyö']: {
+    case 'Huoltotyö': {
       return await db('service_events.serviceable_target_type')
         .join(
           db.raw(
-            'types.event_target_type on types.event_target_type.id = service_events.serviceable_target_type.target_id'
+            'types.event_target_type on types.event_target_type.id = service_events.serviceable_target_type.target_type'
           )
         )
         .select('types.event_target_type.*');
     }
 
-    case event_types['Pintaremontti']: {
+    case 'Pintaremontti': {
       return await db('cosmetic_renovation_events.cosmetic_renovation_target_type')
         .join(
           db.raw(
-            'types.event_target_type on types.event_target_type.id = cosmetic_renovation_events.cosmetic_renovation_target_type.target_id'
+            'types.event_target_type on types.event_target_type.id = cosmetic_renovation_events.cosmetic_renovation_target_type.target_type'
           )
         )
         .select('types.event_target_type.*');
     }
 
-    case event_types['Muu']:
+    case 'Muu':
     default: {
       return await db('types.event_target_type');
     }
   }
 };
 
-export const getServiceWorkTypes = async (targetId: number) => {
+export const getServiceWorkTypes = async (targetId: string) => {
   const [{ result: event_targets }] = (await db('types.event_target_type').select(
     db.raw('json_object_agg(label, id) as result')
   )) as TODO;
 
-  switch (parseInt(targetId as any)) {
-    case event_targets.Katto: {
+  switch (targetId) {
+    case TargetType.KATTO: {
       return await db('service_events.roof_service_type');
     }
 
-    case event_targets['Salaojat']:
+    case TargetType.SALAOJAT:
       return await db('service_events.drainage_ditch_service_type');
 
-    case event_targets['Käyttövesiputket']:
+    case TargetType.KÄYTTÖVESIPUTKET:
       return await db('service_events.water_pipe_service_type');
 
-    case event_targets['Viemäriputket']:
+    case TargetType.VIEMÄRIPUTKET:
       return await db('service_events.sewer_pipe_service_type');
 
-    case event_targets['Lämmitysmuoto']:
+    case TargetType.LÄMMITYSMUOTO:
       return await db('service_events.heating_service_type');
 
-    case event_targets['Lämmönjako']:
+    case TargetType.LÄMMÖNJAKO:
       return await db('service_events.heating_distribution_service_type');
 
-    case event_targets['Ilmanvaihto']: {
+    case TargetType.ILMANVAIHTO: {
       return await db('service_events.ventilation_service_type');
     }
 
-    case event_targets['Eristys']: {
+    case TargetType.ERISTYS: {
       return await db('service_events.insulation_service_type');
     }
 
-    case event_targets['Sähköt']: {
+    case TargetType.SÄHKÖT: {
       return await db('service_events.electricity_service_type');
     }
 
-    case event_targets['Rakenteet']: {
+    case TargetType.RAKENTEET: {
       return await db('service_events.structure_service_type');
     }
 
-    case event_targets['Palovaroittimet']: {
+    case TargetType.PALOVAROITTIMET: {
       return await db('service_events.firealarm_service_type');
     }
 
-    case event_targets['Ikkunat']: {
+    case TargetType.IKKUNAT: {
       return await db('service_events.window_service_type');
     }
 
-    case event_targets['Muu']: {
+    case TargetType.MUU: {
       return await db('service_events.other_service_type');
     }
 
