@@ -66,8 +66,11 @@ export function usePropertyForm(
         toast.success('Talo päivitetty!');
       }
     } catch (err) {
-      toast.error(err.message);
-      throw err;
+      const msg = err.message as string;
+      if (!msg.includes('NEXT_REDIRECT')) {
+        toast.error(err.message);
+        throw err;
+      }
     }
   });
 
