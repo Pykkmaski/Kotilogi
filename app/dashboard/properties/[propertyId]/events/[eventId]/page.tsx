@@ -22,21 +22,10 @@ const DataPointContainer = ({ children, title }) => (
 
 export default async function EventPage({ params }) {
   const { eventId, propertyId } = await params;
-  const [event] = (await events.get({
-    id: eventId,
-  })) as [TODO];
+  const [event] = (await events.get({ id: eventId })) as any;
 
-  const files = await db('data_files')
-    .join(db.raw('object on object.id = data_files.id'))
-    .where({ 'object.parentId': eventId });
-
+  const files = await db('data_files').where({ parent_id: eventId });
   const [mainImageId] = await db('data_mainImages').where({ objectId: eventId }).pluck('imageId');
-  const [{ result: eventTypes }] = (await db('types.event_type').select(
-    db.raw('json_object_agg(label, id) as result')
-  )) as TODO;
-  const [{ result: eventTargets }] = (await db('types.event_target_type').select(
-    db.raw('json_object_agg(label, id) as result')
-  )) as TODO;
 
   return (
     <Main>
@@ -46,60 +35,64 @@ export default async function EventPage({ params }) {
             <h1 className='md:text-xl xs:text-lg font-semibold'>{event.title || 'Ei Otsikkoa'}</h1>
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
             <h1 className='font-semibold text-slate-500'>Tiedot</h1>
-            {event.event_type == eventTypes['Peruskorjaus'] ? (
-              event.target_type == eventTargets['Ulkoverhous'] ? (
+            {event.event_type == 'Peruskorjaus' ? (
+              event.target_type == 'Ulkoverhous' ? (
                 <>
                   <DataDisplay
                     title='Materiaali'
-                    value={event.exterior_cladding_material_type_label}
+                    value={event.data?.exterior_cladding_material_type_label}
                   />
                   <DataDisplay
                     title='Jyrsijäverkko'
-                    value={event.has_rodent_net ? 'Kyllä' : 'Ei'}
+                    value={event.data?.has_rodent_net ? 'Kyllä' : 'Ei'}
                   />
 
                   <DataDisplay
                     title='Tuulensuojaeriste'
-                    value={event.has_wind_protection ? 'Kyllä' : 'Ei'}
+                    value={event.data?.has_wind_protection ? 'Kyllä' : 'Ei'}
                   />
                   <DataDisplay
                     title={<>Tuulensuojalevyn paksuus (mm)</>}
-                    value={event.wind_protection_plate_thickness || 'Ei tuulensuojalevyä'}
+                    value={event.data?.wind_protection_plate_thickness || 'Ei tuulensuojalevyä'}
                   />
                 </>
-              ) : event.target_type == eventTargets['Lämmitysmuoto'] ? (
+              ) : event.target_type == 'Lämmitysmuoto' ? (
                 <>
                   <DataDisplay
-                    title='Vanha järjestelmä'
-                    value={event.old_system_label}
+                    title='Korjattu järjestelmä'
+                    value={event.data?.old_heating_type}
                   />
 
                   <DataDisplay
                     title='Uusi järjestelmä'
-                    value={event.new_system_label}
+                    value={event.data?.new_heating_type}
                   />
                 </>
-              ) : event.target_type == eventTargets['Käyttövesiputket'] ? (
+              ) : event.target_type == 'Käyttövesiputket' ? (
                 <DataDisplay
                   title='Asennustapa'
-                  value={event.installation_method_label}
+                  value={event.data?.installation_method}
                 />
-              ) : event.target_type == eventTargets['Viemäriputket'] ? (
+              ) : event.target_type == 'Viemäriputket' ? (
                 <DataDisplay
                   title='Korjaustapa'
-                  value={event.restoration_method_label}
+                  value={event.data?.restoration_method}
                 />
-              ) : event.target_type == eventTargets['Sähköt'] ? (
+              ) : event.target_type == 'Sähköt' ? (
                 <DataDisplay
                   title='Kohde'
-                  value={event.restoration_target_label}
+                  value={event.data?.restoration_target}
                 />
               ) : null
-            ) : event.event_type == eventTypes['Huoltotyö'] &&
-              event.target_type !== eventTargets['Muu'] ? (
+            ) : event.event_type == 'Huoltotyö' && event.target_type !== 'Muu' ? (
               <DataDisplay
                 title='Tehty huoltotyö'
-                value={event.service_work_type_label}
+                value={event.data?.maintenance_type}
+              />
+            ) : event.event_type == 'Pintaremontti' ? (
+              <DataDisplay
+                title='Pinnat'
+                value={event.data?.surfaces?.join(', ')}
               />
             ) : null}
             <DataDisplay
@@ -139,13 +132,12 @@ export default async function EventPage({ params }) {
         </div>
       </BoxFieldset>
 
-      {event.event_type == eventTypes['Peruskorjaus'] &&
-      event.target_type == eventTargets['Ikkunat'] ? (
+      {event.event_type == 'Peruskorjaus' && event.target_type == 'Ikkunat' ? (
         <BoxFieldset
           legend='Asennetut ikkunat'
           closeable>
           <DataPointGrid>
-            {event.windows.map((w, i) => {
+            {event.data?.windows.map((w, i) => {
               return (
                 <DataPointContainer
                   key={`window-${i}`}
@@ -171,20 +163,24 @@ export default async function EventPage({ params }) {
             })}
           </DataPointGrid>
         </BoxFieldset>
-      ) : event.target_type == eventTargets['Lukitus'] ? (
+      ) : event.target_type == 'Lukitus' ? (
         <BoxFieldset
           legend='Asennetut lukot'
           closeable>
           <DataPointGrid>
-            {event.locks.map((l, i) => {
+            {event.data?.locks.map((l, i) => {
               return (
                 <DataPointContainer
                   key={`lock-${i}`}
                   title={<>Lukko {i + 1}</>}>
                   <h1 className='font-semibold mb-4'></h1>
                   <DataDisplay
+                    title='Kuvaus'
+                    value={l.description}
+                  />
+                  <DataDisplay
                     title='Lukon tyyppi'
-                    value={l.lock_type_label}
+                    value={l.lock_type}
                   />
                   <DataDisplay
                     title='Merkki'
@@ -194,28 +190,32 @@ export default async function EventPage({ params }) {
                     title='Malli'
                     value={l.model}
                   />
+                  <DataDisplay
+                    title='Määrä'
+                    value={l.quantity}
+                  />
                 </DataPointContainer>
               );
             })}
           </DataPointGrid>
         </BoxFieldset>
-      ) : event.target_type == eventTargets['Eristys'] ? (
+      ) : event.target_type == 'Eristys' ? (
         <BoxFieldset
           legend='Eristykset'
           closeable>
           <DataPointGrid>
-            {event.insulation.map((d, i) => {
+            {event.data?.insulation.map((d, i) => {
               return (
                 <DataPointContainer
                   title={<>Eristys {i + 1}</>}
                   key={`insulation-${i}`}>
                   <DataDisplay
                     title='Kohde'
-                    value={d.insulation_target_label}
+                    value={d.insulation_target}
                   />
                   <DataDisplay
                     title='Materiaali'
-                    value={d.insulation_material_label}
+                    value={d.insulation_material}
                   />
                 </DataPointContainer>
               );

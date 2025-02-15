@@ -1,20 +1,30 @@
+import { HeatingTypeSelector } from '@/components/Feature/HeatingEditor';
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
 import { FormControl } from '@/components/UI/FormUtils';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
+import { useEffect } from 'react';
+import { useEventFormContext } from '../../EventFormContext';
 
 export const HeatingSystemSelector = ({
   disabled = false,
   name,
   label,
   heatingSystems,
-  defaultCheckedValue = undefined,
   required = false,
   helper = null,
   includeNullOption = false,
-  value = undefined,
-  onChange,
 }) => {
+  const { payload, updatePayload, resetPayload } = useEventFormContext();
+  useEffect(() => {
+    //Reset the rest of the payload if the new system is changed.
+    console.log('Resetting payload...');
+    resetPayload({
+      new_heating_type: payload.new_heating_type,
+      old_heating_type: payload.old_heating_type,
+    });
+  }, [payload.new_heating_type]);
+
   return (
     <FormControl
       helper={helper}
@@ -26,27 +36,15 @@ export const HeatingSystemSelector = ({
             return (
               <ChipButton
                 disabled={disabled}
-                label={t.name}
-                value={t.id}
+                label={t}
+                value={t}
                 key={`heating_type_id-${i}`}
-                defaultChecked={defaultCheckedValue == t.id}
-                checked={value == t.id}
-                name={name}
-                onChange={onChange}
+                checked={payload.new_heating_type == t}
+                name={'new_heating_type'}
+                onChange={updatePayload}
               />
             );
           })}
-
-          <RenderOnCondition condition={includeNullOption}>
-            <ChipButton
-              disabled={disabled}
-              label='Ei mitään'
-              value={null}
-              defaultChecked={defaultCheckedValue === null}
-              name={name}
-              onChange={onChange}
-            />
-          </RenderOnCondition>
         </RadioGroup>
       }
     />

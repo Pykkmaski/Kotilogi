@@ -88,15 +88,11 @@ class Properties {
 
     const interiorPromise = interiors.get(id, db);
     const buildingPromise = buildings.get(id, db);
-    const heatingPromise = heating.get(id, db);
-    const roofPromise = roofs.get(id, db);
-
-    const [[overview], [interior], [building], heatingMethods, [roof]] = await Promise.all([
+    const [[overview], [interior], [building] /*heatingMethods*/] = await Promise.all([
       overviewPromise,
       interiorPromise,
       buildingPromise,
-      heatingPromise,
-      roofPromise,
+      //heatingPromise,
     ]);
 
     const [type_id] = await this.getPropertyType(id, db);
@@ -123,8 +119,7 @@ class Properties {
       ...overview,
       ...interior,
       ...building,
-      ...roof,
-      heating: heatingMethods,
+      //heating: heatingMethods,
       ...p,
     };
   }
@@ -143,7 +138,7 @@ class Properties {
     const session = await verifySession();
     //await this.verifyUserPropertyCount(session);
 
-    return await objects.create(data, async (obj, trx) => {
+    return await objects.create(async (obj, trx) => {
       //Property columns
       await insertViaFilter(
         { ...data, id: obj.id },
@@ -159,15 +154,17 @@ class Properties {
           .whereIn('id', data.heating)
           .pluck('name');
 
-        await trx('new_events').insert({
-          title: 'Lämmitystietojen lisäys',
-          author_id: session.user.id,
-          property_id: obj.id,
-          event_type: 'Genesis',
-          target_type: 'Lämmitysmuoto',
-          date: null,
-          data: { heating_types: heatingLabels },
-        });
+        await events.create(
+          {
+            title: 'Lämmitystietojen lisäys',
+            property_id: obj.id,
+            event_type: 'Genesis',
+            target_type: 'Lämmitysmuoto',
+            date: null,
+            data: { heating_types: heatingLabels },
+          } as any,
+          trx
+        );
       }
 
       const buildingPromise = buildings.create(obj.id, data, trx);
@@ -175,9 +172,7 @@ class Properties {
       //SHould create a roof genesis event
       const roofPromise = roofs.create(obj.id, data, trx);
       await Promise.all([buildingPromise, interiorPromise, roofPromise]);
-
       const propertyTableName = await this.getTableNameByType(data.property_type_id, trx);
-
       const property = data as any;
       await insertViaFilter(
         {

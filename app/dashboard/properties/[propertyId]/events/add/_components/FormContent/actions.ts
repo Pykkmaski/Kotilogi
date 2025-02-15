@@ -1,5 +1,6 @@
 'use server';
 
+import { heating } from 'kotilogi-app/dataAccess/heating';
 import db from 'kotilogi-app/dbconfig';
 
 export const getRaystastyypit = async () => await db('types.roof_eaves_type');
@@ -8,7 +9,7 @@ export const getAluskatetyypit = async () => await db('types.roof_underlacing_ty
 export const getColors = async () => await db('ref_mainColors');
 export const getDrainageDitchMethods = async () =>
   db('restoration_events.drainage_ditch_implementation_method_type');
-export const getHeatingSystems = async () => db('types.heating_type');
+export const getHeatingSystems = async () => db('types.heating_type').pluck('name');
 export const getElectricHeatingMethods = async () => db('ref_electricHeatingMethodTypes');
 export const getLockTypes = async () => db('types.lock_type');
 export const getElectricityJobTargets = async () => db('ref_electricityJobTargets');
@@ -42,15 +43,10 @@ export async function getDrainageDitch(property_id: string) {
   return data?.data;
 }
 
+/**Returns all current defined heating systems of a property. Alternatively, if a property does not have any defined, returns all available heating type options. */
 export const getCurrentHeatingSystems = async (property_id: string) => {
-  const heatingTypes = await db('new_events')
-    .where({ event_type: 'Peruskorjaus' })
-    .orWhere({ event_type: 'Genesis' })
-    .andWhere({ property_id, target_type: 'Lämmitysmuoto' })
-    .select('data')
-    .orderBy('date', 'desc', 'last')
-    .first();
-  console.log(heatingTypes);
-
-  return heatingTypes?.data?.heating_types;
+  console.log('property_id: ', property_id);
+  const heatingTypes = await heating.get(property_id, db);
+  const allHeatingTypes = await db('types.heating_type').pluck('name');
+  return heatingTypes.length > 0 ? heatingTypes : allHeatingTypes;
 };

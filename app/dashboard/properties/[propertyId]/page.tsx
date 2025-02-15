@@ -23,7 +23,7 @@ import { TransferDialogTrigger } from './_components/TransferDialogTrigger';
 export default async function PropertyPage({ params }) {
   const id = (await params).propertyId;
   const data = await properties.get(id);
-  const eventData = await events.get({ parentId: id }, null, 10);
+  const eventData = await events.get({ property_id: id }, null, 6);
 
   //Fetch additional data back-to-back to conserve db connection pool.
   const owners = await db('data_propertyOwners')
@@ -32,7 +32,7 @@ export default async function PropertyPage({ params }) {
     .pluck('email');
 
   const utilityData = await utilities.get(data.id);
-  const fileData = await files.get({ parentId: id }, 10);
+  const fileData = await files.get({ parent_id: id }, 10);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
   const heatingData = await heating.get(data.id, db);
   console.log('heating data:', heatingData);

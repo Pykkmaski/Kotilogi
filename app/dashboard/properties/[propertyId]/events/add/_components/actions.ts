@@ -28,14 +28,8 @@ export const createEventAction = async (
   eventPayload: EventPayloadType,
   fileFormData?: FormData[]
 ) => {
-  console.log('property id at action: ', propertyId);
-  z.string().parse(propertyId);
-  let eventId;
-
-  await events.create({ ...eventPayload, property_id: propertyId }, async (id, trx) => {
-    //Save the id of the event for use in the following redirections and path revalidations.
-    eventId = id;
-  });
+  z.string().uuid().parse(propertyId);
+  const eventId = await events.create({ ...eventPayload, property_id: propertyId });
 
   if (fileFormData) {
     try {

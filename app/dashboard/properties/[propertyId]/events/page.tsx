@@ -13,7 +13,7 @@ export default async function EventsPage({ params, searchParams }) {
   };
   const currentPage = page && parseInt(page);
   const eventData = (await events.get(
-    { parentId: propertyId },
+    { property_id: propertyId },
     q,
     10,
     currentPage

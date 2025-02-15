@@ -13,12 +13,12 @@ exports.up = function (knex) {
           await Promise.all(promises);
           promises = [];
         }
+        //No need to create an object for each here, as those already exist.
         promises.push(
           trx('new_events').insert({
             id: e.id,
-            title: e.title,
             description: e.description,
-            author_id: e.authorId,
+            title: e.title,
             property_id: e.property_id,
             date: e.date,
             material_expenses: e.material_expenses,

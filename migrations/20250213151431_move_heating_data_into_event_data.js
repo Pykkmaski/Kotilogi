@@ -8,28 +8,33 @@ exports.up = function (knex) {
     try {
       const propertyStream = trx('property').select('id').stream();
       for await (const property of propertyStream) {
-        const { id: propertyId } = property;
-        const heating = await trx('heating')
-          .leftJoin(knex.raw('oil_vessel on oil_vessel.heating_id = heating.id'))
-          .leftJoin(knex.raw('warm_water_reservoir as wwr on wwr.heating_id = heating.id'))
-          .leftJoin(knex.raw('heating_center as hc on hc.heating_id = heating.id'))
-          .join(knex.raw('types.heating_type as ht on ht.id = heating.heating_type_id'))
+        const mostRecentId = await trx('new_events')
+          .where({
+            property_id: property.id,
+            event_type: 'Peruskorjaus',
+            target_type: 'Lämmitysmuoto',
+          })
+          .orderBy('date', 'desc', 'last')
+          .select('id')
+          .first();
 
-          .select(
-            'heating.*',
-            knex.raw(
-              'CASE WHEN oil_vessel.heating_id IS NOT NULL THEN row_to_json(oil_vessel) ELSE NULL END as oil_vessel'
-            ),
-            knex.raw(
-              'CASE WHEN wwr.heating_id IS NOT NULL THEN row_to_json(wwr) ELSE NULL END as warm_water_reservoir'
-            ),
-            knex.raw(
-              'CASE WHEN hc.heating_id IS NOT NULL THEN row_to_json(hc) ELSE NULL END as heating_center'
-            ),
-            'ht.name as heating_type'
-          );
-        console.log(heating);
-        throw new Error('Not implemented yet.');
+        if (mostRecentId) {
+          //Move the restoration, and heating info about the event as part of the data column.
+          //Get the restoration event
+          const res = await trx('restoration_events.heating_restoration_event as res')
+            //Join the new heating type
+            .join(knex.raw('types.heating_type as nht on nht.id = res.new_system_id'))
+            //Join the old heating type
+            .leftJoin(knex.raw('types.heating_type as oht on oht.id = res.old_system_id'))
+            .select(
+              knex.raw('CASE WHEN oht IS NOT NULL THEN oht.name END AS old_heating_type'),
+              'nht.name as new_heating_type'
+            )
+            .first();
+
+          console.log(res);
+          throw new Error('Not implemented yet.');
+        }
       }
     } catch (err) {
       reject(err);

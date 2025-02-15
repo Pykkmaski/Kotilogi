@@ -7,9 +7,7 @@ export default async function FilesPage({ searchParams }) {
     parentId: string;
     returnUrl: string;
   };
-  const files = await db('object')
-    .join('data_files', { 'data_files.id': 'object.id' })
-    .where({ parentId });
+  const files = await db('data_files').where({ parent_id: parentId });
 
   return (
     <FilePage

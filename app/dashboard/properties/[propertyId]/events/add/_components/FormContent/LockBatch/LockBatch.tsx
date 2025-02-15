@@ -49,8 +49,8 @@ export const LockBatch = () => {
                 labelKey='label'
                 valueKey='label'
                 tablename='types.lock_type'
-                name={`lock_type_id-${index}`}
-                value={l.value.lock_type_id}
+                name={`lock_type-${index}`}
+                value={l.value.lock_type}
                 onChange={e => updateLock(e, l.id)}
                 key={`lock-type-${l.id}`}
               />

@@ -17,18 +17,15 @@ class Objects {
   }
 
   /**Creates a new object. */
-  async create<T extends ObjectDataType>(
-    data: Partial<T>,
+  async create(
     callback: (obj: ObjectDataType, trx: Knex.Transaction) => Promise<void>,
     ctx?: Knex.Transaction
   ) {
     const trx = ctx || (await db.transaction());
     const session = await verifySession();
 
-    const dataToInsert = filterValidColumns(data, await getTableColumns('object', trx));
-    const { id, ...rest } = dataToInsert;
     const [obj] = (await trx('object').insert(
-      { ...rest, authorId: session.user.id, timestamp: Date.now() },
+      { authorId: session.user.id, timestamp: Date.now() },
       '*'
     )) as [ObjectDataType];
 
@@ -117,6 +114,7 @@ class Objects {
     }
   }
 
+  /**@deprecated */
   async batchUpdate<T extends ObjectDataType>(
     data: T[],
     callback: (index: number, trx: Knex.Transaction) => Promise<void>

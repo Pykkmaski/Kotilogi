@@ -106,6 +106,7 @@ export function RoofAreaInput(props: Kotidok.SelectorProps) {
       control={
         <Input
           {...props}
+          type='number'
           name='area'
           placeholder='Anna katon neliömetrit...'
         />

@@ -30,19 +30,26 @@ class Files {
 
   async upload(files: File[], parentId: string) {
     //TODO: prevent uploading more files if the user already has uploaded a certain amount.
-
+    const [{ count }] = await db('data_files')
+      .where({ parent_id: parentId })
+      .count('*', { as: 'count' });
+    const currentFileCount = typeof count == 'string' ? parseInt(count) : count;
+    if (currentFileCount >= 10 || files.length + currentFileCount >= 10) {
+      throw new Error('Tiedostojen määrä ylittää suurimman sallitun rajan!');
+    }
+    /*
     const session = await verifySession();
-
     const [{ totalFileSizeUploaded }] = await db('object')
       .join('data_files', { 'data_files.id': 'object.id' })
       .where({ authorId: session.user.id })
       .sum('data_files.size', { as: 'totalFileSizeUploaded' });
-
+*/
     const fileBuffers: Buffer[] = [];
     for (const file of files) {
       fileBuffers.push(await this.createFileBuffer(file));
     }
 
+    /*
     const sizeOfFilesToBeUploaded = fileBuffers.reduce((acc, cur) => (acc += cur.length), 0);
     const nextFileSizeUploaded = sizeOfFilesToBeUploaded + parseInt(totalFileSizeUploaded);
 
@@ -51,34 +58,33 @@ class Files {
         'Tiedostoja ei voida lähettää, koska yhteenlaskettu ladattujen tiedostojen koko ylittää suurimman sallitun rajan!'
       );
     }
-
+    */
+    const trx = await db.transaction();
     const uploadedFileNames: string[] = [];
-
-    await objects.batchCreate(
-      files.length,
-      parentId,
-      async (objId, currentIndex, trx) => {
-        const outputBuffer = fileBuffers[currentIndex];
-        const file = files[currentIndex];
+    try {
+      for (let i = 0; i < fileBuffers.length; ++i) {
+        const outputBuffer = fileBuffers[i];
+        const file = files[i];
         const filename = Date.now() + fileNameTimestampSeparator + file.name;
 
         await trx('data_files').insert({
           name: filename,
           type: file.type,
           size: outputBuffer.length,
-          id: objId,
+          parent_id: parentId,
         });
 
         await writeFile(uploadPath + filename, outputBuffer as any);
         uploadedFileNames.push(filename);
-      },
-      async err => {
-        console.error(err.message);
-        for (const fn of uploadedFileNames) {
-          await unlink(uploadPath + fn);
-        }
       }
-    );
+      await trx.commit();
+    } catch (err) {
+      console.log(err.message);
+      for (const fn of uploadedFileNames) {
+        await unlink(uploadPath + fn);
+      }
+      await trx.rollback();
+    }
   }
 
   async del(id: string) {
@@ -94,7 +100,7 @@ class Files {
         .select('name')) || [{}];
       filename = fileName;
 
-      await trx('object').where({ id: fileId }).del();
+      await trx('data_files').where({ id: fileId }).del();
       fileBackup = await readFile(uploadPath + filename);
 
       await unlink(uploadPath + filename);
@@ -116,10 +122,9 @@ class Files {
     if (currentMainImage) return;
 
     const [image] = await db('data_files')
-      .join('object', { 'object.id': 'data_files.id' })
-      .where({ parentId: objectId, type: 'image/jpeg' })
-      .orderBy('object.timestamp', 'asc')
-      .pluck('data_files.id');
+      .where({ parent_id: objectId, type: 'image/jpeg' })
+      .orderBy('name', 'desc')
+      .pluck('id');
 
     if (image) {
       await setMainImageAction(objectId, image);
@@ -128,11 +133,7 @@ class Files {
   }
 
   async get(query: TODO, limit?: number) {
-    return db('object')
-      .join('data_files', { 'data_files.id': 'object.id' })
-      .where(query)
-      .select('object.*', 'data_files.name', 'data_files.size', 'data_files.type')
-      .limit(limit);
+    return db('data_files').where(query).limit(limit);
   }
 }
 

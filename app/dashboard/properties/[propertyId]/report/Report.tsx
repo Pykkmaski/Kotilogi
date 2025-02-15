@@ -15,7 +15,7 @@ type ReportProviderProps = {
     property: PropertyPayloadType;
     ownerCount: number;
     events: EventPayloadType[];
-    heatingSystem: string;
+    heatingSystems: string[];
     propertyType: string;
     mainImageId: string;
     buildingMaterial: string;
@@ -153,7 +153,7 @@ export function Report() {
                     />
                     <AttributeField
                       label='Lämmitysmuoto'
-                      value={content.heatingSystem || 'Ei määritelty'}
+                      value={content.heatingSystems?.join(', ') || 'Ei määritelty'}
                     />
 
                     <AttributeField

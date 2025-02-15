@@ -44,7 +44,11 @@ export function EventTargetContent() {
           </div>
         ) : (
           <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
-            <Notification variant='error'>Valitse ensin tapahtuman tyyppi.</Notification>
+            <Notification
+              position='start'
+              variant='error'>
+              Valitse ensin tapahtuman tyyppi.
+            </Notification>
           </CarouselProvider.SelectSlotTrigger>
         )}
         <FormNav />

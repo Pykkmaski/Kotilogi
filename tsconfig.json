@@ -61,7 +61,8 @@
     "components/Util/HighlightingNavbar.Providertsx",
     "components/Util/__tests__/VisibilityProvider.test.tsx",
     "migrations/20240724133036_create_ref_tables.js",
-    "seeds/fill_eventTypes.js"
+    "seeds/fill_eventTypes.js",
+    "utils/models/*.js"
   ],
   "exclude": ["node_modules", "seeds", "constants"]
 }

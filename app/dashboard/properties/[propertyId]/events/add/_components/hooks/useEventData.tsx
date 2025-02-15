@@ -23,7 +23,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     data: payload,
     updateData: updatePayload,
     resetData: resetPayload,
-  } = useFormOnChangeObject(initialEventData?.data);
+  } = useFormOnChangeObject(initialEventData?.data || ({} as TODO));
 
   const { files, removeFile, updateFiles } = useFormOnChangeFiles();
 
@@ -69,20 +69,29 @@ export const useEventData = (initialEventData: EventPayloadType) => {
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
   useEffect(() => {
+    //Reset the payload if switching targets.
     resetPayload({});
   }, [eventData.target_type]);
 
   useEffect(() => {
+    //Reset the main data if switching event types.
     resetEventData({
-      ...eventData,
-      target_type: undefined,
-    });
+      property_id: eventData.property_id,
+      event_type: eventData.event_type,
+    } as TODO);
 
+    //Also reset the payload.
     resetPayload({});
+  }, [eventData.event_type]);
 
+  useEffect(() => {
+    //Reset the windows, insulation, and locks, and all selected surfaces and electric restoration targets.
+    resetWindowBatch(null);
+    resetInsulation(null);
+    resetLocks(null);
     resetSelectedSurfaceIds();
     resetSelectedERTargetIds();
-  }, [eventData.event_type]);
+  }, [eventData.target_type, eventData.event_type]);
 
   return {
     /**The main event data, excluding the data payload-object.*/
@@ -94,7 +103,9 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     windows,
     locks,
     insulation,
+    /**The selected surfaces for a cosmetic renovation event. */
     selectedSurfaceIds,
+    /**The selected restoration targets for an electric restoration event. */
     selectedERTargetIds,
     resetSelectedSurfaceIds,
     resetSelectedERTargetIds,

@@ -7,7 +7,7 @@ export const BrandAndModelInputs = ({
   brandPlaceholder,
   modelPlaceholder,
 }) => {
-  const { eventData, updateEventData } = useEventFormContext();
+  const { eventData, updateEventData, payload, updatePayload } = useEventFormContext();
 
   return (
     <>
@@ -15,9 +15,9 @@ export const BrandAndModelInputs = ({
         label={brandLabel}
         control={
           <Input
-            name='brand'
-            onChange={updateEventData}
-            value={(eventData as any).brand}
+            name='heating_center_brand'
+            onChange={updatePayload}
+            value={(payload as any).heating_center_brand || ''}
             placeholder={brandPlaceholder}
           />
         }
@@ -28,10 +28,10 @@ export const BrandAndModelInputs = ({
         label={modelLabel}
         control={
           <Input
-            name='model'
+            name='heating_center_model'
             placeholder={modelPlaceholder}
-            onChange={updateEventData}
-            value={(eventData as any).model}
+            onChange={updatePayload}
+            value={(payload as any).heating_center_model || ''}
           />
         }
       />

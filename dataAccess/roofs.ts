@@ -4,6 +4,8 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import db from 'kotilogi-app/dbconfig';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
+import { roofSchema } from 'kotilogi-app/utils/models/roofSchema';
+import { events } from './events';
 
 class Roofs {
   async getTypes(ctx: Knex | Knex.Transaction) {
@@ -11,31 +13,21 @@ class Roofs {
   }
 
   async get(property_id: string, ctx: Knex | Knex.Transaction) {
-    //Todo: fetch the most recent genesis- or restoration event for a roof, and get the data from there.
-    return ctx('roof')
-      .where({ property_id })
-      .select(
-        'roofTypeId',
-        'roofMaterialId',
-        'raystasTyyppiId',
-        'colorId',
-        'kaltevuus',
-        'neliometrit',
-        'otsalautaTyyppiId',
-        'aluskateTyyppiId',
-        'harjatuuletusAluskatteella',
-        'suojakasiteltyPuutavara',
-        'piipunpellitys',
-        'lapetikas',
-        'lumieste',
-        'kattosilta',
-        'turvatikas',
-        'kourut',
-        'syoksysarja'
-      );
+    const roof = await ctx('new_events')
+      .where(
+        db.raw("(event_type = 'Genesis' OR event_type = 'Peruskorjaus') AND target_type = 'Katto'")
+      )
+      .andWhere({ property_id })
+      .orderBy('date', 'desc', 'last')
+      .select('data')
+      .first();
+
+    return roof?.data;
   }
 
-  /**Creates a genesis event for a roof. */
+  /**Creates a genesis event for a roof.
+
+   */
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
     const [{ roof_types }] = (await trx('types.roof_type').select(
       db.raw('json_object_agg(id, name) as roof_types')
@@ -61,6 +53,7 @@ class Roofs {
       db.raw('json_object_agg(id, name) as colors')
     )) as any;
 
+    /*
     const roof = {
       roof_type: roof_types[payload.roofTypeId],
       roof_material: roof_materials[payload.roofMaterialId],
@@ -81,18 +74,21 @@ class Roofs {
       has_snow_barrier: payload.lumieste,
       lapetikas: payload.lapetikas,
     };
+    */
 
     const session = await verifySession();
-
-    return trx('new_events').insert({
-      property_id,
-      event_type: 'Genesis',
-      target_type: 'Katto',
-      title: 'Katon tietojen lisäys',
-      author_id: session.user.id,
-      date: null,
-      data: roof,
-    });
+    const roof = roofSchema.parse(payload);
+    await events.create(
+      {
+        property_id,
+        event_type: 'Genesis',
+        target_type: 'Katto',
+        description: 'Katon tietojen lisäys',
+        date: null,
+        data: roof,
+      } as any,
+      trx
+    );
   }
 
   /**

@@ -11,7 +11,7 @@ function ExteriorCladdingMaterialSelector({ value, onChange }: React.ComponentPr
       label='Materiaali'
       loadingText='Ladataan materiaaleja...'
       tablename='types.exterior_cladding_material_type'
-      name='exterior_cladding_material_type_id'
+      name='exterior_cladding_material_type'
       onChange={e => onChange(e)}
       value={value}
       labelKey='label'

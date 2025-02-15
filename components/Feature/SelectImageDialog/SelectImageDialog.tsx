@@ -40,7 +40,7 @@ export function SelectImageDialog({ images, ...props }: SelectImageDialogProps) 
                     setStatus('loading');
                     const loadingToast = toast.loading('Vaihdetaan pääkuvaa...');
 
-                    await setMainImageAction(img.parentId, img.id)
+                    await setMainImageAction(img.parent_id, img.id)
                       .then(res => {
                         if (res.status == 200) {
                           toast.dismiss(loadingToast);

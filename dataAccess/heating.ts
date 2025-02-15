@@ -40,94 +40,45 @@ class Heating {
 
   /**Returns an array containing all heating systems of a property. */
   async get(property_id: string, ctx: Knex.Transaction | Knex): Promise<string[]> {
-    const heatingData = await ctx('new_events')
-      .where(function () {
-        this.where({ event_type: 'Genesis' }).orWhere({ event_type: 'Peruskorjaus' });
-      })
-      .andWhere({
-        target_type: 'Lämmitysmuoto',
-        property_id,
-      })
+    //Fetch the genesis event data, created with the parent property.
+    const genesisEvent = await ctx('new_events')
+      .where({ event_type: 'Genesis', target_type: 'Lämmitysmuoto', property_id })
       .select('data')
-      .orderBy('date', 'desc', 'last')
       .first();
 
-    return heatingData?.data?.heating_types as TODO;
+    //Add the heating types listed in the found genesis event into a set.
+    const heatingSet = new Set<string>(genesisEvent?.data?.heating_types);
+
+    //Fetch all Peruskorjaus- or Genesis events done to the heating method, sorting by date in ascending order.
+    const eventStream = ctx('new_events')
+      .where(function () {
+        this.where({ event_type: 'Peruskorjaus' }).orWhere({ event_type: 'Genesis' });
+      })
+      .andWhere({ target_type: 'Lämmitysmuoto', property_id })
+      .andWhereNot({ data: null })
+      .orderBy('date', 'asc', 'first')
+      .select('data', 'event_type')
+      .stream();
 
     /*
-    const primaryHeatingPromise = ctx('primary_heating').where({ property_id }).pluck('heating_id');
-
-    const heatingTypesPromise = this.getTypes(ctx);
-    const [[primaryHeatingId], heatingTypes] = await Promise.all([
-      primaryHeatingPromise,
-      heatingTypesPromise,
-    ]);
-  
-    const payloads: HeatingPayloadType[] = [];
-
-    for (const hd of heatingData) {
-      const heating_type_id = parseInt(hd.heating_type_id);
-      let payload = null;
-
-      switch (heating_type_id) {
-        case heatingTypes['Öljy']:
-          {
-            const centerPromise = this.getHeatingCenter(hd.id, ctx);
-            const vesselPromise = ctx('oil_vessel')
-              .where({ heating_id: hd.id })
-              .select('volume', 'location');
-
-            const [[center], [vessel]] = await Promise.all([centerPromise, vesselPromise]);
-
-            payload = {
-              ...hd,
-              ...vessel,
-              ...center,
-            };
-          }
-          break;
-
-        case heatingTypes['Kaukolämpö']:
-          {
-            const [center] = await this.getHeatingCenter(hd.id, ctx);
-            payload = {
-              ...hd,
-              ...center,
-            };
-          }
-          break;
-
-        case heatingTypes['Sähkö']:
-          {
-            const centerPromise = this.getHeatingCenter(hd.id, ctx);
-            const reservoirPromise = ctx('warm_water_reservoir')
-              .where({ heating_id: hd.id })
-              .select('volume');
-
-            const [[center], [warm_water_reservoir]] = await Promise.all([
-              centerPromise,
-              reservoirPromise,
-            ]);
-
-            payload = {
-              ...hd,
-              ...center,
-              ...warm_water_reservoir,
-            };
-          }
-          break;
-
-        default:
-          payload = hd;
+      March through the events and fill the Peruskorjaus-event new_heating_types into the set, 
+      while removing the old_heating_types as we go, creating a list of the currently installed
+      heating methods.
+    */
+    for await (const e of eventStream) {
+      const { old_heating_type, new_heating_type } = e.data;
+      if (old_heating_type && heatingSet.has(old_heating_type)) {
+        heatingSet.delete(old_heating_type);
       }
 
-      payloads.push({
-        ...payload,
-        is_primary: primaryHeatingId == hd.id,
-      });
+      if (e.event_type == 'Genesis') {
+        e.data.heating_types.forEach(i => heatingSet.add(i));
+      } else {
+        heatingSet.add(new_heating_type);
+      }
     }
-      return payloads;
-      */
+
+    return Array.from(heatingSet);
   }
 
   async create(data: Partial<HeatingPayloadType>, ctx: Knex.Transaction) {

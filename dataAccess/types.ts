@@ -87,7 +87,7 @@ export type LockDataType = {
   model: string;
   brand: string;
   quantity: number;
-  lock_type_id: number;
+  lock_type: number;
 };
 
 export type WindowDataType = {

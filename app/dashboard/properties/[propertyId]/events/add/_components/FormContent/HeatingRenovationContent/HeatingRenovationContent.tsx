@@ -6,9 +6,12 @@ import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { FormControl } from '@/components/UI/FormUtils';
+import { useEffect, useMemo, useState } from 'react';
+import { Checkbox } from '@/components/Feature/RadioGroup/Checkbox';
 
 export const HeatingRenovationContent = () => {
   const { eventData, updateEventData, editing, payload, updatePayload } = useEventFormContext();
+  const [replacesExisting, setReplacesExisting] = useState(false);
   const {
     heatingSystems,
     isLoading,
@@ -19,36 +22,52 @@ export const HeatingRenovationContent = () => {
     currentIsLoading,
   } = useHeatingRenovationContent();
 
+  const optionsToRender = useMemo(
+    () => (replacesExisting ? currentHeatingSystems : heatingSystems),
+    [replacesExisting, currentHeatingSystems, heatingSystems]
+  );
   return (
     <div className='flex flex-col gap-2 w-full'>
       {currentIsLoading ? (
         <Spinner message='Ladataan nykyisiä järjestelmiä...' />
       ) : (
-        <FormControl
-          label='Vanha järjestelmä'
-          control={
-            <div className='flex flex-row gap-2'>
-              {currentHeatingSystems.map(ch => {
-                return (
-                  <ChipButton
-                    name='old_heating_type'
-                    value={ch}
-                    label={ch}
-                    checked={payload?.old_heating_type}
-                    onChange={updatePayload}
-                  />
-                );
-              })}
-              <ChipButton
-                name='old_system_id'
-                value={-1}
-                label='Ei mitään'
-                checked={eventData.old_system_id == -1 || eventData.old_system_id == undefined}
-                onChange={updateEventData}
-              />
-            </div>
-          }
-        />
+        <>
+          <Checkbox
+            label='Korjaa olemassa olevan lämmityksen?'
+            checked={replacesExisting}
+            onChange={() => setReplacesExisting(prev => !prev)}
+          />
+          <FormControl
+            label='Korjattava järjestelmä'
+            control={
+              <div className='flex flex-row gap-2'>
+                {optionsToRender?.map((ch, i) => {
+                  return (
+                    <ChipButton
+                      key={`old-heating-type-${i}`}
+                      name='old_heating_type'
+                      type='radio'
+                      value={ch}
+                      label={ch}
+                      checked={payload.old_heating_type == ch}
+                      onChange={e => {
+                        console.log(e.target.name, e.target.value);
+                        updatePayload(e);
+                      }}
+                    />
+                  );
+                })}
+                <ChipButton
+                  name='old_heating_type'
+                  value={'Ei mitään'}
+                  label='Ei mitään'
+                  checked={payload.old_heating_type == 'Ei mitään'}
+                  onChange={updatePayload}
+                />
+              </div>
+            }
+          />
+        </>
       )}
 
       {isLoading ? (
@@ -57,12 +76,10 @@ export const HeatingRenovationContent = () => {
         <>
           <HeatingSystemSelector
             required
-            name='new_system_id'
+            name='new_heating_type'
             label='Uusi järjestelmä'
             disabled={editing}
             heatingSystems={heatingSystems}
-            value={eventData.new_system_id}
-            onChange={updateEventData}
           />
           <div className='flex flex-col gap-2 w-full'>
             {getAdditionalInputs()}

@@ -4,6 +4,7 @@ import db from 'kotilogi-app/dbconfig';
 import { revalidatePath } from 'next/cache';
 
 export async function setMainImageAction(objectId: string, imageId: string) {
+  console.log(objectId, imageId);
   const [idOfPrevious] = await db('data_mainImages').where({ objectId }).pluck('id');
 
   if (idOfPrevious) {
