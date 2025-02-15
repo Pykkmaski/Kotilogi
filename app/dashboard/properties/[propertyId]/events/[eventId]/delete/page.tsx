@@ -5,7 +5,7 @@ import { objects } from 'kotilogi-app/dataAccess/objects';
 
 export default async function DeleteEventPage({ params }) {
   const { eventId } = params;
-  await objects.verifySessionUserIsAuthor(eventId);
+  await objects.verifySessionUserIsAuthor(eventId, db);
 
   const [event] = await db('data_propertyEvents')
     .join('data_objects', { 'data_objects.id': 'data_propertyEvents.id' })

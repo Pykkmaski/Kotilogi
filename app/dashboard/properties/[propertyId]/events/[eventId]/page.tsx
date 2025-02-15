@@ -40,7 +40,7 @@ export default async function EventPage({ params }) {
                 <>
                   <DataDisplay
                     title='Materiaali'
-                    value={event.data?.exterior_cladding_material_type_label}
+                    value={event.data?.exterior_cladding_material}
                   />
                   <DataDisplay
                     title='Jyrsijäverkko'
@@ -80,8 +80,8 @@ export default async function EventPage({ params }) {
                 />
               ) : event.target_type == 'Sähköt' ? (
                 <DataDisplay
-                  title='Kohde'
-                  value={event.data?.restoration_target}
+                  title='Kohteet'
+                  value={event.data?.electrical_targets.join(', ')}
                 />
               ) : null
             ) : event.event_type == 'Huoltotyö' && event.target_type !== 'Muu' ? (

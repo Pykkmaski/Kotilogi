@@ -9,7 +9,7 @@ import { Notification } from '@/components/UI/Notification';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 
 export function PropertyOverview() {
-  const { property: prop, heatingBatch, refs, isValid } = usePropertyFormContext();
+  const { property: prop, heatingBatch, refs, isValid, selectedHeating } = usePropertyFormContext();
   const property = prop || ({} as PropertyPayloadType);
 
   return (
@@ -142,17 +142,11 @@ export function PropertyOverview() {
         <div className='flex flex-col gap-2'>
           <h1>Lämmitys</h1>
 
-          {heatingBatch.length ? (
-            heatingBatch.map(hb => {
-              const ht = refs.heatingTypes.find(t => t.id == hb.value.heating_type_id)?.name;
-
-              return (
-                <DataDisplay
-                  title={hb.value.name || ht}
-                  value={hb.value.is_primary ? <span>Ensisijainen</span> : ' '}
-                />
-              );
-            })
+          {selectedHeating.length ? (
+            <DataDisplay
+              title={'Lämmitysmuodot'}
+              value={selectedHeating.join(', ')}
+            />
           ) : (
             <span className='font-semibold'>Ei lisättyjä lämmitysmuotoja.</span>
           )}

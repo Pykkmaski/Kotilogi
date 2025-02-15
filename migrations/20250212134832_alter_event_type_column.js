@@ -10,7 +10,7 @@ exports.up = function (knex) {
       await knex.schema
         .withSchema('types')
         .alterTable('event_type', tbl => {
-          tbl.dropPrimary();
+          tbl.dropPrimary('ref_mainEventTypes_pkey');
         })
         .alterTable('event_type', tbl => {
           tbl.primary('label');

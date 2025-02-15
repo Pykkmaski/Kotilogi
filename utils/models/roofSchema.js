@@ -2,7 +2,7 @@ const z = require('zod');
 module.exports.roofSchemaVersion = 0;
 
 module.exports.RoofType = {
-  AUMA: 'Auma',
+  AUMA: 'Aumakatto',
   TASA: 'Tasakatto',
   HARJA: 'Harjakatto',
   PULPETTI: 'Pulpettikatto',

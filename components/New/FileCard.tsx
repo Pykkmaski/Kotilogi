@@ -49,7 +49,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
     setStatus('loading');
     const loadingToast = toast.loading('Päivitetään pääkuvaa...');
 
-    await setMainImageAction(file.parentId, file.id)
+    await setMainImageAction(file.parent_id, file.id)
       .then(res => {
         if (res.status == 200) {
           toast.success(res.statusText);
@@ -61,7 +61,7 @@ export function FileCard({ file, isMain }: FileCardProps) {
 
     toast.dismiss(loadingToast);
     setStatus('idle');
-  }, [setStatus, file.id, file.parentId, axios]);
+  }, [setStatus, file.id, file.parent_id, axios]);
 
   const loading = useMemo(() => status == 'loading', [status]);
 

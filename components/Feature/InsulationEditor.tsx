@@ -11,7 +11,7 @@ export function InsulationMaterialSelector({
   index,
   ...props
 }: Kotidok.SelectorProps & { index?: number }) {
-  const name = index ? `insulation_material_id-${index}` : 'insulation_material_id';
+  const name = index ? `insulation_material-${index}` : 'insulation_material';
   return (
     <RadioSelector
       {...props}
@@ -26,7 +26,7 @@ export function InsulationMaterialSelector({
 }
 
 function InsulationTargetSelector({ index, ...props }: Kotidok.SelectorProps & { index: number }) {
-  const name = `insulation_target_id-${index}`;
+  const name = `insulation_target-${index}`;
 
   return (
     <RadioSelector
@@ -55,12 +55,12 @@ export function Insulation({ data, index = 0, onChange, onDelete }) {
 
       <InsulationMaterialSelector
         index={index}
-        value={data.insulation_material_id}
+        value={data.insulation_material}
         onChange={onChange}
       />
       <InsulationTargetSelector
         index={index}
-        value={data.insulation_target_id}
+        value={data.insulation_target}
         onChange={onChange}
       />
     </div>

@@ -53,9 +53,7 @@ exports.up = function (knex) {
     const trx = await knex.transaction();
     try {
       //Drop the target_type_id foreign reference from events.
-      await knex.schema.raw(
-        'ALTER TABLE event DROP CONSTRAINT data_propertyevents_targetid_foreign'
-      );
+      await knex.schema.raw('ALTER TABLE event DROP CONSTRAINT target_type_id_fkey');
 
       //Change the event target_type_id-columns to varchar.
       await changeTypeToString(knex, 'event', 'target_id');

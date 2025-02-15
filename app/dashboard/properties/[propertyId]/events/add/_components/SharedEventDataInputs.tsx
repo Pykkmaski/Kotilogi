@@ -93,11 +93,11 @@ const DescriptionInput = () => {
 };
 
 const OtherField = () => {
-  const { eventData, updateEventData } = useEventFormContext();
+  const { eventData, updateEventData, payload, updatePayload } = useEventFormContext();
 
   return (
     <>
-      <RenderOnCondition condition={eventData.service_work_type_id == -1}>
+      <RenderOnCondition condition={payload.maintenance_type == 'Muu'}>
         <FormControl
           boldLabelText
           label='Otsikko'

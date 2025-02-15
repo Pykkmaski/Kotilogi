@@ -106,8 +106,7 @@ class Events {
    */
   async update(id: string, payload: Partial<EventPayloadType>) {
     //Only allow the author of an event to update it.
-    await objects.verifySessionUserIsAuthor(id);
-
+    //await objects.verifySessionUserIsAuthor(id, db);
     throw new Error('Method not implemented!');
   }
 
@@ -116,11 +115,6 @@ class Events {
    */
   async del(id: string) {
     //Only allow the author of the event to delete it.
-    const session = await verifySession();
-    const [author_id] = await db('new_events').where({ id }).pluck('author_id');
-    if (author_id !== session.user.id) {
-      throw new Error('Tapahtuman voi poistaa ainoastaan sen laatija!');
-    }
     await this.verifyNotLocked(id);
     await objects.del(id);
   }

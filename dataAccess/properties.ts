@@ -150,18 +150,14 @@ class Properties {
 
       //Should create a heating method genesis event.
       if (data.heating) {
-        const heatingLabels = await trx('types.heating_type')
-          .whereIn('id', data.heating)
-          .pluck('name');
-
         await events.create(
           {
             title: 'Lämmitystietojen lisäys',
             property_id: obj.id,
             event_type: 'Genesis',
             target_type: 'Lämmitysmuoto',
-            date: null,
-            data: { heating_types: heatingLabels },
+            date: new Date(),
+            data: { heating_types: data.heating },
           } as any,
           trx
         );
@@ -221,41 +217,7 @@ class Properties {
       const buildingPromise = buildings.update(id, payload, trx);
       const interiorPromise = interiors.update(id, payload, trx);
 
-      //Update heating.
-      const heatingPromises = payload.heating?.map(async hd => {
-        const { id: heatingId } = hd;
-
-        if (heatingId) {
-          if (!hd.deleted) {
-            await heating.update(heatingId, hd, trx);
-          } else {
-            await heating.del(heatingId, trx);
-          }
-        } else {
-          await heating.create(
-            {
-              ...hd,
-              property_id: id,
-            },
-            trx
-          );
-        }
-      });
-      const [existingRoof] = await trx('roof').where({ property_id: id }).pluck('property_id');
-      let roofPromise: Promise<number | number[]>;
-      if (existingRoof) {
-        roofPromise = roofs.update(id, payload, trx);
-      } else {
-        roofPromise = roofs.create(id, payload, trx);
-      }
-
-      await Promise.all([
-        overviewPromise,
-        buildingPromise,
-        interiorPromise,
-        roofPromise,
-        ...heatingPromises,
-      ]);
+      await Promise.all([overviewPromise, buildingPromise, interiorPromise]);
 
       const propertyTablename = await this.getTableNameByType(payload.property_type_id, trx);
 

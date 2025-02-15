@@ -14,11 +14,12 @@ class Utilities {
   }
 
   /**Creates utility data. */
-  async create(data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'parentId'>>) {
-    console.log(data.date)
-    return objects.create(data, async (obj, trx) => {
+  async create(data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'property_id'>>) {
+    console.log(data.date);
+    return objects.create(async (obj, trx) => {
       await trx('data_utilities').insert({
         id: obj.id,
+        property_id: data.property_id,
         date: data.date,
         monetaryAmount: Math.round(data.monetaryAmount * 100),
         unitAmount: Math.round(data.unitAmount * 100),
@@ -45,7 +46,7 @@ class Utilities {
 
         this.where('date', '>=', time).andWhere('date', '<', endTime);
       })
-      .andWhere({ 'object.parentId': propertyId });
+      .andWhere({ 'data_utilities.property_id': propertyId });
 
     if (types.length) {
       dbQuery.whereIn('ref_utilityTypes.name', types);
@@ -59,7 +60,7 @@ class Utilities {
 
   async update(id: string, data: Partial<UtilityDataType>) {
     //Only allow the author of a utility entry to edit it.
-    await objects.verifySessionUserIsAuthor(data.id);
+    await objects.verifySessionUserIsAuthor(data.id, db);
 
     return objects.update(id, data, async trx => {
       const updateObject = filterValidColumns(data, await getTableColumns('data_utilities', trx));
@@ -72,7 +73,7 @@ class Utilities {
   async getYears(propertyId: string) {
     const dates = (await db('data_utilities')
       .join('object', { 'object.id': 'data_utilities.id' })
-      .where({ parentId: propertyId })
+      .where({ property_id: propertyId })
       .pluck('date')) as Date[];
 
     const yearSet = new Set<number>();
@@ -85,7 +86,6 @@ class Utilities {
   }
 
   async del(id: string) {
-    await objects.verifySessionUserIsAuthor(id);
     await objects.del(id);
   }
 }

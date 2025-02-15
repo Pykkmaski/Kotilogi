@@ -11,7 +11,7 @@ function ExteriorCladdingMaterialSelector({ value, onChange }: React.ComponentPr
       label='Materiaali'
       loadingText='Ladataan materiaaleja...'
       tablename='types.exterior_cladding_material_type'
-      name='exterior_cladding_material_type'
+      name='exterior_cladding_material'
       onChange={e => onChange(e)}
       value={value}
       labelKey='label'
@@ -30,7 +30,7 @@ export function ExteriorCladdingEditor({ value, onChange }: ExteriorCladdingEdit
     <div className='flex flex-col gap-8'>
       <h1 className='font-semibold'>Ulkoverhouksen tiedot</h1>
       <ExteriorCladdingMaterialSelector
-        value={value.exterior_cladding_material_type_id}
+        value={value.exterior_cladding_material}
         onChange={onChange}
       />
       <Checkbox
@@ -43,7 +43,7 @@ export function ExteriorCladdingEditor({ value, onChange }: ExteriorCladdingEdit
 
       <div className='flex flex-col gap-2 border-b border-slate-200 pb-2'>
         <InsulationMaterialSelector
-          value={value.insulation_material_id}
+          value={value.insulation_material}
           onChange={onChange}
         />
         <FormControl

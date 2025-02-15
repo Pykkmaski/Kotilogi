@@ -130,9 +130,11 @@ export function PropertyForm<T extends PropertyPayloadType>({
                 <TabButton>Ulkopuoli</TabButton>
               </CarouselProvider.SelectSlotTrigger>
 
-              <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
-                <TabButton>Katto</TabButton>
-              </CarouselProvider.SelectSlotTrigger>
+              {isNew && (
+                <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
+                  <TabButton>Katto</TabButton>
+                </CarouselProvider.SelectSlotTrigger>
+              )}
 
               <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
                 <TabButton>Sisäpuoli</TabButton>
@@ -177,9 +179,11 @@ export function PropertyForm<T extends PropertyPayloadType>({
                       <span>Ulkopuoli</span>
                     </CarouselProvider.SelectSlotTrigger>
 
-                    <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
-                      <span>Katto</span>
-                    </CarouselProvider.SelectSlotTrigger>
+                    {isNew && (
+                      <CarouselProvider.SelectSlotTrigger slotToSelect='roof'>
+                        <span>Katto</span>
+                      </CarouselProvider.SelectSlotTrigger>
+                    )}
 
                     <CarouselProvider.SelectSlotTrigger slotToSelect='interior'>
                       <span>Sisäpuoli</span>
@@ -234,17 +238,19 @@ export function PropertyForm<T extends PropertyPayloadType>({
             </BoxFieldset>
           </CarouselProvider.Slot>
 
-          <CarouselProvider.Slot slotName='roof'>
-            <BoxFieldset legend='Katon tiedot'>
-              <FieldsetContainer>
-                <RoofEditor
-                  roofData={data}
-                  onChange={updateData}
-                />
-                <GotoDraft updateSlot={updateSlot} />
-              </FieldsetContainer>
-            </BoxFieldset>
-          </CarouselProvider.Slot>
+          {isNew && (
+            <CarouselProvider.Slot slotName='roof'>
+              <BoxFieldset legend='Katon tiedot'>
+                <FieldsetContainer>
+                  <RoofEditor
+                    roofData={data}
+                    onChange={updateData}
+                  />
+                  <GotoDraft updateSlot={updateSlot} />
+                </FieldsetContainer>
+              </BoxFieldset>
+            </CarouselProvider.Slot>
+          )}
 
           <CarouselProvider.Slot slotName='interior'>
             <BoxFieldset legend='Sisätilat'>
@@ -271,7 +277,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
                 <FieldsetContainer>
                   <CheckboxSelector
                     labelKey={'name'}
-                    valueKey={'id'}
+                    valueKey={'name'}
                     label='Lämmitystyypit'
                     tablename='types.heating_type'
                     values={selectedHeating}
@@ -318,7 +324,7 @@ export function PropertyForm<T extends PropertyPayloadType>({
                   color='secondary'
                   type='submit'
                   variant='contained'
-                  //disabled={!isValid || loading || done || typeof data.street_number == 'undefined'}
+                  disabled={!isValid || loading || done || typeof data.street_number == 'undefined'}
                   startIcon={loading ? <Spinner /> : <Check />}>
                   {property ? 'Päivitä' : 'Vahvista'}
                 </Button>

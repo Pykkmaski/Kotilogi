@@ -7,10 +7,9 @@ import { getTableColumns } from './utils/getTableColumns';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
 class Objects {
-  async verifySessionUserIsAuthor(objectId: string) {
+  async verifySessionUserIsAuthor(objectId: string, ctx: Knex | Knex.Transaction) {
     const session = await verifySession();
-
-    const [authorId] = await db('object').where({ id: objectId }).pluck('authorId');
+    const [authorId] = await ctx('object').where({ id: objectId }).pluck('authorId');
     if (session.user.id !== authorId) {
       throw new Error('Vain tiedon laatija voi muokata- tai poistaa sen!');
     }
@@ -64,6 +63,7 @@ class Objects {
     ctx?: Knex.Transaction
   ) {
     const trx = ctx || (await db.transaction());
+    await this.verifySessionUserIsAuthor(id, trx);
     await trx('object').where({ id }).del();
     callback && (await callback(trx));
 

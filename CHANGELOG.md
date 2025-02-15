@@ -1,4 +1,4 @@
-## [2.4.0] - 12-02-2025
+## [3.0.0] - 15-02-2025
 
 ### Removed
 
@@ -14,6 +14,10 @@
 - The Jutut-link to "Blogi" in the auth pages.
 - Included a link to the privacy-policy document on he register-form.
 - Changed event types to be the actual strings, instead of an id.
+- How events are fetched and saved.
+- Moved all events to a new table, and their related data into a jsonb-column in it.
+- Heating types on a property are now determined by what events have been done on them.
+- All data except interior, energy class, yard, and building data are determined based on events.
 
 ## [2.3.2] - 05-02-2025
 

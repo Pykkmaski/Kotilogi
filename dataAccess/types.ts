@@ -4,7 +4,7 @@ export type ObjectDataType = {
   authorId: string;
   title?: string;
   description?: string;
-  parentId?: string;
+  parent_id?: string;
 };
 
 export type BuildingDataType = {
@@ -63,6 +63,7 @@ export type AppartmentPayloadType = PropertyPayloadType & {
 
 export type UtilityDataType = ObjectDataType & {
   monetaryAmount: number;
+  property_id: string;
   unitAmount: number;
   label: string;
   typeId: number;

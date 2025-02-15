@@ -58,7 +58,7 @@ export function RestorationWorkContent() {
         <EventRoofEditor />
       ) : eventData.target_type == TargetType.VIEMÄRIPUTKET ? (
         <SewerPipeEditor
-          sewerPipeData={eventData}
+          sewerPipeData={payload}
           onChange={updatePayload}
         />
       ) : eventData.target_type == TargetType.SALAOJAT ? (

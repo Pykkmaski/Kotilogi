@@ -48,7 +48,7 @@ export async function EventOverview<T extends EventPayloadType>({ event }: Event
             }
           />
         ) : (
-          <Link href={`/dashboard/properties/${event.parentId}/events/${event.id}`}>
+          <Link href={`/dashboard/properties/${event.property_id}/events/${event.id}`}>
             <OverviewImage
               src={
                 (mainImageId && `/api/protected/files/${mainImageId}`) ||

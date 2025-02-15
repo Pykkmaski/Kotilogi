@@ -44,7 +44,7 @@ export async function PropertyOverview({
 
   const images = await db('data_files')
     .join('object', { 'object.id': 'data_files.id' })
-    .where({ parentId: property.id, type: 'image/jpeg' })
+    .where({ parent_id: property.id, type: 'image/jpeg' })
     .select('data_files.id as id', 'object.parentId as parentId');
 
   const [buildingData] = await db('building')
@@ -56,9 +56,9 @@ export async function PropertyOverview({
     })
     .select('building.*', 'types.building_type.name as building_type_label');
 
-  const [{ numEvents }] = await db('event')
-    .join('object', { 'object.id': 'event.id' })
-    .where({ parentId: property.id })
+  const [{ numEvents }] = await db('new_events')
+    .join('object', { 'object.id': 'new_events.id' })
+    .where({ property_id: property.id })
     .count('*', { as: 'numEvents' });
 
   const title = property.street_name + ' ' + property.street_number;

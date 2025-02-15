@@ -65,7 +65,7 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
 
   const add = () => {
     addEntry({
-      parentId: propertyId,
+      property_id: propertyId,
     });
   };
 

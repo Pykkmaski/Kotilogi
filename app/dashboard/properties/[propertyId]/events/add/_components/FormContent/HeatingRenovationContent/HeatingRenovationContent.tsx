@@ -32,11 +32,14 @@ export const HeatingRenovationContent = () => {
         <Spinner message='Ladataan nykyisiä järjestelmiä...' />
       ) : (
         <>
-          <Checkbox
-            label='Korjaa olemassa olevan lämmityksen?'
-            checked={replacesExisting}
-            onChange={() => setReplacesExisting(prev => !prev)}
-          />
+          {currentHeatingSystems && (
+            <Checkbox
+              label='Näytä vain olemassa olevat'
+              checked={replacesExisting}
+              onChange={() => setReplacesExisting(prev => !prev)}
+            />
+          )}
+
           <FormControl
             label='Korjattava järjestelmä'
             control={

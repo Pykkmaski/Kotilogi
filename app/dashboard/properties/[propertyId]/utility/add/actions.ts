@@ -8,7 +8,7 @@ export const createUtilityDataAction = async (
   propertyId: string,
   entries: Partial<UtilityDataType>[]
 ) => {
-  const dataToInsert = entries.map(e => ({ ...e, parentId: propertyId }));
+  const dataToInsert = entries.map(e => ({ ...e, property_id: propertyId }));
   const promises = dataToInsert.map(data => utilities.create(data));
   await Promise.all(promises);
   revalidatePath('/dashboard/properties');

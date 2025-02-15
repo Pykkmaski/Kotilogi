@@ -24,28 +24,31 @@ export const getCosmeticRenovationSurfaces = async () =>
 
 export async function getRoof(property_id: string) {
   const roof = await db('new_events')
-    .where(db.raw("event_type = 'Genesis' OR event_type = 'Peruskorjaus'"))
+    .where(
+      db.raw("(event_type = 'Genesis' OR event_type = 'Peruskorjaus') AND target_type = 'Katto'")
+    )
     .andWhere({ property_id })
     .select('data')
     .orderBy('date', 'desc', 'last')
     .first();
-  return roof.data;
+  return roof?.data || {};
 }
 
 export async function getDrainageDitch(property_id: string) {
   const data = await db('new_events')
-    .where(db.raw("event_type = 'Genesis' OR event_type = 'Peruskorjaus'"))
-    .andWhere({ property_id, target_type: 'Salaojat' })
+    .where(
+      db.raw("(event_type = 'Genesis' OR event_type = 'Peruskorjaus') AND target_type = 'Salaojat'")
+    )
+    .andWhere({ property_id })
     .select('data')
     .orderBy('date', 'desc', 'last')
     .first();
 
-  return data?.data;
+  return data?.data || {};
 }
 
 /**Returns all current defined heating systems of a property. Alternatively, if a property does not have any defined, returns all available heating type options. */
 export const getCurrentHeatingSystems = async (property_id: string) => {
-  console.log('property_id: ', property_id);
   const heatingTypes = await heating.get(property_id, db);
   const allHeatingTypes = await db('types.heating_type').pluck('name');
   return heatingTypes.length > 0 ? heatingTypes : allHeatingTypes;

@@ -10,8 +10,8 @@ export function SewerPipeEditor({ sewerPipeData, onChange }) {
         labelKey='label'
         valueKey='label'
         tablename='restoration_events.sewer_pipe_restoration_method_type'
-        name='restoration_method_type_id'
-        value={sewerPipeData.restoration_method_type_id}
+        name='restoration_method'
+        value={sewerPipeData.restoration_method}
         onChange={onChange}
       />
     </EditorContainer>

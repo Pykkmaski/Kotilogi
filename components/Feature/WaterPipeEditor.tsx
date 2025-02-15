@@ -10,8 +10,8 @@ export function WaterPipeEditor({ waterPipeData, onChange }) {
         labelKey='label'
         valueKey='label'
         tablename='restoration_events.water_pipe_installation_method_type'
-        name='installation_method_id'
-        value={waterPipeData.installation_method_id}
+        name='installation_method'
+        value={waterPipeData.installation_method}
         onChange={onChange}
       />
     </EditorContainer>

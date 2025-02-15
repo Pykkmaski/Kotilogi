@@ -17,7 +17,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateData: updateEventData,
     hasChanges: eventDataHasChanges,
     resetData: resetEventData,
-  } = useFormOnChangeObject(initialEventData, 'kotidok-event-payload');
+  } = useFormOnChangeObject(initialEventData);
 
   const {
     data: payload,
@@ -33,7 +33,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateEntry: updateWindowEntry,
     resetBatch: resetWindowBatch,
     entries: windows,
-  } = useBatchForm(initialEventData?.data?.windows, 'kotidok-event-data-windows');
+  } = useBatchForm(initialEventData?.data?.windows);
 
   const {
     addEntry: addLockEntry,
@@ -41,11 +41,10 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateEntry: updateLockEntry,
     resetBatch: resetLocks,
     entries: locks,
-  } = useBatchForm(initialEventData?.data?.locks, 'kotidok-event-data-locks');
+  } = useBatchForm(initialEventData?.data?.locks);
 
   const { entries: insulation, resetBatch: resetInsulation } = useBatchForm(
-    initialEventData?.data?.insulation,
-    'kotidok-event-data-insulation'
+    initialEventData?.data?.insulation
   );
 
   const {
@@ -69,19 +68,11 @@ export const useEventData = (initialEventData: EventPayloadType) => {
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
   useEffect(() => {
-    //Reset the payload if switching targets.
-    resetPayload({});
-  }, [eventData.target_type]);
-
-  useEffect(() => {
     //Reset the main data if switching event types.
     resetEventData({
       property_id: eventData.property_id,
       event_type: eventData.event_type,
     } as TODO);
-
-    //Also reset the payload.
-    resetPayload({});
   }, [eventData.event_type]);
 
   useEffect(() => {
@@ -91,6 +82,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     resetLocks(null);
     resetSelectedSurfaceIds();
     resetSelectedERTargetIds();
+    resetPayload({});
   }, [eventData.target_type, eventData.event_type]);
 
   return {
