@@ -29,6 +29,7 @@ class Roofs {
 
    */
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
+    /*
     const [{ roof_types }] = (await trx('types.roof_type').select(
       db.raw('json_object_agg(id, name) as roof_types')
     )) as any;
@@ -51,7 +52,7 @@ class Roofs {
 
     const [{ colors }] = (await trx('ref_mainColors').select(
       db.raw('json_object_agg(id, name) as colors')
-    )) as any;
+    )) as any;*/
 
     /*
     const roof = {
@@ -76,15 +77,15 @@ class Roofs {
     };
     */
 
-    const session = await verifySession();
+    //const session = await verifySession();
     const roof = roofSchema.parse(payload);
     await events.create(
       {
         property_id,
         event_type: 'Genesis',
         target_type: 'Katto',
-        description: 'Katon tietojen lisäys',
-        date: null,
+        description: 'Katon tietojen lisäys.',
+        date: new Date(),
         data: roof,
       } as any,
       trx

@@ -18,6 +18,7 @@
 - Moved all events to a new table, and their related data into a jsonb-column in it.
 - Heating types on a property are now determined by what events have been done on them.
 - All data except interior, energy class, yard, and building data are determined based on events.
+- Files in the database now reffer to an object from their own parent_id column.
 
 ## [2.3.2] - 05-02-2025
 

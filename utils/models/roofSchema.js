@@ -58,6 +58,6 @@ module.exports.roofSchema = z
   })
   .strip()
   .transform(result => {
-    result.schemaVersion = module.exports.roofScemaVersion;
+    result.schemaVersion = module.exports.roofSchemaVersion;
     return result;
   });
