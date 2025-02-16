@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { setMainImageAction } from '@/actions/files';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { objects } from './objects';
+import { Knex } from 'knex';
 
 class Files {
   private async createFileBuffer(file: File) {
@@ -28,13 +29,15 @@ class Files {
     return outputBuffer;
   }
 
+  async countFiles(query: TODO, ctx: Knex | Knex.Transaction) {
+    const [{ count }] = await ctx('data_files').where(query).count('*', { as: 'count' });
+    return typeof count == 'string' ? parseInt(count) : count;
+  }
+
   async upload(files: File[], parentId: string) {
     //TODO: prevent uploading more files if the user already has uploaded a certain amount.
-    const [{ count }] = await db('data_files')
-      .where({ parent_id: parentId })
-      .count('*', { as: 'count' });
-    const currentFileCount = typeof count == 'string' ? parseInt(count) : count;
-    if (currentFileCount >= 10 || files.length + currentFileCount >= 10) {
+    const fileCount = await this.countFiles({ parent_id: parentId }, db);
+    if (fileCount >= 10 || files.length + fileCount >= 10) {
       throw new Error('Tiedostojen määrä ylittää suurimman sallitun rajan!');
     }
     /*

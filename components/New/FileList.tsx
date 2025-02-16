@@ -2,6 +2,7 @@ import { useMapArray } from '@/hooks/useMapArray';
 import { Clear } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import Image from 'next/image';
+import { PDFContainer } from './FileCard';
 
 type FileListProps = {
   files: File[];
@@ -14,7 +15,7 @@ export function FileList({ files, onDelete }: FileListProps) {
 
     return (
       <div className='relative object-cover aspect-square w-[200px] rounded-md overflow-hidden'>
-        <div className='absolute top-0 right-0'>
+        <div className='absolute top-0 right-0 z-10'>
           <IconButton
             onClick={() => onDelete && onDelete(file)}
             color='warning'>
@@ -31,11 +32,7 @@ export function FileList({ files, onDelete }: FileListProps) {
             alt={file.name}
           />
         ) : (
-          <iframe
-            src={src}
-            width={200}
-            height={200}
-          />
+          <PDFContainer file={file} />
         )}
       </div>
     );

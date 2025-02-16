@@ -3,7 +3,7 @@ import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import React from 'react';
 
 export default async function AddFilesPage({ searchParams }) {
-  const { parentId } = searchParams as { parentId: string };
+  const { parentId } = (await searchParams) as { parentId: string };
 
   return (
     <main className='flex justify-center'>

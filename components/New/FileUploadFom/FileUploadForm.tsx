@@ -18,19 +18,25 @@ type FileUploadFormProps = {
 
 export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps) {
   const router = useRouter();
-  const { files, updateFiles } = useFormOnChangeFiles();
+  const { files, updateFiles, removeFile } = useFormOnChangeFiles();
   const { method, status } = useStatusWithAsyncMethod(async () => {
     for (const file of files) {
       const fdata = new FormData();
-      fdata.append('parentId', fileParentId);
+      fdata.append('parent_id', fileParentId);
       fdata.append('file', file);
-      await createFileAction(fdata).then(res => {
-        if (res.status == 200) {
-          setFilesUploaded(prev => prev + 1);
-        } else {
-          toast.error(`Tiedoston ${file.name} lataus epäonnistui!`);
-        }
-      });
+      await createFileAction(fdata)
+        .then(res => {
+          if (res.status == 200) {
+            setFilesUploaded(prev => prev + 1);
+          } else if (res.status == 409) {
+            toast.error('Et voi ladata enempää tiedostoja! Suurin sallittu raja kohteelle on 10.');
+          } else {
+            toast.error(`Tiedoston ${file.name} lataus epäonnistui!`);
+          }
+        })
+        .catch(err => {
+          toast.error(err.message);
+        });
     }
 
     setTimeout(() => router.back(), 1000);
@@ -62,7 +68,10 @@ export function FileUploadForm({ fileParentId, onComplete }: FileUploadFormProps
         backAction={() => router.back()}
       />
 
-      <FileList files={files} />
+      <FileList
+        files={files}
+        onDelete={file => removeFile(file.name)}
+      />
     </form>
   );
 }

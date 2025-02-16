@@ -1,3 +1,19 @@
+## [3.0.1] - 16-02-2025
+
+### Unreleased
+
+- Zod schemas for validating events when they are created.
+- Removed various deprecated- and unused components.
+- Removed all scss-files.
+- Removed the sass package.
+- Removed Apexcharts, and Apexcharts-React packages.
+- Removed the mongoose package.
+
+### Fixed
+
+- PDF files being prompted to be downloaded on mobile devices.
+- The file upload limit check not working.
+
 ## [3.0.0] - 15-02-2025
 
 ### Removed

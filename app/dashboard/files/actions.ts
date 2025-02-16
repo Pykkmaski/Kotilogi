@@ -25,15 +25,21 @@ export const deleteFileAction = async (fileId: string): Promise<ServerActionResp
 export const createFileAction = async (fdata: FormData) => {
   try {
     const fd = fdata.get('file') as unknown as File;
-    files.upload([fd], fdata.get('parentId') as unknown as string);
+    await files.upload([fd], fdata.get('parent_id') as unknown as string);
     revalidatePath('/dashboard/');
     return {
       status: 200,
     };
   } catch (err) {
+    const msg = err.message;
     console.error(err.message);
-    return {
-      status: 500,
-    };
+    if (msg.includes('Tiedostojen määrä ylittää')) {
+      console.log(40999);
+      return { status: 409 };
+    } else {
+      return {
+        status: 500,
+      };
+    }
   }
 };

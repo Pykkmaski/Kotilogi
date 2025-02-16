@@ -3,7 +3,7 @@ import db from 'kotilogi-app/dbconfig';
 import React from 'react';
 
 export default async function FilesPage({ searchParams }) {
-  const { parentId, returnUrl } = searchParams as {
+  const { parentId, returnUrl } = (await searchParams) as {
     parentId: string;
     returnUrl: string;
   };

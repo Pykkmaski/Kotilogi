@@ -12,6 +12,7 @@ import { MenuPrefab, VPMenu } from '../UI/VPMenu';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
 import { setMainImageAction } from '@/actions/files';
 import { useRouter } from 'next/navigation';
+import { CopyAll } from '@mui/icons-material';
 
 type FileCardProps = {
   file: FileDataType;
@@ -81,27 +82,37 @@ export function FileCard({ file, isMain }: FileCardProps) {
           }
         />
       </div>
-      <RenderOnCondition condition={file.type == 'image/jpeg'}>
-        <Image
-          src={src}
-          fill={true}
-          quality={50}
-          objectFit='cover'
-          alt={file.name}
-          className='absolute top-0 left-0'
-        />
-      </RenderOnCondition>
-      <RenderOnCondition condition={file.type == 'application/pdf'}>
-        <iframe
-          src={`${src}#toolbar=0`}
-          className='w-full h-full object-cover absolute top-0 left-0'
-        />
-      </RenderOnCondition>
       <Link
         href={src}
         target='_blank'
-        className='w-full h-full z-10'
-      />
+        className='h-full z-0'>
+        <RenderOnCondition condition={file.type == 'image/jpeg'}>
+          <Image
+            src={src}
+            fill={true}
+            quality={50}
+            objectFit='cover'
+            alt={file.name}
+            className='absolute top-0 left-0'
+          />
+        </RenderOnCondition>
+        <RenderOnCondition condition={file.type == 'application/pdf'}>
+          <PDFContainer file={file} />
+        </RenderOnCondition>
+      </Link>
+    </div>
+  );
+}
+
+export function PDFContainer({ file }: TODO) {
+  return (
+    <div className='flex flex-col w-full h-full items-center justify-center text-2xl text-red-500 absolute top-0'>
+      <div className='flex items-center gap-2'>
+        <CopyAll />
+        <span>PDF</span>
+      </div>
+
+      <span className='text-slate-500 text-sm text-wrap'>{file.name.split('--').at(1)}</span>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { RenderOnCondition } from '../Util/RenderOnCondition';
 import { Spacer } from './Spacer';
-import styles from './styles/Spinner.module.scss';
 
 export type SpinnerProps = {
   size?: string;
@@ -11,9 +10,10 @@ export type SpinnerProps = {
   color?: 'primary' | 'secondary';
 };
 
+/**Renders a spinner. */
 export default function Spinner({ message, color = 'secondary', size = '1rem' }: SpinnerProps) {
   const spinnerClassName = useMemo(() => {
-    const className = [styles.spinner, 'border-white'];
+    const className = ['border-white border-[3px] animate-spin aspect-square w-4 rounded-full'];
     if (color === 'primary') {
       className.push('border-t-wf-primary');
     } else {
@@ -28,18 +28,11 @@ export default function Spinner({ message, color = 'secondary', size = '1rem' }:
       gap='small'>
       <div
         className={spinnerClassName}
-        style={{ width: size, height: size }}
+        //style={{ width: size, height: size }}
       />
       <RenderOnCondition condition={message != undefined}>
         <span className='tex-sm text-gray-500'>{message}</span>
       </RenderOnCondition>
     </Spacer>
-  );
-}
-
-function useSpinnerClassName(animated: boolean) {
-  return useMemo(
-    () => (animated ? `${styles.container} ${styles.animated}` : styles.container),
-    [animated]
   );
 }

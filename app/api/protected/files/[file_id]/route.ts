@@ -26,7 +26,8 @@ export async function GET(req: NextRequest, { params }) {
         });
         */
 
-    const [filename] = (await db('data_files').where({ id: params.file_id }).pluck('name')) || [];
+    const { file_id } = await params;
+    const [filename] = (await db('data_files').where({ id: file_id }).pluck('name')) || [];
 
     //Return a default image in case none is found.
     if (!filename)

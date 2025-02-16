@@ -1,6 +1,6 @@
 {
   "name": "kotidok",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -24,7 +24,6 @@
     "@tanstack/react-query": "^5.62.16",
     "@vscode/sqlite3": "^5.1.8-vscode",
     "ag-grid-react": "32.3",
-    "apexcharts": "^4.3.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
@@ -37,7 +36,6 @@
     "pg": "^8.13.1",
     "pg-query-stream": "^4.7.1",
     "react": "^19.0.0",
-    "react-apexcharts": "^1.7.0",
     "react-cookie": "^7.2.2",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",
@@ -45,7 +43,6 @@
     "recharts": "^2.15.0",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
-    "sqlite3": "^5.1.7",
     "visma-pay": "^2.0.4",
     "zod": "^3.24.1"
   },
@@ -70,9 +67,7 @@
     "eslint-config-next": "^15.1.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "mongoose": "^8.9.7",
     "postcss": "^8.4.49",
-    "sass": "^1.83.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2"
   }
