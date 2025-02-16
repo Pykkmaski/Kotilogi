@@ -2,7 +2,7 @@
 
 import { useIndexPageContext } from 'kotilogi-app/app/(wf)/(index)/IndexPageProvider';
 import Link from 'next/link';
-import { version } from '@/package.json';
+import appPackage from '@/package.json';
 
 type FooterSpacerProps = Omit<React.ComponentProps<'div'>, 'className'> & {
   align?: 'start' | 'middle' | 'end';
@@ -106,7 +106,7 @@ export function Footer() {
             className='aspect-auto h-[40px]'
           />
           <div className='text-white opacity-60 flex flex-row gap-8'>
-            <span>v{version}</span>
+            <span>v{appPackage.version}</span>
             <span>&copy; Kotidok OY 2025</span>
           </div>
         </div>
