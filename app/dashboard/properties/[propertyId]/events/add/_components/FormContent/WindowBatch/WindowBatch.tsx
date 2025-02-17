@@ -35,8 +35,9 @@ export const WindowBatch = () => {
   const updateWindow = (e: TODO, windowBatchId: number) => {
     const rawName = e.target.name;
     const name = rawName.split('-').at(0);
+    const value = e.target.type === 'number' ? e.target.valueAsNumber : e.target.value;
     updateWindowEntry(entry => entry.id == windowBatchId, {
-      [name]: e.target.value,
+      [name]: value,
     } as WindowDataType);
   };
 
