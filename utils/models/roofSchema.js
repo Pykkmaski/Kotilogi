@@ -37,6 +37,8 @@ module.exports.FasciaBoardType = {
   VINO: 'Vino',
 };
 
+const roofBooleanSchema = z.boolean().optional().nullable();
+
 module.exports.roofSchema = z
   .object({
     roof_type: z.string().nonempty().optional(),
@@ -44,17 +46,17 @@ module.exports.roofSchema = z
     eaves_type: z.enum(Object.values(module.exports.EavesType)).optional(),
     underlacing_type: z.enum(Object.values(module.exports.UnderlacingType)).optional(),
     fascia_board_type: z.enum(Object.values(module.exports.FasciaBoardType)).optional(),
-    has_gutters: z.boolean().optional(),
-    has_downspout_system: z.boolean().optional(),
-    has_underlacing_ventilation: z.boolean().optional(),
-    has_roof_bridge: z.boolean().optional(),
-    has_snow_barrier: z.boolean().optional(),
-    has_chimney_plating: z.boolean().optional(),
-    has_ladder: z.boolean().optional(),
-    has_treated_wood: z.boolean().optional(),
-    has_roof_bridge: z.boolean().optional(),
-    has_security_ladder: z.boolean().optional(),
-    lapetikas: z.boolean().optional(),
+    has_gutters: roofBooleanSchema,
+    has_downspout_system: roofBooleanSchema,
+    has_underlacing_ventilation: roofBooleanSchema,
+    has_roof_bridge: roofBooleanSchema,
+    has_snow_barrier: roofBooleanSchema,
+    has_chimney_plating: roofBooleanSchema,
+    has_ladder: roofBooleanSchema,
+    has_treated_wood: roofBooleanSchema,
+    has_roof_bridge: roofBooleanSchema,
+    has_security_ladder: roofBooleanSchema,
+    lapetikas: roofBooleanSchema,
     area: z.number().optional(),
     incline: z.string().optional(),
     color: z.string().optional(),
