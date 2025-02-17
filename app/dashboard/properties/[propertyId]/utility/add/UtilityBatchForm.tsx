@@ -1,34 +1,19 @@
 'use client';
 
-import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { Input, FormControl, SubLabel } from '@/components/UI/FormUtils';
-import { Add, Check, Clear, Close, Delete } from '@mui/icons-material';
-import {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from '@mui/material';
+import { Add, Check, Clear } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { UtilityDataType } from 'kotilogi-app/dataAccess/types';
 import { createUseContextHook } from 'kotilogi-app/utils/createUseContextHook';
 import { createContext, useId, useRef } from 'react';
 
-import { BatchEntryType } from '@/hooks/useBatch';
-import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { Button } from '@/components/New/Button';
-import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
-import { useMapArray } from '@/hooks/useMapArray';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
-import { ToggleProvider } from '@/components/Util/ToggleProvider';
-import { VPDialog } from '@/components/UI/VPDialog';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { createUtilityDataAction } from './actions';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
-import { Spacer } from '@/components/UI/Spacer';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { List } from '@/components/New/List';
 import { useBatchForm } from '@/hooks/useBatchForm';
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
 
@@ -71,7 +56,14 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
 
   const update = (e: TODO, entryId: number) => {
     const name = e.target.name.split('-').at(1);
-    updateEntry(item => item.id == entryId, { [name]: e.target.value });
+    const value =
+      e.target.type === 'number'
+        ? e.target.valueAsNumber
+        : name === 'typeId'
+        ? parseInt(e.target.value)
+        : e.target.value;
+
+    updateEntry(item => item.id == entryId, { [name]: value });
   };
 
   const del = (entryId: number) => removeEntry(entryId);
@@ -109,7 +101,9 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
                         dataArray={utilityTypes || []}
                         labelKey='name'
                         valueKey='id'
-                        onChange={e => update(e, ub.id)}
+                        onChange={e => {
+                          update(e, ub.id);
+                        }}
                       />
                     }
                   />

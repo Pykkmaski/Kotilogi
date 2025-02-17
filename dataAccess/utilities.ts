@@ -3,6 +3,7 @@ import { UtilityDataType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { objects } from './objects';
+import { utilitySchema } from 'kotilogi-app/utils/models/utilitySchema';
 
 class Utilities {
   private getDTO(data: UtilityDataType) {
@@ -15,16 +16,10 @@ class Utilities {
 
   /**Creates utility data. */
   async create(data: Partial<UtilityDataType> & Required<Pick<UtilityDataType, 'property_id'>>) {
-    console.log(data.date);
     return objects.create(async (obj, trx) => {
-      await trx('data_utilities').insert({
-        id: obj.id,
-        property_id: data.property_id,
-        date: data.date,
-        monetaryAmount: Math.round(data.monetaryAmount * 100),
-        unitAmount: Math.round(data.unitAmount * 100),
-        typeId: data.typeId,
-      });
+      data.id = obj.id;
+      const payload = utilitySchema.parse(data);
+      await trx('data_utilities').insert(payload);
     });
   }
 
