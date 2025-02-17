@@ -10,18 +10,24 @@ import { eventSchema } from 'kotilogi-app/utils/models/eventSchema';
 
 class Events {
   /**
-   * Creates a data-transform-object of an event. Creates a title based on the types of an event, if an actual title is not defined.
+   * Creates a data-transform-object of an event.
+   * Creates a title based on the types of an event, if an actual title is not defined.
    * @param eventData
    * @returns
    */
   private getDTO(eventData: TODO) {
     const labels = [eventData.event_type, eventData.target_type].filter(t => t != null);
     const title = labels.length ? labels.join(' > ') : eventData.title || 'Ei Otsikkoa.';
-
-    return {
+    const dto = {
       ...eventData,
       title,
     } as unknown as EventPayloadType;
+
+    if (dto.data) {
+      delete dto.data._schemaVersion;
+    }
+
+    return dto;
   }
 
   /**Returns the total number of events a property has. */
@@ -51,7 +57,7 @@ class Events {
     await properties.verifyEventCount(payload.property_id);
     await objects.create(async (obj, trx) => {
       payload.id = obj.id;
-      //payload = eventSchema.parse(payload);
+      payload = eventSchema.parse(payload);
       await trx('new_events').insert(payload);
     }, ctx);
     return payload.id;

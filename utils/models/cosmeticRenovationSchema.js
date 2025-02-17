@@ -18,4 +18,7 @@ module.exports.cosmeticRenovationSchema = z
       .refine(values => new Set(values).size === values.length),
   })
   .strict()
-  .transform(payload => (payload._schemaVersion = module.exports.cosmeticRenovationSchemaVersion));
+  .transform(result => {
+    result._schemaVersion = module.exports.cosmeticRenovationSchemaVersion;
+    return result;
+  });
