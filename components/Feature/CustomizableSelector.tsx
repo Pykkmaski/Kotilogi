@@ -16,7 +16,7 @@ export function CustomizableSelector({
   onChange,
   breakpointValue = 'Muu',
 }: TODO) {
-  const [selected, setSelected] = useState(options.includes(value) ? value : null);
+  const [selected, setSelected] = useState(() => (options.includes(value) ? value : null));
 
   const handleSelectorChange = (e: TODO) => {
     const { value } = e.target;

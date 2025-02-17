@@ -8,28 +8,30 @@ import { RoofMaterial, roofSchema, RoofType } from 'kotilogi-app/utils/models/ro
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <CustomizableSelector
+    <RadioSelector
       label='Katon tyyppi'
+      loadingText='Ladataan tyyppejä...'
       name='roof_type'
       value={value}
       onChange={onChange}
-      placeholder='Anna katon tyyppi...'
-      options={Object.values(RoofType)}
-      breakpointValue='Muu'
+      valueKey='name'
+      labelKey='name'
+      tablename='types.roof_type'
     />
   );
 }
 
 export function RoofMaterialSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <CustomizableSelector
+    <RadioSelector
       label='Katon materiaali'
+      loadingText='Ladataan materiaaleja...'
       value={value}
       name='roof_material'
       onChange={onChange}
-      options={Object.values(RoofMaterial)}
-      placeholder='Anna katon materiaali...'
-      breakpointValue='Muu'
+      valueKey='name'
+      labelKey='name'
+      tablename='types.roof_material_type'
     />
   );
 }
