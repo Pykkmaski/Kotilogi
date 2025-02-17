@@ -58,7 +58,9 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
     const name = e.target.name.split('-').at(1);
     const value =
       e.target.type === 'number'
-        ? e.target.valueAsNumber
+        ? e.target.value !== ''
+          ? e.target.valueAsNumber
+          : undefined
         : name === 'typeId'
         ? parseInt(e.target.value)
         : e.target.value;

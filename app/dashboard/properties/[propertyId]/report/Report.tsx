@@ -209,11 +209,11 @@ export function Report() {
 
                     <AttributeField
                       label='Energialuokka'
-                      value={content.energyClass.energy_class || 'Ei määritelty'}
+                      value={content.energyClass?.energy_class || 'Ei määritelty'}
                     />
                     <AttributeField
                       label='Energialuokituksen vuosi'
-                      value={content.energyClass.year || 'Ei määritelty'}
+                      value={content.energyClass?.year || 'Ei määritelty'}
                     />
                   </AttributeGroup>
                 </View>

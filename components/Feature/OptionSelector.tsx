@@ -10,6 +10,7 @@ import { ChipButton } from './RadioGroup/ChipButton';
 import { RadioGroupBody } from './RadioGroup/RadioGroup';
 import { ReactNode, useEffect } from 'react';
 import Spinner from '../UI/Spinner';
+import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
 
 type OptionSelectorProps = Omit<FormControlProps, 'control'> & {
   tablename: string;
@@ -145,7 +146,7 @@ export function RadioSelector({
     <BaseSelector
       {...props}
       renderFn={options => {
-        return options.map((opt, i) => {
+        return putOtherOptionLast(options).map((opt, i) => {
           return (
             <ChipButton
               key={`${props.tablename}-opt-${i}`}

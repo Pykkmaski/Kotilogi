@@ -36,8 +36,8 @@ export default async function ReportPage({ params }) {
     .pluck('types.building_material_type.name');
 
   const energyClass = await db('property')
+    .leftJoin(db.raw('types.energy_class_type as ec on ec.id = property.energy_class_id'))
     .where({ 'property.id': propertyId })
-    .join(db.raw('types.energy_class_type as ec on ec.id = property.energy_class_id'))
     .select('energy_class_year as year', 'ec.name as energy_class')
     .first();
 
