@@ -9,7 +9,7 @@ import { heating } from 'kotilogi-app/dataAccess/heating';
 import { roofs } from 'kotilogi-app/dataAccess/roofs';
 
 export default async function ReportPage({ params }) {
-  const { propertyId } = params;
+  const { propertyId } = await params;
 
   const data = await events.get({
     property_id: propertyId,

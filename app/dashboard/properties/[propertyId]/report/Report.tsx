@@ -161,8 +161,10 @@ export function Report() {
                       label='Asuintilojen pinta-ala'
                       value={
                         <>
-                          {pr.living_area}
-                          <Text style={{ fontSize: '8px' }}>m2</Text>
+                          {(pr.living_area && (
+                            <Text style={{ fontSize: '8px' }}>{pr.living_area}m2</Text>
+                          )) ||
+                            'Ei määritelty'}
                         </>
                       }
                     />
@@ -171,8 +173,10 @@ export function Report() {
                       label='Muu pinta-ala'
                       value={
                         <>
-                          {pr.other_area}
-                          <Text style={{ fontSize: '8px' }}>m2</Text>
+                          {(pr.other_area && (
+                            <Text style={{ fontSize: '8px' }}>{pr.other_area}m2</Text>
+                          )) ||
+                            'Ei määritelty'}
                         </>
                       }
                     />
@@ -188,28 +192,28 @@ export function Report() {
                     />
                     <AttributeField
                       label='Huoneiden lukumäärä'
-                      value={content.property.room_count}
+                      value={content.property.room_count || 'Ei määritelty'}
                     />
 
                     {(content.propertyType === 'Kiinteistö' && (
                       <AttributeField
                         label='Kerrosten lukumäärä'
-                        value={content.property.floor_count}
+                        value={content.property.floor_count || 'Ei määritelty'}
                       />
                     )) || (
                       <AttributeField
                         label='Kerros'
-                        value={pr.floorNumber}
+                        value={pr.floorNumber || 'Ei määritelty'}
                       />
                     )}
 
                     <AttributeField
                       label='Energialuokka'
-                      value={content.energyClass.energy_class}
+                      value={content.energyClass.energy_class || 'Ei määritelty'}
                     />
                     <AttributeField
                       label='Energialuokituksen vuosi'
-                      value={content.energyClass.year}
+                      value={content.energyClass.year || 'Ei määritelty'}
                     />
                   </AttributeGroup>
                 </View>
