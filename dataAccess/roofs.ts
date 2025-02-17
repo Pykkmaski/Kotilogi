@@ -22,7 +22,12 @@ class Roofs {
       .select('data')
       .first();
 
-    return roof?.data;
+    console.log(roof);
+    //Filter out nulls from the data
+    const entries = roof?.data
+      ? Object.values(roof.data).filter(([key, val]) => val !== null)
+      : (null as TODO);
+    return entries ? Object.fromEntries(entries) : null;
   }
 
   /**Creates a genesis event for a roof.
