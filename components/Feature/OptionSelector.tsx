@@ -93,6 +93,7 @@ function BaseSelector({
     data: options,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: [tablename],
     queryFn: fetchFn || (async () => await getContent(tablename)),
@@ -107,7 +108,9 @@ function BaseSelector({
           {isLoading ? (
             <Spinner message={loadingText} />
           ) : error || !options ? (
-            <Notification>{errorText}</Notification>
+            <Notification onClick={() => refetch()}>
+              {errorText}. Yritä uudelleen klikkaamalla.
+            </Notification>
           ) : (
             renderFn(options)
           )}
