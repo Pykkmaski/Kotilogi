@@ -1,3 +1,4 @@
+/**@deprecated */
 export function MobileMain({ children }: React.PropsWithChildren) {
   return (
     <div className='flex flex-col rounded-t-3xl w-full overflow-hidden overflow-y-scroll'>
@@ -6,6 +7,7 @@ export function MobileMain({ children }: React.PropsWithChildren) {
   );
 }
 
+/**@deprecated */
 export function MobileMainWhite({ children }: React.PropsWithChildren) {
   return (
     <div className='bg-slate-100 rounded-t-3xl'>
@@ -14,6 +16,7 @@ export function MobileMainWhite({ children }: React.PropsWithChildren) {
   );
 }
 
+/**@deprecated */
 export function MobileMainSlateGradient({ children }: React.PropsWithChildren) {
   return (
     <div className='bg-gradient-to-b from:bg-white to:bg-slate-100'>
@@ -22,6 +25,7 @@ export function MobileMainSlateGradient({ children }: React.PropsWithChildren) {
   );
 }
 
+/**@deprecated */
 export function MobileMainPrimary({ children }: React.PropsWithChildren) {
   return (
     <div className='bg-primary rounded-t-3xl'>
@@ -30,6 +34,7 @@ export function MobileMainPrimary({ children }: React.PropsWithChildren) {
   );
 }
 
+/**@deprecated */
 export function MobileMainSecondary({ children }: React.PropsWithChildren) {
   return (
     <div className='bg-secondary rounded-t-3xl'>

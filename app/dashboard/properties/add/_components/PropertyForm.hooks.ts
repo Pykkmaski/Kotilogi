@@ -24,17 +24,10 @@ export function usePropertyForm(
         | AppartmentPayloadType),
     'kotidok-property-data'
   );
-  const [selectedHeating, setSelectedHeating] = useState([]);
-  const {
-    entries: heatingBatch,
-    data: currentHeating,
-    updateData: updateHeatingData,
-    addEntry: addHeatingEntry,
-    updateEntry: updateHeatingEntry,
-    removeEntry: removeHeating,
-    resetData: resetCurrentHeating,
-  } = useBatchForm<TODO>(property?.heating, 'kotidok-property-heating');
+  const { data: roof, updateData: updateRoof } = useFormOnChangeObject();
+  const { data: building, updateData: updateBuilding } = useFormOnChangeObject();
 
+  const [selectedHeating, setSelectedHeating] = useState([]);
   const isNew = property == undefined;
 
   const [propertyIdentifierStatus, setPropertyIdentifierStatus] = useState<
@@ -42,14 +35,6 @@ export function usePropertyForm(
   >(() => (!isNew ? 'valid' : 'none'));
 
   const isValid = propertyIdentifierStatus === 'valid';
-
-  const prepareHeatingData = () => {
-    return heatingBatch
-      .map(hb => {
-        return hb.value.heating_type_id !== 'undefined' ? hb.value : null;
-      })
-      .filter(hb => hb !== null);
-  };
 
   const { method, status } = useStatusWithAsyncMethod(async () => {
     try {
@@ -80,13 +65,6 @@ export function usePropertyForm(
 
   return {
     data,
-    heatingBatch,
-    currentHeating,
-    addHeatingEntry,
-    removeHeating,
-    updateHeatingData,
-    updateHeatingEntry,
-    resetCurrentHeating,
     setPropertyIdentifierStatus,
     selectedHeating,
     setSelectedHeating,

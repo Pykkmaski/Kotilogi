@@ -34,10 +34,10 @@ export function useHeatingRenovationContent() {
       brandPlaceholder = 'Kirjoita merkki...';
     const { new_heating_type } = payload;
     if (new_heating_type == 'Kaukolämpö') {
-      modelLabel = 'Lämmönjakajan malli';
-      brandLabel = 'Lämmönjakajan merkki';
-      modelPlaceholder = 'Kirjoita lämmönjakajan malli...';
-      brandPlaceholder = 'Kirjoita lämmönjakajan merkki...';
+      modelLabel = 'Lämmönjakokeskuksen malli';
+      brandLabel = 'Lämmönjakokeskuksen merkki';
+      modelPlaceholder = 'Kirjoita lämmönjakokeskuksen malli...';
+      brandPlaceholder = 'Kirjoita lämmönjakokeskuksen merkki...';
     } else if (new_heating_type == 'Sähkö') {
       modelLabel = 'Lämminvesivaraajan malli';
       brandLabel = 'Lämminvesivaraajan merkki';

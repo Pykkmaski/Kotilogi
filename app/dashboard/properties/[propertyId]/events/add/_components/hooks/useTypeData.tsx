@@ -29,7 +29,9 @@ function initTypeData(eventData: TODO): {
   }
 }
 
-/**Handles the type data of the event form. Should be used within the main useEventForm-hook. */
+/**Handles the type data of the event form. Should be used within the main useEventForm-hook.
+ * @deprecated
+ */
 export const useTypeData = (
   eventData: TODO,
   resetMainData: (d: any) => void,

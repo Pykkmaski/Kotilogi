@@ -6,10 +6,11 @@ import { getServiceWorkTypes } from '../actions';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { Notification } from '@/components/UI/Notification';
+import { CustomizableSelector } from '@/components/Feature/CustomizableSelector';
+import { useEffect } from 'react';
 
 export const EventServiceWorkSelector = () => {
-  const { eventData, updateEventData, resetEventData, payload, updatePayload, resetPayload } =
-    useEventFormContext();
+  const { eventData, payload, resetPayload } = useEventFormContext();
 
   const {
     data: workTypes,
@@ -21,6 +22,10 @@ export const EventServiceWorkSelector = () => {
     enabled: eventData.target_type != undefined,
   });
 
+  useEffect(() => {
+    resetPayload({ maintenance_type: null });
+  }, [eventData.target_type]);
+
   return !error ? (
     <SuspenseFormControl
       isLoading={isLoading}
@@ -31,19 +36,13 @@ export const EventServiceWorkSelector = () => {
       control={
         !isLoading &&
         workTypes && (
-          <ChipRadioGroup
-            dataArray={workTypes}
+          <CustomizableSelector
+            options={workTypes.map(t => t.label).sort((a, b) => (a == 'Muu' ? 1 : 0))}
             name='maintenance_type'
-            currentValue={payload?.maintenance_type}
-            valueKey='label'
-            labelKey='label'
-            onChange={e => {
-              const value = e.target.value;
-              resetPayload({
-                ...payload,
-                maintenance_type: value,
-              });
-            }}
+            value={payload?.maintenance_type}
+            onChange={e => resetPayload({ maintenance_type: e.target.value })}
+            breakpointValue='Muu'
+            placeholder='Kirjoita tehty työ...'
           />
         )
       }

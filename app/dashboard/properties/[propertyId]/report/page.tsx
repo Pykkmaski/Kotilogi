@@ -35,15 +35,19 @@ export default async function ReportPage({ params }) {
     .where({ 'building.property_id': propertyId })
     .pluck('types.building_material_type.name');
 
+  const energyClass = await db('property')
+    .where({ 'property.id': propertyId })
+    .join(db.raw('types.energy_class_type as ec on ec.id = property.energy_class_id'))
+    .select('energy_class_year as year', 'ec.name as energy_class')
+    .first();
+
   const roof = await roofs.get(property.id, db);
-  console.log('roof: ', roof);
   const { roof_material: roofMaterial, roof_type: roofType } = roof;
 
   const [{ count: ownerCount }] = await db('data_propertyOwners')
     .where({ propertyId })
     .count('*', { as: 'count' });
 
-  console.log(roofMaterial, roofType);
   return (
     <main className='w-full h-full'>
       <ReportProvider
@@ -57,6 +61,7 @@ export default async function ReportPage({ params }) {
           buildingMaterial,
           roofMaterial,
           roofType,
+          energyClass,
         }}>
         <Report />
       </ReportProvider>

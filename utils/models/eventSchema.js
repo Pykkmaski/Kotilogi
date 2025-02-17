@@ -1,6 +1,13 @@
 const z = require('zod');
+const { windowSchema } = require('./windowSchema');
+const { roofSchema } = require('./roofSchema');
+const { maintenanceDataSchema } = require('./maintenanceDataSchema');
+const { drainageDitchSchema } = require('./drainageDitchSchema');
+const { cosmeticRenovationSchema } = require('./cosmeticRenovationSchema');
+const { heatingGenesisSchema } = require('./heatingSchema');
 
 module.exports.EventType = {
+  GENESIS: 'Genesis',
   PERUSKORJAUS: 'Peruskorjaus',
   HUOLTOTYÖ: 'Huoltotyö',
   PINTAREMONTTI: 'Pintaremontti',
@@ -44,12 +51,64 @@ module.exports.TargetType = {
 
 module.exports.eventSchema = z
   .object({
+    id: z.string().uuid().optional(),
     property_id: z.string().uuid(),
-    author_id: z.string().uuid(),
-    event_type: z.enum(Object.values(EventType)),
-    target_type: z.enum(Object.values(TargetType)),
-    date: z.date().default(null),
+    title: z.string(),
     description: z.string().optional(),
-    data: z.object(),
+    event_type: z.enum(Object.values(module.exports.EventType)),
+    target_type: z.enum(Object.values(module.exports.TargetType)),
+    labour_expenses: z.number().nonnegative().default(0),
+    material_expenses: z.number().nonnegative().default(0),
+    date: z.date(),
+    data: z.any(),
   })
-  .strip();
+  .strict()
+  .transform((payload, ctx) => {
+    const { event_type, target_type } = payload;
+    let requiredSchema = null;
+    switch (event_type) {
+      case module.exports.EventType.GENESIS:
+        {
+          if (target_type === module.exports.TargetType.LÄMMITYSMUOTO) {
+            requiredSchema = heatingGenesisSchema;
+          }
+        }
+        break;
+
+      case module.exports.EventType.PERUSKORJAUS:
+        {
+          if (target_type === module.exports.TargetType.LÄMMITYSMUOTO) {
+            requiredSchema = heatingSchema;
+          } else if (target_type === module.exports.TargetType.KATTO) {
+            requiredSchema = roofSchema;
+          } else if (target_type == module.exports.TargetType.SALAOJAT) {
+            requiredSchema = drainageDitchSchema;
+          }
+        }
+        break;
+
+      case module.exports.EventType.HUOLTOTYÖ:
+        {
+          requiredSchema = maintenanceDataSchema;
+        }
+        break;
+
+      case module.exports.EventType.PINTAREMONTTI:
+        requiredSchema = cosmeticRenovationSchema;
+        break;
+    }
+
+    if (!requiredSchema) {
+      return payload;
+    }
+
+    try {
+      payload.data = requiredSchema.parse(payload.data);
+      return payload;
+    } catch (err) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: err.message,
+      });
+    }
+  });

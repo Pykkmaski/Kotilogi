@@ -1,29 +1,17 @@
 'use client';
 
 import { Check, Menu } from '@mui/icons-material';
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from '@mui/material';
-import { ExteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/ExteriorField';
+import { Button, IconButton } from '@mui/material';
 import { GeneralField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/GeneralField';
-import { HeatingField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/HeatingField';
 import { InteriorField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/InteriorField';
 import { OtherInfoField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/OtherInfoField';
 import { PropertyFormContext } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyFormContext';
 import { YardField } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/Fields/YardField';
 
-import { BuildingDataType, PropertyPayloadType, RoofDataType } from 'kotilogi-app/dataAccess/types';
+import { BuildingDataType, PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import { usePropertyForm } from './PropertyForm.hooks';
-import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 
-import { VPDialog } from '@/components/UI/VPDialog';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
-import { ToggleProvider } from '@/components/Util/ToggleProvider';
 import { useMemo } from 'react';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { TabButton } from '@/components/UI/TabButton';
@@ -31,7 +19,6 @@ import { PropertyOverview } from './PropertyOverview';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Spinner from '@/components/UI/Spinner';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
-import { RoofField } from './PropertyForm/Fields/RoofField';
 import { RoofEditor } from '@/components/Feature/RoofEditor';
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { BuildingEditor } from '@/components/Feature/BuildingEditor';

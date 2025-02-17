@@ -97,10 +97,6 @@ function BaseSelector({
     queryKey: [tablename],
     queryFn: fetchFn || (async () => await getContent(tablename)),
   });
-
-  useEffect(() => {
-    console.log(options);
-  }, [isLoading]);
   return (
     <SuspenseFormControl
       {...props}

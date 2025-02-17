@@ -51,7 +51,6 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
     };
 
     findSlotChildren(children);
-    console.log('slotChildren: ', slotChildren);
     return slotChildren;
   };
 
@@ -75,13 +74,10 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
     return slotChildren.map(child => (child.props as TODO).slotName);
   });
 
-  console.log(slots, currentSlot);
   const stepForward = useCallback(() => {
     const currentSlotIndex = slots.findIndex(slot => {
       return slot == currentSlot;
     });
-
-    console.log(currentSlotIndex);
 
     if (currentSlotIndex === -1) return;
     const nextSlotName = slots.at(currentSlotIndex + 1);
@@ -92,14 +88,11 @@ export function CarouselProvider({ children, defaultSlot, onChange }: CarouselPr
     const currentSlotIndex = slots.findIndex(slot => slot == currentSlot);
     if (currentSlotIndex === -1) return;
 
-    console.log('current slot index: ', currentSlotIndex);
     const previousSlotName = slots.at(currentSlotIndex - 1);
-    console.log(previousSlotName);
     showSlot(previousSlotName || currentSlot);
   }, [slots, currentSlot, setCurrentSlot]);
 
   const showSlot = (slotName: string) => {
-    console.log('Selecting slot: ', slotName);
     setCurrentSlot(slotName);
     setInitialSlot(slotName);
     onChange && onChange(slotName);

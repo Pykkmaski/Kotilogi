@@ -1,12 +1,10 @@
 import { useBatchForm } from '@/hooks/useBatchForm';
-import { useFormOnChange } from '@/hooks/useFormOnChange';
 import { useFormOnChangeFiles } from '@/hooks/useFormOnChangeFiles';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { useToggleableEntries } from '@/hooks/useToggleableEntries';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
-import { timestampToISOString } from 'kotilogi-app/utils/timestampToISOString';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const mainDataStorageKey = 'kotidok-event-main-data';
 
@@ -33,7 +31,7 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateEntry: updateWindowEntry,
     resetBatch: resetWindowBatch,
     entries: windows,
-  } = useBatchForm(initialEventData?.data?.windows);
+  } = useBatchForm<TODO>(initialEventData?.data?.windows);
 
   const {
     addEntry: addLockEntry,
@@ -41,9 +39,9 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     updateEntry: updateLockEntry,
     resetBatch: resetLocks,
     entries: locks,
-  } = useBatchForm(initialEventData?.data?.locks);
+  } = useBatchForm<TODO>(initialEventData?.data?.locks);
 
-  const { entries: insulation, resetBatch: resetInsulation } = useBatchForm(
+  const { entries: insulation, resetBatch: resetInsulation } = useBatchForm<TODO>(
     initialEventData?.data?.insulation
   );
 

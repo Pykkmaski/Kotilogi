@@ -21,6 +21,7 @@ type ReportProviderProps = {
     buildingMaterial: string;
     roofMaterial: string;
     roofType: string;
+    energyClass: { energy_class: string; year: number };
   };
 };
 
@@ -201,6 +202,15 @@ export function Report() {
                         value={pr.floorNumber}
                       />
                     )}
+
+                    <AttributeField
+                      label='Energialuokka'
+                      value={content.energyClass.energy_class}
+                    />
+                    <AttributeField
+                      label='Energialuokituksen vuosi'
+                      value={content.energyClass.year}
+                    />
                   </AttributeGroup>
                 </View>
               </View>

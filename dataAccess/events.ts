@@ -6,6 +6,7 @@ import { properties } from './properties';
 
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { Knex } from 'knex';
+import { eventSchema } from 'kotilogi-app/utils/models/eventSchema';
 
 class Events {
   /**
@@ -15,52 +16,45 @@ class Events {
    */
   private getDTO(eventData: TODO) {
     const labels = [eventData.event_type, eventData.target_type].filter(t => t != null);
-
     const title = labels.length ? labels.join(' > ') : eventData.title || 'Ei Otsikkoa.';
-    const description = eventData.description || eventData.workTypeLabel;
 
     return {
       ...eventData,
-      id: eventData.id,
-      parentId: eventData.parentId,
       title,
-      description,
-      date: eventData.date,
-      /**@deprecated */
-      mainTypeLabel: eventData.event_type,
-      targetLabel: eventData.target_type,
-      workTypeLabel: eventData.workTypeLabel,
-      workTypeId: eventData.workTypeId,
-      labourExpenses: eventData.labourExpenses,
-      materialExpenses: eventData.materialExpenses,
     } as unknown as EventPayloadType;
   }
 
+  /**Returns the total number of events a property has. */
+  async countEvents(query: TODO, search: string | null = null, ctx: Knex | Knex.Transaction = db) {
+    const [{ eventCount }] = await ctx('new_events')
+      .where(function () {
+        if (!search) {
+          return;
+        }
+        const qstr = `%${search}%`;
+        this.whereILike('title', qstr)
+          .orWhereILike('description', qstr)
+          .orWhereILike('event_type', qstr)
+          .orWhereILike('target_type', qstr);
+      })
+      .andWhere(query)
+      .andWhereNot({ event_type: 'Genesis' })
+      .count('*', { as: 'eventCount' });
+    return typeof eventCount == 'string' ? parseInt(eventCount) : eventCount;
+  }
+
   /**Creates a new event for a property.
-   * @param eventData The main event data, containing its title, description, etc.
-   * @param type_data The data containing the main type id, id of the target the event refers to, and optionally the id of the work type.
-   * @param extraData The additional data to include with the main data.
-   * @param selectedSurfaceIds The ids of the surfaces the event refers to. Used only for surface renovation events (Pintaremontti).
-   * @param callback An optional callback function to run before commiting the data.
+   * @param payload The event data to be inserted.
+   * @param ctx An optional database transaction instance to use.
    */
-  async create(eventPayload: EventPayloadType, ctx?: Knex.Transaction) {
-    await properties.verifyEventCount(eventPayload.property_id);
-    //Save the main event data.
-    let eventId: string;
+  async create(payload: EventPayloadType, ctx?: Knex.Transaction) {
+    await properties.verifyEventCount(payload.property_id);
     await objects.create(async (obj, trx) => {
-      await trx('new_events').insert({
-        id: obj.id,
-        event_type: eventPayload.event_type,
-        target_type: eventPayload.target_type,
-        description: eventPayload.description,
-        date: eventPayload.date,
-        labour_expenses: eventPayload.labour_expenses,
-        property_id: eventPayload.property_id,
-        data: eventPayload.data,
-      });
-      eventId = obj.id;
+      payload.id = obj.id;
+      //payload = eventSchema.parse(payload);
+      await trx('new_events').insert(payload);
     }, ctx);
-    return eventId;
+    return payload.id;
   }
 
   /**
@@ -69,17 +63,13 @@ class Events {
    * @param search An optional search-string with which to filter the results based on the title, description, main type, target or work type labels.
    * @param limit An optional limit to how many results are returned. Defaults to 10.
    * @param page An optional page number to offset the results by. Defaults to 0 (The first page).
-   * @returns
+   * @returns An array of found events.
    */
   async get(query: TODO, search?: string, limit: number = 10, page: number = 0) {
     const { property_id } = query;
-    let totalEvents, eventsOnCurrentPage;
+    let totalEvents: number, eventsOnCurrentPage: number;
     if (property_id) {
-      [{ result: totalEvents }] = (await db('new_events')
-        .where({ property_id })
-        .andWhereNot({ event_type: 'Genesis' })
-        .count('* as result')) as [{ result: number }];
-
+      totalEvents = await this.countEvents({ property_id }, null, db);
       eventsOnCurrentPage = page * limit <= totalEvents ? limit : totalEvents % limit;
     }
 
@@ -103,6 +93,7 @@ class Events {
   /**Updates the main event data.
    * @param id The id of the event to update.
    * @param payload The main event data to update with.
+   * @todo
    */
   async update(id: string, payload: Partial<EventPayloadType>) {
     //Only allow the author of an event to update it.

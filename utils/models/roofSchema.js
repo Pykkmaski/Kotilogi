@@ -1,4 +1,6 @@
 const z = require('zod');
+
+//Increment by one when adding new fields to the schema.
 module.exports.roofSchemaVersion = 0;
 
 module.exports.RoofType = {
@@ -37,8 +39,8 @@ module.exports.FasciaBoardType = {
 
 module.exports.roofSchema = z
   .object({
-    roof_type: z.enum(Object.values(module.exports.RoofType)).optional(),
-    roof_material: z.enum(Object.values(module.exports.RoofMaterial)).optional(),
+    roof_type: z.string().nonempty().optional(),
+    roof_material: z.string().nonempty().optional(),
     eaves_type: z.enum(Object.values(module.exports.EavesType)).optional(),
     underlacing_type: z.enum(Object.values(module.exports.UnderlacingType)).optional(),
     fascia_board_type: z.enum(Object.values(module.exports.FasciaBoardType)).optional(),
@@ -51,13 +53,13 @@ module.exports.roofSchema = z
     has_ladder: z.boolean().optional(),
     has_treated_wood: z.boolean().optional(),
     has_roof_bridge: z.boolean().optional(),
+    has_security_ladder: z.boolean().optional(),
     lapetikas: z.boolean().optional(),
     area: z.number().optional(),
     incline: z.string().optional(),
     color: z.string().optional(),
   })
-  .strip()
   .transform(result => {
-    result.schemaVersion = module.exports.roofSchemaVersion;
+    result._schemaVersion = module.exports.roofSchemaVersion;
     return result;
   });

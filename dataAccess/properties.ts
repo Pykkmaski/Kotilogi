@@ -165,8 +165,8 @@ class Properties {
 
       const buildingPromise = buildings.create(obj.id, data, trx);
       const interiorPromise = interiors.create(obj.id, data, trx);
-      //SHould create a roof genesis event
       const roofPromise = roofs.create(obj.id, data, trx);
+
       await Promise.all([buildingPromise, interiorPromise, roofPromise]);
       const propertyTableName = await this.getTableNameByType(data.property_type_id, trx);
       const property = data as any;

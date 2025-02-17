@@ -1,9 +1,30 @@
+## [3.1.0] - 17-02-2025
+
+### Added
+
+- Specification on the maintenance-type done on maintenance-events, if choosing "Other".
+- Roof- building and yard data into the overview section when adding a property.
+- The year of an energy-rating.
+- A link to further reading on energy-classes, when defining it, while creating a property.
+
+### Removed
+
+- The roof input when editing a property.
+- Various unused components.
+
+### Changed
+
+- The label of the district-heating heating center model and brands.
+
 ## [3.0.1] - 16-02-2025
 
 ### Unreleased
 
 - Zod schemas for validating events when they are created.
 - Removed various deprecated- and unused components.
+
+### Removed
+
 - Removed all scss-files.
 - Removed the sass package.
 - Removed Apexcharts, and Apexcharts-React packages.

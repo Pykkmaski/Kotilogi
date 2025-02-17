@@ -3,20 +3,26 @@
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { usePropertyFormContext } from './PropertyFormContext';
 import { DataDisplay } from '@/components/UI/DataDisplay';
-import { Check, Clear } from '@mui/icons-material';
+import { Check, Clear, Square, SquareOutlined } from '@mui/icons-material';
 import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import { Notification } from '@/components/UI/Notification';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
+import { green } from 'tailwindcss/colors';
+
+const InfoContainer = ({ children }) => <div className='flex flex-col gap-2'>{children}</div>;
+const Title = ({ children }) => <h1 className='font-semibold'>{children}</h1>;
+const BooleanIcon = ({ state }: { state: boolean }) =>
+  (state && <Check sx={{ color: green['400'] }} />) || <SquareOutlined />;
 
 export function PropertyOverview() {
-  const { property: prop, heatingBatch, refs, isValid, selectedHeating } = usePropertyFormContext();
+  const { property: prop, refs, isValid, selectedHeating, isNew } = usePropertyFormContext();
   const property = prop || ({} as PropertyPayloadType);
 
   return (
     <BoxFieldset legend='Yhteenveto'>
       <div className='flex flex-col gap-8 lg:w-[50%] xs:w-full'>
-        <div className='flex flex-col gap-2'>
-          <h1>Yleistiedot</h1>
+        <InfoContainer>
+          <Title>Yleistiedot</Title>
 
           <DataDisplay
             title='Kiinteistötunnus'
@@ -42,6 +48,11 @@ export function PropertyOverview() {
             value={refs.energyClasses.find(c => c.id == property.energy_class_id)?.name}
           />
 
+          <DataDisplay
+            title='Energialuokituksen vuosi'
+            value={property.energy_class_year}
+          />
+
           {!isValid ? (
             <CarouselProvider.SelectSlotTrigger slotToSelect='general'>
               <Notification
@@ -61,10 +72,17 @@ export function PropertyOverview() {
               </Notification>
             </CarouselProvider.SelectSlotTrigger>
           ) : null}
-        </div>
+        </InfoContainer>
 
-        <div className='flex flex-col gap-2'>
-          <h1>Ulkopuoli</h1>
+        <InfoContainer>
+          <Title>Ulkopuoli</Title>
+          <DataDisplay
+            title='Rakennuksen tyyppi'
+            value={
+              refs.buildingTypes.find(mat => mat.id == property.building_type_id)?.name ||
+              'Ei määritelty'
+            }
+          />
           <DataDisplay
             title='Rakennusmateriaali'
             value={
@@ -79,10 +97,80 @@ export function PropertyOverview() {
               refs.mainColors.find(mat => mat.id == property.color_id)?.name || 'Ei määritelty'
             }
           />
-        </div>
+        </InfoContainer>
 
-        <div className='flex flex-col gap-2'>
-          <h1>Sisätilat</h1>
+        {isNew && (
+          <InfoContainer>
+            <Title>Katto</Title>
+            <DataDisplay
+              title='Tyyppi'
+              value={property.roof_type || 'Ei määritelty'}
+            />
+            <DataDisplay
+              title='Materiaali'
+              value={property.roof_material || 'Ei määritelty'}
+            />
+            <DataDisplay
+              title='Räystästyyppi'
+              value={property.eaves_type || 'Ei määritelty'}
+            />
+            <DataDisplay
+              title='Aluskatetyyppi'
+              value={property.underlacing_type || 'Ei määritelty'}
+            />
+            <DataDisplay
+              title='Väri'
+              value={property.color || 'Ei määritelty'}
+            />
+            <DataDisplay
+              title='Kaltevuus'
+              value={property.incline}
+            />
+            <DataDisplay
+              title='Neliömetrit'
+              value={property.area}
+            />
+            <DataDisplay
+              title='Piipunpellitys'
+              value={<BooleanIcon state={property.has_chimney_plating} />}
+            />
+            <DataDisplay
+              title='Kattosilta'
+              value={<BooleanIcon state={property.has_roof_bridge} />}
+            />
+            <DataDisplay
+              title='Kourut'
+              value={<BooleanIcon state={property.has_gutters} />}
+            />
+            <DataDisplay
+              title='Syöksysarja'
+              value={<BooleanIcon state={property.has_downspout_system} />}
+            />
+            <DataDisplay
+              title='Lapetikas'
+              value={<BooleanIcon state={property.lapetikas} />}
+            />
+            <DataDisplay
+              title='Turvatikas'
+              value={<BooleanIcon state={property.has_security_ladder} />}
+            />
+            <DataDisplay
+              title='Seinätikas'
+              value={<BooleanIcon state={property.has_ladder} />}
+            />
+            <DataDisplay
+              title='Harjatuuletus aluskatteella'
+              value={<BooleanIcon state={property.has_underlacing_ventilation} />}
+            />
+            <DataDisplay
+              title='Lumieste'
+              value={<BooleanIcon state={property.has_snow_barrier} />}
+            />
+          </InfoContainer>
+        )}
+
+        <InfoContainer>
+          <Title>Sisätilat</Title>
 
           <DataDisplay
             title='Huoneiden lukumäärä'
@@ -120,14 +208,17 @@ export function PropertyOverview() {
             }
             value={property.living_area + property.other_area || 'Ei määritelty'}
           />
-        </div>
+        </InfoContainer>
 
-        <div className='flex flex-col gap-2'>
-          <h1>Tontti</h1>
+        <InfoContainer>
+          <Title>Tontti</Title>
 
           <DataDisplay
             title='Omistus'
-            value={property.yardOwnershipTypeId || 'Ei määritelty'}
+            value={
+              refs.yardOwnershipTypes.find(t => t.id == property.yardOwnershipTypeId)?.name ||
+              'Ei määritelty'
+            }
           />
           <DataDisplay
             title={
@@ -137,28 +228,31 @@ export function PropertyOverview() {
             }
             value={property.yardArea || 'Ei määritelty'}
           />
-        </div>
+        </InfoContainer>
 
-        <div className='flex flex-col gap-2'>
-          <h1>Lämmitys</h1>
+        {isNew && (
+          <InfoContainer>
+            <Title>Lämmitys</Title>
 
-          {selectedHeating.length ? (
-            <DataDisplay
-              title={'Lämmitysmuodot'}
-              value={selectedHeating.join(', ')}
-            />
-          ) : (
-            <span className='font-semibold'>Ei lisättyjä lämmitysmuotoja.</span>
-          )}
-        </div>
-        <div className='flex flex-col gap-2'>
-          <h1>Muut tiedot</h1>
+            {selectedHeating.length ? (
+              <DataDisplay
+                title={'Lämmitysmuodot'}
+                value={selectedHeating.join(', ')}
+              />
+            ) : (
+              <span className='font-semibold'>Ei lisättyjä lämmitysmuotoja.</span>
+            )}
+          </InfoContainer>
+        )}
+
+        <InfoContainer>
+          <Title>Muut tiedot</Title>
 
           <DataDisplay
             title='Autotalli'
-            value={(property.has_garage as any) == 'on' || property.has_garage ? 'Kyllä' : 'Ei'}
+            value={<BooleanIcon state={property.has_garage} />}
           />
-        </div>
+        </InfoContainer>
       </div>
     </BoxFieldset>
   );

@@ -1,15 +1,9 @@
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { FormControl, Input } from '@/components/UI/FormUtils';
 import { useEventFormContext } from '../EventFormContext';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@/components/UI/Spinner';
-import { getDrainageDitch, getDrainageDitchMethods } from './actions';
-import { Checkbox } from '@/components/Feature/RadioGroup/Checkbox';
-import { ImplementationMethodSelector } from './DrainageDitchEventContent/ImplementationMethodSelector';
+import { getDrainageDitch } from './actions';
 import { DrainageDitchEditor } from '@/components/Feature/DrainageDitchEditor';
 import { useEffect } from 'react';
-import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
 import { Notification } from '@/components/UI/Notification';
 
 export const EventDrainageDitchEditor = () => {

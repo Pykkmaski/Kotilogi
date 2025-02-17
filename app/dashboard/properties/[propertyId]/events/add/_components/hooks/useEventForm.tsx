@@ -1,16 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEventData } from './useEventData';
 import { useExtraData } from './useExtraData';
 import { useEventTypeContext } from '../EventTypeProvider';
 import { createEventAction, updateEventAction } from '../actions';
 import toast from 'react-hot-toast';
-import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { isDefined } from '../util';
 import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
-import { WindowBatch } from '../FormContent/WindowBatch/WindowBatch';
 import { EventType } from 'kotilogi-app/types/EventType';
 import { TargetType } from 'kotilogi-app/types/TargetType';
 

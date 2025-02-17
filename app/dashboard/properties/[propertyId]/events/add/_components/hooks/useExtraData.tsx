@@ -9,7 +9,9 @@ const init = (initialData: any) => {
   return (savedData && JSON.parse(savedData)) || initialData || {};
 };
 
-/**Handles the extra data of the event form. Should be used within the main useEventForm-hook. */
+/**Handles the extra data of the event form. Should be used within the main useEventForm-hook.
+ * @deprecated
+ */
 export const useExtraData = (initialData: TODO) => {
   /**Only used for certain events, like on window-related renovations. */
   const batchProps = useBatch<any>();

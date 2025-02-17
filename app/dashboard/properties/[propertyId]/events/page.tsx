@@ -3,10 +3,9 @@ import { EventBoxList } from './_components/EventBoxList';
 import { events } from 'kotilogi-app/dataAccess/events';
 import React from 'react';
 import { EventPageSelector } from './_components/EventPageSelector';
-import db from 'kotilogi-app/dbconfig';
 
 export default async function EventsPage({ params, searchParams }) {
-  const propertyId = await params.propertyId;
+  const { propertyId } = await params;
   const { q, page } = (await searchParams) as {
     q: string;
     page: string;
@@ -19,20 +18,7 @@ export default async function EventsPage({ params, searchParams }) {
     currentPage
   )) as EventPayloadType[];
 
-  const [{ result: totalEvents }] = (await db('new_events')
-    .where(function () {
-      if (!q) {
-        return;
-      }
-      const qstr = `%${q}%`;
-      this.whereILike('title', qstr)
-        .orWhereILike('description', qstr)
-        .orWhereILike('event_type', qstr)
-        .orWhereILike('target_type', qstr);
-    })
-    .andWhere({ property_id: propertyId })
-    .count('* as result')) as [{ result: number }];
-
+  const totalEvents = await events.countEvents({ property_id: propertyId }, q);
   const maxPages = Math.ceil(totalEvents / 10);
 
   return (

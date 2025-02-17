@@ -1,9 +1,10 @@
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
-import { Checkbox, CheckboxLabel, FormControl } from '@/components/UI/FormUtils';
+import { Checkbox, CheckboxLabel, FormControl, Input } from '@/components/UI/FormUtils';
 import { usePropertyFormContext } from '../../PropertyFormContext';
 
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
+import Link from 'next/link';
 
 export function OtherInfoField() {
   const {
@@ -24,6 +25,29 @@ export function OtherInfoField() {
             labelKey='name'
             valueKey='id'
             currentValue={data.energy_class_id}
+          />
+        }
+      />
+      <FormControl
+        label='Energialuokituksen vuosi'
+        helper={
+          <Link
+            target='_blank'
+            className='text-orange-500'
+            href='https://www.omakotiliitto.fi/jasenelle/tietopankki/vinkit-ja-oppaat/maaraykset-ja-saadokset/'>
+            Lue lisää energialuokituksesta
+          </Link>
+        }
+        control={
+          <Input
+            type='number'
+            name='energy_class_year'
+            value={data.energy_class_year}
+            min={2008}
+            max={2018}
+            step={10}
+            onChange={updateData}
+            placeholder='Anna energialuokituksen voimassaolovuosi...'
           />
         }
       />

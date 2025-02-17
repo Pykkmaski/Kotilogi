@@ -1,3 +1,8 @@
+import { z } from 'zod';
+import { eventSchema } from 'kotilogi-app/utils/models/eventSchema';
+import { roofSchema } from 'kotilogi-app/utils/models/roofSchema';
+import { buildingSchema } from 'kotilogi-app/utils/models/buildingSchema';
+
 export type ObjectDataType = {
   id: string;
   timestamp: string;
@@ -7,13 +12,7 @@ export type ObjectDataType = {
   parent_id?: string;
 };
 
-export type BuildingDataType = {
-  property_id: string;
-  color_id: number;
-  building_type_id: string;
-  building_material_id: string;
-  build_year: number;
-};
+export type BuildingDataType = z.infer<typeof buildingSchema>;
 
 export type ResidenceDataType = ObjectDataType & {
   id?: string;
@@ -37,6 +36,7 @@ export type PropertyPayloadType = ObjectDataType &
     street_name: string;
     zip_code: string;
     energy_class_id: number;
+    energy_class_year: number;
     property_type_id: number;
     propertyTypeName: string;
     street_number: number;
@@ -114,33 +114,7 @@ export type DrainageDitchDataType = {
   toteutusTapaId: number;
 };
 
-export type EventPayloadType = ObjectDataType &
-  Partial<Omit<WaterPipeRestorationWorkType, 'event_id'>> &
-  Partial<Omit<SewerPipeRestorationWorkType, 'event_id'>> &
-  Partial<Omit<ElectricityRestorationWorkType, 'event_id'>> &
-  Partial<Omit<InsulationRestorationWorkType, 'event_id'>> &
-  Partial<Omit<HeatingMethodRestorationWorkType, 'event_id'>> &
-  Partial<Omit<RestorationEventType, 'event_id'>> &
-  Partial<Omit<DrainageDitchDataType, 'property_id'>> &
-  Partial<RoofDataType> & {
-    property_id: string;
-    date: Date;
-    labour_expenses: number;
-    material_expenses: number;
-    event_type: string;
-    target_type: string;
-
-    data: {
-      [x: string]: any;
-      maintenance_type?: string;
-      windows?: WindowDataType[];
-      locks?: LockDataType[];
-      heating?: HeatingPayloadType[];
-      surfaces?: number[];
-      insulation?: TODO[];
-      electricalTargets?: number[];
-    };
-  };
+export type EventPayloadType = z.infer<typeof eventSchema>;
 
 type HasEventId = { event_id: string };
 
@@ -209,26 +183,7 @@ export type InteriorDataType = {
   bathroom_count: number;
 };
 
-export type RoofDataType = {
-  roof_material: string;
-  roof_type: string;
-  area: number;
-  incline: string;
-  eaves_type: string;
-  fascia_board_type: string;
-  underlacing_type: string;
-  color: number;
-  has_underlacing_ventilation: boolean;
-  has_treated_wood: boolean;
-  has_chimney_plating: boolean;
-  has_ladder: boolean;
-  lapetikas: boolean;
-  has_snow_barrier: boolean;
-  has_roof_bridge: boolean;
-  has_security_ladder: boolean;
-  has_gutters: boolean;
-  has_downspout_system: boolean;
-};
+export type RoofDataType = z.infer<typeof roofSchema>;
 
 export type FileDataType = ObjectDataType & {
   name: string;

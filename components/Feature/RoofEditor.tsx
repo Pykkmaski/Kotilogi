@@ -3,35 +3,33 @@ import { RadioSelector } from './OptionSelector';
 import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { EditorContainer } from './EditorContainer';
+import { CustomizableSelector } from './CustomizableSelector';
+import { RoofMaterial, roofSchema, RoofType } from 'kotilogi-app/utils/models/roofSchema';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <RadioSelector
-      {...props}
-      loadingText='Ladataan tyyppejä...'
-      labelKey='name'
-      valueKey='name'
+    <CustomizableSelector
       label='Katon tyyppi'
-      tablename='types.roof_type'
-      value={value}
       name='roof_type'
+      value={value}
       onChange={onChange}
+      placeholder='Anna katon tyyppi...'
+      options={Object.values(RoofType)}
+      breakpointValue='Muu'
     />
   );
 }
 
 export function RoofMaterialSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
-    <RadioSelector
-      {...props}
-      loadingText='Ladataan materiaaleja...'
-      labelKey='name'
-      valueKey='name'
+    <CustomizableSelector
       label='Katon materiaali'
-      tablename='types.roof_material_type'
       value={value}
       name='roof_material'
       onChange={onChange}
+      options={Object.values(RoofMaterial)}
+      placeholder='Anna katon materiaali...'
+      breakpointValue='Muu'
     />
   );
 }
@@ -233,8 +231,6 @@ type RoofEditorProps = {
 };
 
 export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
-  console.log('Roof data at roof editor: ', roofData);
-
   return (
     <EditorContainer>
       <h1 className='font-semibold'>Katon tiedot</h1>

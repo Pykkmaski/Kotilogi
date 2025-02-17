@@ -15,6 +15,7 @@ import { FalseInput } from '@/components/UI/FalseInput';
 import { TokenGenerationField } from './TokenGenerationField/TokenGenerationField';
 import { TransferDialogTrigger } from './TransferDialogTrigger';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
+import { events } from 'kotilogi-app/dataAccess/events';
 
 type PropertyOverviewProps = {
   property: AppartmentPayloadType | HousePayloadType;
@@ -56,11 +57,7 @@ export async function PropertyOverview({
     })
     .select('building.*', 'types.building_type.name as building_type_label');
 
-  const [{ numEvents }] = await db('new_events')
-    .join('object', { 'object.id': 'new_events.id' })
-    .where({ property_id: property.id })
-    .count('*', { as: 'numEvents' });
-
+  const numEvents = await events.countEvents({ property_id: property.id }, null, db);
   const title = property.street_name + ' ' + property.street_number;
 
   if (!buildingData) {
