@@ -22,16 +22,10 @@ class Roofs {
       .select('data')
       .first();
 
-    console.log(roof);
-    //Filter out nulls from the data
-    const entries = roof?.data
-      ? Object.values(roof.data).filter(([key, val]) => val !== null)
-      : (null as TODO);
-    return entries ? Object.fromEntries(entries) : null;
+    return roof?.data;
   }
 
   /**Creates a genesis event for a roof.
-
    */
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
     /*
