@@ -58,7 +58,7 @@ module.exports.eventSchema = z
     target_type: z.enum(Object.values(module.exports.TargetType)),
     labour_expenses: z.number().nonnegative().default(0),
     material_expenses: z.number().nonnegative().default(0),
-    date: z.string().date(),
+    date: z.date(),
     data: z.any(),
   })
   .strict()

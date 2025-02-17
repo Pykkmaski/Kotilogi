@@ -57,7 +57,7 @@ class Events {
     await properties.verifyEventCount(payload.property_id);
     await objects.create(async (obj, trx) => {
       payload.id = obj.id;
-      payload = eventSchema.parse(payload);
+      //payload = eventSchema.parse(payload);
       await trx('new_events').insert(payload);
     }, ctx);
     return payload.id;
