@@ -37,7 +37,11 @@ module.exports.FasciaBoardType = {
   VINO: 'Vino',
 };
 
-const roofBooleanSchema = z.boolean().optional().nullable();
+const roofBooleanSchema = z
+  .boolean()
+  .optional()
+  .nullable()
+  .transform(value => (value === null ? undefined : value));
 
 module.exports.roofSchema = z
   .object({
@@ -61,6 +65,8 @@ module.exports.roofSchema = z
     incline: z.string().optional(),
     color: z.string().optional(),
   })
+  .strict()
+  .passthrough(false)
   .transform(result => {
     result._schemaVersion = module.exports.roofSchemaVersion;
     return result;

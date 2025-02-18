@@ -48,6 +48,12 @@ module.exports.TargetType = {
   ULKOVERHOUS: 'Ulkoverhous',
 };
 
+/**
+ * Use to parse events about to be inserted into the database.
+ * Will parse the data-field using the appropriate schema.
+ * Currently only supports parsing of roofs and heating genesis-events.
+ * @incomplete
+ */
 module.exports.eventSchema = z
   .object({
     id: z.string().uuid().optional(),
@@ -78,7 +84,7 @@ module.exports.eventSchema = z
         if (target_type === module.exports.TargetType.KATTO) {
           requiredSchema = roofSchema;
         } else if (target_type === module.exports.TargetType.IKKUNAT) {
-          requiredSchema = windowRestorationSchema;
+          //requiredSchema = windowRestorationSchema;
         }
         break;
 
