@@ -60,6 +60,7 @@ export function Footer() {
             <Link href='/'>Etusivulle</Link>
             <Link href='/business'>Yrityksille</Link>
             <Link href='/login'>Kirjaudu Sisään</Link>
+            <Link href='/doc/privacy.pdf'>Tietosuojaseloste</Link>
           </FooterSpacer>
 
           <FooterSpacer

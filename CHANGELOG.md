@@ -1,3 +1,18 @@
+## [3.1.1] - 18-02-2025
+
+### Changed
+
+- The color of the privacy policy link on the register form.
+- Changed the text on the register form to asking the user to confirm they have read both the privacy policy, and the terms of service.
+
+### Added
+
+- A link to the privacy policy into the footer.
+
+### Fixed
+
+- Package-version to the correct one, since it was forgotten to be updated. Version 3.1.0 incorrectly displays 3.0.1.
+
 ## [3.1.0] - 17-02-2025
 
 ### Added
