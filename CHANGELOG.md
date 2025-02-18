@@ -1,4 +1,16 @@
+## [3.1.2] - 18-02-2025
+
+### Removed
+
+- The unused formidable, storybook adn visma-pay packages.
+
+### Fixed
+
+- The privacy policy link in the footer not opening in a new tab.
+
 ## [3.1.1] - 18-02-2025
+
+#### This version is incorrectly displayed as 3.1.0 in the package.
 
 ### Changed
 

@@ -1,6 +1,6 @@
 {
   "name": "kotidok",
-  "version": "3.1.0",
+  "version": "3.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
@@ -27,7 +27,6 @@
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
-    "formidable": "^3.5.2",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "next": "^15.1.3",
@@ -43,7 +42,6 @@
     "recharts": "^2.15.0",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
-    "visma-pay": "^2.0.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
