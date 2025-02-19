@@ -1,3 +1,11 @@
+## [3.2.1] - 19-02-2025
+
+### Removed
+
+- Storybook scripts
+- Some unused imports and declerations.
+- The business-link from the footer.
+
 ## [3.2.0] - 19-02-2025
 
 ### Added

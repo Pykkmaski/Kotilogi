@@ -58,9 +58,12 @@ export function Footer() {
             align='start'>
             <FooterSpacer.Heading>Tuote</FooterSpacer.Heading>
             <Link href='/'>Etusivulle</Link>
-            <Link href='/business'>Yrityksille</Link>
             <Link href='/login'>Kirjaudu Sisään</Link>
-            <Link href='/doc/privacy.pdf' target="_blank">Tietosuojaseloste</Link>
+            <Link
+              href='/doc/privacy.pdf'
+              target='_blank'>
+              Tietosuojaseloste
+            </Link>
           </FooterSpacer>
 
           <FooterSpacer

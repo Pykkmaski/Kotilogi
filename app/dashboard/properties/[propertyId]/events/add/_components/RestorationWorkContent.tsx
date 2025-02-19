@@ -9,37 +9,19 @@ import { InsulationEditor } from '@/components/Feature/InsulationEditor';
 import { ElectricalEditor } from '@/components/Feature/ElectricalEditor';
 import { LockBatch } from './FormContent/LockBatch/LockBatch';
 import { HeatingRenovationContent } from './FormContent/HeatingRenovationContent/HeatingRenovationContent';
-import { useQuery } from '@tanstack/react-query/build/legacy';
-import { getHeatingData } from './actions';
 import { ExteriorCladdingEditor } from '@/components/Feature/ExteriorCladdingEditor';
-import { EventType } from 'kotilogi-app/types/EventType';
 import { TargetType } from 'kotilogi-app/types/TargetType';
 
 export function RestorationWorkContent() {
   const {
     eventData,
-    propertyId,
-    refs,
     insulation,
-    updateEventData,
     resetInsulation,
     updatePayload,
     payload,
     selectedERTargetIds,
     toggleERTargetId,
   } = useEventFormContext();
-
-  const {
-    data: heatingData,
-    isLoading: heatingDataIsLoading,
-    error: errorOnHeatingData,
-  } = useQuery({
-    queryKey: ['heating-data'],
-    queryFn: async () => await getHeatingData(propertyId),
-    enabled:
-      eventData.event_type == EventType.PERUSKORJAUS &&
-      eventData.target_type == TargetType.LÄMMITYSMUOTO,
-  });
 
   return (
     <>

@@ -1,14 +1,12 @@
 {
   "name": "kotidok",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "test": "jest",
     "test:watch": "jest --watch --detectOpenHandles --silent"
   },
