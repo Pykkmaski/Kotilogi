@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { ChipButton } from './RadioGroup/ChipButton';
 import { RadioGroupBody } from './RadioGroup/RadioGroup';
 import { FormControl, Input, Label } from '../UI/FormUtils';
-import { customStringSchema } from 'kotilogi-app/utils/models/customStringSchema';
 
 export function CustomizableSelector({
   options,

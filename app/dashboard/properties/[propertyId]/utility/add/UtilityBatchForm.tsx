@@ -83,7 +83,9 @@ export function UtilityBatchForm({ propertyId, utilityTypes }: UtilityBatchFormP
             className='flex flex-col gap-4'>
             {entries.map((ub, index) => {
               return (
-                <div className='flex flex-col gap-2 p-2 border border-slate-200 rounded-md animate-slideup-fast'>
+                <div
+                  className='flex flex-col gap-2 p-2 border border-slate-200 rounded-md animate-slideup-fast'
+                  key={`utility-${index}`}>
                   <div className='flex justify-between w-full'>
                     <h1 className='font-semibold text-lg'>Lasku {index + 1}</h1>
                     <IconButton

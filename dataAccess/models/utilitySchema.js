@@ -14,7 +14,7 @@ module.exports.utilitySchema = z
     property_id: z.string().uuid(),
     typeId: z.number().int(),
     unitAmount: z
-      //Do this until the reason why the value is NaN in the form, if not inputting anything.
+      //Do this until the reason why the value is NaN in the form, if not inputting anything. (Fixed.)
       .number()
       .optional()
       .transform(value => (isNaN(value) ? null : value)),

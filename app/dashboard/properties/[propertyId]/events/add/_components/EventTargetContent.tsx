@@ -13,7 +13,7 @@ import { EventType } from 'kotilogi-app/types/EventType';
 
 /**Renders the content of the event form target-tab */
 export function EventTargetContent() {
-  const { eventData, refs } = useEventFormContext();
+  const { eventData } = useEventFormContext();
 
   return (
     <BoxFieldset legend='Tapahtuman kohde'>

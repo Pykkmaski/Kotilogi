@@ -6,7 +6,7 @@ import { properties } from './properties';
 
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { Knex } from 'knex';
-import { eventSchema } from 'kotilogi-app/utils/models/eventSchema';
+import { eventSchema } from './models/eventSchema';
 
 class Events {
   /**
@@ -57,7 +57,8 @@ class Events {
     await properties.verifyEventCount(payload.property_id);
     await objects.create(async (obj, trx) => {
       payload.id = obj.id;
-      //payload = eventSchema.parse(payload);
+      payload.date = new Date(payload.date);
+      payload = eventSchema.parse(payload);
       await trx('new_events').insert(payload);
     }, ctx);
     return payload.id;

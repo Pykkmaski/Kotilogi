@@ -1,3 +1,5 @@
+'use client';
+
 import {
   AppartmentPayloadType,
   HousePayloadType,
@@ -12,6 +14,7 @@ import { useStatusWithAsyncMethod } from '@/hooks/useStatusWithAsyncMethod';
 import { usePreventDefault } from '@/hooks/usePreventDefault';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { useBatchForm } from '@/hooks/useBatchForm';
+import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 
 export function usePropertyForm(
   property: HousePayloadType | AppartmentPayloadType | undefined,
@@ -27,7 +30,12 @@ export function usePropertyForm(
   const { data: roof, updateData: updateRoof } = useFormOnChangeObject();
   const { data: building, updateData: updateBuilding } = useFormOnChangeObject();
 
-  const [selectedHeating, setSelectedHeating] = useState([]);
+  const savedHeating = sessionStorage.getItem('kotidok-property-energy-class');
+  const [selectedHeating, setSelectedHeating] = useState(
+    savedHeating ? JSON.parse(savedHeating) : []
+  );
+  useSaveToSessionStorage('kotidok-property-energy-class', selectedHeating);
+
   const isNew = property == undefined;
 
   const [propertyIdentifierStatus, setPropertyIdentifierStatus] = useState<
@@ -35,7 +43,6 @@ export function usePropertyForm(
   >(() => (!isNew ? 'valid' : 'none'));
 
   const isValid = propertyIdentifierStatus === 'valid';
-
   const { method, status } = useStatusWithAsyncMethod(async () => {
     try {
       if (isNew) {
@@ -44,11 +51,13 @@ export function usePropertyForm(
           heating: selectedHeating,
         } as PropertyPayloadType);
         toast.success('Talo luotu!');
+        //router.push(`/dashboard/properties/${property.id}`);
       } else {
         await updatePropertyAction(property.id, {
           ...data,
         } as PropertyPayloadType);
         toast.success('Talo päivitetty!');
+        //router.push(`/dashboard/properties/${property.id}`);
       }
     } catch (err) {
       const msg = err.message as string;

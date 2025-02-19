@@ -116,7 +116,7 @@ export function useEventForm(
     } else {
       return false;
     }
-  }, [eventData.target_type, eventData.event_type, refs.eventTypes, payload?.maintenance_type]);
+  }, [eventData.target_type, eventData.event_type, payload?.maintenance_type, refs.eventTargets]);
 
   const showExtraDataForm = useCallback(() => {
     if (eventData.event_type == EventType.PERUSKORJAUS) {
@@ -124,7 +124,7 @@ export function useEventForm(
     } else {
       return false;
     }
-  }, [payload?.maintenance_type, eventData.event_type, refs.eventTypes]);
+  }, [payload?.maintenance_type, eventData.event_type]);
 
   const { resetWindowBatch } = eventDataProps;
 
@@ -133,7 +133,8 @@ export function useEventForm(
       eventData.event_type == undefined ||
       eventData.target_type == undefined ||
       eventData.date == undefined ||
-      status == 'loading'
+      status == 'loading' ||
+      status == 'done'
     );
   }, [
     eventData.target_type,
@@ -153,7 +154,7 @@ export function useEventForm(
   return {
     ...extraDataProps,
     ...eventDataProps,
-
+    refs,
     status,
     onSubmit,
     editing: isDefined(initialEventData),
@@ -164,8 +165,6 @@ export function useEventForm(
     files,
     cancel,
     selectedSurfaceIds,
-
-    refs,
     removeFile,
     resetSelectedSurfaceIds,
     showMainDataForm,

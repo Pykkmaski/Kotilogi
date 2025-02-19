@@ -65,8 +65,6 @@ module.exports.roofSchema = z
     incline: z.string().optional(),
     color: z.string().optional(),
   })
-  .strict()
-  .passthrough(false)
   .transform(result => {
     result._schemaVersion = module.exports.roofSchemaVersion;
     return result;

@@ -9,8 +9,8 @@ import { ControlBar } from './ControlBar';
 import { utilities } from 'kotilogi-app/dataAccess/utilities';
 
 export default async function UtilityPage({ params, searchParams }) {
-  const { year, types } = searchParams;
-  const propertyId = params.propertyId;
+  const { year, types } = await searchParams;
+  const { propertyId } = await params;
   const utilityData = await utilities.get(
     propertyId,
     year && parseInt(year),

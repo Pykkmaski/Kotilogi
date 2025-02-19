@@ -8,7 +8,7 @@ import { ElectricHeatingMethodSelector } from '../ElectricHeatingMethodSelector'
 import { useCallback } from 'react';
 
 export function useHeatingRenovationContent() {
-  const { eventData, editing, payload, updatePayload, resetPayload } = useEventFormContext();
+  const { eventData, payload, updatePayload, resetPayload } = useEventFormContext();
   const { data: heatingSystems, isLoading } = useQuery({
     queryKey: ['heatingSystems'],
     queryFn: async () => await getHeatingSystems(),

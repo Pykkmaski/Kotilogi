@@ -3,7 +3,7 @@ import { UtilityDataType } from './types';
 import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import { objects } from './objects';
-import { utilitySchema } from 'kotilogi-app/utils/models/utilitySchema';
+import { utilitySchema } from './models/utilitySchema';
 
 class Utilities {
   private getDTO(data: UtilityDataType) {

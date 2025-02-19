@@ -50,12 +50,14 @@ const ExpensesField = () => {
       <FormControl
         boldLabelText
         label='Materiaalien osuus (€)'
+        helper='Materiaalien osuus koko tapahtuman kustannuksista.'
         control={<MaterialExpensesInput />}
       />
 
       <FormControl
         boldLabelText
         label='Työn osuus (€)'
+        helper='Työn osuus koko tapahtuman kustannuksista.'
         control={<LabourExpensesInput />}
       />
       <div className='md:text-lg xs:text-base'>
@@ -119,6 +121,7 @@ const OtherField = () => {
       <FormControl
         boldLabelText
         label='Päiväys'
+        helper='Jos et tiedä tarkasti, suuntaa antava päivämäärä riittää.'
         required
         control={
           <Input

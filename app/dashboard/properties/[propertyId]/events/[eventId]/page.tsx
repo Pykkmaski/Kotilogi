@@ -9,6 +9,8 @@ import { DataDisplay } from '@/components/UI/DataDisplay';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { DialogPrefab } from '@/components/UI/VPDialog';
 import db from 'kotilogi-app/dbconfig';
+import { RowDisplay } from '@/components/UI/RowDisplay';
+import { getKeyTranslator } from 'kotilogi-app/utils/keyTranslations/getKeyTranslator';
 
 const DataPointGrid = ({ children }) => (
   <div className='w-full grid lg:grid-cols-2 xs:grid-cols-1 gap-4'>{children}</div>
@@ -27,6 +29,17 @@ export default async function EventPage({ params }) {
   const files = await db('data_files').where({ parent_id: eventId });
   const [mainImageId] = await db('data_mainImages').where({ objectId: eventId }).pluck('imageId');
 
+  const { target_type, data } = event;
+  const dataToRender =
+    (data &&
+      (target_type == 'Ikkunat'
+        ? data.windows
+        : target_type == 'Lukitus'
+        ? data.locks
+        : target_type == 'Eristys'
+        ? data.insulation
+        : data)) ||
+    {};
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>
@@ -36,63 +49,21 @@ export default async function EventPage({ params }) {
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
             <h1 className='font-semibold text-slate-500'>Tiedot</h1>
             {event.event_type == 'Peruskorjaus' ? (
-              event.target_type == 'Ulkoverhous' ? (
-                <>
-                  <DataDisplay
-                    title='Materiaali'
-                    value={event.data?.exterior_cladding_material}
-                  />
-                  <DataDisplay
-                    title='Jyrsijäverkko'
-                    value={event.data?.has_rodent_net ? 'Kyllä' : 'Ei'}
-                  />
-
-                  <DataDisplay
-                    title='Tuulensuojaeriste'
-                    value={event.data?.has_wind_protection ? 'Kyllä' : 'Ei'}
-                  />
-                  <DataDisplay
-                    title={<>Tuulensuojalevyn paksuus (mm)</>}
-                    value={event.data?.wind_protection_plate_thickness || 'Ei tuulensuojalevyä'}
-                  />
-                </>
-              ) : event.target_type == 'Lämmitysmuoto' ? (
-                <>
-                  <DataDisplay
-                    title='Korjattu järjestelmä'
-                    value={event.data?.old_heating_type}
-                  />
-
-                  <DataDisplay
-                    title='Uusi järjestelmä'
-                    value={event.data?.new_heating_type}
-                  />
-                </>
-              ) : event.target_type == 'Käyttövesiputket' ? (
+              event.target_type == 'Käyttövesiputket' ? (
                 <DataDisplay
                   title='Asennustapa'
-                  value={event.data?.installation_method}
-                />
-              ) : event.target_type == 'Viemäriputket' ? (
-                <DataDisplay
-                  title='Korjaustapa'
-                  value={event.data?.restoration_method}
+                  value={dataToRender?.installation_method}
                 />
               ) : event.target_type == 'Sähköt' ? (
                 <DataDisplay
                   title='Kohteet'
-                  value={event.data?.electrical_targets.join(', ')}
+                  value={dataToRender?.electrical_targets.join(', ')}
                 />
               ) : null
             ) : event.event_type == 'Huoltotyö' && event.target_type !== 'Muu' ? (
               <DataDisplay
                 title='Tehty huoltotyö'
-                value={event.data?.maintenance_type}
-              />
-            ) : event.event_type == 'Pintaremontti' ? (
-              <DataDisplay
-                title='Pinnat'
-                value={event.data?.surfaces?.join(', ')}
+                value={dataToRender?.maintenance_type}
               />
             ) : null}
             <DataDisplay
@@ -137,7 +108,7 @@ export default async function EventPage({ params }) {
           legend='Asennetut ikkunat'
           closeable>
           <DataPointGrid>
-            {event.data?.windows.map((w, i) => {
+            {dataToRender?.map((w, i) => {
               return (
                 <DataPointContainer
                   key={`window-${i}`}
@@ -163,12 +134,12 @@ export default async function EventPage({ params }) {
             })}
           </DataPointGrid>
         </BoxFieldset>
-      ) : event.target_type == 'Lukitus' ? (
+      ) : event.event_type === 'Peruskorjaus' && event.target_type == 'Lukitus' ? (
         <BoxFieldset
           legend='Asennetut lukot'
           closeable>
           <DataPointGrid>
-            {event.data?.locks.map((l, i) => {
+            {dataToRender?.map((l, i) => {
               return (
                 <DataPointContainer
                   key={`lock-${i}`}
@@ -199,12 +170,12 @@ export default async function EventPage({ params }) {
             })}
           </DataPointGrid>
         </BoxFieldset>
-      ) : event.target_type == 'Eristys' ? (
+      ) : event.event_type === 'Peruskorjaus' && event.target_type == 'Eristys' ? (
         <BoxFieldset
           legend='Eristykset'
           closeable>
           <DataPointGrid>
-            {event.data?.insulation.map((d, i) => {
+            {dataToRender?.map((d, i) => {
               return (
                 <DataPointContainer
                   title={<>Eristys {i + 1}</>}
@@ -221,6 +192,30 @@ export default async function EventPage({ params }) {
               );
             })}
           </DataPointGrid>
+        </BoxFieldset>
+      ) : event.target_type !== 'Ilmanvaihto' &&
+        event.target_type !== 'Sähköt' &&
+        event.event_type !== 'Muu' ? (
+        <BoxFieldset
+          legend='Lisätiedot'
+          closeable>
+          <div className='flex flex-col gap-2 xl:w-[50%] xs:w-full'>
+            <RowDisplay
+              //The original object must be passed here.
+              data={event.data}
+              keyHint={{
+                heating_center_brand:
+                  'Öljylämmitys-, lämmönjakokeskuksen, maalämpöpumpun, yms. merkki.',
+                heating_center_model:
+                  'Öljylämmitys-, lämmönjakokeskuksen, maalämpöpumpun, yms. malli.',
+              }}
+              keyTranslator={
+                event.event_type === 'Peruskorjaus' || event.event_type === 'Pintaremontti'
+                  ? getKeyTranslator(event.target_type)
+                  : () => 'Tehty huoltotyö'
+              }
+            />
+          </div>
         </BoxFieldset>
       ) : null}
 

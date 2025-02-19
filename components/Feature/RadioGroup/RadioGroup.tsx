@@ -17,7 +17,7 @@ type RadioGroupProps = React.PropsWithChildren & {
 export function RadioGroup({ children, name, required, ...props }: RadioGroupProps) {
   const content = useMemo(() => {
     const childArray = React.Children.toArray(children);
-    return childArray.map((child: React.ReactElement) => {
+    return childArray.map((child: React.ReactElement, i) => {
       if (React.isValidElement(child as any)) {
         const newProps = {
           ...(child.props as TODO),
@@ -25,7 +25,13 @@ export function RadioGroup({ children, name, required, ...props }: RadioGroupPro
           required,
         };
 
-        return <PassProps {...newProps}>{child}</PassProps>;
+        return (
+          <PassProps
+            {...newProps}
+            key={`radiogroup-${name}-${i}`}>
+            {child}
+          </PassProps>
+        );
       } else {
         return child;
       }

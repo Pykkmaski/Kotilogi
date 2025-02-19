@@ -8,11 +8,10 @@ import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import { Notification } from '@/components/UI/Notification';
 import { CarouselProvider } from '@/components/Util/CarouselProvider';
 import { green } from 'tailwindcss/colors';
+import { BooleanIcon } from '@/components/UI/BooleanIcon';
 
 const InfoContainer = ({ children }) => <div className='flex flex-col gap-2'>{children}</div>;
 const Title = ({ children }) => <h1 className='font-semibold'>{children}</h1>;
-const BooleanIcon = ({ state }: { state: boolean }) =>
-  (state && <Check sx={{ color: green['400'] }} />) || <SquareOutlined />;
 
 export function PropertyOverview() {
   const { property: prop, refs, isValid, selectedHeating, isNew } = usePropertyFormContext();
@@ -132,39 +131,39 @@ export function PropertyOverview() {
             />
             <DataDisplay
               title='Piipunpellitys'
-              value={<BooleanIcon state={property.has_chimney_plating} />}
+              value={<BooleanIcon state={property.has_chimney_plating as boolean} />}
             />
             <DataDisplay
               title='Kattosilta'
-              value={<BooleanIcon state={property.has_roof_bridge} />}
+              value={<BooleanIcon state={property.has_roof_bridge as boolean} />}
             />
             <DataDisplay
               title='Kourut'
-              value={<BooleanIcon state={property.has_gutters} />}
+              value={<BooleanIcon state={property.has_gutters as boolean} />}
             />
             <DataDisplay
               title='Syöksysarja'
-              value={<BooleanIcon state={property.has_downspout_system} />}
+              value={<BooleanIcon state={property.has_downspout_system as boolean} />}
             />
             <DataDisplay
               title='Lapetikas'
-              value={<BooleanIcon state={property.lapetikas} />}
+              value={<BooleanIcon state={property.lapetikas as boolean} />}
             />
             <DataDisplay
               title='Turvatikas'
-              value={<BooleanIcon state={property.has_security_ladder} />}
+              value={<BooleanIcon state={property.has_security_ladder as boolean} />}
             />
             <DataDisplay
               title='Seinätikas'
-              value={<BooleanIcon state={property.has_ladder} />}
+              value={<BooleanIcon state={property.has_ladder as boolean} />}
             />
             <DataDisplay
               title='Harjatuuletus aluskatteella'
-              value={<BooleanIcon state={property.has_underlacing_ventilation} />}
+              value={<BooleanIcon state={property.has_underlacing_ventilation as boolean} />}
             />
             <DataDisplay
               title='Lumieste'
-              value={<BooleanIcon state={property.has_snow_barrier} />}
+              value={<BooleanIcon state={property.has_snow_barrier as boolean} />}
             />
           </InfoContainer>
         )}

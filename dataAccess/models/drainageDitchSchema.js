@@ -19,7 +19,6 @@ module.exports.drainageDitchSchema = z
     has_rainwater_pipes: z.boolean().optional(),
     included_rock_construction: z.boolean().optional(),
   })
-  .strict()
   .transform(result => {
     result._schemaVersion = module.exports.drainageDitchSchemaVersion;
     return result;

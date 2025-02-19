@@ -14,7 +14,6 @@ export const updatePropertyAction = async (
   propertyId: string,
   data: Partial<PropertyPayloadType> & Required<Pick<PropertyPayloadType, 'property_type_id'>>
 ) => {
-  console.log('Property at update: ', data);
   z.string().parse(propertyId);
   z.object({
     property_type_id: z.number(),
@@ -22,6 +21,7 @@ export const updatePropertyAction = async (
 
   await properties.update(propertyId, data);
   revalidatePath('/dashboard/properties');
+  redirect(`/dashboard/properties/${propertyId}/`);
 };
 
 export const createPropertyAction = async (
@@ -31,7 +31,7 @@ export const createPropertyAction = async (
     property_type_id: z.number(),
   }).parse(data);
 
-  let pid;
+  let pid: string;
   await properties.create(data, async (id, trx) => {
     pid = id;
   });

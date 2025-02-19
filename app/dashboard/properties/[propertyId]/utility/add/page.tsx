@@ -3,7 +3,7 @@ import db from 'kotilogi-app/dbconfig';
 import { UtilityBatchForm } from './UtilityBatchForm';
 
 export default async function AddUtilityPage({ params }) {
-  const propertyId = params.propertyId;
+  const { propertyId } = await params;
   const utilityTypes = await db('ref_utilityTypes');
   return (
     <main className='flex justify-center'>

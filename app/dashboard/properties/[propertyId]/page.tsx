@@ -1,5 +1,5 @@
 import { Main } from '@/components/New/Main';
-import { Add, Edit, MoreVert, Visibility } from '@mui/icons-material';
+import { Add, Edit, InfoOutlined, MoreVert, Visibility } from '@mui/icons-material';
 import db from 'kotilogi-app/dbconfig';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
@@ -128,7 +128,15 @@ export default async function PropertyPage({ params }) {
               />
 
               <DataDisplay
-                title='Lämmitysmuoto'
+                title={
+                  <div className='flex items-center gap-2'>
+                    <span>Lämmitysmuoto</span>
+                    <InfoOutlined
+                      titleAccess='Määrittyy talon luonnin yhteydessä lisättyjen, sekä tehtyjen lämmitysmuodon peruskorjausten perusteella.'
+                      sx={{ fontSize: '1rem', color: 'gray' }}
+                    />
+                  </div>
+                }
                 value={heatingData?.join(', ') || 'Ei määritelty'}
               />
               <DataDisplay

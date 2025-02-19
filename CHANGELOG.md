@@ -1,3 +1,23 @@
+## [3.2.0] - 19-02-2025
+
+### Added
+
+- Event data display when viewing events.
+- Translations for the fields in the event data-column.
+- Helpers under the event form expenses- and date-fields.
+- Redirection on property update as well as when one is created.
+- Saving of the heating types into session storage when creating properties.
+- Ability to modify the zip code and address if they are incorrectly determined from the property identifier.
+- The RowDisplay-component, for quickly rendering object-contents on the screen.
+- Keys to the RadioGroup, and UtilityBatchForm entries.
+- Added an info-icon with the title explaining how a property's current heating is determined.
+
+### Changed
+
+- The isUUID-function to use zod for uuid-validation.
+- Awaited the params on the AddUtilityPage.
+- Awaited the params and searchParams on the utility-page.
+
 ## [3.1.2] - 18-02-2025
 
 ### Removed

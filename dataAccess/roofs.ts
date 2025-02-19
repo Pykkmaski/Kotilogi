@@ -4,7 +4,7 @@ import { filterValidColumns } from './utils/filterValidColumns';
 import { getTableColumns } from './utils/getTableColumns';
 import db from 'kotilogi-app/dbconfig';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
-import { roofSchema } from 'kotilogi-app/utils/models/roofSchema';
+import { roofSchema } from './models/roofSchema';
 import { events } from './events';
 
 class Roofs {
@@ -25,58 +25,10 @@ class Roofs {
     return roof?.data;
   }
 
-  /**Creates a genesis event for a roof.
+  /**
+   * Creates a genesis event for a roof.
    */
   async create(property_id: string, payload: Partial<RoofDataType>, trx: Knex.Transaction) {
-    /*
-    const [{ roof_types }] = (await trx('types.roof_type').select(
-      db.raw('json_object_agg(id, name) as roof_types')
-    )) as any;
-
-    const [{ roof_materials }] = (await trx('types.roof_material_type').select(
-      db.raw('json_object_agg(id, name) as roof_materials')
-    )) as any;
-
-    const [{ eaves_types }] = (await trx('types.roof_eaves_type').select(
-      db.raw('json_object_agg(id, label) as eaves_types')
-    )) as any;
-
-    const [{ fascia_board_types }] = (await trx('types.roof_fascia_board_type').select(
-      db.raw('json_object_agg(id, label) as fascia_board_types')
-    )) as any;
-
-    const [{ underlacing_types }] = (await trx('types.roof_underlacing_type').select(
-      db.raw('json_object_agg(id, label) as underlacing_types')
-    )) as any;
-
-    const [{ colors }] = (await trx('ref_mainColors').select(
-      db.raw('json_object_agg(id, name) as colors')
-    )) as any;*/
-
-    /*
-    const roof = {
-      roof_type: roof_types[payload.roofTypeId],
-      roof_material: roof_materials[payload.roofMaterialId],
-      eaves_type: eaves_types[payload.raystasTyyppiId],
-      fascia_board_type: fascia_board_types[payload.otsalautaTyyppiId],
-      underlacing_type: underlacing_types[payload.aluskateTyyppiId],
-      color: colors[payload.colorId],
-      incline: payload.kaltevuus,
-      area: payload.neliometrit,
-      has_gutters: payload.kourut,
-      has_downspout_system: payload.syoksysarja,
-      has_security_ladder: payload.turvatikas,
-      has_ladder: payload.seinatikas,
-      has_roof_bridge: payload.kattosilta,
-      has_underlacing_ventilation: payload.harjatuuletusAluskatteella,
-      has_treated_wood: payload.suojakasiteltyPuutavara,
-      has_chimney_plating: payload.piipunpellitys,
-      has_snow_barrier: payload.lumieste,
-      lapetikas: payload.lapetikas,
-    };
-    */
-
-    //const session = await verifySession();
     const roof = roofSchema.parse(payload);
     await events.create(
       {

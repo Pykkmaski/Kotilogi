@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { eventSchema } from 'kotilogi-app/utils/models/eventSchema';
-import { roofSchema } from 'kotilogi-app/utils/models/roofSchema';
-import { buildingSchema } from 'kotilogi-app/utils/models/buildingSchema';
+import { eventSchema } from './models/eventSchema';
+import { roofSchema } from './models/roofSchema';
+import { buildingSchema } from './models/buildingSchema';
 
 export type ObjectDataType = {
   id: string;

@@ -3,8 +3,6 @@ import { RadioSelector } from './OptionSelector';
 import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { EditorContainer } from './EditorContainer';
-import { CustomizableSelector } from './CustomizableSelector';
-import { RoofMaterial, roofSchema, RoofType } from 'kotilogi-app/utils/models/roofSchema';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (

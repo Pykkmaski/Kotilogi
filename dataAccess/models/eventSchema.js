@@ -51,7 +51,7 @@ module.exports.TargetType = {
 /**
  * Use to parse events about to be inserted into the database.
  * Will parse the data-field using the appropriate schema.
- * Currently only supports parsing of roofs and heating genesis-events.
+ * Currently only supports parsing of roofs, heating genesis-events and maintenance-events.
  * @incomplete
  */
 module.exports.eventSchema = z
@@ -68,6 +68,7 @@ module.exports.eventSchema = z
     data: z.any(),
   })
   .strict()
+  .passthrough(false)
   .transform((payload, ctx) => {
     const { event_type, target_type } = payload;
     let requiredSchema = null;

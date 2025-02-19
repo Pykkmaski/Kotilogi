@@ -10,10 +10,9 @@ import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { EventType } from 'kotilogi-app/types/EventType';
 
+/**@deprecated */
 export function TypeDataForm() {
   const { eventData } = useEventFormContext();
-  const { refs } = useEventTypeContext();
-
   const showWorkTypeSelector = () => {
     return (
       isDefined(eventData.event_type) &&

@@ -119,13 +119,18 @@ export function GeneralField({ hidePropertyIdentifier }) {
 
       <FormControl
         label='Kadun nimi'
-        helper={<SubLabel>Kadun nimi täytetään kiinteistötunnuksen perusteella</SubLabel>}
+        helper={
+          <SubLabel>
+            Kadun nimi täytetään kiinteistötunnuksen perusteella. Jos tieto ei täsmää, ole hyvä ja
+            korjaa se.
+          </SubLabel>
+        }
         required
         control={
           <Input
             data-testid='street-address-input'
             name='street_name'
-            disabled={isHouse}
+            disabled={isHouse && !isValid}
             placeholder={getAddressDescription()}
             defaultValue={data && data.street_name}
             value={data && data.street_name}
@@ -137,11 +142,16 @@ export function GeneralField({ hidePropertyIdentifier }) {
       <FormControl
         label='Postinumero'
         required
-        helper={<SubLabel>Postinumero täytetään kiinteistötunnuksen perusteella</SubLabel>}
+        helper={
+          <SubLabel>
+            Postinumero täytetään kiinteistötunnuksen perusteella. Jos tieto ei täsmää, ole hyvä ja
+            korjaa se.
+          </SubLabel>
+        }
         control={
           <Input
             onChange={updateData}
-            disabled={isHouse}
+            disabled={isHouse && !isValid}
             defaultValue={(data && data.zip_code) || null}
             value={data.zip_code}
             name='zip_code'

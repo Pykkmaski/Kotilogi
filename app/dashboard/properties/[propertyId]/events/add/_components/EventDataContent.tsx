@@ -15,15 +15,8 @@ import { TargetType } from 'kotilogi-app/types/TargetType';
 
 /**Renders the content of the event form data-tab */
 export function EventDataContent() {
-  const {
-    eventData,
-    refs,
-    showMainDataForm,
-    isSubmitDisabled,
-    selectedSurfaceIds,
-    status,
-    payload,
-  } = useEventFormContext();
+  const { eventData, showMainDataForm, isSubmitDisabled, selectedSurfaceIds, status, payload } =
+    useEventFormContext();
   const {
     data: workTypes,
     isLoading: workTypesIsLoading,
