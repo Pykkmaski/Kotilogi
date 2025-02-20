@@ -22,7 +22,7 @@ export default function TOS() {
         yhteydessä. Palvelu on palveluntarjoajan tietoverkon välityksellä tarjoama
         tietokoneohjelmistoon perustuva palvelu, jolla asiakas voi tallentaa omistamansa
         talon/kiinteistön tietoja kuten korjaushistorian, kulutustiedot, kuvat sekä tiedostot.
-        palveluntarjoaja voi tarjota palvelussa tai sen yhteydessä lisäpalveluita, joista peritään
+        Palveluntarjoaja voi tarjota palvelussa tai sen yhteydessä lisäpalveluita, joista peritään
         erillinen maksu. Sopimus syntyy, kun asiakas rekisteröityy palveluun {serviceName}
         .fi-sivuston kautta ja hyväksyy sopimusehdot. Rekisteröityessään Palveluun ja luodessaan
         sinne käyttäjätilin asiakas saa oikeuden käyttää palvelua sisäisessä toiminnassaan
@@ -63,24 +63,18 @@ export default function TOS() {
       <BigHeading>4. Käyttäjätilillä olevien tietojen säilyttäminen</BigHeading>
 
       <p>
-        Palveluntarjoaja lukitsee Tilin, jos Asiakas ei ole tehnyt maksullista tilausta
-        Kokeilujakson aikana, tilausjakso on päättynyt, maksullisen tilauksen maksu on viivästynyt
-        tai laiminlyöty, Tili ja/tai sille kirjautumisen mahdollistavat tiedot ovat joutuneet
-        kolmannen haltuun tai Asiakas on käyttänyt Palvelua Suomen lain, Sopimusehtojen tai hyvän
-        tavan vastaiseen toimintaan. Jos Tili on lukittu maksun viivästymisen tai laiminlyönnin
-        johdosta, palveluntarjoajalla on oikeus periä tilin avaamisesta aiheutuneet kohtuulliset
-        kustannukset asiakkaalta. Sama koskee tilannetta, jossa Tili ja/tai sille kirjautumisen
-        mahdollistavat tiedot ovat päätyneet kolmannen haltuun asiakkaan huolimattomuudesta johtuen.
-        palveluntarjoaja arvioi palvelun uudelleen avaamisen mahdollisuuden tapauskohtaisesti.
-        Palveluntarjoajalla on oikeus poistaa tili ja asiakkaan palvelussa syöttämät tiedot, kun
-        asiakkaan tili on ollut lukittuna kolmen kuukauden ajan. Palveluntarjoajalla on oikeus
-        poistaa tili ja sillä olevat tiedot välittömästi, jos asiakas on käyttänyt palvelua lain,
-        tämän sopimuksen tai hyvän tavan vastaiseen toimintaan. Palveluntarjoaja ylläpitää
-        varmuuskopiota asiakkaan palveluun syöttämistä tiedoista kuuden kuukauden ajan.
-        Alkuperäisten tietojen katoamiseen vaikuttaneelta asiakkaalta voidaan veloittaa
-        varmuuskopion palauttamisesta aiheutuneet kustannukset. Palveluntarjoaja poistaa kaikki
-        asiakkaan palveluun syöttämät tiedot kuuden kuukauden sisällä Sopimuksen päättymisestä,
-        ellei toisin ole sovittu.
+        Palveluntarjoaja lukitsee Tilin, jos tili ja/tai sille kirjautumisen mahdollistavat tiedot
+        ovat joutuneet kolmannen haltuun tai Asiakas on käyttänyt Palvelua Suomen lain,
+        Sopimusehtojen tai hyvän tavan vastaiseen toimintaan. Sama koskee tilannetta, jossa Tili
+        ja/tai sille kirjautumisen mahdollistavat tiedot ovat päätyneet kolmannen haltuun asiakkaan
+        huolimattomuudesta johtuen. palveluntarjoaja arvioi palvelun uudelleen avaamisen
+        mahdollisuuden tapauskohtaisesti. Palveluntarjoajalla on oikeus poistaa tili ja asiakkaan
+        palvelussa syöttämät tiedot, kun asiakkaan tili on ollut lukittuna kolmen kuukauden ajan.
+        Palveluntarjoajalla on oikeus poistaa tili ja sillä olevat tiedot välittömästi, jos asiakas
+        on käyttänyt palvelua lain, tämän sopimuksen tai hyvän tavan vastaiseen toimintaan.
+        Palveluntarjoaja ylläpitää varmuuskopiota asiakkaan palveluun syöttämistä tiedoista kuuden
+        kuukauden ajan. Palveluntarjoaja poistaa kaikki asiakkaan palveluun syöttämät tiedot kuuden
+        kuukauden sisällä Sopimuksen päättymisestä, ellei toisin ole sovittu.
       </p>
 
       <BigHeading>5. Palvelussa oleva aineisto ja immateriaalioikeudet</BigHeading>
