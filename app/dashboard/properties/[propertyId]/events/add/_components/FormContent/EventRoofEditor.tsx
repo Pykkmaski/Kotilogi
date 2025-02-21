@@ -9,8 +9,7 @@ import { RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { getRoof } from './actions';
 
 export function EventRoofEditor() {
-  const { eventData, updateEventData, resetEventData, payload, updatePayload, resetPayload } =
-    useEventFormContext();
+  const { eventData, payload, updatePayload, resetPayload } = useEventFormContext();
 
   const { data, isLoading, error } = useQuery({
     queryKey: [`event-roof-data-${eventData.property_id}`],

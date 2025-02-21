@@ -10,7 +10,7 @@ import { BigButton } from '@/components/Feature/RadioGroup/BigButton';
 import { EventType } from 'kotilogi-app/types/EventType';
 
 function EventTypeButton({ eventType }) {
-  const { refs, eventData, updateEventData } = useEventFormContext();
+  const { refs, eventData, updateEventType } = useEventFormContext();
   const selected = eventData.event_type == eventType.label;
 
   const iconStyle = {
@@ -66,7 +66,7 @@ function EventTypeButton({ eventType }) {
 
   return (
     <BigButton
-      onChange={updateEventData}
+      onChange={updateEventType}
       value={eventType.label}
       name='event_type'
       checked={eventData.event_type == eventType.label}>

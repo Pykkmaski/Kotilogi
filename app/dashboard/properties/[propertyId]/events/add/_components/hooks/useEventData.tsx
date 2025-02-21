@@ -17,12 +17,13 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     resetData: resetEventData,
   } = useFormOnChangeObject(initialEventData);
 
+  console.log('InitialEventData before creation of payload: ', initialEventData?.data);
   const {
     data: payload,
     updateData: updatePayload,
     resetData: resetPayload,
   } = useFormOnChangeObject(initialEventData?.data || ({} as TODO));
-
+  console.log('Payload at useEventData: ', payload);
   const { files, removeFile, updateFiles } = useFormOnChangeFiles();
 
   const {
@@ -65,23 +66,25 @@ export const useEventData = (initialEventData: EventPayloadType) => {
 
   useSaveToSessionStorage(mainDataStorageKey, eventData);
 
-  useEffect(() => {
-    //Reset the main data if switching event types.
+  const updateEventType = (e: any) => {
+    //Reset the current selected target upon changing event types.
     resetEventData({
       property_id: eventData.property_id,
-      event_type: eventData.event_type,
-    } as TODO);
-  }, [eventData.event_type]);
+      target_type: undefined,
+    });
+    updateEventData(e);
+  };
 
-  useEffect(() => {
-    //Reset the windows, insulation, and locks, and all selected surfaces and electric restoration targets.
+  const updateEventTarget = (e: any) => {
+    //Reset the payload, and other peripherals when switching targets.
     resetWindowBatch(null);
     resetInsulation(null);
     resetLocks(null);
     resetSelectedSurfaceIds();
     resetSelectedERTargetIds();
     resetPayload({});
-  }, [eventData.target_type, eventData.event_type]);
+    updateEventData(e);
+  };
 
   return {
     /**The main event data, excluding the data payload-object.*/
@@ -89,6 +92,8 @@ export const useEventData = (initialEventData: EventPayloadType) => {
     /**The payload for containing all detailed data about the event, like the specs of roofs, drainage ditches, maintenance_type done, etc. */
     payload,
     updatePayload,
+    updateEventType,
+    updateEventTarget,
     resetPayload,
     windows,
     locks,

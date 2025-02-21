@@ -34,7 +34,9 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
 
       const value =
         e.target.type == 'number'
-          ? e.target.valueAsNumber
+          ? e.target.value !== ''
+            ? e.target.valueAsNumber
+            : undefined
           : e.target.type == 'checkbox'
           ? e.target.checked
           : e.target.value;
@@ -61,6 +63,19 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
       }
     },
     [setData, initialData]
+  );
+
+  /**Updates the object directly by a key. */
+  const updateByKey = useCallback(
+    (key: string, newValue: any) => {
+      setData(prev => {
+        return {
+          ...prev,
+          [key]: newValue,
+        };
+      });
+    },
+    [setData]
   );
 
   return {

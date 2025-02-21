@@ -3,7 +3,7 @@ import { FileCard } from '@/components/New/FileCard';
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import IconButton from '@mui/material/IconButton';
 import Link from 'next/link';
-import { Add, Visibility } from '@mui/icons-material';
+import { Add, Edit, Visibility } from '@mui/icons-material';
 import { events } from 'kotilogi-app/dataAccess/events';
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
@@ -11,6 +11,7 @@ import { DialogPrefab } from '@/components/UI/VPDialog';
 import db from 'kotilogi-app/dbconfig';
 import { RowDisplay } from '@/components/UI/RowDisplay';
 import { getKeyTranslator } from 'kotilogi-app/utils/keyTranslations/getKeyTranslator';
+import { objects } from 'kotilogi-app/dataAccess/objects';
 
 const DataPointGrid = ({ children }) => (
   <div className='w-full grid lg:grid-cols-2 xs:grid-cols-1 gap-4'>{children}</div>
@@ -24,6 +25,15 @@ const DataPointContainer = ({ children, title }) => (
 
 export default async function EventPage({ params }) {
   const { eventId, propertyId } = await params;
+
+  let isOwner: boolean = false;
+  try {
+    await objects.verifySessionUserIsAuthor(eventId, db);
+    isOwner = true;
+  } catch (err) {
+    isOwner = false;
+  }
+
   const [event] = (await events.get({ id: eventId })) as any;
 
   const files = await db('data_files').where({ parent_id: eventId });
@@ -40,12 +50,25 @@ export default async function EventPage({ params }) {
         ? data.insulation
         : data)) ||
     {};
+
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>
         <div className='flex lg:flex-row xs:flex-col-reverse xs:gap-4 lg:gap-0 justify-between w-full'>
           <div className='flex flex-col gap-2 w-full'>
-            <h1 className='md:text-xl xs:text-lg font-semibold'>{event.title || 'Ei Otsikkoa'}</h1>
+            <div className='flex gap-4 items-center'>
+              <h1 className='md:text-xl xs:text-lg font-semibold'>
+                {event.title || 'Ei Otsikkoa'}
+              </h1>
+              {isOwner && (
+                <Link href={`${eventId}/edit`}>
+                  <IconButton sx={{ padding: 0 }}>
+                    <Edit />
+                  </IconButton>
+                </Link>
+              )}
+            </div>
+
             <p className='mb-8'>{event.description || 'Ei kuvausta.'}</p>
             <h1 className='font-semibold text-slate-500'>Tiedot</h1>
             {event.event_type == 'Peruskorjaus' ? (

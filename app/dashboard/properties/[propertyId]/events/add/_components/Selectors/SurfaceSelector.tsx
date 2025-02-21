@@ -1,13 +1,9 @@
 import { useEventFormContext } from '../EventFormContext';
-import { RadioGroup } from '@/components/Feature/RadioGroup/RadioGroup';
-import { ChipButton } from '@/components/Feature/RadioGroup/ChipButton';
-import { useQuery } from '@tanstack/react-query';
 import { getSurfaces } from '../actions';
-import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { CheckboxSelector } from '@/components/Feature/OptionSelector';
 
 export const SurfaceSelector = () => {
-  const { eventData, selectedSurfaceIds, toggleSurfaceId } = useEventFormContext();
+  const { selectedSurfaceIds, toggleSurfaceId } = useEventFormContext();
 
   return (
     <CheckboxSelector

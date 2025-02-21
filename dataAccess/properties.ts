@@ -20,6 +20,7 @@ import { buildings } from './buildings';
 import { interiors } from './interiors';
 import { roofs } from './roofs';
 import { events } from './events';
+import { propertySchema } from './models/propertySchema';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -135,18 +136,17 @@ class Properties {
     callback?: (property_id: string, trx: Knex.Transaction) => Promise<void>
   ) {
     //Only allow one property per user.
-    const session = await verifySession();
-    //await this.verifyUserPropertyCount(session);
+    const env = process.env.NODE_ENV;
+    if (env === 'production') {
+      const session = await verifySession();
+      await this.verifyUserPropertyCount(session);
+    }
 
     return await objects.create(async (obj, trx) => {
       //Property columns
-      await insertViaFilter(
-        { ...data, id: obj.id },
-        {
-          tablename: 'property',
-        },
-        trx
-      );
+      data.id = obj.id;
+      const propertyData = propertySchema.parse(data);
+      await trx('property').insert(propertyData);
 
       //Should create a heating method genesis event.
       if (data.heating) {
@@ -216,7 +216,6 @@ class Properties {
 
       const buildingPromise = buildings.update(id, payload, trx);
       const interiorPromise = interiors.update(id, payload, trx);
-
       await Promise.all([overviewPromise, buildingPromise, interiorPromise]);
 
       const propertyTablename = await this.getTableNameByType(payload.property_type_id, trx);

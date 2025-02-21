@@ -89,20 +89,22 @@ export function DrainageDitchEditor({ drainageDitchData, onChange }: DrainageDit
         onChange={onChange}
       />
 
-      <DrianageDitchGravelInput
-        value={drainageDitchData.gravel_thickness}
-        onChange={onChange}
-      />
+      <div className='flex flex-col gap-1'>
+        <DrianageDitchGravelInput
+          value={drainageDitchData.gravel_thickness}
+          onChange={onChange}
+        />
 
-      <DrainageDitchPermafrostInsulationInput
-        value={drainageDitchData.permafrost_insulation_thickness}
-        onChange={onChange}
-      />
+        <DrainageDitchPermafrostInsulationInput
+          value={drainageDitchData.permafrost_insulation_thickness}
+          onChange={onChange}
+        />
 
-      <DrainageDitchCrushingEdgeInput
-        value={drainageDitchData.gravel_lining}
-        onChange={onChange}
-      />
+        <DrainageDitchCrushingEdgeInput
+          value={drainageDitchData.gravel_lining}
+          onChange={onChange}
+        />
+      </div>
 
       <Checkbox
         label='Pumppukaivo'

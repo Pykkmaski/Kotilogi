@@ -12,12 +12,12 @@ import Spinner from '@/components/UI/Spinner';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
 import { ToggleProvider } from '@/components/Util/ToggleProvider';
 
-export function MainDataForm({ editing }) {
+export function MainDataForm() {
   const { status } = useEventFormContext();
 
   return (
     <div className='flex flex-col gap-2 w-full'>
-      <SharedEventDataInputs isEditing={editing} />
+      <SharedEventDataInputs />
 
       <Spacer
         dir='row'

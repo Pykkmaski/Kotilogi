@@ -31,7 +31,7 @@ export function BoxFieldset({ children, legend, closeable }: BoxFieldsetProps) {
 
     return (
       <div
-        title={isOpen ? 'Piilota' : 'Laajenna'}
+        title={closeable && (isOpen ? 'Piilota' : 'Laajenna')}
         className={className}
         onClick={onClick}>
         <span>{legend}</span>

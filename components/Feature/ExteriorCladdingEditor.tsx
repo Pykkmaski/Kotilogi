@@ -41,7 +41,7 @@ export function ExteriorCladdingEditor({ value, onChange }: ExteriorCladdingEdit
         value={value.has_rodent_net}
       />
 
-      <div className='flex flex-col gap-2 border-b border-slate-200 pb-2'>
+      <div className='flex flex-col gap-2 pb-2'>
         <InsulationMaterialSelector
           value={value.insulation_material}
           onChange={onChange}

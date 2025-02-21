@@ -19,9 +19,10 @@ import {
   TargetType,
 } from 'kotilogi-app/types/TargetType';
 import { FormControl } from '@/components/UI/FormUtils';
+import { getTargetsByEventType } from '../utils/getTargetsByEventType';
 
 function EventTargetGroup({ options }) {
-  const { eventData, updateEventData } = useEventFormContext();
+  const { eventData, updateEventTarget } = useEventFormContext();
   const opts = useMemo(() => {
     return putOtherOptionLast(options).map((opt, key) => {
       const selected = opt.id == eventData.target_type;
@@ -38,27 +39,21 @@ function EventTargetGroup({ options }) {
           value={opt.id}
           label={opt.label}
           name='target_type'
-          onChange={updateEventData}
+          onChange={updateEventTarget}
           checked={selected}
         />
       );
     });
-  }, [options, eventData, updateEventData, icons]);
+  }, [options, eventData, updateEventTarget, icons]);
 
   return <div className='grid lg:grid-cols-4 xs:grid-cols-2 gap-2 w-full'>{opts}</div>;
 }
 
 export const EventTargetSelector = () => {
-  const { eventData } = useEventFormContext();
-  const targets =
-    eventData.event_type == EventType.PERUSKORJAUS
-      ? getRestorableTargetTypes()
-      : eventData.event_type == EventType.HUOLTOTYÖ
-      ? getServiceableTargetTypes()
-      : eventData.event_type == EventType.PINTAREMONTTI
-      ? getCosmeticTargetTypes()
-      : Object.values(TargetType);
-
+  const {
+    eventData: { event_type },
+  } = useEventFormContext();
+  const targets = getTargetsByEventType(event_type);
   return (
     <FormControl
       label='Kohde'

@@ -1,3 +1,25 @@
+## [3.3.0] - 20-02-2025
+
+### Removed
+
+- The deprecated-comment on the EventTypeProvider. The component is in use, but temporarily.
+
+### Changed
+
+- Refactored EventForm.
+- Filtering out unrecognized keys when creating a property, using the property-schema.
+- Moved the google ads-script inside the page body-tag.
+
+### Fixed
+
+- The title being displayed when hovering over a BoxFieldset's header despite it not being closeable.
+- The useFormOnChangeObject-hook saving numbers incorrectly as NaN if they are untyped in an input.
+
+### Added
+
+- Ability to update events.
+- A zod schema for properties.
+
 ## [3.2.1] - 19-02-2025
 
 ### Removed

@@ -20,7 +20,7 @@ describe('Testing verifySessionUserIsAuthor', () => {
   it('Redirects to the login-page if not logged in.', async () => {
     (loadSession as jest.Mock).mockResolvedValueOnce(undefined);
 
-    const promise = objects.verifySessionUserIsAuthor('1');
+    const promise = objects.verifySessionUserIsAuthor('1', db);
     await expect(promise).rejects.toThrow();
     expect(redirect).toHaveBeenCalledWith('/login');
   });
@@ -33,7 +33,7 @@ describe('Testing verifySessionUserIsAuthor', () => {
     });
 
     db().pluck.mockResolvedValueOnce(['1234']);
-    const promise = objects.verifySessionUserIsAuthor('1');
+    const promise = objects.verifySessionUserIsAuthor('1', db);
     await expect(promise).rejects.toThrow();
   });
 });

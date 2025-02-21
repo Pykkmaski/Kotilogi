@@ -25,20 +25,22 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
   const bodyClassName = ['flex flex-col min-h-screen bg-gradient-to-b from-gray-100 to-gray-200'];
   const analyticsCookie = (await cookies()).get('kotidok-analytics-accepted');
   const getAnalyticsScript = () =>
+    //Only use analytics in production.
+    process.env.NODE_ENV === 'production' &&
     analyticsCookie?.value == 'all' && (
       <>
         <Script
           async
-          src='https://www.googletagmanager.com/gtag/js?id=G-YQC6Y54WHT'></Script>
+          src='https://www.googletagmanager.com/gtag/js?id=G-RKZTMRLF2J'></Script>
 
         <Script
           dangerouslySetInnerHTML={{
             __html: `
 window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-gtag('config', 'G-YQC6Y54WHT');
+  gtag('config', 'G-RKZTMRLF2J');
 `,
           }}
         />
@@ -53,17 +55,16 @@ gtag('config', 'G-YQC6Y54WHT');
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'></link>
 
         {getAnalyticsScript()}
-
-        <Script
-          async
-          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3009159750698563'
-          crossOrigin='anonymous'></Script>
       </head>
 
       <AppRouterCacheProvider>
         <AuthProvider>
           <ReactQueryProvider>
             <body className={bodyClassName.join(' ')}>
+              <Script
+                async
+                src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3009159750698563'
+                crossOrigin='anonymous'></Script>
               <ThemeProvider theme={theme}>
                 <AppProvider>{children}</AppProvider>
                 {/*<VPCookieNotice />*/}

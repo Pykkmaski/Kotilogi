@@ -1,15 +1,24 @@
 'use client';
 
-import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { useEventFormContext } from './EventFormContext';
 import { FormControl, Input } from '@/components/UI/FormUtils';
 import { RenderOnCondition } from '@/components/Util/RenderOnCondition';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Spacer } from '@/components/UI/Spacer';
 import { FileList } from '@/components/New/FileList';
 import { LabourExpensesInput } from './Inputs/LabourExpensesInput';
 import { MaterialExpensesInput } from './Inputs/MaterialExpensesInput';
-import { FileUploadForm } from '@/components/New/FileUploadFom/FileUploadForm';
+
+export const SharedEventDataInputs = () => {
+  const { editing } = useEventFormContext();
+  return (
+    <>
+      <OtherField />
+      <ExpensesField />
+      {!editing && <FilesField />}
+    </>
+  );
+};
 
 const FilesField = () => {
   const { files, removeFile, updateFiles } = useEventFormContext();
@@ -36,6 +45,7 @@ const FilesField = () => {
     </div>
   );
 };
+
 const ExpensesField = () => {
   const { eventData } = useEventFormContext();
 
@@ -96,6 +106,14 @@ const DescriptionInput = () => {
 
 const OtherField = () => {
   const { eventData, updateEventData, payload, updatePayload } = useEventFormContext();
+  let formattedDate: string = eventData?.date?.toString();
+
+  if (eventData?.date && eventData.date instanceof Date) {
+    const dateYear = eventData?.date?.getFullYear();
+    const dateMonth = String(eventData?.date?.getMonth() + 1).padStart(2, '0');
+    const dateDay = String(eventData?.date?.getDate()).padStart(2, '0');
+    formattedDate = `${dateYear}-${dateMonth}-${dateDay}`;
+  }
 
   return (
     <>
@@ -127,22 +145,11 @@ const OtherField = () => {
           <Input
             type='date'
             name='date'
-            value={(eventData as any).date}
+            value={formattedDate}
             onChange={updateEventData}
           />
         }
       />
-    </>
-  );
-};
-
-export const SharedEventDataInputs = ({ isEditing }) => {
-  const { eventData } = useEventFormContext();
-  return (
-    <>
-      <OtherField />
-      <ExpensesField />
-      <FilesField />
     </>
   );
 };

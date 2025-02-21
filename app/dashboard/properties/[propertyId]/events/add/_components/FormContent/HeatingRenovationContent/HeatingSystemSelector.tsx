@@ -15,14 +15,15 @@ export const HeatingSystemSelector = ({
   helper = null,
   includeNullOption = false,
 }) => {
-  const { payload, updatePayload, resetPayload } = useEventFormContext();
+  const { payload, updatePayload, resetPayload, editing } = useEventFormContext();
   useEffect(() => {
-    //Reset the rest of the payload if the new system is changed.
+    /*Reset the rest of the payload if the new system is changed.
     console.log('Resetting payload...');
     resetPayload({
       new_heating_type: payload.new_heating_type,
       old_heating_type: payload.old_heating_type,
-    });
+
+    });*/
   }, [payload.new_heating_type]);
 
   return (

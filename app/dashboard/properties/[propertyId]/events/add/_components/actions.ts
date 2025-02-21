@@ -10,17 +10,11 @@ import { TargetType } from 'kotilogi-app/types/TargetType';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-export const updateEventAction = async (
-  eventId: string,
-  mainData: Partial<EventPayloadType>,
-  extraData: any
-) => {
+export const updateEventAction = async (eventId: string, payload: Partial<EventPayloadType>) => {
   z.string().parse(eventId);
-  await events.update(eventId, {
-    ...mainData,
-  });
+  await events.update(eventId, payload);
   revalidatePath('/dashboard/properties/[propertyId]');
-  redirect(`/dashboard/properties/${mainData.property_id}/events/${eventId}`);
+  redirect(`/dashboard/properties/${payload.property_id}/events/${eventId}`);
 };
 
 export const createEventAction = async (

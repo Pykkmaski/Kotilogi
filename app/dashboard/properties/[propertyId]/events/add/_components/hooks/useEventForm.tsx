@@ -59,14 +59,10 @@ export function useEventForm(
     }
 
     if (initialEventData) {
-      await updateEventAction(
-        eventData.id,
-        {
-          ...eventData,
-          data,
-        },
-        extraData
-      );
+      await updateEventAction(eventData.id, {
+        ...eventData,
+        data,
+      });
     } else {
       await createEventAction(
         propertyId,

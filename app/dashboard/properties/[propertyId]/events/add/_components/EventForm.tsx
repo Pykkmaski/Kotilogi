@@ -15,26 +15,6 @@ import { EventDataContent } from './EventDataContent';
 import { FormNav } from './FormNav';
 import { EventTargetContent } from './EventTargetContent';
 
-const CarouselHeader = () => {
-  return (
-    <div className='flex justify-between'>
-      <div className='flex gap-4 items-center'>
-        <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
-          <TabButton>Tyyppi</TabButton>
-        </CarouselProvider.SelectSlotTrigger>
-
-        <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
-          <TabButton>Kohteen tiedot</TabButton>
-        </CarouselProvider.SelectSlotTrigger>
-
-        <CarouselProvider.SelectSlotTrigger slotToSelect='data'>
-          <TabButton>Muut tiedot</TabButton>
-        </CarouselProvider.SelectSlotTrigger>
-      </div>
-    </div>
-  );
-};
-
 type EventFormProps = {
   propertyId: string;
   initialEventData?: EventPayloadType & Required<Pick<EventPayloadType, 'id'>>;
@@ -46,13 +26,15 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
   const router = useRouter();
   const pathname = usePathname();
 
-  const { editing, onSubmit } = eventFormProps;
+  const { editing, onSubmit, eventData } = eventFormProps;
 
-  const tab = useSearchParams().get('t') || 'type';
+  const tab = useSearchParams().get('t') || editing ? 'target' : 'type';
   const updateSlot = (slotName: string) => {
     router.replace(`${pathname}?t=${slotName}`);
   };
 
+  console.log('Malja');
+  console.log('Event data: ', eventData);
   return (
     <form
       className='flex flex-col gap-8'
@@ -68,25 +50,35 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
           <CarouselProvider
             defaultSlot={tab}
             onChange={updateSlot}>
-            <CarouselHeader />
-            <CarouselProvider.Slot slotName='type'>
-              <BoxFieldset legend='Valitse tapahtuman tyyppi'>
-                <FieldsetContainer>
-                  <CarouselProvider.NextTrigger>
-                    <EventTypeSelector />
-                  </CarouselProvider.NextTrigger>
+            <CarouselHeader isEditing={editing} />
+            {!editing && (
+              <CarouselProvider.Slot slotName='type'>
+                <BoxFieldset legend='Valitse tapahtuman tyyppi'>
+                  <FieldsetContainer>
+                    <CarouselProvider.NextTrigger>
+                      <EventTypeSelector />
+                      <FormNav />
+                    </CarouselProvider.NextTrigger>
+                  </FieldsetContainer>
+                </BoxFieldset>
+              </CarouselProvider.Slot>
+            )}
 
+            <CarouselProvider.Slot slotName='target'>
+              <BoxFieldset legend='Tapahtuman kohde'>
+                <FieldsetContainer>
+                  <EventTargetContent />
                   <FormNav />
                 </FieldsetContainer>
               </BoxFieldset>
             </CarouselProvider.Slot>
 
-            <CarouselProvider.Slot slotName='target'>
-              <EventTargetContent />
-            </CarouselProvider.Slot>
-
             <CarouselProvider.Slot slotName='data'>
-              <EventDataContent />
+              <BoxFieldset legend='Tiedot'>
+                <FieldsetContainer>
+                  <EventDataContent />
+                </FieldsetContainer>
+              </BoxFieldset>
             </CarouselProvider.Slot>
           </CarouselProvider>
         </div>
@@ -94,3 +86,25 @@ export function EventForm({ propertyId, initialEventData, initialExtraData }: Ev
     </form>
   );
 }
+
+const CarouselHeader = ({ isEditing }) => {
+  return (
+    <div className='flex justify-between'>
+      <div className='flex gap-4 items-center'>
+        {!isEditing && (
+          <CarouselProvider.SelectSlotTrigger slotToSelect='type'>
+            <TabButton>Tyyppi</TabButton>
+          </CarouselProvider.SelectSlotTrigger>
+        )}
+
+        <CarouselProvider.SelectSlotTrigger slotToSelect='target'>
+          <TabButton>Kohteen tiedot</TabButton>
+        </CarouselProvider.SelectSlotTrigger>
+
+        <CarouselProvider.SelectSlotTrigger slotToSelect='data'>
+          <TabButton>Muut tiedot</TabButton>
+        </CarouselProvider.SelectSlotTrigger>
+      </div>
+    </div>
+  );
+};

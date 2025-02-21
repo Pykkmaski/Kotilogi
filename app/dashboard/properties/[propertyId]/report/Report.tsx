@@ -229,7 +229,7 @@ export function Report() {
               }}
             />
           </View>
-          <View style={{ borderWidth: '1px', borderBottom: 'gray', opacity: 0.1, width: '100%' }} />
+          <View style={{ borderWidth: '1px', borderBottom: 'gray', opacity: 0.3, width: '100%' }} />
           <View style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '10px' }}>
             {content.events.length ? (
               content.events.map(e => {
@@ -281,7 +281,7 @@ export function Report() {
                     <View
                       style={{
                         borderBottom: '1px dashed gray',
-                        opacity: 0.1,
+                        opacity: 0.3,
                       }}
                     />
                   </React.Fragment>

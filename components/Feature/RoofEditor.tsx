@@ -265,15 +265,17 @@ export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
         onChange={onChange}
       />
 
-      <RoofInclineInput
-        value={roofData.incline}
-        onChange={onChange}
-      />
+      <div className='flex flex-col gap-1'>
+        <RoofInclineInput
+          value={roofData.incline}
+          onChange={onChange}
+        />
 
-      <RoofAreaInput
-        value={roofData.area}
-        onChange={onChange}
-      />
+        <RoofAreaInput
+          value={roofData.area}
+          onChange={onChange}
+        />
+      </div>
 
       <RoofHasRoofBridgeCheckbox
         checked={roofData.has_roof_bridge}

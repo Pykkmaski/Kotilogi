@@ -9,16 +9,17 @@ export function useStatusWithAsyncMethod(
 ) {
   const [status, setStatus] = useState<StatusType>('idle');
   const method = useCallback(async () => {
-    setStatus('loading');
+    let status: StatusType = 'loading';
+    setStatus(status);
     try {
       await action();
-      setStatus('done');
+      status = 'done';
       onDone && onDone();
     } catch (err) {
       onError && onError(err);
-      setStatus('error');
+      status = 'error';
     } finally {
-      setStatus(prev => (prev === 'loading' ? 'idle' : prev));
+      setStatus(status);
     }
   }, [action, setStatus]);
 

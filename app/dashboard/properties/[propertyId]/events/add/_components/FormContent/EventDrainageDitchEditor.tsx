@@ -7,8 +7,7 @@ import { useEffect } from 'react';
 import { Notification } from '@/components/UI/Notification';
 
 export const EventDrainageDitchEditor = () => {
-  const { eventData, resetEventData, updateEventData, payload, updatePayload, resetPayload } =
-    useEventFormContext();
+  const { eventData, payload, updatePayload, resetPayload } = useEventFormContext();
   const { data, isLoading, error } = useQuery({
     queryKey: [`drainage-ditch-data-${eventData.property_id}`],
     queryFn: async () => await getDrainageDitch(eventData.property_id),
@@ -16,7 +15,6 @@ export const EventDrainageDitchEditor = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       resetPayload(data);
     }
   }, [isLoading]);

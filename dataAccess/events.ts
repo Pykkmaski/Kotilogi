@@ -3,8 +3,6 @@ import { EventPayloadType } from './types';
 import db from 'kotilogi-app/dbconfig';
 import { getDaysInMilliseconds } from 'kotilogi-app/utils/getDaysInMilliseconds';
 import { properties } from './properties';
-
-import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { Knex } from 'knex';
 import { eventSchema } from './models/eventSchema';
 
@@ -104,8 +102,15 @@ class Events {
    */
   async update(id: string, payload: Partial<EventPayloadType>) {
     //Only allow the author of an event to update it.
-    //await objects.verifySessionUserIsAuthor(id, db);
-    throw new Error('Method not implemented!');
+    await objects.verifySessionUserIsAuthor(id, db);
+    await db('new_events').where({ id }).update({
+      title: payload.title,
+      description: payload.description,
+      material_expenses: payload.material_expenses,
+      labour_expenses: payload.labour_expenses,
+      date: payload.date,
+      data: payload.data,
+    });
   }
 
   /**Deletes an event. Throws an error if the logged in user is not the author of the event, or if the event is locked.
