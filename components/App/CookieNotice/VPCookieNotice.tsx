@@ -57,7 +57,7 @@ function CookieNoticeTarget({ isToggled: isVisible = null, onClose = null }) {
         onClick={handleClickOutside}
         ref={cookieNoticeRef}
         className='fixed bottom-4 xs:right-0 md:right-4 shadow-lg xs:w-full md:w-[500px] z-50 animate-slideup-slow flex items-center'>
-        <div className='flex flex-col rounded-lg p-2 shadow-md bg-white'>
+        <div className='flex flex-col rounded-lg p-8 shadow-md bg-white'>
           <div className='flex flex-col gap-4 items-center'>
             <div className='flex w-full justify-between gap-4 xs:items-start md:items-center'>
               <div className='text-lg text-slate-500 flex flex-col gap-2'>

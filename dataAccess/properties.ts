@@ -21,6 +21,7 @@ import { interiors } from './interiors';
 import { roofs } from './roofs';
 import { events } from './events';
 import { propertySchema } from './models/propertySchema';
+import { PropertyError, UserError } from 'kotilogi-app/utils/error';
 
 /**Accesses property data on the db. All accesses to that data should be done through this class. */
 class Properties {
@@ -147,6 +148,8 @@ class Properties {
       data.id = obj.id;
       const propertyData = propertySchema.parse(data);
       await trx('property').insert(propertyData);
+      //Update the object's description. This is a duct-tape fix.
+      await trx('object').where({ id: obj.id }).update({ description: data.description });
 
       //Should create a heating method genesis event.
       if (data.heating) {
@@ -228,10 +231,38 @@ class Properties {
 
   /**Deletes a property. */
   async del(id: string, password: string) {
+    //Make sure there are no transfer tokens.
+    const transferToken = await db('property_transfer_code')
+      .where({ propertyId: id })
+      .select('expires')
+      .first();
+    if (transferToken && new Date() < transferToken.expires) {
+      return PropertyError.OPEN_TRANSFERS;
+    } else {
+      //Delete the expired transfer code.
+      await db('property_transfer_code').where({ propertyId: id }).del();
+    }
+
+    //Only allow the owner of a property to delete it.
     const session = await verifySession();
-    await this.verifyPropertyOwnership(session, id);
-    await users.verifyPassword(session.user.id, password);
+    try {
+      await this.verifyPropertyOwnership(session, id);
+    } catch (err) {
+      return UserError.NOT_OWNER;
+    }
+
+    //Verify the passed password.
+    try {
+      await users.verifyPassword(session.user.id, password);
+    } catch (err) {
+      const msg = err.message;
+      if (msg.includes('virheellinen')) {
+        return UserError.INVALID_PASSWORD;
+      }
+    }
+
     await objects.del(id);
+    return 0;
   }
 
   /**Gets all owners of a property. */

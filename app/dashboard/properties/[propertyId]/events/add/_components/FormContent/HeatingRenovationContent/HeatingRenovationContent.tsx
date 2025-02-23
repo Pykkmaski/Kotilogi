@@ -81,7 +81,7 @@ export const HeatingRenovationContent = () => {
             required
             name='new_heating_type'
             label='Uusi järjestelmä'
-            disabled={editing}
+            //disabled={editing}
             heatingSystems={heatingSystems}
           />
           <div className='flex flex-col gap-2 w-full'>

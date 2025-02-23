@@ -16,8 +16,8 @@ export function useStatusWithAsyncMethod(
       status = 'done';
       onDone && onDone();
     } catch (err) {
-      onError && onError(err);
       status = 'error';
+      throw err;
     } finally {
       setStatus(status);
     }

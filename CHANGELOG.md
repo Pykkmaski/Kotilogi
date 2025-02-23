@@ -9,16 +9,20 @@
 - Refactored EventForm.
 - Filtering out unrecognized keys when creating a property, using the property-schema.
 - Moved the google ads-script inside the page body-tag.
+- Updated the padding on the cookie notice.
+- Updated property-delete form.
 
 ### Fixed
 
 - The title being displayed when hovering over a BoxFieldset's header despite it not being closeable.
 - The useFormOnChangeObject-hook saving numbers incorrectly as NaN if they are untyped in an input.
+- Fixed the problem of property descriptions not being saved when creating them.
 
 ### Added
 
 - Ability to update events.
 - A zod schema for properties.
+- Manifest, and the service worker, so the app can be installed as a PWA. The service worker does nothing for now.
 
 ## [3.2.1] - 19-02-2025
 

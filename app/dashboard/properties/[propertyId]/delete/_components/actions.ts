@@ -6,10 +6,13 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 export const deletePropertyAction = async (id: string, password: string) => {
-  z.string().parse(id);
+  z.string().uuid().parse(id);
   z.string().parse(password);
 
-  await properties.del(id, password);
-  revalidatePath('/dashboard');
-  redirect(`/dashboard/properties`);
+  const result = await properties.del(id, password);
+  if (result === 0) {
+    revalidatePath('/dashboard');
+    //redirect(`/dashboard/properties`);
+  }
+  return result;
 };

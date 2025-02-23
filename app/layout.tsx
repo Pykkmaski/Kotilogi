@@ -15,6 +15,7 @@ import Script from 'next/script';
 import { cookies } from 'next/headers';
 import { ReactQueryProvider } from './ReactQueryProvider';
 import { VPCookieNotice } from '@/components/App/CookieNotice/VPCookieNotice';
+import { ServiceWorkerLoader } from './ServiceWorkerLoader';
 
 export const metadata = {
   title: 'Kotidok: Talosi digitaalinen huoltokirja ',
@@ -53,6 +54,10 @@ window.dataLayer = window.dataLayer || [];
         <link
           rel='stylesheet'
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'></link>
+        <link
+          rel='manifest'
+          href='/manifest.json'
+        />
 
         {getAnalyticsScript()}
       </head>
@@ -65,6 +70,7 @@ window.dataLayer = window.dataLayer || [];
                 async
                 src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3009159750698563'
                 crossOrigin='anonymous'></Script>
+              <ServiceWorkerLoader />
               <ThemeProvider theme={theme}>
                 <AppProvider>{children}</AppProvider>
                 {/*<VPCookieNotice />*/}

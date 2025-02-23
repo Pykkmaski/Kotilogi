@@ -15,8 +15,10 @@ export default async function PropertiesPage() {
     | AppartmentPayloadType
   )[];
 
-  if (data.length == 1) {
-    redirect(`properties/${data.at(0).id}`);
+  if (process.env.NODE_ENV === 'production') {
+    if (data.length == 1) {
+      redirect(`properties/${data.at(0).id}`);
+    }
   }
 
   return (
