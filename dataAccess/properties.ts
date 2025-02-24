@@ -236,7 +236,9 @@ class Properties {
       .where({ propertyId: id })
       .select('expires')
       .first();
+
     if (transferToken && new Date() < transferToken.expires) {
+      //A token exists, and has not expired.
       return PropertyError.OPEN_TRANSFERS;
     } else {
       //Delete the expired transfer code.

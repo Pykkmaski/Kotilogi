@@ -1,3 +1,9 @@
+## [3.3.1] - 24-02-2025
+
+### Fixed
+
+- The event page throwing an error if no windows, insulation, or locks, are present in the event data, when viewing an event for any of them.
+
 ## [3.3.0] - 20-02-2025
 
 ### Removed

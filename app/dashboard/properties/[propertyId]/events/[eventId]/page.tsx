@@ -41,15 +41,14 @@ export default async function EventPage({ params }) {
 
   const { target_type, data } = event;
   const dataToRender =
-    (data &&
-      (target_type == 'Ikkunat'
-        ? data.windows
-        : target_type == 'Lukitus'
-        ? data.locks
-        : target_type == 'Eristys'
-        ? data.insulation
-        : data)) ||
-    {};
+    data &&
+    (target_type == 'Ikkunat'
+      ? data.windows
+      : target_type == 'Lukitus'
+      ? data.locks
+      : target_type == 'Eristys'
+      ? data.insulation
+      : data);
 
   return (
     <Main>
@@ -154,7 +153,7 @@ export default async function EventPage({ params }) {
                   />
                 </DataPointContainer>
               );
-            })}
+            }) || <span>Ei Tietoja.</span>}
           </DataPointGrid>
         </BoxFieldset>
       ) : event.event_type === 'Peruskorjaus' && event.target_type == 'Lukitus' ? (
@@ -190,7 +189,7 @@ export default async function EventPage({ params }) {
                   />
                 </DataPointContainer>
               );
-            })}
+            }) || <span>Ei Tietoja.</span>}
           </DataPointGrid>
         </BoxFieldset>
       ) : event.event_type === 'Peruskorjaus' && event.target_type == 'Eristys' ? (
@@ -213,7 +212,7 @@ export default async function EventPage({ params }) {
                   />
                 </DataPointContainer>
               );
-            })}
+            }) || <span>Ei Tietoja.</span>}
           </DataPointGrid>
         </BoxFieldset>
       ) : event.target_type !== 'Ilmanvaihto' &&
