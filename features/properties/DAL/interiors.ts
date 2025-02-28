@@ -1,5 +1,4 @@
 import { Knex } from 'knex';
-import { InteriorDataType } from '../../../dataAccess/types';
 import { filterValidColumns } from '../../../dataAccess/utils/filterValidColumns';
 import { getTableColumns } from '../../../dataAccess/utils/getTableColumns';
 
@@ -10,11 +9,7 @@ class Interiors {
       .select('room_count', 'floor_count', 'bathroom_count', 'living_area', 'other_area');
   }
 
-  async create(
-    property_id: string,
-    payload: Partial<InteriorDataType>,
-    ctx: Knex.Transaction | Knex
-  ) {
+  async create(property_id: string, payload: Partial<any>, ctx: Knex.Transaction | Knex) {
     return ctx('interior')
       .insert({
         ...filterValidColumns(payload, await getTableColumns('interior', ctx)),
@@ -24,11 +19,7 @@ class Interiors {
       .merge();
   }
 
-  async update(
-    property_id: string,
-    payload: Partial<InteriorDataType>,
-    ctx: Knex.Transaction | Knex
-  ) {
+  async update(property_id: string, payload: Partial<any>, ctx: Knex.Transaction | Knex) {
     return ctx('interior')
       .where({ property_id })
       .update({

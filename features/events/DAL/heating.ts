@@ -2,14 +2,9 @@ import 'server-only';
 import { Knex } from 'knex';
 import db from 'kotilogi-app/dbconfig';
 import { insertViaFilter } from '../../../dataAccess/utils/insertViaFilter';
-import {
-  EventPayloadType,
-  HeatingCenterDataType,
-  HeatingPayloadType,
-} from '../../../dataAccess/types';
+import { HeatingCenterDataType, HeatingPayloadType } from '../../../dataAccess/types';
 import { getTableColumns } from '../../../dataAccess/utils/getTableColumns';
 import { filterValidColumns } from '../../../dataAccess/utils/filterValidColumns';
-import { objects } from '../../../dataAccess/objects';
 
 class Heating {
   private async getHeatingCenter(heating_id: string, ctx: Knex.Transaction | Knex) {

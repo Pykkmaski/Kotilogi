@@ -3,13 +3,12 @@ import { useFormOnChangeFiles } from '@/hooks/useFormOnChangeFiles';
 import { useFormOnChangeObject } from '@/hooks/useFormOnChangeObject';
 import { useSaveToSessionStorage } from '@/hooks/useSaveToSessionStorage';
 import { useToggleableEntries } from '@/hooks/useToggleableEntries';
-import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
 import { useEffect } from 'react';
 
 const mainDataStorageKey = 'kotidok-event-main-data';
 
 /**Handles the main data of the event form. Should be used within the main useEventForm-hook. */
-export const useEventData = (initialEventData: EventPayloadType) => {
+export const useEventData = (initialEventData: TODO) => {
   const {
     data: eventData,
     updateData: updateEventData,

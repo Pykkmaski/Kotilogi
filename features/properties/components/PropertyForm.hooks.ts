@@ -63,7 +63,7 @@ export function usePropertyForm(property: PropertyPayloadType, refs: TODO) {
       } else {
         const result = await updatePropertyAction(property.id, {
           ...data,
-        } as PropertyPayloadType);
+        } as any);
 
         if (result.code === UserError.NOT_OWNER) {
           toast.error('Et voi päivittää taloa, sillä et ole sen omistaja!');

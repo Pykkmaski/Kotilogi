@@ -1,9 +1,9 @@
 'use server';
 
-import { PropertyPayloadType } from 'kotilogi-app/dataAccess/types';
 import { properties } from '../DAL/properties';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
+import { PropertyPayloadType } from '../types/PropertyPayloadType';
 
 /**Updates a property by calling the update-method on the properties DAL. Revalidates property-routes on success. */
 export const updatePropertyAction = async (

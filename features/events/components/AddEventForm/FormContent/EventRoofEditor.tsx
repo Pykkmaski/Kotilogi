@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query/build/legacy';
 import { useEventFormContext } from '../EventFormContext';
-import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
 import Spinner from '@/components/UI/Spinner';
 import { Notification } from '@/components/UI/Notification';
 import { RoofEditor } from '@/components/Feature/RoofEditor';
 import { useEffect } from 'react';
-import { RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { getRoof } from './actions';
 
 export function EventRoofEditor() {
@@ -32,7 +30,7 @@ export function EventRoofEditor() {
     />
   ) : (
     <RoofEditor
-      roofData={payload as Partial<RoofDataType>}
+      roofData={payload as Partial<any>}
       onChange={updatePayload}
     />
   );

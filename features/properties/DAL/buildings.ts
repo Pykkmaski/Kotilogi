@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { BuildingDataType } from '../../../dataAccess/types';
+
 import { filterValidColumns } from '../../../dataAccess/utils/filterValidColumns';
 import { getTableColumns } from '../../../dataAccess/utils/getTableColumns';
 
@@ -10,11 +10,7 @@ export class Buildings {
       .select('building_material_id', 'building_type_id', 'build_year', 'color_id');
   }
 
-  async create(
-    property_id: string,
-    payload: Partial<BuildingDataType>,
-    ctx: Knex.Transaction | Knex
-  ) {
+  async create(property_id: string, payload: Partial<any>, ctx: Knex.Transaction | Knex) {
     /**TODO: Each property logically can have multiple buildings. Modify the building data table to have its own id, and return that here once created. */
     return ctx('building')
       .insert({
@@ -25,11 +21,7 @@ export class Buildings {
       .merge();
   }
 
-  async update(
-    property_id: string,
-    payload: Partial<BuildingDataType>,
-    ctx: Knex.Transaction | Knex
-  ) {
+  async update(property_id: string, payload: Partial<any>, ctx: Knex.Transaction | Knex) {
     return ctx('building')
       .where({ property_id })
       .update({

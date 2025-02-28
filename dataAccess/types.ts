@@ -22,7 +22,7 @@ export type ResidenceDataType = ObjectDataType & {
   has_garage: boolean;
 };
 
-export type HousePayloadType = PropertyPayloadType & {
+export type HousePayloadType = any & {
   yardOwnershipTypeId: number;
   yardArea: number;
   propertyNumber: string;
@@ -31,7 +31,7 @@ export type HousePayloadType = PropertyPayloadType & {
 /**
  * @todo Should extend the residence type in the future.
  */
-export type AppartmentPayloadType = PropertyPayloadType & {
+export type AppartmentPayloadType = any & {
   appartmentNumber: number;
   floorNumber: number;
   hasBalcony: boolean;
