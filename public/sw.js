@@ -1,5 +1,5 @@
 // Service Worker (sw.js)
-const CACHE_NAME = 'kotidok-pwa-cache-v1';
+const CACHE_NAME = 'kotidok-pwa-cache-v2';
 const URLS_TO_CACHE = [
   '/',
   '/login',
