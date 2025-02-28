@@ -1,6 +1,6 @@
 import { Main } from '@/components/New/Main';
 import db from 'kotilogi-app/dbconfig';
-import { DeleteEventForm } from './DeleteEventForm';
+import { DeleteEventForm } from '../../../../../../../features/events/components/DeleteEventForm';
 import { objects } from 'kotilogi-app/dataAccess/objects';
 
 export default async function DeleteEventPage({ params }) {

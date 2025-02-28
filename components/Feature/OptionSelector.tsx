@@ -3,7 +3,7 @@
 import { ChipRadioGroup } from '@/components/Feature/RadioGroup/ChipRadioGroup';
 import { SuspenseFormControl } from '@/components/UI/SuspenseFormControl';
 import { useQuery } from '@tanstack/react-query';
-import { getContent } from '../../app/dashboard/properties/add/_components/PropertyForm/actions';
+
 import { FormControlProps } from '@/components/UI/FormUtils';
 import { Notification } from '../UI/Notification';
 import { ChipButton } from './RadioGroup/ChipButton';
@@ -11,6 +11,7 @@ import { RadioGroupBody } from './RadioGroup/RadioGroup';
 import { ReactNode, useEffect } from 'react';
 import Spinner from '../UI/Spinner';
 import { putOtherOptionLast } from 'kotilogi-app/utils/putOtherOptionLast';
+import { getContent } from 'kotilogi-app/features/properties/components/PropertyForm/actions';
 
 type OptionSelectorProps = Omit<FormControlProps, 'control'> & {
   tablename: string;

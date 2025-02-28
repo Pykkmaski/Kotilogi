@@ -1,7 +1,7 @@
-import { events } from 'kotilogi-app/dataAccess/events';
-import { EventForm } from '../../add/_components/EventForm';
-import { EventTypeProvider } from '../../add/_components/EventTypeProvider';
-import { getEventRefs } from '../../add/_utils/getEventRefs';
+import { events } from 'kotilogi-app/features/events/DAL/events';
+import { EventForm } from '../../../../../../../features/events/components/AddEventForm/EventForm';
+import { EventTypeProvider } from '../../../../../../../features/events/components/AddEventForm/EventTypeProvider';
+import { getEventRefs } from '../../../../../../../features/events/utils/getEventRefs';
 import { objects } from 'kotilogi-app/dataAccess/objects';
 
 export default async function EditEventPage({ params }) {

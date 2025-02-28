@@ -1,8 +1,8 @@
-import { EventPayloadType } from 'kotilogi-app/dataAccess/types';
-import { EventBoxList } from './_components/EventBoxList';
-import { events } from 'kotilogi-app/dataAccess/events';
+import { EventBoxList } from '../../../../../features/events/components/EventBoxList';
+import { events } from 'kotilogi-app/features/events/DAL/events';
 import React from 'react';
-import { EventPageSelector } from './_components/EventPageSelector';
+import { EventPageSelector } from '../../../../../features/events/components/EventPageSelector';
+import { EventPayloadType } from 'kotilogi-app/features/events/types/EventPayloadType';
 
 export default async function EventsPage({ params, searchParams }) {
   const { propertyId } = await params;

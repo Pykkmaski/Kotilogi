@@ -22,3 +22,8 @@ export function ServiceWorkerLoader() {
   }, []);
   return null;
 }
+
+/**Synchronizes the user's locally stored data with the server once going online.
+ * @todo
+ */
+async function syncData() {}

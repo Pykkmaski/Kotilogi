@@ -1,7 +1,7 @@
-import { PropertyForm } from '../../add/_components/PropertyForm';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
 import { getPropertyRefs } from '../../actions';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
+import { PropertyForm } from 'kotilogi-app/features/properties/components/PropertyForm';
 
 export default async function EditPropertyPage({ params }) {
   const { propertyId: id } = await params;

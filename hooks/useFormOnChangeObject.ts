@@ -39,7 +39,11 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
             : undefined
           : e.target.type == 'checkbox'
           ? e.target.checked
-          : e.target.value;
+          : /*: e.target.type === 'radio'
+          ? !isNaN(parseInt(e.target.value))
+            ? e.target.valueAsNumber
+            : e.target.value*/
+            e.target.value;
 
       setData((prev: TODO) => {
         if (prev) {
@@ -81,6 +85,7 @@ export function useFormOnChangeObject<T extends {}>(initialData?: T, dataKey?: s
   return {
     data,
     updateData,
+    updateByKey,
     resetData,
     hasChanges,
   };

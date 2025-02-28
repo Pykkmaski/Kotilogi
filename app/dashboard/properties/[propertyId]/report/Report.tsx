@@ -2,11 +2,8 @@
 
 import { Logo } from '@/components/App/Logo';
 import { Page, PDFViewer, Document, View, Text, Image } from '@react-pdf/renderer';
-import {
-  EventPayloadType,
-  HousePayloadType,
-  PropertyPayloadType,
-} from 'kotilogi-app/dataAccess/types';
+import { EventPayloadType } from 'kotilogi-app/features/events/types/EventPayloadType';
+import { PropertyPayloadType } from 'kotilogi-app/features/properties/types/PropertyPayloadType';
 import { createContextWithHook } from 'kotilogi-app/utils/createContextWithHook';
 import React from 'react';
 
@@ -119,7 +116,7 @@ export function Report() {
                   <Text style={{ fontSize: '16px' }}>
                     {(content.propertyType === 'Huoneisto' &&
                       content.property.street_name + pr.appartmentNumber) ||
-                      (content.property as HousePayloadType).propertyNumber}
+                      (content.property as any).propertyNumber}
                   </Text>
                   <Text>{content.property.zip_code}</Text>
                 </View>
@@ -132,7 +129,7 @@ export function Report() {
                   <AttributeGroup>
                     <AttributeField
                       label='Rakennusvuosi'
-                      value={content.property.build_year || 'Ei määritelty'}
+                      value={content.property.building?.build_year || 'Ei määritelty'}
                     />
 
                     <AttributeField
@@ -192,13 +189,13 @@ export function Report() {
                     />
                     <AttributeField
                       label='Huoneiden lukumäärä'
-                      value={content.property.room_count || 'Ei määritelty'}
+                      value={content.property.interior?.room_count || 'Ei määritelty'}
                     />
 
                     {(content.propertyType === 'Kiinteistö' && (
                       <AttributeField
                         label='Kerrosten lukumäärä'
-                        value={content.property.floor_count || 'Ei määritelty'}
+                        value={content.property.interior?.floor_count || 'Ei määritelty'}
                       />
                     )) || (
                       <AttributeField

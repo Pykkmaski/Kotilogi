@@ -1,6 +1,6 @@
 import { response } from 'kotilogi-app/app/api/_utils/responseUtils';
 import { objects } from 'kotilogi-app/dataAccess/objects';
-import { utilities } from 'kotilogi-app/dataAccess/utilities';
+import { utilities } from 'kotilogi-app/features/utilities/DAL/utilities';
 
 import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import { revalidatePath } from 'next/cache';

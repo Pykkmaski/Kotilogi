@@ -1,7 +1,7 @@
 import { DeletePropertyForm } from './_components/DeletePropertyForm';
 import db from 'kotilogi-app/dbconfig';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 
 export default async function DeletePropertyPage({ params, searchParams }) {
   const session = await verifySession();

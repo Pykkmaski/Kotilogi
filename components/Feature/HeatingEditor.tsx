@@ -6,7 +6,7 @@ import { IconButton } from '@mui/material';
 import { Add, Clear } from '@mui/icons-material';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { useQuery } from '@tanstack/react-query/build/legacy';
-import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
+import { getContent } from 'kotilogi-app/features/properties/components/PropertyForm/actions';
 import { Notification } from '../UI/Notification';
 import Spinner from '../UI/Spinner';
 import { getIdByLabel } from 'kotilogi-app/utils/getIdByLabel';

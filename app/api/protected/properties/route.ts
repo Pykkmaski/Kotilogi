@@ -6,7 +6,7 @@ import { searchParamsToObject } from 'kotilogi-app/utils/searchParamsToObject';
 import z from 'zod';
 import { handleServerError, response } from '../../_utils/responseUtils';
 import { revalidatePath } from '../../_utils/revalidatePath';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 import { objects } from 'kotilogi-app/dataAccess/objects';
 
 export async function GET(req: NextRequest) {

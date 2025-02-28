@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query/build/legacy';
-import { getContent } from 'kotilogi-app/app/dashboard/properties/add/_components/PropertyForm/actions';
-import { BuildingDataType } from 'kotilogi-app/dataAccess/types';
+
 import { RadioSelector } from './OptionSelector';
 import { EditorContainer } from './EditorContainer';
+import { BuildingDataType } from 'kotilogi-app/features/properties/types/BuildingDataType';
 
 export function BuildingMaterialSelector(props: Kotidok.SelectorProps) {
   return (
@@ -57,17 +57,17 @@ export function BuildingEditor({ buildingData, onChange }: BuildingEditorProps) 
   return (
     <EditorContainer>
       <BuildingTypeSelector
-        value={buildingData.building_type_id}
+        value={buildingData?.building_type_id}
         onChange={onChange}
       />
 
       <BuildingMaterialSelector
-        value={buildingData.building_material_id}
+        value={buildingData?.building_material_id}
         onChange={onChange}
       />
 
       <ColorSelector
-        value={buildingData.color_id}
+        value={buildingData?.color_id}
         onChange={onChange}
       />
     </EditorContainer>

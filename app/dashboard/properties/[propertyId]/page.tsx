@@ -3,22 +3,23 @@ import { Add, Edit, InfoOutlined, MoreVert, Visibility } from '@mui/icons-materi
 import db from 'kotilogi-app/dbconfig';
 import { FileCard } from '@/components/New/FileCard';
 import { SecondaryHeading } from '@/components/New/Typography/Headings';
-import { UtilityProvider } from './utility/UtilityContext';
-import { properties } from 'kotilogi-app/dataAccess/properties';
-import { utilities } from 'kotilogi-app/dataAccess/utilities';
+import { UtilityProvider } from '../../../../features/utilities/contexts/UtilityContext';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
+import { utilities } from 'kotilogi-app/features/utilities/DAL/utilities';
 import { files } from 'kotilogi-app/dataAccess/files';
 import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import { IconButton } from '@mui/material';
 import Link from 'next/link';
-import { events } from 'kotilogi-app/dataAccess/events';
+import { events } from 'kotilogi-app/features/events/DAL/events';
 import { Card } from '@/components/UI/Card';
-import { UtilityLineChart } from './utility/UtilityLineChart';
+
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { DialogPrefab } from '@/components/UI/VPDialog';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
-import { heating } from 'kotilogi-app/dataAccess/heating';
+import { heating } from 'kotilogi-app/features/events/DAL/heating';
 import { MenuPrefab, VPMenu } from '@/components/UI/VPMenu';
-import { TransferDialogTrigger } from './_components/TransferDialogTrigger';
+import { TransferDialogTrigger } from '../../../../features/properties/components/TransferDialogTrigger';
+import { UtilityLineChart } from 'kotilogi-app/features/utilities/components/UtilityLineChart';
 
 export default async function PropertyPage({ params }) {
   const id = (await params).propertyId;
@@ -88,12 +89,12 @@ export default async function PropertyPage({ params }) {
 
               <DataDisplay
                 title='Huoneiden lukumäärä'
-                value={data.room_count || 'Ei määritelty'}
+                value={data.interior?.room_count || 'Ei määritelty'}
               />
 
               <DataDisplay
                 title={data.propertyTypeName == 'Huoneisto' ? 'Kerros' : 'Kerrosten lukumäärä'}
-                value={data.floor_count || 'Ei määritelty'}
+                value={data.interior?.floor_count || 'Ei määritelty'}
               />
 
               <DataDisplay
@@ -103,7 +104,9 @@ export default async function PropertyPage({ params }) {
                   </>
                 }
                 value={
-                  (data.living_area != undefined && (data as any).living_area) || 'Ei määritelty'
+                  (data.interior?.living_area != undefined &&
+                    (data as any).interior?.living_area) ||
+                  'Ei määritelty'
                 }
               />
 
@@ -114,7 +117,10 @@ export default async function PropertyPage({ params }) {
                     Muu pinta-ala <sup>m2</sup>
                   </>
                 }
-                value={(data.other_area != undefined && data.other_area) || 'Ei määritelty'}
+                value={
+                  (data.interior?.other_area != undefined && data.interior?.other_area) ||
+                  'Ei määritelty'
+                }
               />
 
               <DataDisplay
@@ -124,7 +130,7 @@ export default async function PropertyPage({ params }) {
                     Kokonaispinta-ala <sup>m2</sup>
                   </>
                 }
-                value={data.other_area + data.living_area || 'Ei määritelty'}
+                value={data.interior?.other_area + data.interior?.living_area || 'Ei määritelty'}
               />
 
               <DataDisplay

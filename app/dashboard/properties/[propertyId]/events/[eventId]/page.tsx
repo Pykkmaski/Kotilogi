@@ -4,7 +4,7 @@ import { BoxFieldset } from '@/components/UI/BoxFieldset';
 import IconButton from '@mui/material/IconButton';
 import Link from 'next/link';
 import { Add, Edit, Visibility } from '@mui/icons-material';
-import { events } from 'kotilogi-app/dataAccess/events';
+import { events } from 'kotilogi-app/features/events/DAL/events';
 import { DataDisplay } from '@/components/UI/DataDisplay';
 import { SelectImageDialog } from '@/components/Feature/SelectImageDialog/SelectImageDialog';
 import { DialogPrefab } from '@/components/UI/VPDialog';
@@ -41,15 +41,15 @@ export default async function EventPage({ params }) {
 
   const { target_type, data } = event;
   const dataToRender =
-    data &&
-    (target_type == 'Ikkunat'
-      ? data.windows
-      : target_type == 'Lukitus'
-      ? data.locks
-      : target_type == 'Eristys'
-      ? data.insulation
-      : data);
+    target_type === 'Ikkunat'
+      ? data?.windows
+      : target_type === 'Lukitus'
+      ? data?.locks
+      : target_type === 'Eristys'
+      ? data?.insulation
+      : data;
 
+  console.log('Data to render: ', dataToRender);
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>

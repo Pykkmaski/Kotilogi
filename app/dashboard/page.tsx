@@ -1,5 +1,5 @@
 import { loadSession } from 'kotilogi-app/utils/loadSession';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 
 export default async function newDashboardPage() {
   const session = await loadSession();

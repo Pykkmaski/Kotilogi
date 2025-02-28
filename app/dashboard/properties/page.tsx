@@ -1,10 +1,10 @@
 import { OverviewBoxList } from '@/components/New/Prefabs/OverviewBoxList';
 import { Edit } from '@mui/icons-material';
 import { AppartmentPayloadType, HousePayloadType } from 'kotilogi-app/dataAccess/types';
-import { PropertyOverview } from './[propertyId]/_components/PropertyOverview';
+import { PropertyOverview } from '../../../features/properties/components/PropertyOverview';
 import { GalleryError } from '@/components/Feature/GalleryBase/Components/Error/GalleryError';
 import db from 'kotilogi-app/dbconfig';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 import { redirect } from 'next/navigation';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 

@@ -1,7 +1,5 @@
 import { z } from 'zod';
-import { eventSchema } from './models/eventSchema';
-import { roofSchema } from './models/roofSchema';
-import { buildingSchema } from './models/buildingSchema';
+import { buildingSchema } from '../features/properties/schemas/buildingSchema';
 
 export type ObjectDataType = {
   id: string;
@@ -11,8 +9,6 @@ export type ObjectDataType = {
   description?: string;
   parent_id?: string;
 };
-
-export type BuildingDataType = z.infer<typeof buildingSchema>;
 
 export type ResidenceDataType = ObjectDataType & {
   id?: string;
@@ -25,26 +21,6 @@ export type ResidenceDataType = ObjectDataType & {
   residence_number: number;
   has_garage: boolean;
 };
-
-/**
- * @todo Remove columns that have been moved under separate tables.
- */
-export type PropertyPayloadType = ObjectDataType &
-  Omit<InteriorDataType, 'property_id'> &
-  Omit<BuildingDataType, 'property_id'> &
-  Omit<RoofDataType, 'property_id'> & {
-    street_name: string;
-    zip_code: string;
-    energy_class_id: number;
-    energy_class_year: number;
-    property_type_id: number;
-    propertyTypeName: string;
-    street_number: number;
-    has_garage: boolean;
-    heating: HeatingPayloadType[];
-    yardArea: number;
-    yardOwnershipTypeId: number;
-  };
 
 export type HousePayloadType = PropertyPayloadType & {
   yardOwnershipTypeId: number;
@@ -114,8 +90,6 @@ export type DrainageDitchDataType = {
   toteutusTapaId: number;
 };
 
-export type EventPayloadType = z.infer<typeof eventSchema>;
-
 type HasEventId = { event_id: string };
 
 export type WaterPipeRestorationWorkType = HasEventId & {
@@ -174,19 +148,13 @@ export type WarmWaterReservoirDataType = {
   volume: number;
 };
 
-export type InteriorDataType = {
-  property_id?: number;
-  room_count: number;
-  floor_count: number;
-  living_area: number;
-  other_area: number;
-  bathroom_count: number;
-};
-
-export type RoofDataType = z.infer<typeof roofSchema>;
-
 export type FileDataType = ObjectDataType & {
   name: string;
   type: string;
   size: number;
+};
+
+export type ActionReturnType<T> = {
+  code: string | number;
+  data: T | null;
 };

@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'kotilogi-app/app/api/_utils/revalidatePath';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 

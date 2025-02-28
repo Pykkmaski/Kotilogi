@@ -1,3 +1,16 @@
+## [4.0.0] - 24-02-2025
+
+### Unreleased
+
+- Caching in the service worker.
+
+### Changed
+
+- Moved features and related files under the features folder.
+- Updated the error-handling of event uploads.
+- The ExteriorCladdingEditor
+- Changed the return type of event and property create- and update methods, returning an object containing an error- and data-field.
+
 ## [3.3.1] - 24-02-2025
 
 ### Fixed

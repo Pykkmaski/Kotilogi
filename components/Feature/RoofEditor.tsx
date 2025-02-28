@@ -1,8 +1,8 @@
-import { RoofDataType } from 'kotilogi-app/dataAccess/types';
 import { RadioSelector } from './OptionSelector';
 import { FormControl, Input } from '../UI/FormUtils';
 import { Checkbox } from './RadioGroup/Checkbox';
 import { EditorContainer } from './EditorContainer';
+import { RoofDataType } from 'kotilogi-app/features/events/types/RoofDataType';
 
 export function RoofTypeSelector({ value, onChange, ...props }: Kotidok.SelectorProps) {
   return (
@@ -235,95 +235,95 @@ export function RoofEditor({ roofData, onChange }: RoofEditorProps) {
     <EditorContainer>
       <h1 className='font-semibold'>Katon tiedot</h1>
       <RoofTypeSelector
-        value={roofData.roof_type}
+        value={roofData?.roof_type}
         onChange={onChange}
       />
 
       <RoofMaterialSelector
-        value={roofData.roof_material}
+        value={roofData?.roof_material}
         onChange={onChange}
       />
 
       <ColorSelector
-        value={roofData.color}
+        value={roofData?.color}
         onChange={onChange}
         name='color'
       />
 
       <RoofEavesTypeSelector
-        value={roofData.eaves_type}
+        value={roofData?.eaves_type}
         onChange={onChange}
       />
 
       <RoofUnderlaymentTypeSelector
-        value={roofData.underlacing_type}
+        value={roofData?.underlacing_type}
         onChange={onChange}
       />
 
       <RoofFasciaBoardTypeSelector
-        value={roofData.fascia_board_type}
+        value={roofData?.fascia_board_type}
         onChange={onChange}
       />
 
       <div className='flex flex-col gap-1'>
         <RoofInclineInput
-          value={roofData.incline}
+          value={roofData?.incline}
           onChange={onChange}
         />
 
         <RoofAreaInput
-          value={roofData.area}
+          value={roofData?.area}
           onChange={onChange}
         />
       </div>
 
       <RoofHasRoofBridgeCheckbox
-        checked={roofData.has_roof_bridge}
+        checked={roofData?.has_roof_bridge}
         onChange={onChange}
       />
 
       <RoofHasChimneyCladdingCheckbox
-        checked={roofData.has_chimney_plating}
+        checked={roofData?.has_chimney_plating}
         onChange={onChange}
       />
 
       <RoofHasWallLadderCheckbox
-        checked={roofData.has_ladder}
+        checked={roofData?.has_ladder}
         onChange={onChange}
       />
 
       <RoofHasRidgeBoardCheckbox
-        checked={roofData.lapetikas}
+        checked={roofData?.lapetikas}
         onChange={onChange}
       />
 
       <RoofHasUnderlayVentilationCheckbox
-        checked={roofData.has_underlacing_ventilation}
+        checked={roofData?.has_underlacing_ventilation}
         onChange={onChange}
       />
 
       <RoofHasTreatedWoodCheckbox
-        checked={roofData.has_treated_wood}
+        checked={roofData?.has_treated_wood}
         onChange={onChange}
       />
 
       <RoofHasSnowBarrierCheckbox
-        checked={roofData.has_snow_barrier}
+        checked={roofData?.has_snow_barrier}
         onChange={onChange}
       />
 
       <RoofHasGuttersCheckbox
-        checked={roofData.has_gutters}
+        checked={roofData?.has_gutters}
         onChange={onChange}
       />
 
       <RoofHasDownspoutSystemCheckbox
-        checked={roofData.has_downspout_system}
+        checked={roofData?.has_downspout_system}
         onChange={onChange}
       />
 
       <RoofHasSecurityLadderCheckbox
-        checked={roofData.has_security_ladder}
+        checked={roofData?.has_security_ladder}
         onChange={onChange}
       />
     </EditorContainer>

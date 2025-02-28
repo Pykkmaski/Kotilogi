@@ -1,9 +1,9 @@
-import { EventForm } from './_components/EventForm';
+import { EventForm } from '../../../../../../features/events/components/AddEventForm/EventForm';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 
-import { EventTypeProvider } from './_components/EventTypeProvider';
-import { getEventRefs } from './_utils/getEventRefs';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { EventTypeProvider } from '../../../../../../features/events/components/AddEventForm/EventTypeProvider';
+import { getEventRefs } from '../../../../../../features/events/utils/getEventRefs';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 
 export default async function AddEventPage({ params }) {
   await verifySession();

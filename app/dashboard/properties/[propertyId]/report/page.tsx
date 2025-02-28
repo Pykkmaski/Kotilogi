@@ -1,12 +1,12 @@
 import { ContentBox } from '@/components/New/Boxes/ContentBox';
 import { OverviewImage } from '@/components/New/Boxes/OverviewBox';
 import { Document, Page, PDFViewer } from '@react-pdf/renderer';
-import { events } from 'kotilogi-app/dataAccess/events';
-import { properties } from 'kotilogi-app/dataAccess/properties';
+import { events } from 'kotilogi-app/features/events/DAL/events';
+import { properties } from 'kotilogi-app/features/properties/DAL/properties';
 import db from 'kotilogi-app/dbconfig';
 import { Report, ReportProvider } from './Report';
-import { heating } from 'kotilogi-app/dataAccess/heating';
-import { roofs } from 'kotilogi-app/dataAccess/roofs';
+import { heating } from 'kotilogi-app/features/events/DAL/heating';
+import { roofs } from 'kotilogi-app/features/events/DAL/roofs';
 
 export default async function ReportPage({ params }) {
   const { propertyId } = await params;

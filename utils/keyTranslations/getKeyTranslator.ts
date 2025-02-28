@@ -5,6 +5,7 @@ import { drainageDitchKeyTranslations } from './translateDrainageDitchKey';
 import { cosmeticRenovationKeyTranslations } from './translateCosmeticRenovationKey';
 import { sewerPipeKeyTranslations } from './translateSewerPipeKey';
 import { waterPipeKeyTranslations } from './waterPipeKeyTranslations';
+import { exteriorCladdingTranslations } from './exteriorCladdingTranslations';
 
 /**Returns a function that translates the key of the data-object associated with a defined event target, into readable format. */
 export function getKeyTranslator(target_type: string) {
@@ -30,6 +31,9 @@ export function getKeyTranslator(target_type: string) {
 
     case 'Käyttövesiputket':
       return translate(waterPipeKeyTranslations);
+
+    case 'Ulkoverhous':
+      return translate(exteriorCladdingTranslations);
 
     default:
       return (key: string) => key;
