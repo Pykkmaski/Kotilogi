@@ -49,7 +49,6 @@ export default async function EventPage({ params }) {
       ? data?.insulation
       : data;
 
-  console.log('Data to render: ', dataToRender);
   return (
     <Main>
       <BoxFieldset legend='Tapahtuman tiedot'>
