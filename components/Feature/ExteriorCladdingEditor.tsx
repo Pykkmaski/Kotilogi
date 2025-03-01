@@ -66,7 +66,7 @@ export function ExteriorCladdingEditor({ onChange }: ExteriorCladdingEditorProps
       />
 
       <Checkbox
-        label='Lisäeristys/Mitä tää ny olikaa?'
+        label='Lisäeristys'
         name='has_additional_insulation'
         checked={hasAdditionalInsulation}
         onChange={onChange}

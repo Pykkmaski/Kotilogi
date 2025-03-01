@@ -1,3 +1,9 @@
+## [4.0.1] - 01-03-2025
+
+### Fixed
+
+- Incorrect label for additional insulation in the exterior cladding editor.
+
 ## [4.0.0] - 28-02-2025
 
 ### Unreleased
