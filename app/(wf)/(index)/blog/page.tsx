@@ -64,7 +64,7 @@ export default async function BlogPage() {
             </Link>
           ))
         ) : (
-          <span>Artikkeleiden lataus epäonnistui!</span>
+          <span>Artikkeleiden lataus epäonnistui.</span>
         )}
       </section>
       <Footer />
