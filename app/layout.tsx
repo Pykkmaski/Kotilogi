@@ -61,10 +61,10 @@ window.dataLayer = window.dataLayer || [];
         <meta
           name='google-adsense-account'
           content='ca-pub-3009159750698563'></meta>
-        <script
+        <Script
           async
           src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3009159750698563'
-          crossOrigin='anonymous'></script>
+          crossOrigin='anonymous'></Script>
 
         {getAnalyticsScript()}
       </head>
