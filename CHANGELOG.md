@@ -1,3 +1,9 @@
+## [4.0.2] - 06-03-2025
+
+### Fixed
+
+- Missing Google ads script.
+
 ## [4.0.1] - 01-03-2025
 
 ### Fixed
