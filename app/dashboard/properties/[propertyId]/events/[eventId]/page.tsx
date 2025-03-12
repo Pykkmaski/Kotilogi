@@ -36,7 +36,7 @@ export default async function EventPage({ params }) {
 
   const [event] = (await events.get({ id: eventId })) as any;
 
-  const files = await db('data_files').where({ parent_id: eventId });
+  const files = []; //await db('data_files').where({ parent_id: eventId });
   const [mainImageId] = await db('data_mainImages').where({ objectId: eventId }).pluck('imageId');
 
   const { target_type, data } = event;
@@ -244,8 +244,8 @@ export default async function EventPage({ params }) {
         legend={
           <div className='w-full flex items-center gap-4 xs:justify-between lg:justify-start'>
             <span>Tiedostot ja kuvat</span>
-
-            <div className='flex items-center'>
+            {/**
+               * <div className='flex items-center'>
               <Link
                 href={`/dashboard/files?parentId=${eventId}&returnUrl=/dashboard/properties/${propertyId}/events/${eventId}`}>
                 <IconButton size='small'>
@@ -261,6 +261,7 @@ export default async function EventPage({ params }) {
                 </IconButton>
               </Link>
             </div>
+               */}
           </div>
         }>
         <div className='flex gap-2 wrap w-full'>
@@ -271,7 +272,7 @@ export default async function EventPage({ params }) {
                   isMain={file.id == mainImageId}
                 />
               ))
-            : 'Ei tiedostoja.'}
+            : 'Tiedostoja ei väliaikasesti tueta.'}
         </div>
       </BoxFieldset>
     </Main>

@@ -2,7 +2,9 @@ const Heading = ({ children }) => <h1 className='text-2xl font-semibold mb-4'>{c
 const SubHeading = ({ children }) => <h2 className='text-xl font-semibold mb-4'>{children}</h2>;
 const CustomLink = (props: React.ComponentProps<'a'>) => {
   return (
-    <a {...props} className='text-orange-500'>
+    <a
+      {...props}
+      className='text-orange-500'>
       {props.href}
     </a>
   );
@@ -14,9 +16,10 @@ export default async function PaymentTermsPage() {
       <Heading>Toimitusehdot</Heading>
 
       <p>
-        Kotidok Oy 3426507-4 (jäljempänä verkkokauppa) myy tuotteita yksityishenkilöille Suomeen.
+        Kotidok (jäljempänä verkkokauppa) myy tuotteita yksityishenkilöille Suomeen.
         <br />
-        Pidätämme oikeuden toimitusehtojen ja hintojen muutoksiin. Tuotteiden hinnat sisältävät arvonlisäveron.
+        Pidätämme oikeuden toimitusehtojen ja hintojen muutoksiin. Tuotteiden hinnat sisältävät
+        arvonlisäveron.
         <br />
         <br />
       </p>
@@ -44,15 +47,17 @@ export default async function PaymentTermsPage() {
         -Talon uudelleen aktivointi, jos se on aiemmin poistettu käytöstä.
         <br />
         <br />
-        Jokaista taloa kohden lisätään vuosittain toistuva lasku, jonka hinta on sama kuin tämänhetkinen talon lisäysmaksu, joka on maksettava eräpäivään mennessä, tai talo
-        poistetaan käytöstä.
+        Jokaista taloa kohden lisätään vuosittain toistuva lasku, jonka hinta on sama kuin
+        tämänhetkinen talon lisäysmaksu, joka on maksettava eräpäivään mennessä, tai talo poistetaan
+        käytöstä.
         <br />
         <br />
         Tilaus lähetetään maksamalla ostoskorin sisältö verkkokaupan kassatoiminnossa.
         <br />
         <br />
-        Tehdessäsi tilauksen hyväksyt nämä toimitusehdot, tuotteiden hinnat sekä toimituskulut. Mikäli tilaushetkellä annetaan sähköpostiosoite, tilauksesta lähetetään
-        tilausvahvistus sähköpostitse.
+        Tehdessäsi tilauksen hyväksyt nämä toimitusehdot, tuotteiden hinnat sekä toimituskulut.
+        Mikäli tilaushetkellä annetaan sähköpostiosoite, tilauksesta lähetetään tilausvahvistus
+        sähköpostitse.
         <br />
         Tilausvahvistuksesta ilmenevät tilatut tuotteet sekä hinta.
         <br />
@@ -65,15 +70,19 @@ export default async function PaymentTermsPage() {
       <SubHeading>Maksaminen</SubHeading>
 
       <p>
-        Verkkokaupan maksuvälittäjänä toimii Visma Pay (Visma Payments Oy, y-tunnus 2486559-4), joka on rekisteröity Finanssivalvonnan ylläpitämään maksulaitosrekisteriin.
+        Verkkokaupan maksuvälittäjänä toimii Visma Pay (Visma Payments Oy, y-tunnus 2486559-4), joka
+        on rekisteröity Finanssivalvonnan ylläpitämään maksulaitosrekisteriin.
         <br />
-        Maksamiseen siirrytään Visma Payn verkkopalvelun kautta ja tiliotteella ja laskulla maksun saajana näkyy Visma Pay tai Visma Payments Oy.
+        Maksamiseen siirrytään Visma Payn verkkopalvelun kautta ja tiliotteella ja laskulla maksun
+        saajana näkyy Visma Pay tai Visma Payments Oy.
         <br />
-        Visma Pay välittää maksut verkkokauppiaalle. Maksaminen on turvallista, sillä kaikki maksutapahtumaa koskevat tiedot välitetään salattua yhteyttä käyttäen niin ettei kukaan
+        Visma Pay välittää maksut verkkokauppiaalle. Maksaminen on turvallista, sillä kaikki
+        maksutapahtumaa koskevat tiedot välitetään salattua yhteyttä käyttäen niin ettei kukaan
         ulkopuolinen taho näe maksutapahtuman tietoja.
         <br />
         <br />
-        Kauppa syntyy verkkokaupan asiakkaan ja verkkokaupan välille. Verkkokaupan vastuulla ovat kaikki kauppaan liittyvät velvoitteet.
+        Kauppa syntyy verkkokaupan asiakkaan ja verkkokaupan välille. Verkkokaupan vastuulla ovat
+        kaikki kauppaan liittyvät velvoitteet.
         <br />
         <br />
         Lue lisää Visma Paysta: <CustomLink href='https://www.vismapay.fi/' />
@@ -84,7 +93,8 @@ export default async function PaymentTermsPage() {
       <SubHeading>Maksutavat</SubHeading>
 
       <p>
-        Visma Pay -palvelun kautta voit maksaa verkkopankkitunnuksilla, lompakolla, maksukorteilla (credit/debit), laskulla tai osamaksulla.
+        Visma Pay -palvelun kautta voit maksaa verkkopankkitunnuksilla, lompakolla, maksukorteilla
+        (credit/debit), laskulla tai osamaksulla.
         <br />
         Käytettävissä ovat seuraavat maksutavat: <br />
         <br />
@@ -136,7 +146,9 @@ export default async function PaymentTermsPage() {
         Visma Payments Oy (Y-tunnus 2486559-4)
         <br />
         Sähköposti:{' '}
-        <a href='mailto:helpdesk@vismapay.com' className='text-orange-500'>
+        <a
+          href='mailto:helpdesk@vismapay.com'
+          className='text-orange-500'>
           helpdesk@vismapay.com
         </a>
         <br />

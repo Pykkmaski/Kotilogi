@@ -67,25 +67,6 @@ export function Footer() {
           </FooterSpacer>
 
           <FooterSpacer
-            id='footer-company-info'
-            align='middle'>
-            <FooterSpacer.Heading>Kotidok Oy</FooterSpacer.Heading>
-            <span className='italic'>Y-tunnus: 3426507-4</span>
-            <span className='italic'>Timontie 13</span>
-            <span className='italic'>65300 Vaasa</span>
-            <Link
-              href='tel:0451310749'
-              className='italic'>
-              0451310749
-            </Link>
-            <Link
-              href='mailto:kotidok.service@gmail.com'
-              className='italic'>
-              kotidok.service@gmail.com
-            </Link>
-          </FooterSpacer>
-
-          <FooterSpacer
             id='footer-social-info'
             align='end'>
             <FooterSpacer.Heading>Some</FooterSpacer.Heading>
@@ -111,7 +92,7 @@ export function Footer() {
           />
           <div className='text-white opacity-60 flex flex-row gap-8'>
             <span>v{appPackage.version}</span>
-            <span>&copy; Kotidok OY 2025</span>
+            <span>&copy; Kotidok 2025</span>
           </div>
         </div>
       </div>

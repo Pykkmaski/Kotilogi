@@ -8,6 +8,7 @@ import { setMainImageAction } from '@/actions/files';
 import { verifySession } from 'kotilogi-app/utils/verifySession';
 import { objects } from './objects';
 import { Knex } from 'knex';
+import { uploadToGoogleDrive } from 'kotilogi-app/utils/uploadToGoogleDrive';
 
 class Files {
   private async createFileBuffer(file: File) {
@@ -40,28 +41,11 @@ class Files {
     if (fileCount >= 10 || files.length + fileCount >= 10) {
       throw new Error('Tiedostojen määrä ylittää suurimman sallitun rajan!');
     }
-    /*
-    const session = await verifySession();
-    const [{ totalFileSizeUploaded }] = await db('object')
-      .join('data_files', { 'data_files.id': 'object.id' })
-      .where({ authorId: session.user.id })
-      .sum('data_files.size', { as: 'totalFileSizeUploaded' });
-*/
     const fileBuffers: Buffer[] = [];
     for (const file of files) {
       fileBuffers.push(await this.createFileBuffer(file));
     }
 
-    /*
-    const sizeOfFilesToBeUploaded = fileBuffers.reduce((acc, cur) => (acc += cur.length), 0);
-    const nextFileSizeUploaded = sizeOfFilesToBeUploaded + parseInt(totalFileSizeUploaded);
-
-    if (nextFileSizeUploaded > 2e7) {
-      throw new Error(
-        'Tiedostoja ei voida lähettää, koska yhteenlaskettu ladattujen tiedostojen koko ylittää suurimman sallitun rajan!'
-      );
-    }
-    */
     const trx = await db.transaction();
     const uploadedFileNames: string[] = [];
     try {
@@ -70,14 +54,19 @@ class Files {
         const file = files[i];
         const filename = Date.now() + fileNameTimestampSeparator + file.name;
 
+        //Save the file into google drive.
+        const googleDriveId = await uploadToGoogleDrive(outputBuffer, filename, file.type);
+
+        //TODO: Get the address of where in google drive the file resides, and save that into the database as well.
         await trx('data_files').insert({
           name: filename,
           type: file.type,
           size: outputBuffer.length,
           parent_id: parentId,
+          //google_drive_id: googleDriveId,
         });
 
-        await writeFile(uploadPath + filename, outputBuffer as any);
+        //await writeFile(uploadPath + filename, outputBuffer as any);
         uploadedFileNames.push(filename);
       }
       await trx.commit();

@@ -33,10 +33,10 @@ export default async function PropertyPage({ params }) {
     .pluck('email');
 
   const utilityData = await utilities.get(data.id);
-  const fileData = await files.get({ parent_id: id }, 10);
+  const fileData = null; //await files.get({ parent_id: id }, 10);
   const [mainImageId] = await db('data_mainImages').where({ objectId: data.id }).pluck('imageId');
   const heatingData = await heating.get(data.id, db);
-  console.log('heating data:', heatingData);
+
   return (
     <Main>
       <SecondaryHeading>Talo</SecondaryHeading>
@@ -168,7 +168,9 @@ export default async function PropertyPage({ params }) {
                   className='rounded-full aspect-square object-cover md:w-[50%] xs:w-full cursor-pointer'
                 />
               }
-              target={<SelectImageDialog images={fileData.filter(f => f.type == 'image/jpeg')} />}
+              target={
+                <SelectImageDialog images={fileData?.filter(f => f.type == 'image/jpeg') || []} />
+              }
             />
           </div>
         </div>
@@ -267,7 +269,8 @@ export default async function PropertyPage({ params }) {
           <div className='w-full flex items-center gap-4 xs:justify-between lg:justify-start'>
             <span>Tiedostot ja kuvat</span>
 
-            <div className='flex items-center'>
+            {/**
+               * <div className='flex items-center'>
               <Link href={`/dashboard/files?parentId=${id}&returnUrl=/dashboard/properties/${id}`}>
                 <IconButton size='small'>
                   <Visibility />
@@ -282,10 +285,11 @@ export default async function PropertyPage({ params }) {
                 </IconButton>
               </Link>
             </div>
+               */}
           </div>
         }>
         <div className='flex gap-2 wrap w-full'>
-          {fileData.length
+          {fileData?.length
             ? fileData.map(file => {
                 return (
                   <FileCard
@@ -294,7 +298,7 @@ export default async function PropertyPage({ params }) {
                   />
                 );
               })
-            : 'Ei tiedostoja.'}
+            : 'Tiedotoja ei väliaikaisesti tueta.'}
         </div>
       </BoxFieldset>
     </Main>

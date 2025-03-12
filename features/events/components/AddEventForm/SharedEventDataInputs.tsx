@@ -15,7 +15,7 @@ export const SharedEventDataInputs = () => {
     <>
       <OtherField />
       <ExpensesField />
-      {!editing && <FilesField />}
+      {/*!editing && <FilesField />*/}
     </>
   );
 };
